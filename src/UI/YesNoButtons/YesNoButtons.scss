@@ -1,0 +1,83 @@
+.button, .buttonMobile {
+  border-color: #8b8f98;
+  background-color: #ebedef;
+  color: #0f1111;
+  border: 1px solid #999;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.button {  
+  width: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  padding-top: 3px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.buttonMobile {  
+  position: absolute;
+  width: 35px;
+  margin-left: 13px;
+  margin-top: 7px;
+  padding-top: 4px;
+  font-size: 17px;
+}
+
+.buttonsDiv, .buttonsDivMobile {
+  float: right;
+}
+
+.marginLeft {
+  margin-left: -25px;
+}
+
+.buttonsDiv {
+  margin-top: -5px;
+  width: 75px;
+}
+
+.buttonsDivMobile {
+  padding-left: 25px;
+  margin-top: -18px;
+}
+
+.button:active {
+  border-color: #30362f;
+  background-color: #c1c1c1;
+  box-shadow: inset 2px 2px 1px rgba(0, 0, 0, .3);
+}
+
+.selected {  
+  transition: all 0.22s;
+  color: #ebedef;
+}
+
+.black {
+  background-color: #444;
+  color: #eee;
+  border: 1px solid black
+}
+
+.white {
+  background-color: #eee;
+  color: #eee;
+  border: 1px solid black
+}
+
+.green.selected {
+  background-color: #439245;
+}
+
+.green.selected:active {
+  background-color: #1a571c;
+}
+
+.red.selected {
+  background-color: #af4c4c;
+}
+
+.red.selected:active {
+  background-color: #5f1313;
+}

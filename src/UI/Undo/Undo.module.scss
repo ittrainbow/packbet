@@ -1,0 +1,25 @@
+.Undo, .UndoMobile {
+  width: 25px;
+  color: #444;
+  border: none;
+  float: right;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.Undo {
+  font-size: 18px;
+  margin-top: 2px;
+  height: 20px;
+}
+
+.UndoMobile {
+  font-size: 21px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.Undo:hover {
+  color: crimson;
+  transition: all .2s ease-in;
+  cursor: pointer;
+}

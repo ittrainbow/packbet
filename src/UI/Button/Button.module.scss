@@ -1,0 +1,53 @@
+.Button, .ButtonMobile {
+  display: inline-block;
+  padding: 0px 5px;
+  border-radius: 2px;
+  border: 1px solid #444;
+  color: #000;
+  background-color: #ccc;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.22s;
+}
+
+.Button {
+  width: 136px;
+  font-size: 14px;
+  margin-right: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.ButtonMobile {
+  width: 351px;
+  font-size: 17px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.Button:focus {
+  outline: none;
+}
+
+.Button:active {
+  box-shadow: inset 2px 2px 1px rgba(0, 0, 0, .3);
+  background-color: #bbb;
+}
+
+.Button:disabled {
+  background: #ccc;
+  color: #000;
+  cursor: not-allowed;
+}
+
+.error {
+  color: rgba(255, 0, 0, 1);
+}
+
+.success {
+  background: #ccc;
+}
+
+.primary {
+  background: #ccc;
+}
