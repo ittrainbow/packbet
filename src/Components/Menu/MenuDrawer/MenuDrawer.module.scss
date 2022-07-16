@@ -1,0 +1,44 @@
+@import '../../../index.scss';
+
+.MenuDrawer {
+  background: $bg-main;
+  position: fixed;
+  left: 0;
+  top: -3px;
+  bottom: 0;
+  width: 80%;
+  max-width: 150px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  z-index: 90;
+  transform: translateX(0px);
+  transition: transform .2s ease-in;
+}
+
+.MenuDrawer.close {
+  transform: translateX(-150px);
+}
+
+.MenuDrawer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.MenuDrawer ul li {
+  margin-bottom: 18px;
+}
+
+.MenuDrawer ul li a {
+  color: $font-color;
+  font-size: 18px;
+  text-decoration: none;
+  background-color: $bg-main;
+  position: relative;
+  padding: 0px 18px 10px 18px;
+  transition: opacity .2s;
+}
+
+.MenuDrawer ul li a:hover, .active {
+  color: $font-color-light;
+}

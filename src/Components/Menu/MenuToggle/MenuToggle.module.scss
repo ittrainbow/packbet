@@ -1,0 +1,21 @@
+@import '../../../index.scss';
+
+.MenuToggle {
+  color: $border-color;
+  position: fixed;
+  top: 19px;
+  left: 15px;
+  font-size: 23px;
+  cursor: pointer;
+  color: $font-color;
+  z-index: 100;
+  transition: all .2s ease-in;
+}
+
+.MenuToggle:hover {
+  opacity: .7;
+}
+
+.MenuToggle.open {
+  left: 120px;
+}
