@@ -1,0 +1,38 @@
+@import '../../styles/vars';
+
+.yn {
+  &__parent {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &__btn:active {
+    transition: 0.22s;
+  }
+
+  &__dark,
+  &__grey,
+  &__red,
+  &__green {
+    height: 30px;
+    padding-top: 4px;
+    font-size: 18px;
+    width: 40px;
+  }
+
+  &__green {
+    background-color: $base-green;
+    color: $yesno-light;
+  }
+
+  &__dark {
+    background-color: $base-dark;
+    color: $yesno-dark;
+  }
+
+  &__red {
+    background-color: $base-red;
+    color: $yesno-light;
+  }
+}

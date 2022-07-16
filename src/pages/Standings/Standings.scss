@@ -1,0 +1,47 @@
+@import '../../styles/vars';
+
+.standings-header {
+  display: flex;
+  gap: 2px;
+  margin: 2px 0;
+}
+
+.cellOne,
+.cellTwo,
+.cellThree,
+.cellFour {
+  background-color: $base-itembg;
+  padding: 2px 2px 3px 2px;
+  border-radius: 5px;
+  
+  @media only screen and (max-width: $max-width) {
+    padding-bottom: 1px;
+  }
+}
+
+.cellOne,
+.cellThree,
+.cellFour {
+  text-align: center;
+}
+
+.cellOne {
+  width: 6%;
+  min-width: 20px;
+}
+
+.cellTwo {
+  width: 61%;
+  cursor: pointer;
+  padding-left: 5px;
+}
+
+.cellThree,
+.cellFour {
+  width: 9%;
+  min-width: 40px;
+}
+
+.cellFour {
+  letter-spacing: -0.05em;
+}

@@ -1,0 +1,6 @@
+export * from './Dashboard'
+export * from './Login'
+export * from './UserPage'
+export * from './Register'
+export * from './Profile'
+export * from './Reset'
