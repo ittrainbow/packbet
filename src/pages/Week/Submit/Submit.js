@@ -1,5 +1,4 @@
 import React from 'react';
-import './Submit.scss';
 
 const Submit = (props) => {
   return (    

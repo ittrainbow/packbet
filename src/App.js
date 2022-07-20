@@ -1,20 +1,26 @@
-import React, { Component } from 'react';
-import './App.scss';
-import Week from './Components/Week';
-import Menu from './Components/Menu/Menu';
+import React from 'react';
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar/Sidebar';
+import Profile from './pages/Profile/Profile';
+import Calendar from './pages/Calendar/Calendar';
+import Standings from './pages/Standings/Standings';
+import Week from './pages/Week/Week';
 
-class App extends Component {
-  state = {
-    active: true
-  };
-
-  render() {
-    return (
-      <div className="week">
-        <Menu />
-        <Week />        
-      </div>
-    );
-}}
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Sidebar>
+        <Routes>
+          <Route path='/'/>
+          <Route path='/profile' element={<Profile/>}/>
+          <Route path='/thisweek' element={<Week/>}/>
+          <Route path='/calendar' element={<Calendar/>}/>
+          <Route path='/standings' element={<Standings/>}/>
+        </Routes>
+      </Sidebar>
+    </BrowserRouter>
+  );
+};
 
 export default App;

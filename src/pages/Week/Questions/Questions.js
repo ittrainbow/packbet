@@ -1,5 +1,4 @@
 import React from 'react';
-import './Questions.scss';
 import Buttons from '../Buttons/Buttons';
 
 const Questions = (props) => {
