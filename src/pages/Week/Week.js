@@ -3,8 +3,8 @@ import Questions from './Questions/Questions';
 import Submit from './Submit/Submit';
 import Header from './Header/Header';
 import invertor from './functions/functions';
-import * as weeks from '../../tasks';
-import './index.scss';
+import './Week.scss';
+import * as weeks from '../../db';
 
 const tasks = weeks.week01.tasks;
 
