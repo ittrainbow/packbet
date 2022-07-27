@@ -1,19 +1,20 @@
 import React from 'react';
-import Buttons from '../Buttons/Buttons';
+import YesNoButtons from '../YesNoButtons/YesNoButtons';
+import classes from './Questions.module.scss';
 
 const Questions = (props) => {
   return (
     props.questions.map((_, index) => {
       return (
-        <div className="question" key={index}>
+        <div className={classes.Question} key={index}>
         {props.questions[index]}
-          <Buttons
+          <YesNoButtons
             id={[index, 1]}
             index={index * 2 + 1}
             active={props.allButtons[index + ':' + 1]}
             onClick={props.onClick}
           />  
-          <Buttons
+          <YesNoButtons
             id={[index, 0]}
             index={index * 2}
             active={props.allButtons[index + ':' + 0]}

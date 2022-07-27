@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Calendar = () => {
+const Standings = () => {
   return (
     <div>
-      
+      Standings
     </div>
   );
 };
 
-export default Calendar;
+export default Standings;
