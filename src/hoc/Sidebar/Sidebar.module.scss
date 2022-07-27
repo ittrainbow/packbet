@@ -4,16 +4,16 @@
   text-decoration: none;
 }
 
-.container {
+.Container {
   display: flex;
 }
 
-.main {
+.Main {
   width: 100%;
   padding: 20px;
 }
 
-.sidebar {
+.Sidebar {
   background: #000;
   color: lightgrey;
   height: 100vh;
@@ -21,52 +21,48 @@
   transition: all .2s ease-in;
 }
 
-.top_section {
+.TopSection {
   display: flex;
   align-items: center;
   padding: 20px 15px;
 }
 
-.bars {
+.Bars {
   display: flex;
   font-size: 23px;
   margin-left: 30px;
 }
 
-.link {
+.Link {
   display: flex;
   color: lightgrey;
   padding: 10px 15px;
   gap: 15px;
 }
 
-.menuheader {
+.MenuHeader {
   display: flex;
   color: lightgrey;
   padding: 0px 9px;
   gap: 15px;
 }
 
-.lint_text {
-  margin-top: -10px;
-}
-
-.link:hover {
+.Link:hover {
   background: #3d9f40;
   color: #000;
   transition: all .2s;
 }
 
-.active {
+.Active {
   background: #257227;
   color: lightgrey;
 }
 
-.icon, .link_text {
+.Icon, .LinkText {
   font-size: 15px;
 }
 
-.link_text {
+.LinkText {
   display: table-cell;
   vertical-align: middle;
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import './Buttons.scss';
+import './YesNoButtons.scss';
 import {
   FaCheck,
   FaBan
 } from 'react-icons/fa';
 
-const Buttons = (props) => {
+const YesNoButtons = (props) => {
   let styleSet = ['button'];
   props.id[1] ? styleSet.push('red') : styleSet.push('green');
 
@@ -26,4 +26,4 @@ const Buttons = (props) => {
   );
 };
 
-export default Buttons;
+export default YesNoButtons;

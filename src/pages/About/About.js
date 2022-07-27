@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Standings = () => {
+const Home = () => {
   return (
     <div>
-      
+      About
     </div>
   );
 };
 
-export default Standings;
+export default Home;

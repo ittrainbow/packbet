@@ -1,9 +1,8 @@
-import React from 'react';
-import Questions from './Questions/Questions';
-import Submit from './Submit/Submit';
-import Header from './Header/Header';
-import invertor from './functions/functions';
-import './Week.scss';
+import React, {Component} from 'react';
+import Questions from '../../components/Questions/Questions';
+import Header from '../../components/Header/Header';
+import classes from './Week.module.scss';
+import Button from '../../components/Button/Button';
 import * as weeks from '../../db';
 
 const tasks = weeks.week01.tasks;
@@ -15,7 +14,7 @@ for (let i=0; i<tasks.length; i++) {
   createButtons[`${i}:${1}`] = false;
 }
 
-class Week extends React.Component {
+class Week extends Component {
   state = {
     week: weeks.week01.number,
     name: weeks.week01.name, 
@@ -23,9 +22,13 @@ class Week extends React.Component {
     allButtons: createButtons
   };
 
+  invertor(selector) {
+    return selector[2] === '1' ? selector[0] + ':0' : selector[0] + ':1';
+  }
+
   clickHandler(selector) {
     const id = selector.join(':');
-    const neighborId = invertor(id);    
+    const neighborId = this.invertor(id);    
     let newState = this.state.allButtons;
 
     newState[id] = !newState[id];
@@ -45,7 +48,7 @@ class Week extends React.Component {
 
   render() {
     return (
-      <> 
+      <div className={classes.Weekly}> 
         <Header 
           week={this.state.week} 
           name={this.state.name} 
@@ -55,10 +58,10 @@ class Week extends React.Component {
           allButtons={this.state.allButtons}
           onClick={this.clickHandler.bind(this)}
         />
-        <Submit 
-          function={this.submitHandler.bind(this)}
-        />
-      </>
+        <Button type="submit" onClick={() => this.submitHandler()}>
+          Submit
+        </Button>  
+      </div>
     );
   }
 }
