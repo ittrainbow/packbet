@@ -1,0 +1,27 @@
+.WeekList {
+  margin-top: 20px;
+  margin-left: 20px;
+  font-size: 12px;
+  text-align: left;
+  width: 470px;
+}
+
+.WeekList h3 {
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.WeekList li {
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.QuizWeekListList li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.WeekList li a:hover {
+  color: #363f54;
+}

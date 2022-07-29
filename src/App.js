@@ -8,6 +8,7 @@ import Standings from './pages/Standings/Standings';
 import About from './pages/About/About';
 import CurrentWeek from './pages/CurrentWeek/CurrentWeek';
 import WeekCreator from './hoc/WeekCreator/WeekCreator';
+import Week from './hoc/Week/Week';
 
 const App = () => {
   return (
@@ -16,7 +17,8 @@ const App = () => {
         <Routes>
           <Route path='/' element={<About/>}/>
           <Route path='/profile' element={<Profile/>}/>
-          <Route path='/thisweek' element={<CurrentWeek/>}/>
+          <Route path='/thisweek' element={<CurrentWeek/>}/>          
+          <Route path='/week/:id' element={<Week/>} />
           <Route path='/calendar' element={<Calendar/>}/>
           <Route path='/standings' element={<Standings/>}/>
           <Route path='/create' element={<WeekCreator/>}/>

@@ -1,12 +1,19 @@
-body {
-  background-color: lightgrey;
-  font-family: "Arial";
+@import '../../index.scss';
+
+.Week {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  flex-grow: 1;
+  width: 100%;
+  background: #d3d3d3;
 }
 
-.Weekly {
-  margin-top: 20px;
-  margin-left: 20px;
-  font-size: 13px;
-  text-align: left;
-  width: 470px;
+.Week h1 {
+  color: grey;
+  margin-left: 10px;
+}
+
+.WeekWrapper {
+  width: 500px;
 }

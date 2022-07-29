@@ -5,8 +5,9 @@ import Input from '../../components/Input/Input';
 import Auxiliary from '../../frame/Auxlilary'; // для возврата children
 import { createControl, validate, validateForm } from '../../frame/formFramework';
 import Select from '../../components/Select/Select';
+import axios from '../../axios/axios';
 
-function createOptionControl(index) {
+function createTotal(index) {
   return createControl({
     label: `Var ${index}`,
     errorMessage: 'Error',
@@ -20,10 +21,7 @@ function createFormControls() {
       label: 'Add Q',
       errorMessage: 'Q is empty',
     }, {required: true}),
-    option1: createOptionControl(1),
-    option2: createOptionControl(2),
-    option3: createOptionControl(3),
-    option4: createOptionControl(4),
+    total: createTotal(),
   };
 }
 
@@ -68,11 +66,22 @@ class WeekCreator extends Component {
     });
   };
 
-  createWeekHandler = (event) => {
+  createWeekHandler = async (event) => {
     event.preventDefault();
 
-    console.log(this.state.quiz);
-  };    
+    try {
+      await axios.post('pack.json', this.state.quiz);
+
+      this.setState({
+        quiz: [],
+        isFormValid: false,
+        formControls: createFormControls(),
+        rightAnswerId: 1
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   
   changeHandler = (value, controlName) => {    
     const formControls = {...this.state.formControls};
@@ -108,13 +117,13 @@ class WeekCreator extends Component {
             <Input 
               label={control.label}
               value={control.value}
+              total={control.total}
               valid={control.valid}
               shouldValidate={!!control.validation}
               touched={control.touched}
               errorMessage={control.errorMessage}
               onChange={(event) => this.changeHandler(event.target.value, controlName)}
             />
-            { index === 0 ? <hr/> : null }
           </Auxiliary>
         );
       }      
@@ -122,18 +131,6 @@ class WeekCreator extends Component {
   }
 
   render() {
-    const select = <Select 
-      label="Choose correct ans"
-      value={this.state.rightAnswerId}
-      onChange={this.selectChangeHandler}
-      options={[
-        {text: 1, value: 1},
-        {text: 2, value: 2},
-        {text: 3, value: 3},
-        {text: 4, value: 4}
-      ]}
-    />;
-
     return (
       <div className={classes.WeekCreator}>
         <div>
@@ -142,8 +139,6 @@ class WeekCreator extends Component {
           <form onSubmit={this.submitHandler}>
 
             {this.renderControls()}
-
-            {select}
 
             <Button
               type="primary"
