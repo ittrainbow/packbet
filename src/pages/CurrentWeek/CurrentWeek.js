@@ -1,23 +1,40 @@
-import axios from 'axios';
+
 import React, { Component } from 'react';
-import ThisWeek from '../../hoc/ThisWeek/ThisWeek';
+import Week from '../../Components/Week/Week';
+import axios from '../../axios/axios';
+import Loader from '../../UI/Loader/Loader';
+
+let id;
 
 class CurrentWeek extends Component {
 
-  componentDidMount() {
-    axios.get('https://react-quiz-25ea8-default-rtdb.firebaseio.com/pack.json')
-      .then(response => {
-        console.log(response);
+  state = {
+    id: ''
+  };
+
+  async componentDidMount() {
+    try {
+      const response = await axios.get(`pack.json`);
+      id = Object.keys(response.data).slice(-1)[0].toString();
+
+      this.setState({
+        id: id
       });
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   render() {
     return (
       <div>
-        <ThisWeek />
+        { this.state.id === ''
+          ?  <Loader />
+          :  <Week id={this.state.id}/>
+        }
       </div>
     );
-  }
+  };
 }
 
 export default CurrentWeek;

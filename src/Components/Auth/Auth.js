@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './Auth.module.scss';
-import Button from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
+import Button from '../../UI/Button/Button';
+import Input from '../../UI/Input/Input';
 import './Auth.module.scss';
 import axios from 'axios';
 import is from 'is_js';

@@ -1,0 +1,28 @@
+.Edit {
+  font-size: 15px;
+  padding: 2px;
+  width: 25px;
+  height: 22px;
+  float: right;
+  color: #555;
+  border: none;
+  border-radius: 2px;
+  border: 1px solid #eee;
+}
+
+.Icon {
+  text-align: center;
+}
+
+.Edit:hover {
+  color: rgb(149, 10, 10);
+  transition: all .2s ease-in;
+  cursor: pointer;
+}
+
+.Edit:active {
+  background-color: #ddd;
+  border: 1px solid #aaa;
+  transition: all .2s ease-in;
+  cursor: pointer;
+}

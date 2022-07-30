@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './WeekList.module.scss';
 import { NavLink } from 'react-router-dom';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../UI/Loader/Loader';
 import axios from '../../axios/axios';
 
 class WeekList extends Component {
@@ -12,11 +12,13 @@ class WeekList extends Component {
   };
 
   renderWeeks() {
+
     return this.state.weeks
       .map((week) => {
         return (
           <li
             key={week.id}
+            className={classes.Weeks}
           >
             <NavLink
               to={'/week/' + week.id}
@@ -33,16 +35,16 @@ class WeekList extends Component {
       const response = await axios.get('pack.json');
       const weeks = [];
 
-      Object.keys(response.data).forEach((key, index) => {
+      Object.keys(response.data).forEach((key) => {
         weeks.push({
           id: key,
-          name: `Неделя номер ${index + 1}`
+          name: `Неделя ${response.data[key].week}: ${response.data[key].name}`
         });
       });
 
       this.setState({
-        weeks: weeks,
-        loading: false
+        loading: false,
+        weeks: weeks
       });
     } catch (error) {
       console.log(error);

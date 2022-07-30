@@ -1,5 +1,5 @@
 import React from 'react';
-import WeekList from '../../hoc/WeekList/WeekList';
+import WeekList from '../../Components/WeekList/WeekList';
 
 const Calendar = () => {
   return (
