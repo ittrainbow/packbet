@@ -1,9 +1,10 @@
 import React from 'react';
+import WeekList from '../../Components/WeekList/WeekList';
 
 const Calendar = () => {
   return (
     <div>
-      Calendar
+      <WeekList />
     </div>
   );
 };

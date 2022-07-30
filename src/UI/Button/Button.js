@@ -13,7 +13,7 @@ const Button = (props) => {
       className={cls.join(' ')}
       disabled={props.disabled}
     >
-      {props.children}
+      {props.text}
     </button>
   );
 };
