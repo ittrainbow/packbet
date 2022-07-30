@@ -8,11 +8,11 @@ class WeekList extends Component {
   
   state = {
     weeks: [],
-    loading: true
+    loading: true,
+    isAdmin: true
   };
 
   renderWeeks() {
-
     return this.state.weeks
       .map((week) => {
         return (
@@ -20,11 +20,10 @@ class WeekList extends Component {
             key={week.id}
             className={classes.Weeks}
           >
-            <NavLink
-              to={'/week/' + week.id}
-            >
-              {week.name}
-            </NavLink>
+            { this.props.isEditor 
+                ? <NavLink to={'/weekeditor/' + week.id}>{week.name}</NavLink>
+                : <NavLink to={'/week/' + week.id}>{week.name}</NavLink>
+            }
           </li>
         );
       });
@@ -55,7 +54,6 @@ class WeekList extends Component {
     return (
       <div className={classes.WeekList}>
         <div>
-          <h3>Календарь</h3>
           {
             this.state.loading
               ? <Loader />

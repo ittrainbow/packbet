@@ -159,21 +159,19 @@ class Auth extends Component {
             {this.renderInputs()}
             <div>
               <Button 
+                text="Войти"
                 type="success" 
                 onClick={this.loginHandler}
                 disabled={!this.state.isFormValid}
-              >
-                Войти
-              </Button>  
+              /> 
             </div>
             <div>
               <Button 
+                text="Регистрация"
                 type="primary" 
                 onClick={this.registerHandler}
                 disabled={!this.state.isFormValid}
-              >
-                Регистрация
-              </Button>
+              />
             </div>
           </form>
         </div>

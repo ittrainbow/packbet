@@ -11,7 +11,7 @@ class Week extends Component {
     id: '',
     week: '',
     name: '', 
-    questions: {},
+    questions: [],
     loading: true,
     buttonState: {}
   };
@@ -55,7 +55,6 @@ class Week extends Component {
   };
 
   submitHandler() {
-    console.log(123);
     console.log(this.state.buttonState);
   }
 
@@ -78,7 +77,7 @@ class Week extends Component {
 
   render() {
     return (
-      <div className={classes.Weekly}> 
+      <div className={classes.Week}> 
         <h3>Неделя {this.state.week}: {this.state.name}</h3>
         <div className={classes.QuestionsBlockMargin}>
           { this.state.loading

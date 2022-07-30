@@ -9,6 +9,8 @@ import About from './pages/About/About';
 import CurrentWeek from './pages/CurrentWeek/CurrentWeek';
 import WeekCreator from './Components/WeekCreator/WeekCreator';
 import Week from './Components/Week/Week';
+import WeekEditor from './Components/WeekEditor/WeekEditor';
+import Editor from './pages/Editor/Editor';
 
 const App = () => {
   return (
@@ -19,7 +21,9 @@ const App = () => {
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/thisweek' element={<CurrentWeek/>}/>          
           <Route path='/week/:id' element={<Week/>} />
-          <Route path='/calendar' element={<Calendar/>}/>
+          <Route path='/calendar' element={<Calendar/>}/> 
+          <Route path='/editor' element={<Editor/>}/>            
+          <Route path='/weekeditor/:id' element={<WeekEditor/>}/>
           <Route path='/standings' element={<Standings/>}/>
           <Route path='/create' element={<WeekCreator/>}/>
         </Routes>
