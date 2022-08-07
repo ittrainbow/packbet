@@ -8,8 +8,8 @@ import Button from '../../UI/Button/Button';
 class Week extends Component {
 
   state = {
-    id: '',
-    week: '',
+    id: null,
+    number: null,
     name: '', 
     questions: [],
     loading: true,
@@ -22,7 +22,7 @@ class Week extends Component {
       : window.location.pathname.split('/').slice(-1).toString();
 
     try {
-      const response = await axios.get(`pack/${id}.json`);
+      const response = await axios.get(`pack/weeks/${id}.json`);
       const buttonState = {};
 
       Object.keys(response.data.questions).forEach((_, index) => {
@@ -31,7 +31,7 @@ class Week extends Component {
 
       this.setState({
         id: id,
-        week: response.data.week,
+        number: response.data.number,
         name: response.data.name,
         questions: response.data.questions,
         loading: false,
@@ -78,7 +78,7 @@ class Week extends Component {
   render() {
     return (
       <div className={classes.Week}> 
-        <h3>Неделя {this.state.week}: {this.state.name}</h3>
+        <h3>Неделя {this.state.number}: {this.state.name}</h3>
         <div className={classes.QuestionsBlockMargin}>
           { this.state.loading
               ? <Loader />

@@ -14,7 +14,7 @@ class CurrentWeek extends Component {
 
   async componentDidMount() {
     try {
-      const response = await axios.get(`pack.json`);
+      const response = await axios.get(`pack/weeks.json`);
       id = Object.keys(response.data).slice(-1)[0].toString();
 
       this.setState({

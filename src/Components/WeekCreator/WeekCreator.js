@@ -81,13 +81,13 @@ class WeekCreator extends Component {
     event.preventDefault();
 
     if (tag === 'W') {
-      this.setState({ currentWeek: event.target.value });
+      this.setState({ currentWeek: Number(event.target.value) });
     } else if (tag === 'G') {
       this.setState({ currentName: event.target.value });
     } else if (tag === 'Q') {
       this.setState({ currentQuestion: event.target.value });
     } else if (tag === 'T') {
-      this.setState({ currentTotal: event.target.value });
+      this.setState({ currentTotal: Number(event.target.value) });
     }
   };
 
@@ -100,14 +100,13 @@ class WeekCreator extends Component {
     });
 
     const week = {
-      type: 'week',
-      week: this.state.currentWeek,
+      number: this.state.currentWeek,
       name: this.state.currentName,
       questions: qs
     };
 
     try {
-      await axios.post('pack.json', week);
+      await axios.post('pack/weeks.json', week);
 
       this.setState({
         currentWeek: '',

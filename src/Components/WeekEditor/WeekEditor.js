@@ -13,7 +13,7 @@ class WeekEditor extends Component {
 
   state = {
     currentID: '',
-    week: '',
+    number: null,
     name: '',
     questions: [],
     currentQuestion: '',
@@ -24,11 +24,11 @@ class WeekEditor extends Component {
   async componentDidMount() {
     thisPageID = window.location.pathname.split('/').slice(-1).toString();
     
-    const response = await axios.get(`pack/${thisPageID}.json`);
+    const response = await axios.get(`pack/weeks/${thisPageID}.json`);
 
     this.setState({
       name: response.data.name,
-      week: response.data.week,
+      number: response.data.number,
       questions: response.data.questions,
       loading: false
     });
@@ -148,7 +148,7 @@ class WeekEditor extends Component {
     return (
       <div className={classes.Inputs}>
         <div className={classes.Row}>
-          <h3>Неделя {this.state.week}: {this.state.name}</h3>
+          <h3>Неделя {this.state.number}: {this.state.name}</h3>
         </div>
         
         <div className={classes.Row}>

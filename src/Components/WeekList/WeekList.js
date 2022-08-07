@@ -31,13 +31,13 @@ class WeekList extends Component {
   
   async componentDidMount() {
     try {
-      const response = await axios.get('pack.json');
+      const response = await axios.get('pack/weeks.json');
       const weeks = [];
 
       Object.keys(response.data).forEach((key) => {
         weeks.push({
           id: key,
-          name: `Неделя ${response.data[key].week}: ${response.data[key].name}`
+          name: `Неделя ${response.data[key].number}: ${response.data[key].name}`
         });
       });
 
