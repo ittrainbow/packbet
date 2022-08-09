@@ -1,18 +1,13 @@
-import React, { Component } from 'react';
-import classes from './Editor.module.scss';
+import React from 'react';
 import WeekList from '../../Components/WeekList/WeekList';
 
-class Editor extends Component {
-  render() {
-    return (
-      <div>      
-        <h3 className={classes.Editor}>Редактор</h3>  
-        <WeekList 
-          isEditor={true}
-        />
-      </div>
-    );
-  };
+const Editor = () => {
+  return (
+    <div style={{marginTop: '20px', marginLeft: '20px'}}>      
+      <h3>Редактор</h3>  
+      <WeekList />
+    </div>
+  );
 };
 
 export default Editor;

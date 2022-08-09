@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import './Sidebar.module.scss';
 import classes from './Sidebar.module.scss';
+import Init from '../Init/Init';
 
 const menuItem = [
   {
@@ -39,7 +40,7 @@ const menuItem = [
     path: '/editor',
     name: 'Editor',
     icon: <FaChevronCircleRight/>
-  },   
+  },
   {
     path: '/create',
     name: 'New\u00A0Week',
@@ -91,6 +92,7 @@ class Sidebar extends Component {
           }
         </div>
         <main>{this.props.children}</main>
+        <Init/>
       </div>
     );
   }

@@ -1,49 +1,32 @@
 import React, {Component} from 'react';
 import classes from './Week.module.scss';
-import axios from '../../axios/axios';
 import Loader from '../../UI/Loader/Loader';
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons';
 import Button from '../../UI/Button/Button';
 
+import { connect } from 'react-redux';
+import { SET_BUTTONSTATE, SET_WEEK_ID } from '../../redux/types.js';
+
+let id;
+
 class Week extends Component {
 
   state = {
-    id: null,
-    number: null,
-    name: '', 
-    questions: [],
-    loading: true,
     buttonState: {}
   };
 
-  async componentDidMount() {
-    const id = this.props.id
-      ? this.props.id
-      : window.location.pathname.split('/').slice(-1).toString();
+  componentDidMount() {
+    const fromLink = window.location.pathname.split('/').slice(-1).toString();
 
-    try {
-      const response = await axios.get(`pack/weeks/${id}.json`);
-      const buttonState = {};
+    id = fromLink.length < 3
+      ? id = Number(fromLink)
+      : this.props.currentweek;
 
-      Object.keys(response.data.questions).forEach((_, index) => {
-        buttonState[index] = null;
-      });
-
-      this.setState({
-        id: id,
-        number: response.data.number,
-        name: response.data.name,
-        questions: response.data.questions,
-        loading: false,
-        buttonState: buttonState
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    this.props.setId(id);
   }
 
   onClickHandler = (index, props) => {
-    const buttonState = this.state.buttonState;
+    const buttonState = this.props.buttonstate;
 
     buttonState[index] = buttonState[index] !== props
       ? props
@@ -58,12 +41,13 @@ class Week extends Component {
     console.log(this.state.buttonState);
   }
 
-  renderQuestions() {
+  renderQuestions(questions) {
     return (
-      this.state.questions.map((question, index) => {
+      questions.map((question, index) => {
         return (
           <div key={index} className={classes.Questions}>
-            {question.question}: {question.total} 
+            { question.question }
+            { question.total > 1 ? `: ${question.total}` : null }
             <YesNoButtons
               index={index}
               activity={this.state.buttonState[index]}
@@ -76,22 +60,51 @@ class Week extends Component {
   };
 
   render() {
-    return (
-      <div className={classes.Week}> 
-        <h3>Неделя {this.state.number}: {this.state.name}</h3>
-        <div className={classes.QuestionsBlockMargin}>
-          { this.state.loading
-              ? <Loader />
-              : this.renderQuestions() 
-          }
+    const thisid = isNaN(this.props.weekid) 
+      ? this.props.currentweek 
+      : this.props.weekid;
+    if (this.props.weeks) {
+      const thisweek = this.props.weeks[thisid];
+      return (
+        <div className={classes.Week}> 
+          <h3>#{ thisweek.number }: { thisweek.name }</h3>
+          <div className={classes.QuestionsBlockMargin}>
+            { this.renderQuestions(thisweek.questions) }
+          </div>
+          <Button
+            text='Submit'
+            onClick={ this.submitHandler.bind(this) }  
+          />
         </div>
-        <Button 
-          text='Submit'
-          onClick={this.submitHandler.bind(this)}  
-        />
-      </div>
-    );
+      );
+    } else {
+      return (
+        <Loader/>
+      );
+    }
   }
 }
 
-export default Week;
+function mapStateToProps(state) {  
+  return {
+    weeks: state.weeks,
+    currentweek: state.currentweek,
+    weekid: state.weekid,
+    buttonstate: state.buttonstate
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setId: (id) => {      
+      const action = { type: SET_WEEK_ID, payload: id};
+      dispatch(action);
+    },
+    setButtonState: (buttons) => {
+      const action = { type: SET_BUTTONSTATE, payload: buttons};
+      dispatch(action);
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Week);

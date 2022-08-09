@@ -3,7 +3,8 @@ import Auth from '../../Components/Auth/Auth';
 
 const Profile = () => {
   return (
-    <div>
+    <div style={{marginTop: '20px', marginLeft: '20px'}}>
+      <h3>Авторизация</h3>
       <Auth />
     </div>
   );

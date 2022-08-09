@@ -30,8 +30,22 @@ class WeekCreator extends Component {
     ],
     currentQuestion: '',
     currentTotal: '',
-    currentID: null
+    currentID: null,
+    amountOfWeeks: null
   };
+
+  async componentDidMount() {
+    try {
+      const response = await axios.get('pack/weeks.json');
+      const amountOfWeeks = Object.keys(response.data).length;
+      
+      this.setState({
+        amountOfWeeks: amountOfWeeks
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   addQuestionHandler = (event) => {
     event.preventDefault();
@@ -100,6 +114,7 @@ class WeekCreator extends Component {
     });
 
     const week = {
+      id: this.state.amountOfWeeks,
       number: this.state.currentWeek,
       name: this.state.currentName,
       questions: qs
@@ -184,38 +199,34 @@ class WeekCreator extends Component {
   render() {
     return (
       <div className={classes.WeekCreator}>
-        <div>
-          <h3>Создание недели</h3>
+        <form>
+          {this.renderInputs()}
 
-          <form>
-            {this.renderInputs()}
+          <Button
+            text="Добавить"
+            type="primary"
+            onClick={(event) => this.addQuestionHandler(event)}
+            disabled={
+              this.state.currentQuestion.length === 0 ||
+              this.state.currentTotal.length === 0
+            }
+          />
 
-            <Button
-              text="Добавить"
-              type="primary"
-              onClick={(event) => this.addQuestionHandler(event)}
-              disabled={
-                this.state.currentQuestion.length === 0 ||
-                this.state.currentTotal.length === 0
-              }
-            />
+          <div className={classes.QuestionsList}>
+            { this.renderQuestions() }    
+          </div>
 
-            <div className={classes.QuestionsList}>
-              { this.renderQuestions() }    
-            </div>
-
-            <Button
-              text="Создать"
-              type="success"
-              onClick={this.submitHandler}
-              disabled={
-                this.state.currentWeek.length === 0 ||
-                this.state.currentName.length === 0 ||
-                Object.keys(this.state.questions).length === 0
-              }
-            />
-          </form>
-        </div>
+          <Button
+            text="Создать"
+            type="success"
+            onClick={this.submitHandler}
+            disabled={
+              this.state.currentWeek.length === 0 ||
+              this.state.currentName.length === 0 ||
+              Object.keys(this.state.questions).length === 0
+            }
+          />
+        </form>
       </div>
     );
   }
