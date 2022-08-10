@@ -10,7 +10,7 @@ import CurrentWeek from './pages/CurrentWeek/CurrentWeek';
 import OldWeek from './pages/OldWeek/OldWeek';
 import WeekEditor from './Components/WeekEditor/WeekEditor';
 import Editor from './pages/Editor/Editor';
-import Init from './Components/Init/Init';
+import InitState from './Components/InitState/InitState';
 import Creator from './pages/Creator/Creator';
 
 function App(props) {
@@ -29,7 +29,7 @@ function App(props) {
           <Route path='/create' element={<Creator/>}/>
         </Routes>
       </Sidebar>
-      <Init/>
+      <InitState/>
     </BrowserRouter>
   );
 };

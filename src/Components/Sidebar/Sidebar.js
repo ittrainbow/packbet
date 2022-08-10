@@ -13,7 +13,6 @@ import {
 } from 'react-icons/fa';
 import './Sidebar.module.scss';
 import classes from './Sidebar.module.scss';
-import Init from '../Init/Init';
 
 const menuItem = [
   {
@@ -92,7 +91,6 @@ class Sidebar extends Component {
           }
         </div>
         <main>{this.props.children}</main>
-        <Init/>
       </div>
     );
   }

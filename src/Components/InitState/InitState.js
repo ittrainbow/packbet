@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 import axios from '../../axios/axios';
 import { connect } from 'react-redux';
-import { APP_INIT, SET_CURRENT_WEEK } from '../../redux/types.js';
+import { APP_INIT, SET_CURRENT_WEEK, SET_BUTTONSTATE } from '../../redux/types.js';
 
-class Init extends Component {
+class InitState extends Component {
 
   async componentDidMount() {
     try {
       const response = await axios.get('pack/weeks.json');
+      const buttonState = {};
       const weeks = Object.keys(response.data)
         .map((el) => response.data[el]);
-      const currentWeek = weeks.length - 1;
+
+      for (let i=0; i<weeks.length; i++) {
+        const buttonsWeekly = {};
+
+        for (let j=0; j<Object.keys(weeks[i].questions).length; j++) {
+          buttonsWeekly[j] = null;
+        }
+
+        buttonState[i] = buttonsWeekly;
+      }
 
       this.props.appInit(weeks);      
-      this.props.setCurrentWeek(currentWeek);
+      this.props.setCurrentWeek(weeks.length - 1);
+      this.props.setButtonState(buttonState);
     } catch (error) {
       console.log(error);
     }
@@ -43,7 +54,11 @@ function mapDispatchToProps(dispatch) {
       const action = { type: APP_INIT, payload: weeks};
       dispatch(action);
     },
+    setButtonState: (state) => {
+      const action = { type: SET_BUTTONSTATE, payload: state};
+      dispatch(action);
+    }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Init);
+export default connect(mapStateToProps, mapDispatchToProps)(InitState);

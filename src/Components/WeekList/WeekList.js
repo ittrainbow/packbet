@@ -58,7 +58,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setId: (id) => {
-      console.log('weeklist setId', id);
       const action = { type: SET_WEEK_ID, payload: id};
       dispatch(action);
     }
