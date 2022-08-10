@@ -7,10 +7,13 @@ import Calendar from './pages/Calendar/Calendar';
 import Standings from './pages/Standings/Standings';
 import About from './pages/About/About';
 import CurrentWeek from './pages/CurrentWeek/CurrentWeek';
-import WeekCreator from './Components/WeekCreator/WeekCreator';
-import Week from './Components/Week/Week';
+import OldWeek from './pages/OldWeek/OldWeek';
+import WeekEditor from './Components/WeekEditor/WeekEditor';
+import Editor from './pages/Editor/Editor';
+import InitState from './Components/InitState/InitState';
+import Creator from './pages/Creator/Creator';
 
-const App = () => {
+function App(props) {
   return (
     <BrowserRouter>
       <Sidebar>
@@ -18,12 +21,15 @@ const App = () => {
           <Route path='/' element={<About/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/thisweek' element={<CurrentWeek/>}/>          
-          <Route path='/week/:id' element={<Week/>} />
-          <Route path='/calendar' element={<Calendar/>}/>
+          <Route path='/week/:id' element={<OldWeek/>} />
+          <Route path='/calendar' element={<Calendar/>}/> 
+          <Route path='/editor' element={<Editor/>}/>            
+          <Route path='/weekeditor/:id' element={<WeekEditor/>}/>
           <Route path='/standings' element={<Standings/>}/>
-          <Route path='/create' element={<WeekCreator/>}/>
+          <Route path='/create' element={<Creator/>}/>
         </Routes>
       </Sidebar>
+      <InitState/>
     </BrowserRouter>
   );
 };

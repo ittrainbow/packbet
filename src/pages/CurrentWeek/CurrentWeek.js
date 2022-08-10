@@ -1,40 +1,38 @@
-
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Week from '../../Components/Week/Week';
-import axios from '../../axios/axios';
-import Loader from '../../UI/Loader/Loader';
-
-let id;
+import { SET_WEEK_ID } from '../../redux/types';
+import { connect } from 'react-redux';
 
 class CurrentWeek extends Component {
 
-  state = {
-    id: ''
-  };
-
-  async componentDidMount() {
-    try {
-      const response = await axios.get(`pack.json`);
-      id = Object.keys(response.data).slice(-1)[0].toString();
-
-      this.setState({
-        id: id
-      });
-    } catch(error) {
-      console.log(error);
-    }
+  componentDidMount() {
+    this.props.setId(this.props.currentweek);
   }
 
-  render() {
+  render () {
     return (
-      <div>
-        { this.state.id === ''
-          ?  <Loader />
-          :  <Week id={this.state.id}/>
-        }
+      <div style={{marginTop: '20px', marginLeft: '20px'}}>
+        <h3>Текущая неделя</h3>
+        <Week weekToRender={this.props.currentweek}/>
       </div>
     );
+  }
+};
+
+function mapStateToProps(state) {  
+  return {
+    currentweek: state.currentweek,
+    weekid: state.weekid
   };
 }
 
-export default CurrentWeek;
+function mapDispatchToProps(dispatch) {
+  return {
+    setId: (id) => {
+      const action = { type: SET_WEEK_ID, payload: id};
+      dispatch(action);
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentWeek);

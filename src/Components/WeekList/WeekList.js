@@ -2,72 +2,66 @@ import React, { Component } from 'react';
 import classes from './WeekList.module.scss';
 import { NavLink } from 'react-router-dom';
 import Loader from '../../UI/Loader/Loader';
-import axios from '../../axios/axios';
+
+import { connect } from 'react-redux';
+import { SET_WEEK_ID } from '../../redux/types.js';
 
 class WeekList extends Component {
-  
-  state = {
-    weeks: [],
-    loading: true
-  };
 
   renderWeeks() {
-
-    return this.state.weeks
-      .map((week) => {
+    if (this.props.weeks) {
+      return this.props.weeks.map((week) => {
         return (
           <li
             key={week.id}
             className={classes.Weeks}
           >
-            <NavLink
-              to={'/week/' + week.id}
-            >
-              {week.name}
-            </NavLink>
+            { this.props.isAdmin 
+              ? <NavLink 
+                  onClick={() => this.props.setId(week.id)} 
+                  to={'/weekeditor/' + week.id}
+                >
+                  #{week.number}: {week.name}
+                </NavLink>
+              : <NavLink 
+                  onClick={() => this.props.setId(week.id)}
+                  to={'/week/' + week.id}
+                >
+                  #{week.number}: {week.name}
+                </NavLink>
+            }
           </li>
         );
       });
-  }
-  
-  async componentDidMount() {
-    try {
-      const response = await axios.get('pack.json');
-      const weeks = [];
-
-      Object.keys(response.data).forEach((key) => {
-        weeks.push({
-          id: key,
-          name: `Неделя ${response.data[key].week}: ${response.data[key].name}`
-        });
-      });
-
-      this.setState({
-        loading: false,
-        weeks: weeks
-      });
-    } catch (error) {
-      console.log(error);
-    }  
+    } else {
+      return (
+        <Loader/>
+      );
+    }
   }
 
   render() {
     return (
       <div className={classes.WeekList}>
-        <div>
-          <h3>Календарь</h3>
-          {
-            this.state.loading
-              ? <Loader />
-              : <ul>
-                  {this.renderWeeks()}
-                </ul>
-          }
-
-        </div>
+        {this.renderWeeks()}
       </div>
     );
   }
 }
 
-export default WeekList;
+function mapStateToProps(state) {
+  return {
+    weeks: state.weeks
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setId: (id) => {
+      const action = { type: SET_WEEK_ID, payload: id};
+      dispatch(action);
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeekList);

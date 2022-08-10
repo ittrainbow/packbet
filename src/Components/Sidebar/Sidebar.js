@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import {
-  FaHome, FaUserAlt, FaListUl, FaCalendarAlt, FaFootballBall, FaBars, FaTimes, FaStrava
+  FaHome, 
+  FaUserAlt, 
+  FaListUl, 
+  FaCalendarAlt, 
+  FaFootballBall, 
+  FaChevronCircleRight, 
+  FaBars, 
+  FaTimes, 
+  FaStrava
 } from 'react-icons/fa';
 import './Sidebar.module.scss';
 import classes from './Sidebar.module.scss';
@@ -26,7 +34,13 @@ const menuItem = [
     path: '/calendar',
     name: 'Calendar',
     icon: <FaCalendarAlt/>
-  },  {
+  },
+  {
+    path: '/editor',
+    name: 'Editor',
+    icon: <FaChevronCircleRight/>
+  },
+  {
     path: '/create',
     name: 'New\u00A0Week',
     icon:  <FaStrava/>

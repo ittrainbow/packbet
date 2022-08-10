@@ -1,50 +1,37 @@
 import React, { Component } from 'react';
-import classes from './WeekCreator.module.scss';
+import classes from './WeekEditor.module.scss';
 import Button from '../../UI/Button/Button';
+import Loader from '../../UI/Loader/Loader';
 import Input from '../../UI/Input/Input';
+import axios from '../../axios/axios';
 import Undo from '../../UI/Undo/Undo';
 import Edit from '../../UI/Edit/Edit';
-import axios from '../../axios/axios';
 
-class WeekCreator extends Component {
+let thisPageID;
+
+class WeekEditor extends Component {
 
   state = {
-    currentWeek: '',
-    currentName: '',
-    questions: [
-      {
-        id: 0,
-        question: 'Аарон Джонс ярдов на выносе больше',
-        total: 85.5
-      },
-      {
-        id: 1,
-        question: 'Кайлин Хилл снепов больше',
-        total: 7.5
-      },
-      {
-        id: 2,
-        question: 'Кристиан Уотсон тачдаун на приеме больше',
-        total: 0.5
-      }
-    ],
+    currentID: '',
+    number: null,
+    name: '',
+    questions: [],
     currentQuestion: '',
     currentTotal: '',
-    currentID: null,
-    amountOfWeeks: null
+    loading: true
   };
-
+  
   async componentDidMount() {
-    try {
-      const response = await axios.get('pack/weeks.json');
-      const amountOfWeeks = Object.keys(response.data).length;
-      
-      this.setState({
-        amountOfWeeks: amountOfWeeks
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    thisPageID = window.location.pathname.split('/').slice(-1).toString();
+    
+    const response = await axios.get(`pack/weeks/${thisPageID}.json`);
+
+    this.setState({
+      name: response.data.name,
+      number: response.data.number,
+      questions: response.data.questions,
+      loading: false
+    });
   }
 
   addQuestionHandler = (event) => {
@@ -94,14 +81,10 @@ class WeekCreator extends Component {
   changeHandler = (event, tag) => {
     event.preventDefault();
 
-    if (tag === 'W') {
-      this.setState({ currentWeek: Number(event.target.value) });
-    } else if (tag === 'G') {
-      this.setState({ currentName: event.target.value });
-    } else if (tag === 'Q') {
+    if (tag === 'Q') {
       this.setState({ currentQuestion: event.target.value });
     } else if (tag === 'T') {
-      this.setState({ currentTotal: Number(event.target.value) });
+      this.setState({ currentTotal: event.target.value });
     }
   };
 
@@ -109,19 +92,20 @@ class WeekCreator extends Component {
     event.preventDefault();
 
     const qs = this.state.questions.map((question, index) => {
+      console.log(question, index);
       question['id'] = index;
+      console.log(question, index);
       return question;
     });
 
     const week = {
-      id: this.state.amountOfWeeks,
-      number: this.state.currentWeek,
+      week: this.state.currentWeek,
       name: this.state.currentName,
       questions: qs
     };
 
     try {
-      await axios.post('pack/weeks.json', week);
+      await axios.post(`pack/${thisPageID}.json`, week);
 
       this.setState({
         currentWeek: '',
@@ -140,7 +124,11 @@ class WeekCreator extends Component {
     return (
       this.state.questions.map((question, index) => {
         return (
-          <div key={index} className={classes.Questions}>
+          <div key={index} className={
+              index === this.state.currentID
+                ? classes.QuestionsActive
+                : classes.Questions
+            }>
             {question.question}: {question.total} 
             <Undo
               className={classes.Undo}
@@ -155,25 +143,12 @@ class WeekCreator extends Component {
       })
     );
   };
-
+  
   renderInputs() {
     return (
       <div className={classes.Inputs}>
         <div className={classes.Row}>
-          <div className={classes.Week}>
-            <Input
-              label='Неделя'
-              value={this.state.currentWeek}
-              onChange={(event) => this.changeHandler(event, 'W')}
-            />
-          </div>
-          <div className={classes.Name}>
-            <Input
-              label='Игра'
-              value={this.state.currentName}
-              onChange={(event) => this.changeHandler(event, 'G')}
-            />
-          </div>
+          <h3>Неделя {this.state.number}: {this.state.name}</h3>
         </div>
         
         <div className={classes.Row}>
@@ -198,38 +173,43 @@ class WeekCreator extends Component {
 
   render() {
     return (
-      <div className={classes.WeekCreator}>
-        <form>
-          {this.renderInputs()}
+      <div className={classes.WeekEditor}>
+        <div>
+          <h3>Редактирование</h3>
 
-          <Button
-            text="Добавить"
-            type="primary"
-            onClick={(event) => this.addQuestionHandler(event)}
-            disabled={
-              this.state.currentQuestion.length === 0 ||
-              this.state.currentTotal.length === 0
-            }
-          />
-
-          <div className={classes.QuestionsList}>
-            { this.renderQuestions() }    
-          </div>
-
-          <Button
-            text="Создать"
-            type="success"
-            onClick={this.submitHandler}
-            disabled={
-              this.state.currentWeek.length === 0 ||
-              this.state.currentName.length === 0 ||
-              Object.keys(this.state.questions).length === 0
-            }
-          />
-        </form>
+          { this.state.loading
+              ? <Loader />
+              : <form>
+                  {this.renderInputs()}
+      
+                  <Button
+                    text="Сохранить"
+                    type="primary"
+                    onClick={(event) => this.addQuestionHandler(event)}
+                    disabled={
+                      this.state.currentQuestion.length === 0 ||
+                      this.state.currentTotal.length === 0
+                    }
+                  />
+      
+                  <div className={classes.QuestionsList}>
+                    { this.renderQuestions() }    
+                  </div>
+      
+                  <Button
+                    text="На сервер"
+                    type="success"
+                    onClick={this.createWeekHandler}
+                    disabled={
+                      Object.keys(this.state.questions).length === 0
+                    }
+                  />
+                </form>
+          }
+        </div>
       </div>
     );
   }
 }
 
-export default WeekCreator;
+export default WeekEditor;

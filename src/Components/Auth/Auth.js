@@ -148,35 +148,28 @@ class Auth extends Component {
   render() {
     return (
       <div className={classes.Auth}>
-        <div>
-          <div className={classes.AuthHeader}>          
-            <h3>Auth</h3>
+        <form 
+          onSubmit={this.submitHandler} 
+          className={classes.AuthForm}
+        >
+          {this.renderInputs()}
+          <div>
+            <Button 
+              text="Войти"
+              type="success" 
+              onClick={this.loginHandler}
+              disabled={!this.state.isFormValid}
+            /> 
           </div>
-          <form 
-            onSubmit={this.submitHandler} 
-            className={classes.AuthForm}
-          >
-            {this.renderInputs()}
-            <div>
-              <Button 
-                type="success" 
-                onClick={this.loginHandler}
-                disabled={!this.state.isFormValid}
-              >
-                Войти
-              </Button>  
-            </div>
-            <div>
-              <Button 
-                type="primary" 
-                onClick={this.registerHandler}
-                disabled={!this.state.isFormValid}
-              >
-                Регистрация
-              </Button>
-            </div>
-          </form>
-        </div>
+          <div>
+            <Button 
+              text="Регистрация"
+              type="primary" 
+              onClick={this.registerHandler}
+              disabled={!this.state.isFormValid}
+            />
+          </div>
+        </form>
       </div>
     );
   }

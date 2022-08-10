@@ -7,14 +7,8 @@ body {
   border: 1px solid #444;
   border-radius: 2px;
   margin-bottom: 5px;
-  padding-left: 5px;
   outline: none;
   height: 25px;
-}
-
-.AuthHeader {
-  padding: 20px 0px;
-  margin-bottom: -25px;
 }
 
 .Auth {
@@ -27,8 +21,7 @@ body {
 
 .Auth > div {
   width: 100%;
-  max-width: 650px;
-  padding: 0 20px;
+  max-width: 500px;
 }
 
 .AuthForm {
