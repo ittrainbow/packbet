@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Week from '../../Components/Week/Week';
-import { SET_WEEK_ID } from '../../redux/types';
+import { actionWeekId } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 class CurrentWeek extends Component {
@@ -28,10 +28,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => {
-      const action = { type: SET_WEEK_ID, payload: id};
-      dispatch(action);
-    }
+    setId: (id) => dispatch(actionWeekId(id))
   };
 };
 

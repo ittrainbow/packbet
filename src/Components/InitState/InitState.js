@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from '../../axios/axios';
 import { connect } from 'react-redux';
-import { APP_INIT, SET_CURRENT_WEEK, SET_BUTTONSTATE } from '../../redux/types.js';
+import { actionInit, actionCurrentWeek, actionButtonState } from '../../redux/actions';
 
 class InitState extends Component {
 
@@ -40,24 +40,15 @@ class InitState extends Component {
 
 function mapStateToProps() {
   return {
-
+    
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCurrentWeek: (currentWeek) => {
-      const action = { type: SET_CURRENT_WEEK, payload: currentWeek};
-      dispatch(action);
-    },
-    appInit: (weeks) => {
-      const action = { type: APP_INIT, payload: weeks};
-      dispatch(action);
-    },
-    setButtonState: (state) => {
-      const action = { type: SET_BUTTONSTATE, payload: state};
-      dispatch(action);
-    }
+    appInit: (weeks) => dispatch(actionInit(weeks)),
+    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
+    setButtonState: (buttonState) => dispatch(actionButtonState(buttonState))
   };
 }
 
