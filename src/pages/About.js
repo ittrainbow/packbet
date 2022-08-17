@@ -1,9 +1,10 @@
 import React from 'react';
-import About from '../../Components/About/About';
+import About from '../Components/About/About';
+import classes from './Pages.module.scss';
 
 const Home = () => {
   return (
-    <div style={{marginTop: '20px', marginLeft: '20px'}}>
+    <div className={classes.Container}>
       <h3>About</h3>
       <About />
     </div>

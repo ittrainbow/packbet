@@ -1,9 +1,10 @@
 import React from 'react';
-import Auth from '../../Components/Auth/Auth';
+import Auth from '../Components/Auth/Auth';
+import classes from './Pages.module.scss';
 
 const Profile = () => {
   return (
-    <div style={{marginTop: '20px', marginLeft: '20px'}}>
+    <div className={classes.Container}>
       <h3>Авторизация</h3>
       <Auth />
     </div>

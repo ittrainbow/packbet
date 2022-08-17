@@ -17,8 +17,6 @@ class Week extends Component {
       const id = fromLink.length < 3
         ? Number(fromLink)
         : this.props.currentweek;
-
-        console.log(111, id);
       
         if (!this.props.currenweek) {
           this.props.setWeekId(id);
