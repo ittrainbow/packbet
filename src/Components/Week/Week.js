@@ -6,22 +6,22 @@ import Button from '../../UI/Button/Button';
 import structuredClone from '@ungap/structured-clone';
 
 import { connect } from 'react-redux';
-import { SET_BUTTONSTATE, SET_WEEK_ID } from '../../redux/types.js';
-
-let id;
+import { actionWeekId, actionButtonState } from '../../redux/actions';
 
 class Week extends Component {
 
   componentDidUpdate() {
     const fromLink = window.location.pathname.split('/').slice(-1).toString();
 
-    if (isNaN(this.props.weekid)) {
-      id = fromLink.length < 3
-        ? id = Number(fromLink)
+    if (this.props.weekid !== 0 && !this.props.weekid) {
+      const id = fromLink.length < 3
+        ? Number(fromLink)
         : this.props.currentweek;
+      
+        if (!this.props.currenweek) {
+          this.props.setWeekId(id);
+        }
     }
-
-    this.props.setId(id);
   }
 
   onClickHandler = (index) => {
@@ -32,13 +32,15 @@ class Week extends Component {
     let status = state[this.props.weekid][i];
 
     if (yesno === 0) {
-      if (status !== true) status = true;
-      else status = null;
+      status = (status !== true)
+        ? true
+        : null;
     }
 
     if (yesno === 1) {
-      if (status !== false) status = false;
-      else status = null;
+      status = (status !== false)
+        ? false
+        : null;
     }
 
     state[this.props.weekid][i] = status;
@@ -52,17 +54,17 @@ class Week extends Component {
   renderQuestions(questions) {
     return (
       questions.map((question, index) => {
+        const activity = this.props.buttons[this.props.weekid]
+          ? this.props.buttons[this.props.weekid][index]
+          : this.props.buttons[this.props.currentweek][index];
+        
         return (          
           <div key={index} className={classes.Questions}>
             { question.question }
             { question.total > 1 ? `: ${question.total}` : null }
             <YesNoButtons
               index={index}
-              activity={
-                this.props.weekid || this.props.weekid === 0
-                  ? this.props.buttons[this.props.weekid][index]
-                  : null
-              }
+              activity={activity}
               onClick={(index) => this.onClickHandler(index)}
             />
           </div>
@@ -72,11 +74,12 @@ class Week extends Component {
   };
 
   render() {
-    const thisid = isNaN(this.props.weekid) 
-      ? this.props.currentweek 
-      : this.props.weekid;
+    const id = this.props.weekid || this.props.weekid === 0
+      ? this.props.weekid
+      : this.props.currentweek;
+      
     if (this.props.weeks) {
-      const thisweek = this.props.weeks[this.props.weekToRender || thisid];
+      const thisweek = this.props.weeks[id];
       return (
         <div className={classes.Week}> 
           <h3>#{ thisweek.number }: { thisweek.name }</h3>
@@ -108,14 +111,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => {
-      const action = { type: SET_WEEK_ID, payload: id};
-      dispatch(action);
-    },
-    setButtonState: (state) => {
-      const action = { type: SET_BUTTONSTATE, payload: state};
-      dispatch(action);
-    }
+    setWeekId: (id) => dispatch(actionWeekId(id)),
+    setButtonState: (state) => dispatch(actionButtonState(state))
   };
 };
 

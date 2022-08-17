@@ -2,16 +2,16 @@ import React from 'react';
 import './App.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './Components/Sidebar/Sidebar';
-import Profile from './pages/Profile/Profile';
-import Calendar from './pages/Calendar/Calendar';
-import Standings from './pages/Standings/Standings';
-import About from './pages/About/About';
-import CurrentWeek from './pages/CurrentWeek/CurrentWeek';
-import OldWeek from './pages/OldWeek/OldWeek';
+import About from './pages/About';
+import Calendar from './pages/Calendar';
+import Creator from './pages/Creator';
+import CurrentWeek from './pages/CurrentWeek';
+import Editor from './pages/Editor';
+import OldWeek from './pages/OldWeek';
+import Profile from './pages/Profile';
+import Standings from './pages/Standings';
 import WeekEditor from './Components/WeekEditor/WeekEditor';
-import Editor from './pages/Editor/Editor';
 import InitState from './Components/InitState/InitState';
-import Creator from './pages/Creator/Creator';
 
 function App(props) {
   return (

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Loader from '../../UI/Loader/Loader';
 
 import { connect } from 'react-redux';
-import { SET_WEEK_ID } from '../../redux/types.js';
+import { actionWeekId } from '../../redux/actions';
 
 class WeekList extends Component {
 
@@ -57,10 +57,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => {
-      const action = { type: SET_WEEK_ID, payload: id};
-      dispatch(action);
-    }
+    setId: (id) => dispatch(actionWeekId(id))
   };
 }
 

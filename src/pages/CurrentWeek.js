@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import Week from '../../Components/Week/Week';
-import { SET_WEEK_ID } from '../../redux/types';
+import Week from '../Components/Week/Week';
+import classes from './Pages.module.scss';
+import { actionWeekId } from '../redux/actions';
 import { connect } from 'react-redux';
 
 class CurrentWeek extends Component {
@@ -11,7 +12,7 @@ class CurrentWeek extends Component {
 
   render () {
     return (
-      <div style={{marginTop: '20px', marginLeft: '20px'}}>
+      <div className={classes.Container}>
         <h3>Текущая неделя</h3>
         <Week weekToRender={this.props.currentweek}/>
       </div>
@@ -28,10 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => {
-      const action = { type: SET_WEEK_ID, payload: id};
-      dispatch(action);
-    }
+    setId: (id) => dispatch(actionWeekId(id))
   };
 };
 
