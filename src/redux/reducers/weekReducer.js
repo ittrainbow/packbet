@@ -1,12 +1,13 @@
-import { initialState } from "./initialState";
-import { 
+import {   
   APP_INIT, 
   SET_WEEK_ID, 
   SET_CURRENT_WEEK,
   SET_BUTTONSTATE
-} from './types.js';
+} from '../types.js';
 
-export const weekReducer = (state = initialState, action) => {
+const initialState = {};
+
+export default function weekReducer(state = initialState, action) {
   switch(action.type) {
     case APP_INIT:
       return {

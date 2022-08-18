@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from '../../axios/axios';
 import { connect } from 'react-redux';
-import { actionInit, actionCurrentWeek, actionButtonState } from '../../redux/actions';
+import { actionInit, actionCurrentWeek, actionButtonState } from '../../redux/actions/weekActions';
 
 class InitState extends Component {
 
@@ -38,12 +38,6 @@ class InitState extends Component {
   }
 };
 
-function mapStateToProps() {
-  return {
-    
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     appInit: (weeks) => dispatch(actionInit(weeks)),
@@ -52,4 +46,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InitState);
+export default connect(null, mapDispatchToProps)(InitState);

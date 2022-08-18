@@ -6,7 +6,7 @@ import Button from '../../UI/Button/Button';
 import structuredClone from '@ungap/structured-clone';
 
 import { connect } from 'react-redux';
-import { actionWeekId, actionButtonState } from '../../redux/actions';
+import { actionWeekId, actionButtonState } from '../../redux/actions/weekActions';
 
 class Week extends Component {
 
@@ -77,7 +77,6 @@ class Week extends Component {
     const id = this.props.weekid || this.props.weekid === 0
       ? this.props.weekid
       : this.props.currentweek;
-      
     if (this.props.weeks) {
       const thisweek = this.props.weeks[id];
       return (
@@ -100,12 +99,12 @@ class Week extends Component {
   }
 }
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
   return {
-    weeks: state.weeks,
-    currentweek: state.currentweek,
-    weekid: state.weekid,
-    buttons: state.buttonstate
+    weeks: state.week.weeks,
+    currentweek: state.week.currentweek,
+    weekid: state.week.weekid,
+    buttons: state.week.buttonstate
   };
 }
 

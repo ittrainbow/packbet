@@ -4,11 +4,11 @@ import './index.scss';
 import App from './App';
 
 import { configureStore } from '@reduxjs/toolkit';
-import { weekReducer } from './redux/weekReducer';
+import rootReducer from './redux/rootReducer';
 import { Provider } from 'react-redux';
 
 const store = configureStore({
-  reducer: weekReducer
+  reducer: rootReducer
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
