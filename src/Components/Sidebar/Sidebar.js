@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux/es/exports';
 import {
   FaHome, 
   FaUserAlt, 
@@ -14,43 +15,7 @@ import {
 import './Sidebar.module.scss';
 import classes from './Sidebar.module.scss';
 
-const menuItem = [
-  {
-    path: '/',
-    name: 'About',
-    icon:  <FaHome/>
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    icon: <FaUserAlt/>
-  },
-  {
-    path: '/thisweek',
-    name: 'This\u00A0Week',
-    icon: <FaFootballBall/>
-  },
-  {
-    path: '/calendar',
-    name: 'Calendar',
-    icon: <FaCalendarAlt/>
-  },
-  {
-    path: '/editor',
-    name: 'Editor',
-    icon: <FaChevronCircleRight/>
-  },
-  {
-    path: '/create',
-    name: 'New\u00A0Week',
-    icon:  <FaStrava/>
-  },
-  {
-    path: '/standings',
-    name: 'Standings',
-    icon: <FaListUl/>
-  }
-];
+
 
 class Sidebar extends Component {
   state = {
@@ -63,7 +28,26 @@ class Sidebar extends Component {
     });
   };
 
+
+
   render() {
+    const menuItem = [
+      { path: '/', name: 'About', icon:  <FaHome/> },
+      { path: '/profile', name: 'Profile', icon: <FaUserAlt/> },
+      { path: '/standings', name: 'Standings', icon: <FaListUl/> }
+    ];
+
+    if (this.props.isAuthenticated) {
+      menuItem.pop();
+      menuItem.push(
+        { path: '/thisweek', name: 'This\u00A0Week', icon: <FaFootballBall/> },
+        { path: '/calendar', name: 'Calendar', icon: <FaCalendarAlt/> },
+        { path: '/editor', name: 'Editor', icon: <FaChevronCircleRight/> },
+        { path: '/create', name: 'New\u00A0Week', icon:  <FaStrava/> },
+        { path: '/standings', name: 'Standings', icon: <FaListUl/> }
+      );
+    }
+
     return (
       <div className={classes.Container}>
         <div style={{width: this.state.isOpen ? '150px': '45px'}} className={classes.Sidebar}>
@@ -96,4 +80,10 @@ class Sidebar extends Component {
   }
 };
 
-export default Sidebar;
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: !!state.auth.token
+  };
+}
+
+export default connect(mapStateToProps, null)(Sidebar);

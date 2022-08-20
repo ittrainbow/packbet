@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Loader from '../../UI/Loader/Loader';
 
 import { connect } from 'react-redux';
-import { actionWeekId } from '../../redux/actions';
+import { actionWeekId } from '../../redux/actions/weekActions';
 
 class WeekList extends Component {
 
@@ -51,7 +51,7 @@ class WeekList extends Component {
 
 function mapStateToProps(state) {
   return {
-    weeks: state.weeks
+    weeks: state.week.weeks
   };
 }
 

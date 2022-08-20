@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Week from '../Components/Week/Week';
 import classes from './Pages.module.scss';
-import { actionWeekId } from '../redux/actions';
+import { actionWeekId } from '../redux/actions/weekActions';
 import { connect } from 'react-redux';
 
 class CurrentWeek extends Component {

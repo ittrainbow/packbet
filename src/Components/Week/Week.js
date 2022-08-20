@@ -3,10 +3,11 @@ import classes from './Week.module.scss';
 import Loader from '../../UI/Loader/Loader';
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons';
 import Button from '../../UI/Button/Button';
+import LogInMessage from '../../UI/LogInMessage/LogInMessage';
 import structuredClone from '@ungap/structured-clone';
 
 import { connect } from 'react-redux';
-import { actionWeekId, actionButtonState } from '../../redux/actions';
+import { actionWeekId, actionButtonState } from '../../redux/actions/weekActions';
 
 class Week extends Component {
 
@@ -78,7 +79,12 @@ class Week extends Component {
       ? this.props.weekid
       : this.props.currentweek;
       
-    if (this.props.weeks) {
+    if (!this.props.isAuthenticated) {
+      return (
+        <LogInMessage />
+      );
+
+    } else if (this.props.weeks && this.props.isAuthenticated) {
       const thisweek = this.props.weeks[id];
       return (
         <div className={classes.Week}> 
@@ -92,6 +98,7 @@ class Week extends Component {
           />
         </div>
       );
+      
     } else {
       return (
         <Loader/>
@@ -100,12 +107,13 @@ class Week extends Component {
   }
 }
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
   return {
-    weeks: state.weeks,
-    currentweek: state.currentweek,
-    weekid: state.weekid,
-    buttons: state.buttonstate
+    weeks: state.week.weeks,
+    currentweek: state.week.currentweek,
+    weekid: state.week.weekid,
+    buttons: state.week.buttonstate,
+    isAuthenticated: !!state.auth.token
   };
 }
 
