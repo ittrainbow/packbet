@@ -2702,6 +2702,11 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.0.1.tgz#549ce746c163d0869a61cfdabafe625a13ab5d0f"
   integrity sha512-zKVyTt6rELvPXYwcVPTJcPFtY0AckN5A7xWuc7owBqR0FdtuDYhE9MZZUi6IY1kZUQFSXV1B3UOOIyLkVHYd2w==
 
+"@ungap/url-search-params@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@ungap/url-search-params/-/url-search-params-0.1.4.tgz#727e9b4c811beaa6be6d7e4cc0516663c884cfd0"
+  integrity sha512-RLwrxCTDNiNev9hpr9rDq8NyeQ8Nn0X1we4Wu7Tlf368I8r+7hBj3uObhifhuLk74egaYaSX5nUsBlWz6kjj+A==
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -8649,6 +8654,15 @@ react-router-dom@6:
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.3.0.tgz#a0216da813454e521905b5fa55e0e5176123f43d"
   integrity sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==
   dependencies:
+    history "^5.2.0"
+    react-router "6.3.0"
+
+react-router-native@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/react-router-native/-/react-router-native-6.3.0.tgz#d8a14006cba4522fef335879997b7d7477d28748"
+  integrity sha512-Y+UuU6Typnz1eGWfYf2UYmh1qItbrNBK5kr3p7ZsamsLIxCKSoYo2YJyz9JOgRiv1nOFsCoSkpQJPYLAz68hlQ==
+  dependencies:
+    "@ungap/url-search-params" "^0.1.4"
     history "^5.2.0"
     react-router "6.3.0"
 

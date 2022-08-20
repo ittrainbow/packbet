@@ -3,6 +3,7 @@ import classes from './Week.module.scss';
 import Loader from '../../UI/Loader/Loader';
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons';
 import Button from '../../UI/Button/Button';
+import LogInMessage from '../../UI/LogInMessage/LogInMessage';
 import structuredClone from '@ungap/structured-clone';
 
 import { connect } from 'react-redux';
@@ -77,7 +78,13 @@ class Week extends Component {
     const id = this.props.weekid || this.props.weekid === 0
       ? this.props.weekid
       : this.props.currentweek;
-    if (this.props.weeks) {
+      
+    if (!this.props.isAuthenticated) {
+      return (
+        <LogInMessage />
+      );
+
+    } else if (this.props.weeks && this.props.isAuthenticated) {
       const thisweek = this.props.weeks[id];
       return (
         <div className={classes.Week}> 
@@ -91,6 +98,7 @@ class Week extends Component {
           />
         </div>
       );
+      
     } else {
       return (
         <Loader/>
@@ -104,7 +112,8 @@ function mapStateToProps(state) {
     weeks: state.week.weeks,
     currentweek: state.week.currentweek,
     weekid: state.week.weekid,
-    buttons: state.week.buttonstate
+    buttons: state.week.buttonstate,
+    isAuthenticated: !!state.auth.token
   };
 }
 
