@@ -1,6 +1,8 @@
 import { 
   AUTH_SUCCESS,
-  AUTH_LOGOUT
+  AUTH_LOGOUT,
+  SET_ADMIN,
+  SET_CURRENT_USER
 } from "../types";
 
 import axios from "axios";
@@ -14,12 +16,21 @@ export function auth(email, password, isLogin) {
     };
 
     const url = isLogin
-      ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC9NU-wQT1k3sXgIyGMbKbfO8_Z-g7JlKU'
-      : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC9NU-wQT1k3sXgIyGMbKbfO8_Z-g7JlKU';
+      ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
+      : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI';
 
     const response = await axios.post(url, authData);
-
     const data = response.data;
+
+    const userResponse = await axios.get('https://packpredictor-default-rtdb.firebaseio.com/pack/users.json');
+
+    Object.keys(userResponse.data).forEach((el) => {
+      if (userResponse.data[el].email === response.data.email) {
+        dispatch(setCurrentUser(el, userResponse.data[el].name));
+        localStorage.setItem('userName', userResponse.data[el].name);
+      }
+    });
+
     const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
 
     localStorage.setItem('token', data.idToken);
@@ -35,6 +46,14 @@ export function authSuccess(token) {
   return {
     type: AUTH_SUCCESS,
     token: token
+  };
+}
+
+export function setCurrentUser(id, name) {
+  return {
+    type: SET_CURRENT_USER,
+    id: id,
+    name: name
   };
 }
 
@@ -72,6 +91,11 @@ export function logout() {
 
   return {
     type: AUTH_LOGOUT,
+  };
+}
 
+export function setAdmin() {
+  return {
+    type: SET_ADMIN
   };
 }

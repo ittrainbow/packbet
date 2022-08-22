@@ -7,6 +7,12 @@ const Button = (props) => {
     classes[props.type]
   ];
 
+  if (props.heightStyle === 'ButtonHeight') {
+    cls.push(classes.ButtonBig);
+  } else {
+    cls.push(classes.ButtonSmall);
+  }
+
   return (
     <button
       onClick={props.onClick}

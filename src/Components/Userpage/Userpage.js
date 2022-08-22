@@ -5,6 +5,7 @@ import { logout } from '../../redux/actions/authActions';
 import { connect } from 'react-redux/es/exports';
 
 class Userpage extends Component {
+
   logoutHandler() {
     this.props.logout();
   }
@@ -12,14 +13,28 @@ class Userpage extends Component {
   render() {
     return (
       <div className={classes.Userpage}>
-        <Button 
-          text='Logout'
-          onClick={this.logoutHandler.bind(this)}
-        />
+        <div style={{marginBottom: '20px'}}>
+          { !!this.props.userName
+              ? this.props.userName
+              : localStorage.getItem('userName')
+          }
+        </div>
+        <div>
+          <Button 
+            text='Logout'
+            onClick={this.logoutHandler.bind(this)}
+          />
+        </div>
       </div>
     );
   };
 };
+
+function mapStateToProps(state) {
+  return {
+    userName: state.auth.userName
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -27,4 +42,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Userpage);
+export default connect(mapStateToProps, mapDispatchToProps)(Userpage);
