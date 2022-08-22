@@ -6,11 +6,19 @@
   color: #000;
   background-color: #ccc;
   width: 100px;
-  height: 30px;
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.22s;
   margin-bottom: 5px;
+}
+
+.ButtonBig {
+  margin-top: 10px;
+  height: 50px;
+}
+
+.ButtonSmall {
+  height: 30px;
 }
 
 .Button:focus {

@@ -6,15 +6,27 @@ import classes from './Pages.module.scss';
 
 class Profile extends Component {
 
+  authPageHandler() {
+
+  }
+
+  renderPage() {
+    if (this.props.isAuthenticated) {
+      return (
+        <Userpage />
+      );
+    } else {
+      return (
+        <Auth />
+      );
+    }
+  }
+
   render() {
     return (
       <div className={classes.Container}>
-        <h3>Авторизация</h3>
-        {
-          this.props.isAuthenticated
-            ? <Userpage />
-            : <Auth />
-        }
+        <h3>Профиль</h3>
+        { this.renderPage() }
   
       </div>
     );
@@ -24,8 +36,15 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: state.auth.token
+    isAuthenticated: state.auth.token,
+    authPage: state.auth.authPage
   };
 }
 
-export default connect(mapStateToProps, null)(Profile);
+function mapDispatchToProps(dispatch) {
+  return {
+
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

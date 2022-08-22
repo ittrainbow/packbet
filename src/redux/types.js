@@ -4,3 +4,5 @@ export const SET_CURRENT_WEEK = 'SET_CURRENT_WEEK';
 export const SET_BUTTONSTATE = 'SET_BUTTONSTATE';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const SET_ADMIN = 'SET_ADMIN';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';

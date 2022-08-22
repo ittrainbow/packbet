@@ -6,6 +6,7 @@ import './Auth.module.scss';
 import is from 'is_js';
 import { connect } from 'react-redux';
 import { auth } from '../../redux/actions/authActions';
+import axios from '../../axios/axios';
 
 class Auth extends Component {
   state = {
@@ -33,10 +34,12 @@ class Auth extends Component {
         touched: false,
         validation: {
           required: true,
-          minLength: 6
+          minLength: 5
         }
-      }
-    }
+      },
+    },
+      
+    authPage: true
   };
 
   validation(value, validation) {
@@ -112,11 +115,28 @@ class Auth extends Component {
     );
   };
 
+  setUserHandler = async (email, name) => {
+    try {
+      const nameData = {
+        email,
+        name
+      };
+
+      await axios.post('pack/users.json', nameData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   registerHandler = () => {
     this.props.auth(
       this.state.formControls.email.value,
       this.state.formControls.password.value,
       false
+    );
+    this.setUserHandler(
+      this.state.formControls.email.value,
+      this.state.formControls.name.value
     );
   };
 
@@ -124,28 +144,67 @@ class Auth extends Component {
     event.preventDefault();
   };
 
+  authRegHandler() {
+    const formControls = JSON.parse(JSON.stringify(this.state.formControls));
+
+    if (!formControls.name) {
+      formControls.name = {
+        value: '',
+        type: 'name',
+        label: 'Username',
+        errorMessage: ' ',
+        valid: false,
+        touched: false,
+        validation: {
+          required: true,
+          minLength: 2
+        }
+      };
+    } else {
+      delete (formControls.name);
+    }
+
+    this.setState({
+      formControls: formControls,
+      authPage: !this.state.authPage
+    });
+  }
+
   render() {
     return (
       <div className={classes.Auth}>
         <form 
           onSubmit={this.submitHandler} 
           className={classes.AuthForm}
-        >
+        > 
           {this.renderInputs()}
-          <div>
+          <div style={{marginBottom: '6px'}}>
             <Button 
-              text="Войти"
+              text={
+                this.state.authPage
+                  ? "Войти"
+                  : "Регистрация"
+              }
               type="success" 
-              onClick={this.loginHandler}
+              onClick={
+                this.state.authPage
+                  ? this.loginHandler
+                  : this.registerHandler
+              }
               disabled={!this.state.isFormValid}
             /> 
           </div>
+          <hr/>
           <div>
             <Button 
-              text="Регистрация"
+              text={
+                this.state.authPage
+                  ? "Перейти к регистрации"
+                  : "Перейти к авторизации"
+              }
+              heightStyle='ButtonHeight'
               type="primary" 
-              onClick={this.registerHandler}
-              disabled={!this.state.isFormValid}
+              onClick={this.authRegHandler.bind(this)}
             />
           </div>
         </form>
@@ -154,10 +213,16 @@ class Auth extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    userId: state.auth.userId
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
   };
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classes from './WeekCreator.module.scss';
 import Button from '../../UI/Button/Button';
 import Input from '../../UI/Input/Input';
@@ -12,21 +13,9 @@ class WeekCreator extends Component {
     currentWeek: '',
     currentName: '',
     questions: [
-      {
-        id: 0,
-        question: 'Аарон Джонс ярдов на выносе больше',
-        total: 85.5
-      },
-      {
-        id: 1,
-        question: 'Кайлин Хилл снепов больше',
-        total: 7.5
-      },
-      {
-        id: 2,
-        question: 'Кристиан Уотсон тачдаун на приеме больше',
-        total: 0.5
-      }
+      { id: 0, question: 'Аарон Джонс ярдов на выносе больше', total: 85.5 },
+      { id: 1, question: 'Кайлин Хилл снепов больше', total: 7.5 },
+      { id: 2, question: 'Кристиан Уотсон тачдаун на приеме больше', total: 0.5 }
     ],
     currentQuestion: '',
     currentTotal: '',
@@ -114,7 +103,7 @@ class WeekCreator extends Component {
     });
 
     const week = {
-      id: this.state.amountOfWeeks,
+      id: this.props.newWeek,
       number: this.state.currentWeek,
       name: this.state.currentName,
       questions: qs
@@ -232,4 +221,10 @@ class WeekCreator extends Component {
   }
 }
 
-export default WeekCreator;
+function mapStateToProps(state) {
+  return {
+    newWeek: state.week.currentweek + 1
+  };
+}
+
+export default connect(mapStateToProps, null)(WeekCreator);
