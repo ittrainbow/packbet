@@ -14,10 +14,7 @@ class Userpage extends Component {
     return (
       <div className={classes.Userpage}>
         <div style={{marginBottom: '20px'}}>
-          { !!this.props.userName
-              ? this.props.userName
-              : localStorage.getItem('userName')
-          }
+          { this.props.userName }
         </div>
         <div>
           <Button 

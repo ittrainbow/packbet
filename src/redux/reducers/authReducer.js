@@ -8,7 +8,7 @@ import {
 const initialState = {
   token: null,
   userName: null,
-  userFirebaseID: null
+  userId: null
 };
 
 export default function authReducer (state = initialState, action) {
@@ -28,7 +28,7 @@ export default function authReducer (state = initialState, action) {
     case SET_CURRENT_USER:
       return {
         ...state,
-        userFirebaseID: action.id,
+        userId: action.id,
         userName: action.name
       };
 

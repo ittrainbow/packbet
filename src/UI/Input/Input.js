@@ -22,6 +22,7 @@ const Input = (props) => {
         id={htmlFor}
         value={props.value}
         onChange={props.onChange}
+        placeholder={props.placeholder}
       />
       
       {

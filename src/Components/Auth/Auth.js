@@ -5,8 +5,9 @@ import Input from '../../UI/Input/Input';
 import './Auth.module.scss';
 import is from 'is_js';
 import { connect } from 'react-redux';
-import { auth } from '../../redux/actions/authActions';
+import { auth, setCurrentUser } from '../../redux/actions/authActions';
 import axios from '../../axios/axios';
+import { findUser } from '../../frame/findUser';
 
 class Auth extends Component {
   state = {
@@ -39,8 +40,25 @@ class Auth extends Component {
       },
     },
       
+    tierline: '',
     authPage: true
   };
+
+  componentDidMount() {
+    const email = localStorage.getItem('email');
+    const password = localStorage.getItem('password');
+
+    if (email && password) {
+      const formControls = JSON.parse(JSON.stringify(this.state.formControls));
+      formControls.email.value = email;
+      formControls.password.value = password;
+  
+      this.setState({
+        formControls,
+        isFormValid: true
+      });
+    }
+  }
 
   validation(value, validation) {
     if (!validation) {
@@ -115,29 +133,24 @@ class Auth extends Component {
     );
   };
 
-  setUserHandler = async (email, name) => {
-    try {
-      const nameData = {
-        email,
-        name
-      };
-
-      await axios.post('pack/users.json', nameData);
-    } catch (error) {
-      console.log(error);
+  registerHandler = async () => {
+    const email = this.state.formControls.email.value;
+    const password = this.state.formControls.password.value;   
+    const name = this.state.formControls.name.value;
+    
+    const registeredUsers = await axios.get('pack/users.json');
+    const userExists = findUser(registeredUsers.data, email).length;
+    
+    if (!userExists && this.state.isFormValid) {
+      this.props.auth(email, password, false);
+      await axios.post('pack/users.json', { email, name });
+      const getBack = await axios.get('pack/users.json');
+      this.props.setCurrentUser(Object.keys(getBack.data).slice(-1)[0], name);
+    } else {
+      this.setState({
+        tierline: 'Используйте другой email'
+      });
     }
-  };
-
-  registerHandler = () => {
-    this.props.auth(
-      this.state.formControls.email.value,
-      this.state.formControls.password.value,
-      false
-    );
-    this.setUserHandler(
-      this.state.formControls.email.value,
-      this.state.formControls.name.value
-    );
   };
 
   submitHandler = (event) => {
@@ -178,6 +191,9 @@ class Auth extends Component {
           className={classes.AuthForm}
         > 
           {this.renderInputs()}
+          <div className={classes.tierline}>
+            {this.state.tierline}
+          </div>
           <div style={{marginBottom: '6px'}}>
             <Button 
               text={
@@ -191,7 +207,7 @@ class Auth extends Component {
                   ? this.loginHandler
                   : this.registerHandler
               }
-              disabled={!this.state.isFormValid}
+              // disabled={!this.state.isFormValid}
             /> 
           </div>
           <hr/>
@@ -215,13 +231,14 @@ class Auth extends Component {
 
 function mapStateToProps(state) {
   return {
-    userId: state.auth.userId
+    userID: state.auth.userID
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+    auth: (email, password, isLogin, name) => dispatch(auth(email, password, isLogin, name)),
+    setCurrentUser: (id, name) => dispatch(setCurrentUser(id, name))
   };
 }
 

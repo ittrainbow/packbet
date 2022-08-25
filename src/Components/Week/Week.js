@@ -50,6 +50,7 @@ class Week extends Component {
   };
 
   submitHandler() {
+    console.log(this.props);
   }
 
   renderQuestions(questions) {

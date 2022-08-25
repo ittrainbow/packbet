@@ -5,6 +5,7 @@ import {
   SET_CURRENT_USER
 } from "../types";
 
+import { findUser } from "../../frame/findUser";
 import axios from "axios";
 
 export function auth(email, password, isLogin) {
@@ -22,21 +23,16 @@ export function auth(email, password, isLogin) {
     const response = await axios.post(url, authData);
     const data = response.data;
 
-    const userResponse = await axios.get('https://packpredictor-default-rtdb.firebaseio.com/pack/users.json');
-
-    Object.keys(userResponse.data).forEach((el) => {
-      if (userResponse.data[el].email === response.data.email) {
-        dispatch(setCurrentUser(el, userResponse.data[el].name));
-        localStorage.setItem('userName', userResponse.data[el].name);
-      }
-    });
+    const users = await axios.get('https://packpredictor-default-rtdb.firebaseio.com/pack/users.json');
+    const userId = findUser(users.data, email)[0];
 
     const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
 
-    localStorage.setItem('token', data.idToken);
-    localStorage.setItem('userId', data.localId);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
     localStorage.setItem('expirationDate', expirationDate);
 
+    dispatch(setCurrentUser(userId, users.data[userId].name));
     dispatch(authSuccess(data.idToken));
     dispatch(autoLogout(data.expiresIn));
   };
