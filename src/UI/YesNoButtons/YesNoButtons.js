@@ -10,7 +10,7 @@ const YesNoButtons = (props) => {
   if (props.activity === false) styleSetSecond.push('selected');
   
   return (
-    <div className="buttonsDiv">
+    <div className='buttonsDiv'>
       <button 
         className={styleSetFirst.join(' ')}
         onClick={() => props.onClick(props.index * 2)}

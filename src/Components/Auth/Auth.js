@@ -3,7 +3,7 @@ import classes from './Auth.module.scss';
 import Button from '../../UI/Button/Button';
 import Input from '../../UI/Input/Input';
 import './Auth.module.scss';
-import is from 'is_js';
+import { validateEmail } from '../../frame/validateEmail';
 import { connect } from 'react-redux';
 import { auth, setCurrentUser } from '../../redux/actions/authActions';
 import axios from '../../axios/axios';
@@ -11,37 +11,22 @@ import { findUser } from '../../frame/findUser';
 
 class Auth extends Component {
   state = {
-    isFormValid: false,
-
     formControls: {
       email: {
         value: '',
         type: 'email',
         label: 'Email',
-        errorMessage: ' ',
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-          email: true
-        }
       },
       password: {
         value: '',
         type: 'password',
         label: 'Password',
         errorMessage: ' ',
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-          minLength: 5
-        }
       },
-    },
-      
-    tierline: '',
-    authPage: true
+    },      
+    tierline: null,
+    authPage: true,
+    isFormValid: false
   };
 
   componentDidMount() {
@@ -56,51 +41,23 @@ class Auth extends Component {
       this.setState({
         formControls,
         isFormValid: true
+      }, function () {      
+        this.validation();
       });
     }
   }
 
-  validation(value, validation) {
-    if (!validation) {
-      return true;
-    }
-
-    let isValid = true;
-
-    if (validation.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (validation.email) {
-      isValid = is.email(value) && isValid;
-    }
-
-    if (validation.minLength) {
-      isValid = value.length > validation.minLength && isValid;
-    }
-
-    return isValid;
-  }
-
   onChangeHandler = (event, controlName) => {
-    const formControls = {...this.state.formControls};
+    const formControls = JSON.parse(JSON.stringify(this.state.formControls));
     const control = {...formControls[controlName]};
 
     control.value = event.target.value;
-    control.touched = true;
-    control.valid = this.validation(control.value, control.validation);
-
     formControls[controlName] = control;
 
-    let isFormValid = true;
-
-    Object.keys(formControls).forEach((name) => {
-      isFormValid = formControls[name].valid && isFormValid;
-    });
-
     this.setState({
-      formControls: formControls,
-      isFormValid: isFormValid
+      formControls: formControls
+    }, function () {      
+      this.validation();
     });
   };
 
@@ -114,11 +71,7 @@ class Auth extends Component {
             key={controlName + index}
             type={control.type}
             value={control.value}
-            valid={control.valid}
-            touched={control.touched}
             label={control.label}
-            errorMessage={control.errorMessage}
-            shouldValidate={!!control.validation}
             onChange={(event) => this.onChangeHandler(event, controlName)}
           />
         );
@@ -157,6 +110,22 @@ class Auth extends Component {
     event.preventDefault();
   };
 
+  validation() {
+    const email = validateEmail(this.state.formControls.email.value);
+    const password = this.state.formControls.password.value.length > 5;
+    const name = !this.state.authPage 
+      ? this.state.formControls.name.value.length > 2 
+      : false;
+
+    const isFormValid = this.state.authPage
+      ? email && password
+      : email && password && name;
+
+    this.setState({
+      isFormValid: isFormValid
+    });
+  }
+
   authRegHandler() {
     const formControls = JSON.parse(JSON.stringify(this.state.formControls));
 
@@ -164,22 +133,20 @@ class Auth extends Component {
       formControls.name = {
         value: '',
         type: 'name',
-        label: 'Username',
-        errorMessage: ' ',
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-          minLength: 2
-        }
+        label: 'Username'
       };
     } else {
       delete (formControls.name);
     }
 
+    const tierline = !this.state.authPage ? null : 'Пароль не менее 6 символов';
+
     this.setState({
       formControls: formControls,
-      authPage: !this.state.authPage
+      authPage: !this.state.authPage,
+      tierline: tierline
+    }, function () {      
+      this.validation();
     });
   }
 
@@ -198,16 +165,16 @@ class Auth extends Component {
             <Button 
               text={
                 this.state.authPage
-                  ? "Войти"
-                  : "Регистрация"
+                  ? 'Войти'
+                  : 'Регистрация'
               }
-              type="success" 
+              type='success' 
               onClick={
                 this.state.authPage
                   ? this.loginHandler
                   : this.registerHandler
               }
-              // disabled={!this.state.isFormValid}
+              disabled={!this.state.isFormValid}
             /> 
           </div>
           <hr/>
@@ -215,11 +182,11 @@ class Auth extends Component {
             <Button 
               text={
                 this.state.authPage
-                  ? "Перейти к регистрации"
-                  : "Перейти к авторизации"
+                  ? 'Перейти к регистрации'
+                  : 'Вернуться к авторизации'
               }
               heightStyle='ButtonHeight'
-              type="primary" 
+              type='primary' 
               onClick={this.authRegHandler.bind(this)}
             />
           </div>

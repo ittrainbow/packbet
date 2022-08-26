@@ -7,10 +7,6 @@ class Logout extends Component {
   componentDidMount() {
     this.props.logout()
   }
-
-  render() {
-    return <Navigate to={'/'}/>
-  };
 };
 
 function mapDispatchToProps(dispatch) {

@@ -3,7 +3,7 @@ import {
   SET_WEEK_ID, 
   SET_CURRENT_WEEK, 
   SET_BUTTONSTATE
-} from "../types";
+} from '../types';
 
 export function actionInit(weeks) {
   return {

@@ -3,10 +3,10 @@ import {
   AUTH_LOGOUT,
   SET_ADMIN,
   SET_CURRENT_USER
-} from "../types";
+} from '../types';
 
-import { findUser } from "../../frame/findUser";
-import axios from "axios";
+import { findUser } from '../../frame/findUser';
+import axios from 'axios';
 
 export function auth(email, password, isLogin) {
   return async dispatch => {
@@ -27,6 +27,12 @@ export function auth(email, password, isLogin) {
     const userId = findUser(users.data, email)[0];
 
     const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
+
+    if (email === 'nom4d@yandex.ru') {
+      dispatch(setAdmin(true));
+    } else {
+      dispatch(setAdmin(false));
+    }
 
     localStorage.setItem('email', email);
     localStorage.setItem('password', password);
@@ -90,8 +96,9 @@ export function logout() {
   };
 }
 
-export function setAdmin() {
+export function setAdmin(value) {
   return {
-    type: SET_ADMIN
+    type: SET_ADMIN,
+    value: value
   };
 }

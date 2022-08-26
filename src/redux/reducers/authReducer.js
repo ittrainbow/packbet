@@ -3,12 +3,13 @@ import {
   AUTH_LOGOUT,
   SET_ADMIN,
   SET_CURRENT_USER
-} from "../types";
+} from '../types';
 
 const initialState = {
   token: null,
   userName: null,
-  userId: null
+  userId: null,
+  isAdmin: false
 };
 
 export default function authReducer (state = initialState, action) {
@@ -22,7 +23,7 @@ export default function authReducer (state = initialState, action) {
     case SET_ADMIN:
       return {
         ...state,
-        isAdmin: true
+        isAdmin: action.value
       };
 
     case SET_CURRENT_USER:
@@ -35,7 +36,8 @@ export default function authReducer (state = initialState, action) {
     case AUTH_LOGOUT:
       return {
         ...state,
-        token: null
+        token: null,
+        isAdmin: false
       };
 
     default:

@@ -192,8 +192,8 @@ class WeekCreator extends Component {
           {this.renderInputs()}
 
           <Button
-            text="Добавить"
-            type="primary"
+            text='Добавить'
+            type='primary'
             onClick={(event) => this.addQuestionHandler(event)}
             disabled={
               this.state.currentQuestion.length === 0 ||
@@ -206,8 +206,8 @@ class WeekCreator extends Component {
           </div>
 
           <Button
-            text="Создать"
-            type="success"
+            text='Создать'
+            type='success'
             onClick={this.submitHandler}
             disabled={
               this.state.currentWeek.length === 0 ||

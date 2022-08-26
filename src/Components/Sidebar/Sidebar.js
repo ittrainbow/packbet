@@ -42,9 +42,14 @@ class Sidebar extends Component {
       menuItem.push(
         { path: '/thisweek', name: 'This\u00A0Week', icon: <FaFootballBall/> },
         { path: '/calendar', name: 'Calendar', icon: <FaCalendarAlt/> },
+        { path: '/standings', name: 'Standings', icon: <FaListUl/> }
+      );
+    }
+
+    if (this.props.isAdmin) {
+      menuItem.push(        
         { path: '/editor', name: 'Editor', icon: <FaChevronCircleRight/> },
         { path: '/create', name: 'New\u00A0Week', icon:  <FaStrava/> },
-        { path: '/standings', name: 'Standings', icon: <FaListUl/> }
       );
     }
 
@@ -82,7 +87,8 @@ class Sidebar extends Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: !!state.auth.token
+    isAuthenticated: !!state.auth.token,
+    isAdmin: state.auth.isAdmin
   };
 }
 

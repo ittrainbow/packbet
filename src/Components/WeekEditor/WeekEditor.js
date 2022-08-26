@@ -183,8 +183,8 @@ class WeekEditor extends Component {
                   {this.renderInputs()}
       
                   <Button
-                    text="Сохранить"
-                    type="primary"
+                    text='Сохранить'
+                    type='primary'
                     onClick={(event) => this.addQuestionHandler(event)}
                     disabled={
                       this.state.currentQuestion.length === 0 ||
@@ -197,8 +197,8 @@ class WeekEditor extends Component {
                   </div>
       
                   <Button
-                    text="На сервер"
-                    type="success"
+                    text='На сервер'
+                    type='success'
                     onClick={this.createWeekHandler}
                     disabled={
                       Object.keys(this.state.questions).length === 0
