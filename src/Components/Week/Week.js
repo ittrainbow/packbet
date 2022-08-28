@@ -23,7 +23,7 @@ class Week extends Component {
     if (this.props.weekId !== 0 && !this.props.weekId) {
       const id = fromLink.length < 3
         ? Number(fromLink)
-        : this.props.currentweek;
+        : this.props.currentWeek;
       
         if (!this.props.currenweek) {
           this.props.setWeekId(id);
@@ -77,16 +77,16 @@ class Week extends Component {
       questions.map((question, index) => {
         const weekId = this.props.weekId;
         const buttons = this.props.buttons;
-        const currentweek = this.props.currentweek;        
+        const currentWeek = this.props.currentWeek;        
         const answers = this.props.answers;
 
         const activity = buttons[weekId]
           ? buttons[weekId][index]
-          : buttons[currentweek][index];
+          : buttons[currentWeek][index];
 
         const result = answers[weekId]
           ? answers[weekId][index]
-          : answers[currentweek][index];
+          : answers[currentWeek][index];
 
         const styleSet = ['Questions'];
 
@@ -116,7 +116,7 @@ class Week extends Component {
   render() {
     const id = this.props.weekId || this.props.weekId === 0
       ? this.props.weekId
-      : this.props.currentweek;
+      : this.props.currentWeek;
       
     if (!this.props.isAuthenticated) {
       return (
@@ -152,7 +152,7 @@ class Week extends Component {
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
-    currentweek: state.week.currentweek,
+    currentWeek: state.week.currentWeek,
     weekId: state.week.weekId,
     buttons: state.auth.buttonState,
     answers: state.auth.answerState,

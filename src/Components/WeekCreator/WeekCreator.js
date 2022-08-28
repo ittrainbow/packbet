@@ -223,7 +223,7 @@ class WeekCreator extends Component {
 
 function mapStateToProps(state) {
   return {
-    newWeek: state.week.currentweek + 1
+    newWeek: state.week.currentWeek + 1
   };
 }
 

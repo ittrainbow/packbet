@@ -32,7 +32,7 @@ class WeekEditor extends Component {
     if (this.props.weekId !== 0 && !this.props.weekId) {
       const id = fromLink.length < 3
         ? Number(fromLink)
-        : this.props.currentweek;
+        : this.props.currentWeek;
       
         if (!this.props.currenweek) {
           this.props.setWeekId(id);

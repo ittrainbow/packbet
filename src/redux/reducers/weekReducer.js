@@ -6,7 +6,7 @@ import {
 } from '../types.js';
 
 const initialState = {
-  editorStatus: 'editor'
+  editorStatus: 'results'
 };
 
 export default function weekReducer(state = initialState, action) {
@@ -15,7 +15,8 @@ export default function weekReducer(state = initialState, action) {
       return {
         ...state,
         weeks: action.payload,
-        currentweek: action.payload.length - 1
+        currentWeek: action.payload.length - 1,
+        weekId: action.payload.length - 1
       };
     
     case SET_WEEK_ID:
@@ -33,7 +34,7 @@ export default function weekReducer(state = initialState, action) {
     case SET_CURRENT_WEEK:
       return {
         ...state,
-        currentweek: action.payload
+        currentWeek: action.payload
       };
 
     default: 
