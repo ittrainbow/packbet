@@ -16,7 +16,7 @@ class WeekList extends Component {
             key={week.id}
             className={classes.Weeks}
           >
-            { this.props.isAdmin 
+            { this.props.editorStatus === 'editor' 
               ? <NavLink 
                   onClick={() => this.props.setId(week.id)} 
                   to={'/weekeditor/' + week.id}
@@ -51,7 +51,9 @@ class WeekList extends Component {
 
 function mapStateToProps(state) {
   return {
-    weeks: state.week.weeks
+    weeks: state.week.weeks,
+    weekId: state.week.weekId,
+    editorStatus: state.week.editorStatus
   };
 }
 

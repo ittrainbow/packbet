@@ -8,3 +8,4 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const SET_ADMIN = 'SET_ADMIN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_ANSWERS = 'SET_ANSWERS';
+export const SET_EDITOR_STATUS = 'SET_EDITOR_STATUS';

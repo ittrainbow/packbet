@@ -28,10 +28,10 @@ class App extends Component {
           <Routes>
             <Route path='/' element={<About/>}/>
             <Route path='/profile' element={<Profile/>}/>
-            <Route path='/thisweek' element={<CurrentWeek/>}/>          
+            <Route path='/thisweek' element={<CurrentWeek/>}/>
             <Route path='/week/:id' element={<OldWeek/>} />
             <Route path='/calendar' element={<Calendar/>}/> 
-            <Route path='/editor' element={<Editor/>}/>            
+            <Route path='/editor' element={<Editor/>}/>
             <Route path='/weekeditor/:id' element={<WeekEditor/>}/>
             <Route path='/standings' element={<Standings/>}/>
             <Route path='/create' element={<Creator/>}/>

@@ -22,8 +22,8 @@ class CurrentWeek extends Component {
 
 function mapStateToProps(state) {  
   return {
-    currentweek: state.currentweek,
-    weekid: state.weekid
+    currentweek: state.week.currentweek,
+    weekId: state.week.weekId
   };
 }
 

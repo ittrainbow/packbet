@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import classes from './WeekEditor.module.scss';
 import Button from '../../UI/Button/Button';
 import Loader from '../../UI/Loader/Loader';
@@ -6,31 +8,49 @@ import Input from '../../UI/Input/Input';
 import axios from '../../axios/axios';
 import Undo from '../../UI/Undo/Undo';
 import Edit from '../../UI/Edit/Edit';
-
-let thisPageID;
+import { actionInit, actionCurrentWeek, actionWeekId } from '../../redux/actions/weekActions';
 
 class WeekEditor extends Component {
 
   state = {
-    currentID: '',
-    number: null,
+    currentWeek: '',
+    currentHash: null,
+    id: null,
     name: '',
     questions: [],
     currentQuestion: '',
     currentTotal: '',
-    loading: true
+    loading: false
   };
   
   async componentDidMount() {
-    thisPageID = window.location.pathname.split('/').slice(-1).toString();
+    this.setState({
+      loading: true
+    });
+
+    const fromLink = window.location.pathname.split('/').slice(-1).toString();
+    if (this.props.weekId !== 0 && !this.props.weekId) {
+      const id = fromLink.length < 3
+        ? Number(fromLink)
+        : this.props.currentweek;
+      
+        if (!this.props.currenweek) {
+          this.props.setWeekId(id);
+        }
+    }
     
-    const response = await axios.get(`pack/weeks/${thisPageID}.json`);
+    const response = await axios.get('pack/weeks.json');
+    const loadedWeek = Object.keys(response.data)
+      .map((el) => response.data[el])
+      .filter((el) => el.id === this.props.weekId)[0];
 
     this.setState({
-      name: response.data.name,
-      number: response.data.number,
-      questions: response.data.questions,
-      loading: false
+      id: loadedWeek.id,
+      name: loadedWeek.name,
+      number: loadedWeek.number,
+      questions: loadedWeek.questions,
+      currentHash: Object.keys(response.data).filter((el) => response.data[el].id === this.props.weekId)[0],
+      loading: false,
     });
   }
 
@@ -91,33 +111,33 @@ class WeekEditor extends Component {
   submitHandler = async (event) => {
     event.preventDefault();
 
+    this.setState({ loading: true });
+
     const qs = this.state.questions.map((question, index) => {
-      console.log(question, index);
       question['id'] = index;
-      console.log(question, index);
       return question;
     });
 
     const week = {
-      week: this.state.currentWeek,
-      name: this.state.currentName,
+      id: this.state.id,
+      name: this.state.name,
+      number: this.state.number,
       questions: qs
     };
 
     try {
-      await axios.post(`pack/${thisPageID}.json`, week);
-
-      this.setState({
-        currentWeek: '',
-        currentName: '',
-        currentQuestion: '',
-        currentTotal: '',
-        currentID: null,
-        questions: []
-      });
+      await axios.put(`pack/weeks/${this.state.currentHash}.json`, week);;
+      
+      const response = await axios.get('pack/weeks.json');
+      const weeks = Object.keys(response.data)
+        .map((el) => response.data[el]);
+  
+      this.props.actionInit(weeks);   
     } catch (error) {
       console.log(error);
     }
+
+    this.setState({ loading: false });
   };
 
   renderQuestions() {
@@ -195,15 +215,19 @@ class WeekEditor extends Component {
                   <div className={classes.QuestionsList}>
                     { this.renderQuestions() }    
                   </div>
-      
-                  <Button
-                    text='На сервер'
-                    type='success'
-                    onClick={this.createWeekHandler}
-                    disabled={
-                      Object.keys(this.state.questions).length === 0
-                    }
-                  />
+                  
+                  { this.state.loading
+                    ? <Loader />
+                    : <Button
+                        text='На сервер'
+                        type='success'
+                        onClick={this.submitHandler}
+                        disabled={
+                          Object.keys(this.state.questions).length === 0
+                        }
+                      />
+                  }
+
                 </form>
           }
         </div>
@@ -212,4 +236,19 @@ class WeekEditor extends Component {
   }
 }
 
-export default WeekEditor;
+function mapStateToProps(state) {
+  return {
+    week: state.week,
+    weekId: state.week.weekId
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actionInit: (weeks) => dispatch(actionInit(weeks)),
+    setWeekId: (id) => dispatch(actionWeekId(id)),
+    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeekEditor);

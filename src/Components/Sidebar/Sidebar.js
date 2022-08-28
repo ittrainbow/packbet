@@ -47,7 +47,7 @@ class Sidebar extends Component {
     }
 
     if (this.props.isAdmin) {
-      menuItem.push(        
+      menuItem.push(
         { path: '/editor', name: 'Editor', icon: <FaChevronCircleRight/> },
         { path: '/create', name: 'New\u00A0Week', icon:  <FaStrava/> },
       );

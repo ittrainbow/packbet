@@ -1,10 +1,13 @@
 import {   
   APP_INIT, 
   SET_WEEK_ID, 
-  SET_CURRENT_WEEK
+  SET_CURRENT_WEEK,
+  SET_EDITOR_STATUS
 } from '../types.js';
 
-const initialState = {};
+const initialState = {
+  editorStatus: 'editor'
+};
 
 export default function weekReducer(state = initialState, action) {
   switch(action.type) {
@@ -18,7 +21,13 @@ export default function weekReducer(state = initialState, action) {
     case SET_WEEK_ID:
       return {
         ...state,
-        weekid: action.payload
+        weekId: action.payload
+      };
+
+    case SET_EDITOR_STATUS:
+      return {
+        ...state,
+        editorStatus: action.payload
       };
     
     case SET_CURRENT_WEEK:

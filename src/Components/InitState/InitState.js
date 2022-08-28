@@ -11,7 +11,7 @@ class InitState extends Component {
       const weeks = Object.keys(response.data)
         .map((el) => response.data[el]);
 
-      this.props.appInit(weeks);      
+      this.props.actionInit(weeks);      
       this.props.setCurrentWeek(weeks.length - 1);
     } catch (error) {
       console.log(error);
@@ -34,9 +34,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    appInit: (weeks) => dispatch(actionInit(weeks)),
-    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
-    // setButtonState: (buttonState) => dispatch(actionButtonState(buttonState))
+    actionInit: (weeks) => dispatch(actionInit(weeks)),
+    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek))
   };
 }
 

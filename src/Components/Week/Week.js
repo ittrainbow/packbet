@@ -20,7 +20,7 @@ class Week extends Component {
   componentDidUpdate() {
     const fromLink = window.location.pathname.split('/').slice(-1).toString();
 
-    if (this.props.weekid !== 0 && !this.props.weekid) {
+    if (this.props.weekId !== 0 && !this.props.weekId) {
       const id = fromLink.length < 3
         ? Number(fromLink)
         : this.props.currentweek;
@@ -36,7 +36,7 @@ class Week extends Component {
     const i = Math.floor(index / 2);
     const yesno = index % 2;
 
-    let status = state[this.props.weekid][i];
+    let status = state[this.props.weekId][i];
 
     if (yesno === 0) {
       status = (status !== 1)
@@ -50,7 +50,7 @@ class Week extends Component {
         : 0;
     }
 
-    state[this.props.weekid][i] = status;
+    state[this.props.weekId][i] = status;
 
     this.props.setButtonState(state);
   };
@@ -60,10 +60,10 @@ class Week extends Component {
       loading: true
     });
 
-    const data = this.props.buttons[this.props.weekid];
+    const data = this.props.buttons[this.props.weekId];
     const url = this.props.isAdmin
-      ? `pack/answers/weeks/${this.props.weekid}.json`
-      : `pack/users/${this.props.userId}/weeks/${this.props.weekid}.json`;
+      ? `pack/answers/weeks/${this.props.weekId}.json`
+      : `pack/users/${this.props.userId}/weeks/${this.props.weekId}.json`;
 
     await axios.put(url, data);
     
@@ -75,26 +75,26 @@ class Week extends Component {
   renderQuestions(questions) {
     return (
       questions.map((question, index) => {
-        const weekid = this.props.weekid;
+        const weekId = this.props.weekId;
         const buttons = this.props.buttons;
         const currentweek = this.props.currentweek;        
         const answers = this.props.answers;
 
-        const activity = buttons[weekid]
-          ? buttons[weekid][index]
+        const activity = buttons[weekId]
+          ? buttons[weekId][index]
           : buttons[currentweek][index];
 
-        const result = answers[weekid]
-          ? answers[weekid][index]
+        const result = answers[weekId]
+          ? answers[weekId][index]
           : answers[currentweek][index];
 
         const styleSet = ['Questions'];
 
-        if (activity && result && activity === result) {
+        if (activity && result && !this.props.isAdmin && activity === result) {
           styleSet.push('QuestionCorrect');
-        } else if (activity && result && activity !== result) {
+        } else if (activity && result && !this.props.isAdmin && activity !== result) {
           styleSet.push('QuestionWrong');
-        } else if (!activity || !result) {
+        } else if (!activity || !result || this.props.isAdmin) {
           styleSet.push('QuestionUntouched');
         }
         
@@ -114,8 +114,8 @@ class Week extends Component {
   };
 
   render() {
-    const id = this.props.weekid || this.props.weekid === 0
-      ? this.props.weekid
+    const id = this.props.weekId || this.props.weekId === 0
+      ? this.props.weekId
       : this.props.currentweek;
       
     if (!this.props.isAuthenticated) {
@@ -153,7 +153,7 @@ function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     currentweek: state.week.currentweek,
-    weekid: state.week.weekid,
+    weekId: state.week.weekId,
     buttons: state.auth.buttonState,
     answers: state.auth.answerState,
     isAuthenticated: !!state.auth.token,

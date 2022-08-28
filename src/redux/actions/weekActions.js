@@ -1,7 +1,8 @@
 import {  
   APP_INIT, 
   SET_WEEK_ID, 
-  SET_CURRENT_WEEK
+  SET_CURRENT_WEEK,
+  SET_EDITOR_STATUS
 } from '../types';
 
 export function actionInit(weeks) {
@@ -25,5 +26,9 @@ export function actionCurrentWeek(currentWeek) {
   };
 }
 
-
-
+export function setEditorStatus(status) {
+  return {
+    type: SET_EDITOR_STATUS,
+    payload: status
+  };
+}
