@@ -6,8 +6,8 @@ const YesNoButtons = (props) => {
   let styleSetFirst = ['button', 'green'];
   let styleSetSecond = ['button', 'red'];
 
-  if (props.activity === true) styleSetFirst.push('selected');
-  if (props.activity === false) styleSetSecond.push('selected');
+  if (props.activity === 1) styleSetFirst.push('selected');
+  if (props.activity === 2) styleSetSecond.push('selected');
   
   return (
     <div className='buttonsDiv'>

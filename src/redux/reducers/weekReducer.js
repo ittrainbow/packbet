@@ -1,8 +1,7 @@
 import {   
   APP_INIT, 
   SET_WEEK_ID, 
-  SET_CURRENT_WEEK,
-  SET_BUTTONSTATE
+  SET_CURRENT_WEEK
 } from '../types.js';
 
 const initialState = {};
@@ -20,12 +19,6 @@ export default function weekReducer(state = initialState, action) {
       return {
         ...state,
         weekid: action.payload
-      };
-
-    case SET_BUTTONSTATE:
-      return {
-        ...state,
-        buttonstate: action.payload
       };
     
     case SET_CURRENT_WEEK:

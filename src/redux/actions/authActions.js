@@ -2,7 +2,10 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_BUTTONSTATE,
+  SET_BUTTONSTATE,
+  SET_ANSWERS
 } from '../types';
 
 import { findUser } from '../../frame/findUser';
@@ -16,31 +19,73 @@ export function auth(email, password, isLogin) {
       returnSecureToken: true
     };
 
-    const url = isLogin
+    const authUrl = isLogin
       ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
       : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI';
 
-    const response = await axios.post(url, authData);
-    const data = response.data;
+    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/';
+    
+    const authResponse = await axios.post(authUrl, authData);
 
-    const users = await axios.get('https://packpredictor-default-rtdb.firebaseio.com/pack/users.json');
-    const userId = findUser(users.data, email)[0];
+    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`);
+    const usersResponse = await axios.get(`${dbUrl}/users.json`);
+    const answersResponse = await axios.get(`${dbUrl}/answers.json`);
+    const userId = findUser(usersResponse.data, email)[0];
+    const isAdmin = authResponse.data.email === 'nom4d@yandex.ru';
 
-    const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
-
-    if (email === 'nom4d@yandex.ru') {
-      dispatch(setAdmin(true));
-    } else {
-      dispatch(setAdmin(false));
-    }
+    const answerState = createButtonsObj(answersResponse.data.weeks, weeksResponse.data);
+    const buttonState = createButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data);
+    const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000);
 
     localStorage.setItem('email', email);
     localStorage.setItem('password', password);
     localStorage.setItem('expirationDate', expirationDate);
 
-    dispatch(setCurrentUser(userId, users.data[userId].name));
-    dispatch(authSuccess(data.idToken));
-    dispatch(autoLogout(data.expiresIn));
+    dispatch(setAdmin(isAdmin));
+    dispatch(authSuccess(authResponse.data.idToken));
+    dispatch(autoLogout(authResponse.data.expiresIn));
+    dispatch(setAnswerState(answerState));
+    dispatch(setCurrentUser(userId, usersResponse.data[userId].name));
+
+    isAdmin
+      ? dispatch(getButtonState(answerState))
+      : dispatch(getButtonState(buttonState));
+  };
+}
+
+function createButtonsObj(buttons = 0, weeks) {
+  const buttonState = {};
+
+  for (let i=0; i<Object.keys(weeks).length; i++) {
+    const weeklyButtons = {};
+
+    if (buttons[i]) {
+      for (let j=0; j<buttons[i].length; j++) {
+        weeklyButtons[j] = buttons[i][j];
+      }
+    } else {
+      for (let j=0; j<weeks[Object.keys(weeks)[i]].questions.length; j++) {
+        weeklyButtons[j] = 0;
+      }
+    }
+
+    buttonState[i] = weeklyButtons;
+  }
+
+  return buttonState;
+}
+
+export function getButtonState(buttonState) {
+  return {
+    type: GET_BUTTONSTATE,
+    buttonState: buttonState
+  };
+}
+
+export function setAnswerState(answerState) {
+  return {
+    type: SET_ANSWERS,
+    answerState: answerState
   };
 }
 
@@ -100,5 +145,12 @@ export function setAdmin(value) {
   return {
     type: SET_ADMIN,
     value: value
+  };
+}
+
+export function actionButtonState(state) {
+  return {
+    type: SET_BUTTONSTATE,
+    payload: state
   };
 }

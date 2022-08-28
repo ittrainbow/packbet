@@ -1,8 +1,7 @@
 import {  
   APP_INIT, 
   SET_WEEK_ID, 
-  SET_CURRENT_WEEK, 
-  SET_BUTTONSTATE
+  SET_CURRENT_WEEK
 } from '../types';
 
 export function actionInit(weeks) {
@@ -26,10 +25,5 @@ export function actionCurrentWeek(currentWeek) {
   };
 }
 
-export function actionButtonState(state) {
-  return {
-    type: SET_BUTTONSTATE,
-    payload: state
-  };
-}
+
 

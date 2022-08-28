@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import classes from './Auth.module.scss';
 import Button from '../../UI/Button/Button';
 import Input from '../../UI/Input/Input';
@@ -96,7 +97,8 @@ class Auth extends Component {
     
     if (!userExists && this.state.isFormValid) {
       this.props.auth(email, password, false);
-      await axios.post('pack/users.json', { email, name });
+      const weeks = '';
+      await axios.post('pack/users.json', { email, name, weeks });
       const getBack = await axios.get('pack/users.json');
       this.props.setCurrentUser(Object.keys(getBack.data).slice(-1)[0], name);
     } else {

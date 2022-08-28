@@ -2,7 +2,10 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_BUTTONSTATE,
+  SET_BUTTONSTATE,
+  SET_ANSWERS
 } from '../types';
 
 const initialState = {
@@ -25,12 +28,30 @@ export default function authReducer (state = initialState, action) {
         ...state,
         isAdmin: action.value
       };
+    
+    case GET_BUTTONSTATE:
+      return {
+        ...state,
+        buttonState: action.buttonState
+      };
+
+    case SET_ANSWERS:
+      return {
+        ...state,
+        answerState: action.answerState
+      };
 
     case SET_CURRENT_USER:
       return {
         ...state,
         userId: action.id,
         userName: action.name
+      };
+
+    case SET_BUTTONSTATE:
+      return {
+        ...state,
+        buttonState: action.payload
       };
 
     case AUTH_LOGOUT:
