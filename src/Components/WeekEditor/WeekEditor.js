@@ -49,7 +49,8 @@ class WeekEditor extends Component {
       name: loadedWeek.name,
       number: loadedWeek.number,
       questions: loadedWeek.questions,
-      currentHash: Object.keys(response.data).filter((el) => response.data[el].id === this.props.weekId)[0],
+      currentHash: Object.keys(response.data)
+        .filter((el) => response.data[el].id === this.props.weekId)[0],
       loading: false,
     });
   }
@@ -111,7 +112,9 @@ class WeekEditor extends Component {
   submitHandler = async (event) => {
     event.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ 
+      loading: true
+    });
 
     const qs = this.state.questions.map((question, index) => {
       question['id'] = index;
@@ -137,7 +140,9 @@ class WeekEditor extends Component {
       console.log(error);
     }
 
-    this.setState({ loading: false });
+    this.setState({ 
+      loading: false 
+    });
   };
 
   renderQuestions() {
