@@ -17,19 +17,19 @@ class Week extends Component {
     loading: false
   };
 
-  componentDidUpdate() {
-    const fromLink = window.location.pathname.split('/').slice(-1).toString();
+  // componentDidUpdate() {
+  //   const fromLink = window.location.pathname.split('/').slice(-1).toString();
 
-    if (this.props.weekId !== 0 && !this.props.weekId) {
-      const id = fromLink.length < 3
-        ? Number(fromLink)
-        : this.props.currentWeek;
+  //   if (this.props.weekId !== 0 && !this.props.weekId) {
+  //     const id = fromLink.length < 3
+  //       ? Number(fromLink)
+  //       : this.props.currentWeek;
       
-        if (!this.props.currenweek) {
-          this.props.setWeekId(id);
-        }
-    }
-  }
+  //       if (!this.props.currenweek) {
+  //         this.props.setWeekId(id);
+  //       }
+  //   }
+  // }
 
   onClickHandler = (index) => {
     const state = structuredClone(this.props.buttons);    

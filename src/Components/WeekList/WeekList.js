@@ -5,26 +5,42 @@ import Loader from '../../UI/Loader/Loader';
 
 import { connect } from 'react-redux';
 import { actionWeekId } from '../../redux/actions/weekActions';
+import { 
+  setEditorCurrentWeek,
+  setEditorCurrentName,
+  setEditorCurrentQuestion,
+  setEditorCurrentTotal,
+  setEditorCurrentID,
+  setEditorCurrentDeadline,
+  setEditorQuestions
+} from '../../redux/actions/editorActions';
 
-class WeekList extends Component {
+const WeekList = (props) => {
 
-  renderWeeks() {
-    if (this.props.weeks) {
-      return this.props.weeks.map((week) => {
+  function setState(id) {
+    const week = props.weeks[id];
+    props.setCurrentWeek(id);
+    props.setCurrentName(week.name);
+    props.setQuestions(week.questions);
+  }
+
+  function renderWeeks() {
+    if (props.weeks) {
+      return props.weeks.map((week) => {
         return (
           <li
             key={week.id}
             className={classes.Weeks}
           >
-            { this.props.editorStatus === 'editor' 
+            { props.editorStatus === 'editor' 
               ? <NavLink 
-                  onClick={() => this.props.setId(week.id)} 
+                  onClick={() => setState(week.id)} 
                   to={'/weekeditor/' + week.id}
                 >
                   #{week.number}: {week.name}
                 </NavLink>
               : <NavLink 
-                  onClick={() => this.props.setId(week.id)}
+                  onClick={() => setState(week.id)}
                   to={'/week/' + week.id}
                 >
                   #{week.number}: {week.name}
@@ -40,26 +56,25 @@ class WeekList extends Component {
     }
   }
 
-  render() {
-    return (
-      <div className={classes.WeekList}>
-        {this.renderWeeks()}
-      </div>
-    );
-  }
+  return (
+    <div className={classes.WeekList}>
+      { renderWeeks() }
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
-    weekId: state.week.weekId,
     editorStatus: state.week.editorStatus
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => dispatch(actionWeekId(id))
+    setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
+    setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
+    setQuestions: (questions) => dispatch(setEditorQuestions(questions))
   };
 }
 

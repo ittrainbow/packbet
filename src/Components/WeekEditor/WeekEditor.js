@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import structuredClone from '@ungap/structured-clone';
 
 import classes from './WeekEditor.module.scss';
 import Button from '../../UI/Button/Button';
@@ -10,170 +11,102 @@ import axios from '../../axios/axios';
 import Undo from '../../UI/Undo/Undo';
 import Edit from '../../UI/Edit/Edit';
 import { actionInit, actionCurrentWeek, actionWeekId } from '../../redux/actions/weekActions';
-class WeekEditor extends Component {
+import { switchLoading } from '../../redux/actions/loadingActions';
+import { 
+  setEditorCurrentQuestion,
+  setEditorCurrentTotal,
+  setEditorCurrentID,
+  setEditorQuestions
+} from '../../redux/actions/editorActions';
 
-  state = {
-    currentWeek: '',
-    currentHash: null,
-    id: null,
-    name: '',
-    questions: [],
-    currentQuestion: '',
-    currentTotal: null,
-    loading: false
-  };
-  
-  async componentDidMount() {
-    this.setState({
-      loading: true
-    });
+const WeekEditor = (props) => {
+  const navigate = useNavigate();
 
-    const fromLink = window.location.pathname.split('/').slice(-1).toString();
-    if (this.props.weekId !== 0 && !this.props.weekId) {
-      const id = fromLink.length < 3
-        ? Number(fromLink)
-        : this.props.currentWeek;
-      
-        if (!this.props.currenweek) {
-          this.props.setWeekId(id);
-        }
-    }
-    
-    const response = await axios.get('pack/weeks.json');
-    const loadedWeek = Object.keys(response.data)
-      .map((el) => response.data[el])
-      .filter((el) => el.id === this.props.weekId)[0];
-
-    this.setState({
-      id: loadedWeek.id,
-      name: loadedWeek.name,
-      number: loadedWeek.number,
-      questions: loadedWeek.questions,
-      currentHash: Object.keys(response.data)
-        .filter((el) => response.data[el].id === this.props.weekId)[0],
-      loading: false,
-    });
-  }
-
-  addQuestionHandler = (event) => {
-    event.preventDefault();
-    
-    console.log(this.state.currentTotal)
-
-    const questions = this.state.questions;
-    const id = this.state.currentID === null 
-      ? this.state.questions.length 
-      : this.state.currentID;
+  function addQuestionHandler() {
+    const questions = structuredClone(props.editor.questions);
+    const id = props.editor.currentID === null 
+      ? props.editor.questions.length 
+      : props.editor.currentID;
 
     const obj = {};
     obj['id'] = id;
-    obj['question'] = this.state.currentQuestion;
-    obj['total'] = this.state.currentTotal;
-
+    obj['question'] = props.editor.currentQuestion;
+    obj['total'] = props.editor.currentTotal;
     questions[id] = obj;
 
-    this.setState({
-      currentQuestion: '',
-      currentTotal: '',
-      currentID: null,
-      questions: questions
-    });
+    props.setQuestions(questions);
+    props.setCurrentQuestion('');
+    props.setCurrentID('')
+    props.setCurrentTotal('');
   };
 
-  editQuestionHandler = (index, event, question) => {
-    event.preventDefault();
-    
-    this.setState({
-      currentQuestion: question.question,
-      currentTotal: question.total,
-      currentID: index
-    });
+  function editQuestionHandler(question) {
+    props.setCurrentQuestion(question.question);
+    props.setCurrentID(question.id)
+    props.setCurrentTotal(question.total);
   };
 
-  deleteQuestionHandler = (index, event) => {
-    event.preventDefault();
-    
-    const questions = this.state.questions;
+  function deleteQuestionHandler(index) {
+    const questions = structuredClone(props.editor.questions);
     questions.splice(index, 1);
-    
-    this.setState({
-      questions: questions
-    });
+    props.setQuestions(questions);
   };
 
-  changeHandler = (event, tag) => {
-    event.preventDefault();
-
-    if (tag === 'Q') {
-      this.setState({ currentQuestion: event.target.value });
-    } else if (tag === 'T') {
-      const total = event.target.value
-      console.log('total', parseFloat(total))
-      this.setState({ currentTotal: parseFloat(event.target.value) },
-        function () {
-          console.log(this.state.currentTotal)
-        });
-    }
+  function changeHandler(event, tag) {
+    if (tag === 'Question') props.setCurrentQuestion(event.target.value)
+    if (tag === 'Total') props.setCurrentTotal(event.target.value)
   };
 
-  submitHandler = async (event) => {
-    event.preventDefault();
+  async function submitHandler() {
+    props.switchLoading(true);
 
-    this.setState({ 
-      loading: true
-    });
-
-    const qs = this.state.questions.map((question, index) => {
+    const qs = props.editor.questions.map((question, index) => {
       question['id'] = index;
       return question;
     });
 
     const week = {
-      id: this.state.id,
-      name: this.state.name,
-      number: this.state.number,
+      id: props.editor.currentWeek,
+      name: props.editor.currentName,
+      number: props.editor.currentWeek + 1,
       questions: qs
     };
 
     try {
-      console.log(1233)
-      await axios.put(`pack/weeks/${this.state.currentHash}.json`, week);
-      console.log(1234)
-      
       const response = await axios.get('pack/weeks.json');
-      const weeks = Object.keys(response.data)
-        .map((el) => response.data[el]);
-      console.log(1235)
+      const currentHash = Object.keys(response.data)
+        .filter((el) => response.data[el].id === props.editor.currentWeek)[0];      
+      await axios.put(`pack/weeks/${currentHash}.json`, week);
   
-      this.props.actionInit(weeks);
-      this.props.setCurrentWeek(weeks.length - 1);
-  
+      const weeks = structuredClone(props.weeks);
+      weeks[props.editor.currentWeek] = week;
+      props.actionInit(weeks);  
     } catch (error) {
       console.log(error);
     }
       
-    this.setState({ 
-      loading: false 
-    });
+    props.switchLoading(false);
+
+    navigate('/calendar');
   };
 
-  renderQuestions() {
+  function renderQuestions() {
     return (
-      this.state.questions.map((question, index) => {
+      props.editor.questions.map((question, index) => {
         return (
           <div key={index} className={
-              index === this.state.currentID
-                ? classes.QuestionsActive
-                : classes.Questions
-            }>
+            index === props.editor.currentID
+              ? classes.QuestionsActive
+              : classes.Questions
+          }>
             {question.question}: {question.total} 
             <Undo
               className={classes.Undo}
-              onClick={(event) => this.deleteQuestionHandler(index, event, question)}
+              onClick={() => deleteQuestionHandler(index)}
             />            
             <Edit
               className={classes.Undo}
-              onClick={(event) => this.editQuestionHandler(index, event, question)}
+              onClick={() => editQuestionHandler(question)}
             />
           </div>
         );
@@ -181,45 +114,36 @@ class WeekEditor extends Component {
     );
   };
 
-  deleteWeekHandler = async (event) => {
-    event.preventDefault();
-
-    this.setState({ 
-      loading: true
-    });
+  async function deleteWeekHandler() {
+    props.switchLoading(true);
 
     try {
-      await axios.delete(`pack/weeks/${this.state.currentHash}.json`);
-      const response = await axios.get('pack/weeks.json');
-      const weeks = Object.keys(response.data)
-        .map((el) => response.data[el]);
+      await axios.delete(`pack/weeks/${props.currentHash}.json`);
+      const newWeeks = structuredClone(props.weeks);
 
-      this.props.actionInit(weeks);
-      this.props.setCurrentWeek(weeks.length - 1);
+      newWeeks.splice(props.weekId, 1);
+      props.actionInit(newWeeks);
     } catch (error) {
       console.log(error)
     }
-
-    this.setState({ 
-      loading: false
-    });
-
-    <Navigate to='/'/>
+    
+    props.switchLoading(false);
+    navigate('/calendar')
   }
   
-  renderInputs() {
+  function renderInputs() {
     return (
       <div className={classes.Inputs}>
         <div className={classes.Row}>
-          <h3>Неделя {this.state.number}: {this.state.name}</h3>
+          <h3>{props.editor.currentName || ''}</h3>
         </div>
         
         <div className={classes.Row}>
           <div className={classes.Line}>          
             <Input 
               label='Линия'
-              value={this.state.currentQuestion}
-              onChange={(event) => this.changeHandler(event, 'Q')}
+              value={props.editor.currentQuestion || ''}
+              onChange={(event) => changeHandler(event, 'Question')}
             />
           </div>
           <div className={classes.Total}>
@@ -227,8 +151,8 @@ class WeekEditor extends Component {
               label='Тотал'
               type='number'
               step="0.5"
-              value={this.state.currentTotal ? this.state.currentTotal : ''}
-              onChange={(event) => this.changeHandler(event, 'T')}
+              value={props.editor.currentTotal || ''}
+              onChange={(event) => changeHandler(event, 'Total')}
             />
           </div>
         </div>
@@ -236,70 +160,64 @@ class WeekEditor extends Component {
     );
   }
 
-  render() {
-    return (
-      <div className={classes.WeekEditor}>
-        <div>
-          <h3>Редактирование</h3>
-
-          { this.state.loading
-              ? <Loader />
-              : <form>
-                  {this.renderInputs()}
-      
-                  <Button
-                    text='Сохранить'
-                    type='primary'
-                    onClick={(event) => this.addQuestionHandler(event)}
-                    disabled={
-                      this.state.currentQuestion.length === 0 &&
-                      !this.state.currentTotal
-                    }
-                  />
-      
-                  <div className={classes.QuestionsList}>
-                    { this.renderQuestions() }    
-                  </div>
-                  
-                  { this.state.loading
-                    ? <Loader />
-                    : <Button
-                        text='На сервер'
-                        type='success'
-                        onClick={this.submitHandler}
-                        disabled={
-                          Object.keys(this.state.questions).length === 0
-                        }
-                      />
+  return (
+    <div className={classes.WeekEditor}>
+      <div>
+        <h3>Редактирование</h3>
+        { props.loading
+            ? <Loader />
+            : <div>
+                {renderInputs()}
+    
+                <Button
+                  text='Сохранить'
+                  onClick={() => addQuestionHandler()}
+                  disabled={
+                    !props.editor.currentQuestion &&
+                    !props.editor.currentTotal
                   }
+                />
 
-                  <div>   
-                    <Button
-                      text='Удалить'
-                      onClick={this.deleteWeekHandler}
-                    />
-                  </div>    
+                <div className={classes.QuestionsList}>
+                  { renderQuestions() }    
+                </div>
+    
+                <Button
+                  text='На сервер'
+                  onClick={() => submitHandler()}
+                  disabled={props.editor.questions.length === 0}
+                />
 
-                </form>
-          }
-        </div>
+                <Button
+                  text='Удалить'
+                  onClick={() => deleteWeekHandler()}
+                />
+            </div>
+        }
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
   return {
-    week: state.week,
-    weekId: state.week.weekId
+    weeks: state.week.weeks,
+    weekId: state.week.weekId,
+    loading: state.loading.loading,
+    editor: state.editor,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    switchLoading: (status) => dispatch(switchLoading(status)),
+
     actionInit: (weeks) => dispatch(actionInit(weeks)),
-    setWeekId: (id) => dispatch(actionWeekId(id)),
-    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek))
+
+    setCurrentQuestion: (currentQuestion) => dispatch(setEditorCurrentQuestion(currentQuestion)),
+    setCurrentTotal: (currentTotal) => dispatch(setEditorCurrentTotal(currentTotal)),
+    setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
+    setQuestions: (questions) => dispatch(setEditorQuestions(questions))
   };
 }
 

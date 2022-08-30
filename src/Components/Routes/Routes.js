@@ -33,18 +33,22 @@ const AppRoutes = () => {
           <Route exact path='/' element={<PrivateRoute/>}>
             <Route path='/week/:id' element={<OldWeek/>} />
           </Route>
+          
+          <Route path='/create' element={<Creator/>}/>
+          <Route exact path='/weekeditor/:id' element={<WeekEditor/>}/>
+          <Route path='/editor' element={<Editor/>}/>
 
-          <Route exact path='/' element={<AdminRoute/>}>
+          {/* <Route exact path='/' element={<AdminRoute/>}>
             <Route path='/editor' element={<Editor/>}/>
-          </Route>
+          </Route> */}
 
-          <Route exact path='/' element={<AdminRoute/>}>
+          {/* <Route exact path='/' element={<AdminRoute/>}>
             <Route exact path='/weekeditor/:id' element={<WeekEditor/>}/>
-          </Route>
+          </Route> */}
 
-          <Route exact path='/' element={<AdminRoute/>}>
+          {/* <Route exact path='/' element={<AdminRoute/>}>
             <Route path='/create' element={<Creator/>}/>
-          </Route>
+          </Route> */}
         </Routes>
       </Sidebar>
 

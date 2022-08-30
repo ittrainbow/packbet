@@ -15,8 +15,6 @@ import {
 import './Sidebar.module.scss';
 import classes from './Sidebar.module.scss';
 
-
-
 class Sidebar extends Component {
   state = {
     isOpen: false
@@ -28,13 +26,13 @@ class Sidebar extends Component {
     });
   };
 
-
-
   render() {
     const menuItem = [
       { path: '/', name: 'About', icon:  <FaHome/> },
       { path: '/profile', name: 'Profile', icon: <FaUserAlt/> },
-      { path: '/standings', name: 'Standings', icon: <FaListUl/> }
+      { path: '/standings', name: 'Standings', icon: <FaListUl/> },
+      { path: '/editor', name: 'Editor', icon: <FaChevronCircleRight/> },
+      { path: '/create', name: 'New\u00A0Week', icon:  <FaStrava/> },
     ];
 
     if (this.props.isAuthenticated) {

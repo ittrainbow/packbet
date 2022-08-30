@@ -32,17 +32,8 @@
   margin-bottom: 10px;
 }
 
-.Questions {
-  font-size: 14px;
-  border: 1px solid #ccc;
-  padding: 3px;
-  margin-top: 2px;
-  height: 22px;
-  border-radius: 2px;
-}
-
 .WeekCreator {
-  display: flex;
+  display: block;
   justify-content: center;
   padding-top: 20px;
   width: 100%;
@@ -66,4 +57,14 @@
   border: 1px solid;
   border-radius: 2px;
   padding: 15px;
+}
+
+.Undo {
+  font-size: 13px;
+  border: 1px solid #f11;
+}
+
+.Edit {
+  font-size: 13px;
+  border: 1px solid #f11;
 }
