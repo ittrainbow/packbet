@@ -26,7 +26,7 @@ const About = () => {
     <div className={classes.About}>
       { render() }
     </div>
-  );
-};
+  )
+}
 
 export default About

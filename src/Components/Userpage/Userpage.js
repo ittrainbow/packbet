@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import Button from '../../UI/Button/Button';
-import classes from './Userpage.module.scss';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import { logout } from '../../redux/actions/authActions';
-import { connect } from 'react-redux/es/exports';
+import React, { Component } from 'react'
+import Button from '../../UI/Button/Button'
+import classes from './Userpage.module.scss'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import { logout } from '../../redux/actions/authActions'
+import { connect } from 'react-redux/es/exports'
 
 class Userpage extends Component {
   state = {
     showPassword: false
-  };
+  }
 
   passwordHandler() {
-    const password = localStorage.getItem('password');
-    const stars = '*'.repeat(password.length);
+    const password = localStorage.getItem('password')
+    const stars = '*'.repeat(password.length)
 
     return this.state.showPassword
       ? password
-      : stars;
+      : stars
   }
 
   stateHandler() {
     this.setState({
       showPassword: !this.state.showPassword
-    });
+    })
   }
 
   logoutHandler() {
-    this.props.logout();
+    this.props.logout()
   }
 
   render() {
@@ -47,20 +47,20 @@ class Userpage extends Component {
           />
         </div>
       </div>
-    );
-  };
-};
+    )
+  }
+}
 
 function mapStateToProps(state) {
   return {
     userName: state.auth.userName
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(logout())
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Userpage);
+export default connect(mapStateToProps, mapDispatchToProps)(Userpage)

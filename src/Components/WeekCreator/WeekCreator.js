@@ -1,17 +1,17 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import structuredClone from '@ungap/structured-clone';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import structuredClone from '@ungap/structured-clone'
 
-import classes from './WeekCreator.module.scss';
-import './WeekCreator.css';
-import Button from '../../UI/Button/Button';
-import Input from '../../UI/Input/Input';
-import Undo from '../../UI/Undo/Undo';
-import Edit from '../../UI/Edit/Edit';
-import axios from '../../axios/axios';
-import Loader from '../../UI/Loader/Loader';
-import { actionInit } from '../../redux/actions/weekActions';
+import classes from './WeekCreator.module.scss'
+import './WeekCreator.css'
+import Button from '../../UI/Button/Button'
+import Input from '../../UI/Input/Input'
+import Undo from '../../UI/Undo/Undo'
+import Edit from '../../UI/Edit/Edit'
+import axios from '../../axios/axios'
+import Loader from '../../UI/Loader/Loader'
+import { actionInit } from '../../redux/actions/weekActions'
 import { 
   setEditorCurrentWeek,
   setEditorCurrentName,
@@ -20,64 +20,64 @@ import {
   setEditorCurrentID,
   setEditorCurrentDeadline,
   setEditorQuestions
-} from '../../redux/actions/editorActions';
-import { switchLoading } from '../../redux/actions/loadingActions';
+} from '../../redux/actions/editorActions'
+import { switchLoading } from '../../redux/actions/loadingActions'
 
 const WeekCreator = (props) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   function addQuestionHandler(event) {
-    event.preventDefault();
-    props.switchLoading(true);
+    event.preventDefault()
+    props.switchLoading(true)
 
     const id = props.editor.currentID 
       ? props.editor.currentID 
       : props.editor.currentID === 0
           ? props.editor.currentID
-          : props.editor.questions.length;
+          : props.editor.questions.length
 
-    const obj = {};
-    obj['id'] = id;
-    obj['question'] = props.editor.currentQuestion;
-    obj['total'] = props.editor.currentTotal;
+    const obj = {}
+    obj['id'] = id
+    obj['question'] = props.editor.currentQuestion
+    obj['total'] = props.editor.currentTotal
 
-    const setQuestions = structuredClone(props.editor.questions);
-    setQuestions[id] = obj;
+    const setQuestions = structuredClone(props.editor.questions)
+    setQuestions[id] = obj
     
-    props.setQuestions(setQuestions);
-    props.setCurrentQuestion('');
-    props.setCurrentTotal('');    
-    props.switchLoading(false);
-    props.setCurrentID('');
-  };
+    props.setQuestions(setQuestions)
+    props.setCurrentQuestion('')
+    props.setCurrentTotal('')    
+    props.switchLoading(false)
+    props.setCurrentID('')
+  }
 
   function editQuestionHandler(question) {
-    props.setCurrentQuestion(question.question);
-    props.setCurrentID(question.id);
-    props.setCurrentTotal(question.total);
-  };
+    props.setCurrentQuestion(question.question)
+    props.setCurrentID(question.id)
+    props.setCurrentTotal(question.total)
+  }
 
   function deleteQuestionHandler(index) {
-    const questions = structuredClone(props.editor.questions);
-    questions.splice(index, 1);
-    props.setQuestions(questions);
-  };
+    const questions = structuredClone(props.editor.questions)
+    questions.splice(index, 1)
+    props.setQuestions(questions)
+  }
 
   function changeHandler (event, tag) {
-    if (tag === 'setCurrentWeek') props.setCurrentWeek(Number(event.target.value));
-    if (tag === 'setCurrentName') props.setCurrentName(event.target.value);
-    if (tag === 'setCurrentQuestion') props.setCurrentQuestion(event.target.value);
-    if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value);
-    if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value);
-  };
+    if (tag === 'setCurrentWeek') props.setCurrentWeek(Number(event.target.value))
+    if (tag === 'setCurrentName') props.setCurrentName(event.target.value)
+    if (tag === 'setCurrentQuestion') props.setCurrentQuestion(event.target.value)
+    if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value)
+    if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
+  }
 
   async function submitHandler () {
-    props.switchLoading(true);
+    props.switchLoading(true)
 
     const qs = props.editor.questions.map((question, index) => {
-      question['id'] = index;
-      return question;
-    });
+      question['id'] = index
+      return question
+    })
 
     const week = {
       id: props.weeks.length,
@@ -85,19 +85,19 @@ const WeekCreator = (props) => {
       name: props.editor.currentName,
       questions: qs,
       deadline: props.editor.currentDeadline
-    };
+    }
 
-    const weeks = structuredClone(props.weeks);
-    weeks.push(week);
+    const weeks = structuredClone(props.weeks)
+    weeks.push(week)
 
-    await axios.post('pack/weeks.json', week);
+    await axios.post('pack/weeks.json', week)
 
-    props.setCurrentWeek(weeks.length - 1);
-    props.actionInit(weeks);
-    props.switchLoading(false);
+    props.setCurrentWeek(weeks.length - 1)
+    props.actionInit(weeks)
+    props.switchLoading(false)
 
-    navigate('/calendar');
-  };
+    navigate('/calendar')
+  }
 
   function renderQuestions() {
     return (
@@ -112,10 +112,10 @@ const WeekCreator = (props) => {
                   <Edit onClick={(event) => editQuestionHandler(question)} />
                 </div>
               </div>
-            );
+            )
           })
-    );
-  };
+    )
+  }
 
   function renderInputs() {
     return (
@@ -155,7 +155,7 @@ const WeekCreator = (props) => {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -196,15 +196,15 @@ const WeekCreator = (props) => {
         }
       />
     </div>
-  );
-};
+  )
+}
 
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     editor: state.editor,
     loading: state.loading.loading
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -220,7 +220,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
     setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline)),
     setQuestions: (questions) => dispatch(setEditorQuestions(questions))
-  };
+  }
 }
  
-export default connect(mapStateToProps, mapDispatchToProps)(WeekCreator);
+export default connect(mapStateToProps, mapDispatchToProps)(WeekCreator)

@@ -1,6 +1,6 @@
-import React from 'react';
-import classes from './Edit.module.scss';
-import { FaEdit } from 'react-icons/fa';
+import React from 'react'
+import classes from './Edit.module.scss'
+import { FaEdit } from 'react-icons/fa'
 
 const Edit = (props) => {
   return (
@@ -10,7 +10,7 @@ const Edit = (props) => {
     >
       <FaEdit className={classes.Icon}/>
     </button>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

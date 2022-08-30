@@ -1,6 +1,6 @@
-import React from 'react';
-import classes from './Undo.module.scss';
-import { FaUndo } from 'react-icons/fa';
+import React from 'react'
+import classes from './Undo.module.scss'
+import { FaUndo } from 'react-icons/fa'
 
 const Undo = (props) => {
   return (
@@ -10,7 +10,7 @@ const Undo = (props) => {
     >
       <FaUndo className={classes.Icon}/>
     </button>
-  );
-};
+  )
+}
 
-export default Undo;
+export default Undo

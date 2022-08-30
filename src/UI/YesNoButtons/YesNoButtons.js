@@ -1,13 +1,13 @@
-import React from 'react';
-import './YesNoButtons.scss';
-import { FaCheck, FaBan } from 'react-icons/fa';
+import React from 'react'
+import './YesNoButtons.scss'
+import { FaCheck, FaBan } from 'react-icons/fa'
 
 const YesNoButtons = (props) => {
-  let styleSetFirst = ['button', 'green'];
-  let styleSetSecond = ['button', 'red'];
+  let styleSetFirst = ['button', 'green']
+  let styleSetSecond = ['button', 'red']
 
-  if (props.activity === 1) styleSetFirst.push('selected');
-  if (props.activity === 2) styleSetSecond.push('selected');
+  if (props.activity === 1) styleSetFirst.push('selected')
+  if (props.activity === 2) styleSetSecond.push('selected')
   
   return (
     <div className='buttonsDiv'>
@@ -25,7 +25,7 @@ const YesNoButtons = (props) => {
         <FaBan />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default YesNoButtons;
+export default YesNoButtons

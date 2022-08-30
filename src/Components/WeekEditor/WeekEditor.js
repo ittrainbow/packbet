@@ -1,94 +1,94 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import structuredClone from '@ungap/structured-clone';
+import React from 'react'
+import { connect } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import structuredClone from '@ungap/structured-clone'
 
-import classes from './WeekEditor.module.scss';
-import Button from '../../UI/Button/Button';
-import Loader from '../../UI/Loader/Loader';
-import Input from '../../UI/Input/Input';
-import axios from '../../axios/axios';
-import Undo from '../../UI/Undo/Undo';
-import Edit from '../../UI/Edit/Edit';
-import { actionInit } from '../../redux/actions/weekActions';
-import { switchLoading } from '../../redux/actions/loadingActions';
+import classes from './WeekEditor.module.scss'
+import Button from '../../UI/Button/Button'
+import Loader from '../../UI/Loader/Loader'
+import Input from '../../UI/Input/Input'
+import axios from '../../axios/axios'
+import Undo from '../../UI/Undo/Undo'
+import Edit from '../../UI/Edit/Edit'
+import { actionInit } from '../../redux/actions/weekActions'
+import { switchLoading } from '../../redux/actions/loadingActions'
 import { 
   setEditorCurrentQuestion,
   setEditorCurrentTotal,
   setEditorCurrentID,
   setEditorQuestions
-} from '../../redux/actions/editorActions';
+} from '../../redux/actions/editorActions'
 
 const WeekEditor = (props) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   function addQuestionHandler() {
-    const questions = structuredClone(props.editor.questions);
+    const questions = structuredClone(props.editor.questions)
     const id = props.editor.currentID === null 
       ? props.editor.questions.length 
-      : props.editor.currentID;
+      : props.editor.currentID
 
-    const obj = {};
-    obj['id'] = id;
-    obj['question'] = props.editor.currentQuestion;
-    obj['total'] = props.editor.currentTotal;
-    questions[id] = obj;
+    const obj = {}
+    obj['id'] = id
+    obj['question'] = props.editor.currentQuestion
+    obj['total'] = props.editor.currentTotal
+    questions[id] = obj
 
-    props.setQuestions(questions);
-    props.setCurrentQuestion('');
-    props.setCurrentID('');
-    props.setCurrentTotal('');
-  };
+    props.setQuestions(questions)
+    props.setCurrentQuestion('')
+    props.setCurrentID('')
+    props.setCurrentTotal('')
+  }
 
   function editQuestionHandler(question) {
-    props.setCurrentQuestion(question.question);
-    props.setCurrentID(question.id);
-    props.setCurrentTotal(question.total);
-  };
+    props.setCurrentQuestion(question.question)
+    props.setCurrentID(question.id)
+    props.setCurrentTotal(question.total)
+  }
 
   function deleteQuestionHandler(index) {
-    const questions = structuredClone(props.editor.questions);
-    questions.splice(index, 1);
-    props.setQuestions(questions);
-  };
+    const questions = structuredClone(props.editor.questions)
+    questions.splice(index, 1)
+    props.setQuestions(questions)
+  }
 
   function changeHandler(event, tag) {
-    if (tag === 'Question') props.setCurrentQuestion(event.target.value);
-    if (tag === 'Total') props.setCurrentTotal(event.target.value);
-  };
+    if (tag === 'Question') props.setCurrentQuestion(event.target.value)
+    if (tag === 'Total') props.setCurrentTotal(event.target.value)
+  }
 
   async function submitHandler() {
-    props.switchLoading(true);
+    props.switchLoading(true)
 
     const qs = props.editor.questions.map((question, index) => {
-      question['id'] = index;
-      return question;
-    });
+      question['id'] = index
+      return question
+    })
 
     const week = {
       id: props.editor.currentWeek,
       name: props.editor.currentName,
       number: props.editor.currentWeek + 1,
       questions: qs
-    };
+    }
 
     try {
-      const response = await axios.get('pack/weeks.json');
+      const response = await axios.get('pack/weeks.json')
       const currentHash = Object.keys(response.data)
-        .filter((el) => response.data[el].id === props.editor.currentWeek)[0];      
-      await axios.put(`pack/weeks/${currentHash}.json`, week);
+        .filter((el) => response.data[el].id === props.editor.currentWeek)[0]      
+      await axios.put(`pack/weeks/${currentHash}.json`, week)
   
-      const weeks = structuredClone(props.weeks);
-      weeks[props.editor.currentWeek] = week;
-      props.actionInit(weeks);  
+      const weeks = structuredClone(props.weeks)
+      weeks[props.editor.currentWeek] = week
+      props.actionInit(weeks)  
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
       
-    props.switchLoading(false);
+    props.switchLoading(false)
 
-    navigate('/calendar');
-  };
+    navigate('/calendar')
+  }
 
   function renderQuestions() {
     return (
@@ -109,31 +109,31 @@ const WeekEditor = (props) => {
               onClick={() => editQuestionHandler(question)}
             />
           </div>
-        );
+        )
       })
-    );
-  };
+    )
+  }
 
   async function deleteWeekHandler() {
-    props.switchLoading(true);
+    props.switchLoading(true)
 
     try {
-      const response = await axios.get('pack/weeks.json');
+      const response = await axios.get('pack/weeks.json')
       const currentHash = Object.keys(response.data)
-        .filter((el) => response.data[el].id === props.editor.currentWeek)[0];
+        .filter((el) => response.data[el].id === props.editor.currentWeek)[0]
 
-      await axios.delete(`pack/weeks/${currentHash}.json`);
+      await axios.delete(`pack/weeks/${currentHash}.json`)
 
-      const array = structuredClone(props.weeks);
-      const newWeeks = array.filter((el) => el.id !== props.editor.currentWeek);
+      const array = structuredClone(props.weeks)
+      const newWeeks = array.filter((el) => el.id !== props.editor.currentWeek)
 
-      props.actionInit(newWeeks);
+      props.actionInit(newWeeks)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
     
-    props.switchLoading(false);
-    navigate('/calendar');
+    props.switchLoading(false)
+    navigate('/calendar')
   }
   
   function renderInputs() {
@@ -162,7 +162,7 @@ const WeekEditor = (props) => {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -201,8 +201,8 @@ const WeekEditor = (props) => {
         }
       </div>
     </div>
-  );
-};
+  )
+}
 
 function mapStateToProps(state) {
   return {
@@ -210,7 +210,7 @@ function mapStateToProps(state) {
     weekId: state.week.weekId,
     loading: state.loading.loading,
     editor: state.editor,
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -223,7 +223,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentTotal: (currentTotal) => dispatch(setEditorCurrentTotal(currentTotal)),
     setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
     setQuestions: (questions) => dispatch(setEditorQuestions(questions))
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeekEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(WeekEditor)

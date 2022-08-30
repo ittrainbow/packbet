@@ -6,7 +6,7 @@ import {
   SET_EDITOR_CURRENT_ID,
   SET_EDITOR_CURRENT_DEADLINE,
   SET_EDITOR_QUESTIONS
-} from '../types';
+} from '../types'
 
 const initialState = {
   currentWeek: '',
@@ -16,7 +16,7 @@ const initialState = {
   currentTotal: '',
   currentID: '',
   currentDeadline: ''
-};
+}
 
 export default function editorReducer(state = initialState, action) {
   switch (action.type) {    
@@ -25,45 +25,45 @@ export default function editorReducer(state = initialState, action) {
       return {
         ...state,
         questions: action.questions
-      };
+      }
       
     case SET_EDITOR_CURRENT_WEEK:
       return {
         ...state,
         currentWeek: action.currentWeek
-      };
+      }
  
     case SET_EDITOR_CURRENT_NAME:
       return {
         ...state,
         currentName: action.currentName
-      };
+      }
       
     case SET_EDITOR_CURRENT_QUESTION:
       return {
         ...state,
         currentQuestion: action.currentQuestion
-      };
+      }
       
     case SET_EDITOR_CURRENT_TOTAL:
       return {
         ...state,
         currentTotal: action.currentTotal
-      };
+      }
       
     case SET_EDITOR_CURRENT_ID:
       return {
         ...state,
         currentID: action.currentID
-      };
+      }
 
     case SET_EDITOR_CURRENT_DEADLINE:
       return {
         ...state,
         currentDeadline: action.currentDeadline
-      };
+      }
 
     default:
-      return state;
+      return state
   }
 }

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux/es/exports';
-import Auth from '../Components/Auth/Auth';
-import Userpage from '../Components/Userpage/Userpage';
-import classes from './Pages.module.scss';
+import React, { Component } from 'react'
+import { connect } from 'react-redux/es/exports'
+import Auth from '../Components/Auth/Auth'
+import Userpage from '../Components/Userpage/Userpage'
+import classes from './Pages.module.scss'
 
 class Profile extends Component {
 
@@ -14,11 +14,11 @@ class Profile extends Component {
     if (this.props.isAuthenticated) {
       return (
         <Userpage />
-      );
+      )
     } else {
       return (
         <Auth />
-      );
+      )
     }
   }
 
@@ -29,22 +29,22 @@ class Profile extends Component {
         { this.renderPage() }
   
       </div>
-    );
+    )
   }
 
-};
+}
 
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.token,
     authPage: state.auth.authPage
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
 
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

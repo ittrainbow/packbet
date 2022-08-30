@@ -1,88 +1,88 @@
-import React, { Component } from 'react';
-import structuredClone from '@ungap/structured-clone';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import structuredClone from '@ungap/structured-clone'
+import { connect } from 'react-redux'
 
-import './Week.scss';
-import Loader from '../../UI/Loader/Loader';
-import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons';
-import Button from '../../UI/Button/Button';
-import axios from '../../axios/axios';
-import { actionWeekId } from '../../redux/actions/weekActions';
-import { actionButtonState } from '../../redux/actions/authActions';
-import { switchLoading } from '../../redux/actions/loadingActions';
+import './Week.scss'
+import Loader from '../../UI/Loader/Loader'
+import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons'
+import Button from '../../UI/Button/Button'
+import axios from '../../axios/axios'
+import { actionWeekId } from '../../redux/actions/weekActions'
+import { actionButtonState } from '../../redux/actions/authActions'
+import { switchLoading } from '../../redux/actions/loadingActions'
 
 class Week extends Component {
 
   today() {
-    const today = new Date().toISOString().split('T').join(' ').substring(0, 16);
-    const deadline = this.props.weeks[this.props.weekId].deadline;
+    const today = new Date().toISOString().split('T').join(' ').substring(0, 16)
+    const deadline = this.props.weeks[this.props.weekId].deadline
 
-    return today < deadline;
+    return today < deadline
   }
 
   onClickHandler = (index) => {
-    const state = structuredClone(this.props.buttons);    
-    const i = Math.floor(index / 2);
-    const yesno = index % 2;
+    const state = structuredClone(this.props.buttons)    
+    const i = Math.floor(index / 2)
+    const yesno = index % 2
 
-    let status = state[this.props.weekId][i];
+    let status = state[this.props.weekId][i]
 
     if (yesno === 0) {
       status = (status !== 1)
         ? 1
-        : 0;
+        : 0
     }
 
     if (yesno === 1) {
       status = (status !== 2)
         ? 2
-        : 0;
+        : 0
     }
 
-    state[this.props.weekId][i] = status;
+    state[this.props.weekId][i] = status
 
     if (this.today()) {
-      this.props.setButtonState(state);
+      this.props.setButtonState(state)
     }
-  };
+  }
 
   async submitHandler() {
-    this.props.loading(true);
+    this.props.loading(true)
 
-    const data = this.props.buttons[this.props.weekId];
+    const data = this.props.buttons[this.props.weekId]
     const url = this.props.isAdmin
       ? `pack/answers/weeks/${this.props.weekId}.json`
-      : `pack/users/${this.props.userId}/weeks/${this.props.weekId}.json`;
+      : `pack/users/${this.props.userId}/weeks/${this.props.weekId}.json`
 
-    await axios.put(url, data);
+    await axios.put(url, data)
     
-    this.props.loading(false);
+    this.props.loading(false)
   }
 
   renderQuestions(questions) {
     return (
       questions.map((question, index) => {
-        const weekId = this.props.weekId;
-        const buttons = this.props.buttons;
-        const currentWeek = this.props.currentWeek;        
-        const answers = this.props.answers;
+        const weekId = this.props.weekId
+        const buttons = this.props.buttons
+        const currentWeek = this.props.currentWeek        
+        const answers = this.props.answers
 
         const activity = buttons[weekId]
           ? buttons[weekId][index]
-          : buttons[currentWeek][index];
+          : buttons[currentWeek][index]
 
         const result = answers[weekId]
           ? answers[weekId][index]
-          : answers[currentWeek][index];
+          : answers[currentWeek][index]
 
-        const styleSet = ['Questions'];
+        const styleSet = ['Questions']
 
         if (activity && result && !this.props.isAdmin && activity === result) {
-          styleSet.push('QuestionCorrect');
+          styleSet.push('QuestionCorrect')
         } else if (activity && result && !this.props.isAdmin && activity !== result) {
-          styleSet.push('QuestionWrong');
+          styleSet.push('QuestionWrong')
         } else if (!activity || !result || this.props.isAdmin) {
-          styleSet.push('QuestionUntouched');
+          styleSet.push('QuestionUntouched')
         }
         
         return (          
@@ -95,17 +95,17 @@ class Week extends Component {
               onClick={(index) => this.onClickHandler(index)}
             />
           </div>
-        );
+        )
       })
-    );
-  };
+    )
+  }
 
   render() {
     const id = this.props.weekId || this.props.weekId === 0
       ? this.props.weekId
-      : this.props.currentWeek;
+      : this.props.currentWeek
       
-    const thisweek = this.props.weeks[id];
+    const thisweek = this.props.weeks[id]
     return (
       <div className='Week'> 
         <h3>#{ thisweek.number }: { thisweek.name }</h3>
@@ -127,7 +127,7 @@ class Week extends Component {
           }
         </div>
       </div>
-    );      
+    )      
   }
 }
 
@@ -142,7 +142,7 @@ function mapStateToProps(state) {
     isAdmin: state.auth.isAdmin,
     loading: state.loading.loading,
     message: state.loading.message
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -150,7 +150,7 @@ function mapDispatchToProps(dispatch) {
     switchLoading: (status) => dispatch(switchLoading(status)),
     setWeekId: (id) => dispatch(actionWeekId(id)),
     setButtonState: (state) => dispatch(actionButtonState(state))
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Week);
+export default connect(mapStateToProps, mapDispatchToProps)(Week)

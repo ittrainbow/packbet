@@ -1,16 +1,16 @@
-import React from 'react';
-import classes from './Button.module.scss';
+import React from 'react'
+import classes from './Button.module.scss'
 
 const Button = (props) => {
   const cls = [
     classes.Button,
     classes[props.type]
-  ];
+  ]
 
   if (props.heightStyle === 'ButtonHeight') {
-    cls.push(classes.ButtonBig);
+    cls.push(classes.ButtonBig)
   } else {
-    cls.push(classes.ButtonSmall);
+    cls.push(classes.ButtonSmall)
   }
 
   return (
@@ -21,7 +21,7 @@ const Button = (props) => {
     >
       {props.text}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

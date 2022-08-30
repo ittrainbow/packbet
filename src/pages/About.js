@@ -1,6 +1,6 @@
-import React from 'react';
-import About from '../Components/About/About';
-import classes from './Pages.module.scss';
+import React from 'react'
+import About from '../Components/About/About'
+import classes from './Pages.module.scss'
 
 const Home = () => {
   return (
@@ -8,7 +8,7 @@ const Home = () => {
       <h3>About</h3>
       <About />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

@@ -1,17 +1,17 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Sidebar from '../Sidebar/Sidebar';
-import WeekEditor from '../WeekEditor/WeekEditor';
-import About from '../../pages/About';
-import Calendar from '../../pages/Calendar';
-import Creator from '../../pages/Creator';
-import CurrentWeek from '../../pages/CurrentWeek';
-import Editor from '../../pages/Editor';
-import OldWeek from '../../pages/OldWeek';
-import Profile from '../../pages/Profile';
-import Standings from '../../pages/Standings';
-import AdminRoute from './AdminRoute';
-import PrivateRoute from './PrivateRoute';
+import Sidebar from '../Sidebar/Sidebar'
+import WeekEditor from '../WeekEditor/WeekEditor'
+import About from '../../pages/About'
+import Calendar from '../../pages/Calendar'
+import Creator from '../../pages/Creator'
+import CurrentWeek from '../../pages/CurrentWeek'
+import Editor from '../../pages/Editor'
+import OldWeek from '../../pages/OldWeek'
+import Profile from '../../pages/Profile'
+import Standings from '../../pages/Standings'
+import AdminRoute from './AdminRoute'
+import PrivateRoute from './PrivateRoute'
 
 const AppRoutes = () => {
   return (
@@ -49,7 +49,7 @@ const AppRoutes = () => {
       </Sidebar>
 
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default AppRoutes;
+export default AppRoutes

@@ -1,9 +1,9 @@
-import { SWITCH_LOADING } from "../types";
+import { SWITCH_LOADING } from "../types"
 
 const initialState = {
   loading: false,
   message: ''
-};
+}
 
 export default function loadingReducer(state = initialState, action) {
   switch (action.type) {
@@ -11,10 +11,10 @@ export default function loadingReducer(state = initialState, action) {
       return {
         ...state,
         loading: action.loading
-      };
+      }
 
     default: 
-      return state;
-  };
+      return state
+  }
 
 }

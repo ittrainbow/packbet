@@ -1,24 +1,24 @@
-import React from 'react';
-import classes from './WeekList.module.scss';
-import { NavLink } from 'react-router-dom';
-import Loader from '../../UI/Loader/Loader';
+import React from 'react'
+import classes from './WeekList.module.scss'
+import { NavLink } from 'react-router-dom'
+import Loader from '../../UI/Loader/Loader'
 
-import { connect } from 'react-redux';
-import { actionWeekId } from '../../redux/actions/weekActions';
+import { connect } from 'react-redux'
+import { actionWeekId } from '../../redux/actions/weekActions'
 import { 
   setEditorCurrentWeek,
   setEditorCurrentName,
   setEditorQuestions
-} from '../../redux/actions/editorActions';
+} from '../../redux/actions/editorActions'
 
 const WeekList = (props) => {
 
   function setState(id) {
-    const week = props.weeks[id];
-    props.setWeekId(id);
-    props.setCurrentWeek(id);
-    props.setCurrentName(week.name);
-    props.setQuestions(week.questions);
+    const week = props.weeks[id]
+    props.setWeekId(id)
+    props.setCurrentWeek(id)
+    props.setCurrentName(week.name)
+    props.setQuestions(week.questions)
   }
 
   function renderWeeks() {
@@ -44,12 +44,12 @@ const WeekList = (props) => {
                 </NavLink>
             }
           </li>
-        );
-      });
+        )
+      })
     } else {
       return (
         <Loader/>
-      );
+      )
     }
   }
 
@@ -57,14 +57,14 @@ const WeekList = (props) => {
     <div className={classes.WeekList}>
       { renderWeeks() }
     </div>
-  );
-};
+  )
+}
 
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     editorStatus: state.week.editorStatus
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -73,7 +73,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
     setQuestions: (questions) => dispatch(setEditorQuestions(questions))
-  };
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeekList);
+export default connect(mapStateToProps, mapDispatchToProps)(WeekList)

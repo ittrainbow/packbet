@@ -6,10 +6,10 @@ import {
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERS
-} from '../types';
+} from '../types'
 
-import { findUser } from '../../frame/findUser';
-import axios from 'axios';
+import { findUser } from '../../frame/findUser'
+import axios from 'axios'
 
 export function auth(email, password, isLogin) {
   return async dispatch => {
@@ -17,83 +17,83 @@ export function auth(email, password, isLogin) {
       email,
       password,
       returnSecureToken: true
-    };
+    }
 
     const authUrl = isLogin
       ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
-      : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI';
+      : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
 
-    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/';
+    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
     
-    const authResponse = await axios.post(authUrl, authData);
+    const authResponse = await axios.post(authUrl, authData)
 
-    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`);
-    const usersResponse = await axios.get(`${dbUrl}/users.json`);
-    const answersResponse = await axios.get(`${dbUrl}/answers.json`);
-    const userId = findUser(usersResponse.data, email)[0];
-    const isAdmin = authResponse.data.email === 'nom4d@yandex.ru';
+    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
+    const usersResponse = await axios.get(`${dbUrl}/users.json`)
+    const answersResponse = await axios.get(`${dbUrl}/answers.json`)
+    const userId = findUser(usersResponse.data, email)[0]
+    const isAdmin = authResponse.data.email === 'nom4d@yandex.ru'
 
-    const answerState = createButtonsObj(answersResponse.data.weeks, weeksResponse.data);
-    const buttonState = createButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data);
-    const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000);
+    const answerState = createButtonsObj(answersResponse.data.weeks, weeksResponse.data)
+    const buttonState = createButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
+    const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
 
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
-    localStorage.setItem('expirationDate', expirationDate);
+    localStorage.setItem('email', email)
+    localStorage.setItem('password', password)
+    localStorage.setItem('expirationDate', expirationDate)
 
-    dispatch(setAdmin(isAdmin));
-    dispatch(authSuccess(authResponse.data.idToken));
-    dispatch(autoLogout(authResponse.data.expiresIn));
-    dispatch(setAnswerState(answerState));
-    dispatch(setCurrentUser(userId, usersResponse.data[userId].name));
+    dispatch(setAdmin(isAdmin))
+    dispatch(authSuccess(authResponse.data.idToken))
+    dispatch(autoLogout(authResponse.data.expiresIn))
+    dispatch(setAnswerState(answerState))
+    dispatch(setCurrentUser(userId, usersResponse.data[userId].name))
 
     isAdmin
       ? dispatch(getButtonState(answerState))
-      : dispatch(getButtonState(buttonState));
-  };
+      : dispatch(getButtonState(buttonState))
+  }
 }
 
 function createButtonsObj(buttons = 0, weeks) {
-  const buttonState = {};
+  const buttonState = {}
 
   for (let i=0; i<Object.keys(weeks).length; i++) {
-    const weeklyButtons = {};
+    const weeklyButtons = {}
 
     if (buttons[i]) {
       for (let j=0; j<buttons[i].length; j++) {
-        weeklyButtons[j] = buttons[i][j];
+        weeklyButtons[j] = buttons[i][j]
       }
     } else {
       for (let j=0; j<weeks[Object.keys(weeks)[i]].questions.length; j++) {
-        weeklyButtons[j] = 0;
+        weeklyButtons[j] = 0
       }
     }
 
-    buttonState[i] = weeklyButtons;
+    buttonState[i] = weeklyButtons
   }
 
-  return buttonState;
+  return buttonState
 }
 
 export function getButtonState(buttonState) {
   return {
     type: GET_BUTTONSTATE,
     buttonState: buttonState
-  };
+  }
 }
 
 export function setAnswerState(answerState) {
   return {
     type: SET_ANSWERS,
     answerState: answerState
-  };
+  }
 }
 
 export function authSuccess(token) {
   return {
     type: AUTH_SUCCESS,
     token: token
-  };
+  }
 }
 
 export function setCurrentUser(id, name) {
@@ -101,56 +101,56 @@ export function setCurrentUser(id, name) {
     type: SET_CURRENT_USER,
     id: id,
     name: name
-  };
+  }
 }
 
 export function autoLogin() {
   return dispatch => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     
     if (!token) {
-      dispatch(logout());
+      dispatch(logout())
     } else {
-      const expirationDate = new Date(localStorage.getItem('expirationDate'));
+      const expirationDate = new Date(localStorage.getItem('expirationDate'))
 
       if (expirationDate <= new Date()) {
-        dispatch(logout());
+        dispatch(logout())
       } else {        
-        dispatch(authSuccess(token));
-        dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000));
+        dispatch(authSuccess(token))
+        dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
       }
     }
-  };
+  }
 }
 
 export function autoLogout(time) {
   return dispatch => {
     setTimeout(() => {
-      dispatch(logout());
-    }, time * 1000);
-  };
+      dispatch(logout())
+    }, time * 1000)
+  }
 }
 
 export function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('userId');
-  localStorage.removeItem('expirationDate');
+  localStorage.removeItem('token')
+  localStorage.removeItem('userId')
+  localStorage.removeItem('expirationDate')
 
   return {
     type: AUTH_LOGOUT,
-  };
+  }
 }
 
 export function setAdmin(value) {
   return {
     type: SET_ADMIN,
     value: value
-  };
+  }
 }
 
 export function actionButtonState(state) {
   return {
     type: SET_BUTTONSTATE,
     payload: state
-  };
+  }
 }
