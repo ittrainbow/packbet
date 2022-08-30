@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 import classes from './WeekEditor.module.scss';
 import Button from '../../UI/Button/Button';
@@ -9,7 +10,6 @@ import axios from '../../axios/axios';
 import Undo from '../../UI/Undo/Undo';
 import Edit from '../../UI/Edit/Edit';
 import { actionInit, actionCurrentWeek, actionWeekId } from '../../redux/actions/weekActions';
-
 class WeekEditor extends Component {
 
   state = {
@@ -19,7 +19,7 @@ class WeekEditor extends Component {
     name: '',
     questions: [],
     currentQuestion: '',
-    currentTotal: '',
+    currentTotal: null,
     loading: false
   };
   
@@ -57,6 +57,8 @@ class WeekEditor extends Component {
 
   addQuestionHandler = (event) => {
     event.preventDefault();
+    
+    console.log(this.state.currentTotal)
 
     const questions = this.state.questions;
     const id = this.state.currentID === null 
@@ -105,7 +107,12 @@ class WeekEditor extends Component {
     if (tag === 'Q') {
       this.setState({ currentQuestion: event.target.value });
     } else if (tag === 'T') {
-      this.setState({ currentTotal: event.target.value });
+      const total = event.target.value
+      console.log('total', parseFloat(total))
+      this.setState({ currentTotal: parseFloat(event.target.value) },
+        function () {
+          console.log(this.state.currentTotal)
+        });
     }
   };
 
@@ -129,17 +136,22 @@ class WeekEditor extends Component {
     };
 
     try {
-      await axios.put(`pack/weeks/${this.state.currentHash}.json`, week);;
+      console.log(1233)
+      await axios.put(`pack/weeks/${this.state.currentHash}.json`, week);
+      console.log(1234)
       
       const response = await axios.get('pack/weeks.json');
       const weeks = Object.keys(response.data)
         .map((el) => response.data[el]);
+      console.log(1235)
   
-      this.props.actionInit(weeks);   
+      this.props.actionInit(weeks);
+      this.props.setCurrentWeek(weeks.length - 1);
+  
     } catch (error) {
       console.log(error);
     }
-
+      
     this.setState({ 
       loading: false 
     });
@@ -168,6 +180,32 @@ class WeekEditor extends Component {
       })
     );
   };
+
+  deleteWeekHandler = async (event) => {
+    event.preventDefault();
+
+    this.setState({ 
+      loading: true
+    });
+
+    try {
+      await axios.delete(`pack/weeks/${this.state.currentHash}.json`);
+      const response = await axios.get('pack/weeks.json');
+      const weeks = Object.keys(response.data)
+        .map((el) => response.data[el]);
+
+      this.props.actionInit(weeks);
+      this.props.setCurrentWeek(weeks.length - 1);
+    } catch (error) {
+      console.log(error)
+    }
+
+    this.setState({ 
+      loading: false
+    });
+
+    <Navigate to='/'/>
+  }
   
   renderInputs() {
     return (
@@ -187,7 +225,9 @@ class WeekEditor extends Component {
           <div className={classes.Total}>
             <Input
               label='Тотал'
-              value={this.state.currentTotal}
+              type='number'
+              step="0.5"
+              value={this.state.currentTotal ? this.state.currentTotal : ''}
               onChange={(event) => this.changeHandler(event, 'T')}
             />
           </div>
@@ -212,8 +252,8 @@ class WeekEditor extends Component {
                     type='primary'
                     onClick={(event) => this.addQuestionHandler(event)}
                     disabled={
-                      this.state.currentQuestion.length === 0 ||
-                      this.state.currentTotal.length === 0
+                      this.state.currentQuestion.length === 0 &&
+                      !this.state.currentTotal
                     }
                   />
       
@@ -232,6 +272,13 @@ class WeekEditor extends Component {
                         }
                       />
                   }
+
+                  <div>   
+                    <Button
+                      text='Удалить'
+                      onClick={this.deleteWeekHandler}
+                    />
+                  </div>    
 
                 </form>
           }
