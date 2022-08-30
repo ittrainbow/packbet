@@ -1,4 +1,4 @@
-import { SWITCH_LOADING } from "../types";
+import { SWITCH_LOADING } from "../types"
 
 export function switchLoading(loading) {
   return {

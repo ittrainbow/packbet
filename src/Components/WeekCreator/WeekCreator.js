@@ -11,7 +11,7 @@ import Undo from '../../UI/Undo/Undo';
 import Edit from '../../UI/Edit/Edit';
 import axios from '../../axios/axios';
 import Loader from '../../UI/Loader/Loader';
-import { actionInit, actionCurrentWeek} from '../../redux/actions/weekActions';
+import { actionInit } from '../../redux/actions/weekActions';
 import { 
   setEditorCurrentWeek,
   setEditorCurrentName,
@@ -30,9 +30,11 @@ const WeekCreator = (props) => {
     event.preventDefault();
     props.switchLoading(true);
 
-    const id = props.editor.currentID === '' 
-      ? props.editor.questions.length 
-      : props.editor.currentID;
+    const id = props.editor.currentID 
+      ? props.editor.currentID 
+      : props.editor.currentID === 0
+          ? props.editor.currentID
+          : props.editor.questions.length;
 
     const obj = {};
     obj['id'] = id;
@@ -46,6 +48,7 @@ const WeekCreator = (props) => {
     props.setCurrentQuestion('');
     props.setCurrentTotal('');    
     props.switchLoading(false);
+    props.setCurrentID('');
   };
 
   function editQuestionHandler(question) {
@@ -61,11 +64,11 @@ const WeekCreator = (props) => {
   };
 
   function changeHandler (event, tag) {
-    if (tag === 'setCurrentWeek') props.setCurrentWeek(Number(event.target.value))
-    if (tag === 'setCurrentName') props.setCurrentName(event.target.value)
-    if (tag === 'setCurrentQuestion') props.setCurrentQuestion(event.target.value)
-    if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value)
-    if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
+    if (tag === 'setCurrentWeek') props.setCurrentWeek(Number(event.target.value));
+    if (tag === 'setCurrentName') props.setCurrentName(event.target.value);
+    if (tag === 'setCurrentQuestion') props.setCurrentQuestion(event.target.value);
+    if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value);
+    if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value);
   };
 
   async function submitHandler () {
@@ -84,7 +87,8 @@ const WeekCreator = (props) => {
       deadline: props.editor.currentDeadline
     };
 
-    const weeks = props.weeks.concat(week);
+    const weeks = structuredClone(props.weeks);
+    weeks.push(week);
 
     await axios.post('pack/weeks.json', week);
 
@@ -193,7 +197,7 @@ const WeekCreator = (props) => {
       />
     </div>
   );
-}
+};
 
 function mapStateToProps(state) {
   return {
@@ -208,7 +212,6 @@ function mapDispatchToProps(dispatch) {
     switchLoading: (status) => dispatch(switchLoading(status)),
 
     actionInit: (weeks) => dispatch(actionInit(weeks)),
-    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
 
     setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
@@ -217,7 +220,7 @@ function mapDispatchToProps(dispatch) {
     setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
     setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline)),
     setQuestions: (questions) => dispatch(setEditorQuestions(questions))
-  }
+  };
 }
  
 export default connect(mapStateToProps, mapDispatchToProps)(WeekCreator);

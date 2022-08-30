@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 class CurrentWeek extends Component {
 
   componentDidMount() {
-    this.props.setId(this.props.currentweek);
+    this.props.setId(this.props.currentWeek);
   }
 
   render () {

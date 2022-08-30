@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classes from './WeekList.module.scss';
 import { NavLink } from 'react-router-dom';
 import Loader from '../../UI/Loader/Loader';
@@ -8,10 +8,6 @@ import { actionWeekId } from '../../redux/actions/weekActions';
 import { 
   setEditorCurrentWeek,
   setEditorCurrentName,
-  setEditorCurrentQuestion,
-  setEditorCurrentTotal,
-  setEditorCurrentID,
-  setEditorCurrentDeadline,
   setEditorQuestions
 } from '../../redux/actions/editorActions';
 
@@ -19,6 +15,7 @@ const WeekList = (props) => {
 
   function setState(id) {
     const week = props.weeks[id];
+    props.setWeekId(id);
     props.setCurrentWeek(id);
     props.setCurrentName(week.name);
     props.setQuestions(week.questions);
@@ -61,7 +58,7 @@ const WeekList = (props) => {
       { renderWeeks() }
     </div>
   );
-}
+};
 
 function mapStateToProps(state) {
   return {
@@ -72,6 +69,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setWeekId: (id) => dispatch(actionWeekId(id)),
     setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
     setQuestions: (questions) => dispatch(setEditorQuestions(questions))

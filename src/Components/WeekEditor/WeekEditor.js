@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import structuredClone from '@ungap/structured-clone';
@@ -10,7 +10,7 @@ import Input from '../../UI/Input/Input';
 import axios from '../../axios/axios';
 import Undo from '../../UI/Undo/Undo';
 import Edit from '../../UI/Edit/Edit';
-import { actionInit, actionCurrentWeek, actionWeekId } from '../../redux/actions/weekActions';
+import { actionInit } from '../../redux/actions/weekActions';
 import { switchLoading } from '../../redux/actions/loadingActions';
 import { 
   setEditorCurrentQuestion,
@@ -36,13 +36,13 @@ const WeekEditor = (props) => {
 
     props.setQuestions(questions);
     props.setCurrentQuestion('');
-    props.setCurrentID('')
+    props.setCurrentID('');
     props.setCurrentTotal('');
   };
 
   function editQuestionHandler(question) {
     props.setCurrentQuestion(question.question);
-    props.setCurrentID(question.id)
+    props.setCurrentID(question.id);
     props.setCurrentTotal(question.total);
   };
 
@@ -53,8 +53,8 @@ const WeekEditor = (props) => {
   };
 
   function changeHandler(event, tag) {
-    if (tag === 'Question') props.setCurrentQuestion(event.target.value)
-    if (tag === 'Total') props.setCurrentTotal(event.target.value)
+    if (tag === 'Question') props.setCurrentQuestion(event.target.value);
+    if (tag === 'Total') props.setCurrentTotal(event.target.value);
   };
 
   async function submitHandler() {
@@ -118,17 +118,22 @@ const WeekEditor = (props) => {
     props.switchLoading(true);
 
     try {
-      await axios.delete(`pack/weeks/${props.currentHash}.json`);
-      const newWeeks = structuredClone(props.weeks);
+      const response = await axios.get('pack/weeks.json');
+      const currentHash = Object.keys(response.data)
+        .filter((el) => response.data[el].id === props.editor.currentWeek)[0];
 
-      newWeeks.splice(props.weekId, 1);
+      await axios.delete(`pack/weeks/${currentHash}.json`);
+
+      const array = structuredClone(props.weeks);
+      const newWeeks = array.filter((el) => el.id !== props.editor.currentWeek);
+
       props.actionInit(newWeeks);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     
     props.switchLoading(false);
-    navigate('/calendar')
+    navigate('/calendar');
   }
   
   function renderInputs() {
@@ -197,7 +202,7 @@ const WeekEditor = (props) => {
       </div>
     </div>
   );
-}
+};
 
 function mapStateToProps(state) {
   return {

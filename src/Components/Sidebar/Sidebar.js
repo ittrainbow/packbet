@@ -31,8 +31,6 @@ class Sidebar extends Component {
       { path: '/', name: 'About', icon:  <FaHome/> },
       { path: '/profile', name: 'Profile', icon: <FaUserAlt/> },
       { path: '/standings', name: 'Standings', icon: <FaListUl/> },
-      { path: '/editor', name: 'Editor', icon: <FaChevronCircleRight/> },
-      { path: '/create', name: 'New\u00A0Week', icon:  <FaStrava/> },
     ];
 
     if (this.props.isAuthenticated) {

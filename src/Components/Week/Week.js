@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import structuredClone from '@ungap/structured-clone';
 import { connect } from 'react-redux';
 
@@ -6,30 +6,19 @@ import './Week.scss';
 import Loader from '../../UI/Loader/Loader';
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons';
 import Button from '../../UI/Button/Button';
-import LogInMessage from '../../UI/LogInMessage/LogInMessage';
 import axios from '../../axios/axios';
 import { actionWeekId } from '../../redux/actions/weekActions';
 import { actionButtonState } from '../../redux/actions/authActions';
+import { switchLoading } from '../../redux/actions/loadingActions';
 
 class Week extends Component {
 
-  state = {
-    loading: false
-  };
+  today() {
+    const today = new Date().toISOString().split('T').join(' ').substring(0, 16);
+    const deadline = this.props.weeks[this.props.weekId].deadline;
 
-  // componentDidUpdate() {
-  //   const fromLink = window.location.pathname.split('/').slice(-1).toString();
-
-  //   if (this.props.weekId !== 0 && !this.props.weekId) {
-  //     const id = fromLink.length < 3
-  //       ? Number(fromLink)
-  //       : this.props.currentWeek;
-      
-  //       if (!this.props.currenweek) {
-  //         this.props.setWeekId(id);
-  //       }
-  //   }
-  // }
+    return today < deadline;
+  }
 
   onClickHandler = (index) => {
     const state = structuredClone(this.props.buttons);    
@@ -52,13 +41,13 @@ class Week extends Component {
 
     state[this.props.weekId][i] = status;
 
-    this.props.setButtonState(state);
+    if (this.today()) {
+      this.props.setButtonState(state);
+    }
   };
 
   async submitHandler() {
-    this.setState({
-      loading: true
-    });
+    this.props.loading(true);
 
     const data = this.props.buttons[this.props.weekId];
     const url = this.props.isAdmin
@@ -67,9 +56,7 @@ class Week extends Component {
 
     await axios.put(url, data);
     
-    this.setState({
-      loading: false
-    });
+    this.props.loading(false);
   }
 
   renderQuestions(questions) {
@@ -118,34 +105,29 @@ class Week extends Component {
       ? this.props.weekId
       : this.props.currentWeek;
       
-    if (!this.props.isAuthenticated) {
-      return (
-        <LogInMessage />
-      );
-
-    } else if (this.props.weeks && this.props.isAuthenticated) {
-      const thisweek = this.props.weeks[id];
-      return (
-        <div className='Week'> 
-          <h3>#{ thisweek.number }: { thisweek.name }</h3>
-          <div className='QuestionsBlockMargin'>
-            { this.renderQuestions(thisweek.questions) }
-          </div>
-          { this.state.loading
-              ? <Loader />
-              : <Button
-                  text='Submit'
-                  onClick={ this.submitHandler.bind(this) }  
-                />
-              }
+    const thisweek = this.props.weeks[id];
+    return (
+      <div className='Week'> 
+        <h3>#{ thisweek.number }: { thisweek.name }</h3>
+        <div className='QuestionsBlockMargin'>
+          { this.renderQuestions(thisweek.questions) }
         </div>
-      );
-      
-    } else {
-      return (
-        <Loader/>
-      );
-    }
+        { this.props.loading
+            ? <Loader />
+            : <Button
+                text='Submit'
+                onClick={ this.submitHandler.bind(this) }  
+                disabled={!this.today()}
+              />
+        }
+        <div style={{marginTop: '10px'}}>
+          { this.today()
+              ? `Прогнозы принимаются до ${this.props.weeks[this.props.weekId].deadline}`
+              : `Прогнозы принимались до ${this.props.weeks[this.props.weekId].deadline}`
+          }
+        </div>
+      </div>
+    );      
   }
 }
 
@@ -156,14 +138,16 @@ function mapStateToProps(state) {
     weekId: state.week.weekId,
     buttons: state.auth.buttonState,
     answers: state.auth.answerState,
-    isAuthenticated: !!state.auth.token,
     userId: state.auth.userId,
-    isAdmin: state.auth.isAdmin
+    isAdmin: state.auth.isAdmin,
+    loading: state.loading.loading,
+    message: state.loading.message
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    switchLoading: (status) => dispatch(switchLoading(status)),
     setWeekId: (id) => dispatch(actionWeekId(id)),
     setButtonState: (state) => dispatch(actionButtonState(state))
   };
