@@ -7,20 +7,13 @@ import axios from '../../axios/axios'
 import Button from '../../UI/Button/Button'
 import Loader from '../../UI/Loader/Loader'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
-import { actionGetOtherUsers, actionSwitchYourself } from '../../redux/actions/othersActions'
+import { 
+  actionGetOtherUsers, 
+  actionSwitchYourself 
+} from '../../redux/actions/othersActions'
+import { actionCreateStandings } from '../../redux/actions/weekActions'
 
 class Table extends Component {
-
-  state = {
-    table: null,
-  }
-
-  componentDidMount() {
-    console.log(5, this.props.standings)
-    this.setState({
-      table: this.props.standings
-    })
-  }
 
   async submitHandler() {
     this.props.switchLoading(true)
@@ -75,12 +68,10 @@ class Table extends Component {
       table.sort(compare)
     })
     
-    this.setState({
-      table: table
-    });
-
+    
     await axios.put('/pack/table.json', table)
-
+    
+    this.props.createStandings(table)
     this.props.switchLoading(false)
   }
 
@@ -119,7 +110,7 @@ class Table extends Component {
   }
 
   render() {
-    const table = {...this.state.table}
+    const table = {...this.props.standings}
     return (
       <div className={classes.Table}>   
         <table>        
@@ -165,7 +156,8 @@ function mapDispatchToProps(dispatch) {
   return {
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     switchYourself: (status) => dispatch(actionSwitchYourself(status)),
-    getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state))
+    getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state)),
+    createStandings: (standings) => dispatch(actionCreateStandings(standings))
   }
 }
 

@@ -1,16 +1,11 @@
 import React from 'react'
 import WeekCreator from '../Components/WeekCreator/WeekCreator'
 import classes from './Pages.module.scss'
-import { 
-  actionSetEditorCurrentName, 
-  actionSetEditorQuestions,
-  actionSetEditorCurrentWeek,
-  actionSetEditorCurrentDeadline
-} from '../redux/actions/editorActions'
+import { actionClearEditor } from '../redux/actions/editorActions'
 import { connect } from 'react-redux'
 
 const Creator = (props) => {
-
+  props.clearEditor()
 
   return (
     <div className={classes.Container}>
@@ -22,10 +17,7 @@ const Creator = (props) => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCurrentName: () => dispatch(actionSetEditorCurrentName(null)),
-    setQuestions: () => dispatch(actionSetEditorQuestions([])),
-    setCurrentWeek: () => dispatch(actionSetEditorCurrentWeek(null)),
-    setCurrentDeadline: () => dispatch(actionSetEditorCurrentDeadline(''))
+    clearEditor: () => dispatch(actionClearEditor())
   }
 }
 

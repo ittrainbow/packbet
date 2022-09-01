@@ -5,7 +5,8 @@ import {
   SET_EDITOR_CURRENT_TOTAL,
   SET_EDITOR_CURRENT_ID,
   SET_EDITOR_CURRENT_DEADLINE,
-  SET_EDITOR_QUESTIONS
+  SET_EDITOR_QUESTIONS,
+  CLEAR_EDITOR
 } from '../types'
 
 const initialState = {
@@ -61,6 +62,11 @@ export default function editorReducer(state = initialState, action) {
       return {
         ...state,
         currentDeadline: action.payload
+      }
+
+    case CLEAR_EDITOR:
+      return {
+        state: initialState
       }
 
     default:

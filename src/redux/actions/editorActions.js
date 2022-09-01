@@ -5,7 +5,8 @@ import {
   SET_EDITOR_CURRENT_TOTAL,
   SET_EDITOR_CURRENT_ID,
   SET_EDITOR_CURRENT_DEADLINE,
-  SET_EDITOR_QUESTIONS
+  SET_EDITOR_QUESTIONS,
+  CLEAR_EDITOR
 } from '../types'
 
 export function actionSetEditorCurrentWeek(currentWeek) {
@@ -54,5 +55,11 @@ export function actionSetEditorCurrentDeadline(currentDeadline) {
   return {
     type: SET_EDITOR_CURRENT_DEADLINE,
     payload: currentDeadline
+  }
+}
+
+export function actionClearEditor() {
+  return {
+    type: CLEAR_EDITOR
   }
 }

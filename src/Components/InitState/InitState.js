@@ -16,7 +16,6 @@ class InitState extends Component {
         .map(el => response.data[el])
         
       const standings = await axios.get('pack/table.json')
-      console.log(1, standings.data)
 
       this.props.init(weeks)      
       this.props.currentWeek(weeks.length - 1)

@@ -37,7 +37,7 @@ const WeekCreator = (props) => {
           : props.editor.questions.length
 
     const obj = {}
-    obj['id'] = id+1
+    obj['id'] = id
     obj['question'] = props.editor.currentQuestion
     obj['total'] = props.editor.currentTotal
 
