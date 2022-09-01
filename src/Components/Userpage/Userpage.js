@@ -2,12 +2,20 @@ import React, { Component } from 'react'
 import Button from '../../UI/Button/Button'
 import classes from './Userpage.module.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { logout } from '../../redux/actions/authActions'
 import { connect } from 'react-redux/es/exports'
+import { actionLogout } from '../../redux/actions/authActions'
+import { actionCleanOtherUser, actionSwitchYourself } from '../../redux/actions/othersActions'
 
 class Userpage extends Component {
   state = {
     showPassword: false
+  }
+
+  componentDidMount() {
+    if (!this.props.isItYou) {
+      this.props.cleanOtherUser()
+      this.props.switchToOther(true)
+    }
   }
 
   passwordHandler() {
@@ -53,13 +61,16 @@ class Userpage extends Component {
 
 function mapStateToProps(state) {
   return {
-    userName: state.auth.userName
+    userName: state.auth.userName,
+    isItYou: state.others.isItYou
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(actionLogout()),
+    switchYourself: (status) => dispatch(actionSwitchYourself(status)),
+    cleanOtherUser: () => dispatch(actionCleanOtherUser())
   }
 }
 

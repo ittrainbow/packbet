@@ -28,26 +28,26 @@ class Week extends Component {
     let status = state[this.props.weekId][i]
 
     if (yesno === 0) {
-      status = (status !== 1)
-        ? 1
-        : 0
+      status = (status === 1)
+        ? null
+        : 1
     }
 
     if (yesno === 1) {
-      status = (status !== 2)
-        ? 2
-        : 0
+      status = (status === 2)
+        ? null
+        : 2
     }
 
     state[this.props.weekId][i] = status
 
-    if (this.today()) {
+    if (this.props.isAdmin || this.today()) {
       this.props.setButtonState(state)
     }
   }
 
   async submitHandler() {
-    this.props.loading(true)
+    this.props.switchLoading(true)
 
     const data = this.props.buttons[this.props.weekId]
     const url = this.props.isAdmin
@@ -56,14 +56,16 @@ class Week extends Component {
 
     await axios.put(url, data)
     
-    this.props.loading(false)
+    this.props.switchLoading(false)
   }
 
   renderQuestions(questions) {
     return (
       questions.map((question, index) => {
         const weekId = this.props.weekId
-        const buttons = this.props.buttons
+        const buttons = this.props.isItYou
+          ? this.props.buttons
+          : this.props.otherState
         const currentWeek = this.props.currentWeek        
         const answers = this.props.answers
 
@@ -114,11 +116,16 @@ class Week extends Component {
         </div>
         { this.props.loading
             ? <Loader />
-            : <Button
-                text='Submit'
-                onClick={ this.submitHandler.bind(this) }  
-                disabled={!this.today()}
-              />
+            : this.props.isItYou
+                ? <Button
+                    text='Submit'
+                    onClick={ this.submitHandler.bind(this) }  
+                    disabled={!this.today() && !this.props.isAdmin}
+                  />
+                : 'Для возвращения к своему профилю перейдите на вкладку Profile'
+            
+            
+
         }
         <div style={{marginTop: '10px'}}>
           { this.today()
@@ -134,6 +141,8 @@ class Week extends Component {
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
+    otherState: state.others.buttonState,
+    isItYou: state.others.isItYou,
     currentWeek: state.week.currentWeek,
     weekId: state.week.weekId,
     buttons: state.auth.buttonState,

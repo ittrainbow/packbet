@@ -6,10 +6,6 @@ import classes from './Pages.module.scss'
 
 class Profile extends Component {
 
-  authPageHandler() {
-
-  }
-
   renderPage() {
     if (this.props.isAuthenticated) {
       return (
@@ -41,10 +37,4 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps, null)(Profile)

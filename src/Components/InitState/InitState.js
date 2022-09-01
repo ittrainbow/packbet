@@ -9,7 +9,7 @@ class InitState extends Component {
     try {
       const response = await axios.get('pack/weeks.json')
       const weeks = Object.keys(response.data)
-        .map((el) => response.data[el])
+        .map(el => response.data[el])
 
       this.props.actionInit(weeks)      
       this.props.setCurrentWeek(weeks.length - 1)

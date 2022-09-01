@@ -8,6 +8,7 @@ import { actionWeekId } from '../../redux/actions/weekActions'
 import { 
   setEditorCurrentWeek,
   setEditorCurrentName,
+  setEditorCurrentDeadline,
   setEditorQuestions
 } from '../../redux/actions/editorActions'
 
@@ -19,6 +20,7 @@ const WeekList = (props) => {
     props.setCurrentWeek(id)
     props.setCurrentName(week.name)
     props.setQuestions(week.questions)
+    props.setCurrentDeadline(week.deadline)
   }
 
   function renderWeeks() {
@@ -72,7 +74,8 @@ function mapDispatchToProps(dispatch) {
     setWeekId: (id) => dispatch(actionWeekId(id)),
     setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
-    setQuestions: (questions) => dispatch(setEditorQuestions(questions))
+    setQuestions: (questions) => dispatch(setEditorQuestions(questions)),
+    setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline))
   }
 }
 

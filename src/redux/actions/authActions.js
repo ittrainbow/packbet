@@ -31,7 +31,7 @@ export function auth(email, password, isLogin) {
     const usersResponse = await axios.get(`${dbUrl}/users.json`)
     const answersResponse = await axios.get(`${dbUrl}/answers.json`)
     const userId = findUser(usersResponse.data, email)[0]
-    const isAdmin = authResponse.data.email === 'nom4d@yandex.ru'
+    const isAdmin = authResponse.data.email === 'admin@admin.com'
 
     const answerState = createButtonsObj(answersResponse.data.weeks, weeksResponse.data)
     const buttonState = createButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
@@ -53,7 +53,7 @@ export function auth(email, password, isLogin) {
   }
 }
 
-function createButtonsObj(buttons = 0, weeks) {
+export function createButtonsObj(buttons = 0, weeks) {
   const buttonState = {}
 
   for (let i=0; i<Object.keys(weeks).length; i++) {
@@ -61,11 +61,13 @@ function createButtonsObj(buttons = 0, weeks) {
 
     if (buttons[i]) {
       for (let j=0; j<buttons[i].length; j++) {
-        weeklyButtons[j] = buttons[i][j]
+        weeklyButtons[j] = buttons[i][j] !== 0
+          ? buttons[i][j]
+          : null
       }
     } else {
       for (let j=0; j<weeks[Object.keys(weeks)[i]].questions.length; j++) {
-        weeklyButtons[j] = 0
+        weeklyButtons[j] = null
       }
     }
 

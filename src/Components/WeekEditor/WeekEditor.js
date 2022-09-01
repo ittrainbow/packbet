@@ -15,6 +15,7 @@ import { switchLoading } from '../../redux/actions/loadingActions'
 import { 
   setEditorCurrentQuestion,
   setEditorCurrentTotal,
+  setEditorCurrentDeadline,
   setEditorCurrentID,
   setEditorQuestions
 } from '../../redux/actions/editorActions'
@@ -55,6 +56,7 @@ const WeekEditor = (props) => {
   function changeHandler(event, tag) {
     if (tag === 'Question') props.setCurrentQuestion(event.target.value)
     if (tag === 'Total') props.setCurrentTotal(event.target.value)
+    if (tag === 'Deadline') props.setCurrentDeadline(event.target.value)
   }
 
   async function submitHandler() {
@@ -66,16 +68,18 @@ const WeekEditor = (props) => {
     })
 
     const week = {
+      deadline: props.editor.currentDeadline,
       id: props.editor.currentWeek,
       name: props.editor.currentName,
       number: props.editor.currentWeek + 1,
+      
       questions: qs
     }
 
     try {
       const response = await axios.get('pack/weeks.json')
       const currentHash = Object.keys(response.data)
-        .filter((el) => response.data[el].id === props.editor.currentWeek)[0]      
+        .filter(el => response.data[el].id === props.editor.currentWeek)[0]      
       await axios.put(`pack/weeks/${currentHash}.json`, week)
   
       const weeks = structuredClone(props.weeks)
@@ -120,12 +124,12 @@ const WeekEditor = (props) => {
     try {
       const response = await axios.get('pack/weeks.json')
       const currentHash = Object.keys(response.data)
-        .filter((el) => response.data[el].id === props.editor.currentWeek)[0]
+        .filter(el => response.data[el].id === props.editor.currentWeek)[0]
 
       await axios.delete(`pack/weeks/${currentHash}.json`)
 
       const array = structuredClone(props.weeks)
-      const newWeeks = array.filter((el) => el.id !== props.editor.currentWeek)
+      const newWeeks = array.filter(el => el.id !== props.editor.currentWeek)
 
       props.actionInit(newWeeks)
     } catch (error) {
@@ -144,7 +148,7 @@ const WeekEditor = (props) => {
         </div>
         
         <div className={classes.Row}>
-          <div className={classes.Line}>          
+          <div className={classes.Line}>
             <Input 
               label='Линия'
               value={props.editor.currentQuestion || ''}
@@ -186,17 +190,31 @@ const WeekEditor = (props) => {
                 <div className={classes.QuestionsList}>
                   { renderQuestions() }    
                 </div>
-    
-                <Button
-                  text='На сервер'
-                  onClick={() => submitHandler()}
-                  disabled={props.editor.questions.length === 0}
-                />
 
-                <Button
-                  text='Удалить'
-                  onClick={() => deleteWeekHandler()}
-                />
+                <div>
+                  <Input
+                    placeholder="yyyy-mm-dd hh:mm"
+                    label='Начало игры'
+                    value={props.editor.currentDeadline}
+                    onChange={(event) => changeHandler(event, 'Deadline')}
+                  />
+                </div>
+                
+                <div>
+                  <Button
+                    text='На сервер'
+                    onClick={() => submitHandler()}
+                    disabled={props.editor.questions.length === 0}
+                  />
+                </div>
+
+                <div>
+                  <Button
+                    text='Удалить'
+                    onClick={() => deleteWeekHandler()}
+                  />
+                </div>
+
             </div>
         }
       </div>
@@ -222,7 +240,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentQuestion: (currentQuestion) => dispatch(setEditorCurrentQuestion(currentQuestion)),
     setCurrentTotal: (currentTotal) => dispatch(setEditorCurrentTotal(currentTotal)),
     setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
-    setQuestions: (questions) => dispatch(setEditorQuestions(questions))
+    setQuestions: (questions) => dispatch(setEditorQuestions(questions)),
+    setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline))
   }
 }
 
