@@ -66,7 +66,14 @@ export default function editorReducer(state = initialState, action) {
 
     case CLEAR_EDITOR:
       return {
-        state: initialState
+        ...state,
+        currentWeek: '',
+        currentName: '',
+        questions: [],
+        currentQuestion: '',
+        currentTotal: '',
+        currentID: '',
+        currentDeadline: ''
       }
 
     default:

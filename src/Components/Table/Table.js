@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
@@ -13,10 +13,10 @@ import {
 } from '../../redux/actions/othersActions'
 import { actionCreateStandings } from '../../redux/actions/weekActions'
 
-class Table extends Component {
+const Table = (props) => {
 
-  async submitHandler() {
-    this.props.switchLoading(true)
+  async function submitHandler() {
+    props.switchLoading(true)
 
     const table = []
 
@@ -68,19 +68,18 @@ class Table extends Component {
       table.sort(compare)
     })
     
-    
     await axios.put('/pack/table.json', table)
     
-    this.props.createStandings(table)
-    this.props.switchLoading(false)
+    props.createStandings(table)
+    props.switchLoading(false)
   }
 
-  otherUserHandler(id) {
-    this.props.getOtherUser(id, this.props.weeks)
-    this.props.switchYourself(false)
+  function otherUserHandler(id) {
+    props.getOtherUser(id, props.weeks)
+    props.switchYourself(false)
   }
 
-  renderString(string) {
+  function renderString(string) {
     if (!string) {
       return (
         <tr>
@@ -96,7 +95,7 @@ class Table extends Component {
           <th className={classes.colOne}>
             <NavLink
               to={'/calendar'}
-              onClick={() => this.otherUserHandler(string.id)}
+              onClick={() => otherUserHandler(string.id)}
             >
               {string.name}
             </NavLink>
@@ -108,39 +107,40 @@ class Table extends Component {
       )
     }
   }
+  
+  return (
+    <div className={classes.Table}>   
+      <table>        
+        <tbody>
+          { renderString() }
+        </tbody>
+      </table>
+      <hr/>
 
-  render() {
-    const table = {...this.props.standings}
-    return (
-      <div className={classes.Table}>   
-        <table>        
-          <tbody>
-            { this.renderString() }
-          </tbody>
-        </table>
-        <hr/>
-
-        { this.props.loading
-            ? <Loader />
-            : <table>
-                <tbody>
-                  { Object.keys(table).map(el => this.renderString(table[el])) }           
-                </tbody>        
-              </table>  
-        }
-       
-        { this.props.isAdmin
-            ? <div style={{marginTop: '20px'}}>
-                <Button 
-                  onClick={() => this.submitHandler()}
-                  text='Пiдрахуй'
-                />
-              </div>
-            : null
-        }
-      </div>
-    )
-  }
+      { props.loading
+          ? <Loader />
+          : <table>
+              <tbody>
+                { 
+                  props.standings
+                    ? Object.keys(props.standings).map(el => renderString(props.standings[el]))
+                    : null
+                }           
+              </tbody>        
+            </table>  
+      }
+      
+      { props.isAdmin
+          ? <div style={{marginTop: '20px'}}>
+              <Button 
+                onClick={() => submitHandler()}
+                text='Пiдрахуй'
+              />
+            </div>
+          : null
+      }
+    </div>
+  )
 }
 
 function mapStateToProps(state) {
