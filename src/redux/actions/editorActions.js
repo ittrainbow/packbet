@@ -8,51 +8,51 @@ import {
   SET_EDITOR_QUESTIONS
 } from '../types'
 
-export function setEditorCurrentWeek(currentWeek) {
+export function actionSetEditorCurrentWeek(currentWeek) {
   return {
     type: SET_EDITOR_CURRENT_WEEK,
-    currentWeek: currentWeek
+    payload: currentWeek
   }
 }
 
-export function setEditorCurrentName(currentName) {
+export function actionSetEditorCurrentName(currentName) {
   return {
     type: SET_EDITOR_CURRENT_NAME,
-    currentName: currentName
+    payload: currentName
   }
 }
 
-export function setEditorCurrentQuestion(currentQuestion) {
+export function actionSetEditorCurrentQuestion(currentQuestion) {
   return {
     type: SET_EDITOR_CURRENT_QUESTION,
-    currentQuestion: currentQuestion
+    payload: currentQuestion
   }
 }
 
-export function setEditorQuestions(questions) {
+export function actionSetEditorQuestions(questions) {
   return {
     type: SET_EDITOR_QUESTIONS,
-    questions: questions
+    payload: questions
   }
 }
 
-export function setEditorCurrentTotal(currentTotal) {
+export function actionSetEditorCurrentTotal(currentTotal) {
   return {
     type: SET_EDITOR_CURRENT_TOTAL,
-    currentTotal: currentTotal
+    payload: currentTotal
   }
 }
 
-export function setEditorCurrentID(currentID) {
+export function actionSetEditorCurrentID(currentID) {
   return {
     type: SET_EDITOR_CURRENT_ID,
-    currentID: currentID
+    payload: currentID
   }
 }
 
-export function setEditorCurrentDeadline(currentDeadline) {
+export function actionSetEditorCurrentDeadline(currentDeadline) {
   return {
     type: SET_EDITOR_CURRENT_DEADLINE,
-    currentDeadline: currentDeadline
+    payload: currentDeadline
   }
 }

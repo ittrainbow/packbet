@@ -6,7 +6,7 @@ import Input from '../../UI/Input/Input'
 import './Auth.module.scss'
 import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
-import { auth, setCurrentUser } from '../../redux/actions/authActions'
+import { actionAuth, actionSetCurrentUser } from '../../redux/actions/authActions'
 import axios from '../../axios/axios'
 import { findUser } from '../../frame/findUser'
 
@@ -206,8 +206,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    auth: (email, password, isLogin, name) => dispatch(auth(email, password, isLogin, name)),
-    setCurrentUser: (id, name) => dispatch(setCurrentUser(id, name))
+    auth: (email, password, isLogin, name) => dispatch(actionAuth(email, password, isLogin, name)),
+    setCurrentUser: (id, name) => dispatch(actionSetCurrentUser(id, name))
   }
 }
 

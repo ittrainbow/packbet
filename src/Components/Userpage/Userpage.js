@@ -14,7 +14,7 @@ class Userpage extends Component {
   componentDidMount() {
     if (!this.props.isItYou) {
       this.props.cleanOtherUser()
-      this.props.switchToOther(true)
+      this.props.switchYourself(true)
     }
   }
 

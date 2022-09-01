@@ -10,7 +10,7 @@ export default function loadingReducer(state = initialState, action) {
     case SWITCH_LOADING:
       return {
         ...state,
-        loading: action.loading
+        loading: action.payload
       }
 
     default: 

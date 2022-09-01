@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 class CurrentWeek extends Component {
 
   componentDidMount() {
-    this.props.setId(this.props.currentWeek)
+    this.props.weekId(this.props.currentWeek)
   }
 
   render () {
@@ -29,7 +29,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => dispatch(actionWeekId(id))
+    weekId: (id) => dispatch(actionWeekId(id))
   }
 }
 

@@ -24,43 +24,43 @@ export default function editorReducer(state = initialState, action) {
     case SET_EDITOR_QUESTIONS:
       return {
         ...state,
-        questions: action.questions
+        questions: action.payload
       }
       
     case SET_EDITOR_CURRENT_WEEK:
       return {
         ...state,
-        currentWeek: action.currentWeek
+        currentWeek: action.payload
       }
  
     case SET_EDITOR_CURRENT_NAME:
       return {
         ...state,
-        currentName: action.currentName
+        currentName: action.payload
       }
       
     case SET_EDITOR_CURRENT_QUESTION:
       return {
         ...state,
-        currentQuestion: action.currentQuestion
+        currentQuestion: action.payload
       }
       
     case SET_EDITOR_CURRENT_TOTAL:
       return {
         ...state,
-        currentTotal: action.currentTotal
+        currentTotal: action.payload
       }
       
     case SET_EDITOR_CURRENT_ID:
       return {
         ...state,
-        currentID: action.currentID
+        currentID: action.payload
       }
 
     case SET_EDITOR_CURRENT_DEADLINE:
       return {
         ...state,
-        currentDeadline: action.currentDeadline
+        currentDeadline: action.payload
       }
 
     default:

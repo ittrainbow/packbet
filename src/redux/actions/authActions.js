@@ -11,7 +11,7 @@ import {
 import { findUser } from '../../frame/findUser'
 import axios from 'axios'
 
-export function auth(email, password, isLogin) {
+export function actionAuth(email, password, isLogin) {
   return async dispatch => {
     const authData = {
       email,
@@ -33,27 +33,27 @@ export function auth(email, password, isLogin) {
     const userId = findUser(usersResponse.data, email)[0]
     const isAdmin = authResponse.data.email === 'admin@admin.com'
 
-    const answerState = createButtonsObj(answersResponse.data.weeks, weeksResponse.data)
-    const buttonState = createButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
+    const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
+    const buttonState = actionCreateButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
     const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
 
     localStorage.setItem('email', email)
     localStorage.setItem('password', password)
     localStorage.setItem('expirationDate', expirationDate)
 
-    dispatch(setAdmin(isAdmin))
-    dispatch(authSuccess(authResponse.data.idToken))
-    dispatch(autoLogout(authResponse.data.expiresIn))
-    dispatch(setAnswerState(answerState))
-    dispatch(setCurrentUser(userId, usersResponse.data[userId].name))
+    dispatch(actionSetAdmin(isAdmin))
+    dispatch(actionAuthSuccess(authResponse.data.idToken))
+    dispatch(actionAutoLogout(authResponse.data.expiresIn))
+    dispatch(actionSetAnswerState(answerState))
+    dispatch(actionSetCurrentUser(userId, usersResponse.data[userId].name))
 
     isAdmin
-      ? dispatch(getButtonState(answerState))
-      : dispatch(getButtonState(buttonState))
+      ? dispatch(actionGetButtonState(answerState))
+      : dispatch(actionGetButtonState(buttonState))
   }
 }
 
-export function createButtonsObj(buttons = 0, weeks) {
+export function actionCreateButtonsObj(buttons = 0, weeks) {
   const buttonState = {}
 
   for (let i=0; i<Object.keys(weeks).length; i++) {
@@ -77,63 +77,63 @@ export function createButtonsObj(buttons = 0, weeks) {
   return buttonState
 }
 
-export function getButtonState(buttonState) {
+export function actionGetButtonState(buttonState) {
   return {
     type: GET_BUTTONSTATE,
-    buttonState: buttonState
+    payload: buttonState
   }
 }
 
-export function setAnswerState(answerState) {
+export function actionSetAnswerState(answerState) {
   return {
     type: SET_ANSWERS,
-    answerState: answerState
+    payload: answerState
   }
 }
 
-export function authSuccess(token) {
+export function actionAuthSuccess(token) {
   return {
     type: AUTH_SUCCESS,
-    token: token
+    payload: token
   }
 }
 
-export function setCurrentUser(id, name) {
+export function actionSetCurrentUser(id, name) {
   return {
     type: SET_CURRENT_USER,
     id: id,
-    name: name
+    payload: name
   }
 }
 
-export function autoLogin() {
+export function actionAutoLogin() {
   return dispatch => {
     const token = localStorage.getItem('token')
     
     if (!token) {
-      dispatch(logout())
+      dispatch(actionLogout())
     } else {
       const expirationDate = new Date(localStorage.getItem('expirationDate'))
 
       if (expirationDate <= new Date()) {
-        dispatch(logout())
+        dispatch(actionLogout())
       } else {        
-        dispatch(authSuccess(token))
-        dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
+        dispatch(actionAuthSuccess(token))
+        dispatch(actionAutoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
       }
     }
   }
 }
 
-export function autoLogout(time) {
+export function actionAutoLogout(time) {
   return dispatch => {
     setTimeout(() => {
-      dispatch(logout())
+      dispatch(actionLogout())
     }, time * 1000)
   }
 }
 
-export function logout() {
+export function actionLogout() {
   localStorage.removeItem('token')
   localStorage.removeItem('userId')
   localStorage.removeItem('expirationDate')
@@ -143,10 +143,10 @@ export function logout() {
   }
 }
 
-export function setAdmin(value) {
+export function actionSetAdmin(value) {
   return {
     type: SET_ADMIN,
-    value: value
+    payload: value
   }
 }
 

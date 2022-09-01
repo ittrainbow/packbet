@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import axios from '../../axios/axios'
 import { connect } from 'react-redux'
-import { actionInit, actionCurrentWeek } from '../../redux/actions/weekActions'
+import { 
+  actionInit, 
+  actionCurrentWeek,
+  actionCreateStandings
+} from '../../redux/actions/weekActions'
 
 class InitState extends Component {
 
@@ -10,9 +14,13 @@ class InitState extends Component {
       const response = await axios.get('pack/weeks.json')
       const weeks = Object.keys(response.data)
         .map(el => response.data[el])
+        
+      const standings = await axios.get('pack/table.json')
+      console.log(1, standings.data)
 
-      this.props.actionInit(weeks)      
-      this.props.setCurrentWeek(weeks.length - 1)
+      this.props.init(weeks)      
+      this.props.currentWeek(weeks.length - 1)
+      this.props.createStandings(standings.data)
     } catch (error) {
       console.log(error)
     }
@@ -34,8 +42,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actionInit: (weeks) => dispatch(actionInit(weeks)),
-    setCurrentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek))
+    init: (weeks) => dispatch(actionInit(weeks)),
+    currentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
+    createStandings: (standings) => dispatch(actionCreateStandings(standings))
   }
 }
 

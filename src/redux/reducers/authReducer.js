@@ -20,32 +20,32 @@ export default function authReducer (state = initialState, action) {
     case AUTH_SUCCESS:
       return {
         ...state,
-        token: action.token
+        token: action.payload
       }
     
     case SET_ADMIN:
       return {
         ...state,
-        isAdmin: action.value
+        isAdmin: action.payload
       }
     
     case GET_BUTTONSTATE:
       return {
         ...state,
-        buttonState: action.buttonState
+        buttonState: action.payload
       }
 
     case SET_ANSWERS:
       return {
         ...state,
-        answerState: action.answerState
+        answerState: action.payload
       }
 
     case SET_CURRENT_USER:
       return {
         ...state,
         userId: action.id,
-        userName: action.name
+        userName: action.payload
       }
 
     case SET_BUTTONSTATE:

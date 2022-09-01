@@ -11,13 +11,13 @@ import axios from '../../axios/axios'
 import Undo from '../../UI/Undo/Undo'
 import Edit from '../../UI/Edit/Edit'
 import { actionInit } from '../../redux/actions/weekActions'
-import { switchLoading } from '../../redux/actions/loadingActions'
+import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { 
-  setEditorCurrentQuestion,
-  setEditorCurrentTotal,
-  setEditorCurrentDeadline,
-  setEditorCurrentID,
-  setEditorQuestions
+  actionSetEditorCurrentQuestion,
+  actionSetEditorCurrentTotal,
+  actionSetEditorCurrentDeadline,
+  actionSetEditorCurrentID,
+  actionSetEditorQuestions
 } from '../../redux/actions/editorActions'
 
 const WeekEditor = (props) => {
@@ -84,7 +84,7 @@ const WeekEditor = (props) => {
   
       const weeks = structuredClone(props.weeks)
       weeks[props.editor.currentWeek] = week
-      props.actionInit(weeks)  
+      props.init(weeks)  
     } catch (error) {
       console.log(error)
     }
@@ -233,15 +233,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    switchLoading: (status) => dispatch(switchLoading(status)),
+    switchLoading: (status) => dispatch(actionSwitchLoading(status)),
 
-    actionInit: (weeks) => dispatch(actionInit(weeks)),
+    init: (weeks) => dispatch(actionInit(weeks)),
 
-    setCurrentQuestion: (currentQuestion) => dispatch(setEditorCurrentQuestion(currentQuestion)),
-    setCurrentTotal: (currentTotal) => dispatch(setEditorCurrentTotal(currentTotal)),
-    setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
-    setQuestions: (questions) => dispatch(setEditorQuestions(questions)),
-    setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline))
+    setCurrentQuestion: (currentQuestion) => dispatch(actionSetEditorCurrentQuestion(currentQuestion)),
+    setCurrentTotal: (currentTotal) => dispatch(actionSetEditorCurrentTotal(currentTotal)),
+    setCurrentID: (currentID) => dispatch(actionSetEditorCurrentID(currentID)),
+    setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
+    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline))
   }
 }
 

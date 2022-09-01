@@ -2,7 +2,8 @@ import {
   APP_INIT, 
   SET_WEEK_ID, 
   SET_CURRENT_WEEK,
-  SET_EDITOR_STATUS
+  SET_EDITOR_STATUS,
+  SET_STANDINGS
 } from '../types.js'
 
 const initialState = {
@@ -17,6 +18,12 @@ export default function weekReducer(state = initialState, action) {
         weeks: action.payload,
         currentWeek: action.payload.length - 1,
         weekId: action.payload.length - 1
+      }
+
+    case SET_STANDINGS:
+      return {
+        ...state,
+        standings: action.payload
       }
     
     case SET_WEEK_ID:

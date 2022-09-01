@@ -9,7 +9,7 @@ import Button from '../../UI/Button/Button'
 import axios from '../../axios/axios'
 import { actionWeekId } from '../../redux/actions/weekActions'
 import { actionButtonState } from '../../redux/actions/authActions'
-import { switchLoading } from '../../redux/actions/loadingActions'
+import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 
 class Week extends Component {
 
@@ -156,7 +156,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    switchLoading: (status) => dispatch(switchLoading(status)),
+    switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     setWeekId: (id) => dispatch(actionWeekId(id)),
     setButtonState: (state) => dispatch(actionButtonState(state))
   }

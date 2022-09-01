@@ -6,17 +6,17 @@ import Loader from '../../UI/Loader/Loader'
 import { connect } from 'react-redux'
 import { actionWeekId } from '../../redux/actions/weekActions'
 import { 
-  setEditorCurrentWeek,
-  setEditorCurrentName,
-  setEditorCurrentDeadline,
-  setEditorQuestions
+  actionSetEditorCurrentWeek,
+  actionSetEditorCurrentName,
+  actionSetEditorCurrentDeadline,
+  actionSetEditorQuestions
 } from '../../redux/actions/editorActions'
 
 const WeekList = (props) => {
 
   function setState(id) {
     const week = props.weeks[id]
-    props.setWeekId(id)
+    props.weekId(id)
     props.setCurrentWeek(id)
     props.setCurrentName(week.name)
     props.setQuestions(week.questions)
@@ -71,11 +71,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setWeekId: (id) => dispatch(actionWeekId(id)),
-    setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
-    setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
-    setQuestions: (questions) => dispatch(setEditorQuestions(questions)),
-    setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline))
+    weekId: (id) => dispatch(actionWeekId(id)),
+    setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
+    setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
+    setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
+    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline))
   }
 }
 

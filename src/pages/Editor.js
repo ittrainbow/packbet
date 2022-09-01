@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { setEditorStatus } from '../redux/actions/weekActions'
+import { actionSetEditorStatus } from '../redux/actions/weekActions'
 import WeekList from '../Components/WeekList/WeekList'
 import classes from './Pages.module.scss'
 
@@ -23,7 +23,7 @@ class Editor extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setEditorStatus: (status) => dispatch(setEditorStatus(status))
+    setEditorStatus: (status) => dispatch(actionSetEditorStatus(status))
   }
 }
 

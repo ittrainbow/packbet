@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { logout } from '../../redux/actions/authActions'
+import { actionLogout } from '../../redux/actions/authActions'
 
 class Logout extends Component {
   componentDidMount() {
@@ -10,7 +10,7 @@ class Logout extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(actionLogout())
   }
 }
 

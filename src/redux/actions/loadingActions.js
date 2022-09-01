@@ -1,8 +1,8 @@
 import { SWITCH_LOADING } from "../types"
 
-export function switchLoading(loading) {
+export function actionSwitchLoading(loading) {
   return {
     type: SWITCH_LOADING,
-    loading: loading
+    payload: loading
   }
 }

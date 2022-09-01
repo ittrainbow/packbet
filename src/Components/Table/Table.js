@@ -6,8 +6,8 @@ import classes from './Table.module.scss'
 import axios from '../../axios/axios'
 import Button from '../../UI/Button/Button'
 import Loader from '../../UI/Loader/Loader'
-import { switchLoading } from '../../redux/actions/loadingActions'
-import { actionOtherButtonState, actionSwitchYourself } from '../../redux/actions/othersActions'
+import { actionSwitchLoading } from '../../redux/actions/loadingActions'
+import { actionGetOtherUsers, actionSwitchYourself } from '../../redux/actions/othersActions'
 
 class Table extends Component {
 
@@ -15,7 +15,14 @@ class Table extends Component {
     table: null,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    console.log(5, this.props.standings)
+    this.setState({
+      table: this.props.standings
+    })
+  }
+
+  async submitHandler() {
     this.props.switchLoading(true)
 
     const table = []
@@ -72,12 +79,14 @@ class Table extends Component {
       table: table
     });
 
+    await axios.put('/pack/table.json', table)
+
     this.props.switchLoading(false)
   }
 
   otherUserHandler(id) {
-    this.props.seeOtherUser(id, this.props.weeks)
-    this.props.switchToOther(false)
+    this.props.getOtherUser(id, this.props.weeks)
+    this.props.switchYourself(false)
   }
 
   renderString(string) {
@@ -107,10 +116,6 @@ class Table extends Component {
         </tr>
       )
     }
-  }
-
-  submitHandler() {
-
   }
 
   render() {
@@ -151,15 +156,16 @@ function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     isAdmin: state.auth.isAdmin,
-    loading: state.loading.loading
+    loading: state.loading.loading,
+    standings: state.week.standings
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    switchLoading: (status) => dispatch(switchLoading(status)),
-    switchToOther: (status) => dispatch(actionSwitchYourself(status)),
-    seeOtherUser: (id, weeks) => dispatch(actionOtherButtonState(id, weeks))
+    switchLoading: (status) => dispatch(actionSwitchLoading(status)),
+    switchYourself: (status) => dispatch(actionSwitchYourself(status)),
+    getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state))
   }
 }
 

@@ -13,15 +13,15 @@ import axios from '../../axios/axios'
 import Loader from '../../UI/Loader/Loader'
 import { actionInit } from '../../redux/actions/weekActions'
 import { 
-  setEditorCurrentWeek,
-  setEditorCurrentName,
-  setEditorCurrentQuestion,
-  setEditorCurrentTotal,
-  setEditorCurrentID,
-  setEditorCurrentDeadline,
-  setEditorQuestions
+  actionSetEditorCurrentWeek,
+  actionSetEditorCurrentName,
+  actionSetEditorCurrentQuestion,
+  actionSetEditorCurrentTotal,
+  actionSetEditorCurrentID,
+  actionSetEditorCurrentDeadline,
+  actionSetEditorQuestions
 } from '../../redux/actions/editorActions'
-import { switchLoading } from '../../redux/actions/loadingActions'
+import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 
 const WeekCreator = (props) => {
   const navigate = useNavigate()
@@ -37,7 +37,7 @@ const WeekCreator = (props) => {
           : props.editor.questions.length
 
     const obj = {}
-    obj['id'] = id
+    obj['id'] = id+1
     obj['question'] = props.editor.currentQuestion
     obj['total'] = props.editor.currentTotal
 
@@ -74,7 +74,9 @@ const WeekCreator = (props) => {
   async function submitHandler () {
     props.switchLoading(true)
 
-    const qs = props.editor.questions.map((question, index) => {
+    const qs = structuredClone(props.editor.questions)
+
+    const questions = qs.map((question, index) => {
       question['id'] = index
       return question
     })
@@ -83,7 +85,7 @@ const WeekCreator = (props) => {
       id: props.weeks.length,
       number: props.editor.currentWeek,
       name: props.editor.currentName,
-      questions: qs,
+      questions: questions,
       deadline: props.editor.currentDeadline
     }
 
@@ -93,7 +95,7 @@ const WeekCreator = (props) => {
     await axios.post('pack/weeks.json', week)
 
     props.setCurrentWeek(weeks.length - 1)
-    props.actionInit(weeks)
+    props.init(weeks)
     props.switchLoading(false)
 
     navigate('/calendar')
@@ -209,17 +211,17 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    switchLoading: (status) => dispatch(switchLoading(status)),
+    switchLoading: (status) => dispatch(actionSwitchLoading(status)),
 
-    actionInit: (weeks) => dispatch(actionInit(weeks)),
+    init: (weeks) => dispatch(actionInit(weeks)),
 
-    setCurrentWeek: (currentWeek) => dispatch(setEditorCurrentWeek(currentWeek)),
-    setCurrentName: (currentName) => dispatch(setEditorCurrentName(currentName)),
-    setCurrentQuestion: (currentQuestion) => dispatch(setEditorCurrentQuestion(currentQuestion)),
-    setCurrentTotal: (currentTotal) => dispatch(setEditorCurrentTotal(currentTotal)),
-    setCurrentID: (currentID) => dispatch(setEditorCurrentID(currentID)),
-    setCurrentDeadline: (currentDeadline) => dispatch(setEditorCurrentDeadline(currentDeadline)),
-    setQuestions: (questions) => dispatch(setEditorQuestions(questions))
+    setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
+    setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
+    setCurrentQuestion: (currentQuestion) => dispatch(actionSetEditorCurrentQuestion(currentQuestion)),
+    setCurrentTotal: (currentTotal) => dispatch(actionSetEditorCurrentTotal(currentTotal)),
+    setCurrentID: (currentID) => dispatch(actionSetEditorCurrentID(currentID)),
+    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline)),
+    setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions))
   }
 }
  
