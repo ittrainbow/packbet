@@ -1,0 +1,291 @@
+{
+  "pack": {
+    "answers": {
+      "weeks": [
+        [
+          2,
+          1,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          1,
+          2
+        ]
+      ]
+    },
+    "table": [
+      {
+        "correctAnswers": 13,
+        "id": "-NAWOuj8_neKPI8XbHOF",
+        "name": "test user",
+        "percentage": "0.591",
+        "totalAnswers": 22
+      },
+      {
+        "correctAnswers": 7,
+        "id": "-NA5FtY8l7r_KP-TTOz8",
+        "name": "Deadbead",
+        "percentage": "0.538",
+        "totalAnswers": 13
+      },
+      {
+        "correctAnswers": 4,
+        "id": "-NA1W1q2aPfjNyGcLtVl",
+        "name": "Nom4d",
+        "percentage": "0.667",
+        "totalAnswers": 6
+      }
+    ],
+    "users": {
+      "-NA1W1q2aPfjNyGcLtVl": {
+        "email": "nom4d@yandex.ru",
+        "name": "Nom4d",
+        "weeks": {
+          "2": [
+            null,
+            null,
+            1,
+            2,
+            1,
+            1,
+            1,
+            2
+          ]
+        }
+      },
+      "-NA5FtY8l7r_KP-TTOz8": {
+        "email": "deadbead@gmail.com",
+        "name": "Deadbead",
+        "weeks": [
+          [
+            1,
+            null,
+            null,
+            1,
+            1,
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            null,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2
+          ]
+        ]
+      },
+      "-NAWOuj8_neKPI8XbHOF": {
+        "email": "nom4d@spartak.ru",
+        "name": "test user",
+        "weeks": [
+          [
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            2,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            2,
+            2,
+            1,
+            2,
+            1
+          ],
+          [
+            null,
+            null,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        ]
+      },
+      "-NApiYM3xMq16IGjLlFX": {
+        "email": "admin@admin.com",
+        "name": "Admin"
+      }
+    },
+    "weeks": {
+      "-N9vnttwYKLSlmL9HOAJ": {
+        "deadline": "2022-08-13 03:30",
+        "id": 0,
+        "name": "Preseason 1: Грин-Бэй в Сан-Франциско",
+        "number": 1,
+        "questions": [
+          {
+            "id": 0,
+            "question": "Тайлер Гудсон ярдов на выносе больше",
+            "total": "29.5"
+          },
+          {
+            "id": 1,
+            "question": "Дэнни Элтинг пасовых попыток больше",
+            "total": 7.5
+          },
+          {
+            "id": 2,
+            "question": "Кристиан Уотсон тачдаун на приеме больше",
+            "total": 0.5
+          },
+          {
+            "id": 3,
+            "question": "Амари Роджерс выносов больше",
+            "total": 0.5
+          },
+          {
+            "id": 4,
+            "question": "Джордан Лав перехватов больше",
+            "total": 0.5
+          },
+          {
+            "id": 5,
+            "question": "Кингсли Энагбаре QB-хитов больше",
+            "total": 0.5
+          },
+          {
+            "id": 6,
+            "question": "Защита Пэкерз перехватов больше",
+            "total": 0.5
+          },
+          {
+            "id": 7,
+            "question": "Пэкерз забьют FG с 40+ ярдов больше",
+            "total": 0.5
+          }
+        ]
+      },
+      "-N9vpS_1fPDxQxAtfkWj": {
+        "deadline": "2022-08-20 03:00",
+        "id": 1,
+        "name": "Preseason 2: Новый Орлеан в Грин-Бэй",
+        "number": 2,
+        "questions": [
+          {
+            "id": 0,
+            "question": "Джордан Лав пасовых ТД больше",
+            "total": "0.5"
+          },
+          {
+            "id": 1,
+            "question": "Тайлер Гудсон выносных ярдов больше",
+            "total": "40.5"
+          },
+          {
+            "id": 2,
+            "question": "Ромео Добс ТД на приеме больше",
+            "total": "0.5"
+          },
+          {
+            "id": 3,
+            "question": "Дэнни Элтинг выносных ТД больше",
+            "total": "0.5"
+          },
+          {
+            "id": 4,
+            "question": "Сал Канелла приемов больше",
+            "total": "0.5"
+          },
+          {
+            "id": 5,
+            "question": "Защита Пэкерз перехватов больше",
+            "total": "0.5"
+          },
+          {
+            "id": 6,
+            "question": "Пэкерз забьют FG с 40+ ярдов больше",
+            "total": "0.5"
+          },
+          {
+            "id": 7,
+            "question": "Соперник Пэкерз возвратов в ТД больше",
+            "total": "0.5"
+          }
+        ]
+      },
+      "-NAhvLMvvvRh_u0QQZ9t": {
+        "deadline": "2022-08-26 02:55",
+        "id": 2,
+        "name": "Preseason 3: Грин-Бэй в Канзас-Сити",
+        "number": 3,
+        "questions": [
+          {
+            "id": 0,
+            "question": "Дэнни Этлинг, точность передач выше %",
+            "total": "60"
+          },
+          {
+            "id": 1,
+            "question": "Джордан Лав, точность передач выше %",
+            "total": "60"
+          },
+          {
+            "id": 2,
+            "question": "Тайлер Гудсон, ТД на выносе, больше",
+            "total": "0.5"
+          },
+          {
+            "id": 3,
+            "question": "Амари Роджерс, возвратов ударов больше",
+            "total": "2.5"
+          },
+          {
+            "id": 4,
+            "question": "Пэкерз пробьют FG с 40+ ярдов больше",
+            "total": "1.5"
+          },
+          {
+            "id": 5,
+            "question": "Защита Пэкерз, перехватов больше",
+            "total": "1.5"
+          },
+          {
+            "id": 6,
+            "question": "Пэт о'Доннелл, пантов больше",
+            "total": "4.5"
+          },
+          {
+            "id": 7,
+            "question": "Ромео Добс лидер по ярдам приема, больше = да",
+            "total": "0.5"
+          }
+        ]
+      }
+    }
+  }
+}

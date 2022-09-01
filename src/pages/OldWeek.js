@@ -1,6 +1,6 @@
-import React from 'react';
-import Week from '../Components/Week/Week';
-import classes from './Pages.module.scss';
+import React from 'react'
+import Week from '../Components/Week/Week'
+import classes from './Pages.module.scss'
 
 const OldWeek = () => {
   return (
@@ -8,7 +8,7 @@ const OldWeek = () => {
       <h3>Выбранная неделя</h3>
       <Week />
     </div>
-  );
-};
+  )
+}
 
-export default OldWeek;
+export default OldWeek

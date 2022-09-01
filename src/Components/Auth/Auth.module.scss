@@ -11,12 +11,18 @@ body {
   height: 25px;
 }
 
+.tierline {
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: left
+}
+
 .Auth {
-  display: flex;
+  display: block;
   justify-content: center;
   padding: top;
   flex-grow: 1;
-  width: 100%;
+  width: 250px;
 }
 
 .Auth > div {

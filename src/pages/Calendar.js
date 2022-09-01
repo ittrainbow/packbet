@@ -1,14 +1,31 @@
-import React from 'react';
-import WeekList from '../Components/WeekList/WeekList';
-import classes from './Pages.module.scss';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-const Calendar = () => {
-  return (
-    <div className={classes.Container}>
-      <h3>Календарь</h3>
-      <WeekList />
-    </div>
-  );
-};
+import WeekList from '../Components/WeekList/WeekList'
+import classes from './Pages.module.scss'
+import { actionSetEditorStatus } from '../redux/actions/weekActions'
 
-export default Calendar;
+class Calendar extends Component {
+
+  componentDidMount() {
+    this.props.setEditorStatus('results')
+  }
+
+  render() {
+    return (
+      <div className={classes.Container}>
+        <h3>Календарь</h3>
+        <WeekList />
+      </div>
+    )
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setEditorStatus: (status) => dispatch(actionSetEditorStatus(status))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Calendar)

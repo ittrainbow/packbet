@@ -1,6 +1,6 @@
-import React from 'react';
-import Table from '../Components/Table/Table';
-import classes from './Pages.module.scss';
+import React from 'react'
+import Table from '../Components/Table/Table'
+import classes from './Pages.module.scss'
 
 const Standings = () => {
   return (
@@ -8,7 +8,7 @@ const Standings = () => {
       <h3>Standings</h3>
       <Table />
     </div>
-  );
-};
+  )
+}
 
-export default Standings;
+export default Standings

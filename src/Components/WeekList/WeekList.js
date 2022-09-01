@@ -1,64 +1,82 @@
-import React, { Component } from 'react';
-import classes from './WeekList.module.scss';
-import { NavLink } from 'react-router-dom';
-import Loader from '../../UI/Loader/Loader';
+import React from 'react'
+import classes from './WeekList.module.scss'
+import { NavLink } from 'react-router-dom'
+import Loader from '../../UI/Loader/Loader'
 
-import { connect } from 'react-redux';
-import { actionWeekId } from '../../redux/actions/weekActions';
+import { connect } from 'react-redux'
+import { actionWeekId } from '../../redux/actions/weekActions'
+import { 
+  actionSetEditorCurrentWeek,
+  actionSetEditorCurrentName,
+  actionSetEditorCurrentDeadline,
+  actionSetEditorQuestions
+} from '../../redux/actions/editorActions'
 
-class WeekList extends Component {
+const WeekList = (props) => {
 
-  renderWeeks() {
-    if (this.props.weeks) {
-      return this.props.weeks.map((week) => {
+  function setState(id) {
+    const week = props.weeks[id]
+    props.weekId(id)
+    props.setCurrentWeek(id)
+    props.setCurrentName(week.name)
+    props.setQuestions(week.questions)
+    props.setCurrentDeadline(week.deadline)
+  }
+
+  function renderWeeks() {
+    if (props.weeks) {
+      return props.weeks.map((week) => {
         return (
           <li
             key={week.id}
             className={classes.Weeks}
           >
-            { this.props.isAdmin 
+            { props.editorStatus === 'editor' 
               ? <NavLink 
-                  onClick={() => this.props.setId(week.id)} 
+                  onClick={() => setState(week.id)} 
                   to={'/weekeditor/' + week.id}
                 >
                   #{week.number}: {week.name}
                 </NavLink>
               : <NavLink 
-                  onClick={() => this.props.setId(week.id)}
+                  onClick={() => setState(week.id)}
                   to={'/week/' + week.id}
                 >
                   #{week.number}: {week.name}
                 </NavLink>
             }
           </li>
-        );
-      });
+        )
+      })
     } else {
       return (
         <Loader/>
-      );
+      )
     }
   }
 
-  render() {
-    return (
-      <div className={classes.WeekList}>
-        {this.renderWeeks()}
-      </div>
-    );
-  }
+  return (
+    <div className={classes.WeekList}>
+      { renderWeeks() }
+    </div>
+  )
 }
 
 function mapStateToProps(state) {
   return {
-    weeks: state.week.weeks
-  };
+    weeks: state.week.weeks,
+    editorStatus: state.week.editorStatus
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setId: (id) => dispatch(actionWeekId(id))
-  };
+    weekId: (id) => dispatch(actionWeekId(id)),
+    setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
+    setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
+    setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
+    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline))
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeekList);
+export default connect(mapStateToProps, mapDispatchToProps)(WeekList)

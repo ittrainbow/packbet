@@ -1,14 +1,32 @@
-import React, { Component } from 'react';
-import classes from './About.module.scss';
+import React from 'react'
+import classes from './About.module.scss'
 
-class About extends Component {
-  render() {
-    return (
-      <div className={classes.About}>
-        
-      </div>
-    );
-  };
-};
+const About = () => {
 
-export default About;
+  function render() {
+    const obj = {
+      'App': 'Конкурс прогнозов',
+      'React': '18.2',
+      'React-router-DOM': '6',
+      'React-redux': '8.0.2'
+    }
+
+    return Object.keys(obj)
+      .map((el, index) => {
+        return (
+          <div key={index}>
+            {el}: {obj[el]}
+          </div>
+        )
+      })
+  }
+
+
+  return (
+    <div className={classes.About}>
+      { render() }
+    </div>
+  )
+}
+
+export default About

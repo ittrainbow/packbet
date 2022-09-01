@@ -1,6 +1,6 @@
-import React from 'react';
-import YesNoButtons from '../YesNoButtons/YesNoButtons';
-import classes from './Questions.module.scss';
+import React from 'react'
+import YesNoButtons from '../YesNoButtons/YesNoButtons'
+import classes from './Questions.module.scss'
 
 const Questions = (props) => {
   return (
@@ -21,9 +21,9 @@ const Questions = (props) => {
             onClick={props.onClick}
           />
       </div>
-      );
+      )
     })
-  );
-};
+  )
+}
 
-export default Questions;
+export default Questions
