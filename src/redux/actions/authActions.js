@@ -5,11 +5,17 @@ import {
   SET_CURRENT_USER,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
-  SET_ANSWERS
+  SET_ANSWERS,
+  SET_AUTH_PAGE,
+  SET_EMAIL
 } from '../types'
 
 import { findUser } from '../../frame/findUser'
 import axios from 'axios'
+import tableCreator from '../../frame/tableCreator'
+import { actionCreateStandings } from './weekActions'
+import { actionSwitchLoading } from './loadingActions'
+
 
 export function actionAuth(email, password, isLogin) {
   return async dispatch => {
@@ -22,6 +28,8 @@ export function actionAuth(email, password, isLogin) {
     const authUrl = isLogin
       ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
       : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
+
+      // https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI
 
     const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
     
@@ -37,6 +45,12 @@ export function actionAuth(email, password, isLogin) {
     const buttonState = actionCreateButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
     const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
 
+    if (!isLogin) {
+      const table = tableCreator(usersResponse, answersResponse)
+      await axios.put(`${dbUrl}/table.json`, table)
+      dispatch(actionCreateStandings(table))
+    }
+
     localStorage.setItem('email', email)
     localStorage.setItem('password', password)
     localStorage.setItem('expirationDate', expirationDate)
@@ -50,6 +64,8 @@ export function actionAuth(email, password, isLogin) {
     isAdmin
       ? dispatch(actionGetButtonState(answerState))
       : dispatch(actionGetButtonState(buttonState))
+
+    dispatch(actionSwitchLoading(false))
   }
 }
 
@@ -81,6 +97,20 @@ export function actionGetButtonState(buttonState) {
   return {
     type: GET_BUTTONSTATE,
     payload: buttonState
+  }
+}
+
+export function actionSetEmail(email) {
+  return {
+    type: SET_EMAIL,
+    payload: email
+  }
+}
+
+export function actionSetAuthPage(boolean) {
+  return {
+    type: SET_AUTH_PAGE,
+    payload: boolean
   }
 }
 

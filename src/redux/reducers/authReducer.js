@@ -5,14 +5,18 @@ import {
   SET_CURRENT_USER,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
-  SET_ANSWERS
+  SET_ANSWERS,
+  SET_AUTH_PAGE,
+  SET_EMAIL
 } from '../types'
 
 const initialState = {
   token: null,
   userName: null,
+  email: '',
   userId: null,
-  isAdmin: false
+  isAdmin: false,
+  authPage: true
 }
 
 export default function authReducer (state = initialState, action) {
@@ -28,11 +32,24 @@ export default function authReducer (state = initialState, action) {
         ...state,
         isAdmin: action.payload
       }
+
+    case SET_EMAIL:
+      return {
+        ...state,
+        email: action.payload
+      }
     
     case GET_BUTTONSTATE:
       return {
         ...state,
-        buttonState: action.payload
+        buttonState: action.payload,
+        loadedState: action.payload
+      }
+
+    case SET_AUTH_PAGE:
+      return {
+        ...state,
+        authPage: action.payload
       }
 
     case SET_ANSWERS:
@@ -58,7 +75,8 @@ export default function authReducer (state = initialState, action) {
       return {
         ...state,
         token: null,
-        isAdmin: false
+        isAdmin: false,
+        authPage: true
       }
 
     default:

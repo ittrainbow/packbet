@@ -26,20 +26,5 @@
 .selected {  
   transition: all 0.22s;
   color: #ebedef;
-}
-
-.green.selected {
-  background-color: #4daf50;
-}
-
-.green.selected:active {
-  background-color: #257227;
-}
-
-.red.selected {
-  background-color: #af4c4c;
-}
-
-.red.selected:active {
-  background-color: #902c2c;
+  background-color: #555;
 }

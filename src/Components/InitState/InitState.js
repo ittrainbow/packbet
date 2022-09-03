@@ -6,18 +6,18 @@ import {
   actionCurrentWeek,
   actionCreateStandings
 } from '../../redux/actions/weekActions'
+import { getWeeks } from '../../frame/getWeeks'
 
 class InitState extends Component {
 
   async componentDidMount() {
     try {
       const response = await axios.get('pack/weeks.json')
-      const weeks = Object.keys(response.data)
-        .map(el => response.data[el])
+      const weeks = getWeeks(response.data)
         
       const standings = await axios.get('pack/table.json')
 
-      this.props.init(weeks)      
+      this.props.init(weeks)
       this.props.currentWeek(weeks.length - 1)
       this.props.createStandings(standings.data)
     } catch (error) {

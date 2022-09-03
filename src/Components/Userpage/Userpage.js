@@ -8,7 +8,8 @@ import { actionCleanOtherUser, actionSwitchYourself } from '../../redux/actions/
 
 class Userpage extends Component {
   state = {
-    showPassword: false
+    showPassword: false,
+    showEmail: false
   }
 
   componentDidMount() {
@@ -27,9 +28,27 @@ class Userpage extends Component {
       : stars
   }
 
-  stateHandler() {
+  emailHandler() {
+    const email = localStorage.getItem('email')
+    const stars = '*'.repeat(email.length)
+
+    return this.state.showEmail
+      ? email
+      : stars
+  }
+
+
+  passwordToggleHandler() {
+    console.log(1)
     this.setState({
       showPassword: !this.state.showPassword
+    })
+  }
+
+  emailToggleHandler() {
+    console.log(2)
+    this.setState({
+      showEmail: !this.state.showEmail
     })
   }
 
@@ -40,13 +59,23 @@ class Userpage extends Component {
   render() {
     return (
       <div className={classes.Userpage}>
-        <div style={{marginBottom: '20px'}}>
+        <div className={classes.UserDiv}>
           Имя: { this.props.userName }
-        </div>        
-        <div style={{marginBottom: '20px'}}>
-          Пароль: <i className='fa fa-eye' onClick={() => this.stateHandler()} style={{cursor: 'pointer'}}/>
+        </div>  
+        <div className={classes.UserDiv}>
+          Email: <i className='fa fa-eye' onClick={() => this.emailToggleHandler()} style={{cursor: 'pointer'}}/>
+          {' '}
+          { this.emailHandler() }
+        </div>      
+        <div className={classes.UserDiv}>
+          Пароль: <i className='fa fa-eye' onClick={() => this.passwordToggleHandler()} style={{cursor: 'pointer'}}/>
           {' '}
           { this.passwordHandler() }
+        </div>
+        <div className={classes.UserDiv}>
+          { this.props.isAdmin
+              ? 'У вас есть права администрирования'
+              : null}
         </div>
         <div>
           <Button 
@@ -62,7 +91,8 @@ class Userpage extends Component {
 function mapStateToProps(state) {
   return {
     userName: state.auth.userName,
-    isItYou: state.others.isItYou
+    isItYou: state.others.isItYou,
+    isAdmin: state.auth.isAdmin
   }
 }
 

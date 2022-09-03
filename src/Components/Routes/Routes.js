@@ -10,6 +10,7 @@ import Editor from '../../pages/Editor'
 import OldWeek from '../../pages/OldWeek'
 import Profile from '../../pages/Profile'
 import Standings from '../../pages/Standings'
+import Password from '../../pages/Password'
 import AdminRoute from './AdminRoute'
 import PrivateRoute from './PrivateRoute'
 
@@ -20,7 +21,8 @@ const AppRoutes = () => {
         <Routes>
           <Route path='/' element={<About/>}/>
           <Route path='/profile' element={<Profile/>}/>
-          <Route path='/standings' element={<Standings/>}/>
+          <Route path='/standings' element={<Standings/>}/>          
+          <Route path='/recover' element={<Password/>}/>
 
           <Route exact path='/' element={<PrivateRoute/>}>
             <Route path='/thisweek' element={<CurrentWeek/>}/>
@@ -39,7 +41,7 @@ const AppRoutes = () => {
           </Route>
 
           <Route exact path='/' element={<AdminRoute/>}>
-            <Route exact path='/weekeditor/:id' element={<WeekEditor/>}/>
+            <Route exact path='/create/:id' element={<WeekEditor/>}/>
           </Route>
 
           <Route exact path='/' element={<AdminRoute/>}>

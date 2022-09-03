@@ -1,51 +1,61 @@
 import React from 'react'
 import classes from './WeekList.module.scss'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import Loader from '../../UI/Loader/Loader'
 
 import { connect } from 'react-redux'
-import { actionWeekId } from '../../redux/actions/weekActions'
 import { 
   actionSetEditorCurrentWeek,
   actionSetEditorCurrentName,
   actionSetEditorCurrentDeadline,
-  actionSetEditorQuestions
+  actionSetEditorCurrentHash,
+  actionSetEditorQuestions,
+  actionSetCurrentWeekId
 } from '../../redux/actions/editorActions'
+import { actionWeekId } from '../../redux/actions/weekActions'
 
 const WeekList = (props) => {
 
-  function setState(id) {
+  function setEditorState(id) {
     const week = props.weeks[id]
-    props.weekId(id)
-    props.setCurrentWeek(id)
+    props.setCurrentWeek(week.number)
     props.setCurrentName(week.name)
     props.setQuestions(week.questions)
     props.setCurrentDeadline(week.deadline)
+    props.setCurrentHash(week.hash)
+    props.setCurrentWeekId(week.id)
+  }
+
+  function setWeekId(id) {
+    props.weekId(id)
   }
 
   function renderWeeks() {
     if (props.weeks) {
       return props.weeks.map((week) => {
         return (
-          <li
+          <div
             key={week.id}
-            className={classes.Weeks}
           >
             { props.editorStatus === 'editor' 
               ? <NavLink 
-                  onClick={() => setState(week.id)} 
-                  to={'/weekeditor/' + week.id}
+                  onClick={() => setEditorState(week.id)} 
+                  to={'/create/' + week.id}
                 >
-                  #{week.number}: {week.name}
+                  <li className={classes.Weeks}>
+                    #{week.number}: {week.name}
+                  </li>
                 </NavLink>
-              : <NavLink 
-                  onClick={() => setState(week.id)}
+              : <Link 
+                  onClick={() => setWeekId(week.id)}
                   to={'/week/' + week.id}
                 >
-                  #{week.number}: {week.name}
-                </NavLink>
+                  <li className={classes.Weeks}>
+                    #{week.number}: {week.name}
+                  </li>
+                </Link>
             }
-          </li>
+          </div>
         )
       })
     } else {
@@ -72,10 +82,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     weekId: (id) => dispatch(actionWeekId(id)),
+
     setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
     setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
-    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline))
+    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline)),
+    setCurrentHash: (currentHash) => dispatch(actionSetEditorCurrentHash(currentHash)),
+    setCurrentWeekId: (weekId) => dispatch(actionSetCurrentWeekId(weekId))
   }
 }
 

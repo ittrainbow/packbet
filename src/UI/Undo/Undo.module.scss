@@ -15,14 +15,13 @@
 }
 
 .Undo:hover {
-  color: rgb(149, 10, 10);
+  color: crimson;
   transition: all .2s ease-in;
   cursor: pointer;
 }
 
 .Undo:active {
   background-color: #ddd;
-  border: 1px solid #aaa;
   transition: all .2s ease-in;
   cursor: pointer;
 }

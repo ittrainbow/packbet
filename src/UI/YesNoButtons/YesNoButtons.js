@@ -2,9 +2,9 @@ import React from 'react'
 import './YesNoButtons.scss'
 import { FaCheck, FaBan } from 'react-icons/fa'
 
-const YesNoButtons = (props) => {
-  let styleSetFirst = ['button', 'green']
-  let styleSetSecond = ['button', 'red']
+const YesNoButtons = (props) => {  
+  let styleSetFirst = ['button']
+  let styleSetSecond = ['button']
 
   if (props.activity === 1) styleSetFirst.push('selected')
   if (props.activity === 2) styleSetSecond.push('selected')

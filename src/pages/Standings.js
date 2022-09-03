@@ -5,7 +5,7 @@ import classes from './Pages.module.scss'
 const Standings = () => {
   return (
     <div className={classes.Container}>
-      <h3>Standings</h3>
+      <h3>Таблица</h3>
       <Table />
     </div>
   )
