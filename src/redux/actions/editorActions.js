@@ -6,17 +6,27 @@ import {
   SET_EDITOR_CURRENT_ID,
   SET_EDITOR_CURRENT_DEADLINE,
   SET_EDITOR_QUESTIONS,
+  SET_CURRENT_ERROR,
   CLEAR_EDITOR
 } from '../types'
 
 export function actionSetEditorCurrentWeek(currentWeek) {
+  console.log(currentWeek)
   return {
     type: SET_EDITOR_CURRENT_WEEK,
     payload: currentWeek
   }
 }
 
+export function actionSetEditorCurrentError(errorMessage) {
+  return {
+    type: SET_CURRENT_ERROR,
+    payload: errorMessage
+  }
+}
+
 export function actionSetEditorCurrentName(currentName) {
+  console.log(currentName)
   return {
     type: SET_EDITOR_CURRENT_NAME,
     payload: currentName

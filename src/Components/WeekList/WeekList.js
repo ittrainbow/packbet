@@ -15,16 +15,23 @@ import {
 const WeekList = (props) => {
 
   function setState(id) {
-    const week = props.weeks[id]
-    props.weekId(id)
-    props.setCurrentWeek(id)
-    props.setCurrentName(week.name)
-    props.setQuestions(week.questions)
-    props.setCurrentDeadline(week.deadline)
+    // if (id === 'new') {
+    //   console.log('noID')
+    // } else {
+    //   console.log(id)
+      const week = props.weeks[id]
+      console.log(week)
+      // props.weekId(id)
+      props.setCurrentWeek(week.number)
+      props.setCurrentName(week.name)
+      props.setQuestions(week.questions)
+      props.setCurrentDeadline(week.deadline)
+    // }
   }
 
   function renderWeeks() {
     if (props.weeks) {
+      console.log(props.editorStatus)
       return props.weeks.map((week) => {
         return (
           <li
@@ -34,7 +41,7 @@ const WeekList = (props) => {
             { props.editorStatus === 'editor' 
               ? <NavLink 
                   onClick={() => setState(week.id)} 
-                  to={'/weekeditor/' + week.id}
+                  to={'/create/' + week.id}
                 >
                   #{week.number}: {week.name}
                 </NavLink>
@@ -71,7 +78,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    weekId: (id) => dispatch(actionWeekId(id)),
+    // weekId: (id) => dispatch(actionWeekId(id)),
     setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
     setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),

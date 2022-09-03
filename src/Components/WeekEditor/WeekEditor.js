@@ -131,7 +131,7 @@ const WeekEditor = (props) => {
       const array = structuredClone(props.weeks)
       const newWeeks = array.filter(el => el.id !== props.editor.currentWeek)
 
-      props.actionInit(newWeeks)
+      props.init(newWeeks)
     } catch (error) {
       console.log(error)
     }
@@ -179,7 +179,7 @@ const WeekEditor = (props) => {
                 {renderInputs()}
     
                 <Button
-                  text='Сохранить'
+                  text='Добавить вопрос'
                   onClick={() => addQuestionHandler()}
                   disabled={
                     !props.editor.currentQuestion &&
@@ -202,7 +202,7 @@ const WeekEditor = (props) => {
                 
                 <div>
                   <Button
-                    text='На сервер'
+                    text='Сохранить неделю'
                     onClick={() => submitHandler()}
                     disabled={props.editor.questions.length === 0}
                   />
@@ -210,12 +210,11 @@ const WeekEditor = (props) => {
 
                 <div>
                   <Button
-                    text='Удалить'
+                    text='Удалить неделю'
                     onClick={() => deleteWeekHandler()}
                   />
                 </div>
-
-            </div>
+              </div>
         }
       </div>
     </div>

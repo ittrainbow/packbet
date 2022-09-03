@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Undo.module.scss'
-import { FaUndo } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 
 const Undo = (props) => {
   return (
@@ -8,7 +8,7 @@ const Undo = (props) => {
       onClick={props.onClick}
       className={classes.Undo}
     >
-      <FaUndo className={classes.Icon}/>
+      <FaTrash className={classes.Icon}/>
     </button>
   )
 }

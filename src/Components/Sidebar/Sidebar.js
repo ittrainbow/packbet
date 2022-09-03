@@ -28,30 +28,30 @@ class Sidebar extends Component {
 
   render() {
     const menuItem = [
-      { path: '/', name: 'About', icon:  <FaHome/> },
-      { path: '/profile', name: 'Profile', icon: <FaUserAlt/> },
-      { path: '/standings', name: 'Standings', icon: <FaListUl/> },
+      { path: '/', name: 'Инфо', icon:  <FaHome/> },
+      { path: '/profile', name: 'Профиль', icon: <FaUserAlt/> },
+      { path: '/standings', name: 'Таблица', icon: <FaListUl/> },
     ]
 
     if (this.props.isAuthenticated) {
       menuItem.pop()
       menuItem.push(
-        { path: '/thisweek', name: 'This\u00A0Week', icon: <FaFootballBall/> },
-        { path: '/calendar', name: 'Calendar', icon: <FaCalendarAlt/> },
-        { path: '/standings', name: 'Standings', icon: <FaListUl/> }
+        { path: '/thisweek', name: 'Эта\u00A0неделя', icon: <FaFootballBall/> },
+        { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt/> },
+        { path: '/standings', name: 'Таблица', icon: <FaListUl/> }
       )
     }
 
     if (this.props.isAdmin) {
       menuItem.push(
-        { path: '/editor', name: 'Editor', icon: <FaChevronCircleRight/> },
-        { path: '/create', name: 'New\u00A0Week', icon:  <FaStrava/> },
+        { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight/> },
+        { path: '/create', name: 'Новая\u00A0Неделя', icon:  <FaStrava/> },
       )
     }
 
     return (
       <div className={classes.Container}>
-        <div style={{width: this.state.isOpen ? '150px': '45px'}} className={classes.Sidebar}>
+        <div style={{width: this.state.isOpen ? '170px': '45px'}} className={classes.Sidebar}>
           <div className={classes.TopSection}>
             <div style={{marginLeft: '-4px', cursor: 'pointer'}} className={classes.Bars}>
               {this.state.isOpen 

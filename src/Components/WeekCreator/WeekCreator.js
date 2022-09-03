@@ -1,7 +1,9 @@
-import React from 'react'
+import React  from 'react'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
+
+import BasicDateTimePicker from '../../UI/Picker/Picker'
 
 import classes from './WeekCreator.module.scss'
 import './WeekCreator.css'
@@ -19,7 +21,8 @@ import {
   actionSetEditorCurrentTotal,
   actionSetEditorCurrentID,
   actionSetEditorCurrentDeadline,
-  actionSetEditorQuestions
+  actionSetEditorQuestions,
+  actionSetEditorCurrentError
 } from '../../redux/actions/editorActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 
@@ -51,67 +54,116 @@ const WeekCreator = (props) => {
     props.setCurrentID('')
   }
 
-  function editQuestionHandler(question) {
-    props.setCurrentQuestion(question.question)
-    props.setCurrentID(question.id)
-    props.setCurrentTotal(question.total)
+  function editQuestionHandler(id) {
+    const question = props.editor.questions[id]
+    if (props.editor.currentID !== id) {
+      props.setCurrentQuestion(question.question)
+      props.setCurrentID(question.id)
+      props.setCurrentTotal(question.total)
+    } else {
+      props.setCurrentQuestion('')
+      props.setCurrentID('')
+      props.setCurrentTotal('')
+    }
   }
 
   function deleteQuestionHandler(index) {
     const questions = structuredClone(props.editor.questions)
     questions.splice(index, 1)
+    questions.forEach((el, index) => {
+      el.id = index
+    })
     props.setQuestions(questions)
   }
 
   function changeHandler (event, tag) {
-    if (tag === 'setCurrentWeek') props.setCurrentWeek(Number(event.target.value))
-    if (tag === 'setCurrentName') props.setCurrentName(event.target.value)
-    if (tag === 'setCurrentQuestion') props.setCurrentQuestion(event.target.value)
+    if (tag === 'setCurrentWeek') {
+      const number = Number(event.target.value)
+      props.setCurrentWeek(number)
+      if (number <= props.weeks.length && number % 1 === 0) {
+        props.setCurrentError('Вероятно, эта неделя уже создана')
+      } else if (number > 0 && number % 1 === 0) {        
+        props.setCurrentError('')
+      } else {
+        props.setCurrentError('Введите валидный номер недели')
+      }
+    }
+    if (tag === 'setCurrentName') {
+      const text = event.target.value
+      if (text.length < 61) {
+        props.setCurrentName(text.substring(0, 1).toUpperCase() + text.substring(1))
+        props.setCurrentError('')
+      } else {
+        props.setCurrentName(text.substring(0, 1).toUpperCase() + text.substring(1, 60))
+        props.setCurrentError('Лимит длины вопроса = 60 символам')
+      }         
+    }
+    if (tag === 'setCurrentQuestion') {
+      const text = event.target.value
+      if (text.length < 61) {
+        props.setCurrentQuestion(text.substring(0, 1).toUpperCase() + text.substring(1))
+        props.setCurrentError('')
+      } else {
+        props.setCurrentQuestion(text.substring(0, 1).toUpperCase() + text.substring(1, 60))
+        props.setCurrentError('Лимит длины вопроса = 60 символам')
+      }      
+    }
     if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value)
     if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
   }
 
+  function readyToSubmit() {
+    return (
+      props.editor.currentWeek &&
+      props.editor.currentName.length > 0 &&
+      props.editor.currentDeadline.length > 0 &&
+      props.editor.questions.length > 2
+    )
+  }
+
   async function submitHandler () {
-    props.switchLoading(true)
+    if (readyToSubmit()) {
+      props.switchLoading(true)
 
-    const qs = structuredClone(props.editor.questions)
-
-    const questions = qs.map((question, index) => {
-      question['id'] = index
-      return question
-    })
-
-    const week = {
-      id: props.weeks.length,
-      number: props.editor.currentWeek,
-      name: props.editor.currentName,
-      questions: questions,
-      deadline: props.editor.currentDeadline
+      const qs = structuredClone(props.editor.questions)
+  
+      const questions = qs.map((question, index) => {
+        question['id'] = index
+        return question
+      })
+  
+      const week = {
+        id: props.editor.currentWeek,
+        number: props.editor.currentWeek + 1,
+        name: props.editor.currentName,
+        questions: questions,
+        deadline: props.editor.currentDeadline
+      }
+  
+      const weeks = structuredClone(props.weeks)
+      weeks.push(week)
+      
+      props.setCurrentWeek(weeks.length - 1)
+      props.switchLoading(false)
+      props.init(weeks)
+  
+      await axios.post('pack/weeks.json', week)
+  
+      navigate('/calendar')
     }
-
-    const weeks = structuredClone(props.weeks)
-    weeks.push(week)
-
-    await axios.post('pack/weeks.json', week)
-
-    props.setCurrentWeek(weeks.length - 1)
-    props.init(weeks)
-    props.switchLoading(false)
-
-    navigate('/calendar')
   }
 
   function renderQuestions() {
     return (
       props.loading
         ? <Loader />
-        : props.editor.questions.map((question, index) => {
+        : props.editor.questions.map((question) => {
             return (
-              <div key={index} className='Questions'>
+              <div key={question.id} className='Questions'>
                 {question.question}: {question.total}
                 <div className='UndoEdit'>
-                  <Undo onClick={() => deleteQuestionHandler(index)} />                  
-                  <Edit onClick={(event) => editQuestionHandler(question)} />
+                  <Undo onClick={() => deleteQuestionHandler(question.id)} />                  
+                  <Edit onClick={() => editQuestionHandler(question.id)} />
                 </div>
               </div>
             )
@@ -126,7 +178,8 @@ const WeekCreator = (props) => {
           <div className={classes.Week}>
             <Input
               label='Неделя'
-              value={props.editor.currentWeek || ''}
+              type='number'
+              value={props.editor.currentWeek + 1}
               onChange={(event) => changeHandler(event, 'setCurrentWeek')}
             />
           </div>
@@ -138,7 +191,6 @@ const WeekCreator = (props) => {
             />
           </div>
         </div>
-        
         <div className={classes.Row}>
           <div className={classes.Line}>          
             <Input 
@@ -156,6 +208,10 @@ const WeekCreator = (props) => {
             />
           </div>
         </div>
+
+        <div style={{color: 'red', fontWeight: 'bold', marginBottom: '10px'}}>
+          {props.editor.currentError}
+        </div>
       </div>
     )
   }
@@ -166,7 +222,11 @@ const WeekCreator = (props) => {
       
       <div>        
         <Button
-          text='Добавить'
+          text={ props.editor.currentID || props.editor.currentID === 0
+                  ? 'Сохранить вопрос'
+                  : 'Добавить вопрос'
+
+          }
           onClick={(event) => addQuestionHandler(event)}
           disabled={
             !props.editor.currentQuestion ||
@@ -176,26 +236,23 @@ const WeekCreator = (props) => {
       </div>
 
       <div className={classes.QuestionsList}>
-        { renderQuestions() }    
-        <div style={{marginTop: '10px', width: '200px'}}>
-          <Input
-            placeholder="yyyy-mm-dd hh:mm"
-            label='Начало игры'
-            value={props.editor.currentDeadline}
-            onChange={(event) => changeHandler(event, 'setCurrentDeadline')}
-          />
+        {renderQuestions()}    
+        <div style={{fontSize: '13px', fontWeight: 'bold', marginTop: '15px'}}>
+          <div >
+            Начало игры: {props.editor.currentDeadline
+                            ? props.editor.currentDeadline
+                            : 'не установлено'}
+          </div>
+          <div style={{marginTop: '5px'}}> 
+            <BasicDateTimePicker style={{marginTop: '10px'}}/>
+          </div>  
         </div>
       </div>
 
       <Button
-        text='Создать'
+        text='Сохранить неделю'
         onClick={() => submitHandler()}
-        disabled={
-          !props.editor.currentName ||
-          !props.editor.currentDeadline ||
-          !(props.editor.currentWeek || props.editor.currentWeek === 0) ||
-          props.editor.questions.length === 0
-        }
+        hoverText="Убедитесь, что введены номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
       />
     </div>
   )
@@ -221,7 +278,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentTotal: (currentTotal) => dispatch(actionSetEditorCurrentTotal(currentTotal)),
     setCurrentID: (currentID) => dispatch(actionSetEditorCurrentID(currentID)),
     setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline)),
-    setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions))
+    setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
+    setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage))
   }
 }
  

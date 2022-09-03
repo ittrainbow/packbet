@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import structuredClone from '@ungap/structured-clone'
 import { connect } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import './Week.scss'
 import Loader from '../../UI/Loader/Loader'
@@ -11,21 +12,31 @@ import { actionWeekId } from '../../redux/actions/weekActions'
 import { actionButtonState } from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 
-class Week extends Component {
+const Week= (props) => {
+  const navigate = useNavigate()  
+  const id = props.weekId || props.weekId === 0
+    ? props.weekId
+    : props.currentWeek
+  const deadline = props.weeks[props.weekId].deadline
+  const thisweek = props.weeks[id] 
 
-  today() {
+  function today() {
     const today = new Date().toISOString().split('T').join(' ').substring(0, 16)
-    const deadline = this.props.weeks[this.props.weekId].deadline
+    const deadline = props.weeks[props.weekId].deadline
 
     return today < deadline
   }
 
-  onClickHandler = (index) => {
-    const state = structuredClone(this.props.buttons)    
+  function doNotSave() {
+    navigate('/calendar')
+  }
+
+  function onClickHandler (index) {
+    const state = structuredClone(props.buttons)    
     const i = Math.floor(index / 2)
     const yesno = index % 2
 
-    let status = state[this.props.weekId][i]
+    let status = state[props.weekId][i]
 
     if (yesno === 0) {
       status = (status === 1)
@@ -39,103 +50,122 @@ class Week extends Component {
         : 2
     }
 
-    state[this.props.weekId][i] = status
+    state[props.weekId][i] = status
 
-    if (this.props.isAdmin || this.today()) {
-      this.props.setButtonState(state)
+    if (props.isAdmin || today()) {
+      props.setButtonState(state)
     }
   }
 
-  async submitHandler() {
-    this.props.switchLoading(true)
+  async function submitHandler() {
+    props.switchLoading(true)
 
-    const data = this.props.buttons[this.props.weekId]
-    const url = this.props.isAdmin
-      ? `pack/answers/weeks/${this.props.weekId}.json`
-      : `pack/users/${this.props.userId}/weeks/${this.props.weekId}.json`
+    const data = props.buttons[props.weekId]
+    const url = props.isAdmin
+      ? `pack/answers/weeks/${props.weekId}.json`
+      : `pack/users/${props.userId}/weeks/${props.weekId}.json`
 
     await axios.put(url, data)
     
-    this.props.switchLoading(false)
+    props.switchLoading(false)
   }
 
-  renderQuestions(questions) {
-    return (
-      questions.map((question, index) => {
-        const weekId = this.props.weekId
-        const buttons = this.props.isItYou
-          ? this.props.buttons
-          : this.props.otherState
-        const currentWeek = this.props.currentWeek        
-        const answers = this.props.answers
+  function renderQuestions(questions) {
+    if (props.weekId || props.weekId === 0) {
+      return (
+        questions.map((question, index) => {
+          const weekId = props.weekId
+          const buttons = props.isItYou
+            ? props.buttons
+            : props.otherState
+          const currentWeek = props.currentWeek        
+          const answers = props.answers
+  
+          const activity = buttons[weekId]
+            ? buttons[weekId][index]
+            : buttons[currentWeek][index]
+  
+          const result = answers[weekId]
+            ? answers[weekId][index]
+            : answers[currentWeek][index]
+  
+          const styleSet = ['Questions']
+  
+          if (activity && result && !props.isAdmin && activity === result) {
+            styleSet.push('QuestionCorrect')
+          } else if (activity && result && !props.isAdmin && activity !== result) {
+            styleSet.push('QuestionWrong')
+          } else if (!activity || !result || props.isAdmin) {
+            styleSet.push('QuestionUntouched')
+          }
+          
+          return (          
+            <div key={index} className={styleSet.join(' ')}>
+              { question.question }
+              { question.total ? `: ${question.total}` : 0 }
+              <YesNoButtons
+                index={index}
+                activity={activity}
+                onClick={(index) => onClickHandler(index)}
+              />
+            </div>
+          )
+        })
+      )
+    }
 
-        const activity = buttons[weekId]
-          ? buttons[weekId][index]
-          : buttons[currentWeek][index]
-
-        const result = answers[weekId]
-          ? answers[weekId][index]
-          : answers[currentWeek][index]
-
-        const styleSet = ['Questions']
-
-        if (activity && result && !this.props.isAdmin && activity === result) {
-          styleSet.push('QuestionCorrect')
-        } else if (activity && result && !this.props.isAdmin && activity !== result) {
-          styleSet.push('QuestionWrong')
-        } else if (!activity || !result || this.props.isAdmin) {
-          styleSet.push('QuestionUntouched')
-        }
-        
-        return (          
-          <div key={index} className={styleSet.join(' ')}>
-            { question.question }
-            { question.total ? `: ${question.total}` : 0 }
-            <YesNoButtons
-              index={index}
-              activity={activity}
-              onClick={(index) => this.onClickHandler(index)}
-            />
-          </div>
-        )
-      })
-    )
   }
 
-  render() {
-    const id = this.props.weekId || this.props.weekId === 0
-      ? this.props.weekId
-      : this.props.currentWeek
-      
-    const thisweek = this.props.weeks[id]
+  function renderSubmits() {
     return (
-      <div className='Week'> 
-        <h3>#{ thisweek.number }: { thisweek.name }</h3>
-        <div className='QuestionsBlockMargin'>
-          { this.renderQuestions(thisweek.questions) }
+      <div>
+        <div>
+          <Button
+            text='Записать'
+            onClick={submitHandler}  
+            disabled={!today() && !props.isAdmin}
+          />
         </div>
-        { this.props.loading
-            ? <Loader />
-            : this.props.isItYou
-                ? <Button
-                    text='Submit'
-                    onClick={ this.submitHandler.bind(this) }  
-                    disabled={!this.today() && !this.props.isAdmin}
-                  />
-                : 'Для возвращения к своему профилю перейдите на вкладку Profile'
-            
-            
-
-        }
-        <div style={{marginTop: '10px'}}>
-          { this.today()
-              ? `Прогнозы принимаются до ${this.props.weeks[this.props.weekId].deadline}`
-              : `Прогнозы принимались до ${this.props.weeks[this.props.weekId].deadline}`
+        <div>
+          <Button
+            text='Не сохранять'
+            onClick={doNotSave}  
+            disabled={!today() && !props.isAdmin}
+          />
+        </div>
+        <div>
+          { props.isItYou
+              ? ''
+              : 'Для возвращения к своему профилю перейдите на вкладку Profile'
           }
         </div>
       </div>
-    )      
+    )
   }
+
+
+
+  return (
+    <div className='Week'> 
+      <h3>#{ thisweek.number }: { thisweek.name }</h3>
+
+      <div className='QuestionsBlockMargin'>
+        { renderQuestions(thisweek.questions) }
+      </div>
+
+      { props.loading
+          ? <Loader />
+          : renderSubmits()
+      }
+
+      <div style={{marginTop: '10px'}}>
+        { today()
+            ? `Прогнозы принимаются до ${deadline}`
+            : `Прогнозы принимались до ${deadline}`
+        }
+      </div>
+    </div>
+  )
 }
 
 function mapStateToProps(state) {

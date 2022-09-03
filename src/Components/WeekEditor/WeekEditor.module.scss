@@ -60,19 +60,25 @@
 }
 
 .Questions {
+  background: #eee;
   font-size: 14px;
-  border: 1px solid #111;
-  padding: 3px;
+  line-height: 25px;
   margin-bottom: 2px;
-  height: 22px;
+  border: 1px solid #111;
+  padding: 2px 2px 2px 7px;
+  height: 24px;
   border-radius: 2px;
+  border-color: #777;
 }
 
 .QuestionsActive {  
+  background: rgb(225, 200, 200);
   font-size: 14px;
-  border: 1px solid #f00;
-  padding: 3px;
+  line-height: 25px;
   margin-bottom: 2px;
-  height: 22px;
+  border: 1px solid #111;
+  padding: 2px 2px 2px 7px;
+  height: 24px;
   border-radius: 2px;
+  border-color: #777;
 }

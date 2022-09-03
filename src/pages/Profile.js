@@ -18,12 +18,21 @@ class Profile extends Component {
     }
   }
 
+  renderHeader() {
+    if (this.props.isAuthenticated) {
+      return 'Профиль'
+    } else if (this.props.authPage) {
+      return 'Войти'
+    } else {
+      return 'Регистрация'
+    }
+  }
+
   render() {
     return (
       <div className={classes.Container}>
-        <h3>Профиль</h3>
-        { this.renderPage() }
-  
+        <h3>{ this.renderHeader() }</h3>
+        { this.renderPage() }  
       </div>
     )
   }
