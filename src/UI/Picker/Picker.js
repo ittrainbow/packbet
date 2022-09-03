@@ -1,33 +1,50 @@
-import * as React from 'react'
+import React from 'react'
 import dayjs from 'dayjs'
 import TextField from '@mui/material/TextField'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { connect } from 'react-redux/es/exports'
+
 import { actionSetEditorCurrentDeadline } from '../../redux/actions/editorActions'
 
+
 const BasicDateTimePicker = (props) => {
-  const [value, setValue] = React.useState(dayjs())
+  const [ value, setValue ] = React.useState(dayjs())
+
+  function dateConverter(value) {
+    const month = value.$M > 9 ? value.$M : '0'+value.$M
+    const day = value.$D > 9 ? value.$D : '0'+value.$D
+    const hours = value.$H > 9 ? value.$H : '0'+value.$H
+    const minutes = value.$m > 9 ? value.$m : '0'+value.$m
+    const time = `${value.$y}-${month}-${day} ${hours}-${minutes}`
+    
+    return time
+  }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateTimePicker
-        renderInput={(props) => <TextField {...props} />}
-        label=""
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-          const month = newValue.$M > 9 ? newValue.$M : '0'+newValue.$M
-          const day = newValue.$D > 9 ? newValue.$D : '0'+newValue.$D
-          const hours = newValue.$H > 9 ? newValue.$H : '0'+newValue.$H
-          const minutes = newValue.$m > 9 ? newValue.$m : '0'+newValue.$m
-          const deadline = `${newValue.$y}-${month}-${day} ${hours}-${minutes}`
-          props.setCurrentDeadline(deadline)
-        }}
-      />
-    </LocalizationProvider>
+    <div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateTimePicker
+          renderInput={(props) => <TextField {...props} />}
+          label=""
+          value={props.deadline}
+          onChange={(newValue) => {
+            setValue(newValue)
+            props.setCurrentDeadline(dateConverter(newValue))
+          }}
+        />
+      </LocalizationProvider>
+    </div>
+
   )
+}
+
+function mapStateToProps(state) {
+  return {
+    deadline: state.editor.currentDeadline,
+    isEditor: state.week.editorStatus
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -36,4 +53,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(BasicDateTimePicker)
+export default connect(mapStateToProps, mapDispatchToProps)(BasicDateTimePicker)

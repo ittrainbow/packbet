@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import WeekCreator from '../Components/WeekCreator/WeekCreator'
 import classes from './Pages.module.scss'
 import { 
   actionClearEditor,
-  actionSetEditorCurrentWeek 
+  actionSetEditorCurrentWeek,
+  actionSetEditorCurrentDeadline
 } from '../redux/actions/editorActions'
-import { connect } from 'react-redux'
 
 class Creator extends Component {
   componentDidMount() {
     this.props.clearEditor()
-    this.props.setCurrentWeek(this.props.weeks)
+
+    const getDate = new Date()
+    const date = getDate.toISOString().split('T').join(' ').substring(0, 16)
+
+    this.props.setCurrentDeadline(date)
   }
 
   render() {
@@ -32,7 +38,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     clearEditor: () => dispatch(actionClearEditor()),
-    setCurrentWeek: (weeks) => dispatch(actionSetEditorCurrentWeek(weeks))
+    setCurrentWeek: (weeks) => dispatch(actionSetEditorCurrentWeek(weeks)),
+    setCurrentDeadline: (deadline) => dispatch(actionSetEditorCurrentDeadline(deadline))
   }
 }
 

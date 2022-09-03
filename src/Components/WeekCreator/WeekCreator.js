@@ -25,6 +25,7 @@ import {
   actionSetEditorCurrentError
 } from '../../redux/actions/editorActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
+import { getWeeks } from '../../frame/getWeeks'
 
 const WeekCreator = (props) => {
   const navigate = useNavigate()
@@ -74,13 +75,16 @@ const WeekCreator = (props) => {
       el.id = index
     })
     props.setQuestions(questions)
+    props.setCurrentQuestion('')
+    props.setCurrentID('')
+    props.setCurrentTotal('')
   }
 
   function changeHandler (event, tag) {
     if (tag === 'setCurrentWeek') {
       const number = Number(event.target.value)
       props.setCurrentWeek(number)
-      if (number <= props.weeks.length && number % 1 === 0) {
+      if (number <= props.weeks.length && number % 1 === 0 && number !== 1 && number > 0) {
         props.setCurrentError('Вероятно, эта неделя уже создана')
       } else if (number > 0 && number % 1 === 0) {        
         props.setCurrentError('')
@@ -133,8 +137,8 @@ const WeekCreator = (props) => {
       })
   
       const week = {
-        id: props.editor.currentWeek,
-        number: props.editor.currentWeek + 1,
+        id: props.editor.currentWeekId,
+        number: props.editor.currentWeek,
         name: props.editor.currentName,
         questions: questions,
         deadline: props.editor.currentDeadline
@@ -144,11 +148,17 @@ const WeekCreator = (props) => {
       weeks.push(week)
       
       props.setCurrentWeek(weeks.length - 1)
+
+      if (!props.editor.currentHash.length) {  
+        await axios.post('pack/weeks.json', week)
+      } else {
+        await axios.put(`pack/weeks/${props.editor.currentHash}.json`, week)
+      }
+
+      const response = await axios.get('pack/weeks.json')
+      
+      props.init(getWeeks(response.data))
       props.switchLoading(false)
-      props.init(weeks)
-  
-      await axios.post('pack/weeks.json', week)
-  
       navigate('/calendar')
     }
   }
@@ -171,6 +181,10 @@ const WeekCreator = (props) => {
     )
   }
 
+  function doNotSave() {
+    navigate('/calendar')
+  }
+
   function renderInputs() {
     return (
       <div className={classes.Inputs}>
@@ -179,7 +193,7 @@ const WeekCreator = (props) => {
             <Input
               label='Неделя'
               type='number'
-              value={props.editor.currentWeek + 1}
+              value={props.editor.currentWeek}
               onChange={(event) => changeHandler(event, 'setCurrentWeek')}
             />
           </div>
@@ -216,44 +230,60 @@ const WeekCreator = (props) => {
     )
   }
 
-  return (
-    <div className={classes.WeekCreator}>    
-      <div>{renderInputs()}</div>
+  function renderWeek() {
+    return (
+      <div>
+        <div>{renderInputs()}</div>
       
-      <div>        
-        <Button
-          text={ props.editor.currentID || props.editor.currentID === 0
-                  ? 'Сохранить вопрос'
-                  : 'Добавить вопрос'
+        <div>
+          <Button
+            text={ props.editor.currentID || props.editor.currentID === 0
+                    ? 'Сохранить вопрос'
+                    : 'Добавить вопрос'
 
-          }
-          onClick={(event) => addQuestionHandler(event)}
-          disabled={
-            !props.editor.currentQuestion ||
-            !props.editor.currentTotal
-          }
-        />
-      </div>
-
-      <div className={classes.QuestionsList}>
-        {renderQuestions()}    
-        <div style={{fontSize: '13px', fontWeight: 'bold', marginTop: '15px'}}>
-          <div >
-            Начало игры: {props.editor.currentDeadline
-                            ? props.editor.currentDeadline
-                            : 'не установлено'}
-          </div>
-          <div style={{marginTop: '5px'}}> 
-            <BasicDateTimePicker style={{marginTop: '10px'}}/>
-          </div>  
+            }
+            onClick={(event) => addQuestionHandler(event)}
+            disabled={
+              !props.editor.currentQuestion ||
+              !props.editor.currentTotal
+            }
+          />
         </div>
-      </div>
 
-      <Button
-        text='Сохранить неделю'
-        onClick={() => submitHandler()}
-        hoverText="Убедитесь, что введены номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
-      />
+        <div className={classes.QuestionsList}>
+          {renderQuestions()}    
+          <div style={{fontSize: '13px', fontWeight: 'bold', marginTop: '15px'}}>
+            <div >
+              Начало игры: {props.editor.currentDeadline
+                              ? props.editor.currentDeadline
+                              : 'не установлено'}
+            </div>
+            <div style={{marginTop: '5px'}}> 
+              <BasicDateTimePicker style={{marginTop: '10px'}}/>
+            </div>  
+          </div>
+        </div>
+
+        <Button
+          text='Отменить и выйти'
+          onClick={doNotSave}  
+        />
+
+        <Button
+          text='Сохранить неделю'
+          onClick={() => submitHandler()}
+          hoverText="Убедитесь, что введены корректный номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
+        />
+    </div>
+    )
+  }
+
+  return (
+    <div className={classes.WeekCreator}>
+      { props.loading 
+          ? <Loader />
+          : renderWeek()
+      }    
     </div>
   )
 }

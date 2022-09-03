@@ -34,7 +34,8 @@ export default function authReducer (state = initialState, action) {
     case GET_BUTTONSTATE:
       return {
         ...state,
-        buttonState: action.payload
+        buttonState: action.payload,
+        loadedState: action.payload
       }
 
     case SET_AUTH_PAGE:

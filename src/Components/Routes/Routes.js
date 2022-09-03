@@ -39,7 +39,7 @@ const AppRoutes = () => {
           </Route>
 
           <Route exact path='/' element={<AdminRoute/>}>
-            <Route exact path='/weekeditor/:id' element={<WeekEditor/>}/>
+            <Route exact path='/create/:id' element={<WeekEditor/>}/>
           </Route>
 
           <Route exact path='/' element={<AdminRoute/>}>

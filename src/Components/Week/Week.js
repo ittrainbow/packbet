@@ -12,17 +12,17 @@ import { actionWeekId } from '../../redux/actions/weekActions'
 import { actionButtonState } from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 
-const Week= (props) => {
+const Week = (props) => {
   const navigate = useNavigate()  
-  const id = props.weekId || props.weekId === 0
-    ? props.weekId
-    : props.currentWeek
-  const deadline = props.weeks[props.weekId].deadline
-  const thisweek = props.weeks[id] 
+  const id = props.week.weekId || props.week.weekId === 0
+    ? props.week.weekId
+    : props.week.currentWeek
+  const deadline = props.week.weeks[props.week.weekId].deadline
+  const thisweek = props.week.weeks[id] 
 
   function today() {
     const today = new Date().toISOString().split('T').join(' ').substring(0, 16)
-    const deadline = props.weeks[props.weekId].deadline
+    const deadline = props.week.weeks[props.week.weekId].deadline
 
     return today < deadline
   }
@@ -32,11 +32,11 @@ const Week= (props) => {
   }
 
   function onClickHandler (index) {
-    const state = structuredClone(props.buttons)    
+    const state = structuredClone(props.auth.buttonState)    
     const i = Math.floor(index / 2)
     const yesno = index % 2
 
-    let status = state[props.weekId][i]
+    let status = state[props.week.weekId][i]
 
     if (yesno === 0) {
       status = (status === 1)
@@ -50,7 +50,7 @@ const Week= (props) => {
         : 2
     }
 
-    state[props.weekId][i] = status
+    state[props.week.weekId][i] = status
 
     if (props.isAdmin || today()) {
       props.setButtonState(state)
@@ -60,26 +60,30 @@ const Week= (props) => {
   async function submitHandler() {
     props.switchLoading(true)
 
-    const data = props.buttons[props.weekId]
+    const data = props.auth.buttonState[props.week.weekId]
     const url = props.isAdmin
-      ? `pack/answers/weeks/${props.weekId}.json`
-      : `pack/users/${props.userId}/weeks/${props.weekId}.json`
+      ? `pack/answers/weeks/${props.week.weekId}.json`
+      : `pack/users/${props.auth.userId}/weeks/${props.week.weekId}.json`
 
     await axios.put(url, data)
+
+    if (props.isAdmin) {
+
+    }
     
     props.switchLoading(false)
   }
 
   function renderQuestions(questions) {
-    if (props.weekId || props.weekId === 0) {
+    if (props.week.weekId || props.week.weekId === 0) {
       return (
         questions.map((question, index) => {
-          const weekId = props.weekId
-          const buttons = props.isItYou
-            ? props.buttons
-            : props.otherState
-          const currentWeek = props.currentWeek        
-          const answers = props.answers
+          const weekId = props.week.weekId
+          const buttons = props.others.isItYou
+            ? props.auth.buttonState
+            : props.others.buttonState
+          const currentWeek = props.week.currentWeek
+          const answers = props.auth.answerState
   
           const activity = buttons[weekId]
             ? buttons[weekId][index]
@@ -121,20 +125,26 @@ const Week= (props) => {
       <div>
         <div>
           <Button
-            text='Записать'
+            className={'.WideButton'}
+            text={
+              !props.isAdmin
+                ? 'Записать итоги'
+                : isTouched()
+                    ? 'Сохранить'
+                    : 'Изменений нет' 
+            }
             onClick={submitHandler}  
-            disabled={!today() && !props.isAdmin}
+            disabled={(!today() && !props.isAdmin) || !isTouched()}
           />
         </div>
         <div>
           <Button
-            text='Не сохранять'
+            text='Отменить и выйти'
             onClick={doNotSave}  
-            disabled={!today() && !props.isAdmin}
           />
         </div>
         <div>
-          { props.isItYou
+          { props.others.isItYou
               ? ''
               : 'Для возвращения к своему профилю перейдите на вкладку Profile'
           }
@@ -143,7 +153,16 @@ const Week= (props) => {
     )
   }
 
+  function isTouched() {
+    return JSON.stringify(props.auth.buttonState) !== JSON.stringify(props.auth.loadedState)
+  }
 
+  function isWeekTouched() {
+    const buttons = JSON.stringify(props.auth.buttonState[props.week.weekId])
+    const loaded = JSON.stringify(props.auth.loadedState[props.week.weekId])
+
+    return JSON.stringify(buttons) !== JSON.stringify(loaded)
+  }
 
   return (
     <div className='Week'> 
@@ -153,7 +172,7 @@ const Week= (props) => {
         { renderQuestions(thisweek.questions) }
       </div>
 
-      { props.loading
+      { props.loading.loading
           ? <Loader />
           : renderSubmits()
       }
@@ -164,23 +183,22 @@ const Week= (props) => {
             : `Прогнозы принимались до ${deadline}`
         }
       </div>
+      <div style={{marginTop: '10px', color: 'red'}}>
+        { isWeekTouched()
+            ? 'На этой неделе есть изменения'
+            : null  }
+      </div>
     </div>
   )
 }
 
 function mapStateToProps(state) {
   return {
-    weeks: state.week.weeks,
-    otherState: state.others.buttonState,
-    isItYou: state.others.isItYou,
-    currentWeek: state.week.currentWeek,
-    weekId: state.week.weekId,
-    buttons: state.auth.buttonState,
-    answers: state.auth.answerState,
-    userId: state.auth.userId,
+    week: state.week,
+    auth: state.auth,
+    others: state.others,
     isAdmin: state.auth.isAdmin,
-    loading: state.loading.loading,
-    message: state.loading.message
+    loading: state.loading
   }
 }
 

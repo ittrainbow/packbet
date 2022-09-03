@@ -2,7 +2,8 @@ import { SWITCH_LOADING } from "../types"
 
 const initialState = {
   loading: false,
-  message: ''
+  message: '',
+  isTouched: false
 }
 
 export default function loadingReducer(state = initialState, action) {

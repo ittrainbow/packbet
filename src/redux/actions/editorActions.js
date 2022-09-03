@@ -1,5 +1,6 @@
 import {
   SET_EDITOR_CURRENT_WEEK,
+  SET_EDITOR_CURRENT_WEEK_ID,
   SET_EDITOR_CURRENT_NAME,
   SET_EDITOR_CURRENT_QUESTION,
   SET_EDITOR_CURRENT_TOTAL,
@@ -7,11 +8,11 @@ import {
   SET_EDITOR_CURRENT_DEADLINE,
   SET_EDITOR_QUESTIONS,
   SET_CURRENT_ERROR,
+  SET_EDITOR_CURRENT_HASH,
   CLEAR_EDITOR
 } from '../types'
 
 export function actionSetEditorCurrentWeek(currentWeek) {
-  console.log(currentWeek)
   return {
     type: SET_EDITOR_CURRENT_WEEK,
     payload: currentWeek
@@ -26,10 +27,16 @@ export function actionSetEditorCurrentError(errorMessage) {
 }
 
 export function actionSetEditorCurrentName(currentName) {
-  console.log(currentName)
   return {
     type: SET_EDITOR_CURRENT_NAME,
     payload: currentName
+  }
+}
+
+export function actionSetCurrentWeekId(weekId) {
+  return {
+    type: SET_EDITOR_CURRENT_WEEK_ID,
+    payload: weekId
   }
 }
 
@@ -65,6 +72,13 @@ export function actionSetEditorCurrentDeadline(currentDeadline) {
   return {
     type: SET_EDITOR_CURRENT_DEADLINE,
     payload: currentDeadline
+  }
+}
+
+export function actionSetEditorCurrentHash(currentHash) {
+  return {
+    type: SET_EDITOR_CURRENT_HASH,
+    payload: currentHash
   }
 }
 
