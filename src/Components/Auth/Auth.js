@@ -232,7 +232,7 @@ class Auth extends Component {
 
   render() {
     return (
-      <div className={classes.Auth }>
+      <div className={classes.Auth}>
         {this.renderForm()}
       </div>
     )

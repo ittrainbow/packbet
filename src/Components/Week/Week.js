@@ -28,6 +28,11 @@ const Week = (props) => {
   }
 
   function doNotSave() {
+    const state = structuredClone(props.auth.buttonState)
+
+    state[props.week.weekId] = props.auth.loadedState[props.week.weekId]
+    props.setButtonState(state)
+
     navigate('/calendar')
   }
 
@@ -93,7 +98,7 @@ const Week = (props) => {
             ? answers[weekId][index]
             : answers[currentWeek][index]
   
-          const styleSet = ['Questions']
+          const styleSet = ['QuestionsDefault']
   
           if (activity && result && !props.isAdmin && activity === result) {
             styleSet.push('QuestionCorrect')
@@ -125,7 +130,6 @@ const Week = (props) => {
       <div>
         <div>
           <Button
-            className={'.WideButton'}
             text={
               !props.isAdmin
                 ? 'Записать итоги'

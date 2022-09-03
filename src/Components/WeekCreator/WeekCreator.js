@@ -168,8 +168,12 @@ const WeekCreator = (props) => {
       props.loading
         ? <Loader />
         : props.editor.questions.map((question) => {
+            const setClass = question.id === props.editor.currentID
+              ? 'QuestionsSelected'
+              : 'Questions'
+
             return (
-              <div key={question.id} className='Questions'>
+              <div key={question.id} className={setClass}>
                 {question.question}: {question.total}
                 <div className='UndoEdit'>
                   <Undo onClick={() => deleteQuestionHandler(question.id)} />                  
@@ -237,10 +241,10 @@ const WeekCreator = (props) => {
       
         <div>
           <Button
-            text={ props.editor.currentID || props.editor.currentID === 0
-                    ? 'Сохранить вопрос'
-                    : 'Добавить вопрос'
-
+            text={ 
+              props.editor.currentID || props.editor.currentID === 0
+                ? 'Сохранить вопрос'
+                : 'Добавить вопрос'
             }
             onClick={(event) => addQuestionHandler(event)}
             disabled={
@@ -251,7 +255,7 @@ const WeekCreator = (props) => {
         </div>
 
         <div className={classes.QuestionsList}>
-          {renderQuestions()}    
+          {renderQuestions()}
           <div style={{fontSize: '13px', fontWeight: 'bold', marginTop: '15px'}}>
             <div >
               Начало игры: {props.editor.currentDeadline

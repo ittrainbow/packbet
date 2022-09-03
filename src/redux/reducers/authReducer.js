@@ -6,12 +6,14 @@ import {
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERS,
-  SET_AUTH_PAGE
+  SET_AUTH_PAGE,
+  SET_EMAIL
 } from '../types'
 
 const initialState = {
   token: null,
   userName: null,
+  email: '',
   userId: null,
   isAdmin: false,
   authPage: true
@@ -29,6 +31,12 @@ export default function authReducer (state = initialState, action) {
       return {
         ...state,
         isAdmin: action.payload
+      }
+
+    case SET_EMAIL:
+      return {
+        ...state,
+        email: action.payload
       }
     
     case GET_BUTTONSTATE:

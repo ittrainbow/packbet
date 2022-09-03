@@ -1,13 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux/es/exports'
+import { useNavigate } from 'react-router-dom'
 import Auth from '../Components/Auth/Auth'
 import Userpage from '../Components/Userpage/Userpage'
 import classes from './Pages.module.scss'
+import Button from '../UI/Button/Button'
 
-class Profile extends Component {
+const Profile = (props) => {
+  const navigate = useNavigate()
 
-  renderPage() {
-    if (this.props.isAuthenticated) {
+  function renderPage() {
+    if (props.isAuthenticated) {
       return (
         <Userpage />
       )
@@ -18,24 +21,34 @@ class Profile extends Component {
     }
   }
 
-  renderHeader() {
-    if (this.props.isAuthenticated) {
+  function renderHeader() {
+    if (props.isAuthenticated) {
       return 'Профиль'
-    } else if (this.props.authPage) {
+    } else if (props.authPage) {
       return 'Войти'
     } else {
       return 'Регистрация'
     }
   }
 
-  render() {
-    return (
-      <div className={classes.Container}>
-        <h3>{ this.renderHeader() }</h3>
-        { this.renderPage() }  
-      </div>
-    )
+  function redirect() {
+    navigate('/recover')
   }
+
+  return (
+    <div className={classes.Container}>
+      <h3>{ renderHeader() }</h3>
+      { renderPage() }
+      { props.isAuthenticated
+          ? null
+          : <Button 
+              text='Забыли пароль?'
+              onClick={() => redirect()}
+            />
+      }
+
+    </div>
+  )
 
 }
 

@@ -1,4 +1,5 @@
 export const SWITCH_LOADING = 'SWITCH_LOADING'
+export const SET_MESSAGE = 'SET_MESSAGE '
 
 export const APP_INIT = 'APP_INIT'
 export const SET_WEEK_ID = 'SET_WEEKID'
@@ -12,6 +13,7 @@ export const SET_ADMIN = 'SET_ADMIN'
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
 export const SET_ANSWERS = 'SET_ANSWERS'
 export const SET_STANDINGS = 'SET_STANDINGS'
+export const SET_EMAIL = 'SET_EMAIL'
 
 export const SET_EDITOR_STATUS = 'SET_EDITOR_STATUS'
 export const SET_EDITOR_CURRENT_WEEK = 'SET_EDITOR_CURRENT_WEEK'

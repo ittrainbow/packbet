@@ -6,7 +6,8 @@ import {
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERS,
-  SET_AUTH_PAGE
+  SET_AUTH_PAGE,
+  SET_EMAIL
 } from '../types'
 
 import { findUser } from '../../frame/findUser'
@@ -96,6 +97,13 @@ export function actionGetButtonState(buttonState) {
   return {
     type: GET_BUTTONSTATE,
     payload: buttonState
+  }
+}
+
+export function actionSetEmail(email) {
+  return {
+    type: SET_EMAIL,
+    payload: email
   }
 }
 
