@@ -77,7 +77,7 @@ const ForgotPassword = (props) => {
       <hr style={{marginTop: '12px', width: '250px'}}/>
       <div style={{marginTop: '15px'}}>
         <Button 
-          text='Назад ко входу'
+          text='Вход'
           onClick={() => returnHandler()}
         />
       </div>

@@ -205,13 +205,15 @@ class Auth extends Component {
             </div>
             <div style={{ marginBottom: '6px' }}>
               <Button 
-                text={this.state.authPage
-                        ? 'Войти'
-                        : 'Регистрация'
+                text={
+                  this.state.authPage
+                    ? 'Войти'
+                    : 'Регистрация'
                 }
-                onClick={this.state.authPage
-                          ? this.loginHandler
-                          : this.registerHandler
+                onClick={
+                  this.state.authPage
+                    ? this.loginHandler
+                    : this.registerHandler
                 }
                 disabled={!this.state.isFormValid}
               /> 
@@ -220,8 +222,8 @@ class Auth extends Component {
             <div>
               <Button 
                 text={this.state.authPage
-                        ? 'К регистрации'
-                        : 'Ко входу'
+                        ? 'Регистрация'
+                        : 'Войти'
                 }
                 onClick={this.authRegHandler.bind(this)}
               />

@@ -22,10 +22,12 @@ import {
   actionSetEditorCurrentID,
   actionSetEditorCurrentDeadline,
   actionSetEditorQuestions,
-  actionSetEditorCurrentError
+  actionSetEditorCurrentError,
+  actionClearEditor
 } from '../../redux/actions/editorActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { getWeeks } from '../../frame/getWeeks'
+import { actionButtonState } from '../../redux/actions/authActions'
 
 const WeekCreator = (props) => {
   const navigate = useNavigate()
@@ -149,6 +151,11 @@ const WeekCreator = (props) => {
       
       props.setCurrentWeek(weeks.length - 1)
 
+      const obj = {...props.auth.buttonState}
+      const add = {}
+      for (let i=0; i<questions.length; i++) add[i] = null
+      obj[props.editor.currentWeekId] = add
+
       if (!props.editor.currentHash.length) {  
         await axios.post('pack/weeks.json', week)
       } else {
@@ -159,8 +166,22 @@ const WeekCreator = (props) => {
       
       props.init(getWeeks(response.data))
       props.switchLoading(false)
-      navigate('/calendar')
+      navigate('/editor')
     }
+  }
+
+  async function deleteWeekHandler() {
+    props.switchLoading(true)
+    const id = props.editor.currentWeekId;
+    const weeks = {...props.weeks}
+    delete(weeks[id])
+
+    props.init(weeks)
+
+    await axios.delete(`pack/weeks/${props.editor.currentHash}.json`)
+    
+    props.switchLoading(false)
+    navigate('/editor')
   }
 
   function renderQuestions() {
@@ -186,6 +207,7 @@ const WeekCreator = (props) => {
   }
 
   function doNotSave() {
+    props.clearEditor()
     navigate('/calendar')
   }
 
@@ -278,6 +300,14 @@ const WeekCreator = (props) => {
           onClick={() => submitHandler()}
           hoverText="Убедитесь, что введены корректный номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
         />
+
+        { props.editor.currentHash
+          ? <Button
+              text="Удалить неделю"
+              onClick={() => deleteWeekHandler()}
+            />
+          : null
+        }
     </div>
     )
   }
@@ -295,6 +325,7 @@ const WeekCreator = (props) => {
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
+    auth: state.auth,
     editor: state.editor,
     loading: state.loading.loading
   }
@@ -305,6 +336,7 @@ function mapDispatchToProps(dispatch) {
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
 
     init: (weeks) => dispatch(actionInit(weeks)),
+    newWeekButtonState: (state) => dispatch(actionButtonState(state)),
 
     setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
@@ -313,7 +345,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentID: (currentID) => dispatch(actionSetEditorCurrentID(currentID)),
     setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline)),
     setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
-    setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage))
+    setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage)),
+    clearEditor: () => dispatch(actionClearEditor())
   }
 }
  

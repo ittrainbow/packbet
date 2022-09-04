@@ -36,7 +36,7 @@ class Sidebar extends Component {
     if (this.props.isAuthenticated) {
       menuItem.pop()
       menuItem.push(
-        { path: '/thisweek', name: 'Эта\u00A0неделя', icon: <FaFootballBall/> },
+        { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall/> },
         { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt/> },
         { path: '/standings', name: 'Таблица', icon: <FaListUl/> }
       )

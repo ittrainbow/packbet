@@ -74,12 +74,12 @@ class Userpage extends Component {
         </div>
         <div className={classes.UserDiv}>
           { this.props.isAdmin
-              ? 'У вас есть права администрирования'
+              ? 'Вы - администратор'
               : null}
         </div>
         <div>
           <Button 
-            text='Logout'
+            text='Выйти'
             onClick={this.logoutHandler.bind(this)}
           />
         </div>
