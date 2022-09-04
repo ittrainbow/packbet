@@ -6,6 +6,7 @@ import classes from './Pages.module.scss'
 import { 
   actionClearEditor,
   actionSetEditorCurrentWeek,
+  actionSetCurrentWeekId,
   actionSetEditorCurrentDeadline
 } from '../redux/actions/editorActions'
 
@@ -17,6 +18,7 @@ class Creator extends Component {
     const date = getDate.toISOString().split('T').join(' ').substring(0, 16)
 
     this.props.setCurrentDeadline(date)
+    this.props.setCurrentWeekId(this.props.weeks[this.props.weeks.length - 1].id + 1)
   }
 
   render() {
@@ -31,7 +33,7 @@ class Creator extends Component {
 
 function mapStateToProps(state) {
   return {
-    weeks: state.week.weeks.length
+    weeks: state.week.weeks
   }
 }
 
@@ -39,6 +41,7 @@ function mapDispatchToProps(dispatch) {
   return {
     clearEditor: () => dispatch(actionClearEditor()),
     setCurrentWeek: (weeks) => dispatch(actionSetEditorCurrentWeek(weeks)),
+    setCurrentWeekId: (id) => dispatch(actionSetCurrentWeekId(id)),
     setCurrentDeadline: (deadline) => dispatch(actionSetEditorCurrentDeadline(deadline))
   }
 }
