@@ -2,10 +2,12 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
+  INIT_BUTTONSTATE,
   SET_CURRENT_USER,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
-  SET_ANSWERS,
+  SET_ANSWERSTATE,
+  SET_LOADEDSTATE,  
   SET_AUTH_PAGE,
   SET_EMAIL
 } from '../types'
@@ -38,6 +40,7 @@ export function actionAuth(email, password, isLogin) {
     const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
     const usersResponse = await axios.get(`${dbUrl}/users.json`)
     const answersResponse = await axios.get(`${dbUrl}/answers.json`)
+
     const userId = findUser(usersResponse.data, email)[0]
     const isAdmin = authResponse.data.email === 'admin@admin.com'
 
@@ -71,25 +74,21 @@ export function actionAuth(email, password, isLogin) {
 
 export function actionCreateButtonsObj(buttons = 0, weeks) {
   const buttonState = {}
+  const length = Object.keys(weeks).map(el => weeks[el].id)
 
-  for (let i=0; i<Object.keys(weeks).length; i++) {
+  for (let i=0; i<length.length; i++) {
     const weeklyButtons = {}
 
     if (buttons[i]) {
       for (let j=0; j<buttons[i].length; j++) {
-        weeklyButtons[j] = buttons[i][j] !== 0
-          ? buttons[i][j]
-          : null
+        weeklyButtons[j] = buttons[i][j] !== 0 ? buttons[i][j] : null
       }
     } else {
-      for (let j=0; j<weeks[Object.keys(weeks)[i]].questions.length; j++) {
-        weeklyButtons[j] = null
-      }
+      for (let j=0; j<weeks[Object.keys(weeks)[i]].questions.length; j++) weeklyButtons[j] = null
     }
 
-    buttonState[i] = weeklyButtons
+    buttonState[length[i]] = weeklyButtons
   }
-
   return buttonState
 }
 
@@ -116,8 +115,29 @@ export function actionSetAuthPage(boolean) {
 
 export function actionSetAnswerState(answerState) {
   return {
-    type: SET_ANSWERS,
+    type: SET_ANSWERSTATE,
     payload: answerState
+  }
+}
+
+export function actionInitButtonState(state) {
+  return {
+    type: INIT_BUTTONSTATE,
+    payload: state
+  }
+}
+
+export function actionSetButtonState(buttonState) {
+  return {
+    type: SET_BUTTONSTATE,
+    payload: buttonState
+  }
+}
+
+export function actionSetLoadedState(loadedState) {
+  return {
+    type: SET_LOADEDSTATE,
+    payload: loadedState
   }
 }
 
@@ -177,12 +197,5 @@ export function actionSetAdmin(value) {
   return {
     type: SET_ADMIN,
     payload: value
-  }
-}
-
-export function actionButtonState(state) {
-  return {
-    type: SET_BUTTONSTATE,
-    payload: state
   }
 }

@@ -39,14 +39,12 @@ class Userpage extends Component {
 
 
   passwordToggleHandler() {
-    console.log(1)
     this.setState({
       showPassword: !this.state.showPassword
     })
   }
 
   emailToggleHandler() {
-    console.log(2)
     this.setState({
       showEmail: !this.state.showEmail
     })
@@ -99,7 +97,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(actionLogout()),
-    switchYourself: (status) => dispatch(actionSwitchYourself(status)),
+    switchYourself: status => dispatch(actionSwitchYourself(status)),
     cleanOtherUser: () => dispatch(actionCleanOtherUser())
   }
 }

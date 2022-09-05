@@ -107,7 +107,7 @@ function mapStateToProps(state) {
     standings: state.week.standings
   }
 }
-
+// prettier
 function mapDispatchToProps(dispatch) {
   return {
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),

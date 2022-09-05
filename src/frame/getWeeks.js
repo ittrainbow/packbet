@@ -1,10 +1,12 @@
 export function getWeeks(data) {
-  return (
-    Object.keys(data)
-      .map(el => {
-        const obj = {...data[el]}
-        obj['hash'] = el
-        return obj
-      })
-  )
+  const array = Object.keys(data)
+  const result = {}
+
+  array.forEach(el => {
+    const week = data[el]
+    week['hash'] = el
+    result[week.id] = week
+  })
+
+  return result
 }

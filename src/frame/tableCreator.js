@@ -1,8 +1,8 @@
 export default function tableCreator(userdata, answers) {
 
   const table = []
-  const results = answers.data.weeks
   const data = userdata.data
+  const results = answers.data.weeks
 
   const users = Object.keys(data)
     .map(el => {

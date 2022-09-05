@@ -16,7 +16,7 @@ import { findUser } from '../../frame/findUser'
 const firebaseConfig = {
   apiKey: 'AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
 }
-
+//
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 const ForgotPassword = (props) => {
@@ -52,7 +52,7 @@ const ForgotPassword = (props) => {
     props.setEmail(email)
   }
 
-  function returnHandler() {
+  function returnHandler () {
     navigate('/profile')
   }
 

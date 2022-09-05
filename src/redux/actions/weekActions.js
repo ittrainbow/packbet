@@ -14,7 +14,7 @@ export function actionInit(weeks) {
   }
 }
 
-export function actionWeekId(weekId) {
+export function actionSetWeekId(weekId) {
   return {
     type: SET_WEEK_ID,
     payload: weekId
