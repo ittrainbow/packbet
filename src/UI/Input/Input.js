@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './Input.module.scss'
 
-function isInvalid({valid, touched, shouldValidate}) {
+function isInvalid({ valid, touched, shouldValidate }) {
   return !valid && shouldValidate && touched
 }
 
@@ -17,19 +17,15 @@ const Input = (props) => {
   return (
     <div className={cls.join(' ')}>
       <label htmlFor={htmlFor}>{props.label}</label>
-      <input 
+      <input
         type={inputType}
         id={htmlFor}
         value={props.value}
         onChange={props.onChange}
         placeholder={props.placeholder}
       />
-      
-      {
-        isInvalid(props)
-          ? <span>{props.errorMessage || 'Введите верное значение'}</span>
-          : null
-      }      
+
+      {isInvalid(props) ? <span>{props.errorMessage || 'Введите верное значение'}</span> : null}
     </div>
   )
 }

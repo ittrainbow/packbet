@@ -1,13 +1,9 @@
-import axios from "../../axios/axios"
-import { 
-  SEE_OTHER_USER, 
-  SWITCH_YOURSELF,
-  CLEAN_OTHER_USER
-} from "../types"
-import { actionCreateButtonsObj } from "./authActions"
+import axios from '../../axios/axios'
+import { SEE_OTHER_USER, SWITCH_YOURSELF, CLEAN_OTHER_USER } from '../types'
+import { actionCreateButtonsObj } from './authActions'
 
 export function actionGetOtherUsers(id, weeks) {
-  return async dispatch => {
+  return async (dispatch) => {
     const response = await axios.get(`pack/users/${id}.json`)
     const buttonState = actionCreateButtonsObj(response.data.weeks, weeks)
 

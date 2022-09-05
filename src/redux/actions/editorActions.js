@@ -10,88 +10,88 @@ import {
   SET_CURRENT_ERROR,
   SET_EDITOR_CURRENT_HASH,
   SET_EDITOR_FROM_WEEKLIST,
-  CLEAR_EDITOR,
-} from "../types";
+  CLEAR_EDITOR
+} from '../types'
 
 export function actionSetEditorCurrentWeek(currentWeek) {
   return {
     type: SET_EDITOR_CURRENT_WEEK,
-    payload: currentWeek,
-  };
+    payload: currentWeek
+  }
 }
 
 export function actionSetEditorCurrentError(errorMessage) {
   return {
     type: SET_CURRENT_ERROR,
-    payload: errorMessage,
-  };
+    payload: errorMessage
+  }
 }
 
 export function actionSetEditorCurrentName(currentName) {
   return {
     type: SET_EDITOR_CURRENT_NAME,
-    payload: currentName,
-  };
+    payload: currentName
+  }
 }
 
 export function actionSetCurrentWeekId(weekId) {
   return {
     type: SET_EDITOR_CURRENT_WEEK_ID,
-    payload: weekId,
-  };
+    payload: weekId
+  }
 }
 
 export function actionSetEditorCurrentQuestion(currentQuestion) {
   return {
     type: SET_EDITOR_CURRENT_QUESTION,
-    payload: currentQuestion,
-  };
+    payload: currentQuestion
+  }
 }
 
 export function actionSetEditorQuestions(questions) {
   return {
     type: SET_EDITOR_QUESTIONS,
-    payload: questions,
-  };
+    payload: questions
+  }
 }
 
 export function actionSetEditorCurrentTotal(currentTotal) {
   return {
     type: SET_EDITOR_CURRENT_TOTAL,
-    payload: currentTotal,
-  };
+    payload: currentTotal
+  }
 }
 
 export function actionSetEditorCurrentID(currentID) {
   return {
     type: SET_EDITOR_CURRENT_ID,
-    payload: currentID,
-  };
+    payload: currentID
+  }
 }
 
 export function actionSetEditorCurrentDeadline(currentDeadline) {
   return {
     type: SET_EDITOR_CURRENT_DEADLINE,
-    payload: currentDeadline,
-  };
+    payload: currentDeadline
+  }
 }
 
 export function actionSetEditorCurrentHash(currentHash) {
   return {
     type: SET_EDITOR_CURRENT_HASH,
-    payload: currentHash,
-  };
+    payload: currentHash
+  }
 }
 
 export function actionClearEditor() {
   return {
-    type: CLEAR_EDITOR,
-  };
+    type: CLEAR_EDITOR
+  }
 }
 
 export function actionSetEditorFromWeekList(week) {
   return {
     type: SET_EDITOR_FROM_WEEKLIST,
-    payload: week,
-  };
+    payload: week
+  }
 }

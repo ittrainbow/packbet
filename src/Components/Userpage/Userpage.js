@@ -23,20 +23,15 @@ class Userpage extends Component {
     const password = localStorage.getItem('password')
     const stars = '*'.repeat(password.length)
 
-    return this.state.showPassword
-      ? password
-      : stars
+    return this.state.showPassword ? password : stars
   }
 
   emailHandler() {
     const email = localStorage.getItem('email')
     const stars = '*'.repeat(email.length)
 
-    return this.state.showEmail
-      ? email
-      : stars
+    return this.state.showEmail ? email : stars
   }
-
 
   passwordToggleHandler() {
     this.setState({
@@ -57,29 +52,28 @@ class Userpage extends Component {
   render() {
     return (
       <div className={classes.Userpage}>
+        <div className={classes.UserDiv}>Имя: {this.props.userName}</div>
         <div className={classes.UserDiv}>
-          Имя: { this.props.userName }
-        </div>  
-        <div className={classes.UserDiv}>
-          Email: <i className='fa fa-eye' onClick={() => this.emailToggleHandler()} style={{cursor: 'pointer'}}/>
-          {' '}
-          { this.emailHandler() }
-        </div>      
-        <div className={classes.UserDiv}>
-          Пароль: <i className='fa fa-eye' onClick={() => this.passwordToggleHandler()} style={{cursor: 'pointer'}}/>
-          {' '}
-          { this.passwordHandler() }
+          Email:{' '}
+          <i
+            className="fa fa-eye"
+            onClick={() => this.emailToggleHandler()}
+            style={{ cursor: 'pointer' }}
+          />{' '}
+          {this.emailHandler()}
         </div>
         <div className={classes.UserDiv}>
-          { this.props.isAdmin
-              ? 'Вы - администратор'
-              : null}
+          Пароль:{' '}
+          <i
+            className="fa fa-eye"
+            onClick={() => this.passwordToggleHandler()}
+            style={{ cursor: 'pointer' }}
+          />{' '}
+          {this.passwordHandler()}
         </div>
+        <div className={classes.UserDiv}>{this.props.isAdmin ? 'Вы - администратор' : null}</div>
         <div>
-          <Button 
-            text='Выйти'
-            onClick={this.logoutHandler.bind(this)}
-          />
+          <Button text="Выйти" onClick={this.logoutHandler.bind(this)} />
         </div>
       </div>
     )
@@ -97,7 +91,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     logout: () => dispatch(actionLogout()),
-    switchYourself: status => dispatch(actionSwitchYourself(status)),
+    switchYourself: (status) => dispatch(actionSwitchYourself(status)),
     cleanOtherUser: () => dispatch(actionCleanOtherUser())
   }
 }

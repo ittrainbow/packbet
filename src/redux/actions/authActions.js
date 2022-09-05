@@ -1,4 +1,4 @@
-import { 
+import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
@@ -7,7 +7,7 @@ import {
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERSTATE,
-  SET_LOADEDSTATE,  
+  SET_LOADEDSTATE,
   SET_AUTH_PAGE,
   SET_EMAIL
 } from '../types'
@@ -18,9 +18,8 @@ import tableCreator from '../../frame/tableCreator'
 import { actionCreateStandings } from './weekActions'
 import { actionSwitchLoading } from './loadingActions'
 
-
 export function actionAuth(email, password, isLogin) {
-  return async dispatch => {
+  return async (dispatch) => {
     const authData = {
       email,
       password,
@@ -31,10 +30,8 @@ export function actionAuth(email, password, isLogin) {
       ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
       : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
 
-      // https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI
-
     const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
-    
+
     const authResponse = await axios.post(authUrl, authData)
 
     const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
@@ -74,17 +71,18 @@ export function actionAuth(email, password, isLogin) {
 
 export function actionCreateButtonsObj(buttons = 0, weeks) {
   const buttonState = {}
-  const length = Object.keys(weeks).map(el => weeks[el].id)
+  const length = Object.keys(weeks).map((el) => weeks[el].id)
 
-  for (let i=0; i<length.length; i++) {
+  for (let i = 0; i < length.length; i++) {
     const weeklyButtons = {}
 
     if (buttons[i]) {
-      for (let j=0; j<buttons[i].length; j++) {
+      for (let j = 0; j < buttons[i].length; j++) {
         weeklyButtons[j] = buttons[i][j] !== 0 ? buttons[i][j] : null
       }
     } else {
-      for (let j=0; j<weeks[Object.keys(weeks)[i]].questions.length; j++) weeklyButtons[j] = null
+      for (let j = 0; j < weeks[Object.keys(weeks)[i]].questions.length; j++)
+        weeklyButtons[j] = null
     }
 
     buttonState[length[i]] = weeklyButtons
@@ -157,9 +155,9 @@ export function actionSetCurrentUser(id, name) {
 }
 
 export function actionAutoLogin() {
-  return dispatch => {
+  return (dispatch) => {
     const token = localStorage.getItem('token')
-    
+
     if (!token) {
       dispatch(actionLogout())
     } else {
@@ -167,7 +165,7 @@ export function actionAutoLogin() {
 
       if (expirationDate <= new Date()) {
         dispatch(actionLogout())
-      } else {        
+      } else {
         dispatch(actionAuthSuccess(token))
         dispatch(actionAutoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
       }
@@ -176,7 +174,7 @@ export function actionAutoLogin() {
 }
 
 export function actionAutoLogout(time) {
-  return dispatch => {
+  return (dispatch) => {
     setTimeout(() => {
       dispatch(actionLogout())
     }, time * 1000)
@@ -189,7 +187,7 @@ export function actionLogout() {
   localStorage.removeItem('expirationDate')
 
   return {
-    type: AUTH_LOGOUT,
+    type: AUTH_LOGOUT
   }
 }
 

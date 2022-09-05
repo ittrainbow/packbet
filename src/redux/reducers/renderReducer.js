@@ -20,7 +20,7 @@ const initialState = {
 
 export default function renderReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_RENDER: 
+    case SET_RENDER:
       return {
         ...state,
         deadline: action.payload.deadline,
@@ -55,7 +55,7 @@ export default function renderReducer(state = initialState, action) {
         ...state,
         loaded: action.payload
       }
-    
+
     case NULLIFY_RENDER:
       return {
         deadline: null,

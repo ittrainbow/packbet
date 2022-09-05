@@ -3,11 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import React from 'react'
 
 const PrivateRoute = (props) => {
-  return (
-    props.isLoggedIn
-      ? <Outlet />
-      : <Navigate to='/profile' />
-  )
+  return props.isLoggedIn ? <Outlet /> : <Navigate to="/profile" />
 }
 
 function mapStateToProps(state) {

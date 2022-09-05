@@ -10,90 +10,90 @@ import {
   SET_EDITOR_CURRENT_HASH,
   SET_EDITOR_CURRENT_WEEK_ID,
   SET_EDITOR_FROM_WEEKLIST,
-  CLEAR_EDITOR,
-} from "../types";
+  CLEAR_EDITOR
+} from '../types'
 
 const initialState = {
-  currentWeek: "",
-  currentName: "",
+  currentWeek: '',
+  currentName: '',
   questions: [],
-  currentQuestion: "",
-  currentTotal: "",
-  currentID: "",
-  currentDeadline: "",
-  currentError: "",
-  currentHash: "",
-};
+  currentQuestion: '',
+  currentTotal: '',
+  currentID: '',
+  currentDeadline: '',
+  currentError: '',
+  currentHash: ''
+}
 
 export default function editorReducer(state = initialState, action) {
   switch (action.type) {
     case SET_EDITOR_QUESTIONS:
       return {
         ...state,
-        questions: action.payload,
-      };
+        questions: action.payload
+      }
 
     case SET_CURRENT_ERROR:
       return {
         ...state,
-        currentError: action.payload,
-      };
+        currentError: action.payload
+      }
 
     case SET_EDITOR_CURRENT_WEEK:
       return {
         ...state,
-        currentWeek: action.payload,
-      };
+        currentWeek: action.payload
+      }
 
     case SET_EDITOR_CURRENT_NAME:
       return {
         ...state,
-        currentName: action.payload,
-      };
+        currentName: action.payload
+      }
 
     case SET_EDITOR_CURRENT_QUESTION:
       return {
         ...state,
-        currentQuestion: action.payload,
-      };
+        currentQuestion: action.payload
+      }
 
     case SET_EDITOR_CURRENT_TOTAL:
       return {
         ...state,
-        currentTotal: action.payload,
-      };
+        currentTotal: action.payload
+      }
 
     case SET_EDITOR_CURRENT_ID:
       return {
         ...state,
-        currentID: action.payload,
-      };
+        currentID: action.payload
+      }
 
     case SET_EDITOR_CURRENT_DEADLINE:
       return {
         ...state,
-        currentDeadline: action.payload,
-      };
+        currentDeadline: action.payload
+      }
 
     case SET_EDITOR_CURRENT_WEEK_ID:
       return {
         ...state,
-        currentWeekId: action.payload,
-      };
+        currentWeekId: action.payload
+      }
 
     case CLEAR_EDITOR:
       return {
         ...state,
-        currentWeek: "",
-        currentName: "",
+        currentWeek: '',
+        currentName: '',
         questions: [],
-        currentQuestion: "",
-        currentTotal: "",
-        currentID: "",
-        currentDeadline: "",
-        currentHash: "",
-        currentWeekId: "",
-      };
+        currentQuestion: '',
+        currentTotal: '',
+        currentID: '',
+        currentDeadline: '',
+        currentHash: '',
+        currentWeekId: ''
+      }
 
     case SET_EDITOR_FROM_WEEKLIST:
       return {
@@ -103,16 +103,16 @@ export default function editorReducer(state = initialState, action) {
         questions: action.payload.questions,
         currentDeadline: action.payload.deadline,
         currentHash: action.payload.hash,
-        currentWeekId: action.payload.id,
-      };
+        currentWeekId: action.payload.id
+      }
 
     case SET_EDITOR_CURRENT_HASH:
       return {
         ...state,
-        currentHash: action.payload,
-      };
+        currentHash: action.payload
+      }
 
     default:
-      return state;
+      return state
   }
 }

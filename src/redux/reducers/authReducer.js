@@ -1,4 +1,4 @@
-import { 
+import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
@@ -21,14 +21,14 @@ const initialState = {
   authPage: true
 }
 
-export default function authReducer (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case AUTH_SUCCESS:
       return {
         ...state,
         token: action.payload
       }
-    
+
     case SET_ADMIN:
       return {
         ...state,
@@ -40,7 +40,7 @@ export default function authReducer (state = initialState, action) {
         ...state,
         email: action.payload
       }
-    
+
     case GET_BUTTONSTATE:
       return {
         ...state,

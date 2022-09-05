@@ -14,9 +14,9 @@ import axios from '../../axios/axios'
 import { findUser } from '../../frame/findUser'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY
 }
-//
+
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 const ForgotPassword = (props) => {
@@ -39,12 +39,11 @@ const ForgotPassword = (props) => {
           }, 3000)
         })
     } else {
-      props.setMessage('Пользователь не найден')        
+      props.setMessage('Пользователь не найден')
       setTimeout(() => {
         props.setMessage('')
       }, 3000)
     }
-
   }
 
   function changeHandler(event) {
@@ -52,34 +51,23 @@ const ForgotPassword = (props) => {
     props.setEmail(email)
   }
 
-  function returnHandler () {
+  function returnHandler() {
     navigate('/profile')
   }
 
   return (
     <div>
       <div className={'ForgotPassword'}>
-        <Input 
-          value={props.email}
-          onChange={(event) => changeHandler(event)}
-        />
+        <Input value={props.email} onChange={(event) => changeHandler(event)} />
       </div>
 
-      <div style={{marginTop: '20px'}}>
-        <Button 
-          text='Выслать пароль'
-          onClick={() => recoverPassword()}
-        />
-      </div>      
-      <div style={{fontSize: '14px', marginTop: '10px'}}>
-        {props.message}
+      <div style={{ marginTop: '20px' }}>
+        <Button text="Выслать пароль" onClick={() => recoverPassword()} />
       </div>
-      <hr style={{marginTop: '12px', width: '250px'}}/>
-      <div style={{marginTop: '15px'}}>
-        <Button 
-          text='Вход'
-          onClick={() => returnHandler()}
-        />
+      <div style={{ fontSize: '14px', marginTop: '10px' }}>{props.message}</div>
+      <hr style={{ marginTop: '12px', width: '250px' }} />
+      <div style={{ marginTop: '15px' }}>
+        <Button text="Вход" onClick={() => returnHandler()} />
       </div>
     </div>
   )

@@ -6,7 +6,6 @@ import classes from './Pages.module.scss'
 import { actionSetEditorStatus } from '../redux/actions/weekActions'
 
 class Calendar extends Component {
-
   componentDidMount() {
     this.props.setEditorStatus('results')
   }
@@ -19,7 +18,6 @@ class Calendar extends Component {
       </div>
     )
   }
-
 }
 
 function mapDispatchToProps(dispatch) {

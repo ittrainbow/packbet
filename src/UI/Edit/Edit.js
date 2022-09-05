@@ -4,11 +4,8 @@ import { FaEdit } from 'react-icons/fa'
 
 const Edit = (props) => {
   return (
-    <button 
-      className={classes.Edit}      
-      onClick={props.onClick}
-    >
-      <FaEdit className={classes.Icon}/>
+    <button className={classes.Edit} onClick={props.onClick}>
+      <FaEdit className={classes.Icon} />
     </button>
   )
 }

@@ -6,7 +6,11 @@ import Input from '../../UI/Input/Input'
 import './Auth.module.scss'
 import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
-import { actionAuth, actionSetCurrentUser, actionSetAuthPage } from '../../redux/actions/authActions'
+import {
+  actionAuth,
+  actionSetCurrentUser,
+  actionSetAuthPage
+} from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import axios from '../../axios/axios'
 import { findUser, findName } from '../../frame/findUser'
@@ -18,14 +22,14 @@ class Auth extends Component {
       email: {
         value: '',
         type: 'email',
-        label: 'Email',
+        label: 'Email'
       },
       password: {
         value: '',
         type: 'password',
-        label: 'Пароль',
-      },
-    },      
+        label: 'Пароль'
+      }
+    },
     tierline: null,
     isFormValid: false,
     authPage: true
@@ -39,67 +43,72 @@ class Auth extends Component {
       const formControls = JSON.parse(JSON.stringify(this.state.formControls))
       formControls.email.value = email
       formControls.password.value = password
-  
-      this.setState({
-        formControls,
-        isFormValid: true
-      }, function () {      
-        this.validation()
-      })
+
+      this.setState(
+        {
+          formControls,
+          isFormValid: true
+        },
+        function () {
+          this.validation()
+        }
+      )
     }
   }
-  
+
   tierline(message) {
     setTimeout(() => {
       this.setState({
         tierline: message
-      });
+      })
     })
 
     setTimeout(() => {
       this.setState({
         tierline: ''
-      });
+      })
     }, 3000)
   }
 
   onChangeHandler = (event, controlName) => {
     const formControls = JSON.parse(JSON.stringify(this.state.formControls))
-    const control = {...formControls[controlName]}
+    const control = { ...formControls[controlName] }
 
     control.value = event.target.value
     formControls[controlName] = control
 
-    this.setState({
-      formControls: formControls
-    }, function () {
-      this.validation()
-    })
+    this.setState(
+      {
+        formControls: formControls
+      },
+      function () {
+        this.validation()
+      }
+    )
   }
 
   renderInputs() {
-    return Object.keys(this.state.formControls)
-      .map((controlName, index) => {
-        const control = this.state.formControls[controlName]
+    return Object.keys(this.state.formControls).map((controlName, index) => {
+      const control = this.state.formControls[controlName]
 
-        return (
-          <Input
-            key={controlName + index}
-            type={control.type}
-            value={control.value}
-            label={control.label}
-            onChange={(event) => this.onChangeHandler(event, controlName)}
-          />
-        )
-      })
+      return (
+        <Input
+          key={controlName + index}
+          type={control.type}
+          value={control.value}
+          label={control.label}
+          onChange={(event) => this.onChangeHandler(event, controlName)}
+        />
+      )
+    })
   }
 
-  loginHandler = async () => {    
+  loginHandler = async () => {
     this.props.switchLoading(true)
 
     const email = this.state.formControls.email.value
     const registeredUsers = await axios.get('pack/users.json')
-    const userExists = findUser(registeredUsers.data, email).length   
+    const userExists = findUser(registeredUsers.data, email).length
 
     if (userExists && this.state.isFormValid) {
       try {
@@ -114,7 +123,7 @@ class Auth extends Component {
     } else {
       this.tierline('Неверный Email')
     }
-    
+
     this.props.switchLoading(false)
   }
 
@@ -122,31 +131,41 @@ class Auth extends Component {
     this.props.switchLoading(true)
 
     const email = this.state.formControls.email.value
-    const password = this.state.formControls.password.value   
+    const password = this.state.formControls.password.value
     const name = this.state.formControls.name.value
-    
+
     const registeredUsers = await axios.get('pack/users.json')
-    const userExists = findUser(registeredUsers.data, email).length 
+    const userExists = findUser(registeredUsers.data, email).length
     const nameExists = findName(registeredUsers.data, name).length
-    
-    if (!userExists && !nameExists && name.length > 0 && validateEmail(email) && password.length > 5) {
+
+    if (
+      !userExists &&
+      !nameExists &&
+      name.length > 0 &&
+      validateEmail(email) &&
+      password.length > 5
+    ) {
       this.props.auth(email, password, false)
       const weeks = ''
       await axios.post('pack/users.json', { email, name, weeks })
       const getBack = await axios.get('pack/users.json')
       this.props.setCurrentUser(Object.keys(getBack.data).slice(-1)[0], name)
-    } else if (!validateEmail(email)) {      
+    }
+    if (!validateEmail(email)) {
       this.tierline('Используйте валидный Email')
-      this.props.switchLoading(false) 
-    } else if (userExists) {
-      this.tierline('Используйте другой Email')      
-      this.props.switchLoading(false) 
-    } else if (nameExists) {
-      this.tierline('Используйте другое имя пользователя')      
-      this.props.switchLoading(false) 
-    } else if (password.length < 6) {
+      this.props.switchLoading(false)
+    }
+    if (userExists) {
+      this.tierline('Используйте другой Email')
+      this.props.switchLoading(false)
+    }
+    if (nameExists) {
+      this.tierline('Используйте другое имя пользователя')
+      this.props.switchLoading(false)
+    }
+    if (password.length < 6) {
       this.tierline('Используйте пароль не менее 6 символов')
-      this.props.switchLoading(false) 
+      this.props.switchLoading(false)
     }
   }
 
@@ -157,9 +176,7 @@ class Auth extends Component {
   validation() {
     const email = validateEmail(this.state.formControls.email.value)
     const password = this.state.formControls.password.value.length > 5
-    const name = this.state.authPage
-      ? true
-      : this.state.formControls.name.value.length > 2
+    const name = this.state.authPage ? true : this.state.formControls.name.value.length > 2
 
     this.setState({
       isFormValid: email && password && name
@@ -167,7 +184,7 @@ class Auth extends Component {
   }
 
   authRegHandler() {
-    const formControls = {...this.state.formControls}
+    const formControls = { ...this.state.formControls }
 
     if (!formControls.name) {
       formControls.name = {
@@ -177,67 +194,50 @@ class Auth extends Component {
       }
       formControls.password.label = 'Пароль (не менее 6 символов)'
     } else {
-      delete (formControls.name)
+      delete formControls.name
       formControls.password.label = 'Пароль'
     }
 
     this.props.setAuthPage(!this.state.authPage)
 
-    this.setState({
-      formControls: formControls,
-      authPage: !this.state.authPage
-    }, function () { 
-      this.validation()
-    })
+    this.setState(
+      {
+        formControls: formControls,
+        authPage: !this.state.authPage
+      },
+      function () {
+        this.validation()
+      }
+    )
   }
 
   renderForm() {
-    return (
-      this.props.loading  
-        ? <Loader />
-        : <form 
-            onSubmit={this.submitHandler} 
-            className={classes.AuthForm}
-          > 
-            {this.renderInputs()}
-            <div className={classes.tierline }>
-              {this.state.tierline}
-            </div>
-            <div style={{ marginBottom: '6px' }}>
-              <Button 
-                text={
-                  this.state.authPage
-                    ? 'Войти'
-                    : 'Регистрация'
-                }
-                onClick={
-                  this.state.authPage
-                    ? this.loginHandler
-                    : this.registerHandler
-                }
-                disabled={!this.state.isFormValid}
-              /> 
-            </div>
-            <hr style={{ marginBottom: '10px' }}/>
-            <div>
-              <Button 
-                text={this.state.authPage
-                        ? 'Регистрация'
-                        : 'Войти'
-                }
-                onClick={this.authRegHandler.bind(this)}
-              />
-            </div>
+    return this.props.loading ? (
+      <Loader />
+    ) : (
+      <form onSubmit={this.submitHandler} className={classes.AuthForm}>
+        {this.renderInputs()}
+        <div className={classes.tierline}>{this.state.tierline}</div>
+        <div style={{ marginBottom: '6px' }}>
+          <Button
+            text={this.state.authPage ? 'Войти' : 'Регистрация'}
+            onClick={this.state.authPage ? this.loginHandler : this.registerHandler}
+            disabled={!this.state.isFormValid}
+          />
+        </div>
+        <hr style={{ marginBottom: '10px' }} />
+        <div>
+          <Button
+            text={this.state.authPage ? 'Регистрация' : 'Войти'}
+            onClick={this.authRegHandler.bind(this)}
+          />
+        </div>
       </form>
     )
   }
 
   render() {
-    return (
-      <div className={classes.Auth}>
-        {this.renderForm()}
-      </div>
-    )
+    return <div className={classes.Auth}>{this.renderForm()}</div>
   }
 }
 

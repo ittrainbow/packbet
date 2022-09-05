@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import WeekCreator from '../Components/WeekCreator/WeekCreator'
 import classes from './Pages.module.scss'
-import { 
+import {
   actionClearEditor,
   actionSetEditorCurrentWeek,
   actionSetCurrentWeekId,

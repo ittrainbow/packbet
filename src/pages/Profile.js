@@ -10,25 +10,16 @@ const Profile = (props) => {
   const navigate = useNavigate()
 
   function renderPage() {
-    if (props.isAuthenticated) {
-      return (
-        <Userpage />
-      )
-    } else {
-      return (
-        <Auth />
-      )
-    }
+    if (props.isAuthenticated) return <Userpage />
+
+    return <Auth />
   }
 
   function renderHeader() {
-    if (props.isAuthenticated) {
-      return 'Профиль'
-    } else if (props.authPage) {
-      return 'Войти'
-    } else {
-      return 'Регистрация'
-    }
+    if (props.isAuthenticated) return 'Профиль'
+    if (props.authPage) return 'Войти'
+
+    return 'Регистрация'
   }
 
   function redirect() {
@@ -37,19 +28,11 @@ const Profile = (props) => {
 
   return (
     <div className={classes.Container}>
-      <h3>{ renderHeader() }</h3>
-      { renderPage() }
-      { props.isAuthenticated
-          ? null
-          : <Button 
-              text='Забыли пароль?'
-              onClick={() => redirect()}
-            />
-      }
-
+      <h3>{renderHeader()}</h3>
+      {renderPage()}
+      {props.isAuthenticated ? null : <Button text="Забыли пароль?" onClick={() => redirect()} />}
     </div>
   )
-
 }
 
 function mapStateToProps(state) {

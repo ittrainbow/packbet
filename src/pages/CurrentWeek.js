@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Week from '../Components/Week/Week'
 import classes from './Pages.module.scss'
 import { connect } from 'react-redux'
@@ -7,7 +7,6 @@ import { setState } from '../frame/setState'
 import { getLastWeek } from '../frame/getLastWeek'
 
 class CurrentWeek extends Component {
-
   componentDidMount() {
     const week = getLastWeek(this.props.weeks)
     const state = setState(week.id, this.props.buttons, this.props.answers)
@@ -16,7 +15,7 @@ class CurrentWeek extends Component {
     this.props.setRenderButtons(state)
   }
 
-  render () {
+  render() {
     return (
       <div className={classes.Container}>
         <h3>Текущая неделя</h3>
@@ -26,7 +25,7 @@ class CurrentWeek extends Component {
   }
 }
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     buttons: state.auth.buttonState,

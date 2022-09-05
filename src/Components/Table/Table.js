@@ -7,25 +7,20 @@ import axios from '../../axios/axios'
 import Button from '../../UI/Button/Button'
 import Loader from '../../UI/Loader/Loader'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
-import { 
-  actionGetOtherUsers, 
-  actionSwitchYourself 
-} from '../../redux/actions/othersActions'
+import { actionGetOtherUsers, actionSwitchYourself } from '../../redux/actions/othersActions'
 import { actionCreateStandings } from '../../redux/actions/weekActions'
 import tableCreator from '../../frame/tableCreator'
 
 const Table = (props) => {
-
   async function submitHandler() {
     props.switchLoading(true)
 
     const users = await axios.get('/pack/users.json')
     const answers = await axios.get('/pack/answers.json')
-
     const table = tableCreator(users, answers)
 
     await axios.put('/pack/table.json', table)
-    
+
     props.createStandings(table)
     props.switchLoading(false)
   }
@@ -49,10 +44,7 @@ const Table = (props) => {
       return (
         <tr key={string.name}>
           <th className={classes.colOne}>
-            <NavLink
-              to={'/calendar'}
-              onClick={() => otherUserHandler(string.id)}
-            >
+            <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id)}>
               {string.name}
             </NavLink>
           </th>
@@ -63,38 +55,31 @@ const Table = (props) => {
       )
     }
   }
-  
-  return (
-    <div className={classes.Table}>   
-      <table>        
-        <tbody>
-          { renderString() }
-        </tbody>
-      </table>
-      <hr/>
 
-      { props.loading
-          ? <Loader />
-          : <table>
-              <tbody>
-                { props.standings
-                    ? Object.keys(props.standings)
-                        .map(el => renderString(props.standings[el]))
-                    : null
-                }           
-              </tbody>        
-            </table>  
-      }
-      
-      { props.isAdmin
-          ? <div style={{ marginTop: '10px'}}>
-              <Button 
-                onClick={() => submitHandler()}
-                text='Пересчитать'
-              />
-            </div>
-          : null
-      }
+  return (
+    <div className={classes.Table}>
+      <table>
+        <tbody>{renderString()}</tbody>
+      </table>
+      <hr />
+
+      {props.loading ? (
+        <Loader />
+      ) : (
+        <table>
+          <tbody>
+            {props.standings
+              ? Object.keys(props.standings).map((el) => renderString(props.standings[el]))
+              : null}
+          </tbody>
+        </table>
+      )}
+
+      {props.isAdmin ? (
+        <div style={{ marginTop: '10px' }}>
+          <Button onClick={() => submitHandler()} text="Пересчитать" />
+        </div>
+      ) : null}
     </div>
   )
 }
