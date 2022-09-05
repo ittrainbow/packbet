@@ -1,7 +1,7 @@
 import React from 'react'
+import firebase from 'firebase/compat/app'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
-import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
