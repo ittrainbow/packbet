@@ -1,6 +1,6 @@
-import {   
-  APP_INIT, 
-  SET_WEEK_ID, 
+import {
+  APP_INIT,
+  SET_WEEK_ID,
   SET_CURRENT_WEEK,
   SET_EDITOR_STATUS,
   SET_STANDINGS
@@ -11,7 +11,7 @@ const initialState = {
 }
 
 export default function weekReducer(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case APP_INIT:
       return {
         ...state,
@@ -25,7 +25,7 @@ export default function weekReducer(state = initialState, action) {
         ...state,
         standings: action.payload
       }
-    
+
     case SET_WEEK_ID:
       return {
         ...state,
@@ -37,14 +37,14 @@ export default function weekReducer(state = initialState, action) {
         ...state,
         editorStatus: action.payload
       }
-    
+
     case SET_CURRENT_WEEK:
       return {
         ...state,
         currentWeek: action.payload
       }
 
-    default: 
+    default:
       return state
   }
 }

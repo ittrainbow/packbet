@@ -1,7 +1,4 @@
-import { 
-  SWITCH_LOADING,
-  SET_MESSAGE 
-} from "../types"
+import { SWITCH_LOADING, SET_MESSAGE } from '../types'
 
 const initialState = {
   loading: false,
@@ -22,8 +19,7 @@ export default function loadingReducer(state = initialState, action) {
         message: action.payload
       }
 
-    default: 
+    default:
       return state
   }
-
 }

@@ -1,7 +1,4 @@
-import { 
-  SWITCH_LOADING,
-  SET_MESSAGE  
-} from "../types"
+import { SWITCH_LOADING, SET_MESSAGE } from '../types'
 
 export function actionSwitchLoading(loading) {
   return {

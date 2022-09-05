@@ -1,13 +1,15 @@
-import { 
+import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
   SET_CURRENT_USER,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
-  SET_ANSWERS,
+  SET_ANSWERSTATE,
+  SET_LOADEDSTATE,
   SET_AUTH_PAGE,
-  SET_EMAIL
+  SET_EMAIL,
+  INIT_BUTTONSTATE
 } from '../types'
 
 const initialState = {
@@ -19,14 +21,14 @@ const initialState = {
   authPage: true
 }
 
-export default function authReducer (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case AUTH_SUCCESS:
       return {
         ...state,
         token: action.payload
       }
-    
+
     case SET_ADMIN:
       return {
         ...state,
@@ -38,7 +40,7 @@ export default function authReducer (state = initialState, action) {
         ...state,
         email: action.payload
       }
-    
+
     case GET_BUTTONSTATE:
       return {
         ...state,
@@ -52,12 +54,6 @@ export default function authReducer (state = initialState, action) {
         authPage: action.payload
       }
 
-    case SET_ANSWERS:
-      return {
-        ...state,
-        answerState: action.payload
-      }
-
     case SET_CURRENT_USER:
       return {
         ...state,
@@ -69,6 +65,26 @@ export default function authReducer (state = initialState, action) {
       return {
         ...state,
         buttonState: action.payload
+      }
+
+    case SET_ANSWERSTATE:
+      return {
+        ...state,
+        answerState: action.payload
+      }
+
+    case SET_LOADEDSTATE:
+      return {
+        ...state,
+        answerState: action.payload
+      }
+
+    case INIT_BUTTONSTATE:
+      return {
+        ...state,
+        buttonState: action.payload.buttonState,
+        answerState: action.payload.answerState,
+        loadedState: action.payload.buttonState
       }
 
     case AUTH_LOGOUT:

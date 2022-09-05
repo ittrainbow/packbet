@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import axios from '../../axios/axios'
 import { connect } from 'react-redux'
-import { 
-  actionInit, 
+import {
+  actionInit,
   actionCurrentWeek,
   actionCreateStandings
 } from '../../redux/actions/weekActions'
 import { getWeeks } from '../../frame/getWeeks'
 
 class InitState extends Component {
-
   async componentDidMount() {
     try {
       const response = await axios.get('pack/weeks.json')
       const weeks = getWeeks(response.data)
-        
+
       const standings = await axios.get('pack/table.json')
 
       this.props.init(weeks)
@@ -24,12 +23,9 @@ class InitState extends Component {
       console.log(error)
     }
   }
-   
+
   render() {
-    return (
-      <div>
-      </div>
-    )
+    return <div></div>
   }
 }
 

@@ -9,6 +9,7 @@ import {
   SET_EDITOR_QUESTIONS,
   SET_CURRENT_ERROR,
   SET_EDITOR_CURRENT_HASH,
+  SET_EDITOR_FROM_WEEKLIST,
   CLEAR_EDITOR
 } from '../types'
 
@@ -85,5 +86,12 @@ export function actionSetEditorCurrentHash(currentHash) {
 export function actionClearEditor() {
   return {
     type: CLEAR_EDITOR
+  }
+}
+
+export function actionSetEditorFromWeekList(week) {
+  return {
+    type: SET_EDITOR_FROM_WEEKLIST,
+    payload: week
   }
 }

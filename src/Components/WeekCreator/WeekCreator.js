@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
@@ -14,7 +14,7 @@ import Edit from '../../UI/Edit/Edit'
 import axios from '../../axios/axios'
 import Loader from '../../UI/Loader/Loader'
 import { actionInit } from '../../redux/actions/weekActions'
-import { 
+import {
   actionSetEditorCurrentWeek,
   actionSetEditorCurrentName,
   actionSetEditorCurrentQuestion,
@@ -26,8 +26,8 @@ import {
   actionClearEditor
 } from '../../redux/actions/editorActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
+import { actionSetButtonState, actionInitButtonState } from '../../redux/actions/authActions'
 import { getWeeks } from '../../frame/getWeeks'
-import { actionButtonState } from '../../redux/actions/authActions'
 
 const WeekCreator = (props) => {
   const navigate = useNavigate()
@@ -36,11 +36,11 @@ const WeekCreator = (props) => {
     event.preventDefault()
     props.switchLoading(true)
 
-    const id = props.editor.currentID 
-      ? props.editor.currentID 
+    const id = props.editor.currentID
+      ? props.editor.currentID
       : props.editor.currentID === 0
-          ? props.editor.currentID
-          : props.editor.questions.length
+      ? props.editor.currentID
+      : props.editor.questions.length
 
     const obj = {}
     obj['id'] = id
@@ -49,10 +49,10 @@ const WeekCreator = (props) => {
 
     const setQuestions = structuredClone(props.editor.questions)
     setQuestions[id] = obj
-    
+
     props.setQuestions(setQuestions)
     props.setCurrentQuestion('')
-    props.setCurrentTotal('')    
+    props.setCurrentTotal('')
     props.switchLoading(false)
     props.setCurrentID('')
   }
@@ -82,13 +82,13 @@ const WeekCreator = (props) => {
     props.setCurrentTotal('')
   }
 
-  function changeHandler (event, tag) {
+  function onChangeHandler(event, tag) {
     if (tag === 'setCurrentWeek') {
       const number = Number(event.target.value)
       props.setCurrentWeek(number)
       if (number <= props.weeks.length && number % 1 === 0 && number !== 1 && number > 0) {
         props.setCurrentError('Вероятно, эта неделя уже создана')
-      } else if (number > 0 && number % 1 === 0) {        
+      } else if (number > 0 && number % 1 === 0) {
         props.setCurrentError('')
       } else {
         props.setCurrentError('Введите валидный номер недели')
@@ -102,7 +102,7 @@ const WeekCreator = (props) => {
       } else {
         props.setCurrentName(text.substring(0, 1).toUpperCase() + text.substring(1, 60))
         props.setCurrentError('Лимит длины вопроса = 60 символам')
-      }         
+      }
     }
     if (tag === 'setCurrentQuestion') {
       const text = event.target.value
@@ -112,7 +112,7 @@ const WeekCreator = (props) => {
       } else {
         props.setCurrentQuestion(text.substring(0, 1).toUpperCase() + text.substring(1, 60))
         props.setCurrentError('Лимит длины вопроса = 60 символам')
-      }      
+      }
     }
     if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value)
     if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
@@ -127,44 +127,50 @@ const WeekCreator = (props) => {
     )
   }
 
-  async function submitHandler () {
+  async function submitHandler() {
     if (readyToSubmit()) {
       props.switchLoading(true)
 
       const qs = structuredClone(props.editor.questions)
-  
+      const id = props.editor.currentWeekId
       const questions = qs.map((question, index) => {
         question['id'] = index
         return question
       })
-  
-      const week = {
-        id: props.editor.currentWeekId,
-        number: props.editor.currentWeek,
-        name: props.editor.currentName,
-        questions: questions,
-        deadline: props.editor.currentDeadline
-      }
-  
-      const weeks = structuredClone(props.weeks)
-      weeks.push(week)
-      
-      props.setCurrentWeek(weeks.length - 1)
 
-      const obj = {...props.auth.buttonState}
+      const week = {
+        deadline: props.editor.currentDeadline,
+        id: id,
+        name: props.editor.currentName,
+        number: props.editor.currentWeek,
+        questions: questions
+      }
+
+      // const weeks = structuredClone(props.weeks)
+      // weeks[id] = week
+      // props.init(weeks)
+
+      const obj = { ...props.auth.buttonState }
       const add = {}
-      for (let i=0; i<questions.length; i++) add[i] = null
+      for (let i = 0; i < questions.length; i++) add[i] = null
       obj[props.editor.currentWeekId] = add
 
-      if (!props.editor.currentHash.length) {  
-        await axios.post('pack/weeks.json', week)
-      } else {
-        await axios.put(`pack/weeks/${props.editor.currentHash}.json`, week)
-      }
+      if (!props.editor.currentHash.length) await axios.post('pack/weeks.json', week)
+      else await axios.put(`pack/weeks/${props.editor.currentHash}.json`, week)
 
-      const response = await axios.get('pack/weeks.json')
-      
-      props.init(getWeeks(response.data))
+      const response = await axios.get('/pack/weeks.json')
+      const weeks = getWeeks(response.data)
+      props.init(weeks)
+
+      const state = {}
+      for (let i = 0; i < questions.length; i++) state[i] = null
+
+      const oldState = structuredClone(props.auth)
+      oldState.buttonState[id] = state
+      oldState.answerState[id] = state
+      oldState.loadedState[id] = state
+
+      props.initButtonState(oldState)
       props.switchLoading(false)
       navigate('/editor')
     }
@@ -172,41 +178,49 @@ const WeekCreator = (props) => {
 
   async function deleteWeekHandler() {
     props.switchLoading(true)
-    const id = props.editor.currentWeekId;
-    const weeks = {...props.weeks}
-    delete(weeks[id])
+    const id = props.editor.currentWeekId
+    const weeks = { ...props.weeks }
+    delete weeks[id]
 
+    const buttonState = { ...props.auth.buttonState }
+    const answerState = { ...props.auth.answerState }
+
+    delete buttonState[props.editor.currentWeekId]
+    delete answerState[props.editor.currentWeekId]
+
+    const obj = { buttonState: buttonState, answerState: answerState }
+
+    props.initButtonState(obj)
     props.init(weeks)
+    props.clearEditor()
 
     await axios.delete(`pack/weeks/${props.editor.currentHash}.json`)
-    
+
     props.switchLoading(false)
     navigate('/editor')
   }
 
   function renderQuestions() {
-    return (
-      props.loading
-        ? <Loader />
-        : props.editor.questions.map((question) => {
-            const setClass = question.id === props.editor.currentID
-              ? 'QuestionsSelected'
-              : 'Questions'
+    return props.loading ? (
+      <Loader />
+    ) : (
+      props.editor.questions.map((question) => {
+        const setClass = question.id === props.editor.currentID ? 'QuestionsSelected' : 'Questions'
 
-            return (
-              <div key={question.id} className={setClass}>
-                {question.question}: {question.total}
-                <div className='UndoEdit'>
-                  <Undo onClick={() => deleteQuestionHandler(question.id)} />                  
-                  <Edit onClick={() => editQuestionHandler(question.id)} />
-                </div>
-              </div>
-            )
-          })
+        return (
+          <div key={question.id} className={setClass}>
+            {question.question}: {question.total}
+            <div className="UndoEdit">
+              <Undo onClick={() => deleteQuestionHandler(question.id)} />
+              <Edit onClick={() => editQuestionHandler(question.id)} />
+            </div>
+          </div>
+        )
+      })
     )
   }
 
-  function doNotSave() {
+  function noSaveExitHandler() {
     props.clearEditor()
     navigate('/calendar')
   }
@@ -217,39 +231,39 @@ const WeekCreator = (props) => {
         <div className={classes.Row}>
           <div className={classes.Week}>
             <Input
-              label='Неделя'
-              type='number'
+              label="Неделя"
+              type="number"
               value={props.editor.currentWeek}
-              onChange={(event) => changeHandler(event, 'setCurrentWeek')}
+              onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
             />
           </div>
           <div className={classes.Name}>
             <Input
-              label='Игра'
+              label="Игра"
               value={props.editor.currentName || ''}
-              onChange={(event) => changeHandler(event, 'setCurrentName')}
+              onChange={(event) => onChangeHandler(event, 'setCurrentName')}
             />
           </div>
         </div>
         <div className={classes.Row}>
-          <div className={classes.Line}>          
-            <Input 
-              label='Линия'
+          <div className={classes.Line}>
+            <Input
+              label="Линия"
               value={props.editor.currentQuestion}
-              onChange={(event) => changeHandler(event, 'setCurrentQuestion')}
+              onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
             />
           </div>
           <div className={classes.Total}>
             <Input
-              label='Тотал'
-              type='number'
+              label="Тотал"
+              type="number"
               value={props.editor.currentTotal}
-              onChange={(event) => changeHandler(event, 'setCurrentTotal')}
+              onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
             />
           </div>
         </div>
 
-        <div style={{color: 'red', fontWeight: 'bold', marginBottom: '10px'}}>
+        <div style={{ color: 'red', fontWeight: 'bold', marginBottom: '10px' }}>
           {props.editor.currentError}
         </div>
       </div>
@@ -260,66 +274,48 @@ const WeekCreator = (props) => {
     return (
       <div>
         <div>{renderInputs()}</div>
-      
+
         <div>
           <Button
-            text={ 
+            text={
               props.editor.currentID || props.editor.currentID === 0
                 ? 'Сохранить вопрос'
                 : 'Добавить вопрос'
             }
             onClick={(event) => addQuestionHandler(event)}
-            disabled={
-              !props.editor.currentQuestion ||
-              !props.editor.currentTotal
-            }
+            disabled={!props.editor.currentQuestion || !props.editor.currentTotal}
           />
         </div>
 
         <div className={classes.QuestionsList}>
           {renderQuestions()}
-          <div style={{fontSize: '13px', fontWeight: 'bold', marginTop: '15px'}}>
-            <div >
-              Начало игры: {props.editor.currentDeadline
-                              ? props.editor.currentDeadline
-                              : 'не установлено'}
+          <div style={{ fontSize: '13px', fontWeight: 'bold', marginTop: '15px' }}>
+            <div>
+              Начало игры:{' '}
+              {props.editor.currentDeadline ? props.editor.currentDeadline : 'не установлено'}
             </div>
-            <div style={{marginTop: '5px'}}> 
-              <BasicDateTimePicker style={{marginTop: '10px'}}/>
-            </div>  
+            <div style={{ marginTop: '5px' }}>
+              <BasicDateTimePicker style={{ marginTop: '10px' }} />
+            </div>
           </div>
         </div>
 
-        <Button
-          text='Отменить и выйти'
-          onClick={doNotSave}  
-        />
+        <Button text="Отменить и выйти" onClick={noSaveExitHandler} />
 
         <Button
-          text='Сохранить неделю'
+          text="Сохранить неделю"
           onClick={() => submitHandler()}
-          hoverText="Убедитесь, что введены корректный номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
+          // hoverText="Убедитесь, что введены корректный номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
         />
 
-        { props.editor.currentHash
-          ? <Button
-              text="Удалить неделю"
-              onClick={() => deleteWeekHandler()}
-            />
-          : null
-        }
-    </div>
+        {props.editor.currentHash ? (
+          <Button text="Удалить неделю" onClick={() => deleteWeekHandler()} />
+        ) : null}
+      </div>
     )
   }
 
-  return (
-    <div className={classes.WeekCreator}>
-      { props.loading 
-          ? <Loader />
-          : renderWeek()
-      }    
-    </div>
-  )
+  return <div className={classes.WeekCreator}>{props.loading ? <Loader /> : renderWeek()}</div>
 }
 
 function mapStateToProps(state) {
@@ -336,18 +332,19 @@ function mapDispatchToProps(dispatch) {
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
 
     init: (weeks) => dispatch(actionInit(weeks)),
-    newWeekButtonState: (state) => dispatch(actionButtonState(state)),
+    newWeekButtonState: (state) => dispatch(actionSetButtonState(state)),
 
     setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
-    setCurrentQuestion: (currentQuestion) => dispatch(actionSetEditorCurrentQuestion(currentQuestion)),
+    setCurrentQuestion: (question) => dispatch(actionSetEditorCurrentQuestion(question)),
     setCurrentTotal: (currentTotal) => dispatch(actionSetEditorCurrentTotal(currentTotal)),
     setCurrentID: (currentID) => dispatch(actionSetEditorCurrentID(currentID)),
-    setCurrentDeadline: (currentDeadline) => dispatch(actionSetEditorCurrentDeadline(currentDeadline)),
+    setCurrentDeadline: (deadline) => dispatch(actionSetEditorCurrentDeadline(deadline)),
     setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
     setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage)),
-    clearEditor: () => dispatch(actionClearEditor())
+    clearEditor: () => dispatch(actionClearEditor()),
+    initButtonState: (state) => dispatch(actionInitButtonState(state))
   }
 }
- 
+
 export default connect(mapStateToProps, mapDispatchToProps)(WeekCreator)

@@ -1,35 +1,42 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Week from '../Components/Week/Week'
 import classes from './Pages.module.scss'
-import { actionWeekId } from '../redux/actions/weekActions'
 import { connect } from 'react-redux'
+import { actionSetRender, actionSetRenderButtons } from '../redux/actions/renderActions'
+import { setState } from '../frame/setState'
+import { getLastWeek } from '../frame/getLastWeek'
 
 class CurrentWeek extends Component {
-
   componentDidMount() {
-    this.props.weekId(this.props.currentWeek)
+    const week = getLastWeek(this.props.weeks)
+    const state = setState(week.id, this.props.buttons, this.props.answers)
+
+    this.props.setRender(week)
+    this.props.setRenderButtons(state)
   }
 
-  render () {
+  render() {
     return (
       <div className={classes.Container}>
         <h3>Текущая неделя</h3>
-        <Week weekToRender={this.props.currentweek}/>
+        <Week />
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
   return {
-    currentWeek: state.week.currentWeek,
-    weekId: state.week.weekId
+    weeks: state.week.weeks,
+    buttons: state.auth.buttonState,
+    answers: state.auth.answerState
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    weekId: (id) => dispatch(actionWeekId(id))
+    setRender: (week) => dispatch(actionSetRender(week)),
+    setRenderButtons: (data) => dispatch(actionSetRenderButtons(data))
   }
 }
 

@@ -6,26 +6,15 @@ const Button = (props) => {
   const handleMouseOver = () => setIsHovering(true)
   const handleMouseOut = () => setIsHovering(false)
 
-  const cls = [
-    classes.Button,
-    classes[props.type]
-  ]
+  const cls = [classes.Button, classes[props.type]]
 
   return (
     <div onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-      <button 
-        onClick={props.onClick}
-        className={cls.join(' ')}
-        disabled={props.disabled}
-      >
+      <button onClick={props.onClick} className={cls.join(' ')} disabled={props.disabled}>
         {props.text}
       </button>
 
-      {isHovering && (
-        <div style={{fontSize: '14px', width: '400px'}}>
-          {props.hoverText}
-        </div>
-      )}
+      {isHovering && <div style={{ fontSize: '14px', width: '400px' }}>{props.hoverText}</div>}
     </div>
   )
 }

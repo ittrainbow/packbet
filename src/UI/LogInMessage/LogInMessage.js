@@ -9,5 +9,4 @@ const LogInMessage = () => {
   )
 }
 
-
 export default LogInMessage

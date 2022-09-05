@@ -6,15 +6,14 @@ import WeekList from '../Components/WeekList/WeekList'
 import classes from './Pages.module.scss'
 
 class Editor extends Component {
-  
   componentDidMount() {
     this.props.setEditorStatus('editor')
   }
 
   render() {
     return (
-      <div className={classes.Container}>    
-        <h3>Редактор</h3>  
+      <div className={classes.Container}>
+        <h3>Редактор</h3>
         <WeekList />
       </div>
     )

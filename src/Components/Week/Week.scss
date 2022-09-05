@@ -22,26 +22,20 @@ body {
 
 .QuestionsDefault {
   background-color: #e7e7e7;
+  border: 2px solid #999;
   padding: 10px 10px 10px 10px;
   border-radius: 2px;
   margin-bottom: 3px;
-  background-color: #e7e7e7;
 }
 
-.QuestionCorrect {
+.AnswerCorrect {
   border: 2px solid green;
   background-color: #dff6df;
 }
 
-.QuestionWrong {
+.AnswerWrong {
   border: 2px solid red;
   background-color: #f2d7d7;
-
-}
-
-.QuestionUntouched {
-  border: 2px solid #999;
-  background-color: #e7e7e7;
 }
 
 .Questions:hover {

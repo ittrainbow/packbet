@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 
 import WeekCreator from '../Components/WeekCreator/WeekCreator'
 import classes from './Pages.module.scss'
-import { 
+import {
   actionClearEditor,
   actionSetEditorCurrentWeek,
   actionSetCurrentWeekId,
   actionSetEditorCurrentDeadline
 } from '../redux/actions/editorActions'
+import { getLastWeekNumber } from '../frame/getLastWeek'
 
 class Creator extends Component {
   componentDidMount() {
@@ -16,9 +17,10 @@ class Creator extends Component {
 
     const getDate = new Date()
     const date = getDate.toISOString().split('T').join(' ').substring(0, 16)
+    const id = getLastWeekNumber(this.props.weeks) + 1
 
     this.props.setCurrentDeadline(date)
-    this.props.setCurrentWeekId(this.props.weeks[this.props.weeks.length - 1].id + 1)
+    this.props.setCurrentWeekId(id)
   }
 
   render() {
