@@ -16,6 +16,7 @@ import {
   actionSetRenderAnswerState,
   actionSetRenderLoadedState
 } from '../../redux/actions/renderActions'
+import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 
 const Week = (props) => {
   const navigate = useNavigate()
@@ -77,10 +78,16 @@ const Week = (props) => {
     props.switchLoading(false)
   }
 
+  function activityHelper(id, index) {
+    if (props.others.isItYou) return props.render.buttons[index]
+    if (!today()) return props.others.buttons[id][index]
+    return null
+  }
+
   function renderQuestions() {
     if (props.render.questions) {
       return props.render.questions.map((question, index) => {
-        const activity = props.render.buttons[index]
+        const activity = activityHelper(props.week.weekId, index)
         const result = props.render.answers[index]
         const correct = activity === result
         const styleSet = ['QuestionsDefault']
@@ -112,11 +119,6 @@ const Week = (props) => {
           disabled={(!today() && !props.isAdmin) || !isTouched()}
         />
         <Button text="Отменить и выйти" onClick={doNotSave} />
-        <div>
-          {props.others.isItYou
-            ? ''
-            : 'Для возвращения к своему профилю перейдите на вкладку Profile'}
-        </div>
       </div>
     )
   }
@@ -125,12 +127,35 @@ const Week = (props) => {
     return JSON.stringify(props.render.loaded) !== JSON.stringify(props.render.buttons)
   }
 
+  function renderOthersName() {
+    let notify = []
+    if (!props.others.isItYou) {
+      notify.push(`Вы просматриваете ответы ${props.others.name}`)
+      if (today()) notify.push(`Ответы для незавершенных игр скрыты`)
+      notify.push(`Вернуться к своим ответам`)
+    }
+
+    return notify.map(function (el, index) {
+      if (index === notify.length - 1)
+        return (
+          <div key={index} className={'BackLink'} onClick={() => props.cleanOtherUser()}>
+            {el}
+          </div>
+        )
+      return (
+        <div key={index} className={'OtherUser'}>
+          {el}
+        </div>
+      )
+    })
+  }
+
   return (
     <div className="Week">
       <h3>
         #{props.render.number}: {props.render.name}
       </h3>
-
+      <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
       <div className="QuestionsBlockMargin">{renderQuestions()}</div>
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
@@ -165,6 +190,7 @@ function mapDispatchToProps(dispatch) {
     setRenderAnswerState: (buttons) => dispatch(actionSetRenderAnswerState(buttons)),
     setRenderLoadedState: (buttons) => dispatch(actionSetRenderLoadedState(buttons)),
     setAnswerState: (answerState) => dispatch(actionSetAnswerState(answerState)),
+    cleanOtherUser: () => dispatch(actionCleanOtherUser()),
     initButtonState: (state) => dispatch(actionInitButtonState(state))
   }
 }

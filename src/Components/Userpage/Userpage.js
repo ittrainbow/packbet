@@ -12,13 +12,6 @@ class Userpage extends Component {
     showEmail: false
   }
 
-  componentDidMount() {
-    if (!this.props.isItYou) {
-      this.props.cleanOtherUser()
-      this.props.switchYourself(true)
-    }
-  }
-
   passwordHandler() {
     const password = localStorage.getItem('password')
     const stars = '*'.repeat(password.length)

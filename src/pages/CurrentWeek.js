@@ -18,7 +18,7 @@ class CurrentWeek extends Component {
   render() {
     return (
       <div className={classes.Container}>
-        <h3>Текущая неделя</h3>
+        <h3>Текущая игра</h3>
         <Week />
       </div>
     )
