@@ -1,5 +1,5 @@
 import axios from '../../axios/axios'
-import { SEE_OTHER_USER, SWITCH_YOURSELF, CLEAN_OTHER_USER } from '../types'
+import { SEE_OTHER_USER, SWITCH_YOURSELF, CLEAN_OTHER_USER, GET_OTHER_NAME } from '../types'
 import { actionCreateButtonsObj } from './authActions'
 
 export function actionGetOtherUsers(id, weeks) {
@@ -12,10 +12,10 @@ export function actionGetOtherUsers(id, weeks) {
   }
 }
 
-export function actionOtherButtonState(buttonState) {
+export function actionOtherButtonState(buttons) {
   return {
     type: SEE_OTHER_USER,
-    payload: buttonState
+    payload: buttons
   }
 }
 
@@ -29,5 +29,12 @@ export function actionSwitchYourself(boolean) {
   return {
     type: SWITCH_YOURSELF,
     payload: boolean
+  }
+}
+
+export function actionGetOtherName(name) {
+  return {
+    type: GET_OTHER_NAME,
+    payload: name
   }
 }

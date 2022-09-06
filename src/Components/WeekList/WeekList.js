@@ -4,17 +4,21 @@ import { connect } from 'react-redux'
 
 import classes from './WeekList.module.scss'
 import Loader from '../../UI/Loader/Loader'
+
+import { actionSetWeekId } from '../../redux/actions/weekActions'
 import { actionSetEditorFromWeekList } from '../../redux/actions/editorActions'
 import { actionSetRender, actionSetRenderButtons } from '../../redux/actions/renderActions'
 import { setState } from '../../frame/setState'
+import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 
 const WeekList = (props) => {
-  function setWeekId(id) {
+  function weekSelectorHandler(id) {
     const week = Object.keys(props.weeks)
       .filter((el) => props.weeks[el].id === id)
       .map((el) => props.weeks[el])
     const tmp = setState(id, props.auth.buttonState, props.auth.answerState)
 
+    props.setWeekId(id)
     props.setRender(week[0])
     props.setRenderButtons(tmp)
   }
@@ -36,7 +40,7 @@ const WeekList = (props) => {
                 </li>
               </NavLink>
             ) : (
-              <NavLink onClick={() => setWeekId(week.id)} to={'/week/' + week.id}>
+              <NavLink onClick={() => weekSelectorHandler(week.id)} to={'/week/' + week.id}>
                 <li className={classes.Weeks}>
                   {' '}
                   #{week.number}: {week.name}{' '}
@@ -49,21 +53,43 @@ const WeekList = (props) => {
     } else return <Loader />
   }
 
-  return <div className={classes.WeekList}>{renderWeeks()}</div>
+  function renderOthersName() {
+    let notify = []
+    if (!props.others.isItYou) {
+      notify.push(`Вы просматриваете ответы ${props.others.name}`)
+      notify.push(`Вернуться к своим ответам`)
+    }
+
+    return notify.map(function (el, index) {
+      if (index === notify.length - 1)
+        return <div key={index} className={classes.BackLink} onClick={() => props.cleanOtherUser()}>{el}</div>
+      return <div key={index} className={classes.OtherUser}>{el}</div>
+    })
+  }
+
+  return (
+    <div className={classes.WeekList}>
+      <div style={{marginBottom: '10px'}}>{renderOthersName()}</div>
+      <div>{renderWeeks()}</div>
+    </div>
+  )
 }
 
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     editorStatus: state.week.editorStatus,
-    auth: state.auth
+    auth: state.auth,
+    others: state.others
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setWeekId: (id) => dispatch(actionSetWeekId(id)),
     setRender: (week) => dispatch(actionSetRender(week)),
     setRenderButtons: (data) => dispatch(actionSetRenderButtons(data)),
+    cleanOtherUser: () => dispatch(actionCleanOtherUser()),
     setEditorFromWeekList: (week) => dispatch(actionSetEditorFromWeekList(week))
   }
 }

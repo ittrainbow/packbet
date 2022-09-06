@@ -26,9 +26,10 @@ export function actionAuth(email, password, isLogin) {
       returnSecureToken: true
     }
 
+    const key = process.env.REACT_APP_FIREBASE_API_KEY
     const authUrl = isLogin
-      ? 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
-      : 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC34nFbBcejRwO5_dY6kcUsRHlTuy9AHOI'
+      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
+      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
 
     const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
 

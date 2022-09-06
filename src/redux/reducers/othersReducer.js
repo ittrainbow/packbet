@@ -1,8 +1,9 @@
-import { SWITCH_YOURSELF, SEE_OTHER_USER, CLEAN_OTHER_USER } from '../types'
+import { SWITCH_YOURSELF, SEE_OTHER_USER, CLEAN_OTHER_USER, GET_OTHER_NAME } from '../types'
 
 const initialState = {
   isItYou: true,
-  buttonState: null
+  buttons: null,
+  name: null
 }
 
 export default function othersReducer(state = initialState, action) {
@@ -16,13 +17,21 @@ export default function othersReducer(state = initialState, action) {
     case SEE_OTHER_USER:
       return {
         ...state,
-        buttonState: action.payload
+        buttons: action.payload
+      }
+
+    case GET_OTHER_NAME:
+      return {
+        ...state,
+        name: action.payload
       }
 
     case CLEAN_OTHER_USER:
       return {
         ...state,
-        buttonState: null
+        isItYou: true,
+        buttonState: null,
+        name: null
       }
 
     default:

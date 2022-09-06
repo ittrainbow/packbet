@@ -33,6 +33,17 @@ body {
   background-color: #dff6df;
 }
 
+.BackLink {
+  color: darkblue; 
+  cursor: pointer;
+  font-size: 14px
+}
+
+.OtherUser {
+  margin-bottom: 3px;
+  font-size: 14px
+}
+
 .AnswerWrong {
   border: 2px solid red;
   background-color: #f2d7d7;

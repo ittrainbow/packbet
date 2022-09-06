@@ -7,7 +7,11 @@ import axios from '../../axios/axios'
 import Button from '../../UI/Button/Button'
 import Loader from '../../UI/Loader/Loader'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
-import { actionGetOtherUsers, actionSwitchYourself } from '../../redux/actions/othersActions'
+import {
+  actionGetOtherName,
+  actionGetOtherUsers,
+  actionSwitchYourself
+} from '../../redux/actions/othersActions'
 import { actionCreateStandings } from '../../redux/actions/weekActions'
 import tableCreator from '../../frame/tableCreator'
 
@@ -25,8 +29,9 @@ const Table = (props) => {
     props.switchLoading(false)
   }
 
-  function otherUserHandler(id) {
+  function otherUserHandler(id, name) {
     props.getOtherUser(id, props.weeks)
+    props.getOtherName(name)
     props.switchYourself(false)
   }
 
@@ -44,7 +49,7 @@ const Table = (props) => {
       return (
         <tr key={string.name}>
           <th className={classes.colOne}>
-            <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id)}>
+            <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
               {string.name}
             </NavLink>
           </th>
@@ -92,9 +97,10 @@ function mapStateToProps(state) {
     standings: state.week.standings
   }
 }
-// prettier
+
 function mapDispatchToProps(dispatch) {
   return {
+    getOtherName: (name) => dispatch(actionGetOtherName(name)),
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     switchYourself: (status) => dispatch(actionSwitchYourself(status)),
     getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state)),
