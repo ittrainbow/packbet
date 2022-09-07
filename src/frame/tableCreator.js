@@ -1,19 +1,12 @@
-export default function tableCreator(userdata, answers) {
+export default function tableCreator(users, answers) {
   const table = []
-  const data = userdata.data
+  // const data = userdata.data
   const results = answers.data.weeks
-
-  const users = Object.keys(data)
-    .map((el) => {
-      data[el]['id'] = el
-      return data[el]
-    })
-    .filter((el) => el.name !== 'Администратор')
 
   Object.keys(users).forEach((el) => {
     const name = users[el].name
     const week = users[el].weeks
-    const id = users[el].id
+    const id = el
 
     let totalAnswers = 0
     let correctAnswers = 0
@@ -30,13 +23,15 @@ export default function tableCreator(userdata, answers) {
     const calc = (correctAnswers / totalAnswers).toFixed(3)
     const percentage = isNaN(calc) ? '0.000' : calc
 
-    table.push({
-      name: name,
-      totalAnswers: totalAnswers,
-      correctAnswers: correctAnswers,
-      percentage: percentage,
-      id: id
-    })
+    if (name !== 'Администратор') {
+      table.push({
+        name: name,
+        totalAnswers: totalAnswers,
+        correctAnswers: correctAnswers,
+        percentage: percentage,
+        id: id
+      })
+    }
 
     function compare(a, b) {
       if (a.correctAnswers < b.correctAnswers) return 1

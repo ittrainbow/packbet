@@ -34,47 +34,51 @@ const Week = (props) => {
   }
 
   function onClickHandler(index) {
-    const buttons = { ...props.render.buttons }
-    const i = Math.floor(index / 2)
-    const yesno = index % 2
-
-    let status = buttons[i]
-
-    if (yesno === 0) status = status === 1 ? null : 1
-    if (yesno === 1) status = status === 2 ? null : 2
-
-    buttons[i] = status
-
-    if (props.isAdmin || today()) props.setRenderButtonState(buttons)
-    if (props.isAdmin) props.setRenderAnswerState(buttons)
+    if (props.others.isItYou) {
+      const buttons = { ...props.render.buttons }
+      const i = Math.floor(index / 2)
+      const yesno = index % 2
+  
+      let status = buttons[i]
+  
+      if (yesno === 0) status = status === 1 ? null : 1
+      if (yesno === 1) status = status === 2 ? null : 2
+  
+      buttons[i] = status
+  
+      if (props.isAdmin || today()) props.setRenderButtonState(buttons)
+      if (props.isAdmin) props.setRenderAnswerState(buttons)
+    }
   }
 
   async function submitHandler() {
-    props.switchLoading(true)
+    if (today() || props.isAdmin) {
+      props.switchLoading(true)
+      
+      const data = props.render.buttons
+      const url = props.isAdmin
+        ? `pack/answers/weeks/${props.render.id}.json`
+        : `pack/users/${props.auth.localId}/weeks/${props.week.weekId}.json`
 
-    const data = props.render.buttons
-    const url = props.isAdmin
-      ? `pack/answers/weeks/${props.render.id}.json`
-      : `pack/users/${props.auth.userId}/weeks/${props.week.weekId}.json`
+      await axios.put(url, data)
 
-    await axios.put(url, data)
+      const buttonState = { ...props.auth.buttonState }
+      const answerState = { ...props.auth.answerState }
 
-    const buttonState = { ...props.auth.buttonState }
-    const answerState = { ...props.auth.answerState }
+      buttonState[props.render.id] = props.render.buttons
 
-    buttonState[props.render.id] = props.render.buttons
+      if (props.isAdmin && props.isItYou) answerState[props.render.id] = props.render.answers
 
-    if (props.isAdmin) answerState[props.render.id] = props.render.answers
+      const obj = {
+        buttonState: buttonState,
+        answerState: answerState
+      }
 
-    const obj = {
-      buttonState: buttonState,
-      answerState: answerState
+      props.initButtonState(obj)
+      props.setRenderLoadedState(props.render.buttons)
+      props.switchLoading(false)
+      navigate('/calendar')
     }
-
-    props.initButtonState(obj)
-    props.setRenderLoadedState(props.render.buttons)
-    props.switchLoading(false)
-    navigate('/calendar')
   }
 
   function activityHelper(id, index) {
@@ -90,9 +94,10 @@ const Week = (props) => {
         const result = props.render.answers[index]
         const correct = activity === result
         const styleSet = ['QuestionsDefault']
+        const greyscale = props.isAdmin && props.others.isItYou
 
-        if (activity && result && !props.isAdmin && correct) styleSet.push('AnswerCorrect')
-        if (activity && result && !props.isAdmin && !correct) styleSet.push('AnswerWrong')
+        if (activity && result && correct && !greyscale) styleSet.push('AnswerCorrect')
+        if (activity && result && !correct && !greyscale) styleSet.push('AnswerWrong')
 
         return (
           <div key={index} className={styleSet.join(' ')}>
@@ -113,9 +118,12 @@ const Week = (props) => {
     return (
       <div>
         <Button
-          text={!props.isAdmin ? 'Записать итоги' : isTouched() ? 'Сохранить' : 'Изменений нет'}
+          text={!props.isAdmin 
+            ? 'Записать итоги' 
+            : isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'
+          }
           onClick={submitHandler}
-          disabled={(!today() && !props.isAdmin) || !isTouched()}
+          disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
         />
         <Button text="Отменить и выйти" onClick={doNotSave} />
       </div>
@@ -163,7 +171,7 @@ const Week = (props) => {
         {today() ? `Прогнозы принимаются до ${deadline}` : `Прогнозы принимались до ${deadline}`}
       </div>
       <div style={{ marginTop: '10px', color: 'red' }}>
-        {isTouched() ? 'На этой неделе есть изменения' : null}
+        {isTouched() &&  props.others.isItYou ? 'На этой неделе есть изменения' : null}
       </div>
     </div>
   )

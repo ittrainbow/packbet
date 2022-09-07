@@ -2,7 +2,7 @@ import {
   AUTH_SUCCESS,
   AUTH_LOGOUT,
   SET_ADMIN,
-  SET_CURRENT_USER,
+  SET_USER_NAME,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERSTATE,
@@ -18,7 +18,6 @@ const initialState = {
   userName: null,
   email: '',
   localId: null,
-  userId: null,
   isAdmin: false,
   authPage: true,
   upload: false
@@ -44,6 +43,12 @@ export default function authReducer(state = initialState, action) {
         email: action.payload
       }
 
+    case SET_USER_NAME:
+      return {
+        ...state,
+        userName: action.payload
+      }
+
     case SET_LOCAL_ID:
       return {
         ...state,
@@ -61,13 +66,6 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         authPage: action.payload
-      }
-
-    case SET_CURRENT_USER:
-      return {
-        ...state,
-        userId: action.id,
-        userName: action.payload
       }
 
     case SET_BUTTONSTATE:

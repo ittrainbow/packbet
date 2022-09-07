@@ -3,17 +3,16 @@ import {
   AUTH_LOGOUT,
   SET_ADMIN,
   INIT_BUTTONSTATE,
-  SET_CURRENT_USER,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERSTATE,
   SET_LOADEDSTATE,
   SET_AUTH_PAGE,
   SET_EMAIL,
-  SET_LOCAL_ID
+  SET_LOCAL_ID,
+  SET_USER_NAME
 } from '../types'
 
-import { findUser } from '../../frame/findUser'
 import axios from 'axios'
 import tableCreator from '../../frame/tableCreator'
 import { actionCreateStandings } from './weekActions'
@@ -22,32 +21,29 @@ import { actionSwitchLoading } from './loadingActions'
 export function actionAuth(email, password, isLogin, name) {
   return async (dispatch) => {
     const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true
-    } 
-
+    const authData = { email, password, returnSecureToken: true }
     const key = process.env.REACT_APP_FIREBASE_API_KEY
+
     const authUrl = isLogin
       ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
       : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
+
     const authResponse = await axios.post(authUrl, authData)
     const localId = authResponse.data.localId
+    
     if (!isLogin) {
       const weeks = ''
-      await axios.post(`${dbUrl}/users.json`, { localId, name, weeks })
       await axios.put(`${dbUrl}/users/${localId}.json`, { name, weeks })
     }
 
     const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
     const usersResponse = await axios.get(`${dbUrl}/users.json`)
     const answersResponse = await axios.get(`${dbUrl}/answers.json`)
-    const userId = findUser(usersResponse.data, localId)[0]
     const isAdmin = authResponse.data.email === 'admin@admin.com'
+    const getName = usersResponse.data[localId].name
 
     const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
-    const buttonState = actionCreateButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
+    const buttonState = actionCreateButtonsObj(usersResponse.data[localId].weeks, weeksResponse.data)
     const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
 
     if (!isLogin) {
@@ -61,11 +57,11 @@ export function actionAuth(email, password, isLogin, name) {
     localStorage.setItem('expirationDate', expirationDate)
 
     dispatch(actionSetAdmin(isAdmin))
+    dispatch(actionSetUserName(getName))
     dispatch(actionAuthSuccess(authResponse.data.idToken))
     dispatch(actionAutoLogout(authResponse.data.expiresIn))    
     dispatch(actionSetLocalId(authResponse.data.localId))
     dispatch(actionSetAnswerState(answerState))
-    dispatch(actionSetCurrentUser(userId, usersResponse.data[userId].name))
 
     isAdmin
       ? dispatch(actionGetButtonState(answerState))
@@ -102,6 +98,13 @@ export function actionGetButtonState(buttonState) {
   return {
     type: GET_BUTTONSTATE,
     payload: buttonState
+  }
+}
+
+export function actionSetUserName(name) {
+  return {
+    type: SET_USER_NAME,
+    payload: name
   }
 }
 
@@ -161,14 +164,6 @@ export function actionAuthSuccess(token) {
   }
 }
 
-export function actionSetCurrentUser(id, name) {
-  return {
-    type: SET_CURRENT_USER,
-    id: id,
-    payload: name
-  }
-}
-
 export function actionAutoLogin() {
   return (dispatch) => {
     const token = localStorage.getItem('token')
@@ -198,7 +193,7 @@ export function actionAutoLogout(time) {
 
 export function actionLogout() {
   localStorage.removeItem('token')
-  localStorage.removeItem('userId')
+  localStorage.removeItem('localId')
   localStorage.removeItem('expirationDate')
 
   return {

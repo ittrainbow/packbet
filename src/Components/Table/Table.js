@@ -21,7 +21,7 @@ const Table = (props) => {
 
     const users = await axios.get('/pack/users.json')
     const answers = await axios.get('/pack/answers.json')
-    const table = tableCreator(users, answers)
+    const table = tableCreator(users.data, answers)
 
     await axios.put('/pack/table.json', table)
 

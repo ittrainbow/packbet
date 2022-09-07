@@ -8,7 +8,6 @@ import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
 import {
   actionAuth,
-  actionSetCurrentUser,
   actionSetAuthPage
 } from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
@@ -133,7 +132,7 @@ class Auth extends Component {
     const pwdMatch = password === this.state.formControls.confirm.value
 
     const registeredUsers = await axios.get('pack/users.json')
-    const nameExists = findName(registeredUsers.data, name).length
+    const nameExists = registeredUsers.data ? findName(registeredUsers.data, name).length : false
 
     if (!nameExists && name.length > 2 && validateEmail(email) && pwdValid && pwdMatch) {
       this.tierline('')
@@ -236,7 +235,6 @@ class Auth extends Component {
 
 function mapStateToProps(state) {
   return {
-    userID: state.auth.userID,
     loading: state.loading.loading
   }
 }
@@ -244,7 +242,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     auth: (email, password, isLogin, name) => dispatch(actionAuth(email, password, isLogin, name)),
-    setCurrentUser: (id, name) => dispatch(actionSetCurrentUser(id, name)),
     setAuthPage: (boolean) => dispatch(actionSetAuthPage(boolean)),
     switchLoading: (boolean) => dispatch(actionSwitchLoading(boolean))
   }
