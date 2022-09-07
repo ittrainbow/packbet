@@ -40,8 +40,8 @@ const Table = (props) => {
       return (
         <tr>
           <th className={classes.colOne}>Игрок</th>
-          <th className={classes.colTwo}>Всего</th>
           <th className={classes.colTwo}>Верно</th>
+          <th className={classes.colTwo}>Всего</th>
           <th className={classes.colTwo}>%</th>
         </tr>
       )
@@ -53,8 +53,8 @@ const Table = (props) => {
               {string.name}
             </NavLink>
           </th>
-          <th className={classes.colTwo}>{string.totalAnswers}</th>
           <th className={classes.colTwo}>{string.correctAnswers}</th>
+          <th className={classes.colTwo}>{string.totalAnswers}</th>
           <th className={classes.colTwo}>{string.percentage}</th>
         </tr>
       )

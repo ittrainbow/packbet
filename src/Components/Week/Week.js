@@ -73,9 +73,8 @@ const Week = (props) => {
 
     props.initButtonState(obj)
     props.setRenderLoadedState(props.render.buttons)
-
-    navigate('/calendar')
     props.switchLoading(false)
+    navigate('/calendar')
   }
 
   function activityHelper(id, index) {

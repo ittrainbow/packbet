@@ -8,7 +8,7 @@ export default function tableCreator(userdata, answers) {
       data[el]['id'] = el
       return data[el]
     })
-    .filter((el) => el.email !== 'admin@admin.com')
+    .filter((el) => el.name !== 'Администратор')
 
   Object.keys(users).forEach((el) => {
     const name = users[el].name

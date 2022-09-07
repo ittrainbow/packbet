@@ -9,7 +9,8 @@ import {
   SET_ANSWERSTATE,
   SET_LOADEDSTATE,
   SET_AUTH_PAGE,
-  SET_EMAIL
+  SET_EMAIL,
+  SET_LOCAL_ID
 } from '../types'
 
 import { findUser } from '../../frame/findUser'
@@ -18,28 +19,31 @@ import tableCreator from '../../frame/tableCreator'
 import { actionCreateStandings } from './weekActions'
 import { actionSwitchLoading } from './loadingActions'
 
-export function actionAuth(email, password, isLogin) {
+export function actionAuth(email, password, isLogin, name) {
   return async (dispatch) => {
+    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
     const authData = {
       email,
       password,
       returnSecureToken: true
-    }
+    } 
 
     const key = process.env.REACT_APP_FIREBASE_API_KEY
     const authUrl = isLogin
       ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
       : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
-
-    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
-
     const authResponse = await axios.post(authUrl, authData)
+    const localId = authResponse.data.localId
+    if (!isLogin) {
+      const weeks = ''
+      await axios.post(`${dbUrl}/users.json`, { localId, name, weeks })
+      await axios.put(`${dbUrl}/users/${localId}.json`, { name, weeks })
+    }
 
     const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
     const usersResponse = await axios.get(`${dbUrl}/users.json`)
     const answersResponse = await axios.get(`${dbUrl}/answers.json`)
-
-    const userId = findUser(usersResponse.data, email)[0]
+    const userId = findUser(usersResponse.data, localId)[0]
     const isAdmin = authResponse.data.email === 'admin@admin.com'
 
     const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
@@ -58,7 +62,8 @@ export function actionAuth(email, password, isLogin) {
 
     dispatch(actionSetAdmin(isAdmin))
     dispatch(actionAuthSuccess(authResponse.data.idToken))
-    dispatch(actionAutoLogout(authResponse.data.expiresIn))
+    dispatch(actionAutoLogout(authResponse.data.expiresIn))    
+    dispatch(actionSetLocalId(authResponse.data.localId))
     dispatch(actionSetAnswerState(answerState))
     dispatch(actionSetCurrentUser(userId, usersResponse.data[userId].name))
 
@@ -76,10 +81,11 @@ export function actionCreateButtonsObj(buttons = 0, weeks) {
 
   for (let i = 0; i < length.length; i++) {
     const weeklyButtons = {}
-
-    if (buttons[i]) {
-      for (let j = 0; j < buttons[i].length; j++) {
-        weeklyButtons[j] = buttons[i][j] !== 0 ? buttons[i][j] : null
+    const id = length[i]
+    
+    if (buttons[id]) {
+      for (let j = 0; j < buttons[id].length; j++) {
+        weeklyButtons[j] = buttons[id][j] !== 0 ? buttons[id][j] : null
       }
     } else {
       for (let j = 0; j < weeks[Object.keys(weeks)[i]].questions.length; j++)
@@ -88,6 +94,7 @@ export function actionCreateButtonsObj(buttons = 0, weeks) {
 
     buttonState[length[i]] = weeklyButtons
   }
+
   return buttonState
 }
 
@@ -109,6 +116,13 @@ export function actionSetAuthPage(boolean) {
   return {
     type: SET_AUTH_PAGE,
     payload: boolean
+  }
+}
+
+export function actionSetLocalId(id) {
+  return {
+    type: SET_LOCAL_ID,
+    payload: id
   }
 }
 

@@ -13,7 +13,7 @@ import {
 } from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import axios from '../../axios/axios'
-import { findUser, findName } from '../../frame/findUser'
+import { findName } from '../../frame/findUser'
 import Loader from '../../UI/Loader/Loader'
 
 class Auth extends Component {
@@ -106,11 +106,7 @@ class Auth extends Component {
   loginHandler = async () => {
     this.props.switchLoading(true)
 
-    const email = this.state.formControls.email.value
-    const registeredUsers = await axios.get('pack/users.json')
-    const userExists = findUser(registeredUsers.data, email).length
-
-    if (userExists && this.state.isFormValid) {
+    if (this.state.isFormValid) {
       try {
         await this.props.auth(
           this.state.formControls.email.value,
@@ -118,7 +114,7 @@ class Auth extends Component {
           true
         )
       } catch (error) {
-        this.tierline('Неверный пароль')
+        this.tierline('Проверьте email и пароль')
       }
     } else {
       this.tierline('Неверный Email')
@@ -131,32 +127,24 @@ class Auth extends Component {
     this.props.switchLoading(true)
 
     const email = this.state.formControls.email.value
-    const password = this.state.formControls.password.value
     const name = this.state.formControls.name.value
+    const password = this.state.formControls.password.value
+    const pwdValid = password.length > 5 && password === this.state.formControls.confirm.value
+    const pwdMatch = password === this.state.formControls.confirm.value
 
     const registeredUsers = await axios.get('pack/users.json')
-    const userExists = findUser(registeredUsers.data, email).length
     const nameExists = findName(registeredUsers.data, name).length
 
-    if (
-      !userExists &&
-      !nameExists &&
-      name.length > 0 &&
-      validateEmail(email) &&
-      password.length > 5
-    ) {
-      this.props.auth(email, password, false)
-      const weeks = ''
-      await axios.post('pack/users.json', { email, name, weeks })
-      const getBack = await axios.get('pack/users.json')
-      this.props.setCurrentUser(Object.keys(getBack.data).slice(-1)[0], name)
+    if (!nameExists && name.length > 2 && validateEmail(email) && pwdValid && pwdMatch) {
+      this.tierline('')
+      this.props.auth(email, password, false, name)
     }
     if (!validateEmail(email)) {
       this.tierline('Используйте валидный Email')
       this.props.switchLoading(false)
     }
-    if (userExists) {
-      this.tierline('Используйте другой Email')
+    if (!pwdMatch) {
+      this.tierline('Пароли не совпадают')
       this.props.switchLoading(false)
     }
     if (nameExists) {
@@ -187,6 +175,11 @@ class Auth extends Component {
     const formControls = { ...this.state.formControls }
 
     if (!formControls.name) {
+      formControls.confirm = {
+        value: '',
+        type: 'password',
+        label: 'Повторите пароль'
+      }
       formControls.name = {
         value: '',
         type: 'name',

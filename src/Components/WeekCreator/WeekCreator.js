@@ -146,10 +146,6 @@ const WeekCreator = (props) => {
         questions: questions
       }
 
-      // const weeks = structuredClone(props.weeks)
-      // weeks[id] = week
-      // props.init(weeks)
-
       const obj = { ...props.auth.buttonState }
       const add = {}
       for (let i = 0; i < questions.length; i++) add[i] = null

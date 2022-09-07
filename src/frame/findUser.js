@@ -1,5 +1,5 @@
-export function findUser(obj, email) {
-  return Object.keys(obj).filter((el) => obj[el].email === email)
+export function findUser(obj, localId) {
+  return Object.keys(obj).filter((el) => obj[el].localId === localId)
 }
 
 export function findName(obj, name) {
