@@ -10,7 +10,8 @@ import {
   FaChevronCircleRight,
   FaBars,
   FaTimes,
-  FaStrava
+  FaStrava,
+  FaUsers
 } from 'react-icons/fa'
 import './Sidebar.module.scss'
 import classes from './Sidebar.module.scss'
@@ -45,7 +46,8 @@ class Sidebar extends Component {
     if (this.props.isAdmin) {
       menuItem.push(
         { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight /> },
-        { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava /> }
+        { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava /> },     
+        { path: '/users', name: 'Пользователи', icon: <FaUsers /> }
       )
     }
 

@@ -27,7 +27,7 @@ const BasicDateTimePicker = (props) => {
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label=""
-          value={props.deadline}
+          value={value || props.deadline}
           onChange={(newValue) => {
             setValue(newValue)
             props.setCurrentDeadline(dateConverter(newValue))

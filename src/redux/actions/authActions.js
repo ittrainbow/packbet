@@ -30,36 +30,32 @@ export function actionAuth(email, password, isLogin, name) {
 
     const authResponse = await axios.post(authUrl, authData)
     const localId = authResponse.data.localId
-    
-    if (!isLogin) {
-      const weeks = ''
-      await axios.put(`${dbUrl}/users/${localId}.json`, { name, weeks })
-    }
 
-    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
+    if (!isLogin) await axios.put(`${dbUrl}/users/${localId}.json`, { name: name, weeks: '' })
+
     const usersResponse = await axios.get(`${dbUrl}/users.json`)
+    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
     const answersResponse = await axios.get(`${dbUrl}/answers.json`)
     const isAdmin = authResponse.data.email === 'admin@admin.com'
-    const getName = usersResponse.data[localId].name
+    const getWeeks = usersResponse.data[localId].weeks || ''
+    const userName = isLogin ? usersResponse.data[authResponse.data.localId].name : name
 
     const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
-    const buttonState = actionCreateButtonsObj(usersResponse.data[localId].weeks, weeksResponse.data)
+    const buttonState = actionCreateButtonsObj(getWeeks, weeksResponse.data)
     const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
 
-    if (!isLogin) {
-      const table = tableCreator(usersResponse, answersResponse)
-      await axios.put(`${dbUrl}/table.json`, table)
-      dispatch(actionCreateStandings(table))
-    }
+    const table = tableCreator(usersResponse.data, answersResponse)
+    await axios.put(`${dbUrl}/table.json`, table)
+    dispatch(actionCreateStandings(table))
 
     localStorage.setItem('email', email)
     localStorage.setItem('password', password)
     localStorage.setItem('expirationDate', expirationDate)
 
     dispatch(actionSetAdmin(isAdmin))
-    dispatch(actionSetUserName(getName))
+    dispatch(actionSetUserName(userName))
     dispatch(actionAuthSuccess(authResponse.data.idToken))
-    dispatch(actionAutoLogout(authResponse.data.expiresIn))    
+    dispatch(actionAutoLogout(authResponse.data.expiresIn))
     dispatch(actionSetLocalId(authResponse.data.localId))
     dispatch(actionSetAnswerState(answerState))
 
@@ -78,7 +74,7 @@ export function actionCreateButtonsObj(buttons = 0, weeks) {
   for (let i = 0; i < length.length; i++) {
     const weeklyButtons = {}
     const id = length[i]
-    
+
     if (buttons[id]) {
       for (let j = 0; j < buttons[id].length; j++) {
         weeklyButtons[j] = buttons[id][j] !== 0 ? buttons[id][j] : null

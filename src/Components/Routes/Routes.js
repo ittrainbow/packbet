@@ -11,6 +11,7 @@ import OldWeek from '../../pages/OldWeek'
 import Profile from '../../pages/Profile'
 import Standings from '../../pages/Standings'
 import Password from '../../pages/Password'
+import Users from '../../pages/Users'
 import AdminRoute from './AdminRoute'
 import PrivateRoute from './PrivateRoute'
 
@@ -46,6 +47,10 @@ const AppRoutes = () => {
 
           <Route exact path="/" element={<AdminRoute />}>
             <Route path="/create" element={<Creator />} />
+          </Route>
+
+          <Route exact path="/" element={<AdminRoute />}>
+            <Route path="/users" element={<Users />} />
           </Route>
         </Routes>
       </Sidebar>

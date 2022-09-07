@@ -187,6 +187,7 @@ class Auth extends Component {
       formControls.password.label = 'Пароль (не менее 6 символов)'
     } else {
       delete formControls.name
+      delete formControls.confirm
       formControls.password.label = 'Пароль'
     }
 
@@ -235,6 +236,7 @@ class Auth extends Component {
 
 function mapStateToProps(state) {
   return {
+    localId: state.auth.localId,
     loading: state.loading.loading
   }
 }

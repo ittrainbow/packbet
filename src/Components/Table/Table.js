@@ -10,7 +10,8 @@ import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import {
   actionGetOtherName,
   actionGetOtherUsers,
-  actionSwitchYourself
+  actionSwitchYourself,
+  actionCleanOtherUser
 } from '../../redux/actions/othersActions'
 import { actionCreateStandings } from '../../redux/actions/weekActions'
 import tableCreator from '../../frame/tableCreator'
@@ -30,9 +31,13 @@ const Table = (props) => {
   }
 
   function otherUserHandler(id, name) {
-    props.getOtherUser(id, props.weeks)
-    props.getOtherName(name)
-    props.switchYourself(false)
+    if (id !== props.localId) {
+      props.switchYourself(false)
+      props.getOtherUser(id, props.weeks)
+      props.getOtherName(name)
+    } else {
+      props.cleanOtherUser()
+    }
   }
 
   function renderString(string) {
@@ -91,6 +96,7 @@ const Table = (props) => {
 
 function mapStateToProps(state) {
   return {
+    localId: state.auth.localId,
     weeks: state.week.weeks,
     isAdmin: state.auth.isAdmin,
     loading: state.loading.loading,
@@ -104,6 +110,7 @@ function mapDispatchToProps(dispatch) {
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     switchYourself: (status) => dispatch(actionSwitchYourself(status)),
     getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state)),
+    cleanOtherUser: () => dispatch(actionCleanOtherUser()),
     createStandings: (standings) => dispatch(actionCreateStandings(standings))
   }
 }

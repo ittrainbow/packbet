@@ -1,6 +1,5 @@
 export default function tableCreator(users, answers) {
   const table = []
-  // const data = userdata.data
   const results = answers.data.weeks
 
   Object.keys(users).forEach((el) => {
