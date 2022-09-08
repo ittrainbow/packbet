@@ -5,12 +5,11 @@ import classes from './UserList.module.scss'
 import Undo from '../../UI/Undo/Undo'
 import Loader from '../../UI/Loader/Loader'
 
-const key = process.env.REACT_APP_FIREBASE_API_KEY
-
 class UserList extends Component {
   state = {
     loading: false,
-    users: null
+    users: null,
+    hash: null
   }
 
   async componentDidMount() {

@@ -16,8 +16,7 @@ const BasicDateTimePicker = (props) => {
     const day = value.$D > 9 ? value.$D : '0' + value.$D
     const hours = value.$H > 9 ? value.$H : '0' + value.$H
     const minutes = value.$m > 9 ? value.$m : '0' + value.$m
-    const time = `${value.$y}-${month}-${day} ${hours}-${minutes}`
-
+    const time = `${value.$y}-${month}-${day} ${hours}:${minutes}:00`
     return time
   }
 

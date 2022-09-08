@@ -8,7 +8,8 @@ const About = () => {
     React: '18.2',
     'React-router-DOM': '6',
     'React-redux': '8.0.2',
-    Author: 'Drew G',
+    Coding: 'ittrainbow',
+    QA: 'vanaku',
     src: 'GitHub'
   }
 

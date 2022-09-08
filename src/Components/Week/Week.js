@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import './Week.scss'
 import Loader from '../../UI/Loader/Loader'
+import Timer from '../../UI/Timer/Timer'
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons'
 import Button from '../../UI/Button/Button'
 import axios from '../../axios/axios'
@@ -20,10 +21,10 @@ import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 
 const Week = (props) => {
   const navigate = useNavigate()
-  const deadline = props.render.deadline
 
   function today() {
-    const today = new Date().toISOString().split('T').join(' ').substring(0, 16)
+    const deadline = new Date(props.render.deadline).getTime()
+    const today = new Date().getTime()
 
     return today < deadline
   }
@@ -34,18 +35,18 @@ const Week = (props) => {
   }
 
   function onClickHandler(index) {
-    if (props.others.isItYou) {
+    if (props.others.isItYou && (today() || props.isAdmin)) {
       const buttons = { ...props.render.buttons }
       const i = Math.floor(index / 2)
       const yesno = index % 2
-  
+
       let status = buttons[i]
-  
+
       if (yesno === 0) status = status === 1 ? null : 1
       if (yesno === 1) status = status === 2 ? null : 2
-  
+
       buttons[i] = status
-  
+
       if (props.isAdmin || today()) props.setRenderButtonState(buttons)
       if (props.isAdmin) props.setRenderAnswerState(buttons)
     }
@@ -54,7 +55,7 @@ const Week = (props) => {
   async function submitHandler() {
     if (today() || props.isAdmin) {
       props.switchLoading(true)
-      
+
       const data = props.render.buttons
       const url = props.isAdmin
         ? `pack/answers/weeks/${props.render.id}.json`
@@ -118,9 +119,12 @@ const Week = (props) => {
     return (
       <div>
         <Button
-          text={!props.isAdmin 
-            ? 'Записать итоги' 
-            : isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'
+          text={
+            !props.isAdmin
+              ? 'Записать итоги'
+              : isTouched() && props.others.isItYou
+              ? 'Сохранить'
+              : 'Изменений нет'
           }
           onClick={submitHandler}
           disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
@@ -162,16 +166,19 @@ const Week = (props) => {
       <h3>
         #{props.render.number}: {props.render.name}
       </h3>
+      <div className={'Countdown'}>
+        {today()
+          ? 'До окончания приема прогнозов:\u00A0'
+          : 'Прием прогнозов окончен, игра началась'}
+        <Timer />
+      </div>
       <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
       <div className="QuestionsBlockMargin">{renderQuestions()}</div>
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
 
-      <div style={{ marginTop: '10px' }}>
-        {today() ? `Прогнозы принимаются до ${deadline}` : `Прогнозы принимались до ${deadline}`}
-      </div>
       <div style={{ marginTop: '10px', color: 'red' }}>
-        {isTouched() &&  props.others.isItYou ? 'На этой неделе есть изменения' : null}
+        {isTouched() && props.others.isItYou ? 'На этой неделе есть изменения' : null}
       </div>
     </div>
   )
