@@ -67,8 +67,9 @@ export function actionAuth(email, password, isLogin, name) {
   
       dispatch(actionSwitchLoading(false))
     } catch (error) {
-      dispatch(actionSetMessage('Вероятно, такой пользователь уже существует'))
-      setTimeout(() => dispatch(actionSetMessage('')), 4000)
+      if (!isLogin) dispatch(actionSetMessage('Вероятно, такой пользователь уже существует'))
+      if (isLogin) dispatch(actionSetMessage('Проверьте правильность ввода логина и пароля'))
+      setTimeout(() => dispatch(actionSetMessage('')), 3000)
       dispatch(actionSwitchLoading(false))
     }
   }
