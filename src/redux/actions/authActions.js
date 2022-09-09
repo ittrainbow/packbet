@@ -39,7 +39,7 @@ export function actionAuth(email, password, isLogin, name) {
       const usersResponse = await axios.get(`${dbUrl}/users.json`)
       const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
       const answersResponse = await axios.get(`${dbUrl}/answers.json`)
-      const isAdmin = authResponse.data.email === 'admin@admin.com'
+      const isAdmin = authResponse.data.email === 'deadbead@gmail.com'
       const getWeeks = usersResponse.data[localId].weeks || ''
       const userName = isLogin ? usersResponse.data[authResponse.data.localId].name : name
   

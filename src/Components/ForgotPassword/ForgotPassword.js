@@ -66,9 +66,9 @@ const ForgotPassword = (props) => {
               <Button text="Вход" onClick={() => returnHandler()} />
             </div>
           </div>
-        : <Loader /> }
+        : <Loader /> }        
         
-        <hr style={{ marginTop: '20px' }} />
+        <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

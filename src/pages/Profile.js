@@ -31,7 +31,7 @@ const Profile = (props) => {
       <h3>{renderHeader()}</h3>
       {renderPage()}
       {props.isAuthenticated ? null : <Button text="Забыли пароль?" onClick={() => redirect()} />}
-      <hr style={{ marginTop: '20px' }} />
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

@@ -198,6 +198,7 @@ const WeekCreator = (props) => {
     const response = await axios.get('pack/users.json')
 
     const newState = structuredClone(response.data)
+    console.log(newState)
     
     Object.keys(response.data)
       .forEach(el => {
@@ -333,7 +334,7 @@ const WeekCreator = (props) => {
   return (
     <div className={classes.WeekCreator}>
       {props.loading ? <Loader /> : renderWeek()}
-      <hr style={{ marginTop: '10px'}}/>
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

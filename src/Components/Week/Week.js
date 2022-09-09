@@ -115,6 +115,7 @@ const Week = (props) => {
             <YesNoButtons
               index={index}
               activity={activity}
+              result={result}
               onClick={(index) => onClickHandler(index)}
             />
           </div>
@@ -181,10 +182,10 @@ const Week = (props) => {
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
 
-      <div style={{ marginTop: '10px', color: 'red' }}>
+      <div style={{ marginTop: '10px', color: 'red', height: '100%' }}>
         {isTouched() && props.others.isItYou ? 'На этой неделе есть изменения' : null}
       </div>
-      <hr style={{ marginTop: '20px', width: '430px' }} />
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

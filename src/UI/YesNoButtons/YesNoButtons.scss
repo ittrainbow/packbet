@@ -3,7 +3,7 @@
   background-color: #ebedef;
   color: #0f1111;
   width: 30px;
-  border: 1px solid #777;
+  border: 1px solid #999;
   border-radius: 2px;
   margin-left: 5px;
   margin-top: -3px;
@@ -26,5 +26,26 @@
 .selected {  
   transition: all 0.22s;
   color: #ebedef;
-  background-color: #555;
+}
+
+.black {
+  background-color: #444;
+  color: #ddd;
+  border: 1px solid black
+}
+
+.green.selected {
+  background-color: #439245;
+}
+
+.green.selected:active {
+  background-color: #1a571c;
+}
+
+.red.selected {
+  background-color: #af4c4c;
+}
+
+.red.selected:active {
+  background-color: #5f1313;
 }
