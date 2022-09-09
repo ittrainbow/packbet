@@ -24,7 +24,7 @@ const Week = (props) => {
   const deadline = props.render.deadline
   
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
-    if (completed) return 
+    if (completed) return 'Игра началась'
     const daysText = days > 4 || days === 0 ? 'дней' : days > 1 ? 'дня' : 'день'
     const hoursText = hours % 10 > 4 || hours % 10 === 0 ? 'часов' : hours % 10 > 1 ? 'часа' : 'час'
 
@@ -127,13 +127,7 @@ const Week = (props) => {
     return (
       <div>
         <Button
-          text={
-            !props.isAdmin
-              ? 'Записать итоги'
-              : isTouched() && props.others.isItYou
-              ? 'Сохранить'
-              : 'Изменений нет'
-          }
+          text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
           onClick={submitHandler}
           disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
         />
@@ -162,7 +156,7 @@ const Week = (props) => {
           </div>
         )
       return (
-        <div key={index} className={'OtherUser'}>
+        <div key={index}>
           {el}
         </div>
       )
@@ -182,7 +176,7 @@ const Week = (props) => {
           ? <Countdown date={deadline} renderer={renderer}/>
           : null}        
       </div>
-      <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
+      <div className={'OthersName'}>{renderOthersName()}</div>
       <div className="QuestionsBlockMargin">{renderQuestions()}</div>
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
@@ -190,6 +184,7 @@ const Week = (props) => {
       <div style={{ marginTop: '10px', color: 'red' }}>
         {isTouched() && props.others.isItYou ? 'На этой неделе есть изменения' : null}
       </div>
+      <hr style={{ marginTop: '20px', width: '430px' }} />
     </div>
   )
 }

@@ -330,7 +330,12 @@ const WeekCreator = (props) => {
     )
   }
 
-  return <div className={classes.WeekCreator}>{props.loading ? <Loader /> : renderWeek()}</div>
+  return (
+    <div className={classes.WeekCreator}>
+      {props.loading ? <Loader /> : renderWeek()}
+      <hr style={{ marginTop: '10px'}}/>
+    </div>
+  )
 }
 
 function mapStateToProps(state) {

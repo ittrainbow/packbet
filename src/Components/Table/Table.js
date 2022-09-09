@@ -90,6 +90,7 @@ const Table = (props) => {
           <Button onClick={() => submitHandler()} text="Пересчитать" />
         </div>
       ) : null}
+      <hr style={{ marginTop: '20px' }} />
     </div>
   )
 }

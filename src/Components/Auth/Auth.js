@@ -10,7 +10,7 @@ import {
   actionAuth,
   actionSetAuthPage
 } from '../../redux/actions/authActions'
-import { actionSwitchLoading } from '../../redux/actions/loadingActions'
+import { actionSwitchLoading, actionSetMessage } from '../../redux/actions/loadingActions'
 import axios from '../../axios/axios'
 import { findName } from '../../frame/findUser'
 import Loader from '../../UI/Loader/Loader'
@@ -56,17 +56,9 @@ class Auth extends Component {
   }
 
   tierline(message) {
-    setTimeout(() => {
-      this.setState({
-        tierline: message
-      })
-    })
-
-    setTimeout(() => {
-      this.setState({
-        tierline: ''
-      })
-    }, 3000)
+    this.props.setMessage(message)
+    this.props.switchLoading(false)
+    setTimeout(() => this.props.setMessage(''), 3000)
   }
 
   onChangeHandler = (event, controlName) => {
@@ -112,8 +104,8 @@ class Auth extends Component {
           this.state.formControls.password.value,
           true
         )
-      } catch (error) {
-        this.tierline('Проверьте email и пароль')
+      } catch (error) {     
+        this.tierline('Проверьте email и пароль') 
       }
     } else {
       this.tierline('Неверный Email')
@@ -124,7 +116,7 @@ class Auth extends Component {
 
   registerHandler = async () => {
     this.props.switchLoading(true)
-
+    
     const email = this.state.formControls.email.value
     const name = this.state.formControls.name.value
     const password = this.state.formControls.password.value
@@ -135,25 +127,13 @@ class Auth extends Component {
     const nameExists = registeredUsers.data ? findName(registeredUsers.data, name).length : false
 
     if (!nameExists && name.length > 2 && validateEmail(email) && pwdValid && pwdMatch) {
-      this.tierline('')
+      this.props.setMessage('')
       this.props.auth(email, password, false, name)
     }
-    if (!validateEmail(email)) {
-      this.tierline('Используйте валидный Email')
-      this.props.switchLoading(false)
-    }
-    if (!pwdMatch) {
-      this.tierline('Пароли не совпадают')
-      this.props.switchLoading(false)
-    }
-    if (nameExists) {
-      this.tierline('Используйте другое имя пользователя')
-      this.props.switchLoading(false)
-    }
-    if (password.length < 6) {
-      this.tierline('Используйте пароль не менее 6 символов')
-      this.props.switchLoading(false)
-    }
+    if (!validateEmail(email)) this.tierline('Используйте валидный Email')
+    if (!pwdMatch) this.tierline('Пароли не совпадают')
+    if (nameExists) this.tierline('Используйте другое имя пользователя')
+    if (password.length < 6) this.tierline('Используйте пароль не менее 6 символов')
   }
 
   submitHandler = (event) => {
@@ -222,8 +202,7 @@ class Auth extends Component {
             disabled={!this.state.isFormValid}
           />
         </div>
-        <hr style={{ marginBottom: '10px' }} />
-        <div>
+        <div  style={{ marginBottom: '-10px' }}>
           <Button
             text={this.state.authPage ? 'Регистрация' : 'Войти'}
             onClick={this.authRegHandler.bind(this)}
@@ -234,7 +213,7 @@ class Auth extends Component {
   }
 
   render() {
-    return <div className={classes.Auth}>{this.renderForm()}</div>
+    return <div className={classes.Auth}> {this.renderForm()} </div>
   }
 }
 
@@ -250,7 +229,8 @@ function mapDispatchToProps(dispatch) {
   return {
     auth: (email, password, isLogin, name) => dispatch(actionAuth(email, password, isLogin, name)),
     setAuthPage: (boolean) => dispatch(actionSetAuthPage(boolean)),
-    switchLoading: (boolean) => dispatch(actionSwitchLoading(boolean))
+    switchLoading: (boolean) => dispatch(actionSwitchLoading(boolean)),
+    setMessage: (text) => dispatch(actionSetMessage(text))
   }
 }
 

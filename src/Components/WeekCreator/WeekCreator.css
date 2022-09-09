@@ -15,6 +15,16 @@
   background: #d9d9d9
 }
 
+.Undo {
+  font-size: 13px;
+  border: 1px solid #f11;
+}
+
+.Edit {
+  font-size: 13px;
+  border: 1px solid #f11;
+}
+
 .QuestionsSelected {
   background-color: #fadada;
   font-size: 13px;
@@ -25,3 +35,72 @@
   height: 14px;
   padding: 10px 10px 10px 10px;
 }
+
+.Name {
+  width: 330px;
+  /* float: right; */
+}
+
+.Total {
+  width: 60px;
+  /* float: right; */
+}
+
+.Line {
+  width: 330px;
+  /* float: left; */
+}
+
+.Inputs {
+  width: 400px;
+}
+
+.Name {
+  width: 400px;
+  display: block; 
+  flex-direction: row;
+}
+
+.QuestionsList {
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.WeekCreator {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  width: 400px;
+  background: #d3d3d3;
+}
+
+.Buttons {
+  width: 400px;
+  display: flex;
+  padding: 5px 5px 5px 0px;
+}
+
+.Button {
+  margin-left: 100px;
+  margin-right: 5px;
+  float: left;
+  padding: 5px 5px 5px 5px
+}
+
+.WeekCreator > div {
+  width: 400px;
+}
+
+.WeekCreator h3 {
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.WeekCreator form {
+  background: #eee;
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 15px;
+}
+

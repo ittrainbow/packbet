@@ -57,6 +57,7 @@ class About extends Component {
           <Button text='Об игре' onClick={() => this.toggleHandler()}/>
         </div>
         {this.textHandler()}
+        <hr style={{ marginTop: '20px' }} />
       </div>
     )
   }

@@ -13,12 +13,6 @@ const BasicDateTimePicker = (props) => {
 
   function dateConverter(newValue) {
     const time = new Date(newValue).getTime()
-
-    // const month = value.$M > 8 ? (value.$M + 1) : '0' + (value.$M + 1)
-    // const day = value.$D > 9 ? value.$D : '0' + value.$D
-    // const hours = value.$H > 9 ? value.$H : '0' + value.$H
-    // const minutes = value.$m > 9 ? value.$m : '0' + value.$m
-    // const time = `${value.$y}-${month}-${day} ${hours}:${minutes}:00`
     
     return time
   }

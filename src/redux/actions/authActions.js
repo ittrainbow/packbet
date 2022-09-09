@@ -31,6 +31,7 @@ export function actionAuth(email, password, isLogin, name) {
         : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
   
       const authResponse = await axios.post(authUrl, authData)
+
       const localId = authResponse.data.localId
   
       if (!isLogin) await axios.put(`${dbUrl}/users/${localId}.json`, { name: name, weeks: '' })

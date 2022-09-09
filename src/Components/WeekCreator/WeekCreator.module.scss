@@ -4,7 +4,7 @@
 }
 
 .Name {
-  width: 350px;
+  width: 320px;
   float: right;
 }
 
@@ -14,12 +14,12 @@
 }
 
 .Line {
-  width: 350px;
+  width: 320px;
   float: left;
 }
 
 .Inputs {
-  width: 430px;
+  width: 400px;
 }
 
 .row {
@@ -33,10 +33,10 @@
 }
 
 .WeekCreator {
-  display: flex;
+  display: block;
   justify-content: center;
   padding-top: 20px;
-  width: 430px;
+  width: 400px;
   height: 500px;
   background: #d3d3d3;
 }
