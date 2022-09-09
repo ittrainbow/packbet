@@ -11,12 +11,15 @@ import { actionSetEditorCurrentDeadline } from '../../redux/actions/editorAction
 const BasicDateTimePicker = (props) => {
   const [value, setValue] = React.useState(dayjs())
 
-  function dateConverter(value) {
-    const month = value.$M > 8 ? (value.$M + 1) : '0' + (value.$M + 1)
-    const day = value.$D > 9 ? value.$D : '0' + value.$D
-    const hours = value.$H > 9 ? value.$H : '0' + value.$H
-    const minutes = value.$m > 9 ? value.$m : '0' + value.$m
-    const time = `${value.$y}-${month}-${day} ${hours}:${minutes}:00`
+  function dateConverter(newValue) {
+    const time = new Date(newValue).getTime()
+
+    // const month = value.$M > 8 ? (value.$M + 1) : '0' + (value.$M + 1)
+    // const day = value.$D > 9 ? value.$D : '0' + value.$D
+    // const hours = value.$H > 9 ? value.$H : '0' + value.$H
+    // const minutes = value.$m > 9 ? value.$m : '0' + value.$m
+    // const time = `${value.$y}-${month}-${day} ${hours}:${minutes}:00`
+    
     return time
   }
 
@@ -26,7 +29,8 @@ const BasicDateTimePicker = (props) => {
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label=""
-          value={value || props.deadline}
+          ampm={false}
+          value={value || new Date(props.deadline).getTime()}
           onChange={(newValue) => {
             setValue(newValue)
             props.setCurrentDeadline(dateConverter(newValue))

@@ -17,53 +17,60 @@ import axios from 'axios'
 import tableCreator from '../../frame/tableCreator'
 import { actionCreateStandings } from './weekActions'
 import { actionSwitchLoading } from './loadingActions'
+import { actionSetMessage } from './loadingActions'
 
 export function actionAuth(email, password, isLogin, name) {
   return async (dispatch) => {
-    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
-    const authData = { email, password, returnSecureToken: true }
-    const key = process.env.REACT_APP_FIREBASE_API_KEY
-
-    const authUrl = isLogin
-      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
-      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
-
-    const authResponse = await axios.post(authUrl, authData)
-    const localId = authResponse.data.localId
-
-    if (!isLogin) await axios.put(`${dbUrl}/users/${localId}.json`, { name: name, weeks: '' })
-
-    const usersResponse = await axios.get(`${dbUrl}/users.json`)
-    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
-    const answersResponse = await axios.get(`${dbUrl}/answers.json`)
-    const isAdmin = authResponse.data.email === 'admin@admin.com'
-    const getWeeks = usersResponse.data[localId].weeks || ''
-    const userName = isLogin ? usersResponse.data[authResponse.data.localId].name : name
-
-    const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
-    const buttonState = actionCreateButtonsObj(getWeeks, weeksResponse.data)
-    const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
-
-    const table = tableCreator(usersResponse.data, answersResponse)
-    await axios.put(`${dbUrl}/table.json`, table)
-    dispatch(actionCreateStandings(table))
-
-    localStorage.setItem('email', email)
-    localStorage.setItem('password', password)
-    localStorage.setItem('expirationDate', expirationDate)
-
-    dispatch(actionSetAdmin(isAdmin))
-    dispatch(actionSetUserName(userName))
-    dispatch(actionAuthSuccess(authResponse.data.idToken))
-    dispatch(actionAutoLogout(authResponse.data.expiresIn))
-    dispatch(actionSetLocalId(authResponse.data.localId))
-    dispatch(actionSetAnswerState(answerState))
-
-    isAdmin
-      ? dispatch(actionGetButtonState(answerState))
-      : dispatch(actionGetButtonState(buttonState))
-
-    dispatch(actionSwitchLoading(false))
+    try {
+      const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
+      const authData = { email, password, returnSecureToken: true }
+      const key = process.env.REACT_APP_FIREBASE_API_KEY
+  
+      const authUrl = isLogin
+        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
+        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
+  
+      const authResponse = await axios.post(authUrl, authData)
+      const localId = authResponse.data.localId
+  
+      if (!isLogin) await axios.put(`${dbUrl}/users/${localId}.json`, { name: name, weeks: '' })
+  
+      const usersResponse = await axios.get(`${dbUrl}/users.json`)
+      const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
+      const answersResponse = await axios.get(`${dbUrl}/answers.json`)
+      const isAdmin = authResponse.data.email === 'admin@admin.com'
+      const getWeeks = usersResponse.data[localId].weeks || ''
+      const userName = isLogin ? usersResponse.data[authResponse.data.localId].name : name
+  
+      const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
+      const buttonState = actionCreateButtonsObj(getWeeks, weeksResponse.data)
+      const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
+  
+      const table = tableCreator(usersResponse.data, answersResponse)
+      await axios.put(`${dbUrl}/table.json`, table)
+      dispatch(actionCreateStandings(table))
+  
+      localStorage.setItem('email', email)
+      localStorage.setItem('password', password)
+      localStorage.setItem('expirationDate', expirationDate)
+  
+      dispatch(actionSetAdmin(isAdmin))
+      dispatch(actionSetUserName(userName))
+      dispatch(actionAuthSuccess(authResponse.data.idToken))
+      dispatch(actionAutoLogout(authResponse.data.expiresIn))
+      dispatch(actionSetLocalId(authResponse.data.localId))
+      dispatch(actionSetAnswerState(answerState))
+  
+      isAdmin
+        ? dispatch(actionGetButtonState(answerState))
+        : dispatch(actionGetButtonState(buttonState))
+  
+      dispatch(actionSwitchLoading(false))
+    } catch (error) {
+      dispatch(actionSetMessage('Вероятно, такой пользователь уже существует'))
+      setTimeout(() => dispatch(actionSetMessage('')), 4000)
+      dispatch(actionSwitchLoading(false))
+    }
   }
 }
 

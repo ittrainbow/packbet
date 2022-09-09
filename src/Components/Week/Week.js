@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Countdown from 'react-countdown'
 
 import './Week.scss'
 import Loader from '../../UI/Loader/Loader'
-import Timer from '../../UI/Timer/Timer'
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons'
 import Button from '../../UI/Button/Button'
 import axios from '../../axios/axios'
@@ -21,12 +21,20 @@ import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 
 const Week = (props) => {
   const navigate = useNavigate()
+  const deadline = props.render.deadline
+  
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) return 
+    const daysText = days > 4 || days === 0 ? 'дней' : days > 1 ? 'дня' : 'день'
+    const hoursText = hours % 10 > 4 || hours % 10 === 0 ? 'часов' : hours % 10 > 1 ? 'часа' : 'час'
+
+    if (days === 0) return <span> {hours} {hoursText} {minutes} мин {seconds} сек </span>
+    return <span> {days} {daysText} {hours} {hoursText} {minutes} мин {seconds} сек </span>
+  }
 
   function today() {
-    const deadline = new Date(props.render.deadline).getTime()
-    const today = new Date().getTime()
-
-    return today < deadline
+    const currentTime = new Date().getTime()
+    return currentTime < deadline
   }
 
   function doNotSave() {
@@ -59,7 +67,7 @@ const Week = (props) => {
       const data = props.render.buttons
       const url = props.isAdmin
         ? `pack/answers/weeks/${props.render.id}.json`
-        : `pack/users/${props.auth.localId}/weeks/${props.week.weekId}.json`
+        : `pack/users/${props.auth.localId}/weeks/${props.render.id}.json`
 
       await axios.put(url, data)
 
@@ -168,9 +176,11 @@ const Week = (props) => {
       </h3>
       <div className={'Countdown'}>
         {today()
-          ? 'До окончания приема прогнозов:\u00A0'
+          ? 'До окончания приема прогнозов:\u00A0' 
           : 'Прием прогнозов окончен, игра началась'}
-        <Timer />
+        {today()
+          ? <Countdown date={deadline} renderer={renderer}/>
+          : null}        
       </div>
       <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
       <div className="QuestionsBlockMargin">{renderQuestions()}</div>

@@ -5,7 +5,7 @@ import classes from './Pages.module.scss'
 const Home = () => {
   return (
     <div className={classes.Container}>
-      <h3>Инфо</h3>
+      <h3>Конкурс прогнозов канала <a href="https://t.me/packersnews">Packers News</a></h3>
       <About />
     </div>
   )

@@ -1,10 +1,10 @@
 .Week {
-  width: 60px;
+  width: 70px;
   float: left;
 }
 
 .Name {
-  width: 330px;
+  width: 350px;
   float: right;
 }
 
@@ -14,12 +14,12 @@
 }
 
 .Line {
-  width: 320px;
+  width: 350px;
   float: left;
 }
 
 .Inputs {
-  width: 400px;
+  width: 430px;
 }
 
 .row {
@@ -33,12 +33,25 @@
 }
 
 .WeekCreator {
-  display: block;
+  display: flex;
   justify-content: center;
   padding-top: 20px;
-  width: 100%;
+  width: 430px;
   height: 500px;
   background: #d3d3d3;
+}
+
+.Buttons {
+  width: 100%;
+  display: flex;
+  padding: 5px 5px 5px 0px;
+}
+
+.Button {
+  margin-left: 100px;
+  margin-right: 5px;
+  float: left;
+  padding: 5px 5px 5px 5px
 }
 
 .WeekCreator > div {

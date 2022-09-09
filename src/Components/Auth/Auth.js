@@ -209,7 +209,11 @@ class Auth extends Component {
       <Loader />
     ) : (
       <form onSubmit={this.submitHandler} className={classes.AuthForm}>
+
         {this.renderInputs()}
+        <div className={classes.message}>
+          {this.props.message}
+        </div>
         <div className={classes.tierline}>{this.state.tierline}</div>
         <div style={{ marginBottom: '6px' }}>
           <Button
@@ -237,7 +241,8 @@ class Auth extends Component {
 function mapStateToProps(state) {
   return {
     localId: state.auth.localId,
-    loading: state.loading.loading
+    loading: state.loading.loading,
+    message: state.loading.message
   }
 }
 

@@ -7,7 +7,7 @@
   border-radius: 2px;
   margin-left: 5px;
   margin-top: -3px;
-  padding: 2px 0 0 0;
+  padding: 3px 0 0 0;
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
@@ -18,7 +18,7 @@
 }
 
 .button:active {
-  border-color: #2f3136;
+  border-color: #30362f;
   background-color: #c1c1c1;
   box-shadow: inset 2px 2px 1px rgba(0, 0, 0, .3);
 }
@@ -26,5 +26,5 @@
 .selected {  
   transition: all 0.22s;
   color: #ebedef;
-  background-color: #555;
+  background-color: #286d2a;
 }
