@@ -1,4 +1,9 @@
-import { SWITCH_YOURSELF, SEE_OTHER_USER, CLEAN_OTHER_USER, GET_OTHER_NAME } from '../types'
+import { 
+  SWITCH_YOURSELF, 
+  SEE_OTHER_USER, 
+  CLEAN_OTHER_USER, 
+  GET_OTHER_NAME 
+} from '../types'
 
 const initialState = {
   isItYou: true,
@@ -30,7 +35,7 @@ export default function othersReducer(state = initialState, action) {
       return {
         ...state,
         isItYou: true,
-        buttonState: null,
+        buttons: null,
         name: null
       }
 

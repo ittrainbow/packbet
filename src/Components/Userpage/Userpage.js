@@ -40,6 +40,7 @@ class Userpage extends Component {
 
   logoutHandler() {
     this.props.logout()
+    this.props.cleanOtherUser()
   }
 
   render() {

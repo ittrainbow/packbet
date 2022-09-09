@@ -2,13 +2,13 @@
   border-color: #8b8f98;
   background-color: #ebedef;
   color: #0f1111;
-  border: 1px solid #777;
-
+  width: 30px;
+  border: 1px solid #999;
   border-radius: 2px;
   margin-left: 5px;
-  margin-top: -5px;
-  padding: 4px 10px 1px;
-  font-size: 14px;
+  margin-top: -3px;
+  padding: 3px 0 0 0;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -18,7 +18,7 @@
 }
 
 .button:active {
-  border-color: #2f3136;
+  border-color: #30362f;
   background-color: #c1c1c1;
   box-shadow: inset 2px 2px 1px rgba(0, 0, 0, .3);
 }
@@ -26,5 +26,26 @@
 .selected {  
   transition: all 0.22s;
   color: #ebedef;
-  background-color: #555;
+}
+
+.black {
+  background-color: #444;
+  color: #ddd;
+  border: 1px solid black
+}
+
+.green.selected {
+  background-color: #439245;
+}
+
+.green.selected:active {
+  background-color: #1a571c;
+}
+
+.red.selected {
+  background-color: #af4c4c;
+}
+
+.red.selected:active {
+  background-color: #5f1313;
 }

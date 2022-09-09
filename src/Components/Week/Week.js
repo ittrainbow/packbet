@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Countdown from 'react-countdown'
 
 import './Week.scss'
 import Loader from '../../UI/Loader/Loader'
@@ -21,11 +22,19 @@ import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 const Week = (props) => {
   const navigate = useNavigate()
   const deadline = props.render.deadline
+  
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) return 'Игра началась'
+    const daysText = days > 4 || days === 0 ? 'дней' : days > 1 ? 'дня' : 'день'
+    const hoursText = hours % 10 > 4 || hours % 10 === 0 ? 'часов' : hours % 10 > 1 ? 'часа' : 'час'
+
+    if (days === 0) return <span> {hours} {hoursText} {minutes} мин {seconds} сек </span>
+    return <span> {days} {daysText} {hours} {hoursText} {minutes} мин {seconds} сек </span>
+  }
 
   function today() {
-    const today = new Date().toISOString().split('T').join(' ').substring(0, 16)
-
-    return today < deadline
+    const currentTime = new Date().getTime()
+    return currentTime < deadline
   }
 
   function doNotSave() {
@@ -34,48 +43,51 @@ const Week = (props) => {
   }
 
   function onClickHandler(index) {
-    const buttons = { ...props.render.buttons }
-    const i = Math.floor(index / 2)
-    const yesno = index % 2
+    if (props.others.isItYou && (today() || props.isAdmin)) {
+      const buttons = { ...props.render.buttons }
+      const i = Math.floor(index / 2)
+      const yesno = index % 2
 
-    let status = buttons[i]
+      let status = buttons[i]
 
-    if (yesno === 0) status = status === 1 ? null : 1
-    if (yesno === 1) status = status === 2 ? null : 2
+      if (yesno === 0) status = status === 1 ? null : 1
+      if (yesno === 1) status = status === 2 ? null : 2
 
-    buttons[i] = status
+      buttons[i] = status
 
-    if (props.isAdmin || today()) props.setRenderButtonState(buttons)
-    if (props.isAdmin) props.setRenderAnswerState(buttons)
+      if (props.isAdmin || today()) props.setRenderButtonState(buttons)
+      if (props.isAdmin) props.setRenderAnswerState(buttons)
+    }
   }
 
   async function submitHandler() {
-    props.switchLoading(true)
+    if (today() || props.isAdmin) {
+      props.switchLoading(true)
 
-    const data = props.render.buttons
-    const url = props.isAdmin
-      ? `pack/answers/weeks/${props.render.id}.json`
-      : `pack/users/${props.auth.userId}/weeks/${props.week.weekId}.json`
+      const data = props.render.buttons
+      const url = props.isAdmin
+        ? `pack/answers/weeks/${props.render.id}.json`
+        : `pack/users/${props.auth.localId}/weeks/${props.render.id}.json`
 
-    await axios.put(url, data)
+      await axios.put(url, data)
 
-    const buttonState = { ...props.auth.buttonState }
-    const answerState = { ...props.auth.answerState }
+      const buttonState = { ...props.auth.buttonState }
+      const answerState = { ...props.auth.answerState }
 
-    buttonState[props.render.id] = props.render.buttons
+      buttonState[props.render.id] = props.render.buttons
 
-    if (props.isAdmin) answerState[props.render.id] = props.render.answers
+      if (props.isAdmin && props.isItYou) answerState[props.render.id] = props.render.answers
 
-    const obj = {
-      buttonState: buttonState,
-      answerState: answerState
+      const obj = {
+        buttonState: buttonState,
+        answerState: answerState
+      }
+
+      props.initButtonState(obj)
+      props.setRenderLoadedState(props.render.buttons)
+      props.switchLoading(false)
+      navigate('/calendar')
     }
-
-    props.initButtonState(obj)
-    props.setRenderLoadedState(props.render.buttons)
-
-    navigate('/calendar')
-    props.switchLoading(false)
   }
 
   function activityHelper(id, index) {
@@ -91,9 +103,10 @@ const Week = (props) => {
         const result = props.render.answers[index]
         const correct = activity === result
         const styleSet = ['QuestionsDefault']
+        const greyscale = props.isAdmin && props.others.isItYou
 
-        if (activity && result && !props.isAdmin && correct) styleSet.push('AnswerCorrect')
-        if (activity && result && !props.isAdmin && !correct) styleSet.push('AnswerWrong')
+        if (activity && result && correct && !greyscale) styleSet.push('AnswerCorrect')
+        if (activity && result && !correct && !greyscale) styleSet.push('AnswerWrong')
 
         return (
           <div key={index} className={styleSet.join(' ')}>
@@ -102,6 +115,7 @@ const Week = (props) => {
             <YesNoButtons
               index={index}
               activity={activity}
+              result={result}
               onClick={(index) => onClickHandler(index)}
             />
           </div>
@@ -114,9 +128,9 @@ const Week = (props) => {
     return (
       <div>
         <Button
-          text={!props.isAdmin ? 'Записать итоги' : isTouched() ? 'Сохранить' : 'Изменений нет'}
+          text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
           onClick={submitHandler}
-          disabled={(!today() && !props.isAdmin) || !isTouched()}
+          disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
         />
         <Button text="Отменить и выйти" onClick={doNotSave} />
       </div>
@@ -143,7 +157,7 @@ const Week = (props) => {
           </div>
         )
       return (
-        <div key={index} className={'OtherUser'}>
+        <div key={index}>
           {el}
         </div>
       )
@@ -155,17 +169,23 @@ const Week = (props) => {
       <h3>
         #{props.render.number}: {props.render.name}
       </h3>
-      <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
+      <div className={'Countdown'}>
+        {today()
+          ? 'До окончания приема прогнозов:\u00A0' 
+          : 'Прием прогнозов окончен, игра началась'}
+        {today()
+          ? <Countdown date={deadline} renderer={renderer}/>
+          : null}        
+      </div>
+      <div className={'OthersName'}>{renderOthersName()}</div>
       <div className="QuestionsBlockMargin">{renderQuestions()}</div>
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
 
-      <div style={{ marginTop: '10px' }}>
-        {today() ? `Прогнозы принимаются до ${deadline}` : `Прогнозы принимались до ${deadline}`}
+      <div style={{ marginTop: '10px', color: 'red', height: '100%' }}>
+        {isTouched() && props.others.isItYou ? 'На этой неделе есть изменения' : null}
       </div>
-      <div style={{ marginTop: '10px', color: 'red' }}>
-        {isTouched() ? 'На этой неделе есть изменения' : null}
-      </div>
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

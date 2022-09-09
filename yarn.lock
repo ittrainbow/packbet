@@ -11003,6 +11003,13 @@ react-clock@^3.0.0:
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
 
+react-countdown@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.2.tgz#4cc27f28f2dcd47237ee66e4b9f6d2a21fc0b0ad"
+  integrity sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-date-picker@^8.4.0:
   version "8.4.0"
   resolved "https://registry.yarnpkg.com/react-date-picker/-/react-date-picker-8.4.0.tgz#2d166bbaa59b08ec8686f671fde553458d19f8c8"

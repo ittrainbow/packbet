@@ -8,6 +8,11 @@ const YesNoButtons = (props) => {
 
   if (props.activity === 1) styleSetFirst.push('selected')
   if (props.activity === 2) styleSetSecond.push('selected')
+  
+  if (!props.result) styleSetFirst.push('green')
+  if (!props.result) styleSetSecond.push('red')
+  if (props.result === 1) styleSetFirst.push('black')
+  if (props.result === 2) styleSetSecond.push('black')
 
   return (
     <div className="buttonsDiv">

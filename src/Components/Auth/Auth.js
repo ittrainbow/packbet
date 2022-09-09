@@ -8,12 +8,11 @@ import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
 import {
   actionAuth,
-  actionSetCurrentUser,
   actionSetAuthPage
 } from '../../redux/actions/authActions'
-import { actionSwitchLoading } from '../../redux/actions/loadingActions'
+import { actionSwitchLoading, actionSetMessage } from '../../redux/actions/loadingActions'
 import axios from '../../axios/axios'
-import { findUser, findName } from '../../frame/findUser'
+import { findName } from '../../frame/findUser'
 import Loader from '../../UI/Loader/Loader'
 
 class Auth extends Component {
@@ -57,17 +56,9 @@ class Auth extends Component {
   }
 
   tierline(message) {
-    setTimeout(() => {
-      this.setState({
-        tierline: message
-      })
-    })
-
-    setTimeout(() => {
-      this.setState({
-        tierline: ''
-      })
-    }, 3000)
+    this.props.setMessage(message)
+    this.props.switchLoading(false)
+    setTimeout(() => this.props.setMessage(''), 3000)
   }
 
   onChangeHandler = (event, controlName) => {
@@ -106,19 +97,15 @@ class Auth extends Component {
   loginHandler = async () => {
     this.props.switchLoading(true)
 
-    const email = this.state.formControls.email.value
-    const registeredUsers = await axios.get('pack/users.json')
-    const userExists = findUser(registeredUsers.data, email).length
-
-    if (userExists && this.state.isFormValid) {
+    if (this.state.isFormValid) {
       try {
         await this.props.auth(
           this.state.formControls.email.value,
           this.state.formControls.password.value,
           true
         )
-      } catch (error) {
-        this.tierline('Неверный пароль')
+      } catch (error) {     
+        this.tierline('Проверьте email и пароль') 
       }
     } else {
       this.tierline('Неверный Email')
@@ -129,44 +116,24 @@ class Auth extends Component {
 
   registerHandler = async () => {
     this.props.switchLoading(true)
-
+    
     const email = this.state.formControls.email.value
-    const password = this.state.formControls.password.value
     const name = this.state.formControls.name.value
+    const password = this.state.formControls.password.value
+    const pwdValid = password.length > 5 && password === this.state.formControls.confirm.value
+    const pwdMatch = password === this.state.formControls.confirm.value
 
     const registeredUsers = await axios.get('pack/users.json')
-    const userExists = findUser(registeredUsers.data, email).length
-    const nameExists = findName(registeredUsers.data, name).length
+    const nameExists = registeredUsers.data ? findName(registeredUsers.data, name).length : false
 
-    if (
-      !userExists &&
-      !nameExists &&
-      name.length > 0 &&
-      validateEmail(email) &&
-      password.length > 5
-    ) {
-      this.props.auth(email, password, false)
-      const weeks = ''
-      await axios.post('pack/users.json', { email, name, weeks })
-      const getBack = await axios.get('pack/users.json')
-      this.props.setCurrentUser(Object.keys(getBack.data).slice(-1)[0], name)
+    if (!nameExists && name.length > 2 && validateEmail(email) && pwdValid && pwdMatch) {
+      this.props.setMessage('')
+      this.props.auth(email, password, false, name)
     }
-    if (!validateEmail(email)) {
-      this.tierline('Используйте валидный Email')
-      this.props.switchLoading(false)
-    }
-    if (userExists) {
-      this.tierline('Используйте другой Email')
-      this.props.switchLoading(false)
-    }
-    if (nameExists) {
-      this.tierline('Используйте другое имя пользователя')
-      this.props.switchLoading(false)
-    }
-    if (password.length < 6) {
-      this.tierline('Используйте пароль не менее 6 символов')
-      this.props.switchLoading(false)
-    }
+    if (!validateEmail(email)) this.tierline('Используйте валидный Email')
+    if (!pwdMatch) this.tierline('Пароли не совпадают')
+    if (nameExists) this.tierline('Используйте другое имя пользователя')
+    if (password.length < 6) this.tierline('Используйте пароль не менее 6 символов')
   }
 
   submitHandler = (event) => {
@@ -187,6 +154,11 @@ class Auth extends Component {
     const formControls = { ...this.state.formControls }
 
     if (!formControls.name) {
+      formControls.confirm = {
+        value: '',
+        type: 'password',
+        label: 'Повторите пароль'
+      }
       formControls.name = {
         value: '',
         type: 'name',
@@ -195,6 +167,7 @@ class Auth extends Component {
       formControls.password.label = 'Пароль (не менее 6 символов)'
     } else {
       delete formControls.name
+      delete formControls.confirm
       formControls.password.label = 'Пароль'
     }
 
@@ -216,7 +189,11 @@ class Auth extends Component {
       <Loader />
     ) : (
       <form onSubmit={this.submitHandler} className={classes.AuthForm}>
+
         {this.renderInputs()}
+        <div className={classes.message}>
+          {this.props.message}
+        </div>
         <div className={classes.tierline}>{this.state.tierline}</div>
         <div style={{ marginBottom: '6px' }}>
           <Button
@@ -225,8 +202,7 @@ class Auth extends Component {
             disabled={!this.state.isFormValid}
           />
         </div>
-        <hr style={{ marginBottom: '10px' }} />
-        <div>
+        <div  style={{ marginBottom: '-10px' }}>
           <Button
             text={this.state.authPage ? 'Регистрация' : 'Войти'}
             onClick={this.authRegHandler.bind(this)}
@@ -237,23 +213,24 @@ class Auth extends Component {
   }
 
   render() {
-    return <div className={classes.Auth}>{this.renderForm()}</div>
+    return <div className={classes.Auth}> {this.renderForm()} </div>
   }
 }
 
 function mapStateToProps(state) {
   return {
-    userID: state.auth.userID,
-    loading: state.loading.loading
+    localId: state.auth.localId,
+    loading: state.loading.loading,
+    message: state.loading.message
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     auth: (email, password, isLogin, name) => dispatch(actionAuth(email, password, isLogin, name)),
-    setCurrentUser: (id, name) => dispatch(actionSetCurrentUser(id, name)),
     setAuthPage: (boolean) => dispatch(actionSetAuthPage(boolean)),
-    switchLoading: (boolean) => dispatch(actionSwitchLoading(boolean))
+    switchLoading: (boolean) => dispatch(actionSwitchLoading(boolean)),
+    setMessage: (text) => dispatch(actionSetMessage(text))
   }
 }
 

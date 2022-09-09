@@ -71,6 +71,7 @@ const WeekList = (props) => {
     <div className={classes.WeekList}>
       <div style={{marginBottom: '10px'}}>{renderOthersName()}</div>
       <div>{renderWeeks()}</div>
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

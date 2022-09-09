@@ -7,7 +7,7 @@ body {
   margin-top: 10px;
   font-size: 13px;
   text-align: left;
-  width: 470px;
+  width: 420px;
 }
 
 .WideButton {
@@ -23,9 +23,21 @@ body {
 .QuestionsDefault {
   background-color: #e7e7e7;
   border: 2px solid #999;
-  padding: 10px 10px 10px 10px;
+  padding: 6px 3px 6px 6px;
   border-radius: 2px;
   margin-bottom: 3px;
+  height: 15px;
+}
+
+.Countdown {
+  display: flex;
+  margin-top: 5px;
+  border: 2px solid #999999;
+  padding: 5px 5px 5px 6px;
+  border-radius: 2px;
+  background-color: #e7e7e7;
+  margin-bottom: 5px;
+  height: 15px;
 }
 
 .AnswerCorrect {
@@ -36,17 +48,19 @@ body {
 .BackLink {
   color: darkblue; 
   cursor: pointer;
-  font-size: 14px
+  font-size: 13px;
+  margin-bottom: 5px;
 }
 
-.OtherUser {
+.OthersName {
   margin-bottom: 3px;
-  font-size: 14px
+  font-size: 13px;
+  margin-left: 8px;
 }
 
 .AnswerWrong {
   border: 2px solid red;
-  background-color: #f2d7d7;
+  background-color: #f9e5e5;
 }
 
 .Questions:hover {

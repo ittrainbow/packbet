@@ -32,6 +32,11 @@ import { getWeeks } from '../../frame/getWeeks'
 const WeekCreator = (props) => {
   const navigate = useNavigate()
 
+  function drawDate() {
+    const time = new Date(props.editor.currentDeadline).toString().substring(0, 24)
+    return time
+  }
+
   function addQuestionHandler(event) {
     event.preventDefault()
     props.switchLoading(true)
@@ -122,7 +127,7 @@ const WeekCreator = (props) => {
     return (
       props.editor.currentWeek &&
       props.editor.currentName.length > 0 &&
-      props.editor.currentDeadline.length > 0 &&
+      props.editor.currentDeadline &&
       props.editor.questions.length > 2
     )
   }
@@ -145,10 +150,6 @@ const WeekCreator = (props) => {
         number: props.editor.currentWeek,
         questions: questions
       }
-
-      // const weeks = structuredClone(props.weeks)
-      // weeks[id] = week
-      // props.init(weeks)
 
       const obj = { ...props.auth.buttonState }
       const add = {}
@@ -194,7 +195,27 @@ const WeekCreator = (props) => {
     props.init(weeks)
     props.clearEditor()
 
+    const response = await axios.get('pack/users.json')
+
+    const newState = structuredClone(response.data)
+    console.log(newState)
+    
+    Object.keys(response.data)
+      .forEach(el => {
+        const id = props.editor.currentWeekId
+        const weeks = newState[el].weeks[id]
+        const weeksAmount = Object.keys(newState[el].weeks).length
+
+        if (weeksAmount === 1 && weeks.length > 0) {
+          newState[el].weeks = ''
+        } else if (newState[el].weeks[id]) {
+          newState[el].weeks[id] = null
+        }
+      })
+
+    await axios.put('pack/users.json', newState)
     await axios.delete(`pack/weeks/${props.editor.currentHash}.json`)
+    await axios.delete(`pack/answers/weeks/${props.editor.currentWeekId}.json`)
 
     props.switchLoading(false)
     navigate('/editor')
@@ -291,8 +312,9 @@ const WeekCreator = (props) => {
           {renderQuestions()}
           <div style={{ fontSize: '13px', fontWeight: 'bold', marginTop: '15px' }}>
             <div>
-              Начало игры:{' '}
-              {props.editor.currentDeadline ? props.editor.currentDeadline : 'не установлено'}
+              Начало игры:
+              {' '}
+              {drawDate()}
             </div>
             <div style={{ marginTop: '5px' }}>
               <BasicDateTimePicker style={{ marginTop: '10px' }} />
@@ -300,22 +322,21 @@ const WeekCreator = (props) => {
           </div>
         </div>
 
-        <Button text="Отменить и выйти" onClick={noSaveExitHandler} />
-
-        <Button
-          text="Сохранить неделю"
-          onClick={() => submitHandler()}
-          // hoverText="Убедитесь, что введены корректный номер недели, название игры, добавлены как минимум три вопроса и установлено время начала игры"
-        />
-
-        {props.editor.currentHash ? (
-          <Button text="Удалить неделю" onClick={() => deleteWeekHandler()} />
-        ) : null}
+        <div className={classes.Buttons}>
+          <Button text="Отменить" onClick={noSaveExitHandler} />&nbsp;
+          <Button text="Сохранить" onClick={() => submitHandler()} />&nbsp;
+          {props.editor.currentHash ? <Button text="Удалить" onClick={() => deleteWeekHandler()} /> : null}
+        </div>
       </div>
     )
   }
 
-  return <div className={classes.WeekCreator}>{props.loading ? <Loader /> : renderWeek()}</div>
+  return (
+    <div className={classes.WeekCreator}>
+      {props.loading ? <Loader /> : renderWeek()}
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
+    </div>
+  )
 }
 
 function mapStateToProps(state) {

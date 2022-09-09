@@ -25,3 +25,16 @@
   height: 14px;
   padding: 10px 10px 10px 10px;
 }
+
+.QuestionsList {
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.WeekCreator {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  width: 420px;
+  background: #d3d3d3;
+}

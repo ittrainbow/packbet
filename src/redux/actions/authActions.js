@@ -3,70 +3,76 @@ import {
   AUTH_LOGOUT,
   SET_ADMIN,
   INIT_BUTTONSTATE,
-  SET_CURRENT_USER,
   GET_BUTTONSTATE,
   SET_BUTTONSTATE,
   SET_ANSWERSTATE,
   SET_LOADEDSTATE,
   SET_AUTH_PAGE,
-  SET_EMAIL
+  SET_EMAIL,
+  SET_LOCAL_ID,
+  SET_USER_NAME
 } from '../types'
 
-import { findUser } from '../../frame/findUser'
 import axios from 'axios'
 import tableCreator from '../../frame/tableCreator'
 import { actionCreateStandings } from './weekActions'
 import { actionSwitchLoading } from './loadingActions'
+import { actionSetMessage } from './loadingActions'
 
-export function actionAuth(email, password, isLogin) {
+export function actionAuth(email, password, isLogin, name) {
   return async (dispatch) => {
-    const authData = {
-      email,
-      password,
-      returnSecureToken: true
-    }
+    try {
+      const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
+      const authData = { email, password, returnSecureToken: true }
+      const key = process.env.REACT_APP_FIREBASE_API_KEY
+  
+      const authUrl = isLogin
+        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
+        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
+  
+      const authResponse = await axios.post(authUrl, authData)
 
-    const key = process.env.REACT_APP_FIREBASE_API_KEY
-    const authUrl = isLogin
-      ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
-      : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`
-
-    const dbUrl = 'https://packpredictor-default-rtdb.firebaseio.com/pack/'
-
-    const authResponse = await axios.post(authUrl, authData)
-
-    const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
-    const usersResponse = await axios.get(`${dbUrl}/users.json`)
-    const answersResponse = await axios.get(`${dbUrl}/answers.json`)
-
-    const userId = findUser(usersResponse.data, email)[0]
-    const isAdmin = authResponse.data.email === 'admin@admin.com'
-
-    const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
-    const buttonState = actionCreateButtonsObj(usersResponse.data[userId].weeks, weeksResponse.data)
-    const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
-
-    if (!isLogin) {
-      const table = tableCreator(usersResponse, answersResponse)
+      const localId = authResponse.data.localId
+  
+      if (!isLogin) await axios.put(`${dbUrl}/users/${localId}.json`, { name: name, weeks: '' })
+  
+      const usersResponse = await axios.get(`${dbUrl}/users.json`)
+      const weeksResponse = await axios.get(`${dbUrl}/weeks.json`)
+      const answersResponse = await axios.get(`${dbUrl}/answers.json`)
+      const isAdmin = authResponse.data.email === 'deadbead@gmail.com'
+      const getWeeks = usersResponse.data[localId].weeks || ''
+      const userName = isLogin ? usersResponse.data[authResponse.data.localId].name : name
+  
+      const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
+      const buttonState = actionCreateButtonsObj(getWeeks, weeksResponse.data)
+      const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
+  
+      const table = tableCreator(usersResponse.data, answersResponse)
       await axios.put(`${dbUrl}/table.json`, table)
       dispatch(actionCreateStandings(table))
+  
+      localStorage.setItem('email', email)
+      localStorage.setItem('password', password)
+      localStorage.setItem('expirationDate', expirationDate)
+  
+      dispatch(actionSetAdmin(isAdmin))
+      dispatch(actionSetUserName(userName))
+      dispatch(actionAuthSuccess(authResponse.data.idToken))
+      dispatch(actionAutoLogout(authResponse.data.expiresIn))
+      dispatch(actionSetLocalId(authResponse.data.localId))
+      dispatch(actionSetAnswerState(answerState))
+  
+      isAdmin
+        ? dispatch(actionGetButtonState(answerState))
+        : dispatch(actionGetButtonState(buttonState))
+  
+      dispatch(actionSwitchLoading(false))
+    } catch (error) {
+      if (!isLogin) dispatch(actionSetMessage('Вероятно, такой пользователь уже существует'))
+      if (isLogin) dispatch(actionSetMessage('Проверьте правильность ввода логина и пароля'))
+      setTimeout(() => dispatch(actionSetMessage('')), 3000)
+      dispatch(actionSwitchLoading(false))
     }
-
-    localStorage.setItem('email', email)
-    localStorage.setItem('password', password)
-    localStorage.setItem('expirationDate', expirationDate)
-
-    dispatch(actionSetAdmin(isAdmin))
-    dispatch(actionAuthSuccess(authResponse.data.idToken))
-    dispatch(actionAutoLogout(authResponse.data.expiresIn))
-    dispatch(actionSetAnswerState(answerState))
-    dispatch(actionSetCurrentUser(userId, usersResponse.data[userId].name))
-
-    isAdmin
-      ? dispatch(actionGetButtonState(answerState))
-      : dispatch(actionGetButtonState(buttonState))
-
-    dispatch(actionSwitchLoading(false))
   }
 }
 
@@ -76,10 +82,11 @@ export function actionCreateButtonsObj(buttons = 0, weeks) {
 
   for (let i = 0; i < length.length; i++) {
     const weeklyButtons = {}
+    const id = length[i]
 
-    if (buttons[i]) {
-      for (let j = 0; j < buttons[i].length; j++) {
-        weeklyButtons[j] = buttons[i][j] !== 0 ? buttons[i][j] : null
+    if (buttons[id]) {
+      for (let j = 0; j < buttons[id].length; j++) {
+        weeklyButtons[j] = buttons[id][j] !== 0 ? buttons[id][j] : null
       }
     } else {
       for (let j = 0; j < weeks[Object.keys(weeks)[i]].questions.length; j++)
@@ -88,6 +95,7 @@ export function actionCreateButtonsObj(buttons = 0, weeks) {
 
     buttonState[length[i]] = weeklyButtons
   }
+
   return buttonState
 }
 
@@ -95,6 +103,13 @@ export function actionGetButtonState(buttonState) {
   return {
     type: GET_BUTTONSTATE,
     payload: buttonState
+  }
+}
+
+export function actionSetUserName(name) {
+  return {
+    type: SET_USER_NAME,
+    payload: name
   }
 }
 
@@ -109,6 +124,13 @@ export function actionSetAuthPage(boolean) {
   return {
     type: SET_AUTH_PAGE,
     payload: boolean
+  }
+}
+
+export function actionSetLocalId(id) {
+  return {
+    type: SET_LOCAL_ID,
+    payload: id
   }
 }
 
@@ -147,14 +169,6 @@ export function actionAuthSuccess(token) {
   }
 }
 
-export function actionSetCurrentUser(id, name) {
-  return {
-    type: SET_CURRENT_USER,
-    id: id,
-    payload: name
-  }
-}
-
 export function actionAutoLogin() {
   return (dispatch) => {
     const token = localStorage.getItem('token')
@@ -184,7 +198,7 @@ export function actionAutoLogout(time) {
 
 export function actionLogout() {
   localStorage.removeItem('token')
-  localStorage.removeItem('userId')
+  localStorage.removeItem('localId')
   localStorage.removeItem('expirationDate')
 
   return {

@@ -8,7 +8,6 @@ export function actionGetOtherUsers(id, weeks) {
     const buttonState = actionCreateButtonsObj(response.data.weeks, weeks)
 
     dispatch(actionOtherButtonState(buttonState))
-    dispatch(actionSwitchYourself(false))
   }
 }
 

@@ -10,7 +10,8 @@ import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import {
   actionGetOtherName,
   actionGetOtherUsers,
-  actionSwitchYourself
+  actionSwitchYourself,
+  actionCleanOtherUser
 } from '../../redux/actions/othersActions'
 import { actionCreateStandings } from '../../redux/actions/weekActions'
 import tableCreator from '../../frame/tableCreator'
@@ -21,7 +22,7 @@ const Table = (props) => {
 
     const users = await axios.get('/pack/users.json')
     const answers = await axios.get('/pack/answers.json')
-    const table = tableCreator(users, answers)
+    const table = tableCreator(users.data, answers)
 
     await axios.put('/pack/table.json', table)
 
@@ -30,9 +31,13 @@ const Table = (props) => {
   }
 
   function otherUserHandler(id, name) {
-    props.getOtherUser(id, props.weeks)
-    props.getOtherName(name)
-    props.switchYourself(false)
+    if (id !== props.localId) {
+      props.switchYourself(false)
+      props.getOtherUser(id, props.weeks)
+      props.getOtherName(name)
+    } else {
+      props.cleanOtherUser()
+    }
   }
 
   function renderString(string) {
@@ -40,8 +45,8 @@ const Table = (props) => {
       return (
         <tr>
           <th className={classes.colOne}>Игрок</th>
-          <th className={classes.colTwo}>Всего</th>
           <th className={classes.colTwo}>Верно</th>
+          <th className={classes.colTwo}>Всего</th>
           <th className={classes.colTwo}>%</th>
         </tr>
       )
@@ -53,8 +58,8 @@ const Table = (props) => {
               {string.name}
             </NavLink>
           </th>
-          <th className={classes.colTwo}>{string.totalAnswers}</th>
           <th className={classes.colTwo}>{string.correctAnswers}</th>
+          <th className={classes.colTwo}>{string.totalAnswers}</th>
           <th className={classes.colTwo}>{string.percentage}</th>
         </tr>
       )
@@ -85,12 +90,14 @@ const Table = (props) => {
           <Button onClick={() => submitHandler()} text="Пересчитать" />
         </div>
       ) : null}
+      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }
 
 function mapStateToProps(state) {
   return {
+    localId: state.auth.localId,
     weeks: state.week.weeks,
     isAdmin: state.auth.isAdmin,
     loading: state.loading.loading,
@@ -104,6 +111,7 @@ function mapDispatchToProps(dispatch) {
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     switchYourself: (status) => dispatch(actionSwitchYourself(status)),
     getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state)),
+    cleanOtherUser: () => dispatch(actionCleanOtherUser()),
     createStandings: (standings) => dispatch(actionCreateStandings(standings))
   }
 }
