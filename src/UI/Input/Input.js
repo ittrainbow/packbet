@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from './Input.module.scss'
+import { connect } from 'react-redux'
 
 function isInvalid({ valid, touched, shouldValidate }) {
   return !valid && shouldValidate && touched
@@ -7,7 +8,7 @@ function isInvalid({ valid, touched, shouldValidate }) {
 
 const Input = (props) => {
   const inputType = props.type || 'text'
-  const cls = [classes.Input]
+  const cls = [props.mobile ? classes.InputMobile : classes.Input]
   const htmlFor = `${inputType}-${Math.random()}`
 
   if (isInvalid(props)) {
@@ -30,4 +31,10 @@ const Input = (props) => {
   )
 }
 
-export default Input
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
+  }
+}
+
+export default connect(mapStateToProps, null)(Input)

@@ -11,6 +11,35 @@
   cursor: pointer;
   transition: all 0.22s;
   margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.ButtonMobile {
+  display: inline-block;
+  padding: 0px 5px;
+  height: 50px;
+  border-radius: 2px;
+  border: 1px solid #444;
+  color: #000;
+  background-color: #ccc;
+  width: 200px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.22s;
+  margin-bottom: 5px;
+  font-size: 17px;
+}
+
+.Wide {
+  width: 360px;
+}
+
+.Normal {
+  width: 200px;
+}
+
+.Narrow {
+  width: 140px;
 }
 
 .Button:focus {

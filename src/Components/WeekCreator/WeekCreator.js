@@ -334,7 +334,6 @@ const WeekCreator = (props) => {
   return (
     <div className={classes.WeekCreator}>
       {props.loading ? <Loader /> : renderWeek()}
-      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

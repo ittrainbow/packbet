@@ -1,6 +1,9 @@
 export const SWITCH_LOADING = 'SWITCH_LOADING'
 export const SET_MESSAGE = 'SET_MESSAGE'
 
+export const SET_VIEW = 'SET_VIEW'
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
+
 export const SET_RENDER = 'SET_RENDER'
 export const SET_RENDER_BUTTONS = 'SET_RENDER_BUTTONS'
 export const NULLIFY_RENDER = 'NULLIFY_RENDER'

@@ -5,6 +5,7 @@ import editorReducer from './reducers/editorReducer'
 import loadingReducer from './reducers/loadingReducer'
 import othersReducer from './reducers/othersReducer'
 import renderReducer from './reducers/renderReducer'
+import viewReducer from './reducers/viewReducer'
 
 export default combineReducers({
   week: weekReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   editor: editorReducer,
   loading: loadingReducer,
   others: othersReducer,
-  render: renderReducer
+  render: renderReducer,
+  view: viewReducer
 })

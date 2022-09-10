@@ -67,8 +67,6 @@ const ForgotPassword = (props) => {
             </div>
           </div>
         : <Loader /> }        
-        
-        <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }

@@ -1,14 +1,21 @@
 import React from 'react'
 import About from '../Components/About/About'
 import classes from './Pages.module.scss'
+import { connect } from 'react-redux'
 
-const Home = () => {
+const Home = (props) => {
   return (
-    <div className={classes.Container}>
-      <h4>Конкурс прогнозов канала <a href="https://t.me/packersnews">Packers News</a></h4>
+    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
+      <h4>Конкурс прогнозов <a href="https://t.me/packersnews">Packers News</a></h4>
       <About />
     </div>
   )
 }
 
-export default Home
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
+  }
+}
+
+export default connect(mapStateToProps, null)(Home)

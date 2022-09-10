@@ -1,8 +1,11 @@
 import React from 'react'
 import classes from './Button.module.scss'
+import { connect } from 'react-redux'
 
 const Button = (props) => {
-  const cls = [classes.Button, classes[props.type]]
+  const cls = [classes[props.type]]
+  props.mobile ? cls.push(classes.ButtonMobile) : cls.push(classes.Button)
+  props.wide ? cls.push(classes.Wide) : props.mobile ? cls.push(classes.Normal) : cls.push(classes.Narrow)
 
   return (
     <div>
@@ -13,4 +16,10 @@ const Button = (props) => {
   )
 }
 
-export default Button
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
+  }
+}
+
+export default connect(mapStateToProps, null)(Button)

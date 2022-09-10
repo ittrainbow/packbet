@@ -27,11 +27,10 @@ const Profile = (props) => {
   }
 
   return (
-    <div className={classes.Container}>
+    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
       <h3>{renderHeader()}</h3>
       {renderPage()}
       {props.isAuthenticated ? null : <Button text="Забыли пароль?" onClick={() => redirect()} />}
-      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }
@@ -39,7 +38,8 @@ const Profile = (props) => {
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.token,
-    authPage: state.auth.authPage
+    authPage: state.auth.authPage,
+    mobile: state.view.mobile
   }
 }
 

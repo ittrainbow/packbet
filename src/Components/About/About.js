@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import classes from './About.module.scss'
 import Button from '../../UI/Button/Button'
+import { connect } from 'react-redux'
 
 class About extends Component {
   state = {
@@ -14,14 +15,15 @@ class About extends Component {
   }
 
   textHandler() {
-    const jsx = <div>        
-      <div className={classes.Paragraph}>
+    const jsx = <div>
+
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
         Каждую неделю до конца сезона мы будем представлять вашему вниманию прогнозы по "тоталам"
         на игры Пэкерз. Вам нужно будет угадать, произойдет ли то или иное событие.
         Суть проста. Угадать "тотал" или результат "с форой". Или, если тотал 0.5 - угадать, 
         случится ли событие в принципе.
       </div>
-      <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
         Например, указана линия "Аарон Роджерс, пасовые ярды: 299.5". Вы отвечаете "да". Если по
         итогам игры тотал пасовых ярдов Аарона составит 300 или более - вы угадали. Если 299 или
         менее - ошиблись. Или "Защита Пэкерз, перехваты: 0.5". Вы отвечаете "да". Если наши игроки
@@ -29,16 +31,16 @@ class About extends Component {
         с форой (-2.5) - если команда побеждает в филд-гол или крупнее - сыграет результат "да", если
         разрыв окажется меньше или вовсе не в нашу пользу - результат "нет".
       </div>
-      <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
         Обычно в таких конкурсах побеждает тот, кто дал наибольшее число точных ответов. У нас
         будет немного не так.
       </div>
-      <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
         Ваша задача - набрать максимальный процент точных ответов. И ответить как минимум на 90%
         вопросов. Сколько всего будет вопросов - мы пока не знаем, так как не знаем, как долго
         продлится сезон нашей команды.
       </div>
-      <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
         Почему именно так? Почему не общее число точных ответов? Неприятная особенность подобных
         конкурсов заключается в том, что пропуск одной недели (по забывчивости ли, иной причине)
         лишает вас шансов на победу. Гонка за общим числом не прощает прогулов. В нашем же случае
@@ -52,22 +54,27 @@ class About extends Component {
 
   render() {
     return (
-      <div className={classes.About}>
-        <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.About : classes.AboutMobile}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
           Каждую неделю до конца сезона мы будем представлять вашему вниманию прогнозы по "тоталам"
           на игры Пэкерз. Вам нужно будет угадать, произойдет ли то или иное событие.
         </div>
-        <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
           Обратная связь - <a href="https://t.me/ittrainbow">@ittrainbow</a>
         </div>
-        <div className={classes.Paragraph}>
+      <div className={!this.props.mobile ? classes.Paragraph : classes.ParagraphMobile}>
           <Button text='Об игре' onClick={() => this.toggleHandler()}/>
         </div>
         {this.textHandler()}
-        <hr style={{ width: '440px', visibility: 'hidden'}} />
       </div>
     )
   }
 }
 
-export default About
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
+  }
+}
+
+export default connect(mapStateToProps, null)(About)

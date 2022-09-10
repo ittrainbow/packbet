@@ -1,14 +1,21 @@
 import React from 'react'
 import Table from '../Components/Table/Table'
 import classes from './Pages.module.scss'
+import { connect } from 'react-redux'
 
-const Standings = () => {
+const Standings = (props) => {
   return (
-    <div className={classes.Container}>
-      <h3>Таблица</h3>
+    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
+      <h4>Таблица</h4>
       <Table />
     </div>
   )
 }
 
-export default Standings
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
+  }
+}
+
+export default connect(mapStateToProps, null)(Standings)

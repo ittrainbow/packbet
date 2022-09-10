@@ -8,9 +8,25 @@
   display: flex;
 }
 
+.ContainerMobile {
+  display: flex;
+}
+
+.Table {
+  display: table;
+}
+
+.Column {
+  display: table-cell;
+}
+
 .Main {
   width: 100%;
   padding: 20px;
+}
+
+.MainMobile {
+  width: 370px;
 }
 
 .Sidebar {
@@ -21,7 +37,25 @@
   transition: all .2s ease-in;
 }
 
+.ib {
+  display: inline-block
+}
+
+.SidebarMobile {
+  background: #000;
+  color: lightgrey;
+  height: 60px;
+  width: 300px;
+  transition: all .2s ease-in;
+}
+
 .TopSection {
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+.TopSectionMobile {
   display: flex;
   align-items: center;
   padding: 20px 15px;
@@ -29,8 +63,20 @@
 
 .Bars {
   display: flex;
-  font-size: 23px;
+  font-size: 24px;
   margin-left: 30px;
+}
+
+.BarsMobile {
+  display: flex;
+  font-size: 36px;
+  padding: 0 0 0 6px;
+}
+
+.TopIcons {
+  font-size: '35px';
+  margin-left: '20px';
+  margin-top: '10px'
 }
 
 .Link {
@@ -40,7 +86,21 @@
   gap: 15px;
 }
 
+.LinkMobile {
+  display: flex;
+  color: lightgrey;
+  padding: 10px 15px;
+  gap: 15px;
+}
+
 .MenuHeader {
+  display: flex;
+  color: lightgrey;
+  padding: 0px 9px;
+  gap: 15px;
+}
+
+.MenuHeaderMobile {
   display: flex;
   color: lightgrey;
   padding: 0px 9px;
@@ -58,11 +118,21 @@
   color: lightgrey;
 }
 
-.Icon, .LinkText {
+.Icon {
   font-size: 15px;
 }
 
+.IconMobile {
+  font-size: 25px;
+  padding: 0 0 0 7px;
+}
+
 .LinkText {
+  font-size: 15px;
   display: table-cell;
   vertical-align: middle;
+}
+
+.LinkTextMobile {
+  font-size: 24px;
 }

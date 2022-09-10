@@ -15,10 +15,13 @@ class CurrentWeek extends Component {
     this.props.setRenderButtons(state)
   }
 
+  renderHeader() {
+    return this.props.mobile ? null : <h3>Текущая игра</h3>
+  }
+
   render() {
     return (
-      <div className={classes.Container}>
-        <h3>Текущая игра</h3>
+      <div className={this.props.mobile ? classes.ContainerMobile : classes.Container}>
         <Week />
       </div>
     )
@@ -29,7 +32,8 @@ function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
     buttons: state.auth.buttonState,
-    answers: state.auth.answerState
+    answers: state.auth.answerState,
+    mobile: state.view.mobile
   }
 }
 

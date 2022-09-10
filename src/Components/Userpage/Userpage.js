@@ -45,7 +45,7 @@ class Userpage extends Component {
 
   render() {
     return (
-      <div className={classes.Userpage}>
+      <div className={this.props.mobile ? classes.UserpageMobile : classes.Userpage}>
         <div className={classes.UserDiv}>Имя: {this.props.userName}</div>
         <div className={classes.UserDiv}>
           Email:{' '}
@@ -78,7 +78,8 @@ function mapStateToProps(state) {
   return {
     userName: state.auth.userName,
     isItYou: state.others.isItYou,
-    isAdmin: state.auth.isAdmin
+    isAdmin: state.auth.isAdmin,
+    mobile: state.view.mobile
   }
 }
 
