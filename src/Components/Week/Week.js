@@ -242,13 +242,13 @@ const Week = (props) => {
       </div>
       <div className={props.mobile ? 'QuestionsBlockMobile' : 'QuestionsBlock'}>
         {props.mobile ? renderUpperLevel() : renderQuestions()}
+      </div>      
+      
+      <div className={props.mobile ? 'SaveNotifyMobile' : 'SaveNotify'}>
+        {isTouched() && props.others.isItYou ? 'У вас есть несохраненные изменения' : null}
       </div>
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
-
-      <div style={{ marginTop: '10px', color: 'red', height: '100%' }}>
-        {isTouched() && props.others.isItYou ? 'На этой неделе есть изменения' : null}
-      </div>
     </div>
   )
 }

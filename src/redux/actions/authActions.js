@@ -18,6 +18,7 @@ import tableCreator from '../../frame/tableCreator'
 import { actionCreateStandings } from './weekActions'
 import { actionSwitchLoading } from './loadingActions'
 import { actionSetMessage } from './loadingActions'
+import { actionSetTabActive } from './viewActions'
 
 export function actionAuth(email, password, isLogin, name) {
   return async (dispatch) => {
@@ -65,7 +66,8 @@ export function actionAuth(email, password, isLogin, name) {
       isAdmin
         ? dispatch(actionGetButtonState(answerState))
         : dispatch(actionGetButtonState(buttonState))
-  
+      
+      dispatch(actionSetTabActive(1))
       dispatch(actionSwitchLoading(false))
     } catch (error) {
       if (!isLogin) dispatch(actionSetMessage('Вероятно, такой пользователь уже существует'))
