@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux/es/exports'
-import { actionToggleSidebar}  from '../../redux/actions/viewActions'
+import { actionToggleSidebar, actionSetTabActive }  from '../../redux/actions/viewActions'
 import {
   FaHome,
   FaUserAlt,
@@ -20,24 +20,24 @@ const Sidebar = (props) => {
   const navigate = useNavigate()
 
   const menuItem = [
-    { path: '/', name: 'Инфо', icon: <FaHome /> },
-    { path: '/profile', name: 'Профиль', icon: <FaUserAlt /> },
-    { path: '/standings', name: 'Таблица', icon: <FaListUl /> }
+    { path: '/', name: 'Инфо', icon: <FaHome />, index: 0 },
+    { path: '/profile', name: 'Профиль', icon: <FaUserAlt />, index: 1 },
+    { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 2 }
   ]
 
   if (props.isAuthenticated) {
     menuItem.pop()
     menuItem.push(
-      { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall /> },
-      { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt /> },
-      { path: '/standings', name: 'Таблица', icon: <FaListUl /> }
+      { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall />, index: 2 },
+      { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt />, index: 3 },
+      { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 4 }
     )
   }
 
   if (props.isAdmin) {
     menuItem.push(
-      { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight /> },
-      { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava /> }
+      { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight />, index: 5 },
+      { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava />, index: 6 }
     )
   }
 
@@ -46,16 +46,23 @@ const Sidebar = (props) => {
     props.toggleSidebar(!bool)
   }
 
+  function clickHandler(item) {
+    props.setTabActive(item.index)
+    navigate(item.path)
+  }
+
   return props.mobile
     ? <div>
         <div className={classes.ContainerMobile}>
           <div style={{ width: '100%' }} className={classes.SidebarMobile}>
             <table><thead><tr>            
                 {menuItem.map((item, index) => {
+                  console.log()
                   return (
                     <td key={index}>
-                      <div style={{fontSize: '35px', marginLeft: '20px', marginTop: '10px'}}
-                        onClick={() => navigate(item.path)}  
+                      <div 
+                        className={item.index === props.tabActive ? classes.UpperGreen : classes.UpperGrey}
+                        onClick={() => clickHandler(item)}
                       >
                         {item.icon}
                       </div>
@@ -101,13 +108,15 @@ function mapStateToProps(state) {
     isAuthenticated: !!state.auth.token,
     isAdmin: state.auth.isAdmin,
     mobile: state.view.mobile,
+    tabActive: state.view.tabActive,
     isOpen: state.view.isOpen
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleSidebar: (boolean) => dispatch(actionToggleSidebar(boolean))
+    toggleSidebar: (boolean) => dispatch(actionToggleSidebar(boolean)),
+    setTabActive: (index) => dispatch(actionSetTabActive(index))
   }
 }
 

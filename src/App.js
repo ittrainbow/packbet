@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AppRoutes from './Components/Routes/Routes'
 import InitState from './Components/InitState/InitState'
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect'
+import { isMobile } from 'react-device-detect'
 import { connect } from 'react-redux'
 import { actionSetView } from './redux/actions/viewActions'
 

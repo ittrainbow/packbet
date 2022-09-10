@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const OldWeek = (props) => {
   return (
     <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h3>Выбранная неделя</h3>
+      <h3>{props.mobile ? null : 'Выбранная неделя'}</h3>
       <Week />
     </div>
   )

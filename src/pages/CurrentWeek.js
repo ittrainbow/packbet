@@ -15,13 +15,10 @@ class CurrentWeek extends Component {
     this.props.setRenderButtons(state)
   }
 
-  renderHeader() {
-    return this.props.mobile ? null : <h3>Текущая игра</h3>
-  }
-
   render() {
     return (
       <div className={this.props.mobile ? classes.ContainerMobile : classes.Container}>
+        <h3>{this.props.mobile ? null : 'Текущая игра'}</h3>
         <Week />
       </div>
     )
