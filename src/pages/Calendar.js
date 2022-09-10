@@ -7,7 +7,6 @@ import { actionSetEditorStatus } from '../redux/actions/weekActions'
 
 class Calendar extends Component {
   componentDidMount() {
-    console.log(this.props.mobile)
     this.props.setEditorStatus('results')
   }
 

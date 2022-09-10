@@ -225,7 +225,7 @@ const Week = (props) => {
   function unfinishedWeek() {
     return (
       <div style={{ marginBottom: '5px', fontSize: '15px' }}>
-        Результаты незавершенных игр скрыты
+        Чужие результаты для незавершенных игр скрыты
       </div>
     )
   }

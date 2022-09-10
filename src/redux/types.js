@@ -3,6 +3,7 @@ export const SET_MESSAGE = 'SET_MESSAGE'
 
 export const SET_VIEW = 'SET_VIEW'
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
+export const SET_TAB_ACTIVE = 'SET_TAB_ACTIVE'
 
 export const SET_RENDER = 'SET_RENDER'
 export const SET_RENDER_BUTTONS = 'SET_RENDER_BUTTONS'
