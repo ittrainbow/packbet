@@ -44,34 +44,34 @@ const Table = (props) => {
     if (!string) {
       return (
         <tr>
-          <th className={classes.colOne}>Игрок</th>
-          <th className={classes.colTwo}>Верно</th>
-          <th className={classes.colTwo}>Всего</th>
-          <th className={classes.colTwo}>%</th>
+          <th className={props.mobile ? classes.colOneMobile : classes.colOne}>Игрок</th>
+          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>Верно</th>
+          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>Всего</th>
+          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>%</th>
         </tr>
       )
     } else {
       return (
         <tr key={string.name}>
-          <th className={classes.colOne}>
+          <th className={props.mobile ? classes.colOneMobile : classes.colOne}>
             <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
               {string.name}
             </NavLink>
           </th>
-          <th className={classes.colTwo}>{string.correctAnswers}</th>
-          <th className={classes.colTwo}>{string.totalAnswers}</th>
-          <th className={classes.colTwo}>{string.percentage}</th>
+          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>{string.correctAnswers}</th>
+          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>{string.totalAnswers}</th>
+          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>{string.percentage}</th>
         </tr>
       )
     }
   }
 
   return (
-    <div className={classes.Table}>
+    <div className={props.mobile ? classes.TableMobile : classes.Table}>
       <table>
         <tbody>{renderString()}</tbody>
       </table>
-      <hr />
+      <hr style={{ width: props.mobile ? '350px' : '420px' }}/>
 
       {props.loading ? (
         <Loader />
@@ -90,7 +90,6 @@ const Table = (props) => {
           <Button onClick={() => submitHandler()} text="Пересчитать" />
         </div>
       ) : null}
-      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }
@@ -101,7 +100,8 @@ function mapStateToProps(state) {
     weeks: state.week.weeks,
     isAdmin: state.auth.isAdmin,
     loading: state.loading.loading,
-    standings: state.week.standings
+    standings: state.week.standings,
+    mobile: state.view.mobile
   }
 }
 

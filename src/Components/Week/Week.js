@@ -22,14 +22,25 @@ import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 const Week = (props) => {
   const navigate = useNavigate()
   const deadline = props.render.deadline
-  
+
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) return 'Игра началась'
     const daysText = days > 4 || days === 0 ? 'дней' : days > 1 ? 'дня' : 'день'
-    const hoursText = hours % 10 > 4 || hours % 10 === 0 ? 'часов' : hours % 10 > 1 ? 'часа' : 'час'
+    const hoursText = hours > 4 || hours === 0 ? 'часов' : hours > 1 ? 'часа' : 'час'
 
-    if (days === 0) return <span> {hours} {hoursText} {minutes} мин {seconds} сек </span>
-    return <span> {days} {daysText} {hours} {hoursText} {minutes} мин {seconds} сек </span>
+    if (days === 0)
+      return (
+        <span>
+          {' '}
+          {hours} {hoursText} {minutes} мин {seconds} сек{' '}
+        </span>
+      )
+    return (
+      <span>
+        {' '}
+        {days} {daysText} {hours} {hoursText} {minutes} мин {seconds} сек{' '}
+      </span>
+    )
   }
 
   function today() {
@@ -96,30 +107,62 @@ const Week = (props) => {
     return null
   }
 
+  function renderDesktop(question, index, activity, result, styleSet, greyscale) {
+    return (
+      <div key={index} className={styleSet.join(' ')}>
+        {question.question}
+        {question.total ? `: ${question.total}` : 0}
+        <YesNoButtons
+          index={index}
+          activity={activity}
+          result={result}
+          onClick={(index) => onClickHandler(index)}
+        />
+      </div>
+    )
+  }
+
+  function renderMobile(question, index, activity, result, styleSet, greyscale) {
+    return (
+      <tr key={index} className={styleSet.join(' ')}>
+        <td className={'QuestionInnerMobile'}>
+          {question.question}
+          {question.total && Number(question.total) !== 0.5 ? `: ${question.total}` : null}
+        </td>
+        <td className={'QuestionButtonsMobile'}>
+          <YesNoButtons
+            index={index}
+            activity={activity}
+            result={result}
+            onClick={(index) => onClickHandler(index)}
+          />
+        </td>
+      </tr>
+    )
+  }
+
+  function renderUpperLevel() {
+    return (
+      <table>
+        <thead>{renderQuestions()}</thead>
+      </table>
+    )
+  }
+
   function renderQuestions() {
     if (props.render.questions) {
       return props.render.questions.map((question, index) => {
         const activity = activityHelper(props.week.weekId, index)
         const result = props.render.answers[index]
         const correct = activity === result
-        const styleSet = ['QuestionsDefault']
+        const styleSet = [props.mobile ? 'QuestionsDefaultMobile' : 'QuestionsDefault']
         const greyscale = props.isAdmin && props.others.isItYou
 
         if (activity && result && correct && !greyscale) styleSet.push('AnswerCorrect')
         if (activity && result && !correct && !greyscale) styleSet.push('AnswerWrong')
-
-        return (
-          <div key={index} className={styleSet.join(' ')}>
-            {question.question}
-            {question.total ? `: ${question.total}` : 0}
-            <YesNoButtons
-              index={index}
-              activity={activity}
-              result={result}
-              onClick={(index) => onClickHandler(index)}
-            />
-          </div>
-        )
+        return props.mobile
+          ? renderMobile(question, index, activity, result, styleSet)
+          : renderDesktop(question, index, activity, result, styleSet)
       })
     }
   }
@@ -142,6 +185,16 @@ const Week = (props) => {
   }
 
   function renderOthersName() {
+    if (props.mobile && !props.others.isItYou)
+      return (
+        <Button
+          text={`Вы просматриваете ответы ${props.others.name}
+        Нажмите для возврата к своим ответам`}
+          wide={true}
+          onClick={() => props.cleanOtherUser()}
+        />
+      )
+
     let notify = []
     if (!props.others.isItYou) {
       notify.push(`Вы просматриваете ответы ${props.others.name}`)
@@ -151,41 +204,51 @@ const Week = (props) => {
 
     return notify.map(function (el, index) {
       if (index === notify.length - 1)
-        return (
-          <div key={index} className={'BackLink'} onClick={() => props.cleanOtherUser()}>
-            {el}
-          </div>
-        )
-      return (
-        <div key={index}>
-          {el}
-        </div>
-      )
+        return <div key={index} className={'Back'} onClick={() => props.cleanOtherUser()}>{el}</div>
+      return <div key={index}>{el}</div>
     })
   }
 
+  function renderCountdown() {
+    const text = 'До начала игры:\u00A0'
+    if (today())
+      return (
+        <div className={props.mobile ? 'CountdownMobile' : 'Countdown'}>
+          {text}
+          <Countdown date={deadline} renderer={renderer} />
+        </div>
+      )
+
+    return 'Прием прогнозов окончен, игра началась'
+  }
+
+  function unfinishedWeek() {
+    return (
+      <div style={{ marginBottom: '5px', fontSize: '15px' }}>
+        Результаты незавершенных игр скрыты
+      </div>
+    )
+  }
+
   return (
-    <div className="Week">
-      <h3>
+    <div className={props.mobile ? 'WeekMobile' : 'Week'}>
+      <h3 style={{ fontSize: props.mobile ? '20px' : '16px' }}>
         #{props.render.number}: {props.render.name}
       </h3>
-      <div className={'Countdown'}>
-        {today()
-          ? 'До окончания приема прогнозов:\u00A0' 
-          : 'Прием прогнозов окончен, игра началась'}
-        {today()
-          ? <Countdown date={deadline} renderer={renderer}/>
-          : null}        
+      {renderCountdown()}
+      <div className={props.mobile ? null : 'OthersName'}>
+        {renderOthersName()}
+        {props.mobile && !props.others.isItYou ? unfinishedWeek() : null}
       </div>
-      <div className={'OthersName'}>{renderOthersName()}</div>
-      <div className="QuestionsBlockMargin">{renderQuestions()}</div>
+      <div className={props.mobile ? 'QuestionsBlockMobile' : 'QuestionsBlock'}>
+        {props.mobile ? renderUpperLevel() : renderQuestions()}
+      </div>
 
       {props.loading.loading ? <Loader /> : renderSubmits()}
 
       <div style={{ marginTop: '10px', color: 'red', height: '100%' }}>
         {isTouched() && props.others.isItYou ? 'На этой неделе есть изменения' : null}
       </div>
-      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }
@@ -197,7 +260,8 @@ function mapStateToProps(state) {
     auth: state.auth,
     others: state.others,
     isAdmin: state.auth.isAdmin,
-    loading: state.loading
+    loading: state.loading,
+    mobile: state.view.mobile
   }
 }
 

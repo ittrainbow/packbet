@@ -1,14 +1,21 @@
 import React from 'react'
 import Week from '../Components/Week/Week'
 import classes from './Pages.module.scss'
+import { connect } from 'react-redux'
 
-const OldWeek = () => {
+const OldWeek = (props) => {
   return (
-    <div className={classes.Container}>
+    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
       <h3>Выбранная неделя</h3>
       <Week />
     </div>
   )
 }
 
-export default OldWeek
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
+  }
+}
+
+export default connect(mapStateToProps, null)(OldWeek)

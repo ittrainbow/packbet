@@ -11,9 +11,21 @@ body {
   height: 25px;
 }
 
+.inputMobile {
+  border: 1px solid #444;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  outline: none;
+  height: 45px;
+}
+
 .tierline {
   margin-bottom: 15px;
-  font-size: 14px;
+  text-align: left
+}
+
+.tierlineMobile {
+  margin-bottom: 15px;
   text-align: left
 }
 
@@ -25,8 +37,21 @@ body {
   width: 250px;
 }
 
+.AuthMobile {
+  display: block;
+  justify-content: center;
+  padding: top;
+  flex-grow: 1;
+  width: 250px;
+}
+
 .message {
   font-size: 14px;
+  color: red;
+}
+
+.messageMobile {
+  font-size: 18px;
   color: red;
 }
 

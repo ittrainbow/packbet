@@ -188,7 +188,9 @@ class Auth extends Component {
     return this.props.loading ? (
       <Loader />
     ) : (
-      <form onSubmit={this.submitHandler} className={classes.AuthForm}>
+      <form 
+        onSubmit={this.submitHandler} 
+        className={this.props.mobile ? classes.AuthFormMobile : classes.AuthForm}>
 
         {this.renderInputs()}
         <div className={classes.message}>
@@ -202,7 +204,7 @@ class Auth extends Component {
             disabled={!this.state.isFormValid}
           />
         </div>
-        <div  style={{ marginBottom: '-10px' }}>
+        <div style={{ marginBottom: '6px' }}>
           <Button
             text={this.state.authPage ? 'Регистрация' : 'Войти'}
             onClick={this.authRegHandler.bind(this)}
@@ -221,7 +223,8 @@ function mapStateToProps(state) {
   return {
     localId: state.auth.localId,
     loading: state.loading.loading,
-    message: state.loading.message
+    message: state.loading.message,
+    mobile: state.view.mobile
   }
 }
 

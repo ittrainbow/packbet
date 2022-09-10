@@ -10,6 +10,7 @@ import { actionSetEditorFromWeekList } from '../../redux/actions/editorActions'
 import { actionSetRender, actionSetRenderButtons } from '../../redux/actions/renderActions'
 import { setState } from '../../frame/setState'
 import { actionCleanOtherUser } from '../../redux/actions/othersActions'
+import Button from '../../UI/Button/Button'
 
 const WeekList = (props) => {
   function weekSelectorHandler(id) {
@@ -41,7 +42,7 @@ const WeekList = (props) => {
               </NavLink>
             ) : (
               <NavLink onClick={() => weekSelectorHandler(week.id)} to={'/week/' + week.id}>
-                <li className={classes.Weeks}>
+                <li className={props.mobile ? classes.WeeksMobile : classes.Weeks}>
                   {' '}
                   #{week.number}: {week.name}{' '}
                 </li>
@@ -54,6 +55,16 @@ const WeekList = (props) => {
   }
 
   function renderOthersName() {
+
+    if (props.mobile && !props.others.isItYou) return (
+      <Button 
+        text={`Вы просматриваете ответы ${props.others.name}
+        Нажмите для возврата к своим ответам`} 
+        wide={true} 
+        onClick={() => props.cleanOtherUser()}
+      />
+    )
+
     let notify = []
     if (!props.others.isItYou) {
       notify.push(`Вы просматриваете ответы ${props.others.name}`)
@@ -62,16 +73,31 @@ const WeekList = (props) => {
 
     return notify.map(function (el, index) {
       if (index === notify.length - 1)
-        return <div key={index} className={classes.BackLink} onClick={() => props.cleanOtherUser()}>{el}</div>
-      return <div key={index} className={classes.OtherUser}>{el}</div>
+        return (
+          <div 
+            key={index} 
+            className={props.mobile ? classes.BackLinkMobile : classes.BackLink} 
+            onClick={() => props.cleanOtherUser()}
+          >
+            {el}
+          </div>
+        )
+
+      return (
+        <div 
+          key={index} 
+          className={props.mobile ? classes.OtherUserMobile : classes.OtherUser}
+        >
+          {el}
+        </div>
+      )
     })
   }
 
   return (
-    <div className={classes.WeekList}>
+    <div className={props.mobile ? classes.WeekListMobile : classes.WeekList}>
       <div style={{marginBottom: '10px'}}>{renderOthersName()}</div>
       <div>{renderWeeks()}</div>
-      <hr style={{ width: '440px', visibility: 'hidden'}} />
     </div>
   )
 }
@@ -81,7 +107,8 @@ function mapStateToProps(state) {
     weeks: state.week.weeks,
     editorStatus: state.week.editorStatus,
     auth: state.auth,
-    others: state.others
+    others: state.others,
+    mobile: state.view.mobile
   }
 }
 

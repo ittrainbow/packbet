@@ -7,7 +7,13 @@ body {
   margin-top: 10px;
   font-size: 13px;
   text-align: left;
-  width: 420px;
+}
+
+.WeekMobile {
+  margin-top: 10px;
+  font-size: 13px;
+  text-align: left;
+  width: 370px;
 }
 
 .WideButton {
@@ -17,16 +23,64 @@ body {
 .Week h3 {
   text-align: left;
   margin-bottom: 10px;
-  font-size: 15px;
+  font-size: 16px;
+}
+
+.QuestionTotal {
+  width: 420px;
+}
+
+.QuestionTotalMobile {
+  width: 350px;
 }
 
 .QuestionsDefault {
+  font-size: 13px;
+  display: block;
   background-color: #e7e7e7;
   border: 2px solid #999;
   padding: 6px 3px 6px 6px;
   border-radius: 2px;
   margin-bottom: 3px;
   height: 15px;
+  width: 420px;
+}
+
+.QuestionsDefaultMobile {
+  font-size: 16px;
+  display: table;
+  vertical-align: middle;
+  line-height: 0.9em;
+  height: 28px;
+  background-color: #e7e7e7;
+  border: 2px solid #999;
+  padding: 1px 2px 6px 6px;
+  border-radius: 2px;
+  margin-bottom: 3px;
+  width: 350px;
+}
+
+.QuestionInner {
+  width: 350px;
+}
+
+.QuestionInnerMobile {  
+  display: table-cell;
+  font-size: 16px;
+  width: 270px;
+  height: 28px;
+  padding: 4px 0 0 0;
+}
+
+.QuestionButtons {
+  display: table-cell;
+  vertical-align: middle
+}
+
+.QuestionButtonsMobile {
+  float: right;
+  margin-top: -3px;
+  margin-left: -30px;
 }
 
 .Countdown {
@@ -38,6 +92,15 @@ body {
   background-color: #e7e7e7;
   margin-bottom: 5px;
   height: 15px;
+  width: 100%;
+}
+
+.CountdownMobile {
+  display: flex;
+  font-size: 16px;
+  height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .AnswerCorrect {
@@ -45,7 +108,7 @@ body {
   background-color: #dff6df;
 }
 
-.BackLink {
+.Back {
   color: darkblue; 
   cursor: pointer;
   font-size: 13px;
@@ -67,6 +130,11 @@ body {
   background-color: #d9d9d9;
 }
 
-.QuestionsBlockMargin {
+.QuestionsBlock {
   margin-bottom: 10px;
+}
+
+.QuestionsBlockMobile {
+  margin-bottom: 10px;
+  margin-left: -2px;
 }

@@ -4,8 +4,19 @@
   margin-top: 20px
 }
 
+.TableMobile {
+    width: 370px;
+    font-size: 17px;
+    margin-top: 20px
+}
+
 .colOne {
   width: 200px;
+  text-align: left
+}
+
+.colOneMobile {
+  width: 150px;
   text-align: left
 }
 
@@ -14,7 +25,7 @@
   text-align: center
 }
 
-.colThree {
-  width: 100px;
+.colTwoMobile {
+  width: 90px;
   text-align: center
 }

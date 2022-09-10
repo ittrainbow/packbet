@@ -4,6 +4,14 @@
   width: 420px;
 }
 
+.WeekListMobile {
+  margin-top: 10px;
+  margin-left: 20px;
+  text-align: left;
+  line-height: 1.5em;
+  width: 100px;
+}
+
 .WeekList h3 {
   text-align: left;
   font-size: 20px;
@@ -13,7 +21,11 @@
   list-style-type: none;
   margin-bottom: 3px;
   padding-left: 7px;
-  font-size: 14px;
+}
+
+.WeekListMobile li {
+  list-style-type: none;
+  padding-left: 12px;
 }
 
 .WeekList li a {
@@ -26,20 +38,45 @@
 }
 
 .BackLink {
+  font-size: 13px;
+  width: 360px;
   color: darkblue; 
   cursor: pointer;
-  font-size: 14px;
+}
+
+.BackLinkMobile {
+  font-size: 17px;
+  width: 420px;
+  color: darkblue;
 }
 
 .OtherUser {
+  font-size: 13px;
+  width: 360px;
   margin-bottom: 3px;
-  font-size: 14px
+}
+
+.OtherUserMobile {
+  font-size: 17px;
+  width: 360px;
+  margin-bottom: 3px;
 }
 
 .Weeks {
   border: 1px solid #444;
   background-color: #e7e7e7;
   padding: 3px 5px 3px 5px;
+  border-radius: 2px;
+  color: black
+}
+
+.WeeksMobile {
+  border: 1px solid #444;
+  background-color: #e7e7e7;
+  font-size: 18px;
+  width: 340px;
+  height: 24px;
+  padding: 5px 5px 5px 5px;
   border-radius: 2px;
   color: black
 }

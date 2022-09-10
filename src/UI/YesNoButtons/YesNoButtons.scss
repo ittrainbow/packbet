@@ -6,15 +6,37 @@
   border: 1px solid #999;
   border-radius: 2px;
   margin-left: 5px;
-  margin-top: -3px;
+  margin-top: 2px;
   padding: 3px 0 0 0;
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
+.buttonMobile {  
+  position: absolute;
+  border-color: #8b8f98;
+  background-color: #ebedef;
+  color: #0f1111;
+  width: 35px;
+  border: 1px solid #999;
+  border-radius: 2px;
+  margin-left: 13px;
+  margin-top: 6px;
+  padding: 3px 0 0 0;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
 .buttonsDiv {
-  float: right
+  margin-top: -5px;
+  float: right;
+}
+
+.buttonsDivMobile {
+  margin-top: 1px;
+  width: 50px;
+  float: right;
 }
 
 .button:active {
