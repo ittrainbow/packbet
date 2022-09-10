@@ -162,7 +162,7 @@ class Auth extends Component {
       formControls.name = {
         value: '',
         type: 'name',
-        label: 'Имя (не менее 3 символов)'
+        label: 'Юзернейм (не менее 3 символов)'
       }
       formControls.password.label = 'Пароль (не менее 6 символов)'
     } else {
