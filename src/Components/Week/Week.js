@@ -107,22 +107,24 @@ const Week = (props) => {
     return null
   }
 
-  function renderDesktop(question, index, activity, result, styleSet, greyscale) {
+  function renderDesktop(question, index, activity, result, styleSet, arrow) {
     return (
       <div key={index} className={styleSet.join(' ')}>
         {question.question}
-        {question.total ? `: ${question.total}` : 0}
+        {question.total && Number(question.total) !== 0.5 ? `: ${question.total}` : null}
         <YesNoButtons
           index={index}
           activity={activity}
+          total={question.total}
           result={result}
+          arrow={Number(question.total) === 0.5}
           onClick={(index) => onClickHandler(index)}
         />
       </div>
     )
   }
 
-  function renderMobile(question, index, activity, result, styleSet, greyscale) {
+  function renderMobile(question, index, activity, result, styleSet) {
     return (
       <tr key={index} className={styleSet.join(' ')}>
         <td className={'QuestionInnerMobile'}>
@@ -134,6 +136,7 @@ const Week = (props) => {
             index={index}
             activity={activity}
             result={result}
+            arrow={Number(question.total) === 0.5}
             onClick={(index) => onClickHandler(index)}
           />
         </td>
@@ -232,7 +235,7 @@ const Week = (props) => {
 
   return (
     <div className={props.mobile ? 'WeekMobile' : 'Week'}>
-      <h3 style={{ fontSize: props.mobile ? '20px' : '16px' }}>
+      <h3 style={{ fontSize: props.mobile ? '20px' : '16px', width: '300px' }}>
         #{props.render.number}: {props.render.name}
       </h3>
       {renderCountdown()}

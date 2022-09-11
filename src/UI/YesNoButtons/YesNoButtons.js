@@ -1,6 +1,6 @@
 import React from 'react'
 import './YesNoButtons.scss'
-import { FaCheck, FaBan } from 'react-icons/fa'
+import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
 const YesNoButtons = (props) => {
@@ -22,13 +22,13 @@ const YesNoButtons = (props) => {
         className={styleSetFirst.join(' ')}
         onClick={() => props.onClick(props.index * 2)}
       >
-        <FaCheck />
+        {!props.arrow ? <FaArrowUp /> : <FaCheck />}
       </button>
       <button
         className={styleSetSecond.join(' ')}
         onClick={() => props.onClick(props.index * 2 + 1)}
       >
-        <FaBan />
+        {!props.arrow ? <FaArrowDown /> : <FaBan />}
       </button>
     </div>
   )

@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const Home = (props) => {
   return (
     <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h4>Конкурс прогнозов <a href="https://t.me/packersnews">Packers News</a></h4>
+      <h3>Конкурс прогнозов <a href="https://t.me/packersnews">Packers News</a></h3>
       <About />
     </div>
   )

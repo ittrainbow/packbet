@@ -25,8 +25,8 @@ class Creator extends Component {
 
   render() {
     return (
-      <div className={classes.Container}>
-        <h3>Создание недели</h3>
+      <div className={this.props.mobile ? classes.ContainerMobile : classes.Container}>
+        <h3 style={{marginBottom: '20px'}}>Создание недели</h3>
         <WeekCreator />
       </div>
     )
@@ -35,7 +35,8 @@ class Creator extends Component {
 
 function mapStateToProps(state) {
   return {
-    weeks: state.week.weeks
+    weeks: state.week.weeks,
+    mobile: state.view.mobile
   }
 }
 

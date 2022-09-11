@@ -35,7 +35,7 @@ const WeekList = (props) => {
                 onClick={() => props.setEditorFromWeekList(props.weeks[week.id])}
                 to={'/create/' + week.id}
               >
-                <li className={classes.Weeks}>
+                <li className={props.mobile ? classes.WeeksMobile : classes.Weeks}>
                   {' '}
                   #{week.number}: {week.name}{' '}
                 </li>
@@ -95,7 +95,10 @@ const WeekList = (props) => {
   }
 
   return (
-    <div className={props.mobile ? classes.WeekListMobile : classes.WeekList}>
+    <div 
+      className={props.mobile ? classes.WeekListMobile : classes.WeekList}
+      style={{ marginLeft: props.editorStatus !== 'results' || props.mobile ? '20px' : '0px'}}
+    >
       <div style={{marginBottom: '10px'}}>{renderOthersName()}</div>
       <div>{renderWeeks()}</div>
     </div>

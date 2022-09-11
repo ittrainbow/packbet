@@ -23,7 +23,6 @@ const Table = (props) => {
     const users = await axios.get('/pack/users.json')
     const answers = await axios.get('/pack/answers.json')
     const table = tableCreator(users.data, answers)
-
     await axios.put('/pack/table.json', table)
 
     props.createStandings(table)
@@ -40,10 +39,12 @@ const Table = (props) => {
     }
   }
 
-  function renderString(string) {
+  function renderString(string, index) {
+    const lightgrey = index % 2 === 0
     if (!string) {
       return (
         <tr>
+          <th className={props.mobile ? classes.colZeroMobile : classes.colZero}>#</th>
           <th className={props.mobile ? classes.colOneMobile : classes.colOne}>Игрок</th>
           <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>Верно</th>
           <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>Всего</th>
@@ -52,7 +53,8 @@ const Table = (props) => {
       )
     } else {
       return (
-        <tr key={string.name}>
+        <tr key={string.name} style={{ backgroundColor: lightgrey ? '#bfbfbf' : ''}}>
+          <th className={props.mobile ? classes.colZeroMobile : classes.colZero}>{string.place}</th>
           <th className={props.mobile ? classes.colOneMobile : classes.colOne}>
             <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
               {string.name}
@@ -79,7 +81,7 @@ const Table = (props) => {
         <table>
           <tbody>
             {props.standings
-              ? Object.keys(props.standings).map((el) => renderString(props.standings[el]))
+              ? Object.keys(props.standings).map((el, index) => renderString(props.standings[el], index))
               : null}
           </tbody>
         </table>
