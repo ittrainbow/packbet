@@ -1,3 +1,77 @@
+.QuestionsList {
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.WeekCreator {
+  display: block;
+  justify-content: center;
+  width: 420px;
+  height: 500px;
+  background: #d3d3d3;
+}
+
+.WeekCreatorMobile {
+  display: block;
+  justify-content: center;
+  width: 360px;
+  margin-top: 20px;
+  margin-left: 20px;
+  background: #d3d3d3;
+}
+
+.Buttons {
+  width: 100%;
+  display: flex;
+  padding: 5px 5px 5px 0px;
+}
+
+.Button {
+  margin-left: 100px;
+  margin-right: 5px;
+  float: left;
+  padding: 5px 5px 5px 5px
+}
+
+.WeekCreator > div {
+  width: 100%;
+  max-width: 500px;
+}
+
+.WeekCreator h3 {
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.WeekCreator form {
+  background: #eee;
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 15px;
+}
+
+.Undo {
+  background-color: #e7e7e7;
+  border: 1px solid #f11;
+}
+
+.CountDown {
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.CountDownMobile {
+  font-size: 17px;
+  margin-top: 10px;
+}
+
+.Edit {
+  background-color: #e7e7e7;
+  border: 1px solid #f11;
+}
+
 .Questions {
   background-color: #e7e7e7;
   font-size: 13px;
@@ -7,6 +81,29 @@
   margin-bottom: 3px;
   height: 14px;
   padding: 10px 10px 10px 10px;
+}
+
+.QuestionsMobile {
+  font-size: 16px;
+  display: table;
+  height: 31px;
+  background-color: #e7e7e7;
+  border: 1px solid #777;
+  border-radius: 2px;
+  margin-bottom: 3px;
+  padding-left: 5px;
+  width: 340px;
+}
+
+.QuestionInnerEdMobile {
+  font-size: 16px;
+  width: 270px;
+  line-height: 0.9em;
+}
+
+.QuestionInnerEd {
+  font-size: 14px;
+  width: 360px;
 }
 
 .UndoEdit {
@@ -26,6 +123,18 @@
   padding: 10px 10px 10px 10px;
 }
 
+.QuestionsSelectedMobile {
+  font-size: 16px;
+  display: table;
+  height: 31px;
+  background-color: #fadada;
+  border: 1px solid #777;
+  border-radius: 2px;
+  margin-bottom: 3px;
+  padding-left: 5px;
+  width: 340px;
+}
+
 .QuestionsList {
   margin-top: 4px;
   margin-bottom: 10px;
@@ -37,4 +146,63 @@
   padding-top: 20px;
   width: 420px;
   background: #d3d3d3;
+}
+
+.Week {
+  width: 70px;
+  float: left;
+}
+
+.WeekMobile {
+  width: 50px;
+  float: left;
+}
+
+.Name {
+  width: 340px;
+  float: right;
+}
+
+.NameMobile {
+  display: table-cell;
+  width: 200px;
+  float: right;
+}
+
+.Total {
+  width: 70px;
+  float: right;
+}
+
+.TotalMobile {
+  display: table-cell;
+  width: 50px;
+  float: right;
+}
+
+.Line {
+  width: 340px;
+  float: left;
+}
+
+.LineMobile {
+  display: table-cell;
+  width: 200px;
+  float: left;
+}
+
+.Inputs {
+  width: 420px;
+}
+
+.InputsMobile {
+  width: 360px;
+}
+
+.Row {
+  width: 420px;
+}
+
+.RowMobile {
+  width: 360px;
 }

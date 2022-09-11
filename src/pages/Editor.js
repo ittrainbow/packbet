@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 import { actionSetEditorStatus } from '../redux/actions/weekActions'
 import WeekList from '../Components/WeekList/WeekList'
-import classes from './Pages.module.scss'
 
 class Editor extends Component {
   componentDidMount() {
@@ -12,11 +11,20 @@ class Editor extends Component {
 
   render() {
     return (
-      <div className={classes.Container}>
-        <h3>Редактор</h3>
+      <div >
+        <h3 style={{
+          fontSize: this.props.mobile ? '20px' : '17px', 
+          marginLeft: '20px',
+          marginTop: '20px'}}>Редактор</h3>
         <WeekList />
       </div>
     )
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    mobile: state.view.mobile
   }
 }
 
@@ -26,4 +34,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Editor)
+export default connect(mapStateToProps, mapDispatchToProps)(Editor)

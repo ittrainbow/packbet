@@ -87,6 +87,8 @@ class Auth extends Component {
           key={controlName + index}
           type={control.type}
           value={control.value}
+          width={'300px'}
+          labelWidth={'300px'}
           label={control.label}
           onChange={(event) => this.onChangeHandler(event, controlName)}
         />

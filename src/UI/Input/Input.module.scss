@@ -2,6 +2,11 @@
   margin-bottom: 15px;
 }
 
+.InputMobile {
+  margin-bottom: 5px;
+}
+
+
 .Input label {
   margin-bottom: 3px;
   font-size: 13px;
@@ -17,7 +22,6 @@
   padding: 0px;
   display: block;
   font-weight: bold;
-  width: 300px;
 }
 
 .Input input {
@@ -27,20 +31,18 @@
   border-radius: 2px;
   padding: 7px;
   margin: 0 0 5px;
-  width: 250px;
+  width: 300px;
   outline: none;
   transition: all 0.22s ease-in-out;
 }
 
 .InputMobile input {
   display: block;
-  box-sizing: border-box;
   border: 1px solid #444444;
   border-radius: 2px;
   padding: 12px 7px;
   margin: 0 0 5px;
   font-size: 17px;
-  width: 300px;
   outline: none;
   transition: all 0.22s ease-in-out;
 }

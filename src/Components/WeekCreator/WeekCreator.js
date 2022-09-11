@@ -5,7 +5,7 @@ import structuredClone from '@ungap/structured-clone'
 
 import BasicDateTimePicker from '../../UI/Picker/Picker'
 
-import classes from './WeekCreator.module.scss'
+// import classes from './WeekCreator.module.scss'
 import './WeekCreator.css'
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
@@ -226,15 +226,23 @@ const WeekCreator = (props) => {
       <Loader />
     ) : (
       props.editor.questions.map((question) => {
-        const setClass = question.id === props.editor.currentID ? 'QuestionsSelected' : 'Questions'
+        const setClass = question.id === props.editor.currentID 
+          ? (props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected')
+          : (props.mobile ? 'QuestionsMobile' : 'Questions')
 
         return (
           <div key={question.id} className={setClass}>
-            {question.question}: {question.total}
-            <div className="UndoEdit">
-              <Undo onClick={() => deleteQuestionHandler(question.id)} />
-              <Edit onClick={() => editQuestionHandler(question.id)} />
-            </div>
+            <table style={{marginTop: '-2px'}}><thead><tr>
+              <td className={props.mobile ? 'QuestionInnerEdMobile' : 'QuestionInnerEd'}>
+                {question.question}: {question.total}
+              </td>              
+              <td>
+                <Edit onClick={() => editQuestionHandler(question.id)} />
+              </td>
+              <td>
+                <Undo onClick={() => deleteQuestionHandler(question.id)} />
+              </td>
+            </tr></thead></table>
           </div>
         )
       })
@@ -245,47 +253,61 @@ const WeekCreator = (props) => {
     props.clearEditor()
     navigate('/calendar')
   }
-
+ 
   function renderInputs() {
     return (
-      <div className={classes.Inputs}>
-        <div className={classes.Row}>
-          <div className={classes.Week}>
-            <Input
-              label="Неделя"
-              type="number"
-              value={props.editor.currentWeek}
-              onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
-            />
-          </div>
-          <div className={classes.Name}>
-            <Input
-              label="Игра"
-              value={props.editor.currentName || ''}
-              onChange={(event) => onChangeHandler(event, 'setCurrentName')}
-            />
-          </div>
-        </div>
-        <div className={classes.Row}>
-          <div className={classes.Line}>
-            <Input
-              label="Линия"
-              value={props.editor.currentQuestion}
-              onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
-            />
-          </div>
-          <div className={classes.Total}>
-            <Input
-              label="Тотал"
-              type="number"
-              value={props.editor.currentTotal}
-              onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
-            />
-          </div>
-        </div>
+      <div>
+        <table><thead><tr>
+            <td className='Input'>
+              <Input
+                label="Неделя"
+                type="number"
+                width={props.mobile ? "60px" : '70px'}
+                value={props.editor.currentWeek}
+                onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
+              />
+            </td>
+            <td>
+              <Input
+                label="Игра"
+                width={props.mobile ? "250px" : '360px'}
+                value={props.editor.currentName || ''}
+                onChange={(event) => onChangeHandler(event, 'setCurrentName')}
+              />
+            </td>
+          </tr></thead></table>
+          <table><thead><tr>
+            <td>
+              <Input
+                label="Линия"
+                width={props.mobile ? "250px" : '360px'}
+                value={props.editor.currentQuestion}
+                onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
+              />
+            </td>
+            <td>
+              <Input
+                label="Тотал"
+                width={props.mobile ? "60px" : '70px'}
+                type="number"
+                value={props.editor.currentTotal}
+                onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
+              />
+            </td>
+          </tr></thead></table>
+      </div>
+    )
+  }
 
-        <div style={{ color: 'red', fontWeight: 'bold', marginBottom: '10px' }}>
-          {props.editor.currentError}
+  function renderSubmits() {
+    return (
+      <div className={props.mobile ? null : 'Buttons'}>
+        <div><Button text="Отменить" onClick={noSaveExitHandler} /></div>
+        <div><Button text="Сохранить" onClick={() => submitHandler()} /></div>
+        <div>
+          {props.editor.currentHash 
+            ? <Button text="Удалить" onClick={() => deleteWeekHandler()} /> 
+            : null}
         </div>
       </div>
     )
@@ -308,10 +330,10 @@ const WeekCreator = (props) => {
           />
         </div>
 
-        <div className={classes.QuestionsList}>
+        <div className={'QuestionsList'}>
           {renderQuestions()}
-          <div style={{ fontSize: '13px', fontWeight: 'bold', marginTop: '15px' }}>
-            <div>
+          <div>
+            <div className={props.mobile ? 'CountDownMobile' : 'CountDown'}>
               Начало игры:
               {' '}
               {drawDate()}
@@ -322,17 +344,13 @@ const WeekCreator = (props) => {
           </div>
         </div>
 
-        <div className={classes.Buttons}>
-          <Button text="Отменить" onClick={noSaveExitHandler} />&nbsp;
-          <Button text="Сохранить" onClick={() => submitHandler()} />&nbsp;
-          {props.editor.currentHash ? <Button text="Удалить" onClick={() => deleteWeekHandler()} /> : null}
-        </div>
+        { renderSubmits() }
       </div>
     )
   }
 
   return (
-    <div className={classes.WeekCreator}>
+    <div>
       {props.loading ? <Loader /> : renderWeek()}
     </div>
   )
@@ -343,7 +361,8 @@ function mapStateToProps(state) {
     weeks: state.week.weeks,
     auth: state.auth,
     editor: state.editor,
-    loading: state.loading.loading
+    loading: state.loading.loading,
+    mobile: state.view.mobile
   }
 }
 

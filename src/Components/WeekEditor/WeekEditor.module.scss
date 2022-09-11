@@ -1,10 +1,18 @@
 .WeekEditor {
+  font-size: 15px;
   display: block;
   justify-content: center;
   margin-top: 20px;
   margin-left: 20px;
-  width: 120%;
   height: 500px;
+  background: #d3d3d3;
+}
+
+.WeekEditorMobile {
+  display: block;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: 20px;
   background: #d3d3d3;
 }
 
@@ -41,8 +49,6 @@
 
 .WeekEditor > div {
   width: 100%;
-  max-width: 500px;
-  padding: 0px 20px;
 }
 
 .Total {

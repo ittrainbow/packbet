@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const Standings = (props) => {
   return (
     <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h4>Таблица</h4>
+      <h3>Таблица</h3>
       <Table />
     </div>
   )

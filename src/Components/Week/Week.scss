@@ -13,7 +13,7 @@ body {
   margin-top: 10px;
   font-size: 13px;
   text-align: left;
-  width: 370px;
+  width: 360px;
 }
 
 .WideButton {
@@ -31,14 +31,14 @@ body {
 }
 
 .QuestionTotalMobile {
-  width: 350px;
+  width: 340px;
 }
 
 .QuestionsDefault {
   font-size: 13px;
   display: block;
   background-color: #e7e7e7;
-  border: 2px solid #999;
+  border: 1px solid #777;
   padding: 6px 3px 6px 6px;
   border-radius: 2px;
   margin-bottom: 3px;
@@ -53,21 +53,21 @@ body {
   line-height: 0.9em;
   height: 28px;
   background-color: #e7e7e7;
-  border: 2px solid #999;
+  border: 1px solid #777;
   padding: 1px 2px 6px 6px;
   border-radius: 2px;
   margin-bottom: 3px;
-  width: 350px;
+  width: 340px;
 }
 
 .QuestionInner {
-  width: 350px;
+  width: 340px;
 }
 
 .QuestionInnerMobile {  
   display: table-cell;
   font-size: 16px;
-  width: 270px;
+  width: 260px;
   height: 28px;
   padding: 4px 0 0 0;
 }
@@ -80,19 +80,19 @@ body {
 .QuestionButtonsMobile {
   float: right;
   margin-top: -3px;
-  margin-left: -30px;
+  margin-left: -25px;
 }
 
 .Countdown {
   display: flex;
   margin-top: 5px;
-  border: 2px solid #999999;
+  border: 1px solid #777;
   padding: 5px 5px 5px 6px;
   border-radius: 2px;
   background-color: #e7e7e7;
   margin-bottom: 5px;
   height: 15px;
-  width: 100%;
+  width: 418px;
 }
 
 .CountdownMobile {
@@ -104,7 +104,7 @@ body {
 }
 
 .AnswerCorrect {
-  border: 2px solid green;
+  border: 1px solid green;
   background-color: #dff6df;
 }
 
@@ -122,7 +122,7 @@ body {
 }
 
 .AnswerWrong {
-  border: 2px solid red;
+  border: 1px solid red;
   background-color: #f9e5e5;
 }
 

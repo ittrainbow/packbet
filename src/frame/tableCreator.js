@@ -40,6 +40,16 @@ export default function tableCreator(users, answers) {
 
     table.sort(compare)
   })
+  
+  Object.keys(table).forEach((el, index) => {
+    if (index === 0) {
+      table[index].place = 1
+    } else if (table[index - 1].percentage === table[index].percentage) {
+      table[index].place = '-'
+    } else {
+      table[index].place = index + 1
+    }
+  })
 
   return table
 }

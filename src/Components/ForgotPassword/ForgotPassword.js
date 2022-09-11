@@ -53,7 +53,7 @@ const ForgotPassword = (props) => {
   return (
     <div>
       <div className={'ForgotPassword'}>
-        <Input value={props.email} onChange={(event) => changeHandler(event)} />
+        <Input width={'300px'} value={props.email} onChange={(event) => changeHandler(event)} />
       </div>
 
       { !props.loading
