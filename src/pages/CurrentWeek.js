@@ -3,14 +3,16 @@ import Week from '../Components/Week/Week'
 import classes from './Pages.module.scss'
 import { connect } from 'react-redux'
 import { actionSetRender, actionSetRenderButtons } from '../redux/actions/renderActions'
+import { actionSetWeekId } from '../redux/actions/weekActions'
 import { setState } from '../frame/setState'
 import { getLastWeek } from '../frame/getLastWeek'
 
 class CurrentWeek extends Component {
   componentDidMount() {
     const week = getLastWeek(this.props.weeks)
-    const state = setState(week.id, this.props.buttons, this.props.answers)
+    const state = setState(this.props.currentWeek, this.props.buttons, this.props.answers)
 
+    this.props.setWeekId(this.props.currentWeek)
     this.props.setRender(week)
     this.props.setRenderButtons(state)
   }
@@ -28,14 +30,17 @@ class CurrentWeek extends Component {
 function mapStateToProps(state) {
   return {
     weeks: state.week.weeks,
+    currentWeek: state.week.currentWeek,
     buttons: state.auth.buttonState,
     answers: state.auth.answerState,
+    others: state.others,
     mobile: state.view.mobile
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setWeekId: (id) => dispatch(actionSetWeekId(id)),
     setRender: (week) => dispatch(actionSetRender(week)),
     setRenderButtons: (data) => dispatch(actionSetRenderButtons(data))
   }

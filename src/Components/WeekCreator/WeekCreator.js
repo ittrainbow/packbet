@@ -119,7 +119,7 @@ const WeekCreator = (props) => {
         props.setCurrentError('Лимит длины вопроса = 60 символам')
       }
     }
-    if (tag === 'setCurrentTotal') props.setCurrentTotal(event.target.value)
+    if (tag === 'setCurrentTotal') props.setCurrentTotal(Number(event.target.value))
     if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
   }
 
@@ -198,7 +198,6 @@ const WeekCreator = (props) => {
     const response = await axios.get('pack/users.json')
 
     const newState = structuredClone(response.data)
-    console.log(newState)
     
     Object.keys(response.data)
       .forEach(el => {

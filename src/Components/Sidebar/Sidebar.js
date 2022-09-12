@@ -57,7 +57,6 @@ const Sidebar = (props) => {
           <div style={{ width: '100%' }} className={classes.SidebarMobile}>
             <table><thead><tr>            
                 {menuItem.map((item, index) => {
-                  console.log()
                   return (
                     <td key={index}>
                       <div 

@@ -103,21 +103,21 @@ const Week = (props) => {
 
   function activityHelper(id, index) {
     if (props.others.isItYou) return props.render.buttons[index]
-    if (!today()) return props.others.buttons[id][index]
+    if (!today() && !props.others.isItYou) return props.others.buttons[id][index]
     return null
   }
 
-  function renderDesktop(question, index, activity, result, styleSet, arrow) {
+  function renderDesktop(question, index, activity, result, styleSet) {
     return (
       <div key={index} className={styleSet.join(' ')}>
         {question.question}
-        {question.total && Number(question.total) !== 0.5 ? `: ${question.total}` : null}
+        {question.total && question.total !== 1 ? `: ${question.total}` : null}
         <YesNoButtons
           index={index}
           activity={activity}
           total={question.total}
           result={result}
-          arrow={Number(question.total) === 0.5}
+          arrow={Number(question.total) === 1}
           onClick={(index) => onClickHandler(index)}
         />
       </div>
@@ -129,14 +129,14 @@ const Week = (props) => {
       <tr key={index} className={styleSet.join(' ')}>
         <td className={'QuestionInnerMobile'}>
           {question.question}
-          {question.total && Number(question.total) !== 0.5 ? `: ${question.total}` : null}
+          {question.total && question.total !== 1 ? `: ${question.total}` : null}
         </td>
         <td className={'QuestionButtonsMobile'}>
           <YesNoButtons
             index={index}
             activity={activity}
             result={result}
-            arrow={Number(question.total) === 0.5}
+            arrow={Number(question.total) === 1}
             onClick={(index) => onClickHandler(index)}
           />
         </td>
@@ -173,12 +173,14 @@ const Week = (props) => {
   function renderSubmits() {
     return (
       <div>
-        <Button
-          text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
-          onClick={submitHandler}
-          disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
-        />
-        <Button text="Отменить и выйти" onClick={doNotSave} />
+        { today() 
+          ? <Button
+              text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
+              onClick={submitHandler}
+              disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
+            /> 
+          : null}
+        <Button text={today() ? 'Не сохранять' : 'Назад'} onClick={doNotSave} />
       </div>
     )
   }
@@ -192,7 +194,7 @@ const Week = (props) => {
       return (
         <Button
           text={`Вы просматриваете ответы ${props.others.name}
-        Нажмите для возврата к своим ответам`}
+            Нажмите для возврата к своим ответам`}
           wide={true}
           onClick={() => props.cleanOtherUser()}
         />
@@ -201,14 +203,14 @@ const Week = (props) => {
     let notify = []
     if (!props.others.isItYou) {
       notify.push(`Вы просматриваете ответы ${props.others.name}`)
-      if (today()) notify.push(`Ответы для незавершенных игр скрыты`)
+      if (today()) notify.push(`Чужие прогнозы для активных игр скрыты`)
       notify.push(`Вернуться к своим ответам`)
     }
 
     return notify.map(function (el, index) {
       if (index === notify.length - 1)
-        return <div key={index} className={'Back'} onClick={() => props.cleanOtherUser()}>{el}</div>
-      return <div key={index}>{el}</div>
+        return <div key={index} className={'BackBlue'} onClick={() => props.cleanOtherUser()}>{el}</div>
+      return <div key={index} className={'Back'}>{el}</div>
     })
   }
 
@@ -222,13 +224,17 @@ const Week = (props) => {
         </div>
       )
 
-    return 'Прием прогнозов окончен, игра началась'
+    return (
+      <div className={props.mobile ? 'CountdownMobile' : 'Countdown'}>
+        Прием прогнозов окончен, игра началась
+      </div>
+    )
   }
 
   function unfinishedWeek() {
-    return (
+    if (props.mobile && !props.others.isItYou && today()) return (
       <div style={{ marginBottom: '5px', fontSize: '15px' }}>
-        Чужие результаты для незавершенных игр скрыты
+        Чужие прогнозы для активных игр скрыты
       </div>
     )
   }
@@ -241,7 +247,7 @@ const Week = (props) => {
       {renderCountdown()}
       <div className={props.mobile ? null : 'OthersName'}>
         {renderOthersName()}
-        {props.mobile && !props.others.isItYou ? unfinishedWeek() : null}
+        {unfinishedWeek()}
       </div>
       <div className={props.mobile ? 'QuestionsBlockMobile' : 'QuestionsBlock'}>
         {props.mobile ? renderUpperLevel() : renderQuestions()}
@@ -251,7 +257,7 @@ const Week = (props) => {
         {isTouched() && props.others.isItYou ? 'У вас есть несохраненные изменения' : null}
       </div>
 
-      {props.loading.loading ? <Loader /> : renderSubmits()}
+      {props.loading.loading ? <Loader /> : props.others.isItYou ? renderSubmits() : null}
     </div>
   )
 }

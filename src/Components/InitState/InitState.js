@@ -17,7 +17,7 @@ class InitState extends Component {
       const standings = await axios.get('pack/table.json')
 
       this.props.init(weeks)
-      this.props.currentWeek(weeks.length - 1)
+      this.props.currentWeek(Object.keys(weeks).length - 1)
       this.props.createStandings(standings.data)
     } catch (error) {
       console.log(error)

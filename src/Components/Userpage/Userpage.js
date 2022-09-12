@@ -74,14 +74,14 @@ class Userpage extends Component {
 
   toggleFormHandler() {
     this.setState({
-      showNameForm: !this.state.showNameForm,
-      newName: this.props.userName
+      showNameForm: !this.state.showNameForm
     });
   }
 
   onChangeHandler(event) {
     this.setState({
-      newName: event.target.value
+      newName: event.target.value,
+      canWriteName: event.target.value === this.props.userName
     });
   }
 
@@ -120,7 +120,10 @@ class Userpage extends Component {
             { !this.state.showNameForm
               ? <Button text="Изменить имя" onClick={() => this.toggleFormHandler()} />
               : <div>
-                  <Button text="Сохранить имя" onClick={() => this.saveNameHandler()} />
+                  <Button text="Сохранить имя" 
+                    onClick={() => this.saveNameHandler()} 
+                    disabled={this.state.newName === this.props.userName}
+                  />
                   <Button text="Отменить" onClick={() => this.toggleFormHandler()} />
                 </div>
             }
