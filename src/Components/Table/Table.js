@@ -15,6 +15,7 @@ import {
 } from '../../redux/actions/othersActions'
 import { actionCreateStandings } from '../../redux/actions/weekActions'
 import tableCreator from '../../frame/tableCreator'
+import { actionSetTabActive } from '../../redux/actions/viewActions'
 
 const Table = (props) => {
   async function submitHandler() {
@@ -34,6 +35,7 @@ const Table = (props) => {
       props.switchYourself(false)
       props.getOtherUser(id, props.weeks)
       props.getOtherName(name)
+      props.setTabActive(3)
     } else {
       props.cleanOtherUser()
     }
@@ -53,7 +55,7 @@ const Table = (props) => {
       )
     } else {
       return (
-        <tr key={string.name} style={{ backgroundColor: lightgrey ? '#bfbfbf' : ''}}>
+        <tr key={string.name} style={{ backgroundColor: lightgrey ? '#e3e3e3' : ''}}>
           <th className={props.mobile ? classes.colZeroMobile : classes.colZero}>{string.place}</th>
           <th className={props.mobile ? classes.colOneMobile : classes.colOne}>
             <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
@@ -69,8 +71,11 @@ const Table = (props) => {
   }
 
   return (
-    <div className={props.mobile ? classes.TableMobile : classes.Table}>
-      <table>
+    <div>
+      <div className={props.mobile ? classes.ClickNotifyMobile : classes.ClickNotify}>
+        Выберите игрока, чтобы увидеть его прогнозы
+      </div>
+      <table className={props.mobile ? classes.TableMobile : classes.Table}>
         <tbody>{renderString()}</tbody>
       </table>
       <hr style={{ width: props.mobile ? '350px' : '420px' }}/>
@@ -114,7 +119,8 @@ function mapDispatchToProps(dispatch) {
     switchYourself: (status) => dispatch(actionSwitchYourself(status)),
     getOtherUser: (id, state) => dispatch(actionGetOtherUsers(id, state)),
     cleanOtherUser: () => dispatch(actionCleanOtherUser()),
-    createStandings: (standings) => dispatch(actionCreateStandings(standings))
+    createStandings: (standings) => dispatch(actionCreateStandings(standings)),
+    setTabActive: (index) => dispatch(actionSetTabActive(index))
   }
 }
 
