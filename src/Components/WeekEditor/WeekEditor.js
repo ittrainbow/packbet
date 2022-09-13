@@ -6,8 +6,8 @@ import WeekCreator from '../WeekCreator/WeekCreator'
 const WeekEditor = (props) => {
   return (
     <div className={props.mobile ? classes.WeekEditorMobile : classes.WeekEditor}>
-      <h3>Редактирование недели</h3>
-      <div>
+      <div style={{marginLeft: '-5px'}}>
+        <h3>Редактирование недели</h3>
         <WeekCreator />
       </div>
     </div>

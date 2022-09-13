@@ -5,8 +5,7 @@ import structuredClone from '@ungap/structured-clone'
 
 import BasicDateTimePicker from '../../UI/Picker/Picker'
 
-// import classes from './WeekCreator.module.scss'
-import './WeekCreator.css'
+import './WeekCreator.scss'
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
 import Undo from '../../UI/Undo/Undo'
@@ -27,6 +26,7 @@ import {
 } from '../../redux/actions/editorActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { actionSetButtonState, actionInitButtonState } from '../../redux/actions/authActions'
+import { actionSetTabActive } from '../../redux/actions/viewActions'
 import { getWeeks } from '../../frame/getWeeks'
 
 const WeekCreator = (props) => {
@@ -173,6 +173,7 @@ const WeekCreator = (props) => {
 
       props.initButtonState(oldState)
       props.switchLoading(false)
+      props.setCalendarTabActive(5)
       navigate('/editor')
     }
   }
@@ -217,6 +218,7 @@ const WeekCreator = (props) => {
     await axios.delete(`pack/answers/weeks/${props.editor.currentWeekId}.json`)
 
     props.switchLoading(false)
+    props.setCalendarTabActive(5)
     navigate('/editor')
   }
 
@@ -227,7 +229,7 @@ const WeekCreator = (props) => {
       props.editor.questions.map((question) => {
         const setClass = question.id === props.editor.currentID 
           ? (props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected')
-          : (props.mobile ? 'QuestionsMobile' : 'Questions')
+          : (props.mobile ? 'QuestionsMobile' : 'Questions')        
 
         return (
           <div key={question.id} className={setClass}>
@@ -235,12 +237,8 @@ const WeekCreator = (props) => {
               <td className={props.mobile ? 'QuestionInnerEdMobile' : 'QuestionInnerEd'}>
                 {question.question}: {question.total}
               </td>              
-              <td>
-                <Edit onClick={() => editQuestionHandler(question.id)} />
-              </td>
-              <td>
-                <Undo onClick={() => deleteQuestionHandler(question.id)} />
-              </td>
+              <td> <Edit onClick={() => editQuestionHandler(question.id)} /> </td>
+              <td> <Undo onClick={() => deleteQuestionHandler(question.id)} /> </td>
             </tr></thead></table>
           </div>
         )
@@ -250,18 +248,19 @@ const WeekCreator = (props) => {
 
   function noSaveExitHandler() {
     props.clearEditor()
+    props.setCalendarTabActive(3)
     navigate('/calendar')
   }
  
   function renderInputs() {
     return (
-      <div>
+      <div style={{marginLeft: '-0.1em', marginTop: props.mobile ? null : '10px'}}>
         <table><thead><tr>
-            <td className='Input'>
+            <td>
               <Input
                 label="Неделя"
                 type="number"
-                width={props.mobile ? "60px" : '70px'}
+                width={props.mobile ? "54px" : '70px'}
                 value={props.editor.currentWeek}
                 onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
               />
@@ -269,17 +268,17 @@ const WeekCreator = (props) => {
             <td>
               <Input
                 label="Игра"
-                width={props.mobile ? "250px" : '360px'}
+                width={props.mobile ? "265px" : '360px'}
                 value={props.editor.currentName || ''}
                 onChange={(event) => onChangeHandler(event, 'setCurrentName')}
               />
             </td>
           </tr></thead></table>
-          <table><thead><tr>
+          <table style={{marginTop: '-10px', marginBottom: '10px'}}><thead><tr>
             <td>
               <Input
                 label="Линия"
-                width={props.mobile ? "250px" : '360px'}
+                width={props.mobile ? "255px" : '360px'}
                 value={props.editor.currentQuestion}
                 onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
               />
@@ -287,7 +286,7 @@ const WeekCreator = (props) => {
             <td>
               <Input
                 label="Тотал"
-                width={props.mobile ? "60px" : '70px'}
+                width={props.mobile ? "64px" : '70px'}
                 type="number"
                 value={props.editor.currentTotal}
                 onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
@@ -301,11 +300,11 @@ const WeekCreator = (props) => {
   function renderSubmits() {
     return (
       <div className={props.mobile ? null : 'Buttons'}>
-        <div><Button text="Отменить" onClick={noSaveExitHandler} /></div>
-        <div><Button text="Сохранить" onClick={() => submitHandler()} /></div>
+        <Button width={props.mobile ? '352px' : '180px'} text="Отменить" onClick={noSaveExitHandler} />
+        <Button width={props.mobile ? '352px' : '180px'} text="Сохранить" onClick={() => submitHandler()} />
         <div>
           {props.editor.currentHash 
-            ? <Button text="Удалить" onClick={() => deleteWeekHandler()} /> 
+            ? <Button width={'352px'} text="Удалить" onClick={() => deleteWeekHandler()} /> 
             : null}
         </div>
       </div>
@@ -324,6 +323,7 @@ const WeekCreator = (props) => {
                 ? 'Сохранить вопрос'
                 : 'Добавить вопрос'
             }
+            width={props.mobile ? '352px' : '180px'} 
             onClick={(event) => addQuestionHandler(event)}
             disabled={!props.editor.currentQuestion || !props.editor.currentTotal}
           />
@@ -349,7 +349,7 @@ const WeekCreator = (props) => {
   }
 
   return (
-    <div>
+    <div style={{marginBottom: '15px'}}>
       {props.loading ? <Loader /> : renderWeek()}
     </div>
   )
@@ -381,7 +381,8 @@ function mapDispatchToProps(dispatch) {
     setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
     setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage)),
     clearEditor: () => dispatch(actionClearEditor()),
-    initButtonState: (state) => dispatch(actionInitButtonState(state))
+    initButtonState: (state) => dispatch(actionInitButtonState(state)),
+    setCalendarTabActive: (index) => dispatch(actionSetTabActive(index))
   }
 }
 

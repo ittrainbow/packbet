@@ -1,5 +1,6 @@
 .WeekList {
   margin-top: 10px;
+  margin-left: 20px;
   text-align: left;
   width: 420px;
 }
@@ -8,7 +9,6 @@
   margin-top: 10px;
   text-align: left;
   line-height: 1.5em;
-  width: 100px;
 }
 
 .WeekList h3 {
@@ -38,7 +38,7 @@
 
 .BackLink {
   font-size: 13px;
-  width: 360px;
+  width: 350px;
   color: darkblue; 
   cursor: pointer;
 }
@@ -51,13 +51,13 @@
 
 .OtherUser {
   font-size: 13px;
-  width: 360px;
+  width: 350px;
   margin-bottom: 3px;
 }
 
 .OtherUserMobile {
   font-size: 17px;
-  width: 360px;
+  width: 350px;
   margin-bottom: 3px;
 }
 
@@ -73,11 +73,11 @@
   border: 1px solid #444;
   background-color: #e7e7e7;
   font-size: 18px;
-  width: 330px;
+  width: 334px;
   height: 24px;
   padding: 5px 5px 5px 5px;
   border-radius: 2px;
-  color: black
+  color: black;
 }
 
 .Weeks:hover {

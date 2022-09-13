@@ -9,7 +9,12 @@ const Button = (props) => {
 
   return (
     <div>
-      <button onClick={props.onClick} className={cls.join(' ')} disabled={props.disabled}>
+      <button 
+        onClick={props.onClick} 
+        className={cls.join(' ')} 
+        disabled={props.disabled}
+        style={{width: props.width || '200px'}}
+      >
         {props.text}
       </button>
     </div>

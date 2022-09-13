@@ -15,7 +15,8 @@ class Editor extends Component {
         <h3 style={{
           fontSize: this.props.mobile ? '20px' : '17px', 
           marginLeft: '20px',
-          marginTop: '20px'}}>Редактор</h3>
+          marginTop: '20px'}}
+          >Редактор</h3>
         <WeekList />
       </div>
     )

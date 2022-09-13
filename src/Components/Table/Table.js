@@ -43,60 +43,55 @@ const Table = (props) => {
 
   function renderString(string, index) {
     const lightgrey = index % 2 === 0
-    if (!string) {
-      return (
-        <tr>
-          <th className={props.mobile ? classes.colZeroMobile : classes.colZero}>#</th>
-          <th className={props.mobile ? classes.colOneMobile : classes.colOne}>Игрок</th>
-          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>Верно</th>
-          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>Всего</th>
-          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>%</th>
-        </tr>
-      )
-    } else {
-      return (
-        <tr key={string.name} style={{ backgroundColor: lightgrey ? '#e3e3e3' : ''}}>
-          <th className={props.mobile ? classes.colZeroMobile : classes.colZero}>{string.place}</th>
-          <th className={props.mobile ? classes.colOneMobile : classes.colOne}>
-            <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
-              {string.name}
-            </NavLink>
-          </th>
-          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>{string.correctAnswers}</th>
-          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>{string.totalAnswers}</th>
-          <th className={props.mobile ? classes.colTwoMobile : classes.colTwo}>{string.percentage}</th>
-        </tr>
-      )
-    }
+    const colPlc = props.mobile ? classes.colPlcMobile : classes.colPlc
+    const colOne = props.mobile ? classes.colOneMobile : classes.colOne
+    const colTwo = props.mobile ? classes.colTwoMobile : classes.colTwo
+    const link = !string ? null : (
+      <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
+        {string.name}
+      </NavLink>
+    )
+
+    return (
+      <tr key={index} style={{ backgroundColor: lightgrey ? '#e3e3e3' : '' }}>
+        <th className={colPlc}>{!string ? '#' : string.place}</th>
+        <th className={colOne}>{!string ? 'Игрок' : link}</th>
+        <th className={colTwo}>{!string ? 'Верно' : string.correctAnswers}</th>
+        <th className={colTwo}>{!string ? 'Всего' : string.totalAnswers}</th>
+        <th className={colTwo}>{!string ? '%' : string.percentage}</th>
+      </tr>
+    )
   }
 
   return (
     <div>
-      <div className={props.mobile ? classes.ClickNotifyMobile : classes.ClickNotify}>
-        Выберите игрока, чтобы увидеть его прогнозы
-      </div>
+      {props.localId ? (
+        <div className={props.mobile ? classes.ClickNotifyMobile : classes.ClickNotify}>
+          Выберите игрока, чтобы увидеть его прогнозы
+        </div>
+      ) : null}
       <table className={props.mobile ? classes.TableMobile : classes.Table}>
         <tbody>{renderString()}</tbody>
       </table>
-      <hr style={{ width: props.mobile ? '350px' : '420px' }}/>
+      <hr style={{ width: props.mobile ? '350px' : '420px' }} />
 
-      {props.loading ? (
-        <Loader />
-      ) : (
-        <table>
-          <tbody>
-            {props.standings
-              ? Object.keys(props.standings).map((el, index) => renderString(props.standings[el], index))
-              : null}
-          </tbody>
-        </table>
-      )}
+      {props.loading 
+        ? <Loader />
+        : <table>
+            <tbody>
+              {props.standings
+                ? Object.keys(props.standings)
+                  .map((el, index) =>
+                    renderString(props.standings[el], index)
+                  )
+                : null}
+            </tbody>
+          </table>
+      }
 
-      {props.isAdmin ? (
-        <div style={{ marginTop: '10px' }}>
-          <Button onClick={() => submitHandler()} text="Пересчитать" />
-        </div>
-      ) : null}
+      {props.isAdmin 
+        ? <Button width={'350px'} onClick={() => submitHandler()} text="Пересчитать" />
+        : null}
     </div>
   )
 }

@@ -60,7 +60,7 @@ const WeekList = (props) => {
       <Button 
         text={`Вы просматриваете ответы ${props.others.name}
         Нажмите для возврата к своим ответам`} 
-        wide={true} 
+        width={'360px'} 
         onClick={() => props.cleanOtherUser()}
       />
     )
@@ -100,7 +100,7 @@ const WeekList = (props) => {
       style={{ marginLeft: props.editorStatus !== 'results' || props.mobile ? '20px' : '0px'}}
     >
       <div style={{marginBottom: '10px'}}>{renderOthersName()}</div>
-      <div>{renderWeeks()}</div>
+      <div style={{marginBottom: '10px'}}>{renderWeeks()}</div>
     </div>
   )
 }

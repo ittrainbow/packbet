@@ -26,8 +26,10 @@ class Creator extends Component {
   render() {
     return (
       <div className={this.props.mobile ? classes.ContainerMobile : classes.Container}>
-        <h3 style={{marginBottom: '20px'}}>Создание недели</h3>
-        <WeekCreator />
+        <h3>Создание недели</h3>
+        <div style={{marginLeft: '1px'}}>
+          <WeekCreator />
+        </div>
       </div>
     )
   }
