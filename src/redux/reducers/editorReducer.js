@@ -10,6 +10,7 @@ import {
   SET_EDITOR_CURRENT_HASH,
   SET_EDITOR_CURRENT_WEEK_ID,
   SET_EDITOR_FROM_WEEKLIST,
+  SET_EDITOR_WEEK_ACTIVITY,
   CLEAR_EDITOR
 } from '../types'
 
@@ -22,7 +23,8 @@ const initialState = {
   currentID: '',
   currentDeadline: '',
   currentError: '',
-  currentHash: ''
+  currentHash: '',
+  weekActivity: ''
 }
 
 export default function editorReducer(state = initialState, action) {
@@ -92,7 +94,8 @@ export default function editorReducer(state = initialState, action) {
         currentID: '',
         currentDeadline: '',
         currentHash: '',
-        currentWeekId: ''
+        currentWeekId: '',
+        activity: false
       }
 
     case SET_EDITOR_FROM_WEEKLIST:
@@ -103,13 +106,20 @@ export default function editorReducer(state = initialState, action) {
         questions: action.payload.questions,
         currentDeadline: action.payload.deadline,
         currentHash: action.payload.hash,
-        currentWeekId: action.payload.id
+        currentWeekId: action.payload.id,
+        weekActivity: action.payload.activity
       }
 
     case SET_EDITOR_CURRENT_HASH:
       return {
         ...state,
         currentHash: action.payload
+      }
+
+    case SET_EDITOR_WEEK_ACTIVITY:
+      return {
+        ...state,
+        weekActivity: action.payload
       }
 
     default:

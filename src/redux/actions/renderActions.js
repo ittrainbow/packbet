@@ -1,6 +1,5 @@
 import {
   SET_RENDER,
-  SET_RENDER_BUTTONS,
   NULLIFY_RENDER,
   SET_RENDER_BUTTONSTATE,
   SET_RENDER_ANSWERSTATE,
@@ -11,13 +10,6 @@ export function actionSetRender(state) {
   return {
     type: SET_RENDER,
     payload: state
-  }
-}
-
-export function actionSetRenderButtons(data) {
-  return {
-    type: SET_RENDER_BUTTONS,
-    payload: data
   }
 }
 

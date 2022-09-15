@@ -22,8 +22,10 @@ import {
   actionSetEditorCurrentDeadline,
   actionSetEditorQuestions,
   actionSetEditorCurrentError,
-  actionClearEditor
+  actionClearEditor,
+  actionSetEditorWeekActivity
 } from '../../redux/actions/editorActions'
+import { actionCurrentWeek } from '../../redux/actions/weekActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { actionSetButtonState, actionInitButtonState } from '../../redux/actions/authActions'
 import { actionSetTabActive } from '../../redux/actions/viewActions'
@@ -144,6 +146,7 @@ const WeekCreator = (props) => {
       })
 
       const week = {
+        activity: props.editor.weekActivity,
         deadline: props.editor.currentDeadline,
         id: id,
         name: props.editor.currentName,
@@ -161,6 +164,7 @@ const WeekCreator = (props) => {
 
       const response = await axios.get('/pack/weeks.json')
       const weeks = getWeeks(response.data)
+
       props.init(weeks)
 
       const state = {}
@@ -170,6 +174,12 @@ const WeekCreator = (props) => {
       oldState.buttonState[id] = state
       oldState.answerState[id] = state
       oldState.loadedState[id] = state
+      
+      const currentWeek = props.editor.weekActivity 
+        ? props.editor.currentWeekId
+        : props.editor.currentWeekId - 1
+
+      props.currentWeek(currentWeek)
 
       props.initButtonState(oldState)
       props.switchLoading(false)
@@ -202,17 +212,19 @@ const WeekCreator = (props) => {
 
     Object.keys(response.data).forEach((el) => {
       const id = props.editor.currentWeekId
-      const weeks = newState[el].weeks[id]
-      const weeksAmount = Object.keys(newState[el].weeks).length
 
-      if (weeksAmount === 1 && weeks.length > 0) {
-        newState[el].weeks = ''
-      } else if (newState[el].weeks[id]) {
-        newState[el].weeks[id] = null
+      if (newState[el].weeks[id]) {
+        const weeks = newState[el].weeks[id]
+        const weeksAmount = Object.keys(newState[el].weeks).length
+  
+        if (weeksAmount === 1 && weeks.length > 0) {
+          newState[el].weeks = ''
+        } else if (newState[el].weeks[id]) {
+          newState[el].weeks[id] = null
+        }
       }
     })
 
-    await axios.put('pack/users.json', newState)
     await axios.delete(`pack/weeks/${props.editor.currentHash}.json`)
     await axios.delete(`pack/answers/weeks/${props.editor.currentWeekId}.json`)
 
@@ -319,6 +331,25 @@ const WeekCreator = (props) => {
     )
   }
 
+  function activityHandler() {
+    props.setEditorWeekActivity(!props.editor.weekActivity)
+  }
+
+  function renderActivity() {
+    return (
+      <div style={{marginBottom: '10px'}}>
+        Активность: {' '}
+        <input 
+          className='checkbox' 
+          type='checkbox' 
+          name='activity'
+          checked={props.editor.weekActivity || false}
+          onChange={activityHandler}
+          ></input>
+      </div>
+    )
+  }
+
   function renderSubmits() {
     return (
       <div className={props.mobile ? 'ButtonsMobile' : 'Buttons'}>
@@ -366,7 +397,7 @@ const WeekCreator = (props) => {
             <BasicDateTimePicker />
           </div>
         </div>
-
+        {renderActivity()}
         {renderSubmits()}
       </div>
     )
@@ -391,6 +422,8 @@ function mapDispatchToProps(dispatch) {
 
     init: (weeks) => dispatch(actionInit(weeks)),
     newWeekButtonState: (state) => dispatch(actionSetButtonState(state)),
+    
+    currentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
 
     setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),
     setCurrentName: (currentName) => dispatch(actionSetEditorCurrentName(currentName)),
@@ -402,7 +435,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage)),
     clearEditor: () => dispatch(actionClearEditor()),
     initButtonState: (state) => dispatch(actionInitButtonState(state)),
-    setCalendarTabActive: (index) => dispatch(actionSetTabActive(index))
+    setCalendarTabActive: (index) => dispatch(actionSetTabActive(index)),
+    setEditorWeekActivity: (boolean) => dispatch(actionSetEditorWeekActivity(boolean))
   }
 }
 
