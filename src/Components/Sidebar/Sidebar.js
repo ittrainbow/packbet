@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux/es/exports'
-import { actionToggleSidebar, actionSetTabActive }  from '../../redux/actions/viewActions'
+import { actionToggleSidebar, actionSetTabActive } from '../../redux/actions/viewActions'
 import {
   FaHome,
   FaUserAlt,
@@ -41,7 +41,7 @@ const Sidebar = (props) => {
     )
   }
 
-  function toggle() {
+  function toggleSidebarOpen() {
     const bool = props.isOpen
     props.toggleSidebar(!bool)
   }
@@ -51,16 +51,24 @@ const Sidebar = (props) => {
     navigate(item.path)
   }
 
-  return props.mobile
-    ? <div>
-        <div className={classes.ContainerMobile}>
-          <div style={{ width: '100%' }} className={classes.SidebarMobile}>
-            <table><thead><tr>            
+  function renderMobile() {
+    return (
+      <div>
+        <div className={classes.SidebarMobile}>
+          <table>
+            <thead>
+              <tr>
                 {menuItem.map((item, index) => {
                   return (
                     <td key={index}>
-                      <div 
-                        className={item.index === props.tabActive ? classes.UpperGreen : classes.UpperGrey}
+                      <div
+                        style={{
+                          color: index === props.tabActive ? '#3d9f40' : '#d3d3d3',
+                          fontSize: !index ? '44px' : '36px',
+                          marginTop: !index ? '7px' : '5px',
+                          marginLeft: !index ? '15px' : '12px',
+                          marginRight: !index ? '3px' : '4px'
+                        }}
                         onClick={() => clickHandler(item)}
                       >
                         {item.icon}
@@ -68,39 +76,46 @@ const Sidebar = (props) => {
                     </td>
                   )
                 })}
-              </tr></thead></table>
-          </div>
+              </tr>
+            </thead>
+          </table>
         </div>
         <main className={classes.MainMobile}>{props.children}</main>
       </div>
-    : <div>
+    )
+  }
+
+  function renderDesktop() {
+    return (
+      <div>
         <div className={classes.Container}>
-          <div style={{ width: props.isOpen ? '170px' : '45px' }} className={classes.Sidebar}>
-            <div className={classes.TopSection}>
-              <div className={classes.Bars} style={{ marginLeft: '-4px', cursor: 'pointer' }} >
-                { props.isOpen 
-                  ? <FaTimes onClick={() => toggle()} /> 
-                  : <FaBars onClick={() => toggle()} /> }
-              </div>
+          <div
+            style={{
+              width: props.isOpen ? '170px' : '45px',
+              height: props.height
+            }}
+            className={classes.Sidebar}
+          >
+            <div className={classes.Bars} onClick={() => toggleSidebarOpen()}>
+              {props.isOpen ? <FaTimes /> : <FaBars />}
             </div>
             {menuItem.map((item, index) => {
               return (
                 <NavLink to={item.path} key={index} className={classes.Link}>
-                  <div className={classes.Icon}> 
-                    {item.icon} 
-                  </div>
-                  <div style={{ display: 'block' }} className={classes.LinkText}>
-                    {props.isOpen ? item.name : null}
-                  </div>
+                  <div> {item.icon} </div>
+                  <div> {props.isOpen ? item.name : null} </div>
                 </NavLink>
               )
             })}
           </div>
           <main>{props.children}</main>
         </div>
-    </div>
+      </div>
+    )
   }
 
+  return props.mobile ? renderMobile() : renderDesktop()
+}
 
 function mapStateToProps(state) {
   return {
@@ -108,7 +123,8 @@ function mapStateToProps(state) {
     isAdmin: state.auth.isAdmin,
     mobile: state.view.mobile,
     tabActive: state.view.tabActive,
-    isOpen: state.view.isOpen
+    isOpen: state.view.isOpen,
+    height: state.view.height
   }
 }
 

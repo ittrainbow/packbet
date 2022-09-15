@@ -10,14 +10,9 @@ body {
 }
 
 .WeekMobile {
-  margin-top: 10px;
   font-size: 13px;
   text-align: left;
-  width: 360px;
-}
-
-.WideButton {
-  width: 200px
+  width: 350px;
 }
 
 .Week h3 {
@@ -43,7 +38,7 @@ body {
   border-radius: 2px;
   margin-bottom: 3px;
   height: 15px;
-  width: 420px;
+  width: 409px;
 }
 
 .QuestionsDefaultMobile {
@@ -57,17 +52,17 @@ body {
   padding: 1px 2px 6px 6px;
   border-radius: 2px;
   margin-bottom: 3px;
-  width: 340px;
+  width: 341px;
 }
 
 .QuestionInner {
-  width: 340px;
+  width: 350px;
 }
 
 .QuestionInnerMobile {  
   display: table-cell;
   font-size: 16px;
-  width: 260px;
+  width: 255px;
   height: 28px;
   padding: 4px 0 0 0;
 }
@@ -80,7 +75,6 @@ body {
 .QuestionButtonsMobile {
   float: right;
   margin-top: -3px;
-  margin-left: -25px;
 }
 
 .Countdown {
@@ -92,7 +86,7 @@ body {
   background-color: #e7e7e7;
   margin-bottom: 5px;
   height: 15px;
-  width: 418px;
+  width: 407px;
 }
 
 .CountdownMobile {
@@ -122,9 +116,9 @@ body {
 }
 
 .OthersName {
+  margin-top: 7px;
   margin-bottom: 3px;
   font-size: 13px;
-  margin-left: 8px;
 }
 
 .AnswerWrong {
@@ -142,7 +136,7 @@ body {
 
 .QuestionsBlockMobile {
   margin-bottom: 10px;
-  margin-left: -2px;
+  margin-left: -0.1em;
 }
 
 .SaveNotify {

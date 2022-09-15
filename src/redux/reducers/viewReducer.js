@@ -1,9 +1,10 @@
-import { SET_VIEW, TOGGLE_SIDEBAR, SET_TAB_ACTIVE } from "../types"
+import { SET_VIEW, TOGGLE_SIDEBAR, SET_TAB_ACTIVE, SET_HEIGHT } from "../types"
 
 const initialState = {
   mobile: false,
   isOpen: false,
-  tabActive: 0
+  tabActive: 0,
+  height: '100vh',
 }
 
 export default function viewReducer(state = initialState, action) {
@@ -12,6 +13,12 @@ export default function viewReducer(state = initialState, action) {
       return {
         ...state,
         mobile: action.payload
+      }
+
+    case SET_HEIGHT:
+      return {
+        ...state,
+        height: action.payload
       }
 
     case SET_TAB_ACTIVE:

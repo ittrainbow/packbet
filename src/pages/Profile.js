@@ -1,38 +1,65 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux/es/exports'
-import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import Auth from '../Components/Auth/Auth'
 import Userpage from '../Components/Userpage/Userpage'
 import classes from './Pages.module.scss'
 import Button from '../UI/Button/Button'
+import { actionSetHeight } from '../redux/actions/viewActions'
 
-const Profile = (props) => {
-  const navigate = useNavigate()
+class Profile extends Component {
+  componentDidMount() {
+    if (!this.props.mobile) {
+      const height = Math.max(
+        document.getElementById('container').offsetHeight + 40,
+        window.innerHeight
+      )
+      this.props.setHeight(height)
+    }
+  }
 
-  function renderPage() {
-    if (props.isAuthenticated) return <Userpage />
+  componentDidUpdate() {
+    if (!this.props.mobile) {
+      const height = document.documentElement.scrollHeight
+      this.props.setHeight(height)
+    }
+  }
+
+  renderPage() {
+    if (this.props.isAuthenticated) return <Userpage />
 
     return <Auth />
   }
 
-  function renderHeader() {
-    if (props.isAuthenticated) return 'Профиль'
-    if (props.authPage) return 'Войти'
+  renderHeader() {
+    if (this.props.isAuthenticated) return 'Профиль'
+    if (this.props.authPage) return 'Войти'
 
     return 'Регистрация'
   }
 
-  function redirect() {
-    navigate('/recover')
+  drawRecoveryButton() {
+    return (
+      <div>
+        <NavLink to={'/recover'}>
+          <Button text="Забыли пароль?" />
+        </NavLink>
+      </div>
+    )
   }
 
-  return (
-    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h3>{renderHeader()}</h3>
-      {renderPage()}
-      {props.isAuthenticated ? null : <Button text="Забыли пароль?" onClick={() => redirect()} />}
-    </div>
-  )
+  render() {
+    return (
+      <div
+        id="container"
+        className={this.props.mobile ? classes.ContainerMobile : classes.Container}
+      >
+        <h3>{this.renderHeader()}</h3>
+        {this.renderPage()}
+        {this.props.isAuthenticated ? null : this.drawRecoveryButton()}
+      </div>
+    )
+  }
 }
 
 function mapStateToProps(state) {
@@ -43,4 +70,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Profile)
+function mapDispatchToProps(dispatch) {
+  return {
+    setHeight: (height) => dispatch(actionSetHeight(height))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

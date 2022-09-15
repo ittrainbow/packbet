@@ -56,17 +56,19 @@ const ForgotPassword = (props) => {
         <Input width={'300px'} value={props.email} onChange={(event) => changeHandler(event)} />
       </div>
 
-      { !props.loading
-        ? <div>
-            <div style={{ marginTop: '20px' }}>
-              <Button text="Выслать пароль" onClick={() => recoverPassword()} />
-            </div>
-            <div style={{ fontSize: '14px', marginTop: '10px', color: 'red' }}>{props.message}</div>
-            <div style={{ marginTop: '15px' }}>
-              <Button text="Вход" onClick={() => returnHandler()} />
-            </div>
+      {!props.loading ? (
+        <div>
+          <div style={{ marginTop: '20px' }}>
+            <Button text="Выслать пароль" onClick={() => recoverPassword()} />
           </div>
-        : <Loader /> }        
+          <div style={{ fontSize: '14px', marginTop: '10px', color: 'red' }}>{props.message}</div>
+          <div style={{ marginTop: '15px' }}>
+            <Button text="Вход" onClick={() => returnHandler()} />
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   )
 }

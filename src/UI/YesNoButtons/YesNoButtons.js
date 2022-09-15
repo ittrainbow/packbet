@@ -21,7 +21,7 @@ const YesNoButtons = (props) => {
   return (
     <div className={props.mobile ? 'buttonsDivMobile' : 'buttonsDiv'}>
       <button
-        style={{ marginLeft: props.mobile ? '-25px' : null}}
+        style={{ marginLeft: props.mobile ? '-25px' : null }}
         className={styleSetFirst.join(' ')}
         onClick={() => props.onClick(props.index * 2)}
       >

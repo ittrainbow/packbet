@@ -47,10 +47,17 @@ export function actionAuth(email, password, isLogin, name) {
       const answerState = actionCreateButtonsObj(answersResponse.data.weeks, weeksResponse.data)
       const buttonState = actionCreateButtonsObj(getWeeks, weeksResponse.data)
       const expirationDate = new Date(new Date().getTime() + authResponse.data.expiresIn * 1000)
-  
-      const table = tableCreator(usersResponse.data, answersResponse)
-      await axios.put(`${dbUrl}/table.json`, table)
-      dispatch(actionCreateStandings(table))
+
+      if (!isLogin) {
+        const table = tableCreator(usersResponse.data, answersResponse)
+        await axios.put(`${dbUrl}/table.json`, table)
+        dispatch(actionCreateStandings(table))
+      }
+
+      if (isLogin) {
+        const tableResponse = await axios.get(`${dbUrl}/table.json`)
+        dispatch(actionCreateStandings(tableResponse.data))
+      }
   
       localStorage.setItem('email', email)
       localStorage.setItem('password', password)

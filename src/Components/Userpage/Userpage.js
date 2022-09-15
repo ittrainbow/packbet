@@ -21,7 +21,7 @@ class Userpage extends Component {
   componentDidMount() {
     this.setState({
       newName: this.props.userName
-    });
+    })
   }
 
   passwordHandler() {
@@ -57,7 +57,7 @@ class Userpage extends Component {
 
   changeNameHandler() {
     return (
-      <Input 
+      <Input
         width={'250px'}
         value={this.state.newName}
         onChange={(event) => this.onChangeHandler(event)}
@@ -66,70 +66,74 @@ class Userpage extends Component {
   }
 
   async saveNameHandler() {
-    this.setState({ loading: true });
+    this.setState({ loading: true })
     this.props.setUserName(this.state.newName)
     await axios.put(`/pack/users/${this.props.localId}.json`, { name: this.state.newName })
-    this.setState({ loading: false, showNameForm: false });
+    this.setState({ loading: false, showNameForm: false })
   }
 
   toggleFormHandler() {
     this.setState({
       showNameForm: !this.state.showNameForm
-    });
+    })
   }
 
   onChangeHandler(event) {
     this.setState({
       newName: event.target.value,
       canWriteName: event.target.value === this.props.userName
-    });
+    })
   }
 
   render() {
     return (
       <div className={this.props.mobile ? classes.UserpageMobile : classes.Userpage}>
-        {this.state.loading
-          ? <Loader />
-          : <div>
-              <div className={classes.UserName}>
-              { this.state.showNameForm
-                ? this.changeNameHandler()
-                : `Имя: ${this.props.userName}`
-              }
+        {this.state.loading ? (
+          <Loader />
+        ) : (
+          <div>
+            <div className={classes.UserName}>
+              {this.state.showNameForm ? this.changeNameHandler() : `Имя: ${this.props.userName}`}
             </div>
             <div className={classes.UserDiv}>
               Email:{' '}
-              <i className="fa fa-eye"
+              <i
+                className="fa fa-eye"
                 onClick={() => this.emailToggleHandler()}
                 style={{ cursor: 'pointer' }}
-              />
-              {' '}
+              />{' '}
               {this.emailHandler()}
             </div>
             <div className={classes.UserDiv}>
               Пароль:{' '}
-              <i className="fa fa-eye"
+              <i
+                className="fa fa-eye"
                 onClick={() => this.passwordToggleHandler()}
                 style={{ cursor: 'pointer' }}
-              />
-              {' '}
+              />{' '}
               {this.passwordHandler()}
             </div>
-            <div className={classes.UserDiv}>{this.props.isAdmin ? 'Вы - администратор' : null}</div>
-            <div><Button text="Выйти" onClick={this.logoutHandler.bind(this)} /></div>
-            { !this.state.showNameForm
-              ? <Button text="Изменить имя" onClick={() => this.toggleFormHandler()} />
-              : <div>
-                  <Button text="Сохранить имя" 
-                    onClick={() => this.saveNameHandler()} 
-                    disabled={this.state.newName === this.props.userName}
-                  />
-                  <Button text="Отменить" onClick={() => this.toggleFormHandler()} />
-                </div>
-            }
-        </div>
-        }
- </div>
+            <div className={classes.UserDiv}>
+              {this.props.isAdmin ? 'Вы - администратор' : null}
+            </div>
+            <div>
+              <Button text="Выйти" onClick={this.logoutHandler.bind(this)} />
+            </div>
+            {!this.state.showNameForm ? (
+              <Button text="Изменить имя" onClick={() => this.toggleFormHandler()} />
+            ) : (
+              <div>
+                <Button
+                  text="Сохранить имя"
+                  onClick={() => this.saveNameHandler()}
+                  disabled={this.state.newName === this.props.userName}
+                />
+                <Button text="Отменить" onClick={() => this.toggleFormHandler()} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     )
   }
 }

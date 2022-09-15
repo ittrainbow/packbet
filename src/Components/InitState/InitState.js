@@ -7,9 +7,13 @@ import {
   actionCreateStandings
 } from '../../redux/actions/weekActions'
 import { getWeeks } from '../../frame/getWeeks'
+import { actionSwitchLoading } from '../../redux/actions/loadingActions'
+import { actionSetHeight } from '../../redux/actions/viewActions'
 
 class InitState extends Component {
   async componentDidMount() {
+    this.props.switchLoading(true)
+
     try {
       const response = await axios.get('pack/weeks.json')
       const weeks = getWeeks(response.data)
@@ -22,6 +26,13 @@ class InitState extends Component {
     } catch (error) {
       console.log(error)
     }
+
+    await this.props.switchLoading(false)
+    const height = Math.max(
+      document.getElementById('container').offsetHeight + 40,
+      window.innerHeight
+    )
+    if (!this.props.mobile) this.props.setHeight(height)
   }
 
   render() {
@@ -37,9 +48,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     init: (weeks) => dispatch(actionInit(weeks)),
     currentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
-    createStandings: (standings) => dispatch(actionCreateStandings(standings))
+    createStandings: (standings) => dispatch(actionCreateStandings(standings)),
+    setHeight: (height) => dispatch(actionSetHeight(height))
   }
 }
 

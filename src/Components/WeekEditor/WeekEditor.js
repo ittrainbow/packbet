@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import classes from './WeekEditor.module.scss'
 import WeekCreator from '../WeekCreator/WeekCreator'
+import { actionSetHeight } from '../../redux/actions/viewActions'
 
-const WeekEditor = (props) => {
-  return (
-    <div className={props.mobile ? classes.WeekEditorMobile : classes.WeekEditor}>
-      <h3>Редактирование недели</h3>
-      <div>
+class WeekEditor extends Component {
+  componentDidMount() {
+    if (!this.props.mobile) {
+      const height = Math.max(
+        document.getElementById('container').offsetHeight + 40,
+        window.innerHeight
+      )
+      this.props.setHeight(height)
+    }
+  }
+
+  render() {
+    return (
+      <div
+        id="container"
+        className={this.props.mobile ? classes.WeekEditorMobile : classes.WeekEditor}
+      >
+        <h3>Редактирование недели</h3>
         <WeekCreator />
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 function mapStateToProps(state) {
@@ -20,4 +34,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(WeekEditor)
+function mapDispatchToProps(dispatch) {
+  return {
+    setHeight: (height) => dispatch(actionSetHeight(height))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeekEditor)

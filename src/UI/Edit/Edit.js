@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const Edit = (props) => {
   return (
     <button className={props.mobile ? classes.EditMobile : classes.Edit} onClick={props.onClick}>
-      <FaEdit className={classes.Icon} />
+      <FaEdit />
     </button>
   )
 }

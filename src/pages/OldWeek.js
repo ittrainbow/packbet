@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Week from '../Components/Week/Week'
 import classes from './Pages.module.scss'
 import { connect } from 'react-redux'
+import { actionSetHeight } from '../redux/actions/viewActions'
 
-const OldWeek = (props) => {
-  return (
-    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h3>{props.mobile ? null : 'Выбранная неделя'}</h3>
-      <Week />
-    </div>
-  )
+class OldWeek extends Component {
+  componentDidMount() {
+    if (!this.props.mobile) {
+      const height = Math.max(
+        document.getElementById('container').offsetHeight + 40,
+        window.innerHeight
+      )
+      this.props.setHeight(height)
+    }
+  }
+
+  render() {
+    return (
+      <div
+        id="container"
+        className={this.props.mobile ? classes.ContainerMobile : classes.Container}
+      >
+        <h3>{this.props.mobile ? null : 'Выбранная неделя'}</h3>
+        <Week />
+      </div>
+    )
+  }
 }
 
 function mapStateToProps(state) {
@@ -18,4 +34,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(OldWeek)
+function mapDispatchToProps(dispatch) {
+  return {
+    setHeight: (height) => dispatch(actionSetHeight(height))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OldWeek)

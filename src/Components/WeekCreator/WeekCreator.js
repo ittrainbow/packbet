@@ -5,8 +5,7 @@ import structuredClone from '@ungap/structured-clone'
 
 import BasicDateTimePicker from '../../UI/Picker/Picker'
 
-// import classes from './WeekCreator.module.scss'
-import './WeekCreator.css'
+import './WeekCreator.scss'
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
 import Undo from '../../UI/Undo/Undo'
@@ -27,6 +26,7 @@ import {
 } from '../../redux/actions/editorActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { actionSetButtonState, actionInitButtonState } from '../../redux/actions/authActions'
+import { actionSetTabActive } from '../../redux/actions/viewActions'
 import { getWeeks } from '../../frame/getWeeks'
 
 const WeekCreator = (props) => {
@@ -173,6 +173,7 @@ const WeekCreator = (props) => {
 
       props.initButtonState(oldState)
       props.switchLoading(false)
+      props.setCalendarTabActive(5)
       navigate('/editor')
     }
   }
@@ -198,25 +199,25 @@ const WeekCreator = (props) => {
     const response = await axios.get('pack/users.json')
 
     const newState = structuredClone(response.data)
-    
-    Object.keys(response.data)
-      .forEach(el => {
-        const id = props.editor.currentWeekId
-        const weeks = newState[el].weeks[id]
-        const weeksAmount = Object.keys(newState[el].weeks).length
 
-        if (weeksAmount === 1 && weeks.length > 0) {
-          newState[el].weeks = ''
-        } else if (newState[el].weeks[id]) {
-          newState[el].weeks[id] = null
-        }
-      })
+    Object.keys(response.data).forEach((el) => {
+      const id = props.editor.currentWeekId
+      const weeks = newState[el].weeks[id]
+      const weeksAmount = Object.keys(newState[el].weeks).length
+
+      if (weeksAmount === 1 && weeks.length > 0) {
+        newState[el].weeks = ''
+      } else if (newState[el].weeks[id]) {
+        newState[el].weeks[id] = null
+      }
+    })
 
     await axios.put('pack/users.json', newState)
     await axios.delete(`pack/weeks/${props.editor.currentHash}.json`)
     await axios.delete(`pack/answers/weeks/${props.editor.currentWeekId}.json`)
 
     props.switchLoading(false)
+    props.setCalendarTabActive(5)
     navigate('/editor')
   }
 
@@ -225,23 +226,34 @@ const WeekCreator = (props) => {
       <Loader />
     ) : (
       props.editor.questions.map((question) => {
-        const setClass = question.id === props.editor.currentID 
-          ? (props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected')
-          : (props.mobile ? 'QuestionsMobile' : 'Questions')
+        const setClass =
+          question.id === props.editor.currentID
+            ? props.mobile
+              ? 'QuestionsSelectedMobile'
+              : 'QuestionsSelected'
+            : props.mobile
+            ? 'QuestionsMobile'
+            : 'Questions'
 
         return (
           <div key={question.id} className={setClass}>
-            <table style={{marginTop: '-2px'}}><thead><tr>
-              <td className={props.mobile ? 'QuestionInnerEdMobile' : 'QuestionInnerEd'}>
-                {question.question}: {question.total}
-              </td>              
-              <td>
-                <Edit onClick={() => editQuestionHandler(question.id)} />
-              </td>
-              <td>
-                <Undo onClick={() => deleteQuestionHandler(question.id)} />
-              </td>
-            </tr></thead></table>
+            <table style={{ marginTop: '-2px' }}>
+              <thead>
+                <tr>
+                  <td className={props.mobile ? 'QuestionInnerEdMobile' : 'QuestionInnerEd'}>
+                    {question.question}: {question.total}
+                  </td>
+                  <td>
+                    {' '}
+                    <Edit onClick={() => editQuestionHandler(question.id)} />{' '}
+                  </td>
+                  <td>
+                    {' '}
+                    <Undo onClick={() => deleteQuestionHandler(question.id)} />{' '}
+                  </td>
+                </tr>
+              </thead>
+            </table>
           </div>
         )
       })
@@ -250,64 +262,83 @@ const WeekCreator = (props) => {
 
   function noSaveExitHandler() {
     props.clearEditor()
+    props.setCalendarTabActive(3)
     navigate('/calendar')
   }
- 
+
   function renderInputs() {
     return (
-      <div>
-        <table><thead><tr>
-            <td className='Input'>
-              <Input
-                label="Неделя"
-                type="number"
-                width={props.mobile ? "60px" : '70px'}
-                value={props.editor.currentWeek}
-                onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
-              />
-            </td>
-            <td>
-              <Input
-                label="Игра"
-                width={props.mobile ? "250px" : '360px'}
-                value={props.editor.currentName || ''}
-                onChange={(event) => onChangeHandler(event, 'setCurrentName')}
-              />
-            </td>
-          </tr></thead></table>
-          <table><thead><tr>
-            <td>
-              <Input
-                label="Линия"
-                width={props.mobile ? "250px" : '360px'}
-                value={props.editor.currentQuestion}
-                onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
-              />
-            </td>
-            <td>
-              <Input
-                label="Тотал"
-                width={props.mobile ? "60px" : '70px'}
-                type="number"
-                value={props.editor.currentTotal}
-                onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
-              />
-            </td>
-          </tr></thead></table>
+      <div style={{ marginLeft: '-0.1em', marginTop: props.mobile ? null : '10px' }}>
+        <table>
+          <thead>
+            <tr>
+              <td>
+                <Input
+                  label="Неделя"
+                  type="number"
+                  width={props.mobile ? '54px' : '70px'}
+                  value={props.editor.currentWeek}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
+                />
+              </td>
+              <td>
+                <Input
+                  label="Игра"
+                  width={props.mobile ? '265px' : '351px'}
+                  value={props.editor.currentName || ''}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentName')}
+                />
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <table style={{ marginTop: '-10px' }}>
+          <thead>
+            <tr>
+              <td>
+                <Input
+                  label="Линия"
+                  width={props.mobile ? '255px' : '351px'}
+                  value={props.editor.currentQuestion}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
+                />
+              </td>
+              <td>
+                <Input
+                  label="Тотал"
+                  width={props.mobile ? '64px' : '70px'}
+                  type="number"
+                  value={props.editor.currentTotal}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
+                />
+              </td>
+            </tr>
+          </thead>
+        </table>
       </div>
     )
   }
 
   function renderSubmits() {
     return (
-      <div className={props.mobile ? null : 'Buttons'}>
-        <div><Button text="Отменить" onClick={noSaveExitHandler} /></div>
-        <div><Button text="Сохранить" onClick={() => submitHandler()} /></div>
-        <div>
-          {props.editor.currentHash 
-            ? <Button text="Удалить" onClick={() => deleteWeekHandler()} /> 
-            : null}
-        </div>
+      <div className={props.mobile ? 'ButtonsMobile' : 'Buttons'}>
+        <Button
+          width={props.mobile ? '352px' : '141px'}
+          text="Отменить"
+          onClick={noSaveExitHandler}
+        />
+        <Button
+          width={props.mobile ? '352px' : '141px'}
+          text="Сохранить"
+          onClick={() => submitHandler()}
+        />
+        {props.editor.currentHash ? (
+          <Button
+            width={props.mobile ? '352px' : '141px'}
+            text="Удалить"
+            onClick={() => deleteWeekHandler()}
+          />
+        ) : null}
       </div>
     )
   }
@@ -315,44 +346,33 @@ const WeekCreator = (props) => {
   function renderWeek() {
     return (
       <div>
-        <div>{renderInputs()}</div>
+        {renderInputs()}
 
-        <div>
-          <Button
-            text={
-              props.editor.currentID || props.editor.currentID === 0
-                ? 'Сохранить вопрос'
-                : 'Добавить вопрос'
-            }
-            onClick={(event) => addQuestionHandler(event)}
-            disabled={!props.editor.currentQuestion || !props.editor.currentTotal}
-          />
-        </div>
+        <Button
+          text={
+            props.editor.currentID || props.editor.currentID === 0
+              ? 'Сохранить вопрос'
+              : 'Добавить вопрос'
+          }
+          width={props.mobile ? '352px' : '144px'}
+          onClick={(event) => addQuestionHandler(event)}
+          disabled={!props.editor.currentQuestion || !props.editor.currentTotal}
+        />
 
-        <div className={'QuestionsList'}>
-          {renderQuestions()}
-          <div>
-            <div className={props.mobile ? 'CountDownMobile' : 'CountDown'}>
-              Начало игры:
-              {' '}
-              {drawDate()}
-            </div>
-            <div style={{ marginTop: '5px' }}>
-              <BasicDateTimePicker style={{ marginTop: '10px' }} />
-            </div>
+        <div className={'QuestionsList'}>{renderQuestions()}</div>
+        <div className={props.mobile ? 'CountDownMobile' : 'CountDown'}>
+          Начало игры: {drawDate()}
+          <div className={'Picker'}>
+            <BasicDateTimePicker />
           </div>
         </div>
 
-        { renderSubmits() }
+        {renderSubmits()}
       </div>
     )
   }
 
-  return (
-    <div>
-      {props.loading ? <Loader /> : renderWeek()}
-    </div>
-  )
+  return <div>{props.loading ? <Loader /> : renderWeek()}</div>
 }
 
 function mapStateToProps(state) {
@@ -381,7 +401,8 @@ function mapDispatchToProps(dispatch) {
     setQuestions: (questions) => dispatch(actionSetEditorQuestions(questions)),
     setCurrentError: (errorMessage) => dispatch(actionSetEditorCurrentError(errorMessage)),
     clearEditor: () => dispatch(actionClearEditor()),
-    initButtonState: (state) => dispatch(actionInitButtonState(state))
+    initButtonState: (state) => dispatch(actionInitButtonState(state)),
+    setCalendarTabActive: (index) => dispatch(actionSetTabActive(index))
   }
 }
 

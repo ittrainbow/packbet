@@ -6,10 +6,7 @@ import Input from '../../UI/Input/Input'
 import './Auth.module.scss'
 import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
-import {
-  actionAuth,
-  actionSetAuthPage
-} from '../../redux/actions/authActions'
+import { actionAuth, actionSetAuthPage } from '../../redux/actions/authActions'
 import { actionSwitchLoading, actionSetMessage } from '../../redux/actions/loadingActions'
 import axios from '../../axios/axios'
 import { findName } from '../../frame/findUser'
@@ -106,8 +103,8 @@ class Auth extends Component {
           this.state.formControls.password.value,
           true
         )
-      } catch (error) {     
-        this.tierline('Проверьте email и пароль') 
+      } catch (error) {
+        this.tierline('Проверьте email и пароль')
       }
     } else {
       this.tierline('Неверный Email')
@@ -118,7 +115,7 @@ class Auth extends Component {
 
   registerHandler = async () => {
     this.props.switchLoading(true)
-    
+
     const email = this.state.formControls.email.value
     const name = this.state.formControls.name.value
     const password = this.state.formControls.password.value
@@ -190,14 +187,12 @@ class Auth extends Component {
     return this.props.loading ? (
       <Loader />
     ) : (
-      <form 
-        onSubmit={this.submitHandler} 
-        className={this.props.mobile ? classes.AuthFormMobile : classes.AuthForm}>
-
+      <form
+        onSubmit={this.submitHandler}
+        className={this.props.mobile ? classes.AuthFormMobile : classes.AuthForm}
+      >
         {this.renderInputs()}
-        <div className={classes.message}>
-          {this.props.message}
-        </div>
+        <div className={classes.message}>{this.props.message}</div>
         <div className={classes.tierline}>{this.state.tierline}</div>
         <div style={{ marginBottom: '6px' }}>
           <Button

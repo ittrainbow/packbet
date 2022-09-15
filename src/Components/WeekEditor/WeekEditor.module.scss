@@ -4,11 +4,11 @@
   justify-content: center;
   margin-top: 20px;
   margin-left: 20px;
-  height: 500px;
   background: #d3d3d3;
 }
 
 .WeekEditorMobile {
+  font-size: 17px;
   display: block;
   justify-content: center;
   margin-top: 20px;
@@ -47,18 +47,18 @@
   color: #363f54;
 }
 
-.WeekEditor > div {
-  width: 100%;
-}
+// .WeekEditor > div {
+//   width: 100%;
+// }
 
 .Total {
   width: 70px;
   float: right;
 }
 
-.Inputs {
-  width: 420px;
-}
+// .Inputs {
+//   width: 410px;
+// }
 
 .Line {
   width: 320px;

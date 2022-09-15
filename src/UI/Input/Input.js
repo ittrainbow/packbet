@@ -16,12 +16,12 @@ const Input = (props) => {
   }
 
   return (
-    <div className={cls.join(' ')} >
-      <label style={{width: props.labelWidth || null}}>{props.label}</label>
+    <div className={cls.join(' ')}>
+      <label style={{ width: props.labelWidth || null }}>{props.label}</label>
       <input
         type={inputType}
         id={htmlFor}
-        style={{width: props.width || '140px'}}
+        style={{ width: props.width || '140px' }}
         value={props.value}
         onChange={props.onChange}
         placeholder={props.placeholder}

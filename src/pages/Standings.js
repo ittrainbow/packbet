@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Table from '../Components/Table/Table'
 import classes from './Pages.module.scss'
 import { connect } from 'react-redux'
+import { actionSetHeight } from '../redux/actions/viewActions'
 
-const Standings = (props) => {
-  return (
-    <div className={props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h3>Таблица</h3>
-      <Table />
-    </div>
-  )
+class Standings extends Component {
+  componentDidMount() {
+    if (!this.props.mobile) {
+      const height = Math.max(
+        document.getElementById('container').offsetHeight + 40,
+        window.innerHeight
+      )
+      this.props.setHeight(height)
+    }
+  }
+
+  render() {
+    return (
+      <div
+        id="container"
+        className={this.props.mobile ? classes.ContainerMobile : classes.Container}
+      >
+        <h3>Таблица</h3>
+        <Table />
+      </div>
+    )
+  }
 }
 
 function mapStateToProps(state) {
@@ -18,4 +34,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Standings)
+function mapDispatchToProps(dispatch) {
+  return {
+    setHeight: (height) => dispatch(actionSetHeight(height))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Standings)

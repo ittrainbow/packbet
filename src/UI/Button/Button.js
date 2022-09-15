@@ -5,11 +5,15 @@ import { connect } from 'react-redux'
 const Button = (props) => {
   const cls = [classes[props.type]]
   props.mobile ? cls.push(classes.ButtonMobile) : cls.push(classes.Button)
-  props.wide ? cls.push(classes.Wide) : props.mobile ? cls.push(classes.Normal) : cls.push(classes.Narrow)
 
   return (
     <div>
-      <button onClick={props.onClick} className={cls.join(' ')} disabled={props.disabled}>
+      <button
+        onClick={props.onClick}
+        className={cls.join(' ')}
+        disabled={props.disabled}
+        style={{ width: props.width || '200px' }}
+      >
         {props.text}
       </button>
     </div>

@@ -8,6 +8,7 @@ import Loader from '../../UI/Loader/Loader'
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons'
 import Button from '../../UI/Button/Button'
 import axios from '../../axios/axios'
+import { actionSetTabActive } from '../../redux/actions/viewActions'
 import { actionSetWeekId } from '../../redux/actions/weekActions'
 import { actionInitButtonState, actionSetAnswerState } from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
@@ -50,6 +51,7 @@ const Week = (props) => {
 
   function doNotSave() {
     props.nullifyRender()
+    props.setCalendarTabActive()
     navigate('/calendar')
   }
 
@@ -172,15 +174,20 @@ const Week = (props) => {
 
   function renderSubmits() {
     return (
-      <div>
-        { today() 
-          ? <Button
-              text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
-              onClick={submitHandler}
-              disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
-            /> 
-          : null}
-        <Button text={today() ? 'Не сохранять' : 'Назад'} onClick={doNotSave} />
+      <div style={{ marginBottom: '15px' }}>
+        {today() ? (
+          <Button
+            text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
+            onClick={submitHandler}
+            width={'351px'}
+            disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
+          />
+        ) : null}
+        <Button
+          width={props.mobile ? '351px' : '144px'}
+          text={today() ? 'Не сохранять' : 'Назад'}
+          onClick={doNotSave}
+        />
       </div>
     )
   }
@@ -195,7 +202,7 @@ const Week = (props) => {
         <Button
           text={`Вы просматриваете ответы ${props.others.name}
             Нажмите для возврата к своим ответам`}
-          wide={true}
+          width={'350px'}
           onClick={() => props.cleanOtherUser()}
         />
       )
@@ -209,8 +216,16 @@ const Week = (props) => {
 
     return notify.map(function (el, index) {
       if (index === notify.length - 1)
-        return <div key={index} className={'BackBlue'} onClick={() => props.cleanOtherUser()}>{el}</div>
-      return <div key={index} className={'Back'}>{el}</div>
+        return (
+          <div key={index} className={'BackBlue'} onClick={() => props.cleanOtherUser()}>
+            {el}
+          </div>
+        )
+      return (
+        <div key={index} className={'Back'}>
+          {el}
+        </div>
+      )
     })
   }
 
@@ -232,11 +247,12 @@ const Week = (props) => {
   }
 
   function unfinishedWeek() {
-    if (props.mobile && !props.others.isItYou && today()) return (
-      <div style={{ marginBottom: '5px', fontSize: '15px' }}>
-        Чужие прогнозы для активных игр скрыты
-      </div>
-    )
+    if (props.mobile && !props.others.isItYou && today())
+      return (
+        <div style={{ marginBottom: '5px', fontSize: '15px' }}>
+          Чужие прогнозы для активных игр скрыты
+        </div>
+      )
   }
 
   return (
@@ -251,8 +267,8 @@ const Week = (props) => {
       </div>
       <div className={props.mobile ? 'QuestionsBlockMobile' : 'QuestionsBlock'}>
         {props.mobile ? renderUpperLevel() : renderQuestions()}
-      </div>      
-      
+      </div>
+
       <div className={props.mobile ? 'SaveNotifyMobile' : 'SaveNotify'}>
         {isTouched() && props.others.isItYou ? 'У вас есть несохраненные изменения' : null}
       </div>
@@ -284,7 +300,8 @@ function mapDispatchToProps(dispatch) {
     setRenderLoadedState: (buttons) => dispatch(actionSetRenderLoadedState(buttons)),
     setAnswerState: (answerState) => dispatch(actionSetAnswerState(answerState)),
     cleanOtherUser: () => dispatch(actionCleanOtherUser()),
-    initButtonState: (state) => dispatch(actionInitButtonState(state))
+    initButtonState: (state) => dispatch(actionInitButtonState(state)),
+    setCalendarTabActive: () => dispatch(actionSetTabActive(3))
   }
 }
 
