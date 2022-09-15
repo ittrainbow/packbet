@@ -1,6 +1,5 @@
 import {
   SET_RENDER,
-  SET_RENDER_BUTTONS,
   NULLIFY_RENDER,
   SET_RENDER_BUTTONSTATE,
   SET_RENDER_ANSWERSTATE,
@@ -12,10 +11,7 @@ const initialState = {
   id: null,
   name: null,
   number: null,
-  questions: null,
-  buttons: null,
-  answers: null,
-  loaded: null
+  questions: null
 }
 
 export default function renderReducer(state = initialState, action) {
@@ -28,14 +24,6 @@ export default function renderReducer(state = initialState, action) {
         name: action.payload.name,
         number: action.payload.number,
         questions: action.payload.questions
-      }
-
-    case SET_RENDER_BUTTONS:
-      return {
-        ...state,
-        buttons: action.payload.buttons,
-        answers: action.payload.answers,
-        loaded: action.payload.buttons
       }
 
     case SET_RENDER_BUTTONSTATE:

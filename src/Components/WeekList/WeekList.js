@@ -7,8 +7,9 @@ import Loader from '../../UI/Loader/Loader'
 
 import { actionSetWeekId } from '../../redux/actions/weekActions'
 import { actionSetEditorFromWeekList } from '../../redux/actions/editorActions'
-import { actionSetRender, actionSetRenderButtons } from '../../redux/actions/renderActions'
-import { setState } from '../../frame/setState'
+import { 
+  actionSetRender, 
+} from '../../redux/actions/renderActions'
 import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 import Button from '../../UI/Button/Button'
 
@@ -17,16 +18,18 @@ const WeekList = (props) => {
     const week = Object.keys(props.weeks)
       .filter((el) => props.weeks[el].id === id)
       .map((el) => props.weeks[el])
-    const tmp = setState(id, props.auth.buttonState, props.auth.answerState)
-
+      
     props.setWeekId(id)
     props.setRender(week[0])
-    props.setRenderButtons(tmp)
   }
 
   function renderWeeks() {
     if (props.weeks) {
-      const weeks = Object.keys(props.weeks).map((el) => props.weeks[el])
+      let weeks = Object.keys(props.weeks)
+        .map((el) => props.weeks[el])
+
+      if (props.editorStatus !== 'editor') weeks = weeks.filter((el) => el.activity)
+
       return weeks.map((week) => {
         return (
           <div key={week.id}>
@@ -59,8 +62,7 @@ const WeekList = (props) => {
       if (props.mobile && !props.others.isItYou)
         return (
           <Button
-            text={`Вы просматриваете ответы ${props.others.name}
-          Нажмите для возврата к своим ответам`}
+            text={`Вы просматриваете ответы ${props.others.name} Нажмите для возврата к своим ответам`}
             width={'360px'}
             onClick={() => props.cleanOtherUser()}
           />
@@ -118,7 +120,6 @@ function mapDispatchToProps(dispatch) {
   return {
     setWeekId: (id) => dispatch(actionSetWeekId(id)),
     setRender: (week) => dispatch(actionSetRender(week)),
-    setRenderButtons: (data) => dispatch(actionSetRenderButtons(data)),
     cleanOtherUser: () => dispatch(actionCleanOtherUser()),
     setEditorFromWeekList: (week) => dispatch(actionSetEditorFromWeekList(week))
   }

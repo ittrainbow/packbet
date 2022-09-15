@@ -10,7 +10,7 @@ import Button from '../../UI/Button/Button'
 import axios from '../../axios/axios'
 import { actionSetTabActive } from '../../redux/actions/viewActions'
 import { actionSetWeekId } from '../../redux/actions/weekActions'
-import { actionInitButtonState, actionSetAnswerState } from '../../redux/actions/authActions'
+import { actionInitButtonState, actionSetAnswerState, actionSetButtonState } from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import {
   actionNullifyRender,
@@ -19,10 +19,11 @@ import {
   actionSetRenderLoadedState
 } from '../../redux/actions/renderActions'
 import { actionCleanOtherUser } from '../../redux/actions/othersActions'
+import { actionLogout } from '../../redux/actions/authActions'
 
 const Week = (props) => {
   const navigate = useNavigate()
-  const deadline = props.render.deadline
+  const deadline = props.week.weeks[props.currentWeek].deadline
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) return 'Игра началась'
@@ -57,7 +58,7 @@ const Week = (props) => {
 
   function onClickHandler(index) {
     if (props.others.isItYou && (today() || props.isAdmin)) {
-      const buttons = { ...props.render.buttons }
+      const buttons = { ...props.auth.buttonState[props.currentWeek] }
       const i = Math.floor(index / 2)
       const yesno = index % 2
 
@@ -68,7 +69,13 @@ const Week = (props) => {
 
       buttons[i] = status
 
-      if (props.isAdmin || today()) props.setRenderButtonState(buttons)
+      if (props.isAdmin || today()) {
+        const buttonState = { ... props.auth.buttonState }
+        buttonState[props.currentWeek] = buttons
+
+        props.setButtonState(buttonState)
+        props.setRenderButtonState(buttons)
+      }
       if (props.isAdmin) props.setRenderAnswerState(buttons)
     }
   }
@@ -77,34 +84,43 @@ const Week = (props) => {
     if (today() || props.isAdmin) {
       props.switchLoading(true)
 
-      const data = props.render.buttons
-      const url = props.isAdmin
-        ? `pack/answers/weeks/${props.render.id}.json`
-        : `pack/users/${props.auth.localId}/weeks/${props.render.id}.json`
+      const checkWeek = await axios.get(`/pack/weeks.json`)
+      const lastWeek = checkWeek.data[Object.keys(checkWeek.data)[Object.keys(checkWeek.data).length - 1]]
+      const uploadAvailiable = lastWeek.activity && lastWeek.id === props.currentWeek
 
-      await axios.put(url, data)
-
-      const buttonState = { ...props.auth.buttonState }
-      const answerState = { ...props.auth.answerState }
-
-      buttonState[props.render.id] = props.render.buttons
-
-      if (props.isAdmin && props.isItYou) answerState[props.render.id] = props.render.answers
-
-      const obj = {
-        buttonState: buttonState,
-        answerState: answerState
+      if (!uploadAvailiable) {
+        alert ('Текущая неделя была изменена, страница будет перезагружена')   
+        props.switchLoading(false)
+        window.location.reload()
       }
-
-      props.initButtonState(obj)
-      props.setRenderLoadedState(props.render.buttons)
-      props.switchLoading(false)
-      navigate('/calendar')
+      if (uploadAvailiable) {
+        const data = props.auth.buttonState[props.currentWeek]
+        const url = props.isAdmin
+          ? `pack/answers/weeks/${props.currentWeek}.json`
+          : `pack/users/${props.auth.localId}/weeks/${props.currentWeek}.json`
+  
+        await axios.put(url, data)
+  
+        const buttonState = { ...props.auth.buttonState }
+        const answerState = { ...props.auth.answerState }
+  
+        if (props.isAdmin && props.isItYou) answerState[props.currentWeek] = props.auth.answerState[props.currentWeek]
+  
+        const obj = {
+          buttonState: buttonState,
+          answerState: answerState
+        }
+  
+        props.initButtonState(obj)
+        props.setRenderLoadedState(props.auth.buttonState[props.currentWeek])
+        props.switchLoading(false)
+        navigate('/calendar')
+      }
     }
   }
 
   function activityHelper(id, index) {
-    if (props.others.isItYou) return props.render.buttons[index]
+    if (props.others.isItYou) return props.auth.buttonState[props.render.id][index]
     if (!today() && !props.others.isItYou) return props.others.buttons[id][index]
     return null
   }
@@ -158,7 +174,7 @@ const Week = (props) => {
     if (props.render.questions) {
       return props.render.questions.map((question, index) => {
         const activity = activityHelper(props.week.weekId, index)
-        const result = props.render.answers[index]
+        const result = props.auth.answerState[props.render.id][index]
         const correct = activity === result
         const styleSet = [props.mobile ? 'QuestionsDefaultMobile' : 'QuestionsDefault']
         const greyscale = props.isAdmin && props.others.isItYou
@@ -179,7 +195,7 @@ const Week = (props) => {
           <Button
             text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
             onClick={submitHandler}
-            width={'351px'}
+            width={props.mobile ? '351px' : '144px'}
             disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
           />
         ) : null}
@@ -193,7 +209,7 @@ const Week = (props) => {
   }
 
   function isTouched() {
-    return JSON.stringify(props.render.loaded) !== JSON.stringify(props.render.buttons)
+    return JSON.stringify(props.auth.buttonState) !== JSON.stringify(props.auth.loadedState)
   }
 
   function renderOthersName() {
@@ -281,6 +297,7 @@ const Week = (props) => {
 function mapStateToProps(state) {
   return {
     render: state.render,
+    currentWeek: state.week.currentWeek,
     week: state.week,
     auth: state.auth,
     others: state.others,
@@ -292,9 +309,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    logout: () => dispatch(actionLogout()),
     switchLoading: (status) => dispatch(actionSwitchLoading(status)),
     setWeekId: (id) => dispatch(actionSetWeekId(id)),
     nullifyRender: () => dispatch(actionNullifyRender()),
+    setButtonState: (buttons) => dispatch(actionSetButtonState(buttons)),
     setRenderButtonState: (buttons) => dispatch(actionSetRenderButtonState(buttons)),
     setRenderAnswerState: (buttons) => dispatch(actionSetRenderAnswerState(buttons)),
     setRenderLoadedState: (buttons) => dispatch(actionSetRenderLoadedState(buttons)),
