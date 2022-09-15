@@ -89,7 +89,13 @@ const Sidebar = (props) => {
     return (
       <div>
         <div className={classes.Container}>
-          <div style={{ width: props.isOpen ? '170px' : '45px' }} className={classes.Sidebar}>
+          <div
+            style={{
+              width: props.isOpen ? '170px' : '45px',
+              height: props.height
+            }}
+            className={classes.Sidebar}
+          >
             <div className={classes.Bars} onClick={() => toggleSidebarOpen()}>
               {props.isOpen ? <FaTimes /> : <FaBars />}
             </div>
@@ -117,7 +123,8 @@ function mapStateToProps(state) {
     isAdmin: state.auth.isAdmin,
     mobile: state.view.mobile,
     tabActive: state.view.tabActive,
-    isOpen: state.view.isOpen
+    isOpen: state.view.isOpen,
+    height: state.view.height
   }
 }
 

@@ -1,4 +1,4 @@
-import { SET_VIEW, TOGGLE_SIDEBAR, SET_TAB_ACTIVE } from "../types"
+import { SET_VIEW, TOGGLE_SIDEBAR, SET_TAB_ACTIVE, SET_HEIGHT } from "../types"
 
 export function actionSetView(boolean) {
   return {
@@ -11,6 +11,13 @@ export function actionSetTabActive(index) {
   return {
     type: SET_TAB_ACTIVE,
     payload: index
+  }
+}
+
+export function actionSetHeight(height) {
+  return {
+    type: SET_HEIGHT,
+    payload: height
   }
 }
 

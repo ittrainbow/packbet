@@ -3,16 +3,25 @@ import classes from './About.module.scss'
 import Button from '../../UI/Button/Button'
 import { connect } from 'react-redux'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { actionSetHeight } from '../../redux/actions/viewActions'
 
 class About extends Component {
   state = {
     show: false
   }
 
-  toggleHandler() {
-    this.setState({
+  toggleHandler = async () => {
+    await this.setState({
       show: !this.state.show
     })
+
+    if (!this.props.mobile) {
+      const height = Math.max(
+        document.getElementById('container').offsetHeight + 40,
+        window.innerHeight
+      )
+      this.props.setHeight(height)
+    }
   }
 
   textHandler() {
@@ -104,4 +113,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(About)
+function mapDispatchToProps(dispatch) {
+  return {
+    setHeight: (height) => dispatch(actionSetHeight(height))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(About)

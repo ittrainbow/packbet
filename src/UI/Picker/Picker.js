@@ -13,7 +13,7 @@ const BasicDateTimePicker = (props) => {
 
   function dateConverter(newValue) {
     const time = new Date(newValue).getTime()
-    
+
     return time
   }
 

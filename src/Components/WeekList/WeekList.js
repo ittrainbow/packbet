@@ -55,52 +55,51 @@ const WeekList = (props) => {
   }
 
   function renderOthersName() {
-
-    if (props.mobile && !props.others.isItYou) return (
-      <Button 
-        text={`Вы просматриваете ответы ${props.others.name}
-        Нажмите для возврата к своим ответам`} 
-        width={'360px'} 
-        onClick={() => props.cleanOtherUser()}
-      />
-    )
-
-    let notify = []
-    if (!props.others.isItYou) {
-      notify.push(`Вы просматриваете ответы ${props.others.name}`)
-      notify.push(`Вернуться к своим ответам`)
-    }
-
-    return notify.map(function (el, index) {
-      if (index === notify.length - 1)
+    if (props.editorStatus !== 'editor') {
+      if (props.mobile && !props.others.isItYou)
         return (
-          <div 
-            key={index} 
-            className={props.mobile ? classes.BackLinkMobile : classes.BackLink} 
+          <Button
+            text={`Вы просматриваете ответы ${props.others.name}
+          Нажмите для возврата к своим ответам`}
+            width={'360px'}
             onClick={() => props.cleanOtherUser()}
-          >
+          />
+        )
+
+      let notify = []
+      if (!props.others.isItYou) {
+        notify.push(`Вы просматриваете ответы ${props.others.name}`)
+        notify.push(`Вернуться к своим ответам`)
+      }
+
+      return notify.map((el, index) => {
+        if (index === notify.length - 1)
+          return (
+            <div
+              key={index}
+              className={props.mobile ? classes.BackLinkMobile : classes.BackLink}
+              onClick={() => props.cleanOtherUser()}
+            >
+              {el}
+            </div>
+          )
+
+        return (
+          <div key={index} className={props.mobile ? classes.OtherUserMobile : classes.OtherUser}>
             {el}
           </div>
         )
-
-      return (
-        <div 
-          key={index} 
-          className={props.mobile ? classes.OtherUserMobile : classes.OtherUser}
-        >
-          {el}
-        </div>
-      )
-    })
+      })
+    }
   }
 
   return (
-    <div 
+    <div
       className={props.mobile ? classes.WeekListMobile : classes.WeekList}
-      style={{ marginLeft: props.editorStatus !== 'results' || props.mobile ? '20px' : '0px'}}
+      style={{ marginLeft: props.editorStatus !== 'results' || props.mobile ? '20px' : '0px' }}
     >
-      <div style={{marginBottom: '10px'}}>{renderOthersName()}</div>
-      <div style={{marginBottom: '10px'}}>{renderWeeks()}</div>
+      <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
+      <div style={{ marginBottom: '10px' }}>{renderWeeks()}</div>
     </div>
   )
 }

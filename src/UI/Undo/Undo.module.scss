@@ -1,40 +1,30 @@
 .Undo {
-  font-size: 15px;
-  padding: 3px;
+  font-size: 18px;
+  padding-top: 4px;
   width: 25px;
   height: 22px;
   float: right;
-  color: #555;
+  color: #444;
   border: none;
   border-radius: 2px;
-  background-color: #e7e7e7;
   margin-top: -6px;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .UndoMobile {
-  font-size: 23px;
+  font-size: 21px;
   width: 23px;
   height: 25px;
   float: right;
-  color: #555;
+  color: #444;
   border: none;
   border-radius: 2px;
-  background-color: #e7e7e7;
   margin-top: 5px;
-}
-
-.Icon {
-  text-align: center;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .Undo:hover {
   color: crimson;
-  transition: all .2s ease-in;
-  cursor: pointer;
-}
-
-.Undo:active {
-  background-color: #ddd;
   transition: all .2s ease-in;
   cursor: pointer;
 }

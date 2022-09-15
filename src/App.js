@@ -6,11 +6,9 @@ import { connect } from 'react-redux'
 import { actionSetView } from './redux/actions/viewActions'
 import { actionAutoLogin } from './redux/actions/authActions'
 
-
 class App extends Component {
   componentDidMount() {
     this.props.setView(isMobile)
-    // this.props.autoLogin()
   }
 
   render() {

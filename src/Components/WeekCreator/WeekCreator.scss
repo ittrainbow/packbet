@@ -26,6 +26,10 @@
   padding: 5px 5px 5px 0px;
 }
 
+.ButtonsMobile {
+  margin-bottom: 15px;
+}
+
 .Button {
   margin-left: 100px;
   margin-right: 5px;
@@ -52,7 +56,6 @@
 }
 
 .Undo {
-  background-color: #e7e7e7;
   border: 1px solid #f11;
 }
 
@@ -68,7 +71,6 @@
 }
 
 .Edit {
-  background-color: #e7e7e7;
   border: 1px solid #f11;
 }
 
@@ -80,6 +82,7 @@
   margin-top: 0px;
   margin-bottom: 3px;
   height: 14px;
+  width: 400px;
   padding: 10px 10px 10px 10px;
 }
 
@@ -110,17 +113,17 @@
 .UndoEdit {
   margin-top: -20px;
   margin-left: 3px;
-  background: #d9d9d9
 }
 
 .QuestionsSelected {
-  background-color: #fadada;
+  background-color: #d1e4d3;
   font-size: 13px;
   border: 1px solid #555;
   border-radius: 2px;
   margin-top: 0px;
   margin-bottom: 3px;
   height: 14px;
+  width: 400px;
   padding: 10px 10px 10px 10px;
 }
 
@@ -128,12 +131,12 @@
   font-size: 16px;
   display: table;
   height: 31px;
-  background-color: #fadada;
+  background-color: #d1e4d3;
   border: 1px solid #777;
   border-radius: 2px;
   margin-bottom: 3px;
   padding-left: 5px;
-  width: 340px;
+  width: 345px;
 }
 
 .QuestionsList {
@@ -195,6 +198,11 @@
 
 .Row {
   width: 420px;
+}
+
+.Picker {
+  margin-top: 10px;
+  margin-bottom: 12px;
 }
 
 .RowMobile {

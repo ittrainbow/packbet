@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const Undo = (props) => {
   return (
     <button onClick={props.onClick} className={props.mobile ? classes.UndoMobile : classes.Undo}>
-      <FaTrash className={classes.Icon} />
+      <FaTrash />
     </button>
   )
 }

@@ -43,9 +43,9 @@ const Table = (props) => {
 
   function renderString(string, index) {
     const lightgrey = index % 2 === 0
-    const colPlc = props.mobile ? classes.colPlcMobile : classes.colPlc
     const colOne = props.mobile ? classes.colOneMobile : classes.colOne
     const colTwo = props.mobile ? classes.colTwoMobile : classes.colTwo
+    const colThree = props.mobile ? classes.colThreeMobile : classes.colThree
     const link = !string ? null : (
       <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
         {string.name}
@@ -54,11 +54,11 @@ const Table = (props) => {
 
     return (
       <tr key={index} style={{ backgroundColor: lightgrey ? '#e3e3e3' : '' }}>
-        <th className={colPlc}>{!string ? '#' : string.place}</th>
-        <th className={colOne}>{!string ? 'Игрок' : link}</th>
-        <th className={colTwo}>{!string ? 'Верно' : string.correctAnswers}</th>
-        <th className={colTwo}>{!string ? 'Всего' : string.totalAnswers}</th>
-        <th className={colTwo}>{!string ? '%' : string.percentage}</th>
+        <th className={colOne}>{!string ? '#' : string.place}</th>
+        <th className={colTwo}>{!string ? 'Игрок' : link}</th>
+        <th className={colThree}>{!string ? 'Верно' : string.correctAnswers}</th>
+        <th className={colThree}>{!string ? 'Всего' : string.totalAnswers}</th>
+        <th className={colThree}>{!string ? '%' : string.percentage}</th>
       </tr>
     )
   }
@@ -75,23 +75,23 @@ const Table = (props) => {
       </table>
       <hr style={{ width: props.mobile ? '350px' : '420px' }} />
 
-      {props.loading 
-        ? <Loader />
-        : <table>
-            <tbody>
-              {props.standings
-                ? Object.keys(props.standings)
-                  .map((el, index) =>
-                    renderString(props.standings[el], index)
-                  )
-                : null}
-            </tbody>
-          </table>
-      }
+      {props.loading ? (
+        <Loader />
+      ) : (
+        <table style={{ marginBottom: '15px' }}>
+          <tbody>
+            {props.standings
+              ? Object.keys(props.standings).map((el, index) =>
+                  renderString(props.standings[el], index)
+                )
+              : null}
+          </tbody>
+        </table>
+      )}
 
-      {props.isAdmin 
-        ? <Button width={'350px'} onClick={() => submitHandler()} text="Пересчитать" />
-        : null}
+      {props.isAdmin ? (
+        <Button width={'350px'} onClick={() => submitHandler()} text="Пересчитать" />
+      ) : null}
     </div>
   )
 }

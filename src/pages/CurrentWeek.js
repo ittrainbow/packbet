@@ -6,12 +6,20 @@ import { actionSetRender, actionSetRenderButtons } from '../redux/actions/render
 import { actionSetWeekId } from '../redux/actions/weekActions'
 import { setState } from '../frame/setState'
 import { getLastWeek } from '../frame/getLastWeek'
+import { actionSetHeight } from '../redux/actions/viewActions'
 
 class CurrentWeek extends Component {
   componentDidMount() {
     const week = getLastWeek(this.props.weeks)
     const state = setState(this.props.currentWeek, this.props.buttons, this.props.answers)
 
+    if (!this.props.mobile) {
+      const height = Math.max(
+        document.getElementById('container').offsetHeight + 40,
+        window.innerHeight
+      )
+      this.props.setHeight(height)
+    }
     this.props.setWeekId(this.props.currentWeek)
     this.props.setRender(week)
     this.props.setRenderButtons(state)
@@ -19,7 +27,10 @@ class CurrentWeek extends Component {
 
   render() {
     return (
-      <div className={this.props.mobile ? classes.ContainerMobile : classes.Container}>
+      <div
+        id="container"
+        className={this.props.mobile ? classes.ContainerMobile : classes.Container}
+      >
         <h3>{this.props.mobile ? null : 'Текущая игра'}</h3>
         <Week />
       </div>
@@ -42,7 +53,8 @@ function mapDispatchToProps(dispatch) {
   return {
     setWeekId: (id) => dispatch(actionSetWeekId(id)),
     setRender: (week) => dispatch(actionSetRender(week)),
-    setRenderButtons: (data) => dispatch(actionSetRenderButtons(data))
+    setRenderButtons: (data) => dispatch(actionSetRenderButtons(data)),
+    setHeight: (height) => dispatch(actionSetHeight(height))
   }
 }
 
