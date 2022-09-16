@@ -96,12 +96,14 @@ const WeekList = (props) => {
   }
 
   return (
-    <div
-      className={props.mobile ? classes.WeekListMobile : classes.WeekList}
-      style={{ marginLeft: props.editorStatus !== 'results' || props.mobile ? '20px' : '0px' }}
-    >
-      <div style={{ marginBottom: '10px' }}>{renderOthersName()}</div>
-      <div style={{ marginBottom: '10px' }}>{renderWeeks()}</div>
+    <div className={props.mobile 
+      ? classes.WeekListMobile 
+      : props.editorStatus !== 'results' 
+        ? classes.WeekListMargin 
+        : classes.WeekList
+    }>
+      <div className={classes.MarginBottom}>{renderOthersName()}</div>
+      <div className={classes.MarginBottom}>{renderWeeks()}</div>
     </div>
   )
 }

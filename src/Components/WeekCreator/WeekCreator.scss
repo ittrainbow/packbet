@@ -74,15 +74,23 @@
   border: 1px solid #f11;
 }
 
-.Questions {
+.Questions, .QuestionsMobile {  
   background-color: #e7e7e7;
-  font-size: 13px;
-  border: 1px solid #555;
+  border: 1px solid #777;
   border-radius: 2px;
-  margin-top: 0px;
   margin-bottom: 3px;
+}
+
+.Row {
+  display: flex;
+  flex-direction: row
+}
+
+.Questions {
+  font-size: 13px;
+  margin-top: 0px;
   height: 14px;
-  width: 400px;
+  width: 398px;
   padding: 10px 10px 10px 10px;
 }
 
@@ -90,12 +98,8 @@
   font-size: 16px;
   display: table;
   height: 31px;
-  background-color: #e7e7e7;
-  border: 1px solid #777;
-  border-radius: 2px;
-  margin-bottom: 3px;
   padding-left: 5px;
-  width: 345px;
+  width: 344px;
 }
 
 .QuestionInnerEdMobile {
@@ -115,28 +119,27 @@
   margin-left: 3px;
 }
 
-.QuestionsSelected {
-  background-color: #d1e4d3;
-  font-size: 13px;
+.QuestionsSelected, .QuestionsSelectedMobile {
   border: 1px solid #555;
   border-radius: 2px;
-  margin-top: 0px;
   margin-bottom: 3px;
+}
+
+.QuestionsSelected {
+  font-size: 13px;
+  background-color: #d1e4d3;
   height: 14px;
-  width: 400px;
+  width: 398px;
   padding: 10px 10px 10px 10px;
 }
 
 .QuestionsSelectedMobile {
   font-size: 16px;
+  background-color: #d1e4d3;
   display: table;
   height: 31px;
-  background-color: #d1e4d3;
-  border: 1px solid #777;
-  border-radius: 2px;
-  margin-bottom: 3px;
   padding-left: 5px;
-  width: 345px;
+  width: 344px;
 }
 
 .QuestionsList {
@@ -152,12 +155,8 @@
   background: #d3d3d3;
 }
 
-.Week {
+.FloatLeft {
   width: 70px;
-  float: left;
-}
-
-.WeekMobile {
   float: left;
 }
 
@@ -166,16 +165,8 @@
   float: right;
 }
 
-.NameMobile {
-  float: right;
-}
-
 .Total {
   width: 70px;
-  float: right;
-}
-
-.TotalMobile {
   float: right;
 }
 
@@ -184,16 +175,16 @@
   float: left;
 }
 
-.LineMobile {
-  float: left;
-}
-
 .Inputs {
-  width: 420px;
+  width: 422px;
+  margin-top: 15px;
+  margin-left: -1px;
 }
 
 .InputsMobile {
-  width: 360px;
+  width: 351px;
+  margin-left: -0.1em;
+  margin-top: 10px;
 }
 
 .Row {
@@ -211,4 +202,8 @@
 
 .checkbox {
   color: red
+}
+
+.QuestionsInner {
+  margin-top: -2px;
 }

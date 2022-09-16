@@ -1,11 +1,14 @@
-.Userpage {
+.Userpage, .UserpageMobile {
   margin-top: 20px;
+}
+
+.Userpage {
+  font-size: 14px;
   width: 420px;
 }
 
 .UserpageMobile {
   font-size: 18px;
-  margin-top: 20px;
   width: 360px;
 }
 

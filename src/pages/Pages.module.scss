@@ -1,15 +1,21 @@
-.Container {
+.Container, .ContainerMobile {
   margin-top: 20px;
-  font-size: 14px;
   margin-left: 20px;
+}
+
+.Container {
+  font-size: 14px;
   width: 420px;
 }
 
 .ContainerMobile {
-  margin-top: 20px;
-  margin-left: 20px;
   margin-bottom: 15px;
   width: 360px;
+}
+
+.ContainerMobileMod {
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .Container h3 {

@@ -1,85 +1,13 @@
-.WeekEditor {
-  font-size: 14px;
-  display: block;
-  justify-content: center;
+.WeekEditor, .WeekEditorMobile {
   margin-top: 20px;
   margin-left: 20px;
   background: #d3d3d3;
+}
+
+.WeekEditor {
+  font-size: 15px;
 }
 
 .WeekEditorMobile {
   font-size: 17px;
-  display: block;
-  justify-content: center;
-  margin-top: 20px;
-  margin-left: 20px;
-  background: #d3d3d3;
-}
-
-.Margin {
-  margin-left: 20px;
-  margin-top: 20px
-}
-
-.WeekEditor h3 {
-  text-align: left;
-  margin-bottom: 10px;
-}
-
-.WeekEditor form {
-  background: #eee;
-  border: 1px solid;
-  border-radius: 2px;
-  padding: 15px;
-}
-
-.WeekEditor li {
-  list-style-type: none;
-  margin-bottom: 3px;
-}
-
-.WeekEditor li a {
-  text-decoration: none;
-  color: #333;
-}
-
-.WeekEditor li a:hover {
-  color: #363f54;
-}
-
-.Total {
-  width: 70px;
-  float: right;
-}
-
-.Line {
-  width: 320px;
-  float: left;
-}
-
-.QuestionsList {
-  margin-top: 4px;
-  margin-bottom: 10px;
-}
-
-.Questions {
-  background: #eee;
-  line-height: 25px;
-  margin-bottom: 2px;
-  border: 1px solid #111;
-  padding: 2px 2px 2px 7px;
-  height: 24px;
-  border-radius: 2px;
-  border-color: #777;
-}
-
-.QuestionsActive {  
-  background: rgb(225, 200, 200);
-  line-height: 25px;
-  margin-bottom: 2px;
-  border: 1px solid #111;
-  padding: 2px 2px 2px 7px;
-  height: 24px;
-  border-radius: 2px;
-  border-color: #777;
 }

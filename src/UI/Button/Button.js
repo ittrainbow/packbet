@@ -12,7 +12,6 @@ const Button = (props) => {
         onClick={props.onClick}
         className={cls.join(' ')}
         disabled={props.disabled}
-        style={{ width: props.width || '200px' }}
       >
         {props.text}
       </button>

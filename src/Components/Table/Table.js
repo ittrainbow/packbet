@@ -53,7 +53,7 @@ const Table = (props) => {
     )
 
     return (
-      <tr key={index} style={{ backgroundColor: lightgrey ? '#e3e3e3' : '' }}>
+      <tr key={index} className={lightgrey ? classes.RowLightGrey : classes.RowGrey }>
         <th className={colOne}>{!string ? '#' : string.place}</th>
         <th className={colTwo}>{!string ? 'Игрок' : link}</th>
         <th className={colThree}>{!string ? 'Верно' : string.correctAnswers}</th>
@@ -66,19 +66,19 @@ const Table = (props) => {
   return (
     <div>
       {props.localId ? (
-        <div className={props.mobile ? classes.ClickNotifyMobile : classes.ClickNotify}>
+        <div className={classes.ClickNotify}>
           Выберите игрока, чтобы увидеть его прогнозы
         </div>
       ) : null}
       <table className={props.mobile ? classes.TableMobile : classes.Table}>
         <tbody>{renderString()}</tbody>
-      </table>
-      <hr style={{ width: props.mobile ? '350px' : '420px' }} />
+      </table>   
+      <hr className={props.mobile ? classes.LineMobile : classes.Line} />
 
       {props.loading ? (
         <Loader />
       ) : (
-        <table style={{ marginBottom: '15px' }}>
+        <table className={classes.MarginBottom}>
           <tbody>
             {props.standings
               ? Object.keys(props.standings).map((el, index) =>
@@ -90,7 +90,7 @@ const Table = (props) => {
       )}
 
       {props.isAdmin ? (
-        <Button width={'350px'} onClick={() => submitHandler()} text="Пересчитать" />
+        <Button width={props.mobile ? '351px' : '144px'} onClick={() => submitHandler()} text="Пересчитать" />
       ) : null}
     </div>
   )

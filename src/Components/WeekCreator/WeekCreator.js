@@ -121,7 +121,7 @@ const WeekCreator = (props) => {
         props.setCurrentError('Лимит длины вопроса = 60 символам')
       }
     }
-    if (tag === 'setCurrentTotal') props.setCurrentTotal(Number(event.target.value))
+    if (tag === 'setCurrentTotal') props.setCurrentTotal(parseFloat(event.target.value) || '')
     if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
   }
 
@@ -249,7 +249,7 @@ const WeekCreator = (props) => {
 
         return (
           <div key={question.id} className={setClass}>
-            <table style={{ marginTop: '-2px' }}>
+            <table className={'QuestionsInner'}>
               <thead>
                 <tr>
                   <td className={props.mobile ? 'QuestionInnerEdMobile' : 'QuestionInnerEd'}>
@@ -280,53 +280,44 @@ const WeekCreator = (props) => {
 
   function renderInputs() {
     return (
-      <div style={{ marginLeft: '-0.1em', marginTop: props.mobile ? null : '10px' }}>
-        <table>
-          <thead>
-            <tr>
-              <td>
-                <Input
-                  label="Неделя"
-                  type="number"
-                  width={props.mobile ? '54px' : '70px'}
-                  value={props.editor.currentWeek}
-                  onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
-                />
-              </td>
-              <td>
-                <Input
-                  label="Игра"
-                  width={props.mobile ? '265px' : '351px'}
-                  value={props.editor.currentName || ''}
-                  onChange={(event) => onChangeHandler(event, 'setCurrentName')}
-                />
-              </td>
-            </tr>
-          </thead>
-        </table>
-        <table style={{ marginTop: '-10px' }}>
-          <thead>
-            <tr>
-              <td>
-                <Input
-                  label="Линия"
-                  width={props.mobile ? '255px' : '351px'}
-                  value={props.editor.currentQuestion}
-                  onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
-                />
-              </td>
-              <td>
-                <Input
-                  label="Тотал"
-                  width={props.mobile ? '64px' : '70px'}
-                  type="number"
-                  value={props.editor.currentTotal}
-                  onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
-                />
-              </td>
-            </tr>
-          </thead>
-        </table>
+      <div className={props.mobile ? 'InputsMobile' : 'Inputs'}>
+        <table><thead><tr>
+          <td>
+            <Input 
+              label="Неделя"
+              type="number"
+              width={64}
+              value={props.editor.currentWeek}
+              onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
+            />
+          </td>
+          <td>
+            <Input
+              label="Игра"
+              width={props.mobile ? 255 : 355}
+              value={props.editor.currentName}
+              onChange={(event) => onChangeHandler(event, 'setCurrentName')}
+            />
+          </td>
+        </tr></thead></table>
+        <table><thead><tr>
+          <td>
+            <Input
+              label="Линия"
+              width={props.mobile ? 255 : 355}
+              value={props.editor.currentQuestion}
+              onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
+            />
+          </td>
+          <td>
+            <Input
+              label="Тотал"
+              width={64}
+              value={props.editor.currentTotal}
+              onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
+            />
+          </td>
+        </tr></thead></table>
       </div>
     )
   }
@@ -337,7 +328,7 @@ const WeekCreator = (props) => {
 
   function renderActivity() {
     return (
-      <div style={{marginBottom: '10px'}}>
+      <div>
         Активность: {' '}
         <input 
           className='checkbox' 
@@ -354,18 +345,15 @@ const WeekCreator = (props) => {
     return (
       <div className={props.mobile ? 'ButtonsMobile' : 'Buttons'}>
         <Button
-          width={props.mobile ? '352px' : '141px'}
           text="Отменить"
           onClick={noSaveExitHandler}
         />
         <Button
-          width={props.mobile ? '352px' : '141px'}
           text="Сохранить"
           onClick={() => submitHandler()}
         />
         {props.editor.currentHash ? (
           <Button
-            width={props.mobile ? '352px' : '141px'}
             text="Удалить"
             onClick={() => deleteWeekHandler()}
           />
