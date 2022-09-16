@@ -58,7 +58,6 @@ class Userpage extends Component {
   changeNameHandler() {
     return (
       <Input
-        width={'250px'}
         value={this.state.newName}
         onChange={(event) => this.onChangeHandler(event)}
       />

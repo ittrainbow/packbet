@@ -51,6 +51,13 @@ const Sidebar = (props) => {
     navigate(item.path)
   }
 
+  function classSelector(index, active) {
+    if (!index && active) return classes.FirstActive
+    if (index && active) return classes.OthersActive
+    if (!index && !active) return classes.FirstInactive
+    if (index && !active) return classes.OthersInactive
+  }
+
   function renderMobile() {
     return (
       <div>
@@ -61,14 +68,8 @@ const Sidebar = (props) => {
                 {menuItem.map((item, index) => {
                   return (
                     <td key={index}>
-                      <div
-                        style={{
-                          color: index === props.tabActive ? '#3d9f40' : '#d3d3d3',
-                          fontSize: !index ? '44px' : '36px',
-                          marginTop: !index ? '7px' : '5px',
-                          marginLeft: !index ? '15px' : '12px',
-                          marginRight: !index ? '3px' : '4px'
-                        }}
+                      <div 
+                        className={classSelector(index, index === props.tabActive)}
                         onClick={() => clickHandler(item)}
                       >
                         {item.icon}
@@ -90,15 +91,13 @@ const Sidebar = (props) => {
       <div>
         <div className={classes.Container}>
           <div
-            style={{
-              width: props.isOpen ? '170px' : '45px',
-              height: props.height
-            }}
-            className={classes.Sidebar}
+            style={{ height: props.height }}
+            className={props.isOpen ? classes.SidebarOpen : classes.SidebarClosed}
           >
             <div className={classes.Bars} onClick={() => toggleSidebarOpen()}>
               {props.isOpen ? <FaTimes /> : <FaBars />}
             </div>
+
             {menuItem.map((item, index) => {
               return (
                 <NavLink to={item.path} key={index} className={classes.Link}>

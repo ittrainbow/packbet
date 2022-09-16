@@ -7,6 +7,7 @@ const YesNoButtons = (props) => {
   let styleSetFirst = [props.mobile ? 'buttonMobile' : 'button']
   let styleSetSecond = [props.mobile ? 'buttonMobile' : 'button']
 
+  if (props.mobile) styleSetFirst.push('marginLeft')
   if (props.activity === 1 && !props.result) styleSetFirst.push('selected', 'green')
   if (props.activity === 2 && !props.result) styleSetSecond.push('selected', 'red')
   if (props.activity === 1 && props.result) {
@@ -21,7 +22,6 @@ const YesNoButtons = (props) => {
   return (
     <div className={props.mobile ? 'buttonsDivMobile' : 'buttonsDiv'}>
       <button
-        style={{ marginLeft: props.mobile ? '-25px' : null }}
         className={styleSetFirst.join(' ')}
         onClick={() => props.onClick(props.index * 2)}
       >

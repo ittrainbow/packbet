@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
+import classes from '../../App.module.scss'
 import Input from '../../UI/Input/Input'
 import Button from '../../UI/Button/Button'
 import Loader from '../../UI/Loader/Loader'
-import './ForgotPassword.css'
+import './ForgotPassword.scss'
 import { actionSetEmail } from '../../redux/actions/authActions'
 import { actionSetMessage, actionSwitchLoading } from '../../redux/actions/loadingActions'
 
@@ -53,18 +54,16 @@ const ForgotPassword = (props) => {
   return (
     <div>
       <div className={'ForgotPassword'}>
-        <Input width={'300px'} value={props.email} onChange={(event) => changeHandler(event)} />
+        <Input className={classes.InputWide} value={props.email} onChange={(event) => changeHandler(event)} />
       </div>
 
       {!props.loading ? (
         <div>
-          <div style={{ marginTop: '20px' }}>
-            <Button text="Выслать пароль" onClick={() => recoverPassword()} />
-          </div>
-          <div style={{ fontSize: '14px', marginTop: '10px', color: 'red' }}>{props.message}</div>
-          <div style={{ marginTop: '15px' }}>
-            <Button text="Вход" onClick={() => returnHandler()} />
-          </div>
+          <Button text="Выслать пароль" onClick={() => recoverPassword()} />
+
+          <div className={classes.DivContainerRed}>{props.message}</div>
+
+          <Button text="Вход" onClick={() => returnHandler()} />
         </div>
       ) : (
         <Loader />

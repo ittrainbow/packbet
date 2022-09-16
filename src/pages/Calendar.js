@@ -20,7 +20,7 @@ class Calendar extends Component {
 
   renderHeader() {
     if (this.props.mobile)
-      return <h3 style={{ marginLeft: '20px', marginTop: '20px' }}>Календарь</h3>
+      return <h3 className={this.props.mobile ? classes.ContainerMobileMod : null}>Календарь</h3>
     return <h3>Календарь</h3>
   }
 

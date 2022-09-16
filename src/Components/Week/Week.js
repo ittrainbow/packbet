@@ -70,7 +70,7 @@ const Week = (props) => {
       buttons[i] = status
 
       if (props.isAdmin || today()) {
-        const buttonState = { ... props.auth.buttonState }
+        const buttonState = { ...props.auth.buttonState }
         buttonState[props.currentWeek] = buttons
 
         props.setButtonState(buttonState)
@@ -125,19 +125,25 @@ const Week = (props) => {
     return null
   }
 
+  function renderYesNo(question, index, activity, result) {
+    return (
+      <YesNoButtons
+        index={index}
+        activity={activity}
+        total={question.total}
+        result={result}
+        arrow={Number(question.total) === 1}
+        onClick={(index) => onClickHandler(index)}
+    />
+    )
+  }
+
   function renderDesktop(question, index, activity, result, styleSet) {
     return (
       <div key={index} className={styleSet.join(' ')}>
         {question.question}
         {question.total && question.total !== 1 ? `: ${question.total}` : null}
-        <YesNoButtons
-          index={index}
-          activity={activity}
-          total={question.total}
-          result={result}
-          arrow={Number(question.total) === 1}
-          onClick={(index) => onClickHandler(index)}
-        />
+        {renderYesNo(question, index, activity, result)}
       </div>
     )
   }
@@ -150,13 +156,7 @@ const Week = (props) => {
           {question.total && question.total !== 1 ? `: ${question.total}` : null}
         </td>
         <td className={'QuestionButtonsMobile'}>
-          <YesNoButtons
-            index={index}
-            activity={activity}
-            result={result}
-            arrow={Number(question.total) === 1}
-            onClick={(index) => onClickHandler(index)}
-          />
+          {renderYesNo(question, index, activity, result)}
         </td>
       </tr>
     )
@@ -190,17 +190,15 @@ const Week = (props) => {
 
   function renderSubmits() {
     return (
-      <div style={{ marginBottom: '15px' }}>
+      <div>
         {today() ? (
           <Button
             text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
             onClick={submitHandler}
-            width={props.mobile ? '351px' : '144px'}
             disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
           />
         ) : null}
         <Button
-          width={props.mobile ? '351px' : '144px'}
           text={today() ? 'Не сохранять' : 'Назад'}
           onClick={doNotSave}
         />
@@ -218,7 +216,6 @@ const Week = (props) => {
         <Button
           text={`Вы просматриваете ответы ${props.others.name}
             Нажмите для возврата к своим ответам`}
-          width={'350px'}
           onClick={() => props.cleanOtherUser()}
         />
       )
@@ -265,7 +262,7 @@ const Week = (props) => {
   function unfinishedWeek() {
     if (props.mobile && !props.others.isItYou && today())
       return (
-        <div style={{ marginBottom: '5px', fontSize: '15px' }}>
+        <div className='UnfinishedWeek'>
           Чужие прогнозы для активных игр скрыты
         </div>
       )
@@ -273,7 +270,7 @@ const Week = (props) => {
 
   return (
     <div className={props.mobile ? 'WeekMobile' : 'Week'}>
-      <h3 style={{ fontSize: props.mobile ? '20px' : '16px', width: '300px' }}>
+      <h3 className={props.mobile ? 'h3Mobile' : 'h3' }>
         #{props.render.number}: {props.render.name}
       </h3>
       {renderCountdown()}

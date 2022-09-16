@@ -22,12 +22,19 @@
   font-size: 17px;
 }
 
-.Sidebar {
-  background: #000;
+.SidebarOpen, .SidebarClosed {
+  background: black;
   color: lightgrey;
-  width: 100px;
   height: 100%;
-  transition: all .3s ease-in;
+  transition: all .22s ease-in;
+}
+
+.SidebarOpen {
+  width: 170px
+}
+
+.SidebarClosed {
+  width: 47px;
 }
 
 .SidebarMobile {
@@ -62,20 +69,6 @@
   gap: 15px;
 }
 
-.MenuHeader {
-  display: flex;
-  color: lightgrey;
-  padding: 0px 9px;
-  gap: 15px;
-}
-
-.MenuHeaderMobile {
-  display: flex;
-  color: lightgrey;
-  padding: 0px 9px;
-  gap: 15px;
-}
-
 .Link:hover {
   background: #3d9f40;
   color: #000;
@@ -98,4 +91,33 @@
 
 .LinkTextMobile {
   font-size: 24px;
+}
+
+.FirstActive, .FirstInactive {
+  font-size: 44px;
+  margin-top: 7px;
+  margin-left: 17px;
+}
+
+.OthersActive, .OthersInactive {
+  font-size: 36px;
+  margin-top: 5px;
+  margin-left: 12px;
+  margin-right: 3px;
+}
+
+.FirstActive {
+  color: #3d9f40;
+}
+
+.FirstInactive {
+  color: #d3d3d3;
+}
+
+.OthersActive {
+  color: #3d9f40;
+}
+
+.OthersInactive {
+  color: #d3d3d3;
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { actionSetEditorStatus } from '../redux/actions/weekActions'
 import WeekList from '../Components/WeekList/WeekList'
+import classes from '../pages/Pages.module.scss'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
 class Editor extends Component {
@@ -20,15 +21,7 @@ class Editor extends Component {
   render() {
     return (
       <div id="container">
-        <h3
-          style={{
-            fontSize: this.props.mobile ? '20px' : '17px',
-            marginLeft: '20px',
-            marginTop: '20px'
-          }}
-        >
-          Редактор
-        </h3>
+        <h3 className={classes.ContainerMobileMod}>Редактор</h3>
         <WeekList />
       </div>
     )

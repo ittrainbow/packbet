@@ -77,29 +77,38 @@ body {
   margin-top: -3px;
 }
 
-.Countdown {
+.Countdown, .CountdownMobile {
   display: flex;
   margin-top: 5px;
-  border: 1px solid #777;
-  padding: 5px 5px 5px 6px;
-  border-radius: 2px;
-  background-color: #e7e7e7;
   margin-bottom: 5px;
+  border-radius: 2px;
+  padding: 5px 0px 5px 0px;
+}
+
+.Countdown {
+  background-color: #e7e7e7;
+  border: 1px solid #777;
   height: 15px;
-  width: 407px;
+  font-size: 13px;
+  width: 413px;
+  padding-left: 5px;
 }
 
 .CountdownMobile {
-  display: flex;
-  font-size: 15px;
+  background-color: #d3d3d3;
+  border: none;
   height: 20px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  font-size: 15px;
 }
 
 .AnswerCorrect {
   border: 1px solid green;
   background-color: #dff6df;
+}
+
+.AnswerWrong {
+  border: 1px solid red;
+  background-color: #f9e5e5;
 }
 
 .Back {
@@ -121,35 +130,48 @@ body {
   font-size: 13px;
 }
 
-.AnswerWrong {
-  border: 1px solid red;
-  background-color: #f9e5e5;
-}
-
 .Questions:hover {
   background-color: #d9d9d9;
 }
 
-.QuestionsBlock {
+.QuestionsBlock, .QuestionsBlockMobile {
   margin-bottom: 10px;
 }
 
 .QuestionsBlockMobile {
-  margin-bottom: 10px;
   margin-left: -0.1em;
+}
+
+.SaveNotify, .SaveNotifyMobile {
+  margin-bottom: 10px;
+  color: rgb(210, 0, 0);
 }
 
 .SaveNotify {
   margin-top: 10px;
-  margin-bottom: 10px;
-  color: rgb(210, 0, 0);
   font-size: 13px;
   width: 350px;
 }
 
 .SaveNotifyMobile {
   margin-top: -5px;
-  margin-bottom: 10px;
-  color: rgb(210, 0, 0);
   font-size: 16px;
+  width: 330px;
+}
+
+.UnfinishedWeek {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.h3, .h3Mobile {
+  width: 330px;
+}
+
+.h3 {
+ font-size: 16px;
+}
+
+.h3Mobile {
+  font-size: 20px;
 }

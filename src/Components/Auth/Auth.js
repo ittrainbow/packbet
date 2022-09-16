@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import classes from './Auth.module.scss'
 import Button from '../../UI/Button/Button'
 import Input from '../../UI/Input/Input'
-import './Auth.module.scss'
 import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
 import { actionAuth, actionSetAuthPage } from '../../redux/actions/authActions'
@@ -23,7 +22,8 @@ class Auth extends Component {
       password: {
         value: '',
         type: 'password',
-        label: 'Пароль'
+        label: 'Пароль',
+        placeholder: 'Не менее 6 символов'
       }
     },
     tierline: null,
@@ -84,9 +84,8 @@ class Auth extends Component {
           key={controlName + index}
           type={control.type}
           value={control.value}
-          width={'300px'}
-          labelWidth={'300px'}
           label={control.label}
+          placeholder={control.placeholder}
           onChange={(event) => this.onChangeHandler(event, controlName)}
         />
       )
@@ -156,14 +155,16 @@ class Auth extends Component {
       formControls.confirm = {
         value: '',
         type: 'password',
-        label: 'Повторите пароль'
+        label: 'Повторите пароль',
+        placeholder: 'Не менее 6 символов'
       }
       formControls.name = {
         value: '',
         type: 'name',
-        label: 'Юзернейм (не менее 3 символов)'
+        label: 'Имя пользователя',
+        placeholder: 'Не менее 3 символов'
+        
       }
-      formControls.password.label = 'Пароль (не менее 6 символов)'
     } else {
       delete formControls.name
       delete formControls.confirm
@@ -194,19 +195,15 @@ class Auth extends Component {
         {this.renderInputs()}
         <div className={classes.message}>{this.props.message}</div>
         <div className={classes.tierline}>{this.state.tierline}</div>
-        <div style={{ marginBottom: '6px' }}>
-          <Button
-            text={this.state.authPage ? 'Войти' : 'Регистрация'}
-            onClick={this.state.authPage ? this.loginHandler : this.registerHandler}
-            disabled={!this.state.isFormValid}
-          />
-        </div>
-        <div style={{ marginBottom: '6px' }}>
-          <Button
-            text={this.state.authPage ? 'Регистрация' : 'Войти'}
-            onClick={this.authRegHandler.bind(this)}
-          />
-        </div>
+        <Button
+          text={this.state.authPage ? 'Войти' : 'Регистрация'}
+          onClick={this.state.authPage ? this.loginHandler : this.registerHandler}
+          disabled={!this.state.isFormValid}
+        />
+        <Button
+          text={this.state.authPage ? 'Регистрация' : 'Войти'}
+          onClick={this.authRegHandler.bind(this)}
+        />
       </form>
     )
   }

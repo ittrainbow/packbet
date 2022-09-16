@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AppRoutes from './Components/Routes/Routes'
+import AppRoutes from './Routes/Routes'
 import InitState from './Components/InitState/InitState'
 import { isMobile } from 'react-device-detect'
 import { connect } from 'react-redux'

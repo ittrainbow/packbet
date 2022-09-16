@@ -6,45 +6,39 @@
   margin-bottom: 5px;
 }
 
-
 .Input label {
-  margin-bottom: 3px;
   font-size: 13px;
-  padding: 0px;
-  display: block;
-  font-weight: bold;
 }
 
 .InputMobile label {
   margin-top: 10px;
-  margin-bottom: 3px;
   font-size: 17px;
-  padding: 0px;
+}
+
+.Input label, .InputMobile label {
+  margin-bottom: 3px;
   display: block;
   font-weight: bold;
+  width: 100%;
+}
+
+.Input input, .InputMobile input {
+  display: block;
+  border: 1px solid #444444;
+  border-radius: 2px;
+  margin: 0 0 5px;
+  transition: all 0.22s ease-in-out;
 }
 
 .Input input {
-  display: block;
   box-sizing: border-box;
-  border: 1px solid #444444;
-  border-radius: 2px;
   padding: 7px;
-  margin: 0 0 5px;
   width: 300px;
-  outline: none;
-  transition: all 0.22s ease-in-out;
 }
 
 .InputMobile input {
-  display: block;
-  border: 1px solid #444444;
-  border-radius: 2px;
   padding: 12px 7px;
-  margin: 0 0 5px;
   font-size: 17px;
-  outline: none;
-  transition: all 0.22s ease-in-out;
 }
 
 .Input span {
