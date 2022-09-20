@@ -9,6 +9,10 @@ const Button = (props) => {
   return (
     <div>
       <button
+        style={{ 
+          width: props.width ? props.width + 'px' : props.mobile ? '351px' : '136px',
+          height: props.height ? props.height + 'px' : props.mobile ? '50px' : '30px'
+        }}
         onClick={props.onClick}
         className={cls.join(' ')}
         disabled={props.disabled}

@@ -7,6 +7,7 @@ import './Week.scss'
 import Loader from '../../UI/Loader/Loader'
 import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons'
 import Button from '../../UI/Button/Button'
+import OtherUser from '../../UI/OtherUser/OtherUser'
 import axios from '../../axios/axios'
 import { actionSetTabActive } from '../../redux/actions/viewActions'
 import { actionSetWeekId } from '../../redux/actions/weekActions'
@@ -18,12 +19,11 @@ import {
   actionSetRenderAnswerState,
   actionSetRenderLoadedState
 } from '../../redux/actions/renderActions'
-import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 import { actionLogout } from '../../redux/actions/authActions'
 
 const Week = (props) => {
   const navigate = useNavigate()
-  const deadline = props.week.weeks[props.currentWeek].deadline
+  const deadline = props.week.weeks[props.week.weekId].deadline
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) return 'Игра началась'
@@ -58,7 +58,7 @@ const Week = (props) => {
 
   function onClickHandler(index) {
     if (props.others.isItYou && (today() || props.isAdmin)) {
-      const buttons = { ...props.auth.buttonState[props.currentWeek] }
+      const buttons = { ...props.auth.buttonState[props.week.weekId] }
       const i = Math.floor(index / 2)
       const yesno = index % 2
 
@@ -71,10 +71,12 @@ const Week = (props) => {
 
       if (props.isAdmin || today()) {
         const buttonState = { ...props.auth.buttonState }
-        buttonState[props.currentWeek] = buttons
+        buttonState[props.week.weekId] = buttons
 
-        props.setButtonState(buttonState)
-        props.setRenderButtonState(buttons)
+        if (props.week.weekId === props.currentWeek) {
+          props.setButtonState(buttonState)
+          props.setRenderButtonState(buttons)
+        }
       }
       if (props.isAdmin) props.setRenderAnswerState(buttons)
     }
@@ -138,38 +140,6 @@ const Week = (props) => {
     )
   }
 
-  function renderDesktop(question, index, activity, result, styleSet) {
-    return (
-      <div key={index} className={styleSet.join(' ')}>
-        {question.question}
-        {question.total && question.total !== 1 ? `: ${question.total}` : null}
-        {renderYesNo(question, index, activity, result)}
-      </div>
-    )
-  }
-
-  function renderMobile(question, index, activity, result, styleSet) {
-    return (
-      <tr key={index} className={styleSet.join(' ')}>
-        <td className={'QuestionInnerMobile'}>
-          {question.question}
-          {question.total && question.total !== 1 ? `: ${question.total}` : null}
-        </td>
-        <td className={'QuestionButtonsMobile'}>
-          {renderYesNo(question, index, activity, result)}
-        </td>
-      </tr>
-    )
-  }
-
-  function renderUpperLevel() {
-    return (
-      <table>
-        <thead>{renderQuestions()}</thead>
-      </table>
-    )
-  }
-
   function renderQuestions() {
     if (props.render.questions) {
       return props.render.questions.map((question, index) => {
@@ -181,9 +151,20 @@ const Week = (props) => {
 
         if (activity && result && correct && !greyscale) styleSet.push('AnswerCorrect')
         if (activity && result && !correct && !greyscale) styleSet.push('AnswerWrong')
-        return props.mobile
-          ? renderMobile(question, index, activity, result, styleSet)
-          : renderDesktop(question, index, activity, result, styleSet)
+
+        return (
+          <div key={index} className={styleSet.join(' ')}>
+            <table><tbody><tr>
+              <td className={props.mobile ? 'QuestionInnerMobile' : 'QuestionInner'}>
+                {question.question}
+                {question.total && question.total !== 1 ? `: ${question.total}` : null}
+              </td>
+              <td style={{marginRight: '50px'}}>
+                {renderYesNo(question, index, activity, result)}
+              </td>
+            </tr></tbody></table>
+          </div>
+        )
       })
     }
   }
@@ -191,7 +172,7 @@ const Week = (props) => {
   function renderSubmits() {
     return (
       <div>
-        {today() ? (
+        {today() || props.isAdmin ? (
           <Button
             text={isTouched() && props.others.isItYou ? 'Сохранить' : 'Изменений нет'}
             onClick={submitHandler}
@@ -210,44 +191,11 @@ const Week = (props) => {
     return JSON.stringify(props.auth.buttonState) !== JSON.stringify(props.auth.loadedState)
   }
 
-  function renderOthersName() {
-    if (props.mobile && !props.others.isItYou)
-      return (
-        <Button
-          text={`Вы просматриваете ответы ${props.others.name}
-            Нажмите для возврата к своим ответам`}
-          onClick={() => props.cleanOtherUser()}
-        />
-      )
-
-    let notify = []
-    if (!props.others.isItYou) {
-      notify.push(`Вы просматриваете ответы ${props.others.name}`)
-      if (today()) notify.push(`Чужие прогнозы для активных игр скрыты`)
-      notify.push(`Вернуться к своим ответам`)
-    }
-
-    return notify.map(function (el, index) {
-      if (index === notify.length - 1)
-        return (
-          <div key={index} className={'BackBlue'} onClick={() => props.cleanOtherUser()}>
-            {el}
-          </div>
-        )
-      return (
-        <div key={index} className={'Back'}>
-          {el}
-        </div>
-      )
-    })
-  }
-
   function renderCountdown() {
-    const text = 'До начала игры:\u00A0'
     if (today())
       return (
         <div className={props.mobile ? 'CountdownMobile' : 'Countdown'}>
-          {text}
+          {'До начала игры:\u00A0'}
           <Countdown date={deadline} renderer={renderer} />
         </div>
       )
@@ -259,13 +207,12 @@ const Week = (props) => {
     )
   }
 
-  function unfinishedWeek() {
-    if (props.mobile && !props.others.isItYou && today())
-      return (
-        <div className='UnfinishedWeek'>
-          Чужие прогнозы для активных игр скрыты
-        </div>
-      )
+  function notifyChangesHandler() {
+    return (
+      <div className={props.mobile ? 'SaveNotifyMobile' : 'SaveNotify'}>
+        {props.others.isItYou ? 'У вас есть несохраненные изменения' : null}
+      </div>
+    )
   }
 
   return (
@@ -275,17 +222,13 @@ const Week = (props) => {
       </h3>
       {renderCountdown()}
       <div className={props.mobile ? null : 'OthersName'}>
-        {renderOthersName()}
-        {unfinishedWeek()}
+        <OtherUser/>
       </div>
       <div className={props.mobile ? 'QuestionsBlockMobile' : 'QuestionsBlock'}>
-        {props.mobile ? renderUpperLevel() : renderQuestions()}
+        {renderQuestions()}
       </div>
 
-      <div className={props.mobile ? 'SaveNotifyMobile' : 'SaveNotify'}>
-        {isTouched() && props.others.isItYou ? 'У вас есть несохраненные изменения' : null}
-      </div>
-
+      {isTouched() ? notifyChangesHandler() : null}
       {props.loading.loading ? <Loader /> : props.others.isItYou ? renderSubmits() : null}
     </div>
   )
@@ -315,7 +258,6 @@ function mapDispatchToProps(dispatch) {
     setRenderAnswerState: (buttons) => dispatch(actionSetRenderAnswerState(buttons)),
     setRenderLoadedState: (buttons) => dispatch(actionSetRenderLoadedState(buttons)),
     setAnswerState: (answerState) => dispatch(actionSetAnswerState(answerState)),
-    cleanOtherUser: () => dispatch(actionCleanOtherUser()),
     initButtonState: (state) => dispatch(actionInitButtonState(state)),
     setCalendarTabActive: () => dispatch(actionSetTabActive(3))
   }

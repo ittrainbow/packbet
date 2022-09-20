@@ -78,7 +78,7 @@ const Table = (props) => {
       {props.loading ? (
         <Loader />
       ) : (
-        <table className={classes.MarginBottom}>
+        <table className={props.mobile ? classes.MarginBottomMobile : classes.MarginBottom}>
           <tbody>
             {props.standings
               ? Object.keys(props.standings).map((el, index) =>
