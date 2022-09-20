@@ -8,21 +8,21 @@
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.22s;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .Button {
-  height: 30px;
   width: 136px;
   font-size: 14px;
   margin-right: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .ButtonMobile {
-  height: 50px;
   width: 351px;
   font-size: 17px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .Button:focus {

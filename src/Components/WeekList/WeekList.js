@@ -4,14 +4,12 @@ import { connect } from 'react-redux'
 
 import classes from './WeekList.module.scss'
 import Loader from '../../UI/Loader/Loader'
+import OtherUser from '../../UI/OtherUser/OtherUser'
 
 import { actionSetWeekId } from '../../redux/actions/weekActions'
 import { actionSetEditorFromWeekList } from '../../redux/actions/editorActions'
-import { 
-  actionSetRender, 
-} from '../../redux/actions/renderActions'
+import { actionSetRender } from '../../redux/actions/renderActions'
 import { actionCleanOtherUser } from '../../redux/actions/othersActions'
-import Button from '../../UI/Button/Button'
 
 const WeekList = (props) => {
   function weekSelectorHandler(id) {
@@ -57,44 +55,6 @@ const WeekList = (props) => {
     } else return <Loader />
   }
 
-  function renderOthersName() {
-    if (props.editorStatus !== 'editor') {
-      if (props.mobile && !props.others.isItYou)
-        return (
-          <Button
-            text={`Вы просматриваете ответы ${props.others.name} Нажмите для возврата к своим ответам`}
-            width={'360px'}
-            onClick={() => props.cleanOtherUser()}
-          />
-        )
-
-      let notify = []
-      if (!props.others.isItYou) {
-        notify.push(`Вы просматриваете ответы ${props.others.name}`)
-        notify.push(`Вернуться к своим ответам`)
-      }
-
-      return notify.map((el, index) => {
-        if (index === notify.length - 1)
-          return (
-            <div
-              key={index}
-              className={props.mobile ? classes.BackLinkMobile : classes.BackLink}
-              onClick={() => props.cleanOtherUser()}
-            >
-              {el}
-            </div>
-          )
-
-        return (
-          <div key={index} className={props.mobile ? classes.OtherUserMobile : classes.OtherUser}>
-            {el}
-          </div>
-        )
-      })
-    }
-  }
-
   return (
     <div className={props.mobile 
       ? classes.WeekListMobile 
@@ -102,7 +62,7 @@ const WeekList = (props) => {
         ? classes.WeekListMargin 
         : classes.WeekList
     }>
-      <div className={classes.MarginBottom}>{renderOthersName()}</div>
+      <div className={props.mobile ? classes.MarginLeft : null}><OtherUser/></div>
       <div className={classes.MarginBottom}>{renderWeeks()}</div>
     </div>
   )

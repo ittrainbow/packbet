@@ -7,7 +7,8 @@ import {
 } from '../types.js'
 
 const initialState = {
-  editorStatus: 'results'
+  editorStatus: 'results',
+  isWeekList: false
 }
 
 export default function weekReducer(state = initialState, action) {

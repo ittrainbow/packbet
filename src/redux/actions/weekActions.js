@@ -1,4 +1,10 @@
-import { APP_INIT, SET_WEEK_ID, SET_CURRENT_WEEK, SET_EDITOR_STATUS, SET_STANDINGS } from '../types'
+import { 
+  APP_INIT, 
+  SET_WEEK_ID, 
+  SET_CURRENT_WEEK, 
+  SET_EDITOR_STATUS, 
+  SET_STANDINGS
+} from '../types'
 import axios from 'axios'
 
 export function actionInit(weeks) {

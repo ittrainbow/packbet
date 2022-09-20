@@ -8,19 +8,22 @@ import {
 import { actionSetWeekId } from '../redux/actions/weekActions'
 import { getLastWeek } from '../frame/getLastWeek'
 import { actionSetHeight } from '../redux/actions/viewActions'
+import Loader from '../UI/Loader/Loader'
 
 class CurrentWeek extends Component {
   componentDidMount() {
     const week = getLastWeek(this.props.weeks)
+    this.props.setWeekId(this.props.currentWeek)
     
     if (!this.props.mobile) {
-      const height = Math.max(
-        document.getElementById('container').offsetHeight + 40,
-        window.innerHeight
-      )
-      this.props.setHeight(height)
+      setTimeout(() => {
+        const height = Math.max(
+          document.getElementById('container').offsetHeight + 40,
+          window.innerHeight
+        )
+        this.props.setHeight(height)
+      }, 10)
     }
-    this.props.setWeekId(this.props.currentWeek)
     this.props.setRender(week)
   }
 
@@ -31,7 +34,9 @@ class CurrentWeek extends Component {
         className={this.props.mobile ? classes.ContainerMobile : classes.Container}
       >
         <h3>{this.props.mobile ? null : 'Текущая игра'}</h3>
-        <Week />
+        { this.props.weekId
+          ? <Week />
+          : <Loader />}
       </div>
     )
   }
@@ -39,6 +44,7 @@ class CurrentWeek extends Component {
 
 function mapStateToProps(state) {
   return {
+    weekId: state.week.weekId,
     weeks: state.week.weeks,
     currentWeek: state.week.currentWeek,
     buttons: state.auth.buttonState,

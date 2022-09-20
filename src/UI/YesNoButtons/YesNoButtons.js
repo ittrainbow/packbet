@@ -7,7 +7,9 @@ const YesNoButtons = (props) => {
   let styleSetFirst = [props.mobile ? 'buttonMobile' : 'button']
   let styleSetSecond = [props.mobile ? 'buttonMobile' : 'button']
 
-  if (props.mobile) styleSetFirst.push('marginLeft')
+  if (props.mobile) {
+    styleSetFirst.push('marginLeft')
+  }
   if (props.activity === 1 && !props.result) styleSetFirst.push('selected', 'green')
   if (props.activity === 2 && !props.result) styleSetSecond.push('selected', 'red')
   if (props.activity === 1 && props.result) {

@@ -10,7 +10,7 @@
 .button {  
   width: 30px;
   margin-left: 5px;
-  margin-top: 2px;
+  margin-top: 5px;
   padding-top: 3px;
   font-size: 13px;
   cursor: pointer;
@@ -35,11 +35,12 @@
 
 .buttonsDiv {
   margin-top: -5px;
+  width: 75px;
 }
 
 .buttonsDivMobile {
-  margin-top: 1px;
-  width: 50px;
+  padding-left: 25px;
+  margin-top: -18px;
 }
 
 .button:active {

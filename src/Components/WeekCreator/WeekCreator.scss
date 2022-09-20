@@ -20,12 +20,6 @@
   background: #d3d3d3;
 }
 
-.Buttons {
-  width: 100%;
-  display: flex;
-  padding: 5px 5px 5px 0px;
-}
-
 .ButtonsMobile {
   margin-bottom: 15px;
 }
@@ -79,37 +73,17 @@
   border: 1px solid #777;
   border-radius: 2px;
   margin-bottom: 3px;
-}
-
-.Row {
-  display: flex;
-  flex-direction: row
-}
-
-.Questions {
-  font-size: 13px;
-  margin-top: 0px;
-  height: 14px;
-  width: 398px;
-  padding: 10px 10px 10px 10px;
-}
-
-.QuestionsMobile {
-  font-size: 16px;
   display: table;
-  height: 31px;
-  padding-left: 5px;
-  width: 344px;
 }
 
-.QuestionInnerEdMobile {
-  padding-top: 3px;
+.QuestionInnerEditorMobile {
+  padding-top: 1px;
   font-size: 16px;
   width: 280px;
   line-height: 0.9em;
 }
 
-.QuestionInnerEd {
+.QuestionInnerEditor {
   font-size: 14px;
   width: 350px;
 }
@@ -119,27 +93,49 @@
   margin-left: 3px;
 }
 
+.ActivityMobile, .Activity {
+  margin-bottom: 10px;
+}
+
+.ActivityMobile {
+  margin-top: 5px;
+}
+
 .QuestionsSelected, .QuestionsSelectedMobile {
   border: 1px solid #555;
   border-radius: 2px;
   margin-bottom: 3px;
 }
 
+.Questions, .QuestionsSelected {
+  font-size: 14px;
+  height: 34px;
+  padding-left: 5px;
+  width: 414px;
+}
+
+.Questions {
+  background-color: #e7e7e7;
+}
+
 .QuestionsSelected {
-  font-size: 13px;
   background-color: #d1e4d3;
-  height: 14px;
-  width: 398px;
-  padding: 10px 10px 10px 10px;
+}
+
+.QuestionsMobile, .QuestionsSelectedMobile {
+  font-size: 16px;
+  display: table;
+  height: 34px;
+  padding-left: 5px;
+  width: 344px;
+}
+
+.QuestionsMobile {
+  background-color: #e7e7e7;
 }
 
 .QuestionsSelectedMobile {
-  font-size: 16px;
   background-color: #d1e4d3;
-  display: table;
-  height: 31px;
-  padding-left: 5px;
-  width: 344px;
 }
 
 .QuestionsList {

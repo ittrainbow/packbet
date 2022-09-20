@@ -90,8 +90,11 @@ const WeekCreator = (props) => {
   }
 
   function onChangeHandler(event, tag) {
+    const value = event.target.value
+
     if (tag === 'setCurrentWeek') {
-      const number = Number(event.target.value)
+      const number = !isNaN(value) ? Number(value) : value
+
       props.setCurrentWeek(number)
       if (number <= props.weeks.length && number % 1 === 0 && number !== 1 && number > 0) {
         props.setCurrentError('Вероятно, эта неделя уже создана')
@@ -102,27 +105,33 @@ const WeekCreator = (props) => {
       }
     }
     if (tag === 'setCurrentName') {
-      const text = event.target.value
-      if (text.length < 61) {
-        props.setCurrentName(text.substring(0, 1).toUpperCase() + text.substring(1))
+      if (value.length < 61) {
+        props.setCurrentName(value.substring(0, 1).toUpperCase() + value.substring(1))
         props.setCurrentError('')
       } else {
-        props.setCurrentName(text.substring(0, 1).toUpperCase() + text.substring(1, 60))
+        props.setCurrentName(value.substring(0, 1).toUpperCase() + value.substring(1, 60))
         props.setCurrentError('Лимит длины вопроса = 60 символам')
       }
     }
     if (tag === 'setCurrentQuestion') {
-      const text = event.target.value
-      if (text.length < 61) {
-        props.setCurrentQuestion(text.substring(0, 1).toUpperCase() + text.substring(1))
+      if (value.length < 61) {
+        props.setCurrentQuestion(value.substring(0, 1).toUpperCase() + value.substring(1))
         props.setCurrentError('')
       } else {
-        props.setCurrentQuestion(text.substring(0, 1).toUpperCase() + text.substring(1, 60))
+        props.setCurrentQuestion(value.substring(0, 1).toUpperCase() + value.substring(1, 60))
         props.setCurrentError('Лимит длины вопроса = 60 символам')
       }
     }
-    if (tag === 'setCurrentTotal') props.setCurrentTotal(parseFloat(event.target.value) || '')
-    if (tag === 'setCurrentDeadline') props.setCurrentDeadline(event.target.value)
+    if (tag === 'setCurrentTotal') {
+      const prev = parseFloat(props.editor.currentTotal)
+      let total = value.length > 0 ? value.replace(/,/g, '.') : ''
+      
+      if (total.slice(-1) === '.' && prev % 1 !== 0.5) total = total + '5'
+      if (total.slice(-1) === '.') total = total.slice(0, -1)
+      
+      props.setCurrentTotal(parseFloat(total) || '')
+    }
+    if (tag === 'setCurrentDeadline') props.setCurrentDeadline(value)
   }
 
   function readyToSubmit() {
@@ -240,32 +249,22 @@ const WeekCreator = (props) => {
       props.editor.questions.map((question) => {
         const setClass =
           question.id === props.editor.currentID
-            ? props.mobile
-              ? 'QuestionsSelectedMobile'
-              : 'QuestionsSelected'
-            : props.mobile
-            ? 'QuestionsMobile'
-            : 'Questions'
+            ? props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected'
+            : props.mobile ? 'QuestionsMobile' : 'Questions'
 
         return (
           <div key={question.id} className={setClass}>
-            <table className={'QuestionsInner'}>
-              <thead>
-                <tr>
-                  <td className={props.mobile ? 'QuestionInnerEdMobile' : 'QuestionInnerEd'}>
-                    {question.question}: {question.total}
-                  </td>
-                  <td>
-                    {' '}
-                    <Edit onClick={() => editQuestionHandler(question.id)} />{' '}
-                  </td>
-                  <td>
-                    {' '}
-                    <Undo onClick={() => deleteQuestionHandler(question.id)} />{' '}
-                  </td>
-                </tr>
-              </thead>
-            </table>
+            <table><thead><tr>
+              <td className={props.mobile ? 'QuestionInnerEditorMobile' : 'QuestionInnerEditor'}>
+                {question.question}: {question.total}
+              </td>
+              <td onClick={() => editQuestionHandler(question.id)}>
+                <Edit/>
+              </td>
+              <td onClick={() => deleteQuestionHandler(question.id)} >
+                <Undo />
+              </td>
+            </tr></thead></table>
           </div>
         )
       })
@@ -294,7 +293,7 @@ const WeekCreator = (props) => {
           <td>
             <Input
               label="Игра"
-              width={props.mobile ? 255 : 355}
+              width={props.mobile ? 255 : 352}
               value={props.editor.currentName}
               onChange={(event) => onChangeHandler(event, 'setCurrentName')}
             />
@@ -304,7 +303,7 @@ const WeekCreator = (props) => {
           <td>
             <Input
               label="Линия"
-              width={props.mobile ? 255 : 355}
+              width={props.mobile ? 255 : 352}
               value={props.editor.currentQuestion}
               onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
             />
@@ -313,6 +312,7 @@ const WeekCreator = (props) => {
             <Input
               label="Тотал"
               width={64}
+              type="float"
               value={props.editor.currentTotal}
               onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
             />
@@ -328,7 +328,7 @@ const WeekCreator = (props) => {
 
   function renderActivity() {
     return (
-      <div>
+      <div className={props.mobile ? 'ActivityMobile' : 'Activity'}>
         Активность: {' '}
         <input 
           className='checkbox' 
@@ -336,7 +336,7 @@ const WeekCreator = (props) => {
           name='activity'
           checked={props.editor.weekActivity || false}
           onChange={activityHandler}
-          ></input>
+        />
       </div>
     )
   }

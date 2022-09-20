@@ -20,7 +20,10 @@ class Editor extends Component {
 
   render() {
     return (
-      <div id="container">
+      <div
+        id="container"
+        className={this.props.mobile ? classes.ContainerMobileLeft : classes.ContainerLeft}
+      >
         <h3 className={classes.ContainerMobileMod}>Редактор</h3>
         <WeekList />
       </div>
@@ -30,7 +33,7 @@ class Editor extends Component {
 
 function mapStateToProps(state) {
   return {
-    mobile: state.view.mobile
+    mobile: state.view.mobile,
   }
 }
 

@@ -1,10 +1,8 @@
 .WeekList {
   margin-top: 10px;
   text-align: left;
-  width: 420px;
+  width: 417px;
 }
-
-
 
 .WeekList li {
   list-style-type: none;
@@ -62,11 +60,12 @@
   width: 350px;
   color: darkblue; 
   cursor: pointer;
+  margin-bottom: 8px;
 }
 
 .BackLinkMobile {
   font-size: 17px;
-  width: 420px;
+  width: 417px;
   color: darkblue;
 }
 
@@ -93,11 +92,12 @@
 .Weeks {
   font-size: 14px;
   padding: 3px 5px 3px 5px;
+  width: 403px;
 }
 
 .WeeksMobile {
   font-size: 18px;
-  width: 334px;
+  width: 332px;
   height: 24px;
   padding: 5px 5px 5px 5px;
 }
@@ -106,6 +106,10 @@
   cursor: pointer;
 }
 
-.marginBottom {
+.MarginBottom {
   margin-bottom: 10px;
+}
+
+.MarginLeft {
+  margin-left: 20px;
 }

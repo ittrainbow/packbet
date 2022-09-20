@@ -21,60 +21,56 @@ body {
   font-size: 16px;
 }
 
-.QuestionTotal {
-  width: 420px;
-}
-
-.QuestionTotalMobile {
-  width: 340px;
+.QuestionsDefault, .QuestionsDefaultMobile {
+  display: table;
+  vertical-align: middle;
+  background-color: #e7e7e7;
+  border: 1px solid #777;
+  border-radius: 2px;
+  margin-bottom: 3px;
 }
 
 .QuestionsDefault {
   font-size: 13px;
-  display: block;
-  background-color: #e7e7e7;
-  border: 1px solid #777;
-  padding: 6px 3px 6px 6px;
-  border-radius: 2px;
-  margin-bottom: 3px;
-  height: 15px;
-  width: 409px;
+  line-height: 0.9em;
+  padding: 4px 3px 4px 5px;
+  height: 25px;
+  width: 400px;
 }
 
 .QuestionsDefaultMobile {
   font-size: 16px;
-  display: table;
-  vertical-align: middle;
-  line-height: 0.9em;
   height: 28px;
-  background-color: #e7e7e7;
-  border: 1px solid #777;
+  line-height: 0.9em;
   padding: 1px 2px 6px 6px;
-  border-radius: 2px;
-  margin-bottom: 3px;
   width: 341px;
 }
 
-.QuestionInner {
-  width: 350px;
-}
 
-.QuestionInnerMobile {  
+.QuestionInner, .QuestionInnerMobile {  
   display: table-cell;
-  font-size: 16px;
-  width: 255px;
+  vertical-align: center;
   height: 28px;
-  padding: 4px 0 0 0;
 }
 
-.QuestionButtons {
-  display: table-cell;
-  vertical-align: middle
+.QuestionInner {
+  width: 329px;
+  line-height: 1em;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.QuestionInnerMobile {
+  font-size: 16px;
+  width: 260px;
+  padding: 4px 0 0 0;
 }
 
 .QuestionButtonsMobile {
   float: right;
-  margin-top: -3px;
 }
 
 .Countdown, .CountdownMobile {
@@ -82,7 +78,6 @@ body {
   margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 2px;
-  padding: 5px 0px 5px 0px;
 }
 
 .Countdown {
@@ -90,8 +85,9 @@ body {
   border: 1px solid #777;
   height: 15px;
   font-size: 13px;
-  width: 413px;
-  padding-left: 5px;
+  width: 409px;
+  padding-left: 7px;
+  padding: 5px 0px 5px 7px;
 }
 
 .CountdownMobile {
@@ -99,6 +95,7 @@ body {
   border: none;
   height: 20px;
   font-size: 15px;
+  padding: 5px 0px 5px 0px;
 }
 
 .AnswerCorrect {
@@ -111,18 +108,17 @@ body {
   background-color: #f9e5e5;
 }
 
-.Back {
-  font-size: 13px;
-  width: 420px;
-}
+// .Back {
+//   font-size: 13px;
+//   width: 420px;
+// }
 
-.BackBlue {
-  color: darkblue; 
-  cursor: pointer;
-  font-size: 13px;
-  margin-bottom: 10px;
-  width: 420px;
-}
+// .BackBlue {
+//   color: darkblue; 
+//   cursor: pointer;
+//   font-size: 13px;
+//   margin-bottom: 8px;
+// }
 
 .OthersName {
   margin-top: 7px;
@@ -134,27 +130,28 @@ body {
   background-color: #d9d9d9;
 }
 
-.QuestionsBlock, .QuestionsBlockMobile {
-  margin-bottom: 10px;
+.QuestionsBlock {  
+  margin-bottom: 3px;
 }
 
 .QuestionsBlockMobile {
-  margin-left: -0.1em;
+  margin-bottom: 5px;
 }
 
 .SaveNotify, .SaveNotifyMobile {
-  margin-bottom: 10px;
   color: rgb(210, 0, 0);
 }
 
 .SaveNotify {
+  margin-bottom: 4px;
   margin-top: 10px;
   font-size: 13px;
   width: 350px;
 }
 
 .SaveNotifyMobile {
-  margin-top: -5px;
+  margin-bottom: 5px;
+  margin-top: 8px;
   font-size: 16px;
   width: 330px;
 }
