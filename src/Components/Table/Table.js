@@ -46,6 +46,8 @@ const Table = (props) => {
     const colOne = props.mobile ? classes.colOneMobile : classes.colOne
     const colTwo = props.mobile ? classes.colTwoMobile : classes.colTwo
     const colThree = props.mobile ? classes.colThreeMobile : classes.colThree
+    const colFour = props.mobile ? classes.colFourMobile : classes.colFour
+    const colFive = props.mobile ? classes.colFiveMobile : classes.colFive
     const link = !string ? null : (
       <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
         {string.name}
@@ -58,7 +60,8 @@ const Table = (props) => {
         <th className={colTwo}>{!string ? 'Игрок' : link}</th>
         <th className={colThree}>{!string ? 'Верно' : string.correctAnswers}</th>
         <th className={colThree}>{!string ? 'Всего' : string.totalAnswers}</th>
-        <th className={colThree}>{!string ? '%' : string.percentage}</th>
+        <th className={colFour}>{!string ? 'Точно' : string.percentage}</th>
+        <th className={colFive}>{!string ? '90%' : ((string.ninety) * 100).toFixed(0) + '%'}</th>
       </tr>
     )
   }

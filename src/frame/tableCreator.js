@@ -1,6 +1,10 @@
 export default function tableCreator(users, answers) {
-  const table = []
+  
+  let table = []
+  const tableOver = []
+  const tableUnder = []
   const results = answers.data.weeks
+  const limit = answers.data.weeks.join(',').replace(',,', ',').split(',').length
 
   Object.keys(users).forEach((el) => {
     const name = users[el].name
@@ -13,32 +17,54 @@ export default function tableCreator(users, answers) {
     for (let i = 0; i < results.length; i++) {
       if (results[i] && week[i]) {
         for (let j = 0; j < week[i].length; j++) {
-          if (week[i][j] !== null) totalAnswers++
-          if (results[i][j] === week[i][j]) correctAnswers++
+          if (week[i][j] !== null && results[i][j]) {
+            totalAnswers++
+          }
+          if (results[i][j] === week[i][j] && results[i][j]) {
+            correctAnswers++
+          }
         }
       }
     }
 
     const calc = (correctAnswers / totalAnswers).toFixed(3)
+    const ninety = (totalAnswers / limit).toFixed(3)
     const percentage = isNaN(calc) ? '0.000' : calc
 
     if (name !== 'Администратор') {
-      table.push({
-        name: name,
-        totalAnswers: totalAnswers,
-        correctAnswers: correctAnswers,
-        percentage: percentage,
-        id: id
-      })
+      if (totalAnswers > limit - 27) {
+        tableOver.push({
+          name: name,
+          totalAnswers: totalAnswers,
+          correctAnswers: correctAnswers,
+          percentage: percentage,
+          id: id,
+          ninety: ninety
+        })
+      }
+
+      else {
+        tableUnder.push({
+          name: name,
+          totalAnswers: totalAnswers,
+          correctAnswers: correctAnswers,
+          percentage: percentage,
+          id: id,
+          ninety: ninety
+        })
+      }
     }
 
     function compare(a, b) {
-      if (a.correctAnswers < b.correctAnswers) return 1
-      if (a.correctAnswers > b.correctAnswers) return -1
+      if (a.percentage < b.percentage) return 1
+      if (a.percentage > b.percentage) return -1
       else return 0
     }
 
-    table.sort(compare)
+    tableOver.sort(compare)
+    tableUnder.sort(compare)
+
+    table = tableOver.concat(tableUnder)
   })
   
   Object.keys(table).forEach((el, index) => {

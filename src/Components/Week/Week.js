@@ -122,8 +122,8 @@ const Week = (props) => {
   }
 
   function activityHelper(id, index) {
-    if (props.others.isItYou) return props.auth.buttonState[props.render.id][index]
-    if (!today() && !props.others.isItYou) return props.others.buttons[id][index]
+    if (props.others.isItYou && id) return props.auth.buttonState[props.render.id][index]
+    if (!today() && !props.others.isItYou && id) return props.others.buttons[id][index]
     return null
   }
 
@@ -152,19 +152,22 @@ const Week = (props) => {
         if (activity && result && correct && !greyscale) styleSet.push('AnswerCorrect')
         if (activity && result && !correct && !greyscale) styleSet.push('AnswerWrong')
 
-        return (
-          <div key={index} className={styleSet.join(' ')}>
-            <table><tbody><tr>
-              <td className={props.mobile ? 'QuestionInnerMobile' : 'QuestionInner'}>
-                {question.question}
-                {question.total && question.total !== 1 ? `: ${question.total}` : null}
-              </td>
-              <td style={{marginRight: '50px'}}>
-                {renderYesNo(question, index, activity, result)}
-              </td>
-            </tr></tbody></table>
-          </div>
-        )
+        if (question) {
+          return (
+            <div key={index} className={styleSet.join(' ')}>
+              <table><tbody><tr>
+                <td className={props.mobile ? 'QuestionInnerMobile' : 'QuestionInner'}>
+                  {question.question}
+                  {question.total && question.total !== 1 ? `: ${question.total}` : null}
+                </td>
+                <td style={{marginRight: '50px'}}>
+                  {renderYesNo(question, index, activity, result)}
+                </td>
+              </tr></tbody></table>
+            </div>
+          )
+        }
+
       })
     }
   }

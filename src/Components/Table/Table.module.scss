@@ -1,12 +1,12 @@
 .Table {
   width: 417px;
-  font-size: 13px;
+  font-size: 14px;
   margin-top: 20px;
 }
 
 .TableMobile {
     width: 352px;
-    font-size: 16px;
+    font-size: 15px;
     margin-top: 20px;
 }
 
@@ -16,33 +16,71 @@
 }
 
 .colOneMobile {
-  width: 30px;
+  font-weight: 400;
+  font-size: 15px;
+  width: 23px;
   text-align: center
 }
 
 .colTwo {
-  width: 190px;
+  width: 145px;
   text-align: left
 }
 
 .colTwoMobile {
-  width: 161px;
+  font-size: 15px;
+  width: 136px;
+  font-weight: 550;
   text-align: left
 }
 
 .colThree {
-  width: 60px;
+  width: 55px;
   text-align: center
 }
 
 .colThreeMobile {
-  width: 50px;
+  font-weight: 400;
+  font-size: 15px;
+  width: 43px;
   text-align: center
 }
 
+.colFour, .colFive {
+  width: 55px;
+  text-align: center
+}
+
+.colFour {  
+  font-weight: 600;
+}
+
+.colFive {  
+  font-weight: 400;
+}
+
+.colFourMobile, .colFiveMobile {
+  font-size: 15px;
+  width: 48px;
+  text-align: center
+}
+
+.colFourMobile {
+  font-weight: 600;
+}
+
+.colFiveMobile {
+  font-weight: 400;
+}
+
+.userOut{
+  color: red
+}
+
+
 .ClickNotify {
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 15px;
   width: 100%;
 }
 
@@ -64,6 +102,10 @@
 
 .Line {
   width: 417px
+}
+
+.Link {
+  padding-top: 5px;
 }
 
 .LineMobile {

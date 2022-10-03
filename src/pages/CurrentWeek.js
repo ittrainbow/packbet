@@ -9,21 +9,14 @@ import { actionSetWeekId } from '../redux/actions/weekActions'
 import { getLastWeek } from '../frame/getLastWeek'
 import { actionSetHeight } from '../redux/actions/viewActions'
 import Loader from '../UI/Loader/Loader'
+import { getHeight } from '../frame/getHeight'
 
 class CurrentWeek extends Component {
   componentDidMount() {
     const week = getLastWeek(this.props.weeks)
     this.props.setWeekId(this.props.currentWeek)
     
-    if (!this.props.mobile) {
-      setTimeout(() => {
-        const height = Math.max(
-          document.getElementById('container').offsetHeight + 40,
-          window.innerHeight
-        )
-        this.props.setHeight(height)
-      }, 10)
-    }
+    if (!this.props.mobile) setTimeout(() => this.props.setHeight(getHeight()), 10)
     this.props.setRender(week)
   }
 
