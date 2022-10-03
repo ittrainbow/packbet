@@ -28,8 +28,9 @@ import {
 import { actionCurrentWeek } from '../../redux/actions/weekActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { actionSetButtonState, actionInitButtonState } from '../../redux/actions/authActions'
-import { actionSetTabActive } from '../../redux/actions/viewActions'
+import { actionSetTabActive, actionSetHeight } from '../../redux/actions/viewActions'
 import { getWeeks } from '../../frame/getWeeks'
+import { getHeight } from '../../frame/getHeight'
 
 const WeekCreator = (props) => {
   const navigate = useNavigate()
@@ -62,6 +63,8 @@ const WeekCreator = (props) => {
     props.setCurrentTotal('')
     props.switchLoading(false)
     props.setCurrentID('')
+    
+    if (!props.mobile) setTimeout(() => props.setHeight(getHeight()), 10)
   }
 
   function editQuestionHandler(id) {
@@ -87,6 +90,8 @@ const WeekCreator = (props) => {
     props.setCurrentQuestion('')
     props.setCurrentID('')
     props.setCurrentTotal('')
+
+    if (!props.mobile) setTimeout(() => props.setHeight(getHeight()), 10)
   }
 
   function onChangeHandler(event, tag) {
@@ -303,7 +308,7 @@ const WeekCreator = (props) => {
           <td>
             <Input
               label="Линия"
-              width={props.mobile ? 255 : 352}
+              width={props.mobile ? 250 : 347}
               value={props.editor.currentQuestion}
               onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
             />
@@ -311,8 +316,8 @@ const WeekCreator = (props) => {
           <td>
             <Input
               label="Тотал"
-              width={64}
-              type="float"
+              width={69}
+              type="number"
               value={props.editor.currentTotal}
               onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
             />
@@ -424,7 +429,8 @@ function mapDispatchToProps(dispatch) {
     clearEditor: () => dispatch(actionClearEditor()),
     initButtonState: (state) => dispatch(actionInitButtonState(state)),
     setCalendarTabActive: (index) => dispatch(actionSetTabActive(index)),
-    setEditorWeekActivity: (boolean) => dispatch(actionSetEditorWeekActivity(boolean))
+    setEditorWeekActivity: (boolean) => dispatch(actionSetEditorWeekActivity(boolean)),
+    setHeight: (height) => dispatch(actionSetHeight(height))
   }
 }
 
