@@ -122,8 +122,8 @@ const Week = (props) => {
   }
 
   function activityHelper(id, index) {
-    if (props.others.isItYou && id) return props.auth.buttonState[props.render.id][index]
-    if (!today() && !props.others.isItYou && id) return props.others.buttons[id][index]
+    if (props.others.isItYou && (id || id === 0)) return props.auth.buttonState[props.render.id][index]
+    if (!today() && !props.others.isItYou && (id || id === 0)) return props.others.buttons[id][index]
     return null
   }
 

@@ -5,9 +5,12 @@
 }
 
 .TableMobile {
-    width: 352px;
-    font-size: 15px;
-    margin-top: 20px;
+  width: 352px;
+  margin-top: 20px;
+}
+
+.colOneMobile, .colTwoMobile, .colThreeMobile, .colFourMobile, .colFiveMobile {
+  font-size: 15px;
 }
 
 .colOne {
@@ -17,60 +20,60 @@
 
 .colOneMobile {
   font-weight: 400;
-  font-size: 15px;
-  width: 23px;
+  width: 22px;
   text-align: center
 }
 
 .colTwo {
-  width: 145px;
+  width: 165px;
   text-align: left
 }
 
 .colTwoMobile {
-  font-size: 15px;
-  width: 136px;
+  width: 143px;
   font-weight: 550;
   text-align: left
 }
 
+
 .colThree {
-  width: 55px;
+  width: 75px;
+  font-weight: 400;
   text-align: center
 }
 
 .colThreeMobile {
+  width: 69px;
   font-weight: 400;
-  font-size: 15px;
-  width: 43px;
   text-align: center
 }
 
-.colFour, .colFive {
-  width: 55px;
-  text-align: center
-}
-
-.colFour {  
-  font-weight: 600;
-}
-
-.colFive {  
-  font-weight: 400;
-}
-
-.colFourMobile, .colFiveMobile {
-  font-size: 15px;
-  width: 48px;
-  text-align: center
+.colFour {
+  text-align: center;
+  font-weight: 600
 }
 
 .colFourMobile {
-  font-weight: 600;
+  text-align: center;
+  font-weight: 600
+}
+
+.colFive {
+  font-weight: 400;
+  text-align: center
 }
 
 .colFiveMobile {
   font-weight: 400;
+  text-align: center
+}
+
+.colFour, .colFive {
+  width: 65px;
+}
+
+.colFourMobile, .colFiveMobile {
+  width: 54px;
 }
 
 .userOut{
@@ -110,4 +113,16 @@
 
 .LineMobile {
   width: 349px
+}
+
+.headerMargins {
+  margin-left: 0.1em
+}
+
+.headerMarginsMobile {
+  margin-left: 1px
+}
+
+.ninetyMargin {
+  margin-left: 3px;
 }
