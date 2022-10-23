@@ -55,13 +55,38 @@ const Table = (props) => {
     )
 
     return (
-      <tr key={index} className={lightgrey ? classes.RowLightGrey : classes.RowGrey }>
-        <th className={colOne}>{!string ? '#' : string.place}</th>
-        <th className={colTwo}>{!string ? 'Игрок' : link}</th>
-        <th className={colThree}>{!string ? 'Верно' : string.correctAnswers}</th>
-        <th className={colThree}>{!string ? 'Всего' : string.totalAnswers}</th>
-        <th className={colFour}>{!string ? 'Точно' : string.percentage}</th>
-        <th className={colFive}>{!string ? '90%' : ((string.ninety) * 100).toFixed(0) + '%'}</th>
+      <tr key={index} className={lightgrey ? classes.RowLightGrey : classes.RowGrey}>
+        <th className={colOne}>
+          { !string ? '#' : string.place }
+        </th>
+
+        <th className={colTwo}>
+          { !string ? 'Игрок' : link }
+        </th>
+
+        <th className={colThree}>
+          { 
+            string 
+              ? string.correctAnswers + ' / ' + string.totalAnswers
+              : <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>Всего</div>
+          }
+        </th>
+        
+        <th className={colFour}>
+          { 
+            string 
+              ? string.percentage
+              : <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>Точно</div>
+          }
+        </th>
+
+        <th className={colFive}>
+          { 
+            string 
+              ? (string.ninety * 100).toFixed(0) + '%'
+              : <div className={!props.mobile ? classes.ninetyMargin : classes.headerMarginsMobile}>90%</div>
+          }
+        </th>
       </tr>
     )
   }
@@ -69,13 +94,11 @@ const Table = (props) => {
   return (
     <div>
       {props.localId ? (
-        <div className={classes.ClickNotify}>
-          Выберите игрока, чтобы увидеть его прогнозы
-        </div>
+        <div className={classes.ClickNotify}>Выберите игрока, чтобы увидеть его прогнозы</div>
       ) : null}
       <table className={props.mobile ? classes.TableMobile : classes.Table}>
         <tbody>{renderString()}</tbody>
-      </table>   
+      </table>
       <hr className={props.mobile ? classes.LineMobile : classes.Line} />
 
       {props.loading ? (
@@ -93,7 +116,11 @@ const Table = (props) => {
       )}
 
       {props.isAdmin ? (
-        <Button width={props.mobile ? '351px' : '144px'} onClick={() => submitHandler()} text="Пересчитать" />
+        <Button
+          width={props.mobile ? '351px' : '144px'}
+          onClick={() => submitHandler()}
+          text="Пересчитать"
+        />
       ) : null}
     </div>
   )

@@ -12,12 +12,22 @@ import Loader from '../UI/Loader/Loader'
 import { getHeight } from '../frame/getHeight'
 
 class CurrentWeek extends Component {
+  
+
+  heightUpdateHandler() {
+    if (!this.props.mobile) setTimeout(() => this.props.setHeight(getHeight()), 10)
+  }
+
   componentDidMount() {
     const week = getLastWeek(this.props.weeks)
     this.props.setWeekId(this.props.currentWeek)
     
-    if (!this.props.mobile) setTimeout(() => this.props.setHeight(getHeight()), 10)
+    this.heightUpdateHandler()
     this.props.setRender(week)
+  }
+
+  componentDidUpdate() {
+    this.heightUpdateHandler()
   }
 
   render() {
@@ -43,7 +53,8 @@ function mapStateToProps(state) {
     buttons: state.auth.buttonState,
     answers: state.auth.answerState,
     others: state.others,
-    mobile: state.view.mobile
+    mobile: state.view.mobile,
+    isTouched: state.view.isTouched
   }
 }
 

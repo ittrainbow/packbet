@@ -155,8 +155,10 @@ const WeekCreator = (props) => {
       const qs = structuredClone(props.editor.questions)
       const id = props.editor.currentWeekId
       const questions = qs.map((question, index) => {
-        question['id'] = index
-        return question
+        if (index !== null && question) {
+          question['id'] = index
+          return question
+        }
       })
 
       const week = {
@@ -252,26 +254,29 @@ const WeekCreator = (props) => {
       <Loader />
     ) : (
       props.editor.questions.map((question) => {
-        const setClass =
-          question.id === props.editor.currentID
-            ? props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected'
-            : props.mobile ? 'QuestionsMobile' : 'Questions'
+        if (question !== null) {
+          const setClass =
+            question.id === props.editor.currentID
+              ? props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected'
+              : props.mobile ? 'QuestionsMobile' : 'Questions'
 
-        return (
-          <div key={question.id} className={setClass}>
-            <table><thead><tr>
-              <td className={props.mobile ? 'QuestionInnerEditorMobile' : 'QuestionInnerEditor'}>
-                {question.question}: {question.total}
-              </td>
-              <td onClick={() => editQuestionHandler(question.id)}>
-                <Edit/>
-              </td>
-              <td onClick={() => deleteQuestionHandler(question.id)} >
-                <Undo />
-              </td>
-            </tr></thead></table>
-          </div>
-        )
+          return (
+            <div key={question.id} className={setClass}>
+              <table><thead><tr>
+                <td className={props.mobile ? 'QuestionInnerEditorMobile' : 'QuestionInnerEditor'}>
+                  {question.question}: {question.total}
+                </td>
+                <td onClick={() => editQuestionHandler(question.id)}>
+                  <Edit/>
+                </td>
+                <td onClick={() => deleteQuestionHandler(question.id)} >
+                  <Undo />
+                </td>
+              </tr></thead></table>
+            </div>
+          )
+        }
+
       })
     )
   }
