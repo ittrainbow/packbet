@@ -156,7 +156,6 @@ const WeekCreator = (props) => {
       const id = props.editor.currentWeekId
       const questions = qs.map((question, index) => {
         if (index !== null && question) {
-          console.log(index)
           question['id'] = index
           return question
         }
