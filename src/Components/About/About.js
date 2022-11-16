@@ -60,6 +60,10 @@ class About extends Component {
           "Нет".
         </div>
         <div className={this.props.mobile ? classes.ParagraphMobile : classes.Paragraph}>
+        Под "лидером сезона" подразумевается а) лидер текущего сезона б) среди игроков Пэкерз 
+        и в) по итогам игры, о которой идет речь.
+        </div>
+        <div className={this.props.mobile ? classes.ParagraphMobile : classes.Paragraph}>
           Обычно в таких конкурсах побеждает тот, кто дал наибольшее число точных ответов. У нас
           будет немного не так.
         </div>
