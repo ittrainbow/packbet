@@ -5,7 +5,7 @@ import Week from '../Components/Week/Week'
 import classes from './Pages.module.scss'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
-const OldWeek = () => {
+export const OldWeek = () => {
   const { mobile } = useSelector((state) => state.view)
   const dispatch = useDispatch()
 
@@ -18,14 +18,13 @@ const OldWeek = () => {
       dispatch(actionSetHeight(height))
     }
     return
+    // eslint-disable-next-line
   }, [])
 
   return (
-    <div id="container" className={this.props.mobile ? classes.ContainerMobile : classes.Container}>
-      <h3>{this.props.mobile ? null : 'Выбранная неделя'}</h3>
+    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+      <h3>{mobile ? null : 'Выбранная неделя'}</h3>
       <Week />
     </div>
   )
 }
-
-export default OldWeek

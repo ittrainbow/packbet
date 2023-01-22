@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Countdown from 'react-countdown'
 
-const Timer = (props) => {
+export const Timer = (props) => {
   const deadline = props.deadline
   const date = new Date(deadline)
   const time = date.getTime()
@@ -40,4 +40,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Timer)
+connect(mapStateToProps, null)(Timer)

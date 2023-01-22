@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 
 import classes from './Auth.module.scss'
-import Button from '../../UI/Button/Button'
-import Input from '../../UI/Input/Input'
+import { Button, Input, Loader } from '../../UI'
 import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
 import { actionAuth, actionSetAuthPage } from '../../redux/actions/authActions'
 import { actionSwitchLoading, actionSetMessage } from '../../redux/actions/loadingActions'
 import axios from '../../axios/axios'
 import { findName } from '../../frame/findUser'
-import Loader from '../../UI/Loader/Loader'
 
 class Auth extends Component {
   state = {
@@ -163,7 +161,6 @@ class Auth extends Component {
         type: 'name',
         label: 'Имя пользователя',
         placeholder: 'Не менее 3 символов'
-        
       }
     } else {
       delete formControls.name

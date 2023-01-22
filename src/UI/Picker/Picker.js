@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import TextField from '@mui/material/TextField'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -8,8 +8,8 @@ import { connect } from 'react-redux/es/exports'
 
 import { actionSetEditorCurrentDeadline } from '../../redux/actions/editorActions'
 
-const BasicDateTimePicker = (props) => {
-  const [value, setValue] = React.useState(dayjs())
+export const BasicDateTimePicker = (props) => {
+  const [value, setValue] = useState(dayjs())
 
   function dateConverter(newValue) {
     const time = new Date(newValue).getTime()
@@ -48,4 +48,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BasicDateTimePicker)
+connect(mapStateToProps, mapDispatchToProps)(BasicDateTimePicker)

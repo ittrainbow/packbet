@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Button.module.scss'
 import { connect } from 'react-redux'
 
-const Button = (props) => {
+export const Button = (props) => {
   const cls = [classes[props.type]]
   props.mobile ? cls.push(classes.ButtonMobile) : cls.push(classes.Button)
 
@@ -29,4 +29,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Button)
+connect(mapStateToProps, null)(Button)

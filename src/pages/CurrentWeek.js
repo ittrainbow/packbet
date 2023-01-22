@@ -7,9 +7,9 @@ import { actionSetRender } from '../redux/actions/renderActions'
 import { actionSetWeekId } from '../redux/actions/weekActions'
 import { getLastWeek } from '../frame/getLastWeek'
 import { actionSetHeight } from '../redux/actions/viewActions'
-import Loader from '../UI/Loader/Loader'
+import { Loader } from '../UI'
 
-const CurrentWeek = () => {
+export const CurrentWeek = () => {
   const dispatch = useDispatch()
   const { week } = useSelector((state) => state)
   const { weeks, currentWeek } = useSelector((state) => state.week)
@@ -30,6 +30,7 @@ const CurrentWeek = () => {
 
     dispatch(actionSetRender(week))
     return
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -39,5 +40,3 @@ const CurrentWeek = () => {
     </div>
   )
 }
-
-export default CurrentWeek

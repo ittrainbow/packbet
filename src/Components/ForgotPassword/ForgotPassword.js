@@ -1,14 +1,13 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
 import firebase from 'firebase/compat/app'
-import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
 import classes from '../../App.module.scss'
-import Input from '../../UI/Input/Input'
-import Button from '../../UI/Button/Button'
-import Loader from '../../UI/Loader/Loader'
+import { Input, Button, Loader } from '../../UI'
 import './ForgotPassword.scss'
 import { actionSetEmail } from '../../redux/actions/authActions'
 import { actionSetMessage, actionSwitchLoading } from '../../redux/actions/loadingActions'
@@ -20,17 +19,23 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 const ForgotPassword = (props) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  function tierline(message) {
-    props.setMessage(message)
-    props.setEmail('')
-    props.switchLoading(false)
-    setTimeout(() => props.setMessage(''), 3000)
+  const { email } = useSelector((state) => state.auth)
+  const { message, loading } = useSelector((state) => state.loading)
+
+  const tierline = () => {
+    dispatch(actionSetMessage(message))
+    dispatch(actionSetEmail(''))
+    dispatch(actionSwitchLoading(false))
+
+    const timeout = setTimeout(() => dispatch(actionSetMessage('')), 3000)
+    clearInterval(timeout)
   }
 
   async function recoverPassword() {
-    props.switchLoading(true)
+    dispatch(actionSwitchLoading(true))
 
     try {
       firebase
@@ -40,30 +45,26 @@ const ForgotPassword = (props) => {
     } catch (error) {
       tierline('Проверьте правильность ввода Email')
     }
+
+    dispatch(actionSwitchLoading(false))
   }
 
-  function changeHandler(event) {
-    const email = event.target.value
-    props.setEmail(email)
-  }
-
-  function returnHandler() {
-    navigate('/profile')
+  const changeHandler = (e) => {
+    const { value } = e.target
+    dispatch(actionSetEmail(value))
   }
 
   return (
     <div>
       <div className={'ForgotPassword'}>
-        <Input className={classes.InputWide} value={props.email} onChange={(event) => changeHandler(event)} />
+        <Input className={classes.InputWide} value={email} onChange={(e) => changeHandler(e)} />
       </div>
 
-      {!props.loading ? (
+      {!loading ? (
         <div>
           <Button text="Выслать пароль" onClick={() => recoverPassword()} />
-
-          <div className={classes.DivContainerRed}>{props.message}</div>
-
-          <Button text="Вход" onClick={() => returnHandler()} />
+          <div className={classes.DivContainerRed}>{message}</div>
+          <Button text="Вход" onClick={() => navigate('/profile')} />
         </div>
       ) : (
         <Loader />
@@ -72,20 +73,4 @@ const ForgotPassword = (props) => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    email: state.auth.email,
-    message: state.loading.message,
-    loading: state.loading.loading
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setEmail: (email) => dispatch(actionSetEmail(email)),
-    setMessage: (message) => dispatch(actionSetMessage(message)),
-    switchLoading: (boolean) => dispatch(actionSwitchLoading(boolean))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword)
+export default ForgotPassword

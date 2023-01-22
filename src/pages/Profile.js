@@ -5,10 +5,10 @@ import { NavLink } from 'react-router-dom'
 import Auth from '../Components/Auth/Auth'
 import Userpage from '../Components/Userpage/Userpage'
 import classes from './Pages.module.scss'
-import Button from '../UI/Button/Button'
+import { Button } from '../UI'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
-const Profile = () => {
+export const Profile = () => {
   const { mobile } = useSelector((state) => state.view)
   const { token, authPage } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -22,6 +22,7 @@ const Profile = () => {
       dispatch(actionSetHeight(height))
     }
     return
+    // eslint-disable-next-line
   }, [])
 
   const drawRecoveryButton = () => {
@@ -40,5 +41,3 @@ const Profile = () => {
     </div>
   )
 }
-
-export default Profile

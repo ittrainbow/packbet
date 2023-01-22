@@ -3,7 +3,7 @@ import './YesNoButtons.scss'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
-const YesNoButtons = (props) => {
+export const YesNoButtons = (props) => {
   let styleSetFirst = [props.mobile ? 'buttonMobile' : 'button']
   let styleSetSecond = [props.mobile ? 'buttonMobile' : 'button']
 
@@ -45,4 +45,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(YesNoButtons)
+connect(mapStateToProps, null)(YesNoButtons)

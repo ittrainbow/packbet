@@ -6,7 +6,7 @@ import { actionSetHeight } from '../redux/actions/viewActions'
 import WeekList from '../Components/WeekList/WeekList'
 import classes from '../pages/Pages.module.scss'
 
-const Editor = () => {
+export const Editor = () => {
   const { mobile } = useSelector((state) => state.view)
   const dispatch = useDispatch()
 
@@ -20,6 +20,7 @@ const Editor = () => {
     }
     dispatch(actionSetEditorStatus('editor'))
     return
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -29,5 +30,3 @@ const Editor = () => {
     </div>
   )
 }
-
-export default Editor

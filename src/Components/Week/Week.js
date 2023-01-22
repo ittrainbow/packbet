@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router-dom'
 import Countdown from 'react-countdown'
 
 import './Week.scss'
-import Loader from '../../UI/Loader/Loader'
-import YesNoButtons from '../../UI/YesNoButtons/YesNoButtons'
-import Button from '../../UI/Button/Button'
-import OtherUser from '../../UI/OtherUser/OtherUser'
+import { Loader, YesNoButtons, Button, OtherUser } from '../../UI'
 import axios from '../../axios/axios'
 import { actionSetTabActive } from '../../redux/actions/viewActions'
 import { actionSetWeekId } from '../../redux/actions/weekActions'
-import { actionInitButtonState, actionSetAnswerState, actionSetButtonState } from '../../redux/actions/authActions'
+import {
+  actionInitButtonState,
+  actionSetAnswerState,
+  actionSetButtonState
+} from '../../redux/actions/authActions'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import {
   actionNullifyRender,
@@ -87,11 +88,12 @@ const Week = (props) => {
       props.switchLoading(true)
 
       const checkWeek = await axios.get(`/pack/weeks.json`)
-      const lastWeek = checkWeek.data[Object.keys(checkWeek.data)[Object.keys(checkWeek.data).length - 1]]
+      const lastWeek =
+        checkWeek.data[Object.keys(checkWeek.data)[Object.keys(checkWeek.data).length - 1]]
       const uploadAvailiable = lastWeek.activity && lastWeek.id === props.currentWeek
 
       if (!uploadAvailiable) {
-        alert ('Текущая неделя была изменена, страница будет перезагружена')   
+        alert('Текущая неделя была изменена, страница будет перезагружена')
         props.switchLoading(false)
         window.location.reload()
       }
@@ -100,19 +102,20 @@ const Week = (props) => {
         const url = props.isAdmin
           ? `pack/answers/weeks/${props.currentWeek}.json`
           : `pack/users/${props.auth.localId}/weeks/${props.currentWeek}.json`
-  
+
         await axios.put(url, data)
-  
+
         const buttonState = { ...props.auth.buttonState }
         const answerState = { ...props.auth.answerState }
-  
-        if (props.isAdmin && props.isItYou) answerState[props.currentWeek] = props.auth.answerState[props.currentWeek]
-  
+
+        if (props.isAdmin && props.isItYou)
+          answerState[props.currentWeek] = props.auth.answerState[props.currentWeek]
+
         const obj = {
           buttonState: buttonState,
           answerState: answerState
         }
-  
+
         props.initButtonState(obj)
         props.setRenderLoadedState(props.auth.buttonState[props.currentWeek])
         props.switchLoading(false)
@@ -122,8 +125,10 @@ const Week = (props) => {
   }
 
   function activityHelper(id, index) {
-    if (props.others.isItYou && (id || id === 0)) return props.auth.buttonState[props.render.id][index]
-    if (!today() && !props.others.isItYou && (id || id === 0)) return props.others.buttons[id][index]
+    if (props.others.isItYou && (id || id === 0))
+      return props.auth.buttonState[props.render.id][index]
+    if (!today() && !props.others.isItYou && (id || id === 0))
+      return props.others.buttons[id][index]
     return null
   }
 
@@ -136,7 +141,7 @@ const Week = (props) => {
         result={result}
         arrow={Number(question.total) === 1}
         onClick={(index) => onClickHandler(index)}
-    />
+      />
     )
   }
 
@@ -155,19 +160,22 @@ const Week = (props) => {
         if (question) {
           return (
             <div key={index} className={styleSet.join(' ')}>
-              <table><tbody><tr>
-                <td className={props.mobile ? 'QuestionInnerMobile' : 'QuestionInner'}>
-                  {question.question}
-                  {question.total && question.total !== 1 ? `: ${question.total}` : null}
-                </td>
-                <td style={{marginRight: '50px'}}>
-                  {renderYesNo(question, index, activity, result)}
-                </td>
-              </tr></tbody></table>
+              <table>
+                <tbody>
+                  <tr>
+                    <td className={props.mobile ? 'QuestionInnerMobile' : 'QuestionInner'}>
+                      {question.question}
+                      {question.total && question.total !== 1 ? `: ${question.total}` : null}
+                    </td>
+                    <td style={{ marginRight: '50px' }}>
+                      {renderYesNo(question, index, activity, result)}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           )
         }
-
       })
     }
   }
@@ -182,10 +190,7 @@ const Week = (props) => {
             disabled={(!today() && !props.isAdmin) || !isTouched() || !props.others.isItYou}
           />
         ) : null}
-        <Button
-          text={today() ? 'Не сохранять' : 'Назад'}
-          onClick={doNotSave}
-        />
+        <Button text={today() ? 'Не сохранять' : 'Назад'} onClick={doNotSave} />
       </div>
     )
   }
@@ -220,12 +225,12 @@ const Week = (props) => {
 
   return (
     <div className={props.mobile ? 'WeekMobile' : 'Week'}>
-      <h3 className={props.mobile ? 'h3Mobile' : 'h3' }>
+      <h3 className={props.mobile ? 'h3Mobile' : 'h3'}>
         #{props.render.number}: {props.render.name}
       </h3>
       {renderCountdown()}
       <div className={props.mobile ? null : 'OthersName'}>
-        <OtherUser/>
+        <OtherUser />
       </div>
       <div className={props.mobile ? 'QuestionsBlockMobile' : 'QuestionsBlock'}>
         {renderQuestions()}

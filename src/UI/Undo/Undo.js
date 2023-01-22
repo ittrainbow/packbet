@@ -3,7 +3,7 @@ import classes from './Undo.module.scss'
 import { FaTrash } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
-const Undo = (props) => {
+export const Undo = (props) => {
   return (
     <button onClick={props.onClick} className={props.mobile ? classes.UndoMobile : classes.Undo}>
       <FaTrash />
@@ -17,4 +17,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Undo)
+connect(mapStateToProps, null)(Undo)

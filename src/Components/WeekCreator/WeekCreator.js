@@ -3,15 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
 
-import BasicDateTimePicker from '../../UI/Picker/Picker'
 
 import './WeekCreator.scss'
-import Button from '../../UI/Button/Button'
-import Input from '../../UI/Input/Input'
-import Undo from '../../UI/Undo/Undo'
-import Edit from '../../UI/Edit/Edit'
+import { Button, Input, Undo, Edit, Loader, BasicDateTimePicker } from '../../UI'
 import axios from '../../axios/axios'
-import Loader from '../../UI/Loader/Loader'
 import { actionInit } from '../../redux/actions/weekActions'
 import {
   actionSetEditorCurrentWeek,
@@ -63,7 +58,7 @@ const WeekCreator = (props) => {
     props.setCurrentTotal('')
     props.switchLoading(false)
     props.setCurrentID('')
-    
+
     if (!props.mobile) setTimeout(() => props.setHeight(getHeight()), 10)
   }
 
@@ -130,10 +125,10 @@ const WeekCreator = (props) => {
     if (tag === 'setCurrentTotal') {
       const prev = parseFloat(props.editor.currentTotal)
       let total = value.length > 0 ? value.replace(/,/g, '.') : ''
-      
+
       if (total.slice(-1) === '.' && prev % 1 !== 0.5) total = total + '5'
       if (total.slice(-1) === '.') total = total.slice(0, -1)
-      
+
       props.setCurrentTotal(parseFloat(total) || '')
     }
     if (tag === 'setCurrentDeadline') props.setCurrentDeadline(value)
@@ -190,8 +185,8 @@ const WeekCreator = (props) => {
       oldState.buttonState[id] = state
       oldState.answerState[id] = state
       oldState.loadedState[id] = state
-      
-      const currentWeek = props.editor.weekActivity 
+
+      const currentWeek = props.editor.weekActivity
         ? props.editor.currentWeekId
         : props.editor.currentWeekId - 1
 
@@ -232,7 +227,7 @@ const WeekCreator = (props) => {
       if (newState[el].weeks[id]) {
         const weeks = newState[el].weeks[id]
         const weeksAmount = Object.keys(newState[el].weeks).length
-  
+
         if (weeksAmount === 1 && weeks.length > 0) {
           newState[el].weeks = ''
         } else if (newState[el].weeks[id]) {
@@ -257,26 +252,35 @@ const WeekCreator = (props) => {
         if (question !== null) {
           const setClass =
             question.id === props.editor.currentID
-              ? props.mobile ? 'QuestionsSelectedMobile' : 'QuestionsSelected'
-              : props.mobile ? 'QuestionsMobile' : 'Questions'
+              ? props.mobile
+                ? 'QuestionsSelectedMobile'
+                : 'QuestionsSelected'
+              : props.mobile
+              ? 'QuestionsMobile'
+              : 'Questions'
 
           return (
             <div key={question.id} className={setClass}>
-              <table><thead><tr>
-                <td className={props.mobile ? 'QuestionInnerEditorMobile' : 'QuestionInnerEditor'}>
-                  {question.question}: {question.total}
-                </td>
-                <td onClick={() => editQuestionHandler(question.id)}>
-                  <Edit/>
-                </td>
-                <td onClick={() => deleteQuestionHandler(question.id)} >
-                  <Undo />
-                </td>
-              </tr></thead></table>
+              <table>
+                <thead>
+                  <tr>
+                    <td
+                      className={props.mobile ? 'QuestionInnerEditorMobile' : 'QuestionInnerEditor'}
+                    >
+                      {question.question}: {question.total}
+                    </td>
+                    <td onClick={() => editQuestionHandler(question.id)}>
+                      <Edit />
+                    </td>
+                    <td onClick={() => deleteQuestionHandler(question.id)}>
+                      <Undo />
+                    </td>
+                  </tr>
+                </thead>
+              </table>
             </div>
           )
         }
-
       })
     )
   }
@@ -290,44 +294,52 @@ const WeekCreator = (props) => {
   function renderInputs() {
     return (
       <div className={props.mobile ? 'InputsMobile' : 'Inputs'}>
-        <table><thead><tr>
-          <td>
-            <Input 
-              label="Неделя"
-              type="number"
-              width={64}
-              value={props.editor.currentWeek}
-              onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
-            />
-          </td>
-          <td>
-            <Input
-              label="Игра"
-              width={props.mobile ? 255 : 352}
-              value={props.editor.currentName}
-              onChange={(event) => onChangeHandler(event, 'setCurrentName')}
-            />
-          </td>
-        </tr></thead></table>
-        <table><thead><tr>
-          <td>
-            <Input
-              label="Линия"
-              width={props.mobile ? 250 : 347}
-              value={props.editor.currentQuestion}
-              onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
-            />
-          </td>
-          <td>
-            <Input
-              label="Тотал"
-              width={69}
-              type="number"
-              value={props.editor.currentTotal}
-              onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
-            />
-          </td>
-        </tr></thead></table>
+        <table>
+          <thead>
+            <tr>
+              <td>
+                <Input
+                  label="Неделя"
+                  type="number"
+                  width={64}
+                  value={props.editor.currentWeek}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentWeek')}
+                />
+              </td>
+              <td>
+                <Input
+                  label="Игра"
+                  width={props.mobile ? 255 : 352}
+                  value={props.editor.currentName}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentName')}
+                />
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <table>
+          <thead>
+            <tr>
+              <td>
+                <Input
+                  label="Линия"
+                  width={props.mobile ? 250 : 347}
+                  value={props.editor.currentQuestion}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentQuestion')}
+                />
+              </td>
+              <td>
+                <Input
+                  label="Тотал"
+                  width={69}
+                  type="number"
+                  value={props.editor.currentTotal}
+                  onChange={(event) => onChangeHandler(event, 'setCurrentTotal')}
+                />
+              </td>
+            </tr>
+          </thead>
+        </table>
       </div>
     )
   }
@@ -339,11 +351,11 @@ const WeekCreator = (props) => {
   function renderActivity() {
     return (
       <div className={props.mobile ? 'ActivityMobile' : 'Activity'}>
-        Активность: {' '}
-        <input 
-          className='checkbox' 
-          type='checkbox' 
-          name='activity'
+        Активность:{' '}
+        <input
+          className="checkbox"
+          type="checkbox"
+          name="activity"
           checked={props.editor.weekActivity || false}
           onChange={activityHandler}
         />
@@ -354,19 +366,10 @@ const WeekCreator = (props) => {
   function renderSubmits() {
     return (
       <div className={props.mobile ? 'ButtonsMobile' : 'Buttons'}>
-        <Button
-          text="Отменить"
-          onClick={noSaveExitHandler}
-        />
-        <Button
-          text="Сохранить"
-          onClick={() => submitHandler()}
-        />
+        <Button text="Отменить" onClick={noSaveExitHandler} />
+        <Button text="Сохранить" onClick={() => submitHandler()} />
         {props.editor.currentHash ? (
-          <Button
-            text="Удалить"
-            onClick={() => deleteWeekHandler()}
-          />
+          <Button text="Удалить" onClick={() => deleteWeekHandler()} />
         ) : null}
       </div>
     )
@@ -420,7 +423,7 @@ function mapDispatchToProps(dispatch) {
 
     init: (weeks) => dispatch(actionInit(weeks)),
     newWeekButtonState: (state) => dispatch(actionSetButtonState(state)),
-    
+
     currentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
 
     setCurrentWeek: (currentWeek) => dispatch(actionSetEditorCurrentWeek(currentWeek)),

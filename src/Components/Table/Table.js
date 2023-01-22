@@ -4,8 +4,7 @@ import { NavLink } from 'react-router-dom'
 
 import classes from './Table.module.scss'
 import axios from '../../axios/axios'
-import Button from '../../UI/Button/Button'
-import Loader from '../../UI/Loader/Loader'
+import { Button, Loader } from '../../UI'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import {
   actionGetOtherName,
@@ -56,36 +55,38 @@ const Table = (props) => {
 
     return (
       <tr key={index} className={lightgrey ? classes.RowLightGrey : classes.RowGrey}>
-        <th className={colOne}>
-          { !string ? '#' : string.place }
-        </th>
+        <th className={colOne}>{!string ? '#' : string.place}</th>
 
-        <th className={colTwo}>
-          { !string ? 'Игрок' : link }
-        </th>
+        <th className={colTwo}>{!string ? 'Игрок' : link}</th>
 
         <th className={colThree}>
-          { 
-            string 
-              ? string.correctAnswers + ' / ' + string.totalAnswers
-              : <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>Всего</div>
-          }
+          {string ? (
+            string.correctAnswers + ' / ' + string.totalAnswers
+          ) : (
+            <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>
+              Всего
+            </div>
+          )}
         </th>
-        
+
         <th className={colFour}>
-          { 
-            string 
-              ? string.percentage
-              : <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>Точно</div>
-          }
+          {string ? (
+            string.percentage
+          ) : (
+            <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>
+              Точно
+            </div>
+          )}
         </th>
 
         <th className={colFive}>
-          { 
-            string 
-              ? (string.ninety * 100).toFixed(0) + '%'
-              : <div className={!props.mobile ? classes.ninetyMargin : classes.headerMarginsMobile}>90%</div>
-          }
+          {string ? (
+            (string.ninety * 100).toFixed(0) + '%'
+          ) : (
+            <div className={!props.mobile ? classes.ninetyMargin : classes.headerMarginsMobile}>
+              90%
+            </div>
+          )}
         </th>
       </tr>
     )

@@ -3,7 +3,7 @@ import classes from './Edit.module.scss'
 import { FaEdit } from 'react-icons/fa'
 import { connect } from 'react-redux'
 
-const Edit = (props) => {
+export const Edit = (props) => {
   return (
     <button className={props.mobile ? classes.EditMobile : classes.Edit} onClick={props.onClick}>
       <FaEdit />
@@ -17,4 +17,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Edit)
+connect(mapStateToProps, null)(Edit)

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import About from '../Components/About/About'
+import { About } from '../Components'
 import classes from './Pages.module.scss'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
-const Home = () => {
+export const Home = () => {
   const { mobile } = useSelector((state) => state.view)
   const dispatch = useDispatch()
 
@@ -17,6 +17,7 @@ const Home = () => {
       dispatch(actionSetHeight(height))
     }
     return
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -29,4 +30,3 @@ const Home = () => {
   )
 }
 
-export default Home

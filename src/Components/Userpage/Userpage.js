@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import Button from '../../UI/Button/Button'
+import { Button, Input, Loader } from '../../UI'
 import classes from './Userpage.module.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { connect } from 'react-redux/es/exports'
 import { actionLogout, actionSetUserName } from '../../redux/actions/authActions'
 import { actionCleanOtherUser, actionSwitchYourself } from '../../redux/actions/othersActions'
-import Input from '../../UI/Input/Input'
 import axios from '../../axios/axios'
-import Loader from '../../UI/Loader/Loader'
 
 class Userpage extends Component {
   state = {
@@ -56,12 +54,7 @@ class Userpage extends Component {
   }
 
   changeNameHandler() {
-    return (
-      <Input
-        value={this.state.newName}
-        onChange={(event) => this.onChangeHandler(event)}
-      />
-    )
+    return <Input value={this.state.newName} onChange={(event) => this.onChangeHandler(event)} />
   }
 
   async saveNameHandler() {

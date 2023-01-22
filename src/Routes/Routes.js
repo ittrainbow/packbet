@@ -2,17 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Sidebar from '../Components/Sidebar/Sidebar'
 import WeekEditor from '../Components/WeekEditor/WeekEditor'
-import About from '../pages/About'
-import Calendar from '../pages/Calendar'
-import Creator from '../pages/Creator'
-import CurrentWeek from '../pages/CurrentWeek'
-import Editor from '../pages/Editor'
-import OldWeek from '../pages/OldWeek'
-import Profile from '../pages/Profile'
-import Standings from '../pages/Standings'
-import Password from '../pages/Password'
-import AdminRoute from './AdminRoute'
-import PrivateRoute from './PrivateRoute'
+import { Home as About, Calendar, Creator, CurrentWeek, Editor, OldWeek, Profile, Standings, Password } from '../pages'
+// import AdminRoute from './AdminRoute'
+// import PrivateRoute from './PrivateRoute'
 
 const AppRoutes = () => {
   return (

@@ -4,7 +4,7 @@ import Table from '../Components/Table/Table'
 import classes from './Pages.module.scss'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
-const Standings = () => {
+export const Standings = () => {
   const { mobile } = useSelector((state) => state.view)
   const dispatch = useDispatch()
 
@@ -17,6 +17,7 @@ const Standings = () => {
       dispatch(actionSetHeight(height))
     }
     return
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -26,5 +27,3 @@ const Standings = () => {
     </div>
   )
 }
-
-export default Standings

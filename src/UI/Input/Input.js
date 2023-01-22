@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Input.module.scss'
 import { connect } from 'react-redux'
 
-const Input = (props) => {
+export const Input = (props) => {
   const inputType = props.type || 'text'
   const cls = [props.mobile ? classes.InputMobile : classes.Input]
   const htmlFor = `${inputType}-${Math.random()}`
@@ -28,4 +28,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Input)
+connect(mapStateToProps, null)(Input)

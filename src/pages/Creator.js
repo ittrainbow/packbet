@@ -11,10 +11,9 @@ import {
 import { getLastWeekNumber } from '../frame/getLastWeek'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
-const Creator = () => {
+export const Creator = () => {
   const dispatch = useDispatch()
-  const { weeks } = useSelector(state => state.week)
-  const { mobile } = useSelector(state => state.view)
+  const { mobile } = useSelector((state) => state.view)
 
   useEffect(() => {
     const getDate = new Date()
@@ -33,6 +32,7 @@ const Creator = () => {
     dispatch(actionSetEditorCurrentDeadline(date))
     dispatch(actionSetCurrentWeekId(id))
     return
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -42,4 +42,3 @@ const Creator = () => {
     </div>
   )
 }
-export default Creator
