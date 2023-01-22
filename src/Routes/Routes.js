@@ -24,29 +24,29 @@ const AppRoutes = () => {
           <Route path="/standings" element={<Standings />} />
           <Route path="/recover" element={<Password />} />
 
-          <Route exact path="/" element={<PrivateRoute />}>
-            <Route path="/thisweek" element={<CurrentWeek />} />
-          </Route>
+          {/* <Route exact path="/" element={<PrivateRoute />}> */}
+          <Route path="/thisweek" element={<CurrentWeek />} />
+          {/* </Route> */}
 
-          <Route exact path="/" element={<PrivateRoute />}>
-            <Route path="/calendar" element={<Calendar />} />
-          </Route>
+          {/* <Route exact path="/" element={<PrivateRoute />}> */}
+          <Route path="/calendar" element={<Calendar />} />
+          {/* </Route> */}
 
-          <Route exact path="/" element={<PrivateRoute />}>
-            <Route path="/week/:id" element={<OldWeek />} />
-          </Route>
+          {/* <Route exact path="/" element={<PrivateRoute />}> */}
+          <Route path="/week/:id" element={<OldWeek />} />
+          {/* </Route> */}
 
-          <Route exact path="/" element={<AdminRoute />}>
-            <Route path="/editor" element={<Editor />} />
-          </Route>
+          {/* <Route exact path="/" element={<AdminRoute />}> */}
+          <Route path="/editor" element={<Editor />} />
+          {/* </Route> */}
 
-          <Route exact path="/" element={<AdminRoute />}>
-            <Route exact path="/create/:id" element={<WeekEditor />} />
-          </Route>
+          {/* <Route exact path="/" element={<AdminRoute />}> */}
+          <Route exact path="/create/:id" element={<WeekEditor />} />
+          {/* </Route> */}
 
-          <Route exact path="/" element={<AdminRoute />}>
-            <Route path="/create" element={<Creator />} />
-          </Route>
+          {/* <Route exact path="/" element={<AdminRoute />}> */}
+          <Route path="/create" element={<Creator />} />
+          {/* </Route> */}
         </Routes>
       </Sidebar>
     </BrowserRouter>

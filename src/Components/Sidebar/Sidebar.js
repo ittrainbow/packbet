@@ -22,24 +22,29 @@ const Sidebar = (props) => {
   const menuItem = [
     { path: '/', name: 'Инфо', icon: <FaHome />, index: 0 },
     { path: '/profile', name: 'Профиль', icon: <FaUserAlt />, index: 1 },
-    { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 2 }
+    { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 2 },
+    { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall />, index: 3 },
+    { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt />, index: 4 },
+    { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 5 },      
+    { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight />, index: 6 },
+    { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava />, index: 7 }
   ]
 
-  if (props.isAuthenticated) {
-    menuItem.pop()
-    menuItem.push(
-      { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall />, index: 2 },
-      { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt />, index: 3 },
-      { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 4 }
-    )
-  }
+  // if (props.isAuthenticated) {
+  //   menuItem.pop()
+  //   menuItem.push(
+  //     { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall />, index: 2 },
+  //     { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt />, index: 3 },
+  //     { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 4 }
+  //   )
+  // }
 
-  if (props.isAdmin) {
-    menuItem.push(
-      { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight />, index: 5 },
-      { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava />, index: 6 }
-    )
-  }
+  // if (props.isAdmin) {
+  //   menuItem.push(
+  //     { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight />, index: 5 },
+  //     { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava />, index: 6 }
+  //   )
+  // }
 
   function toggleSidebarOpen() {
     const bool = props.isOpen
