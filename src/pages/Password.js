@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import classes from './Pages.module.scss'
+import './Pages.css'
 import ForgotPassword from '../Components/ForgotPassword/ForgotPassword'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
@@ -22,7 +22,7 @@ export const Password = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? "ContainerMobile" : "Container"}>
       <h3>Восстановление пароля</h3>
       <ForgotPassword />
     </div>

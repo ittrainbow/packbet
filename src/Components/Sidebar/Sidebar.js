@@ -13,8 +13,7 @@ import {
   FaTimes,
   FaStrava
 } from 'react-icons/fa'
-import './Sidebar.module.scss'
-import classes from './Sidebar.module.scss'
+import './Sidebar.css'
 
 const Sidebar = (props) => {
   const navigate = useNavigate()
@@ -25,7 +24,7 @@ const Sidebar = (props) => {
     { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 2 },
     { path: '/thisweek', name: 'Текущая\u00A0игра', icon: <FaFootballBall />, index: 3 },
     { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt />, index: 4 },
-    { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 5 },      
+    { path: '/standings', name: 'Таблица', icon: <FaListUl />, index: 5 },
     { path: '/editor', name: 'Редактор', icon: <FaChevronCircleRight />, index: 6 },
     { path: '/create', name: 'Новая\u00A0Неделя', icon: <FaStrava />, index: 7 }
   ]
@@ -57,23 +56,23 @@ const Sidebar = (props) => {
   }
 
   function classSelector(index, active) {
-    if (!index && active) return classes.FirstActive
-    if (index && active) return classes.OthersActive
-    if (!index && !active) return classes.FirstInactive
-    if (index && !active) return classes.OthersInactive
+    if (!index && active) return 'FirstActive'
+    if (index && active) return 'OthersActive'
+    if (!index && !active) return 'FirstInactive'
+    if (index && !active) return 'OthersInactive'
   }
 
   function renderMobile() {
     return (
       <div>
-        <div className={classes.SidebarMobile}>
+        <div className="SidebarMobile">
           <table>
             <thead>
               <tr>
                 {menuItem.map((item, index) => {
                   return (
                     <td key={index}>
-                      <div 
+                      <div
                         className={classSelector(index, index === props.tabActive)}
                         onClick={() => clickHandler(item)}
                       >
@@ -86,7 +85,7 @@ const Sidebar = (props) => {
             </thead>
           </table>
         </div>
-        <main className={classes.MainMobile}>{props.children}</main>
+        <main className="MainMobile">{props.children}</main>
       </div>
     )
   }
@@ -94,18 +93,18 @@ const Sidebar = (props) => {
   function renderDesktop() {
     return (
       <div>
-        <div className={classes.Container}>
+        <div className="Container">
           <div
             style={{ height: props.height }}
-            className={props.isOpen ? classes.SidebarOpen : classes.SidebarClosed}
+            className={props.isOpen ? 'SidebarOpen' : 'SidebarClosed'}
           >
-            <div className={classes.Bars} onClick={() => toggleSidebarOpen()}>
+            <div className="Bars" onClick={() => toggleSidebarOpen()}>
               {props.isOpen ? <FaTimes /> : <FaBars />}
             </div>
 
             {menuItem.map((item, index) => {
               return (
-                <NavLink to={item.path} key={index} className={classes.Link}>
+                <NavLink to={item.path} key={index} className="Link">
                   <div> {item.icon} </div>
                   <div> {props.isOpen ? item.name : null} </div>
                 </NavLink>

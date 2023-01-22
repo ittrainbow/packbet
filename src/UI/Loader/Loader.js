@@ -1,10 +1,10 @@
 import React from 'react'
-import classes from './Loader.module.scss'
+import './Loader.css'
 
 export const Loader = (props) => {
   return (
-    <div className={classes.Center}>
-      <div className={classes.ldsDualRing}>
+    <div className='Center'>
+      <div className='ldsDualRing'>
         <div />
         <div />
         <div />

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { actionSetEditorStatus } from '../redux/actions/weekActions'
 import { actionSetHeight } from '../redux/actions/viewActions'
 import WeekList from '../Components/WeekList/WeekList'
-import classes from '../pages/Pages.module.scss'
+import './Pages.css'
 
 export const Editor = () => {
   const { mobile } = useSelector((state) => state.view)
@@ -24,8 +24,8 @@ export const Editor = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobileLeft : classes.ContainerLeft}>
-      <h3 className={classes.ContainerMobileMod}>Редактор</h3>
+    <div id="container" className={mobile ? "ContainerMobileLeft" : "ContainerLeft"}>
+      <h3 className="ContainerMobileMod">Редактор</h3>
       <WeekList />
     </div>
   )

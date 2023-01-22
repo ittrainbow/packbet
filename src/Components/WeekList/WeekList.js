@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import classes from './WeekList.module.scss'
+import './WeekList.css'
 import { Loader, OtherUser } from '../../UI'
 
 import { actionSetWeekId } from '../../redux/actions/weekActions'
@@ -34,14 +34,14 @@ const WeekList = (props) => {
                 onClick={() => props.setEditorFromWeekList(props.weeks[week.id])}
                 to={'/create/' + week.id}
               >
-                <li className={props.mobile ? classes.WeeksMobile : classes.Weeks}>
+                <li className={props.mobile ? "WeeksMobile" : "Weeks"}>
                   {' '}
                   #{week.number}: {week.name}{' '}
                 </li>
               </NavLink>
             ) : (
               <NavLink onClick={() => weekSelectorHandler(week.id)} to={'/week/' + week.id}>
-                <li className={props.mobile ? classes.WeeksMobile : classes.Weeks}>
+                <li className={props.mobile ? "WeeksMobile" : "Weeks"}>
                   {' '}
                   #{week.number}: {week.name}{' '}
                 </li>
@@ -57,16 +57,16 @@ const WeekList = (props) => {
     <div
       className={
         props.mobile
-          ? classes.WeekListMobile
+          ? "WeekListMobile"
           : props.editorStatus !== 'results'
-          ? classes.WeekListMargin
-          : classes.WeekList
+          ? "WeekListMargin"
+          : "WeekList"
       }
     >
-      <div className={props.mobile ? classes.MarginLeft : null}>
+      <div className={props.mobile ? "MarginLeft" : null}>
         <OtherUser />
       </div>
-      <div className={classes.MarginBottom}>{renderWeeks()}</div>
+      <div className="MarginBottom">{renderWeeks()}</div>
     </div>
   )
 }

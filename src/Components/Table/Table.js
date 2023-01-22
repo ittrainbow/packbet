@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
-import classes from './Table.module.scss'
+import './Table.css'
 import axios from '../../axios/axios'
 import { Button, Loader } from '../../UI'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
@@ -42,11 +42,11 @@ const Table = (props) => {
 
   function renderString(string, index) {
     const lightgrey = index % 2 === 0
-    const colOne = props.mobile ? classes.colOneMobile : classes.colOne
-    const colTwo = props.mobile ? classes.colTwoMobile : classes.colTwo
-    const colThree = props.mobile ? classes.colThreeMobile : classes.colThree
-    const colFour = props.mobile ? classes.colFourMobile : classes.colFour
-    const colFive = props.mobile ? classes.colFiveMobile : classes.colFive
+    const colOne = props.mobile ? "colOneMobile" : "colOne"
+    const colTwo = props.mobile ? "colTwoMobile" : "colTwo"
+    const colThree = props.mobile ? 'colThreeMobile' : "colThree"
+    const colFour = props.mobile ? "colFourMobile" : "colFour"
+    const colFive = props.mobile ? "colFiveMobile" : "colFive"
     const link = !string ? null : (
       <NavLink to={'/calendar'} onClick={() => otherUserHandler(string.id, string.name)}>
         {string.name}
@@ -54,7 +54,7 @@ const Table = (props) => {
     )
 
     return (
-      <tr key={index} className={lightgrey ? classes.RowLightGrey : classes.RowGrey}>
+      <tr key={index} className={lightgrey ? "RowLightGrey" : "RowGrey"}>
         <th className={colOne}>{!string ? '#' : string.place}</th>
 
         <th className={colTwo}>{!string ? 'Игрок' : link}</th>
@@ -63,7 +63,7 @@ const Table = (props) => {
           {string ? (
             string.correctAnswers + ' / ' + string.totalAnswers
           ) : (
-            <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>
+            <div className={!props.mobile ? "headerMargins" : "headerMarginsMobile"}>
               Всего
             </div>
           )}
@@ -73,7 +73,7 @@ const Table = (props) => {
           {string ? (
             string.percentage
           ) : (
-            <div className={!props.mobile ? classes.headerMargins : classes.headerMarginsMobile}>
+            <div className={!props.mobile ? "headerMargins" : "headerMarginsMobile"}>
               Точно
             </div>
           )}
@@ -83,7 +83,7 @@ const Table = (props) => {
           {string ? (
             (string.ninety * 100).toFixed(0) + '%'
           ) : (
-            <div className={!props.mobile ? classes.ninetyMargin : classes.headerMarginsMobile}>
+            <div className={!props.mobile ? "ninetyMargin" : "headerMarginsMobile"}>
               90%
             </div>
           )}
@@ -95,17 +95,17 @@ const Table = (props) => {
   return (
     <div>
       {props.localId ? (
-        <div className={classes.ClickNotify}>Выберите игрока, чтобы увидеть его прогнозы</div>
+        <div className="ClickNotify">Выберите игрока, чтобы увидеть его прогнозы</div>
       ) : null}
-      <table className={props.mobile ? classes.TableMobile : classes.Table}>
+      <table className={props.mobile ? "TableMobile" : "Table"}>
         <tbody>{renderString()}</tbody>
       </table>
-      <hr className={props.mobile ? classes.LineMobile : classes.Line} />
+      <hr className={props.mobile ? "LineMobile" : "Line"} />
 
       {props.loading ? (
         <Loader />
       ) : (
-        <table className={props.mobile ? classes.MarginBottomMobile : classes.MarginBottom}>
+        <table className={props.mobile ? "MarginBottomMobile" : "MarginBottom"}>
           <tbody>
             {props.standings
               ? Object.keys(props.standings).map((el, index) =>

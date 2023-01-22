@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Auth from '../Components/Auth/Auth'
 import Userpage from '../Components/Userpage/Userpage'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import { Button } from '../UI'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
@@ -34,7 +34,7 @@ export const Profile = () => {
   }
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? "ContainerMobile" : "ContainerMod"}>
       <h3>{token ? 'Профиль' : authPage ? 'Войти' : 'Регистрация'}</h3>
       {token ? <Userpage /> : <Auth />}
       {token ? null : drawRecoveryButton()}

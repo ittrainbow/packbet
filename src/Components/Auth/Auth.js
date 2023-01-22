@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import classes from './Auth.module.scss'
+import './Auth.css'
 import { Button, Input, Loader } from '../../UI'
 import { validateEmail } from '../../frame/validateEmail'
 import { connect } from 'react-redux'
@@ -187,11 +187,11 @@ class Auth extends Component {
     ) : (
       <form
         onSubmit={this.submitHandler}
-        className={this.props.mobile ? classes.AuthFormMobile : classes.AuthForm}
+        className={this.props.mobile ? "AuthFormMobile" : "AuthForm"}
       >
         {this.renderInputs()}
-        <div className={classes.message}>{this.props.message}</div>
-        <div className={classes.tierline}>{this.state.tierline}</div>
+        <div className="message">{this.props.message}</div>
+        <div className="tierline">{this.state.tierline}</div>
         <Button
           text={this.state.authPage ? 'Войти' : 'Регистрация'}
           onClick={this.state.authPage ? this.loginHandler : this.registerHandler}
@@ -206,7 +206,7 @@ class Auth extends Component {
   }
 
   render() {
-    return <div className={classes.Auth}> {this.renderForm()} </div>
+    return <div className="Auth"> {this.renderForm()} </div>
   }
 }
 

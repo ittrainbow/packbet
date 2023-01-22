@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { About } from '../Components'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
 export const Home = () => {
@@ -21,7 +21,7 @@ export const Home = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? 'ContainerMobile' : 'ContainerMod'}>
       <h3>
         Конкурс прогнозов <a href="https://t.me/packersnews">Packers News</a>
       </h3>
@@ -29,4 +29,3 @@ export const Home = () => {
     </div>
   )
 }
-

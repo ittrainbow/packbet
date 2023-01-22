@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import classes from './OtherUser.module.scss'
+import './OtherUser.css'
 import { actionCleanOtherUser } from '../../redux/actions/othersActions'
 import { Button } from '..'
 
@@ -37,11 +37,7 @@ export const OtherUser = () => {
           text={`Вы просматриваете ответы ${name}, нажмите для возврата к своим ответам`}
           onClick={() => dispatch(actionCleanOtherUser())}
         />
-        <div
-          className={
-            mobile ? classes.ActiveGamesNotifyMobile : classes.ActiveGamesNotify
-          }
-        >
+        <div className={mobile ? 'ActiveGamesNotifyMobile' : 'ActiveGamesNotify'}>
           {today() && !isWeekList ? 'Чужие прогнозы для активных игр скрыты' : null}
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import WeekCreator from '../Components/WeekCreator/WeekCreator'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import {
   actionClearEditor,
   actionSetCurrentWeekId,
@@ -14,11 +14,12 @@ import { actionSetHeight } from '../redux/actions/viewActions'
 export const Creator = () => {
   const dispatch = useDispatch()
   const { mobile } = useSelector((state) => state.view)
+  const { weeks } = useSelector((state) => state.week)
 
   useEffect(() => {
     const getDate = new Date()
     const date = getDate.toISOString().split('T').join(' ').substring(0, 16)
-    const id = getLastWeekNumber(this.props.weeks) + 1
+    const id = getLastWeekNumber(weeks) + 1
 
     if (!mobile) {
       const height = Math.max(
@@ -36,7 +37,7 @@ export const Creator = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? 'ContainerMobile' : 'ContainerMod'}>
       <h3>Создание недели</h3>
       <WeekCreator />
     </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import './YesNoButtons.scss'
+import './YesNoButtons.css'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { connect } from 'react-redux'
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Week from '../Components/Week/Week'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
 export const OldWeek = () => {
@@ -22,7 +22,7 @@ export const OldWeek = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? "ContainerMobile" : "Container"}>
       <h3>{mobile ? null : 'Выбранная неделя'}</h3>
       <Week />
     </div>

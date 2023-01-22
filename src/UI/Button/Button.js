@@ -1,20 +1,19 @@
 import React from 'react'
-import classes from './Button.module.scss'
+import { useSelector } from 'react-redux'
+import './Button.css'
 import { connect } from 'react-redux'
 
 export const Button = (props) => {
-  const cls = [classes[props.type]]
-  props.mobile ? cls.push(classes.ButtonMobile) : cls.push(classes.Button)
+  const { mobile } = useSelector((state) => state.view)
+  // console.log(props)
+  // const cls = [classes[props.type]]
+  // props.mobile ? cls.push("ButtonMobile") : cls.push("Button")
 
   return (
     <div>
       <button
-        style={{ 
-          width: props.width ? props.width + 'px' : props.mobile ? '351px' : '136px',
-          height: props.height ? props.height + 'px' : props.mobile ? '50px' : '30px'
-        }}
         onClick={props.onClick}
-        className={cls.join(' ')}
+        className={mobile ? 'ButtonMobile' : 'Button'}
         disabled={props.disabled}
       >
         {props.text}

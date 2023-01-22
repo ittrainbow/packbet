@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Table from '../Components/Table/Table'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
 export const Standings = () => {
@@ -21,7 +21,7 @@ export const Standings = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? "ContainerMobile" : "ContainerMod"}>
       <h3>Таблица</h3>
       <Table />
     </div>

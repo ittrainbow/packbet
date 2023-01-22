@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import axios from '../../axios/axios'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   actionInit,
   actionCurrentWeek,
@@ -10,50 +10,39 @@ import { getWeeks } from '../../frame/getWeeks'
 import { actionSwitchLoading } from '../../redux/actions/loadingActions'
 import { actionSetHeight } from '../../redux/actions/viewActions'
 
-class InitState extends Component {
-  async componentDidMount() {
-    this.props.switchLoading(true)
+const InitState = () => {
+  const dispatch = useDispatch()
+  const { mobile } = useSelector((state) => state.view)
 
-    try {
-      const response = await axios.get('pack/weeks.json')
-      const weeks = getWeeks(response.data)
+  useEffect(() => {
+    dispatch(actionSwitchLoading(true))
 
-      const standings = await axios.get('pack/table.json')
-
-      this.props.init(weeks)
-      this.props.currentWeek(Object.keys(weeks).length - 1)
-      this.props.createStandings(standings.data)
-    } catch (error) {
-      console.log(error)
+    const initialFetch = async () => {
+      try {
+        const response = await axios.get('pack/weeks.json')
+        const standings = await axios.get('pack/table.json')
+        const weeks = getWeeks(response.data)
+  
+        dispatch(actionInit(weeks))
+        dispatch(actionCurrentWeek(Object.keys(weeks).length - 1))
+        dispatch(actionCreateStandings(standings.data))
+      } catch (error) {
+        console.error(error)
+      }
     }
 
-    await this.props.switchLoading(false)
-    const height = Math.max(
-      document.getElementById('container').offsetHeight + 40,
-      window.innerHeight
-    )
-    if (!this.props.mobile) this.props.setHeight(height)
-  }
+    initialFetch()
+    dispatch(actionSwitchLoading(false))
 
-  render() {
-    return <div></div>
-  }
+    if (!mobile) {
+      const height = Math.max( document.getElementById('container').offsetHeight + 40, window.innerHeight )
+      dispatch(actionSetHeight(height))
+    }
+
+    return
+  }, [])
+
+  return <div></div>
 }
 
-function mapStateToProps(state) {
-  return {
-    userButtons: state.auth.buttons
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    switchLoading: (status) => dispatch(actionSwitchLoading(status)),
-    init: (weeks) => dispatch(actionInit(weeks)),
-    currentWeek: (currentWeek) => dispatch(actionCurrentWeek(currentWeek)),
-    createStandings: (standings) => dispatch(actionCreateStandings(standings)),
-    setHeight: (height) => dispatch(actionSetHeight(height))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(InitState)
+export default InitState

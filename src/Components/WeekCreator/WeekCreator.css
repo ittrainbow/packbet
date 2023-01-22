@@ -25,7 +25,6 @@
 }
 
 .Button {
-  margin-left: 100px;
   margin-right: 5px;
   float: left;
   padding: 5px 5px 5px 5px
@@ -54,6 +53,7 @@
 }
 
 .CountDown {
+  display: block;
   font-size: 14px;
   margin-top: 10px;
   margin-bottom: 10px;

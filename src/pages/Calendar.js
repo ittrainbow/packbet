@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import WeekList from '../Components/WeekList/WeekList'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import { actionSetEditorStatus } from '../redux/actions/weekActions'
 import { actionSetHeight } from '../redux/actions/viewActions'
 
@@ -24,12 +24,12 @@ export const Calendar = () => {
   }, [])
 
   const renderHeader = () => {
-    if (mobile) return <h3 className={mobile ? classes.ContainerMobileMod : null}>Календарь</h3>
+    if (mobile) return <h3 className={mobile ? 'ContainerMobileMod' : null}>Календарь</h3>
     return <h3>Календарь</h3>
   }
 
   return (
-    <div id="container" className={mobile ? classes.ContaiterMobile : classes.Container}>
+    <div id="container" className={mobile ? 'ContaiterMobile' : 'ContainerMod'}>
       {renderHeader()}
       <WeekList />
     </div>

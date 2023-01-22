@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Countdown from 'react-countdown'
 
-import './Week.scss'
+import './Week.css'
 import { Loader, YesNoButtons, Button, OtherUser } from '../../UI'
 import axios from '../../axios/axios'
 import { actionSetTabActive } from '../../redux/actions/viewActions'
@@ -24,7 +24,7 @@ import { actionLogout } from '../../redux/actions/authActions'
 
 const Week = (props) => {
   const navigate = useNavigate()
-  const deadline = props.week.weeks[props.week.weekId].deadline
+  const deadline = props.weeks[props.weekId].deadline
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) return 'Игра началась'
@@ -125,9 +125,10 @@ const Week = (props) => {
   }
 
   function activityHelper(id, index) {
-    if (props.others.isItYou && (id || id === 0))
-      return props.auth.buttonState[props.render.id][index]
-    if (!today() && !props.others.isItYou && (id || id === 0))
+    if (props.isItYou && (id || id === 0) && props.buttonState) {
+      return props.buttonState[props.id][index]
+    }
+    if (!today() && !props.isItYou && (id || id === 0))
       return props.others.buttons[id][index]
     return null
   }
@@ -148,7 +149,7 @@ const Week = (props) => {
   function renderQuestions() {
     if (props.render.questions) {
       return props.render.questions.map((question, index) => {
-        const activity = activityHelper(props.week.weekId, index)
+        const activity = activityHelper(props.weekId, index)
         const result = props.auth.answerState[props.render.id][index]
         const correct = activity === result
         const styleSet = [props.mobile ? 'QuestionsDefaultMobile' : 'QuestionsDefault']
@@ -244,10 +245,15 @@ const Week = (props) => {
 
 function mapStateToProps(state) {
   return {
+    buttonState: state.auth.buttonState,
+    id: state.render.id,
     render: state.render,
     currentWeek: state.week.currentWeek,
+    weekId: state.week.weekId,
     week: state.week,
+    weeks: state.week.weeks,
     auth: state.auth,
+    isItYou: state.others.isItYou,
     others: state.others,
     isAdmin: state.auth.isAdmin,
     loading: state.loading,

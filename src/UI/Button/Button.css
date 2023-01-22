@@ -1,5 +1,4 @@
 .Button, .ButtonMobile {
-  display: inline-block;
   padding: 0px 5px;
   border-radius: 2px;
   border: 1px solid #444;
@@ -11,7 +10,8 @@
 }
 
 .Button {
-  width: 136px;
+  width: 176px;
+  height: 35px;
   font-size: 14px;
   margin-right: 6px;
   margin-top: 4px;
@@ -20,6 +20,7 @@
 
 .ButtonMobile {
   width: 351px;
+  height: 50px;
   font-size: 17px;
   margin-top: 5px;
   margin-bottom: 5px;

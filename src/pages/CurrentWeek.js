@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Week from '../Components/Week/Week'
-import classes from './Pages.module.scss'
+import './Pages.css'
 import { actionSetRender } from '../redux/actions/renderActions'
 import { actionSetWeekId } from '../redux/actions/weekActions'
 import { getLastWeek } from '../frame/getLastWeek'
@@ -34,7 +34,7 @@ export const CurrentWeek = () => {
   }, [])
 
   return (
-    <div id="container" className={mobile ? classes.ContainerMobile : classes.Container}>
+    <div id="container" className={mobile ? "ContainerMobile" : "ContainerMod"}>
       <h3>{mobile ? null : 'Текущая игра'}</h3>
       {week.weekId ? <Week /> : <Loader />}
     </div>

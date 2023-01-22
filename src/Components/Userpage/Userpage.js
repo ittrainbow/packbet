@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Input, Loader } from '../../UI'
-import classes from './Userpage.module.scss'
+import './Userpage.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { connect } from 'react-redux/es/exports'
 import { actionLogout, actionSetUserName } from '../../redux/actions/authActions'
@@ -79,15 +79,15 @@ class Userpage extends Component {
 
   render() {
     return (
-      <div className={this.props.mobile ? classes.UserpageMobile : classes.Userpage}>
+      <div className={this.props.mobile ? "UserpageMobile" : "Userpage"}>
         {this.state.loading ? (
           <Loader />
         ) : (
           <div>
-            <div className={classes.UserName}>
+            <div className="UserName">
               {this.state.showNameForm ? this.changeNameHandler() : `Имя: ${this.props.userName}`}
             </div>
-            <div className={classes.UserDiv}>
+            <div className="UserDiv">
               Email:{' '}
               <i
                 className="fa fa-eye"
@@ -96,7 +96,7 @@ class Userpage extends Component {
               />{' '}
               {this.emailHandler()}
             </div>
-            <div className={classes.UserDiv}>
+            <div className="UserDiv">
               Пароль:{' '}
               <i
                 className="fa fa-eye"
@@ -105,7 +105,7 @@ class Userpage extends Component {
               />{' '}
               {this.passwordHandler()}
             </div>
-            <div className={classes.UserDiv}>
+            <div className="UserDiv">
               {this.props.isAdmin ? 'Вы - администратор' : null}
             </div>
             <div>

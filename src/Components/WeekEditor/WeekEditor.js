@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import classes from './WeekEditor.module.scss'
+import './WeekEditor.css'
 import WeekCreator from '../WeekCreator/WeekCreator'
 import { actionSetHeight } from '../../redux/actions/viewActions'
 
@@ -19,7 +19,7 @@ class WeekEditor extends Component {
     return (
       <div
         id="container"
-        className={this.props.mobile ? classes.WeekEditorMobile : classes.WeekEditor}
+        className={this.props.mobile ? "WeekEditorMobile" : "WeekEditor"}
       >
         <h3>Редактирование недели</h3>
         <WeekCreator />

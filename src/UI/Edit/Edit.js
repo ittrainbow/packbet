@@ -1,20 +1,13 @@
 import React from 'react'
-import classes from './Edit.module.scss'
+import './Edit.css'
 import { FaEdit } from 'react-icons/fa'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export const Edit = (props) => {
+  const { mobile } = useSelector(state => state.view)
   return (
-    <button className={props.mobile ? classes.EditMobile : classes.Edit} onClick={props.onClick}>
+    <button className={mobile ? 'EditMobile' : 'Edit'} onClick={props.onClick}>
       <FaEdit />
     </button>
   )
 }
-
-function mapStateToProps(state) {
-  return {
-    mobile: state.view.mobile
-  }
-}
-
-connect(mapStateToProps, null)(Edit)

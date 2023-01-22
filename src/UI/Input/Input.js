@@ -1,14 +1,15 @@
 import React from 'react'
-import classes from './Input.module.scss'
+import { useSelector } from 'react-redux'
+import './Input.css'
 import { connect } from 'react-redux'
 
 export const Input = (props) => {
+  const { mobile } = useSelector(state => state.view)
   const inputType = props.type || 'text'
-  const cls = [props.mobile ? classes.InputMobile : classes.Input]
   const htmlFor = `${inputType}-${Math.random()}`
 
   return (
-    <div className={cls.join(' ')}>
+    <div className={mobile ? "InputMobile" : "Input"}>
       <label>{props.label}</label>
       <input
         type={inputType}

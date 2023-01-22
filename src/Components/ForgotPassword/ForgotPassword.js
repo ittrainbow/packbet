@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
-import classes from '../../App.module.scss'
+import '../../App.css'
 import { Input, Button, Loader } from '../../UI'
-import './ForgotPassword.scss'
+import './ForgotPassword.css'
 import { actionSetEmail } from '../../redux/actions/authActions'
 import { actionSetMessage, actionSwitchLoading } from '../../redux/actions/loadingActions'
 
@@ -56,14 +56,14 @@ const ForgotPassword = (props) => {
 
   return (
     <div>
-      <div className={'ForgotPassword'}>
-        <Input className={classes.InputWide} value={email} onChange={(e) => changeHandler(e)} />
+      <div className='ForgotPassword'>
+        <Input className="InputWide" value={email} onChange={(e) => changeHandler(e)} />
       </div>
 
       {!loading ? (
         <div>
           <Button text="Выслать пароль" onClick={() => recoverPassword()} />
-          <div className={classes.DivContainerRed}>{message}</div>
+          <div className="DivContainerRed">{message}</div>
           <Button text="Вход" onClick={() => navigate('/profile')} />
         </div>
       ) : (

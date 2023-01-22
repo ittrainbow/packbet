@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
 
-
-import './WeekCreator.scss'
+import './WeekCreator.css'
 import { Button, Input, Undo, Edit, Loader, BasicDateTimePicker } from '../../UI'
 import axios from '../../axios/axios'
 import { actionInit } from '../../redux/actions/weekActions'

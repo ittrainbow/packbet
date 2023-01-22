@@ -1,20 +1,14 @@
 import React from 'react'
-import classes from './Undo.module.scss'
+import './Undo.css'
 import { FaTrash } from 'react-icons/fa'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export const Undo = (props) => {
+  const { mobile } = useSelector((state) => state.view)
+
   return (
-    <button onClick={props.onClick} className={props.mobile ? classes.UndoMobile : classes.Undo}>
+    <button onClick={props.onClick} className={mobile ? 'UndoMobile' : 'Undo'}>
       <FaTrash />
     </button>
   )
 }
-
-function mapStateToProps(state) {
-  return {
-    mobile: state.view.mobile
-  }
-}
-
-connect(mapStateToProps, null)(Undo)
