@@ -31,6 +31,7 @@
     "react-datetime-picker": "^3.5.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-height": "^3.0.2",
     "react-icons": "^4.4.0",
     "react-input-calendar": "^0.5.4",

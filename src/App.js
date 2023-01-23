@@ -1,25 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch } from 'react-redux'
-
-import AppRoutes from './Routes/Routes'
-import InitState from './Components/InitState/InitState'
 import { isMobile } from 'react-device-detect'
-import { actionSetView } from './redux/actions/viewActions'
+import { getDoc, doc } from 'firebase/firestore'
+
+import { auth, db } from './db/'
+import { setMobile } from './redux/actions'
+import AppRoutes from './router/Routes'
+
+import './App.css'
+
+export const Context = React.createContext()
 
 const App = () => {
   const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
 
   useEffect(() => {
-    dispatch(actionSetView(isMobile))
-    return
-    // eslint-disable-next-line
-  }, [])
+    dispatch(setMobile(isMobile))
+  })
 
   return (
-    <>
-      <AppRoutes />
-      <InitState />
-    </>
+    <div className="App">
+      <Context.Provider
+        value={{}}
+      >
+        <AppRoutes />
+      </Context.Provider>
+    </div>
   )
 }
 

@@ -1,18 +1,18 @@
-import { combineReducers } from 'redux'
-import weekReducer from './reducers/weekReducer'
-import authReducer from './reducers/authReducer'
-import editorReducer from './reducers/editorReducer'
-import loadingReducer from './reducers/loadingReducer'
-import othersReducer from './reducers/othersReducer'
-import renderReducer from './reducers/renderReducer'
-import viewReducer from './reducers/viewReducer'
+import { SET_MOBILE } from './types'
 
-export default combineReducers({
-  week: weekReducer,
-  auth: authReducer,
-  editor: editorReducer,
-  loading: loadingReducer,
-  others: othersReducer,
-  render: renderReducer,
-  view: viewReducer
-})
+const initialState = {
+  mobile: false
+}
+
+export const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_MOBILE:
+      return {
+        ...state,
+        mobile: action.payload
+      }
+
+    default:
+      return state
+  }
+}
