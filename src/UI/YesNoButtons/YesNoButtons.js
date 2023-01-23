@@ -1,32 +1,31 @@
 import React from 'react'
 import './YesNoButtons.css'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export const YesNoButtons = (props) => {
-  let styleSetFirst = [props.mobile ? 'buttonMobile' : 'button']
-  let styleSetSecond = [props.mobile ? 'buttonMobile' : 'button']
+  const { activity, result, onClick, index } = props
+  const { mobile } = useSelector((state) => state.view)
+  let styleSetFirst = [mobile ? 'buttonMobile' : 'button']
+  let styleSetSecond = [mobile ? 'buttonMobile' : 'button']
 
-  if (props.mobile) {
+  if (mobile) {
     styleSetFirst.push('marginLeft')
   }
-  if (props.activity === 1 && !props.result) styleSetFirst.push('selected', 'green')
-  if (props.activity === 2 && !props.result) styleSetSecond.push('selected', 'red')
-  if (props.activity === 1 && props.result) {
+  if (activity === 1 && !result) styleSetFirst.push('selected', 'green')
+  if (activity === 2 && !result) styleSetSecond.push('selected', 'red')
+  if (activity === 1 && result) {
     styleSetFirst.push('black')
     styleSetSecond.push('white')
   }
-  if (props.activity === 2 && props.result) {
+  if (activity === 2 && result) {
     styleSetFirst.push('white')
     styleSetSecond.push('black')
   }
 
   return (
-    <div className={props.mobile ? 'buttonsDivMobile' : 'buttonsDiv'}>
-      <button
-        className={styleSetFirst.join(' ')}
-        onClick={() => props.onClick(props.index * 2)}
-      >
+    <div className={mobile ? 'buttonsDivMobile' : 'buttonsDiv'}>
+      <button className={styleSetFirst.join(' ')} onClick={() => onClick(index * 2)}>
         {!props.arrow ? <FaArrowUp /> : <FaCheck />}
       </button>
       <button
@@ -39,10 +38,3 @@ export const YesNoButtons = (props) => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    mobile: state.view.mobile
-  }
-}
-
-connect(mapStateToProps, null)(YesNoButtons)

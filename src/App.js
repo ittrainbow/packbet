@@ -1,31 +1,26 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+
 import AppRoutes from './Routes/Routes'
 import InitState from './Components/InitState/InitState'
 import { isMobile } from 'react-device-detect'
-import { connect } from 'react-redux'
 import { actionSetView } from './redux/actions/viewActions'
-import { actionAutoLogin } from './redux/actions/authActions'
 
-class App extends Component {
-  componentDidMount() {
-    this.props.setView(isMobile)
-  }
+const App = () => {
+  const dispatch = useDispatch()
 
-  render() {
-    return (
-      <>
-        <AppRoutes />
-        <InitState />
-      </>
-    )
-  }
+  useEffect(() => {
+    dispatch(actionSetView(isMobile))
+    return
+    // eslint-disable-next-line
+  }, [])
+
+  return (
+    <>
+      <AppRoutes />
+      <InitState />
+    </>
+  )
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setView: (boolean) => dispatch(actionSetView(boolean)),
-    autoLogin: () => dispatch(actionAutoLogin())
-  }
-}
-
-export default connect(null, mapDispatchToProps)(App)
+export default App
