@@ -1,0 +1,53 @@
+.auth {
+  height: 80vh;
+  width: 95vw;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__container,
+  &__profile {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+  }
+
+  &__textBox {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+
+  &__btn {
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: none;
+    color: white;
+    background-color: black;
+  }
+
+  &__btn_inactive {
+    cursor: not-allowed;
+    background-color: #bbb;
+  }
+
+  &__google {
+    background-color: #4285f4;
+  }
+
+  &__name {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  &__data-div {
+    font-size: 18px;
+    width: 217px;
+    padding-bottom: 24px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,36 @@
+.about {
+  margin-top: 20px;
+}
+
+.paragraph {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.FaArrowDown,
+.FaArrowUp,
+.FaCheck,
+.FaBan {
+  padding: .1em .3em 0 0;
+}
+
+.FaArrowDown {
+  color: darkred;
+}
+
+.FaArrowUp {
+  color: darkgreen;
+}
+
+.FaCheck {
+  color: darkgreen;
+}
+
+.FaBan {
+  color: darkred;
+}
+
+.legend {
+  display: flex;
+  margin: 3px 0 3px;
+}

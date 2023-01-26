@@ -1,47 +1,33 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Header } from '../pages/Header/Header'
+import { useSelector } from 'react-redux'
 
-// import Sidebar from '../Components/Sidebar/Sidebar'
-// import WeekEditor from '../Components/WeekEditor/WeekEditor'
-// import { Home as About, Calendar, Creator, CurrentWeek, Editor, OldWeek, Profile, Standings, Password } from '../pages'
-// import AdminRoute from './AdminRoute'
-// import PrivateRoute from './PrivateRoute'
+import { Header, About, Week, PageNotFound, ContextLog, Calendar } from '../pages'
+import { Register, Login, Dashboard, UserPage, Profile } from '../authPages'
+import { Loader } from '../UI/Loader/Loader'
 
 const AppRoutes = () => {
+  const { loading } = useSelector((state) => state)
+
   return (
     <BrowserRouter>
-      <Header>
+      <Header />
+      {loading ? (
+        <Loader />
+      ) : (
         <Routes>
-          {/* <Route path="/" element={<About />} /> */}
-          {/* <Route path="/profile" element={<Profile />} /> */}
-          {/* <Route path="/standings" element={<Standings />} /> */}
-          {/* <Route path="/recover" element={<Password />} /> */}
-
-          {/* <Route exact path="/" element={<PrivateRoute />}> */}
-          {/* <Route path="/thisweek" element={<CurrentWeek />} /> */}
-          {/* </Route> */}
-
-          {/* <Route exact path="/" element={<PrivateRoute />}> */}
-          {/* <Route path="/calendar" element={<Calendar />} /> */}
-          {/* </Route> */}
-
-          {/* <Route exact path="/" element={<PrivateRoute />}> */}
-          {/* <Route path="/week/:id" element={<OldWeek />} /> */}
-          {/* </Route> */}
-
-          {/* <Route exact path="/" element={<AdminRoute />}> */}
-          {/* <Route path="/editor" element={<Editor />} /> */}
-          {/* </Route> */}
-
-          {/* <Route exact path="/" element={<AdminRoute />}> */}
-          {/* <Route exact path="/create/:id" element={<WeekEditor />} /> */}
-          {/* </Route> */}
-
-          {/* <Route exact path="/" element={<AdminRoute />}> */}
-          {/* <Route path="/create" element={<Creator />} /> */}
-          {/* </Route> */}
+          <Route exact path="/" element={<About />} />
+          <Route exact path="/userpage" element={<UserPage />} />
+          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/calendar" element={<Calendar />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/currentweek" element={<Week />} />
+          <Route path="/week/:id" element={<Week />} />
+          <Route exact path="/create" element={<ContextLog />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </Header>
+      )}
     </BrowserRouter>
   )
 }

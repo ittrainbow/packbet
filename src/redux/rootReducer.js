@@ -1,7 +1,8 @@
-import { SET_MOBILE } from './types'
+import { SET_MOBILE, SET_LOADING } from './types'
 
 const initialState = {
-  mobile: false
+  mobile: false,
+  loading: true
 }
 
 export const rootReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ export const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         mobile: action.payload
+      }
+
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload
       }
 
     default:

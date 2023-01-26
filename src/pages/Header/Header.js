@@ -1,83 +1,53 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { menuItem } from './menuItem'
-// import { useAuthState } from 'react-firebase-hooks/auth'
+import { useSelector } from 'react-redux'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
-// import { auth, logout } from '../../db/'
-// import { Context } from '../../App'
+import './Header.scss'
 
-// import './Header.css'
+import { userMenu, adminMenu } from '../../templates/_menuItems'
+import { Context } from '../../App'
+import { auth } from '../../db'
 
 export const Header = () => {
-  const [tabActive, setTabActive] = useState(0)
+  const [user] = useAuthState(auth)
+  const { mobile } = useSelector((state) => state)
+  const { appContext, setAppContext, userContext } = useContext(Context)
+  const { admin } = userContext
+  const { tabActive } = appContext
   const navigate = useNavigate()
-  // const [user] = useAuthState(auth)
-  // const { context, countdown, setCountdown } = useContext(Context)
-  // const { name } = context
-  // const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   if (countdown > 0) {
-  //     const cdown = setInterval(() => setCountdown(countdown - 1), 1000)
-  //     return clearInterval(cdown)
-  //   }
-  // }, [countdown])
-
-  // const loggedInButtons = () => {
-  //   return (
-  //     <>
-  //       <button className="button" onClick={() => navigate('/dashboard')}>
-  //         Dashboard
-  //       </button>
-  //       <button className="button" onClick={() => logOutHandler()}>
-  //         Log Out
-  //       </button>
-  //     </>
-  //   )
-  // }
-
-  // const outsideUserButtons = () => {
-  //   return (
-  //     <>
-  //       <button className="button" onClick={() => navigate('/login')}>
-  //         Login
-  //       </button>
-  //       <button className="button" onClick={() => navigate('/register')}>
-  //         Register
-  //       </button>
-  //     </>
-  //   )
-  // }
-
-  // const logOutHandler = () => {
-  //   logout()
-  //   navigate('/')
-  // }
+  const isTabActive = (id) => id === tabActive
 
   const clickHandler = (id, path) => {
-    setTabActive(id)
-    navigate(path)
+    if (!isTabActive(id)) {
+      setAppContext({ ...appContext, tabActive: id })
+      navigate(path)
+    }
   }
 
+  const getClass = (id) =>
+    isTabActive(id)
+      ? 'header__tab-active'
+      : !user && id === 1
+      ? 'header__tab-no-login'
+      : 'header__tab'
+
+  const bar = user && admin ? userMenu.concat(adminMenu) : userMenu
+
   return (
-    <div>
-      <div className="SidebarMobile">
-        <table>
-          <thead>
-            <tr>
-              {menuItem.map((item, index) => {
-                const { id, path } = item
-                return (
-                  <td key={index} onClick={() => clickHandler(id, path)}>
-                    <div className="headerIcon">{item.icon}</div>
-                  </td>
-                )
-              })}
-            </tr>
-          </thead>
-        </table>
+    <div className={mobile ? 'header-mobile' : 'header'}>
+      <div className="header__icons">
+        {bar.map((el) => {
+          const { id, path, icon, name } = el
+          return (
+            <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
+              {icon}
+              <div className="header__name">{mobile ? null : name}</div>
+            </div>
+          )
+        })}
       </div>
-      {/* <main className="MainMobile">{children}</main> */}
     </div>
   )
 }

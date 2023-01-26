@@ -1,0 +1,51 @@
+@import '../../templates/vars';
+
+.header {
+  height: 86px;
+}
+
+.header-mobile {
+  height: 65px;
+}
+
+.header,
+.header-mobile {
+  background: $base-black;
+
+  &__icons {
+    display: flex;
+    padding-left: 5px;
+  }
+
+  &__tab,
+  &__tab-active {
+    font-size: 40px;
+    text-align: center;
+    transition: 0.5s;
+    padding: .15em .1em;
+  }
+
+  &__tab {
+    color: $base-grey;
+    cursor: pointer;
+  }  
+  
+  &__tab-no-login {
+    color: $base-dark-grey;
+    padding: .15em .1em;
+    font-size: 40px;
+    cursor: pointer;
+  }
+
+  &__tab-active {
+    color: $base-green;
+  }
+
+  &__name {
+    font-size: 12px;
+  }
+
+  &__icon-padding {
+    padding: 6px 4px 0 4px;
+  }
+}
