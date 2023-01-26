@@ -13,4 +13,6 @@ export const user = {
 
 export const weeks = [{ number: '', name: '', questions: {} }]
 
-export const gameday = { 0: 0, 1: 1, 2: 2 }
+export const answers = {}
+
+export const about = []

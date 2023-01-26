@@ -8,7 +8,7 @@ import { aboutLegend } from '../../templates/_about'
 
 export const About = () => {
   const [open, setOpen] = useState(false)
-  const { about } = useContext(Context)
+  const { aboutContext } = useContext(Context)
 
   return (
     <div className="container">
@@ -20,7 +20,7 @@ export const About = () => {
       <div>
         {open ? (
           <>
-            {about.map((el, index) => (
+            {aboutContext.map((el, index) => (
               <div key={index} className="paragraph">
                 {el}
               </div>

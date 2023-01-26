@@ -1,3 +1,3 @@
 export const getCurrentWeekId = (weeks) => {
-  return weeks.map(el => el.number).filter((a, b) => a - b)[0]
+  return Object.keys(weeks).map(el => Number(el)).sort((a, b) => b-a)[0]
 }

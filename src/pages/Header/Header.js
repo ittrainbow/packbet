@@ -20,8 +20,14 @@ export const Header = () => {
   const isTabActive = (id) => id === tabActive
 
   const clickHandler = (id, path) => {
-    if (!isTabActive(id)) {
-      setAppContext({ ...appContext, tabActive: id })
+    const { currentWeek, selectedWeek } = appContext
+    if (!isTabActive(id) || id === 3) {
+      const context = {
+        ...appContext,
+        tabActive: id,
+        selectedWeek: id === 2 ? currentWeek : selectedWeek
+      }
+      setAppContext(context)
       navigate(path)
     }
   }
@@ -33,7 +39,7 @@ export const Header = () => {
       ? 'header__tab-no-login'
       : 'header__tab'
 
-  const bar = user && admin ? userMenu.concat(adminMenu) : userMenu
+  const bar = admin ? userMenu.concat(adminMenu) : userMenu
 
   return (
     <div className={mobile ? 'header-mobile' : 'header'}>

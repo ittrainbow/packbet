@@ -1,18 +1,29 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import './Calendar.scss'
 import { Context } from '../../App'
 
 export const Calendar = () => {
-  const { weeksContext } = useContext(Context)
+  const navigate = useNavigate()
+  const { weeksContext, appContext, setAppContext } = useContext(Context)
+
+  const clickHandler = (selectedWeek) => {
+    setAppContext({
+      ...appContext,
+      selectedWeek
+    })
+    navigate('/week')
+  }
 
   return (
     <div className="container">
       <div className="weeklist">
-        {weeksContext.map((el) => {
+        {Object.keys(weeksContext).map((el) => {
+          const { number, name } = weeksContext[el]
           return (
-            <div key={el.number} className="week">
-              Неделя {el.number}: {el.name}
+            <div key={number} className="week" onClick={() => clickHandler(Number(el))}>
+              Неделя {number}: {name}
             </div>
           )
         })}

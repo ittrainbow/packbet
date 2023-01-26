@@ -9,8 +9,14 @@ import { setLoading } from '../redux/actions'
 import { getCurrentWeekId } from '../helpers'
 
 export const Init = () => {
-  const { appContext, setAppContext, setUserContext, setWeeksContext, setAbout } =
-    useContext(Context)
+  const {
+    appContext,
+    setAppContext,
+    setUserContext,
+    setWeeksContext,
+    setAboutContext,
+    setAnswersContext
+  } = useContext(Context)
   const [user] = useAuthState(auth)
   const dispatch = useDispatch()
 
@@ -19,15 +25,20 @@ export const Init = () => {
       await getDoc(doc(db, 'about', 'about')).then((response) => {
         const resp = response.data()
         const about = Object.keys(resp).map((el) => resp[el])
-        setAbout(about)
+        setAboutContext(about)
       })
 
       await getDocs(collection(db, 'weeks')).then((response) => {
-        const weeks = []
-        response.forEach((el) => weeks.push(el.data()))
-        const currentWeek = getCurrentWeekId(weeks)
-        setAppContext({ ...appContext, currentWeek })
+        const weeks = {}
+        response.forEach((el) => (weeks[Number(el.id)] = el.data()))
+        setAppContext({ ...appContext, currentWeek: getCurrentWeekId(weeks) })
         setWeeksContext(weeks)
+      })
+
+      await getDocs(collection(db, 'answers')).then((response) => {
+        const answers = {}
+        response.forEach((el) => (answers[el.id] = el.data()))
+        setAnswersContext(answers)
       })
 
       if (user) {

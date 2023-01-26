@@ -22,7 +22,7 @@ const AppRoutes = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/currentweek" element={<Week />} />
+          <Route exact path="/week" element={<Week />} />
           <Route path="/week/:id" element={<Week />} />
           <Route exact path="/create" element={<ContextLog />} />
           <Route path="*" element={<PageNotFound />} />
