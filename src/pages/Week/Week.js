@@ -7,7 +7,7 @@ import './Week.scss'
 
 import { auth, db } from '../../db'
 import { Context } from '../../App'
-import { compareObj } from '../../helpers'
+import { objectCompare } from '../../helpers'
 import { Button, YesNoButtons } from '../../UI'
 import { setLoading } from '../../redux/actions'
 
@@ -20,10 +20,10 @@ export const Week = () => {
   const { number, name, questions } = weeksContext[selectedWeek]
 
   const onClickHandler = (value, id, activity) => {
-    const ans = { ...answersContext[uid][selectedWeek] }
+    const ans = answersContext[uid] ? { ...answersContext[uid][selectedWeek] } : {}
     const contxt = { ...answersContext }
-
     ans[id] = value === activity ? 0 : value
+    if (!contxt[uid]) contxt[uid] = {}
     contxt[uid][selectedWeek] = ans
     setAnswersContext(contxt)
   }
@@ -37,10 +37,10 @@ export const Week = () => {
     try {
       const { uid } = user
       dispatch(setLoading(true))
-      const data = {...answersContext[uid]}
+      const data = { ...answersContext[uid] }
       await setDoc(doc(db, 'answers', uid), data).then(async () => {
         const response = await getDoc(doc(db, 'answers', uid))
-        if (compareObj(response.data(), data)) alert('Результат сохранен')
+        if (objectCompare(response.data(), data)) alert('Результат сохранен')
       })
 
       dispatch(setLoading(false))

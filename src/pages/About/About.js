@@ -4,7 +4,7 @@ import './About.scss'
 
 import { Context } from '../../App'
 import { Button } from '../../UI'
-import { aboutLegend } from '../../templates/_about'
+import { aboutLegend } from './_about'
 
 export const About = () => {
   const [open, setOpen] = useState(false)

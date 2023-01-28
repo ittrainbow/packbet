@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import { Header, About, Week, PageNotFound, ContextLog, Calendar } from '../pages'
+import { Header, About, Week, PageNotFound, ContextLog, Calendar, Editor } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile } from '../authPages'
 import { Loader } from '../UI/Loader/Loader'
 
@@ -19,6 +19,7 @@ const AppRoutes = () => {
           <Route exact path="/userpage" element={<UserPage />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/calendar" element={<Calendar />} />
+          <Route exact path="/editor" element={<Editor />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/dashboard" element={<Dashboard />} />

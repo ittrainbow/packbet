@@ -75,11 +75,11 @@ export const Login = () => {
         <Button className="auth__btn auth__google" onClick={signInWithGoogle}>
           Login with Google
         </Button>
-        <div>
-          <Link to="/reset">Forgot Password</Link>
+        <div className="p5">
+          <Link to="/reset">Forgot Password</Link>?
         </div>
-        <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
+        <div className="p5">
+          No account? <Link to="/register">Register</Link> now.
         </div>
       </div>
     </div>

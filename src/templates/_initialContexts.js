@@ -16,3 +16,5 @@ export const weeks = [{ number: '', name: '', questions: {} }]
 export const answers = {}
 
 export const about = []
+
+export const editor = {}

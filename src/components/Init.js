@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Context } from '../App'
 import { db, auth } from '../db'
 import { setLoading } from '../redux/actions'
-import { getCurrentWeekId } from '../helpers'
+import { getCurrentWeekId, objectCompose } from '../helpers'
 
 export const Init = () => {
   const {
@@ -29,15 +29,13 @@ export const Init = () => {
       })
 
       await getDocs(collection(db, 'weeks')).then((response) => {
-        const weeks = {}
-        response.forEach((el) => (weeks[Number(el.id)] = el.data()))
+        const weeks = objectCompose(response)
         setAppContext({ ...appContext, currentWeek: getCurrentWeekId(weeks) })
         setWeeksContext(weeks)
       })
 
       await getDocs(collection(db, 'answers')).then((response) => {
-        const answers = {}
-        response.forEach((el) => (answers[el.id] = el.data()))
+        const answers = objectCompose(response)
         setAnswersContext(answers)
       })
 

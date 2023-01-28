@@ -14,14 +14,14 @@ import * as initialContext from './templates/_initialContexts'
 export const Context = React.createContext()
 
 const App = () => {
-  const [aboutContext, setAboutContext] = useState(initialContext.about)
-  const [weeksContext, setWeeksContext] = useState(initialContext.weeks)
-  const [appContext, setAppContext] = useState(initialContext.app)
-  const [userContext, setUserContext] = useState(initialContext.user)
-  const [answersContext, setAnswersContext] = useState({0: {0: 1}})
-
   const dispatch = useDispatch()
-  // const [user] = useAuthState(auth)
+  const { about, weeks, app, user, answers, editor } = initialContext
+  const [aboutContext, setAboutContext] = useState(about)
+  const [weeksContext, setWeeksContext] = useState(weeks)
+  const [appContext, setAppContext] = useState(app)
+  const [userContext, setUserContext] = useState(user)
+  const [answersContext, setAnswersContext] = useState(answers)
+  const [editorContext, setEditorContext] = useState(editor)
 
   useEffect(() => {
     const mobile = isMobile
@@ -41,7 +41,9 @@ const App = () => {
         aboutContext,
         setAboutContext,
         answersContext,
-        setAnswersContext
+        setAnswersContext,
+        editorContext,
+        setEditorContext
       }}
     >
       <Init />

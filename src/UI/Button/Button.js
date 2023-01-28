@@ -8,8 +8,8 @@ export const Button = (props) => {
   const { mobile } = useSelector((state) => state)
 
   const clsName = () => {
-    const style = [className, 'button']
-    style.push(mobile ? 'button__mobile' : null)
+    const style = [className]
+    style.push(mobile ? 'button__mobile' : 'button')
     return style.join(' ')
   }
 
