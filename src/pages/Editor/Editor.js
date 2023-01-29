@@ -16,16 +16,16 @@ const questionInWorkInit = { question: '', total: '', id: null }
 export const Editor = () => {
   const { weeksContext, setWeeksContext, appContext } = useContext(Context)
   const { selectedWeek } = appContext
-  const [origin, setOrigin] = useState(weeksContext[selectedWeek])
+  const weekStateOnLoad = weeksContext[selectedWeek]
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [weekInWork, setWeekInWork] = useState(origin)
-  const [questionInWork, setQuestionInWork] = useState({})
+  const [weekInWork, setWeekInWork] = useState(weekStateOnLoad)
+  const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
 
   const { questions, name, active, deadline } = weekInWork
   const { question, total, id } = questionInWork
 
-  const changes = objectCompare(weekInWork, origin)
+  const changes = objectCompare(weekInWork, weekStateOnLoad)
 
   const changeNameHandler = (name) => {
     setWeekInWork({ ...weekInWork, name })
@@ -54,22 +54,46 @@ export const Editor = () => {
   }
 
   const submitHandler = async () => {
-    dispatch(setLoading(true))
     try {
-      await setDoc(doc(db, 'weeks', selectedWeek.toString()), weekInWork)
+      dispatch(setLoading(true))
       const weeks = objectReplace(weeksContext, selectedWeek, null, weekInWork)
       setWeeksContext(weeks)
-      setOrigin(weekInWork)
+      await setDoc(doc(db, 'weeks', selectedWeek.toString()), weekInWork)
     } catch (error) {
       console.error(error)
+    } finally {
+      dispatch(setLoading(false))
     }
-    dispatch(setLoading(false))
+  }
+
+  function renderQuestions() {
+    return Object.keys(questions).map((el) => {
+      const id = Number(el)
+      const { question, total } = questions[id]
+      return (
+        <div key={id} className="editor-q">
+          <div className="editor-q__desc">
+            {question} {total !== 1 ? `: ${total}` : null}
+          </div>
+          <div className="editor-q__buttons">
+            <FaEdit
+              className="editor-btn editor-btn__green"
+              onClick={() => setQuestionInWork({ question, total, id })}
+            />
+            <FaTrashAlt
+              className="editor-btn editor-btn__red"
+              onClick={() => removeQuestionHandler(id)}
+            />
+          </div>
+        </div>
+      )
+    })
   }
 
   return (
     <div className="container">
       <div className="editor-week">
-        <div className="editor-week__week">{name}</div>
+        <div className="editor-week__week">{weekStateOnLoad.name}</div>
         {!changes ? (
           <button className="editor-week__btn" onClick={() => submitHandler()}>
             Save?
@@ -95,34 +119,10 @@ export const Editor = () => {
           value={total}
         ></input>
         <button className="editor-form__btn" onClick={() => addQuestionHandler()}>
-          {id !== null ? (
-            <FaCheck className="editor-form__check" />
-          ) : (
-            <FaPlus className="editor-form__check" />
-          )}
+          {id !== null ? <FaCheck /> : <FaPlus />}
         </button>
       </div>
-      {Object.keys(questions).map((el) => {
-        const id = Number(el)
-        const { question, total } = questions[id]
-        return (
-          <div key={id} className="editor-q">
-            <div className="editor-q__desc">
-              {question} {total !== 1 ? `: ${total}` : null}
-            </div>
-            <div className="editor-q__buttons">
-              <FaEdit
-                className="editor-btn editor-btn__green"
-                onClick={() => setQuestionInWork({ question, total, id })}
-              />
-              <FaTrashAlt
-                className="editor-btn editor-btn__red"
-                onClick={() => removeQuestionHandler(id)}
-              />
-            </div>
-          </div>
-        )
-      })}
+      {renderQuestions()}
       <div className="editor-checkbox">
         <input
           type="checkbox"
@@ -145,14 +145,6 @@ export const Editor = () => {
           Discard
         </button>
       ) : null}
-      <button
-        onClick={() => {
-          console.log('weeksContext', weeksContext)
-          console.log('appContext', appContext)
-        }}
-      >
-        SHOWCTXT
-      </button>
     </div>
   )
 }

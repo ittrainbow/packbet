@@ -35,18 +35,18 @@ export const Week = () => {
 
   const submitHandler = async () => {
     try {
-      const { uid } = user
       dispatch(setLoading(true))
+      const { uid } = user
       const data = { ...answersContext[uid] }
       await setDoc(doc(db, 'answers', uid), data).then(async () => {
         const response = await getDoc(doc(db, 'answers', uid))
         if (objectCompare(response.data(), data)) alert('Результат сохранен')
       })
-
-      dispatch(setLoading(false))
     } catch (error) {
       alert('Произошла ошибка')
       console.error(error)
+    } finally {
+      dispatch(setLoading(false))
     }
   }
 
@@ -64,7 +64,6 @@ export const Week = () => {
               <div className="question__desc">
                 {question}: {total}
               </div>
-
               <div className="question__actions">
                 <YesNoButtons
                   total={total}
