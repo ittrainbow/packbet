@@ -13,17 +13,18 @@ export const Context = React.createContext()
 
 const App = () => {
   const dispatch = useDispatch()
-  const { about, weeks, app, user, answers } = initialContext
+  const { about, weeks, app, user, answers, editor } = initialContext
   const [aboutContext, setAboutContext] = useState(about)
   const [weeksContext, setWeeksContext] = useState(weeks)
   const [appContext, setAppContext] = useState(app)
   const [userContext, setUserContext] = useState(user)
   const [answersContext, setAnswersContext] = useState(answers)
+  const [editorContext, setEditorContext] = useState(editor)
+  const [creatorContext, setCreatorContext] = useState(editor)
 
   useEffect(() => {
     const mobile = isMobile
-    dispatch(setMobile(mobile))
-    // eslint-disable-next-line
+    dispatch(setMobile(mobile)) // eslint-disable-next-line
   }, [])
 
   return (
@@ -38,7 +39,11 @@ const App = () => {
         aboutContext,
         setAboutContext,
         answersContext,
-        setAnswersContext
+        setAnswersContext,
+        editorContext,
+        setEditorContext,
+        creatorContext,
+        setCreatorContext
       }}
     >
       <Init />

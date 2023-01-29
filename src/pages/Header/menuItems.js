@@ -18,5 +18,5 @@ export const userMenu = [
 
 export const adminMenu = [
   { path: '/calendar', name: 'Editor', icon: <FaChevronCircleRight className="header__icon-padding" />, id: 5 },
-  { path: '/create', name: 'Create', icon: <FaPenNib className="header__icon-padding" />, id: 6 }
+  { path: '/editor', name: 'Create', icon: <FaPenNib className="header__icon-padding" />, id: 6 }
 ]

@@ -54,7 +54,7 @@ export const Init = () => {
 
   useEffect(() => {
     fetch()
-    // eslint-disable-next-line
+    return // eslint-disable-next-line
   }, [user])
 
   return <div></div>

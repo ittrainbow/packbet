@@ -36,6 +36,7 @@ export const Header = () => {
 
     if (editor && id < 5) dispatch(setEditor(false))
     if (!editor && id > 4) dispatch(setEditor(true))
+    if (!editor && id === 6) setAppContext({ ...appContext, selectedWeek: null })
   }
 
   const getClass = (id) =>

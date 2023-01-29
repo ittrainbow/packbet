@@ -10,25 +10,23 @@ import { db } from '../../db'
 import { Context } from '../../App'
 import { objectCompare, objectTrim, objectReplace } from '../../helpers'
 import { setLoading } from '../../redux/actions'
-
-const questionInWorkInit = { question: '', total: '', id: null }
+import { questionInWorkInit } from '../../templates/_initialContexts'
 
 export const Editor = () => {
-  const { weeksContext, setWeeksContext, appContext } = useContext(Context)
-  const { selectedWeek } = appContext
-  const weekStateOnLoad = weeksContext[selectedWeek]
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [weekInWork, setWeekInWork] = useState(weekStateOnLoad)
+  const { weeksContext, setWeeksContext, appContext, editorContext, setEditorContext } =
+    useContext(Context)
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
-
-  const { questions, name, active, deadline } = weekInWork
+  const { selectedWeek } = appContext
+  const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
+  const loadedWeek = weeksContext[selectedWeek]
 
-  const changes = objectCompare(weekInWork, weekStateOnLoad)
+  const changes = objectCompare(editorContext, loadedWeek)
 
   const changeNameHandler = (name) => {
-    setWeekInWork({ ...weekInWork, name })
+    setEditorContext({ ...editorContext, name })
   }
 
   const newQuestionNum = () => {
@@ -39,26 +37,26 @@ export const Editor = () => {
     const { id, question, total } = questionInWork
     if (question && total) {
       const obj = objectReplace(questions, id, newQuestionNum(), questionInWork)
-      setWeekInWork({ ...weekInWork, questions: obj })
+      setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(questionInWorkInit)
     }
   }
 
   const removeQuestionHandler = (id) => {
     const q = objectTrim(questions, id)
-    setWeekInWork({ ...weekInWork, questions: q })
+    setEditorContext({ ...editorContext, questions: q })
   }
 
   const changeDateHandler = (deadline) => {
-    setWeekInWork({ ...weekInWork, deadline })
+    setEditorContext({ ...editorContext, deadline })
   }
 
   const submitHandler = async () => {
     try {
       dispatch(setLoading(true))
-      const weeks = objectReplace(weeksContext, selectedWeek, null, weekInWork)
+      const weeks = objectReplace(weeksContext, selectedWeek, null, editorContext)
       setWeeksContext(weeks)
-      await setDoc(doc(db, 'weeks', selectedWeek.toString()), weekInWork)
+      await setDoc(doc(db, 'weeks', selectedWeek.toString()), editorContext)
     } catch (error) {
       console.error(error)
     } finally {
@@ -67,33 +65,34 @@ export const Editor = () => {
   }
 
   function renderQuestions() {
-    return Object.keys(questions).map((el) => {
-      const id = Number(el)
-      const { question, total } = questions[id]
-      return (
-        <div key={id} className="editor-q">
-          <div className="editor-q__desc">
-            {question} {total !== 1 ? `: ${total}` : null}
+    if (questions)
+      return Object.keys(questions).map((el) => {
+        const id = Number(el)
+        const { question, total } = questions[id]
+        return (
+          <div key={id} className="editor-q">
+            <div className="editor-q__desc">
+              {question} {total !== 1 ? `: ${total}` : null}
+            </div>
+            <div className="editor-q__buttons">
+              <FaEdit
+                className="editor-btn editor-btn__green"
+                onClick={() => setQuestionInWork({ question, total, id })}
+              />
+              <FaTrashAlt
+                className="editor-btn editor-btn__red"
+                onClick={() => removeQuestionHandler(id)}
+              />
+            </div>
           </div>
-          <div className="editor-q__buttons">
-            <FaEdit
-              className="editor-btn editor-btn__green"
-              onClick={() => setQuestionInWork({ question, total, id })}
-            />
-            <FaTrashAlt
-              className="editor-btn editor-btn__red"
-              onClick={() => removeQuestionHandler(id)}
-            />
-          </div>
-        </div>
-      )
-    })
+        )
+      })
   }
 
   return (
     <div className="container">
       <div className="editor-week">
-        <div className="editor-week__week">{weekStateOnLoad.name}</div>
+        <div className="editor-week__week">{loadedWeek.name}</div>
         {!changes ? (
           <button className="editor-week__btn" onClick={() => submitHandler()}>
             Save?
@@ -128,7 +127,7 @@ export const Editor = () => {
           type="checkbox"
           className="editor-checkbox__box"
           checked={active}
-          onChange={() => setWeekInWork({ ...weekInWork, active: !active })}
+          onChange={() => setEditorContext({ ...editorContext, active: !active })}
         />
         Activity
       </div>

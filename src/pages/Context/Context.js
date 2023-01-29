@@ -15,8 +15,7 @@ export const ContextLog = () => {
     console.log('app', appContext)
     // console.log('user', userContext)
     // console.log('answers', answersContext)
-    return
-    // eslint-disable-next-line
+    return // eslint-disable-next-line
   }, [])
 
   return (
