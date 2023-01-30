@@ -18,6 +18,7 @@ export const Editor = () => {
   const { weeksContext, setWeeksContext, appContext, editorContext, setEditorContext } =
     useContext(Context)
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
+  const [newId, setNewId] = useState(0)
   const { selectedWeek } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
@@ -29,16 +30,14 @@ export const Editor = () => {
     setEditorContext({ ...editorContext, name })
   }
 
-  const newQuestionNum = () => {
-    return Object.keys(questions).sort((a, b) => b - a)[0]
-  }
-
   const addQuestionHandler = () => {
-    const { id, question, total } = questionInWork
+    const { question, total } = questionInWork
+    const id = questionInWork.id !== null ? questionInWork.id : newId
     if (question && total) {
-      const obj = objectReplace(questions, id, newQuestionNum(), questionInWork)
+      setNewId(newId + 1)
+      const obj = objectReplace(questions, id, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
-      setQuestionInWork(questionInWorkInit)
+      setQuestionInWork({ ...questionInWorkInit, id: newId + 1 })
     }
   }
 
@@ -54,7 +53,7 @@ export const Editor = () => {
   const submitHandler = async () => {
     try {
       dispatch(setLoading(true))
-      const weeks = objectReplace(weeksContext, selectedWeek, null, editorContext)
+      const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
       setWeeksContext(weeks)
       await setDoc(doc(db, 'weeks', selectedWeek.toString()), editorContext)
     } catch (error) {

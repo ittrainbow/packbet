@@ -11,6 +11,18 @@
     flex-grow: 1;
   }
 
+  &__red {
+    background-color: rgb(255, 201, 201);
+  }
+
+  &__grey {
+    background-color: #e1e1e1;
+  }
+
+  &__green {
+    background-color: rgb(205, 255, 205);
+  }
+
   &__actions {
     display: flex;
   }

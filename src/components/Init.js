@@ -22,15 +22,10 @@ export const Init = () => {
 
   const fetch = async () => {
     try {
-      await getDoc(doc(db, 'about', 'about')).then((response) => {
-        const resp = response.data()
-        const about = Object.keys(resp).map((el) => resp[el])
-        setAboutContext(about)
-      })
-
       await getDocs(collection(db, 'weeks')).then((response) => {
         const weeks = objectCompose(response)
-        setAppContext({ ...appContext, currentWeek: getCurrentWeekId(weeks) })
+        const num = getCurrentWeekId(weeks)
+        setAppContext({ ...appContext, currentWeek: num, nextWeek: num + 1 })
         setWeeksContext(weeks)
       })
 
@@ -39,16 +34,24 @@ export const Init = () => {
         setAnswersContext(answers)
       })
 
-      if (user) {
+      if (user) {  
         await getDoc(doc(db, 'users', user.uid)).then((response) => {
           const user = response.data()
           setUserContext(user)
         })
       }
+
+      await getDoc(doc(db, 'about', 'about')).then((response) => {
+        const resp = response.data()
+        const about = Object.keys(resp).map((el) => resp[el])
+        setAboutContext(about)
+      })
     } catch (error) {
       console.error(error)
     } finally {
-      dispatch(setLoading(false))
+      const timeout = setInterval(dispatch(setLoading(false)), 1500)
+      clearInterval(timeout)
+      // dispatch(setLoading(false))
     }
   }
 

@@ -13,7 +13,7 @@ $green-active: #1a571c;
     border-radius: 5px;
   }
 
-  &__child {
+  &__btn {
     background-color: $light-grey;
     color: black;
     padding-top: 5px;
@@ -24,24 +24,24 @@ $green-active: #1a571c;
     cursor: pointer;
   }
 
-  &__child:active {
+  &__btn:active {
     background-color: $grey;
     transition: .22s;
   }
 
-  &__child-yes {
+  &__btn-yes {
     background-color: $grey;
   }
 
-  &__child-yes-active {
+  &__btn-yes-active {
     background-color: $green;
   }
 
-  &__child-no {
+  &__btn-no {
     background-color: $grey;
   }
 
-  &__child-no-active {
+  &__btn-no-active {
     background-color: $red;
   }
 
@@ -58,6 +58,11 @@ $green-active: #1a571c;
 
 .green:active {
   background-color: $green-active;
+}
+
+.dark {
+  background-color: #333;
+  color: white;
 }
 
 .red {

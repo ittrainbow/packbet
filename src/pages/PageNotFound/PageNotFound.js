@@ -3,7 +3,8 @@ import React from 'react'
 export const PageNotFound = () => {
   return (
     <div className="container">
-      Эта страница - как победы Детройта в Супербоуле. Не существует.
+      <div className="paragraph">Эта страница - как победы Детройта в Супербоуле.</div>
+      <div className="paragraph">Не существует.</div>
     </div>
   )
 }

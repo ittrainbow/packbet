@@ -15,7 +15,7 @@ export const Header = () => {
   const { mobile, editor } = useSelector((state) => state)
   const { appContext, setAppContext, userContext } = useContext(Context)
   const { admin } = userContext
-  const { tabActive } = appContext
+  const { tabActive, nextWeek } = appContext
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -28,7 +28,7 @@ export const Header = () => {
       const context = {
         ...appContext,
         tabActive: id,
-        selectedWeek: id === 2 ? currentWeek : selectedWeek
+        selectedWeek: id === 2 ? currentWeek : id !== 6 ? selectedWeek : nextWeek
       }
       setAppContext(context)
       navigate(path)
@@ -36,7 +36,6 @@ export const Header = () => {
 
     if (editor && id < 5) dispatch(setEditor(false))
     if (!editor && id > 4) dispatch(setEditor(true))
-    if (!editor && id === 6) setAppContext({ ...appContext, selectedWeek: null })
   }
 
   const getClass = (id) =>

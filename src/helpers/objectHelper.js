@@ -6,13 +6,13 @@ export const objectTrim = (object, id) => {
 
 export const objectCompose = (response) => {
   const obj = {}
-  response.forEach((el) => (obj[Number(el.id)] = el.data()))
+  response.forEach((el) => (obj[el.id] = el.data()))
   return obj
 }
 
-export const objectReplace = (object, id, id2, replacement) => {
+export const objectReplace = (object, id, replacement) => {
   const obj = { ...object }
-  obj[id !== null ? id : id2] = replacement
+  obj[id] = replacement
   return obj
 }
 
