@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import { Header, About, Week, PageNotFound, ContextLog, Calendar, Editor } from '../pages'
-import { Register, Login, Dashboard, UserPage, Profile } from '../authPages'
+import { Header, About, Week, PageNotFound, Calendar, Editor } from '../pages'
+import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI/Loader/Loader'
 
 const AppRoutes = () => {
@@ -24,8 +24,7 @@ const AppRoutes = () => {
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/week" element={<Week />} />
-          <Route path="/week/:id" element={<Week />} />
-          <Route exact path="/create" element={<ContextLog />} />
+          <Route exact path="/reset" element={<Reset />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       )}

@@ -7,8 +7,8 @@ import './Week.scss'
 
 import { auth, db } from '../../db'
 import { Context } from '../../App'
-import { objectCompare, ansHelper } from '../../helpers'
-import { Button, YesNoButtons } from '../../UI'
+import { objectCompare, ansHelper, objectTrim } from '../../helpers'
+import { YesNoButtons, AdminPlayer } from '../../UI'
 import { setLoading } from '../../redux/actions'
 
 export const Week = () => {
@@ -19,10 +19,10 @@ export const Week = () => {
   const { appContext, userContext, weeksContext, answersContext, setAnswersContext } =
     useContext(Context)
   const { selectedWeek } = appContext
-  const { admin } = userContext
-  const { number, name, questions } = weeksContext[selectedWeek]
+  const { admin, adminAsPlayer } = userContext
+  const { name, questions } = weeksContext[selectedWeek]
 
-  const thisweek = user ? answersContext[user.uid][selectedWeek] : null
+  const thisweek = user && answersContext[user.uid] ? answersContext[user.uid][selectedWeek] : {}
 
   useEffect(() => {
     if (user) setLoadedState(thisweek)
@@ -34,7 +34,7 @@ export const Week = () => {
   const onClickHandler = (value, id, activity) => {
     const { uid } = user
     const answer = { ...thisweek }
-    const context = { ...answersContext }
+    let context = { ...answersContext }
 
     if (!context[uid]) context[uid] = {}
     answer[id] = value === activity ? 0 : value
@@ -52,7 +52,7 @@ export const Week = () => {
     try {
       const { uid } = user
       const data = { ...answersContext[uid] }
-      const link = admin ? 'results' : uid
+      const link = admin && !adminAsPlayer ? 'results' : uid
       await setDoc(doc(db, 'answers', link), data).then(async () => {
         const response = await getDoc(doc(db, 'answers', uid))
         if (objectCompare(response.data(), data)) alert('Результат сохранен')
@@ -78,9 +78,11 @@ export const Week = () => {
 
   return (
     <div className="container">
-      <h3>
-        Неделя {number}: {name}
-      </h3>
+      <div className="question">
+        <div className="question__desc week-header">{name}</div>
+        <div className="question__actions">{adminAsPlayer ? 'player' : 'admin'}</div>
+        <div className="question__actions">{admin ? <AdminPlayer /> : null}</div>
+      </div>
       <div>
         {Object.keys(questions).map((el) => {
           const id = Number(el)
@@ -96,6 +98,7 @@ export const Week = () => {
                   id={id}
                   activity={activity(id)}
                   admin={admin}
+                  adminAsPlayer={adminAsPlayer}
                   disabled={!user}
                   onClick={(value, id, activity) => onClickHandler(value, id, activity)}
                 />
@@ -104,9 +107,16 @@ export const Week = () => {
           )
         })}
       </div>
-      <Button onClick={() => submitHandler()} disabled={!user || anyChanges}>
+      <button className="btn" onClick={() => submitHandler()} disabled={!user || anyChanges}>
         {anyChanges ? 'Нет изменений' : 'Сохранить ответы'}
-      </Button>
+      </button>
+      <button
+        onClick={() => {
+          console.log(adminAsPlayer)
+        }}
+      >
+        show adminAsPlayer
+      </button>
     </div>
   )
 }

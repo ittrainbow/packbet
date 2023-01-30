@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -19,20 +19,26 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      setAppContext({ ...appContext, tabActive: 1 })
+    }
+    // eslint-disable-next-line
+  }, [])
+
   const isTabActive = (id) => id === tabActive
 
   const clickHandler = (id, path) => {
     const { currentWeek, selectedWeek } = appContext
 
-    if (!isTabActive(id) || id === 3 || id === 5) {
-      const context = {
-        ...appContext,
-        tabActive: id,
-        selectedWeek: id === 2 ? currentWeek : id !== 6 ? selectedWeek : nextWeek
-      }
-      setAppContext(context)
-      navigate(path)
+    const context = {
+      ...appContext,
+      tabActive: id,
+      selectedWeek: id === 2 ? currentWeek : id !== 6 ? selectedWeek : nextWeek
     }
+    setAppContext(context)
+    navigate(path)
 
     if (editor && id < 5) dispatch(setEditor(false))
     if (!editor && id > 4) dispatch(setEditor(true))

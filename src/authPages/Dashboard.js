@@ -6,12 +6,16 @@ import './auth.scss'
 import { auth } from '../db'
 import { logout } from '../db/auth'
 import { Context } from '../App'
-import { Button } from '../UI'
 
 export const Dashboard = () => {
   const { userContext } = useContext(Context)
   const { name, email } = userContext
   const navigate = useNavigate()
+
+  const logoutHandler = () => {
+    logout()
+    navigate('/userpage')
+  }
 
   return (
     <div className="auth">
@@ -21,17 +25,17 @@ export const Dashboard = () => {
           <div>{name ? name : '...loading'}</div>
           <div>{email ? email : '...loading'}</div>
         </div>
-        <Button
-          className="buttonBig"
+        <button
+          className="auth__dashboard"
           disabled={!auth.currentUser}
           onClick={() => navigate('/profile')}
         >
           Edit Profile
-        </Button>
+        </button>
 
-        <Button className="buttonBig" onClick={() => logout()}>
+        <button className="auth__dashboard" onClick={() => logoutHandler()}>
           Logout
-        </Button>
+        </button>
       </div>
     </div>
   )

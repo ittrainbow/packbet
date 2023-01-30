@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
@@ -6,7 +6,7 @@ import { getDoc, setDoc, doc } from 'firebase/firestore'
 import './auth.scss'
 
 import { auth, db } from '../db'
-import { Loader, Button } from '../UI'
+import { Loader } from '../UI'
 import { Context } from '../App'
 import { setLoading } from '../redux/actions'
 
@@ -15,17 +15,20 @@ export const Profile = () => {
   const dispatch = useDispatch()
   const { loading } = useSelector((state) => state)
   const { userContext, setUserContext } = useContext(Context)
-  const [name, setName] = useState(userContext.name)
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    const { name } = userContext
+    setName(name)
+    // eslint-disable-next-line
+  }, [])
 
   const submitHandler = async () => {
     dispatch(setLoading(true))
     try {
       const { uid } = auth.currentUser
       const response = await getDoc(doc(db, 'users', uid))
-      const data = {
-        ...response.data(),
-        name
-      }
+      const data = { ...response.data(), name }
 
       await setDoc(doc(db, 'users', uid), data)
       setUserContext(data)
@@ -36,31 +39,31 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const form = () => {
-    return (
-      <div className="auth">
-        <div className="auth__container">
-          <div className="auth__name">Change name</div>
-          <input
-            className="auth__textBox"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Button
-            className="buttonBig"
-            disabled={name === userContext.name}
-            onClick={submitHandler}
-          >
-            Save profile
-          </Button>
-          <Button className="buttonBig" onClick={() => navigate(-1)}>
-            Cancel changes
-          </Button>
-        </div>
-      </div>
-    )
-  }
+  const changes = () => name === userContext.name
 
-  return loading ? <Loader /> : form()
+  return loading ? (
+    <Loader />
+  ) : (
+    <div className="auth">
+      <div className="auth__container">
+        <div className="auth__name">Change name</div>
+        <input
+          className="auth__textBox"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button
+          className={changes() ? 'auth__dashboard auth__btn__inactive' : 'auth__dashboard'}
+          disabled={name === userContext.name}
+          onClick={submitHandler}
+        >
+          {changes() ? 'No changes' : 'Save Profile'}
+        </button>
+        <button className="auth__dashboard" onClick={() => navigate(-1)}>
+          Cancel changes
+        </button>
+      </div>
+    </div>
+  )
 }

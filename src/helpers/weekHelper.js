@@ -9,7 +9,10 @@ export const getLastWeek = (weeks) => {
 }
 
 export const ansHelper = (answersContext, selectedWeek, uid, id) => {
-  const res = answersContext.results[selectedWeek] ? answersContext.results[selectedWeek][id] : 0
-  const ans = answersContext[uid][selectedWeek] ? answersContext[uid][selectedWeek][id] : 0
-  return { ans, res }
+  if (answersContext[uid]) {
+    const res = answersContext.results[selectedWeek] ? answersContext.results[selectedWeek][id] : 0
+    const ans = answersContext[uid][selectedWeek] ? answersContext[uid][selectedWeek][id] : 0
+    return { ans, res }
+  }
+  return { ans: 0, res: 0 }
 }

@@ -12,6 +12,7 @@ export const Init = () => {
   const {
     appContext,
     setAppContext,
+    userContext,
     setUserContext,
     setWeeksContext,
     setAboutContext,
@@ -34,10 +35,10 @@ export const Init = () => {
         setAnswersContext(answers)
       })
 
-      if (user) {  
+      if (user) {
         await getDoc(doc(db, 'users', user.uid)).then((response) => {
-          const user = response.data()
-          setUserContext(user)
+          const { name, email, admin } = response.data()
+          setUserContext({ ...userContext, name, email, admin })
         })
       }
 
@@ -49,9 +50,7 @@ export const Init = () => {
     } catch (error) {
       console.error(error)
     } finally {
-      const timeout = setInterval(dispatch(setLoading(false)), 1500)
-      clearInterval(timeout)
-      // dispatch(setLoading(false))
+      dispatch(setLoading(false))
     }
   }
 

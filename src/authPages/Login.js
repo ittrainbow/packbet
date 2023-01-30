@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 
-import { Button } from '../UI'
+// import { Button } from '../UI'
 
 const initialState = {
   email: '',
@@ -52,7 +52,7 @@ export const Login = () => {
       <div className="auth__container">
         <input
           type="text"
-          className={emailValid ? 'auth__textBox' : 'auth__textBox email__invalid'}
+          className='auth__textBox'
           value={email}
           onChange={(e) => emailInputHandler(e.target.value)}
           placeholder="E-mail"
@@ -64,16 +64,16 @@ export const Login = () => {
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
           placeholder="Password"
         />
-        <Button
-          className={loginButtonActive ? 'auth__btn' : 'auth__btn_inactive'}
+        <button
+          className={loginButtonActive ? 'auth__btn' : 'auth__btn auth__btn__inactive'}
           disabled={!loginButtonActive}
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
           Login
-        </Button>
-        <Button className="auth__btn auth__google" onClick={signInWithGoogle}>
+        </button>
+        <button className="auth__btn auth__google" onClick={signInWithGoogle}>
           Login with Google
-        </Button>
+        </button>
         <div className="p5">
           <Link to="/reset">Forgot Password</Link>?
         </div>

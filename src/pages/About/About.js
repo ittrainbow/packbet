@@ -3,7 +3,6 @@ import React, { useState, useContext } from 'react'
 import './About.scss'
 
 import { Context } from '../../App'
-import { Button } from '../../UI'
 import { aboutLegend } from './_about'
 
 export const About = () => {
@@ -16,7 +15,9 @@ export const About = () => {
         Каждую неделю до конца сезона мы будем представлять вашему вниманию прогнозы по "тоталам" на
         игры Пэкерз. Вам нужно будет угадать, произойдет ли то или иное событие.
       </div>
-      <Button onClick={() => setOpen(!open)}>Об игре</Button>
+      <button onClick={() => setOpen(!open)} className="btn">
+        Об игре
+      </button>
       <div>
         {open ? (
           <>

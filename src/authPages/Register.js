@@ -73,8 +73,8 @@ export const Register = () => {
         <button className="auth__btn auth__google" onClick={signInWithGoogle}>
           Register with Google
         </button>
-        <div>
-          Already have an account? <Link to="/login">Login</Link> now.
+        <div className="p5">
+          Already have an account? <Link to="/login">Login</Link>.
         </div>
       </div>
     </div>
