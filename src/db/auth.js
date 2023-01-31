@@ -43,7 +43,7 @@ export const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const response = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data = { name, email, dpi: false, year: 2022 }
+    const data = { name, email, admin: false }
     await setDoc(doc(db, 'users', uid), data)
   } catch (error) {
     console.error(error)

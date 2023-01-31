@@ -23,7 +23,7 @@ export const Week = () => {
   const { admin, adminAsPlayer } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
-  const thisweek = answersContext[user.uid][selectedWeek] || {}
+  const thisweek = user ? answersContext[user.uid][selectedWeek] : {}
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: false })
@@ -91,8 +91,12 @@ export const Week = () => {
       <Countdown date={deadline} renderer={renderer} />
       <div className="question">
         <div className="question__desc week-header">{name}</div>
-        <div className="question__actions">{adminAsPlayer ? 'player' : 'admin'}</div>
-        <div className="question__actions">{admin ? <AdminPlayer /> : null}</div>
+        {admin ? (
+          <div className="question__admplayer">
+            <div className="question__actions">{adminAsPlayer ? 'player' : 'admin'}</div>
+            <div className="question__actions">{admin ? <AdminPlayer /> : null}</div>
+          </div>
+        ) : null}
       </div>
       <div>
         {Object.keys(questions).map((el) => {

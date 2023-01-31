@@ -7,6 +7,12 @@
   border: 1px solid grey;
   border-radius: 5px;
 
+  &__admplayer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   &__desc {
     flex-grow: 1;
   }

@@ -1,17 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { useAuthState } from 'react-firebase-hooks/auth'
+// import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './Header.scss'
 
 import { userMenu, adminMenu } from './menuItems'
 import { Context } from '../../App'
-import { auth } from '../../db'
+// import { auth } from '../../db'
 import { setEditor } from '../../redux/actions'
 
 export const Header = () => {
-  const [user] = useAuthState(auth)
+  // const [user] = useAuthState(auth)
   const { mobile, editor } = useSelector((state) => state)
   const { appContext, setAppContext, userContext } = useContext(Context)
   const { admin } = userContext
@@ -41,12 +41,10 @@ export const Header = () => {
     if (!editor && id >= 5) dispatch(setEditor(true))
   }
 
-  const getClass = (id) =>
-    isTabActive(id)
-      ? 'header__tab-active'
-      : !user && id === 1
-      ? 'header__tab-no-login'
-      : 'header__tab'
+  const getClass = (id) => {
+    if (isTabActive(id)) return mobile ? 'header-mobile__tab-active' : 'header__tab-active'
+    if (!isTabActive(id)) return mobile ? 'header-mobile__tab' : 'header__tab'
+  }
 
   const bar = admin ? userMenu.concat(adminMenu) : userMenu
 
