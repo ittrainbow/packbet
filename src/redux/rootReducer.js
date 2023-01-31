@@ -1,9 +1,10 @@
-import { SET_MOBILE, SET_LOADING, SET_EDITOR } from './types'
+import { SET_MOBILE, SET_LOADING, SET_EDITOR, SET_THIS_WEEK } from './types'
 
 const initialState = {
   mobile: false,
   loading: true,
-  editor: false
+  editor: false,
+  thisWeek: {}
 }
 
 export const rootReducer = (state = initialState, action) => {
@@ -25,6 +26,13 @@ export const rootReducer = (state = initialState, action) => {
         ...state,
         editor: action.payload
       }
+
+    case SET_THIS_WEEK: {
+      return {
+        ...state,
+        thisWeek: action.payload
+      }
+    }
 
     default:
       return state

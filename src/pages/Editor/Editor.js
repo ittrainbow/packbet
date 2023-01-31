@@ -25,8 +25,7 @@ export const Editor = () => {
   const loadedWeek = weeksContext[selectedWeek]
 
   useEffect(() => {
-    if (emptyEditor) setEditorContext(editor)
-    // eslint-disable-next-line
+    if (emptyEditor) setEditorContext(editor) // eslint-disable-next-line
   }, [emptyEditor])
 
   const changes = emptyEditor
@@ -71,6 +70,12 @@ export const Editor = () => {
     }
   }
 
+  const totalHandler = (value) => {
+    if (!isNaN(value)) {
+      setQuestionInWork({ ...questionInWork, total: value })
+    }
+  }
+
   const deleteWeek = async () => {
     const weeks = objectTrim(weeksContext, selectedWeek)
     try {
@@ -83,6 +88,12 @@ export const Editor = () => {
       navigate('/calendar')
       dispatch(setLoading(false))
     }
+  }
+
+  const getDeadline = () => {
+    return moment(deadline || 0)
+      .format()
+      .substring(0, 19)
   }
 
   function renderQuestions() {
@@ -135,7 +146,7 @@ export const Editor = () => {
         ></input>
         <input
           className="editor-form__total"
-          onChange={(e) => setQuestionInWork({ ...questionInWork, total: Number(e.target.value) })}
+          onChange={(e) => totalHandler(e.target.value)}
           value={total}
         ></input>
         <button className="editor-form__btn" onClick={() => addQuestionHandler()}>
@@ -153,11 +164,12 @@ export const Editor = () => {
         Activity
       </div>
       <div className="editor-datetime">
+        <label for="dline">name</label>
         <input
+          id="dline"
           type="datetime-local"
-          label="UTC time"
           className="editor-datetime__timer"
-          value={moment(deadline || 0).format().substring(0, 19)}
+          value={getDeadline()}
           onChange={(e) => changeDateHandler(e.target.value)}
         />
       </div>
@@ -167,11 +179,13 @@ export const Editor = () => {
             Discard
           </button>
         ) : null}
-        <div>
-          <button className="editor-week__btn" onClick={() => deleteWeek()}>
-            Delete week
-          </button>
-        </div>
+        {!emptyEditor ? (
+          <div>
+            <button className="editor-week__btn" onClick={() => deleteWeek()}>
+              Delete week
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   )

@@ -19,8 +19,7 @@ export const Profile = () => {
 
   useEffect(() => {
     const { name } = userContext
-    setName(name)
-    // eslint-disable-next-line
+    setName(name) // eslint-disable-next-line
   }, [])
 
   const submitHandler = async () => {

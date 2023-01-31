@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Countdown from 'react-countdown'
 
 import './Week.scss'
@@ -10,59 +10,82 @@ import { auth, db } from '../../db'
 import { Context } from '../../App'
 import { objectCompare, ansHelper, objectTrim, renderer } from '../../helpers'
 import { YesNoButtons, AdminPlayer } from '../../UI'
-import { setLoading } from '../../redux/actions'
+import { setLoading, setThisWeek } from '../../redux/actions'
 
 export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const [loadedState, setLoadedState] = useState('')
+  const { thisWeek } = useSelector((state) => state)
+  const [loadedAnswers, setLoadedAnswers] = useState()
+  const [loadedResults, setLoadedResults] = useState()
+  const [adm, setAdm] = useState(true)
 
   const { appContext, weeksContext, userContext, answersContext } = useContext(Context)
-  const { setUserContext, setAnswersContext } = useContext(Context)
+  const { setUserContext, setAnswersContext, setResultsContext } = useContext(Context)
   const { selectedWeek } = appContext
   const { admin, adminAsPlayer } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
-  const thisweek = user ? answersContext[user.uid][selectedWeek] : {}
+  const weekDispatch = (value) => {
+    const data = value
+      ? value
+      : (adminAsPlayer
+      ? answersContext[user.uid][selectedWeek]
+      : answersContext.results[selectedWeek])
+    dispatch(setThisWeek(data))
+  }
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: false })
-    if (user) setLoadedState(thisweek)
-    // eslint-disable-next-line
+    weekDispatch()
+    if (user) setLoadedAnswers(answersContext[user.uid][selectedWeek])
+    setLoadedResults(answersContext.results[selectedWeek]) // eslint-disable-next-line
   }, [])
 
-  const anyChanges = objectCompare(thisweek, loadedState)
+  useEffect(() => {
+    setAdm(admin && !adminAsPlayer)
+    weekDispatch() // eslint-disable-next-line
+  }, [adminAsPlayer])
+
+  const anyChanges = objectCompare(thisWeek, adminAsPlayer ? loadedAnswers : loadedResults)
+
+  const outdated = () => {
+    return new Date().getTime() > deadline
+  }
+
+  const writeAllowed = () => {
+    return adm || (!adm && !outdated())
+  }
 
   const onClickHandler = (value, id, activity) => {
-    const outdated = new Date().getTime() > deadline
-    const adm = admin && !adminAsPlayer
-    const player = user || (admin && adminAsPlayer)
-
-    if (adm || (player && !outdated)) {
+    if (writeAllowed()) {
       const { uid } = user
-      let answer = { ...thisweek }
+      let answer = { ...thisWeek }
       let context = { ...answersContext }
 
       if (!context[uid]) context[uid] = {}
       if (value !== activity) answer[id] = value
       if (value === activity) answer = objectTrim(answer, id)
+      if (adm) setResultsContext(answer)
+      if (!adm) {
+        context[uid][selectedWeek] = answer
+        setAnswersContext(context)
+      }
 
-      context[uid][selectedWeek] = answer
-
-      setAnswersContext(context)
+      weekDispatch(answer)
     }
   }
 
   const activity = (id) => {
-    return user && thisweek ? thisweek[id] : 0
+    return thisWeek ? thisWeek[id] : 0
   }
 
   const submitHandler = async () => {
     dispatch(setLoading(true))
     try {
       const { uid } = user
-      const data = { ...answersContext[uid] }
-      const link = admin && !adminAsPlayer ? 'results' : uid
+      const data = adminAsPlayer ? answersContext[uid] : answersContext.results
+      const link = adm ? 'results' : uid
       await setDoc(doc(db, 'answers', link), data).then(async () => {
         const response = await getDoc(doc(db, 'answers', uid))
         if (objectCompare(response.data(), data)) alert('Результат сохранен')
@@ -71,6 +94,7 @@ export const Week = () => {
       alert('Произошла ошибка')
       console.error(error)
     }
+    setUserContext({ ...userContext, adminAsPlayer: false })
     dispatch(setLoading(false))
   }
 
@@ -79,7 +103,7 @@ export const Week = () => {
     if (user) {
       const { ans, res } = ansHelper(answersContext, selectedWeek, user.uid, id)
 
-      if (res && ans && !admin)
+      if (res && ans && adminAsPlayer)
         res === ans ? styles.push('question__green') : styles.push('question__red')
     }
 
@@ -122,7 +146,11 @@ export const Week = () => {
           )
         })}
       </div>
-      <button className="btn" onClick={() => submitHandler()} disabled={!user || anyChanges}>
+      <button
+        className="btn"
+        onClick={() => submitHandler()}
+        disabled={!writeAllowed() || anyChanges}
+      >
         {anyChanges ? 'Нет изменений' : 'Сохранить ответы'}
       </button>
     </div>

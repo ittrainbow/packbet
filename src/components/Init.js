@@ -6,17 +6,18 @@ import { useDispatch } from 'react-redux'
 import { Context } from '../App'
 import { db, auth } from '../db'
 import { setLoading } from '../redux/actions'
-import { getCurrentWeekId, objectCompose } from '../helpers'
+import { objectCompose, getWeeksIDs } from '../helpers'
 
 export const Init = () => {
   const {
     appContext,
-    setAppContext,
     userContext,
+    setAppContext,
     setUserContext,
     setWeeksContext,
     setAboutContext,
-    setAnswersContext
+    setAnswersContext,
+    setUserListContext
   } = useContext(Context)
   const [user] = useAuthState(auth)
   const dispatch = useDispatch()
@@ -25,8 +26,8 @@ export const Init = () => {
     try {
       await getDocs(collection(db, 'weeks')).then((response) => {
         const weeks = objectCompose(response)
-        const num = getCurrentWeekId(weeks)
-        setAppContext({ ...appContext, currentWeek: num, nextWeek: num + 1 })
+        const { currentWeek, nextWeek } = getWeeksIDs(weeks)
+        setAppContext({ ...appContext, currentWeek, nextWeek })
         setWeeksContext(weeks)
       })
 
@@ -35,12 +36,14 @@ export const Init = () => {
         setAnswersContext(answers)
       })
 
-      if (user) {
-        await getDoc(doc(db, 'users', user.uid)).then((response) => {
-          const { name, email, admin } = response.data()
+      await getDocs(collection(db, 'users')).then((response) => {
+        const users = objectCompose(response)
+        setUserListContext(users)
+        if (user) {
+          const { name, email, admin } = users[user.uid]
           setUserContext({ ...userContext, name, email, admin })
-        })
-      }
+        }
+      })
 
       await getDoc(doc(db, 'about', 'about')).then((response) => {
         const resp = response.data()
@@ -55,8 +58,7 @@ export const Init = () => {
   }
 
   useEffect(() => {
-    fetch()
-    return // eslint-disable-next-line
+    fetch() // eslint-disable-next-line
   }, [user])
 
   return <div></div>

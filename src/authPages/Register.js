@@ -39,8 +39,7 @@ export const Register = () => {
 
   useEffect(() => {
     if (loading) return
-    if (user) navigate('/dashboard')
-    return // eslint-disable-next-line
+    if (user) navigate('/dashboard') // eslint-disable-next-line
   }, [loading, user])
 
   return (

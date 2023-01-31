@@ -8,6 +8,7 @@ import { setMobile } from './redux/actions'
 import './App.scss'
 
 import * as initialContext from './templates/_initialContexts'
+import { objectReplace } from './helpers'
 
 export const Context = React.createContext()
 
@@ -20,12 +21,21 @@ const App = () => {
   const [userContext, setUserContext] = useState(user)
   const [answersContext, setAnswersContext] = useState(answers)
   const [editorContext, setEditorContext] = useState(editor)
-  const [creatorContext, setCreatorContext] = useState(editor)
+  const [userListContext, setUserListContext] = useState(editor)
 
   useEffect(() => {
     const mobile = isMobile
     dispatch(setMobile(mobile)) // eslint-disable-next-line
   }, [])
+
+  const setResultsContext = (value) => {
+    const { selectedWeek } = appContext
+    const newResults = objectReplace(answersContext.results, selectedWeek, value)
+    setAnswersContext({
+      ...answersContext,
+      results: newResults
+    })
+  }
 
   return (
     <Context.Provider
@@ -40,10 +50,11 @@ const App = () => {
         setAboutContext,
         answersContext,
         setAnswersContext,
+        setResultsContext,
         editorContext,
         setEditorContext,
-        creatorContext,
-        setCreatorContext
+        userListContext,
+        setUserListContext
       }}
     >
       <Init />
