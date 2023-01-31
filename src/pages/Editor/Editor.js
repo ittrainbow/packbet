@@ -1,16 +1,17 @@
-import React, { useState, useContext } from 'react'
-import { setDoc, doc } from 'firebase/firestore'
+import React, { useState, useEffect, useContext } from 'react'
+import { setDoc, doc, deleteDoc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus } from 'react-icons/fa'
+import moment from 'moment/moment'
 
 import './Editor.scss'
 
 import { db } from '../../db'
 import { Context } from '../../App'
-import { objectCompare, objectTrim, objectReplace } from '../../helpers'
+import { objectCompare, objectTrim, objectReplace, objectNewId } from '../../helpers'
 import { setLoading } from '../../redux/actions'
-import { questionInWorkInit } from '../../templates/_initialContexts'
+import { questionInWorkInit, editor } from '../../templates/_initialContexts'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -18,26 +19,31 @@ export const Editor = () => {
   const { weeksContext, setWeeksContext, appContext, editorContext, setEditorContext } =
     useContext(Context)
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
-  const [newId, setNewId] = useState(0)
-  const { selectedWeek } = appContext
+  const { selectedWeek, nextWeek, emptyEditor } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
   const loadedWeek = weeksContext[selectedWeek]
 
-  const changes = objectCompare(editorContext, loadedWeek)
+  useEffect(() => {
+    if (emptyEditor) setEditorContext(editor)
+    // eslint-disable-next-line
+  }, [emptyEditor])
+
+  const changes = emptyEditor
+    ? Object.keys(questions).length < 1
+    : objectCompare(editorContext, loadedWeek)
 
   const changeNameHandler = (name) => {
     setEditorContext({ ...editorContext, name })
   }
 
   const addQuestionHandler = () => {
-    const { question, total } = questionInWork
-    const id = questionInWork.id !== null ? questionInWork.id : newId
+    const { question, total, id } = questionInWork
+    const newId = id !== null ? id : objectNewId(editorContext)
     if (question && total) {
-      setNewId(newId + 1)
-      const obj = objectReplace(questions, id, questionInWork)
+      const obj = objectReplace(questions, newId, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
-      setQuestionInWork({ ...questionInWorkInit, id: newId + 1 })
+      setQuestionInWork(questionInWorkInit)
     }
   }
 
@@ -46,7 +52,8 @@ export const Editor = () => {
     setEditorContext({ ...editorContext, questions: q })
   }
 
-  const changeDateHandler = (deadline) => {
+  const changeDateHandler = (value) => {
+    const deadline = new Date(value).getTime()
     setEditorContext({ ...editorContext, deadline })
   }
 
@@ -54,11 +61,26 @@ export const Editor = () => {
     try {
       dispatch(setLoading(true))
       const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
+      const link = (emptyEditor ? nextWeek : selectedWeek).toString()
       setWeeksContext(weeks)
-      await setDoc(doc(db, 'weeks', selectedWeek.toString()), editorContext)
+      await setDoc(doc(db, 'weeks', link), editorContext)
     } catch (error) {
       console.error(error)
     } finally {
+      dispatch(setLoading(false))
+    }
+  }
+
+  const deleteWeek = async () => {
+    const weeks = objectTrim(weeksContext, selectedWeek)
+    try {
+      dispatch(setLoading(true))
+      setWeeksContext(weeks)
+      await deleteDoc(doc(db, 'weeks', selectedWeek.toString()))
+    } catch (error) {
+      console.error(error)
+    } finally {
+      navigate('/calendar')
       dispatch(setLoading(false))
     }
   }
@@ -71,7 +93,7 @@ export const Editor = () => {
         return (
           <div key={id} className="editor-q">
             <div className="editor-q__desc">
-              {question} {total !== 1 ? `: ${total}` : null}
+              {question}: {total}
             </div>
             <div className="editor-q__buttons">
               <FaEdit
@@ -91,10 +113,10 @@ export const Editor = () => {
   return (
     <div className="container">
       <div className="editor-week">
-        <div className="editor-week__week">{loadedWeek.name}</div>
+        <div className="editor-week__week">{loadedWeek ? loadedWeek.name : ''}</div>
         {!changes ? (
           <button className="editor-week__btn" onClick={() => submitHandler()}>
-            Save?
+            Save week?
           </button>
         ) : null}
       </div>
@@ -133,16 +155,24 @@ export const Editor = () => {
       <div className="editor-datetime">
         <input
           type="datetime-local"
+          label="UTC time"
           className="editor-datetime__timer"
-          value={deadline}
+          value={moment(deadline || 0).format().substring(0, 19)}
           onChange={(e) => changeDateHandler(e.target.value)}
         />
       </div>
-      {!changes ? (
-        <button className="editor-week__btn" onClick={() => navigate(-1)}>
-          Discard
-        </button>
-      ) : null}
+      <div className="editor-week">
+        {!changes ? (
+          <button className="editor-week__btn" onClick={() => navigate(-1)}>
+            Discard
+          </button>
+        ) : null}
+        <div>
+          <button className="editor-week__btn" onClick={() => deleteWeek()}>
+            Delete week
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

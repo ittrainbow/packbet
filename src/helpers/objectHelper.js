@@ -19,3 +19,8 @@ export const objectReplace = (object, id, replacement) => {
 export const objectCompare = (obj1, obj2) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
+
+export const objectNewId = ({questions}) => {
+  const value = Number(Object.keys(questions).sort((a, b) => b - a)[0]) + 1
+  return value ? value : 0
+}

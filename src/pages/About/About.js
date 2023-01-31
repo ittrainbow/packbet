@@ -1,9 +1,16 @@
 import React, { useState, useContext } from 'react'
+import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import './About.scss'
 
 import { Context } from '../../App'
-import { aboutLegend } from './_about'
+
+const aboutLegend = [
+  {icon: <FaCheck className="FaCheck" />, text: 'ответ "Да"'},
+  {icon: <FaBan className="FaBan" />, text: 'ответ "Нет"'},
+  {icon: <FaArrowUp className="FaArrowUp" />, text: 'ответ "Больше"'},
+  {icon: <FaArrowDown className="FaArrowDown" />, text: 'ответ "Меньше"'}
+]
 
 export const About = () => {
   const [open, setOpen] = useState(false)
@@ -33,7 +40,7 @@ export const About = () => {
             ))}
             <hr />
             <div className="paragraph">
-              Обратная связь - <a href="https://t.me/ittrainbow">Андрей</a>
+              Обратная связь - <a href="https://t.me/ittrainbow">ittrainbow</a>
             </div>
           </>
         ) : null}

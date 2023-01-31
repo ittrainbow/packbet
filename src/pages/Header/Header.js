@@ -15,33 +15,30 @@ export const Header = () => {
   const { mobile, editor } = useSelector((state) => state)
   const { appContext, setAppContext, userContext } = useContext(Context)
   const { admin } = userContext
-  const { tabActive, nextWeek } = appContext
+  const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login')
-      setAppContext({ ...appContext, tabActive: 1 })
-    }
+    navigate('/userpage')
+    setAppContext({ ...appContext, tabActive: 1 })
     // eslint-disable-next-line
   }, [])
 
   const isTabActive = (id) => id === tabActive
 
   const clickHandler = (id, path) => {
-    const { currentWeek, selectedWeek } = appContext
-
     const context = {
       ...appContext,
       tabActive: id,
-      selectedWeek: id === 2 ? currentWeek : id !== 6 ? selectedWeek : nextWeek
+      selectedWeek: id === 2 ? currentWeek : id === 6 ? nextWeek : selectedWeek,
+      emptyEditor: id === 6 ? true : false
     }
     setAppContext(context)
     navigate(path)
 
-    if (editor && id < 5) dispatch(setEditor(false))
-    if (!editor && id > 4) dispatch(setEditor(true))
+    if (editor && id <= 4) dispatch(setEditor(false))
+    if (!editor && id >= 5) dispatch(setEditor(true))
   }
 
   const getClass = (id) =>
@@ -53,19 +50,21 @@ export const Header = () => {
 
   const bar = admin ? userMenu.concat(adminMenu) : userMenu
 
+  function renderBar() {
+    return bar.map((el) => {
+      const { id, path, icon, name } = el
+      return (
+        <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
+          {icon}
+          <div className="header__name">{mobile ? null : name}</div>
+        </div>
+      )
+    })
+  }
+
   return (
     <div className={mobile ? 'header-mobile' : 'header'}>
-      <div className="header__icons">
-        {bar.map((el) => {
-          const { id, path, icon, name } = el
-          return (
-            <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
-              {icon}
-              <div className="header__name">{mobile ? null : name}</div>
-            </div>
-          )
-        })}
-      </div>
+      <div className="header__icons">{renderBar()}</div>
     </div>
   )
 }

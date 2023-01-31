@@ -20,20 +20,23 @@ export const Calendar = () => {
     }
   }
 
+  function renderWeeks() {
+    return Object.keys(weeksContext)
+      .sort((a, b) => b - a)
+      .filter((el) => (weeksContext[el].active || editor ? el : null))
+      .map((el, index) => {
+        return (
+          <div key={index} className="week" onClick={() => clickHandler(Number(el))}>
+            {weeksContext[el].name}
+          </div>
+        )
+      })
+  }
+
   return (
     <div className="container">
       <h3>{editor ? 'Редактор' : 'Календарь'}</h3>
-      <div className="weeklist">
-        {Object.keys(weeksContext)
-          .sort((a, b) => b - a)
-          .map((el, index) => {
-            return (
-              <div key={index} className="week" onClick={() => clickHandler(Number(el))}>
-                {weeksContext[el].name}
-              </div>
-            )
-          })}
-      </div>
+      <div className="weeklist">{renderWeeks()}</div>
     </div>
   )
 }

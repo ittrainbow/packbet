@@ -2,7 +2,7 @@ import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import './YesNoButtons.scss'
 
-export const YesNoButtons = ({ total, id, activity, onClick, disabled, admin, adminAsPlayer }) => {
+export const YesNoButtons = ({ total, id, activity, onClick, admin, adminAsPlayer }) => {
   return (
     <div className="yn__parent">
       <button
@@ -14,7 +14,6 @@ export const YesNoButtons = ({ total, id, activity, onClick, disabled, admin, ad
             : 'yn__btn grey'
         }
         onClick={() => onClick(1, id, activity)}
-        disabled={disabled}
       >
         {total === 1 ? <FaCheck /> : <FaArrowUp />}
       </button>
@@ -27,7 +26,6 @@ export const YesNoButtons = ({ total, id, activity, onClick, disabled, admin, ad
             : 'yn__btn grey'
         }
         onClick={() => onClick(2, id, activity)}
-        disabled={disabled}
       >
         {total === 1 ? <FaBan /> : <FaArrowDown />}
       </button>
