@@ -23,7 +23,7 @@ export const Week = () => {
   const { admin, adminAsPlayer } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
-  const thisweek = user && answersContext[user.uid] ? answersContext[user.uid][selectedWeek] : {}
+  const thisweek = answersContext[user.uid][selectedWeek] || {}
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: false })
