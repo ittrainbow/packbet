@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
+import structuredClone from '@ungap/structured-clone'
 
 import { Context } from '../App'
 import { db, auth } from '../db'
@@ -17,7 +18,8 @@ export const Init = () => {
     setWeeksContext,
     setAboutContext,
     setAnswersContext,
-    setUserListContext
+    setUserListContext,
+    setCompareContext
   } = useContext(Context)
   const [user] = useAuthState(auth)
   const dispatch = useDispatch()
@@ -34,6 +36,7 @@ export const Init = () => {
       await getDocs(collection(db, 'answers')).then((response) => {
         const answers = objectCompose(response)
         setAnswersContext(answers)
+        setCompareContext(structuredClone(answers))
       })
 
       await getDocs(collection(db, 'users')).then((response) => {

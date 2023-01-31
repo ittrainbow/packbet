@@ -22,6 +22,7 @@ const App = () => {
   const [answersContext, setAnswersContext] = useState(answers)
   const [editorContext, setEditorContext] = useState(editor)
   const [userListContext, setUserListContext] = useState(editor)
+  const [compareContext, setCompareContext] = useState()
 
   useEffect(() => {
     const mobile = isMobile
@@ -54,7 +55,9 @@ const App = () => {
         editorContext,
         setEditorContext,
         userListContext,
-        setUserListContext
+        setUserListContext,
+        compareContext,
+        setCompareContext
       }}
     >
       <Init />

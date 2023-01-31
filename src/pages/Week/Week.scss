@@ -3,7 +3,8 @@
   align-items: center;
   gap: 10px;
   margin: 0 0 3px;
-  padding: 3px;
+  height: 30px;
+  padding: 2px 2px 2px 8px;
   border: 1px solid grey;
   background-color: #e3e3e3;
   border-radius: 5px;
@@ -19,7 +20,7 @@
   }
 
   &__red {
-    background-color: rgb(255, 201, 201);
+    background-color: rgb(255, 235, 235);
   }
 
   &__grey {
@@ -27,7 +28,7 @@
   }
 
   &__green {
-    background-color: rgb(205, 255, 205);
+    background-color: rgb(235, 255, 235);
   }
 
   &__actions {
@@ -48,6 +49,6 @@
 }
 
 .countdown {
-  padding-bottom: 10px;
-  font-size: 15px;
+  padding: 0 0 7px 10px;
+  font-size: 14px;
 }

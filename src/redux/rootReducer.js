@@ -1,10 +1,10 @@
-import { SET_MOBILE, SET_LOADING, SET_EDITOR, SET_THIS_WEEK } from './types'
+import { SET_MOBILE, SET_LOADING, SET_EDITOR, SET_COMPARE } from './types'
 
 const initialState = {
   mobile: false,
   loading: true,
   editor: false,
-  thisWeek: {}
+  compareData: ''
 }
 
 export const rootReducer = (state = initialState, action) => {
@@ -27,12 +27,11 @@ export const rootReducer = (state = initialState, action) => {
         editor: action.payload
       }
 
-    case SET_THIS_WEEK: {
+    case SET_COMPARE:
       return {
         ...state,
-        thisWeek: action.payload
+        compareData: action.payload
       }
-    }
 
     default:
       return state

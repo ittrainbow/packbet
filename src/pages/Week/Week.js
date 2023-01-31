@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Countdown from 'react-countdown'
+import structuredClone from '@ungap/structured-clone'
 
 import './Week.scss'
 
@@ -10,55 +11,55 @@ import { auth, db } from '../../db'
 import { Context } from '../../App'
 import { objectCompare, ansHelper, objectTrim, renderer } from '../../helpers'
 import { YesNoButtons, AdminPlayer } from '../../UI'
-import { setLoading, setThisWeek } from '../../redux/actions'
+import { setLoading } from '../../redux/actions'
 
 export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { thisWeek } = useSelector((state) => state)
-  const [loadedAnswers, setLoadedAnswers] = useState()
-  const [loadedResults, setLoadedResults] = useState()
+  const [thisWeek, setThisWeek] = useState()
   const [adm, setAdm] = useState(true)
 
-  const { appContext, weeksContext, userContext, answersContext } = useContext(Context)
-  const { setUserContext, setAnswersContext, setResultsContext } = useContext(Context)
+  const {
+    appContext,
+    weeksContext,
+    userContext,
+    setUserContext,
+    answersContext,
+    setAnswersContext,
+    compareContext,
+    setCompareContext,
+    setResultsContext
+  } = useContext(Context)
   const { selectedWeek } = appContext
   const { admin, adminAsPlayer } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
+  const ans = user && answersContext[user.uid] ? answersContext[user.uid][selectedWeek] : {}
+  const res = answersContext.results[selectedWeek] || {}
+
   const weekDispatch = (value) => {
-    const data = value
-      ? value
-      : (adminAsPlayer
-      ? answersContext[user.uid][selectedWeek]
-      : answersContext.results[selectedWeek])
-    dispatch(setThisWeek(data))
+    const data = value ? value : admin && !adminAsPlayer ? res : ans
+    setThisWeek(data || {})
   }
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: false })
-    weekDispatch()
-    if (user) setLoadedAnswers(answersContext[user.uid][selectedWeek])
-    setLoadedResults(answersContext.results[selectedWeek]) // eslint-disable-next-line
+    weekDispatch() // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     setAdm(admin && !adminAsPlayer)
     weekDispatch() // eslint-disable-next-line
-  }, [adminAsPlayer])
+  }, [adminAsPlayer, selectedWeek])
 
-  const anyChanges = objectCompare(thisWeek, adminAsPlayer ? loadedAnswers : loadedResults)
-
-  const outdated = () => {
-    return new Date().getTime() > deadline
-  }
+  const noChanges = objectCompare(answersContext, compareContext)
 
   const writeAllowed = () => {
-    return adm || (!adm && !outdated())
+    return adm || (!adm && new Date().getTime() < deadline)
   }
 
   const onClickHandler = (value, id, activity) => {
-    if (writeAllowed()) {
+    if (user && writeAllowed()) {
       const { uid } = user
       let answer = { ...thisWeek }
       let context = { ...answersContext }
@@ -66,9 +67,14 @@ export const Week = () => {
       if (!context[uid]) context[uid] = {}
       if (value !== activity) answer[id] = value
       if (value === activity) answer = objectTrim(answer, id)
-      if (adm) setResultsContext(answer)
+
+      const ans = Object.keys(answer).length !== 0 ? answer : undefined
+
+      if (adm) {
+        setResultsContext(ans)
+      }
       if (!adm) {
-        context[uid][selectedWeek] = answer
+        context[uid][selectedWeek] = ans
         setAnswersContext(context)
       }
 
@@ -95,6 +101,7 @@ export const Week = () => {
       console.error(error)
     }
     setUserContext({ ...userContext, adminAsPlayer: false })
+    setCompareContext(structuredClone(answersContext))
     dispatch(setLoading(false))
   }
 
@@ -149,9 +156,9 @@ export const Week = () => {
       <button
         className="btn"
         onClick={() => submitHandler()}
-        disabled={!writeAllowed() || anyChanges}
+        disabled={!writeAllowed() || noChanges}
       >
-        {anyChanges ? 'Нет изменений' : 'Сохранить ответы'}
+        {noChanges ? 'Нет изменений' : 'Сохранить ответы'}
       </button>
     </div>
   )

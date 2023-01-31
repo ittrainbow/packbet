@@ -6,7 +6,9 @@ export const objectTrim = (object, id) => {
 
 export const objectCompose = (response) => {
   const obj = {}
-  response.forEach((el) => (obj[el.id] = el.data()))
+  response.forEach((el) => {
+    obj[el.id] = el.data()
+  })
   return obj
 }
 
