@@ -69,16 +69,16 @@ export const Login = () => {
           disabled={!loginButtonActive}
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
-          Login
+          Войти
         </button>
         <button className="auth__btn auth__google" onClick={signInWithGoogle}>
-          Login with Google
+          Войти через Google
         </button>
         <div className="p5">
-          <Link to="/reset">Forgot Password</Link>?
+          <Link to="/reset">Забыли пароль</Link>?
         </div>
         <div className="p5">
-          No account? <Link to="/register">Register</Link> now.
+          Нет аккаунта? <Link to="/register">Регистрация</Link>.
         </div>
       </div>
     </div>

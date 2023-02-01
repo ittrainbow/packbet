@@ -9,7 +9,7 @@ import { Context } from '../App'
 
 export const Dashboard = () => {
   const { userContext } = useContext(Context)
-  const { name, email } = userContext
+  const { name, email, admin } = userContext
   const navigate = useNavigate()
 
   const logoutHandler = () => {
@@ -21,20 +21,21 @@ export const Dashboard = () => {
     <div className="auth">
       <div className="auth__container">
         <div className="auth__data-div">
-          Logged in as
+          Вы вошли как
           <div>{name ? name : '...loading'}</div>
           <div>{email ? email : '...loading'}</div>
+          {admin ? <div>Вы - админ</div>: null}
         </div>
         <button
           className="auth__dashboard"
           disabled={!auth.currentUser}
           onClick={() => navigate('/profile')}
         >
-          Edit Profile
+          Изменить имя
         </button>
 
         <button className="auth__dashboard" onClick={() => logoutHandler()}>
-          Logout
+          Выйти
         </button>
       </div>
     </div>

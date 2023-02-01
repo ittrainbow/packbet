@@ -50,14 +50,14 @@ export const Register = () => {
           className="auth__textBox"
           value={name}
           onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
-          placeholder="Full Name"
+          placeholder="Имя"
         />
         <input
           type="text"
           className="auth__textBox"
           value={email}
           onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
-          placeholder="E-mail Address"
+          placeholder="E-mail"
         />
         <input
           type="password"
@@ -67,13 +67,13 @@ export const Register = () => {
           placeholder="Password"
         />
         <button className="auth__btn" onClick={register}>
-          Register
+          Регистрация
         </button>
         <button className="auth__btn auth__google" onClick={signInWithGoogle}>
-          Register with Google
+          Регистрация через Google
         </button>
         <div className="p5">
-          Already have an account? <Link to="/login">Login</Link>.
+          Уже есть аккаунт? <Link to="/login">Войти</Link>.
         </div>
       </div>
     </div>

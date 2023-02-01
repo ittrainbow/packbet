@@ -26,13 +26,13 @@ export const Reset = () => {
           className="auth__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail Address"
+          placeholder="E-mail"
         />
         <button className="auth__btn" onClick={() => sendPasswordReset(email)}>
-          Send password reset email
+          Выслать письмо
         </button>
         <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
+          Нет аккаунта? <Link to="/register">Регистрация</Link>.
         </div>
       </div>
     </div>

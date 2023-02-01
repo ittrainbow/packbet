@@ -22,7 +22,7 @@ export const about = []
 
 export const editor = { 
   questions: {}, 
-  name: '... no week name', 
+  name: '', 
   active: false, 
   deadline: '' 
 }

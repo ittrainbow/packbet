@@ -45,7 +45,7 @@ export const Profile = () => {
   ) : (
     <div className="auth">
       <div className="auth__container">
-        <div className="auth__name">Change name</div>
+        <div className="auth__name">Новое имя</div>
         <input
           className="auth__textBox"
           type="text"
@@ -57,10 +57,10 @@ export const Profile = () => {
           disabled={name === userContext.name}
           onClick={submitHandler}
         >
-          {changes() ? 'No changes' : 'Save Profile'}
+          {changes() ? 'Изменений нет' : 'Сохранить'}
         </button>
         <button className="auth__dashboard" onClick={() => navigate(-1)}>
-          Cancel changes
+          Отменить
         </button>
       </div>
     </div>

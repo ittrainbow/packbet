@@ -135,6 +135,7 @@ export const Editor = () => {
         <input
           className="editor-form__desc"
           onChange={(e) => changeNameHandler(e.target.value)}
+          placeholder='Введите название недели'
           value={name}
         ></input>
       </div>
@@ -142,6 +143,7 @@ export const Editor = () => {
         <input
           className="editor-form__desc"
           onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
+          placeholder='Создайте или выберите вопрос'
           value={question}
         ></input>
         <input
@@ -161,12 +163,10 @@ export const Editor = () => {
           checked={active}
           onChange={() => setEditorContext({ ...editorContext, active: !active })}
         />
-        Activity
+        Активность
       </div>
       <div className="editor-datetime">
-        <label for="dline">name</label>
         <input
-          id="dline"
           type="datetime-local"
           className="editor-datetime__timer"
           value={getDeadline()}
