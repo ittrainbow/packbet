@@ -119,9 +119,8 @@ export const Week = () => {
 
   return (
     <div className="container">
-      <Countdown date={deadline} renderer={renderer} />
-      <div className="question">
-        <div className="question__desc week-header">{name}</div>
+      <div className="week-header">
+        <div className="week-header__name">{name}</div>
         {admin ? (
           <div className="question__admplayer">
             <div className="question__actions">{adminAsPlayer ? 'player' : 'admin'}</div>
@@ -129,6 +128,7 @@ export const Week = () => {
           </div>
         ) : null}
       </div>
+      <Countdown date={deadline} renderer={renderer} />
       <div>
         {Object.keys(questions).map((el) => {
           const id = Number(el)

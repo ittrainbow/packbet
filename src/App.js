@@ -14,15 +14,16 @@ export const Context = React.createContext()
 
 const App = () => {
   const dispatch = useDispatch()
-  const { about, weeks, app, user, answers, editor } = initialContext
+  const { about, weeks, app, user, editor } = initialContext
   const [aboutContext, setAboutContext] = useState(about)
   const [weeksContext, setWeeksContext] = useState(weeks)
   const [appContext, setAppContext] = useState(app)
   const [userContext, setUserContext] = useState(user)
-  const [answersContext, setAnswersContext] = useState(answers)
+  const [answersContext, setAnswersContext] = useState()
   const [editorContext, setEditorContext] = useState(editor)
-  const [userListContext, setUserListContext] = useState(editor)
+  const [userListContext, setUserListContext] = useState()
   const [compareContext, setCompareContext] = useState()
+  const [standingsContext, setStandingsContext] = useState()
 
   useEffect(() => {
     const mobile = isMobile
@@ -57,7 +58,9 @@ const App = () => {
         userListContext,
         setUserListContext,
         compareContext,
-        setCompareContext
+        setCompareContext,
+        standingsContext,
+        setStandingsContext
       }}
     >
       <Init />

@@ -16,8 +16,6 @@ export const user = {
 
 export const weeks = [{ number: '', name: '', questions: {} }]
 
-export const answers = null
-
 export const about = []
 
 export const editor = { 
