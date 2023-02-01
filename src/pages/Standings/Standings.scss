@@ -1,0 +1,40 @@
+.table{
+  display: table-cell;
+  width: 450px;
+}
+
+.cellOne,
+.cellTwo,
+.cellThree,
+.cellFour {
+  background-color: #c7c7c7;
+  padding: 0 5px 2px 5px;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+  align-items: center;
+  font-size: 15px;
+}
+
+.cellOne,
+.cellThree,
+.cellFour {
+  text-align: center;
+}
+
+.cellFour {
+  font-weight: bold
+}
+
+
+.cellOne {
+  width: 10%;
+}
+
+.cellTwo {
+  width: 60%;
+  cursor: pointer;
+}
+
+.cellThree {
+  width: 10%;
+}

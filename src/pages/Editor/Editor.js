@@ -127,7 +127,7 @@ export const Editor = () => {
         <div className="editor-week__week">{loadedWeek ? loadedWeek.name : ''}</div>
         {!changes ? (
           <button className="editor-week__btn" onClick={() => submitHandler()}>
-            Save week?
+            Сохранить
           </button>
         ) : null}
       </div>
@@ -176,13 +176,13 @@ export const Editor = () => {
       <div className="editor-week">
         {!changes ? (
           <button className="editor-week__btn" onClick={() => navigate(-1)}>
-            Discard
+            Отменить
           </button>
         ) : null}
         {!emptyEditor ? (
           <div>
-            <button className="editor-week__btn" onClick={() => deleteWeek()}>
-              Delete week
+            <button className="editor-week__btn-long" onClick={() => deleteWeek()}>
+              Удалить неделю
             </button>
           </div>
         ) : null}

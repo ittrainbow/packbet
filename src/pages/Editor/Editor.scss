@@ -36,7 +36,7 @@
     height: 40px;
     border-radius: 5px;
     border: 1px solid #555;
-    font-size: 18px;
+    font-size: 17px;
     padding: 3px 0 0 1px;
 
     &:active {
@@ -79,10 +79,10 @@
     font-weight: bold;
   }
 
-  &__btn {
+  &__btn,
+  &__btn-long {
     height: 40px;
-    font-size: 17px;
-    width: 120px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
@@ -92,6 +92,14 @@
       border: 1px solid grey;
       background-color: #d3d3d3;
     }
+  }
+
+  &__btn {
+    width: 110px;
+  }
+
+  &__btn-long {
+    width: 150px;
   }
 }
 
