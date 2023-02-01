@@ -65,9 +65,9 @@ export const Standings = () => {
           <tr>
             <td className="cellOne">#</td>
             <td className="cellTwo">Имя</td>
-            <td className="cellThree">Ответы</td>
             <td className="cellThree">Всего</td>
             <td className="cellFour">Точно</td>
+            <td className="cellThree">90%</td>
           </tr>
           {Object.keys(obj).map((el, index) => {
             const { name, uid, slash, total, correct } = obj[el]
@@ -78,8 +78,8 @@ export const Standings = () => {
                   {name}
                 </td>
                 <td className="cellThree">{slash}</td>
-                <td className="cellThree">{total}</td>
                 <td className="cellFour">{correct}</td>
+                <td className="cellThree">{total}</td>
               </tr>
             )
           })}

@@ -1,11 +1,11 @@
 @import '../../templates/vars';
 
 .header {
-  height: 86px;
+  height: 90px;
 
   &__tab,
   &__tab-active {
-    padding-top: 0.2em;
+    padding-top: 0.12em;
     width: 67px;
   }
 }
@@ -52,7 +52,7 @@
   }
 
   &__name {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   &__icon-padding {

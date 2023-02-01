@@ -1,15 +1,16 @@
 .table{
   display: table-cell;
-  width: 450px;
+  width: 500px;
 }
 
 .cellOne,
 .cellTwo,
 .cellThree,
 .cellFour {
-  background-color: #c7c7c7;
-  padding: 0 5px 2px 5px;
-  border: 1px solid #d3d3d3;
+  background-color: #f0f0f0;
+  padding-top: 2px;
+  padding: 0 4px 2px 4px;
+  border: 1px solid #c1c1c1;
   border-radius: 5px;
   align-items: center;
   font-size: 15px;
@@ -21,13 +22,8 @@
   text-align: center;
 }
 
-.cellFour {
-  font-weight: bold
-}
-
-
 .cellOne {
-  width: 10%;
+  width: 6%;
 }
 
 .cellTwo {
@@ -35,6 +31,11 @@
   cursor: pointer;
 }
 
-.cellThree {
+.cellThree,
+.cellFour {
   width: 10%;
+}
+
+.cellFour {
+  letter-spacing: -0.05em
 }
