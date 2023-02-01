@@ -8,7 +8,7 @@ import { setMobile } from './redux/actions'
 import './App.scss'
 
 import * as initialContext from './templates/_initialContexts'
-import { objectReplace } from './helpers'
+import { objectReplace, } from './helpers'
 
 export const Context = React.createContext()
 

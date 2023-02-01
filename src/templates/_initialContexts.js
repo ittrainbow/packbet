@@ -4,7 +4,10 @@ export const app = {
   currentWeek: 0,
   nextWeek: null,
   selectedWeek: 0,
-  emptyEditor: false
+  emptyEditor: false,
+  isItYou: false,
+  otherUserUID: null,
+  otherUserName: null
 }
 
 export const user = { 

@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import './Calendar.scss'
+
 import { Context } from '../../App'
+import { OtherUser } from '../../UI'
 
 export const Calendar = () => {
   const navigate = useNavigate()
   const { editor } = useSelector((state) => state)
   const { weeksContext, appContext, setAppContext, setEditorContext } = useContext(Context)
+  const { isItYou } = appContext
 
   const clickHandler = (selectedWeek) => {
     setAppContext({ ...appContext, selectedWeek })
@@ -36,6 +39,7 @@ export const Calendar = () => {
   return (
     <div className="container">
       <h3>{editor ? 'Редактор' : 'Календарь'}</h3>
+      {!isItYou && !editor ? <OtherUser /> : null}
       <div className="weeklist">{renderWeeks()}</div>
     </div>
   )

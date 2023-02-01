@@ -1,11 +1,16 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import './Standings.scss'
 
 import { Context } from '../../App'
+import { setEditor } from '../../redux/actions'
 
 export const Standings = () => {
-  const { standingsContext } = useContext(Context)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { standingsContext, appContext, setAppContext } = useContext(Context)
 
   const renderRows = () => {
     return Object.keys(standingsContext).map((el, index) => {
@@ -13,7 +18,7 @@ export const Standings = () => {
       return (
         <tr key={index}>
           <td className="cellOne">{index + 1}</td>
-          <td className="cellTwo" onClick={() => clickHandler(uid)}>
+          <td className="cellTwo" onClick={() => clickHandler(uid, name)}>
             {name}
           </td>
           <td className="cellThree">{slash}</td>
@@ -24,8 +29,15 @@ export const Standings = () => {
     })
   }
 
-  const clickHandler = (uid) => {
-    console.log(uid)
+  const clickHandler = (uid, name) => {
+    setAppContext({
+      ...appContext,
+      otherUserUID: uid,
+      otherUserName: name,
+      isItYou: false
+    })
+    dispatch(setEditor(false))
+    navigate('/calendar')
   }
 
   return (

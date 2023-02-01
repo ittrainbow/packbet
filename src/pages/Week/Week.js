@@ -10,7 +10,7 @@ import './Week.scss'
 import { auth, db } from '../../db'
 import { Context } from '../../App'
 import { objectCompare, ansHelper, objectTrim, renderer } from '../../helpers'
-import { YesNoButtons, AdminPlayer } from '../../UI'
+import { YesNoButtons, AdminPlayer, OtherUser } from '../../UI'
 import { setLoading } from '../../redux/actions'
 
 export const Week = () => {
@@ -30,7 +30,7 @@ export const Week = () => {
     setCompareContext,
     setResultsContext
   } = useContext(Context)
-  const { selectedWeek } = appContext
+  const { selectedWeek, isItYou } = appContext
   const { admin, adminAsPlayer } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
@@ -59,7 +59,7 @@ export const Week = () => {
   }
 
   const onClickHandler = (value, id, activity) => {
-    if (user && writeAllowed()) {
+    if (user && writeAllowed() && isItYou) {
       const { uid } = user
       let answer = { ...thisWeek }
       let context = { ...answersContext }
@@ -128,6 +128,7 @@ export const Week = () => {
           </div>
         ) : null}
       </div>
+      <OtherUser />
       <Countdown date={deadline} renderer={renderer} />
       <div>
         {Object.keys(questions).map((el) => {

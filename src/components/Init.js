@@ -7,7 +7,7 @@ import structuredClone from '@ungap/structured-clone'
 import { Context } from '../App'
 import { db, auth } from '../db'
 import { setLoading } from '../redux/actions'
-import { objectCompose, getWeeksIDs, tableObjectCreator } from '../helpers'
+import { objectCompose, getWeeksIDs, standingsCreator } from '../helpers'
 
 export const Init = () => {
   const {
@@ -33,7 +33,7 @@ export const Init = () => {
 
   useEffect(() => {
     if (answersContext && userListContext) {
-      tableCreator()
+      setStandingsContext(standingsCreator(answersContext, userListContext))
     } // eslint-disable-next-line
   }, [answersContext, userListContext])
 
@@ -71,37 +71,6 @@ export const Init = () => {
     } finally {
       dispatch(setLoading(false))
     }
-  }
-
-  const tableCreator = () => {
-    const userList = Object.keys(userListContext)
-    const object = {}
-    userList.forEach((el) => {
-      let ansTotal = 0
-      let ansCorrect = 0
-      let resultsTotal = 0
-      const uid = el
-      const { name } = userListContext[el]
-      const ans = answersContext ? answersContext[el] : null
-      const res = answersContext.results || null
-      Object.keys(res).forEach((el) => {
-        const subAns = ans ? ans[el] : null
-        Object.keys(res[el]).forEach((i) => {
-          resultsTotal++
-          if (subAns && subAns[i]) ansTotal++
-          if (subAns && subAns[i] && subAns[i] === res[el][i]) ansCorrect++
-        })
-      })
-
-      const { total, correct, slash } = tableObjectCreator(ansTotal, ansCorrect, resultsTotal)
-      object[el] = { name, uid, slash, total, correct }
-
-      const array = []
-      Object.keys(object).map((el) => array.push(object[el]))
-      const compare = (a, b) => (a.correct < b.correct ? 1 : a.correct > b.correct ? -1 : 0)
-      array.sort(compare)
-      setStandingsContext(array)
-    })
   }
 
   return <div></div>

@@ -91,9 +91,9 @@ export const Editor = () => {
   }
 
   const getDeadline = () => {
-    return moment(deadline || 0)
+    return moment(deadline || new Date().getTime())
       .format()
-      .substring(0, 19)
+      .substring(0, 16)
   }
 
   function renderQuestions() {
@@ -135,7 +135,7 @@ export const Editor = () => {
         <input
           className="editor-form__desc"
           onChange={(e) => changeNameHandler(e.target.value)}
-          placeholder='Введите название недели'
+          placeholder="Введите название недели"
           value={name}
         ></input>
       </div>
@@ -143,7 +143,7 @@ export const Editor = () => {
         <input
           className="editor-form__desc"
           onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
-          placeholder='Создайте или выберите вопрос'
+          placeholder="Создайте или выберите вопрос"
           value={question}
         ></input>
         <input
