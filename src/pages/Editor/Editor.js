@@ -129,18 +129,16 @@ export const Editor = () => {
           type={'text'}
           onChange={(e) => changeNameHandler(e.target.value)}
           placeholder={'Введите название недели'}
+          id={'weekname'}
           value={name}
         />
-        <div>
-          <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
-            Сохранить
-          </Button>
-        </div>
+        <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
+          Сохранить
+        </Button>
       </div>
       <div className="editor-form">
         <Input
           type={'text'}
-          className={'long'}
           onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
           placeholder={'Создайте или выберите вопрос'}
           value={question}

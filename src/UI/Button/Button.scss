@@ -39,11 +39,23 @@
 
 .editor {
   width: fit-content;
+  @media only screen and (max-width: 400px) {
+    height: 2.33em !important;
+  }
 }
 
 .editor-small {
   width: 50px;
-  padding-top: 8px;
+  padding-top: 6px;
+  @media only screen and (max-width: 400px) {
+    height: 2.35em !important;
+    margin-top: 0.2em;
+  }
+}
+
+.editor,
+.editor-small {
+  height: 40px;
 }
 
 .auth-width {
