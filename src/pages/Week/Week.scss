@@ -28,6 +28,10 @@
     }
   }
 
+  &__actions {
+    display: flex;
+  }
+
   &__red {
     background-color: $q-red;
   }
@@ -39,34 +43,23 @@
   &__green {
     background-color: $q-green;
   }
-
-  &__actions {
-    display: flex;
-  }
-
-  &__button {
-    width: 30px;
-    height: 20px;
-    margin: 3px;
-    border-radius: 3px;
-  }
 }
 
 .week-header {
   align-items: center;
   display: flex;
-  font-size: 16px;
-  font-weight: bold;
-  font-family: Arial;
-  padding-left: 3px;
   border: none;
 
   &__name {
     flex-grow: 1;
+    font-size: 17px;
+    font-family: Arial;
+    font-weight: bold;
+    padding-left: 6px;
   }
 }
 
 .countdown {
-  padding: 0 0 10px 3px;
+  padding: 0 0 7px 6px;
   font-size: 14px;
 }

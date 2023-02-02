@@ -10,138 +10,86 @@
   &__desc,
   &__week,
   &__total {
-    font-size: 16px;
+    font-size: 15px;
     height: 24px;
     border: 1px solid $base-itemborder;
   }
 
-  &__desc {
+  &__desc,
+  &__total {
+    padding: 5px;
     display: flex;
-    width: 100%;
-    padding: 7px;
+  }
+
+  &__desc {
     flex-grow: 1;
   }
 
-  &__week {
-    width: 500px;
-  }
-
   &__total {
-    display: flex;
-    padding: 7px;
     width: 40px;
-  }
-
-  &__btn {
-    cursor: pointer;
-    width: 50px;
-    height: 2.31em;
-    border-radius: 5px;
-    border: 1px solid $base-buttonborder;
-    font-size: 17px;
-    padding: 3px 0 0 1px;
-
-    &:active {
-      background: lightgrey;
-    }
   }
 }
 
-.editor-q {
+.editor-question {
   display: flex;
   align-items: center;
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
   gap: 3px;
   padding: 3px;
-  margin: 0 0 3px;
+  margin-bottom: 5px;
   border-radius: 5px;
-  height: 30px;
 
   &__desc {
     flex-grow: 1;
-    padding-left: 5px;
+    padding: 0 0 3px 5px;
+
+    @media only screen and (max-width: 530px) {
+      padding-bottom: 0 !important;
+    }
   }
 
   &__buttons {
     display: flex;
   }
-}
 
-.editor-week {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin: 0 0 3px;
-  border-radius: 5px;
-
-  &__week {
-    padding: 11px 0 11px 2px;
-    flex-grow: 1;
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  &__btn,
-  &__btn-long {
-    height: 40px;
-    font-size: 16px;
-    font-weight: bold;
+  &__check,
+  &__trash {
+    padding: 2px 4px 4px;
+    font-size: 22px;
     cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid $base-buttonborder;
-    background-color: $base-buttonbg;
   }
-
-  &__btn {
-    width: 110px;
-  }
-
-  &__btn-long {
-    width: 150px;
-  }
-}
-
-.editor-btn {
-  padding: 5px 5px 5px 0;
-  font-size: 24px;
-  cursor: pointer;
-
-  &__green:active {
-    color: darkgreen;
+  
+  &__check:active {
+    color: $base-green-active;
     transition: 0.22s;
   }
 
   &__red:active {
-    color: darkred;
+    color: $base-red-active;
     transition: 0.22s;
   }
 }
 
 .editor-checkbox {
-  padding: 10px 0 0 0;
+  padding-top: 7px;
   display: flex;
 
   &__box {
     cursor: pointer;
-    border: 1px solid $base-itemborder;
-    margin-right: 10px;
   }
 }
 
 .editor-datetime {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 10px 0 5px;
-  border-radius: 5px;
+  &__container {
+    margin: 5px 0 5px;
+  }
 
   &__timer {
     height: 37px;
-    padding: 0 10px 0 10px;
+    padding: 1px 7px 0 7px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
-    border: 1px solid grey;
   }
 }

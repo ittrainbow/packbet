@@ -3,8 +3,7 @@ import { SET_MOBILE, SET_LOADING, SET_EDITOR, SET_COMPARE } from './types'
 const initialState = {
   mobile: false,
   loading: true,
-  editor: false,
-  compareData: ''
+  editor: false
 }
 
 export const rootReducer = (state = initialState, action) => {

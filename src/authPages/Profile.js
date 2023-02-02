@@ -6,7 +6,7 @@ import { getDoc, setDoc, doc } from 'firebase/firestore'
 import './auth.scss'
 
 import { auth, db } from '../db'
-import { Loader } from '../UI'
+import { Button, Loader } from '../UI'
 import { Context } from '../App'
 import { setLoading } from '../redux/actions'
 
@@ -38,30 +38,26 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const changes = () => name === userContext.name
+  const noChanges = () => name === userContext.name
 
   return loading ? (
     <Loader />
   ) : (
-    <div className="auth">
-      <div className="auth__container">
-        <div className="auth__name">Новое имя</div>
-        <input
-          className="auth__textBox"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button
-          className={changes() ? 'auth__dashboard auth__btn__inactive' : 'auth__dashboard'}
-          disabled={name === userContext.name}
-          onClick={submitHandler}
-        >
-          {changes() ? 'Изменений нет' : 'Сохранить'}
-        </button>
-        <button className="auth__dashboard" onClick={() => navigate(-1)}>
-          Отменить
-        </button>
+    <div className="container">
+      <div className="auth">
+        <div className="auth__container">
+          <div>Изменить профиль</div>
+          <input
+            className="auth__textBox"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Button disabled={noChanges()} onClick={submitHandler}>
+            {noChanges() ? 'Изменений нет' : 'Сохранить'}
+          </Button>
+          <Button onClick={() => navigate(-1)}>Отменить</Button>
+        </div>
       </div>
     </div>
   )

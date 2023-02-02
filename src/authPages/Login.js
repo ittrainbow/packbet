@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
+import { Button } from '../UI'
 
 const initialState = {
   email: '',
@@ -50,7 +51,7 @@ export const Login = () => {
       <div className="auth__container">
         <input
           type="text"
-          className='auth__textBox'
+          className="auth__textBox"
           value={email}
           onChange={(e) => emailInputHandler(e.target.value)}
           placeholder="E-mail"
@@ -62,20 +63,20 @@ export const Login = () => {
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
           placeholder="Password"
         />
-        <button
-          className={loginButtonActive ? 'auth__btn' : 'auth__btn auth__btn__inactive'}
+        <Button
+          className={'login'}
           disabled={!loginButtonActive}
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
           Войти
-        </button>
-        <button className="auth__btn auth__google" onClick={signInWithGoogle}>
+        </Button>
+        <Button className="google" onClick={signInWithGoogle}>
           Войти через Google
-        </button>
-        <div className="p5">
+        </Button>
+        <div>
           <Link to="/reset">Забыли пароль</Link>?
         </div>
-        <div className="p5">
+        <div>
           Нет аккаунта? <Link to="/register">Регистрация</Link>.
         </div>
       </div>

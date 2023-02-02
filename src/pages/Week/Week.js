@@ -11,7 +11,7 @@ import './Week.scss'
 import { auth, db } from '../../db'
 import { Context } from '../../App'
 import { objectCompare, ansHelper, objectTrim, renderer } from '../../helpers'
-import { YesNoButtons, AdminPlayer, OtherUser } from '../../UI'
+import { YesNoButtons, AdminPlayer, OtherUser, Button } from '../../UI'
 import { setLoading } from '../../redux/actions'
 
 export const Week = () => {
@@ -138,10 +138,10 @@ export const Week = () => {
   return (
     <div className="container">
       <div className="week-header">
-        <div className="week-header__name">{name}</div>
+        <div className="week-header__name h3">{name}</div>
         {admin ? (
           <div className="question__admplayer">
-            <div className="question__actions">{adminAsPlayer ? 'player' : 'admin'}</div>
+            <div className="question__actions">{adminAsPlayer ? 'Игрок' : 'Админ'}</div>
             <div className="question__actions">{admin ? <AdminPlayer /> : null}</div>
           </div>
         ) : null}
@@ -164,8 +164,7 @@ export const Week = () => {
                   total={total}
                   id={id}
                   activity={activity(id)}
-                  admin={admin}
-                  adminAsPlayer={adminAsPlayer}
+                  admin={admin && !adminAsPlayer}
                   onClick={(value, id, activity) => onClickHandler(value, id, activity)}
                 />
               </div>
@@ -173,13 +172,12 @@ export const Week = () => {
           )
         })}
       </div>
-      <button
-        className="btn"
+      <Button
         onClick={() => submitHandler()}
         disabled={!writeAllowed() || noChanges || !isItYou}
       >
-        {noChanges ? 'Нет изменений' : 'Сохранить ответы'}
-      </button>
+        {noChanges ? 'Нет изменений' : 'Сохранить изменения'}
+      </Button>
     </div>
   )
 }

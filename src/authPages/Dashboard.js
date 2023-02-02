@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 import './auth.scss'
 
-import { auth } from '../db'
 import { logout } from '../db/auth'
 import { Context } from '../App'
+import { Button } from '../UI'
 
 export const Dashboard = () => {
   const { userContext } = useContext(Context)
@@ -18,25 +18,16 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="auth">
-      <div className="auth__container">
-        <div className="auth__data-div">
+    <div className="container">
+      <div className="auth">
+        <div className="auth__container">
           Вы вошли как
           <div>{name ? name : '...loading'}</div>
           <div>{email ? email : '...loading'}</div>
-          {admin ? <div>Вы - админ</div>: null}
+          {admin ? <div>Вы - админ</div> : null}
+          <Button onClick={() => navigate('/profile')}>Изменить имя</Button>
+          <Button onClick={() => logoutHandler()}>Выйти</Button>
         </div>
-        <button
-          className="auth__dashboard"
-          disabled={!auth.currentUser}
-          onClick={() => navigate('/profile')}
-        >
-          Изменить имя
-        </button>
-
-        <button className="auth__dashboard" onClick={() => logoutHandler()}>
-          Выйти
-        </button>
       </div>
     </div>
   )

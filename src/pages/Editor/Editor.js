@@ -12,6 +12,7 @@ import { Context } from '../../App'
 import { objectCompare, objectTrim, objectReplace, objectNewId } from '../../helpers'
 import { setLoading } from '../../redux/actions'
 import { questionInWorkInit, editor } from '../../templates/_initialContexts'
+import { Button } from '../../UI'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -102,17 +103,17 @@ export const Editor = () => {
         const id = Number(el)
         const { question, total } = questions[id]
         return (
-          <div key={id} className="editor-q">
-            <div className="editor-q__desc">
+          <div key={id} className="editor-question">
+            <div className="editor-question__desc">
               {question}: {total}
             </div>
-            <div className="editor-q__buttons">
+            <div className="editor-question__buttons">
               <FaEdit
-                className="editor-btn editor-btn__green"
+                className="editor-question__check editor-btn__green"
                 onClick={() => setQuestionInWork({ question, total, id })}
               />
               <FaTrashAlt
-                className="editor-btn editor-btn__red"
+                className="editor-question__trash editor-btn__red"
                 onClick={() => removeQuestionHandler(id)}
               />
             </div>
@@ -123,14 +124,6 @@ export const Editor = () => {
 
   return (
     <div className="container">
-      <div className="editor-week">
-        <div className="editor-week__week">{loadedWeek ? loadedWeek.name : ''}</div>
-        {!changes ? (
-          <button className="editor-week__btn" onClick={() => submitHandler()}>
-            Сохранить
-          </button>
-        ) : null}
-      </div>
       <div className="editor-form">
         <input
           className="editor-form__desc"
@@ -138,6 +131,11 @@ export const Editor = () => {
           placeholder="Введите название недели"
           value={name}
         ></input>
+        <div>
+        <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
+          Сохранить
+        </Button>
+        </div>
       </div>
       <div className="editor-form">
         <input
@@ -151,9 +149,9 @@ export const Editor = () => {
           onChange={(e) => totalHandler(e.target.value)}
           value={total}
         ></input>
-        <button className="editor-form__btn" onClick={() => addQuestionHandler()}>
+        <Button className="editor-small" onClick={() => addQuestionHandler()}>
           {id !== null ? <FaCheck /> : <FaPlus />}
-        </button>
+        </Button>
       </div>
       {renderQuestions()}
       <div className="editor-checkbox">
@@ -165,7 +163,7 @@ export const Editor = () => {
         />
         Активность
       </div>
-      <div className="editor-datetime">
+      <div className="editor-datetime__container">
         <input
           type="datetime-local"
           className="editor-datetime__timer"
@@ -173,20 +171,18 @@ export const Editor = () => {
           onChange={(e) => changeDateHandler(e.target.value)}
         />
       </div>
-      <div className="editor-week">
-        {!changes ? (
-          <button className="editor-week__btn" onClick={() => navigate(-1)}>
-            Отменить
-          </button>
-        ) : null}
-        {!emptyEditor ? (
-          <div>
-            <button className="editor-week__btn-long" onClick={() => deleteWeek()}>
-              Удалить неделю
-            </button>
-          </div>
-        ) : null}
-      </div>
+      {!changes ? (
+        <Button className={'editor'} onClick={() => navigate(-1)}>
+          Отменить
+        </Button>
+      ) : null}
+      {!emptyEditor ? (
+        <div>
+          <Button className={'editor'} onClick={() => deleteWeek()}>
+            Удалить неделю
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }

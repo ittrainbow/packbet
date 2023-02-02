@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
+import { Button } from '../UI'
 
 const initialState = {
   email: '',
@@ -66,12 +67,12 @@ export const Register = () => {
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
           placeholder="Password"
         />
-        <button className="auth__btn" onClick={register}>
+        <Button className="login" onClick={register}>
           Регистрация
-        </button>
-        <button className="auth__btn auth__google" onClick={signInWithGoogle}>
+        </Button>
+        <Button className="google" onClick={signInWithGoogle}>
           Регистрация через Google
-        </button>
+        </Button>
         <div className="p5">
           Уже есть аккаунт? <Link to="/login">Войти</Link>.
         </div>

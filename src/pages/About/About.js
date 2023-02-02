@@ -4,12 +4,13 @@ import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import './About.scss'
 
 import { Context } from '../../App'
+import { Button } from '../../UI'
 
 const aboutLegend = [
-  {icon: <FaCheck className="FaCheck" />, text: 'ответ "Да"'},
-  {icon: <FaBan className="FaBan" />, text: 'ответ "Нет"'},
-  {icon: <FaArrowUp className="FaArrowUp" />, text: 'ответ "Больше"'},
-  {icon: <FaArrowDown className="FaArrowDown" />, text: 'ответ "Меньше"'}
+  { icon: <FaCheck className="FaCheck" />, text: 'ответ "Да"' },
+  { icon: <FaBan className="FaBan" />, text: 'ответ "Нет"' },
+  { icon: <FaArrowUp className="FaArrowUp" />, text: 'ответ "Больше"' },
+  { icon: <FaArrowDown className="FaArrowDown" />, text: 'ответ "Меньше"' }
 ]
 
 export const About = () => {
@@ -18,24 +19,25 @@ export const About = () => {
 
   return (
     <div className="container">
-      <div className="paragraph">
+      <div className="about__paragraph">
         Каждую неделю до конца сезона мы будем представлять вашему вниманию прогнозы по "тоталам" на
         игры Пэкерз. Вам нужно будет угадать, произойдет ли то или иное событие.
       </div>
-      <button onClick={() => setOpen(!open)} className="btn">
-        Об игре
-      </button>
+      <Button onClick={() => setOpen(!open)}>Подробнее</Button>
       <div>
         {open ? (
           <>
             {aboutContext.map((el, index) => (
-              <div key={index} className="paragraph">
+              <div key={index} className="about__paragraph">
                 {el}
               </div>
             ))}
             {aboutLegend.map(({ icon, text }, index) => (
-              <div key={index} className="legend">
-                {icon} - {text}
+              <div className="legend">
+                <div key={index} className="legend__icon">
+                  {icon}
+                </div>
+                - {text}
               </div>
             ))}
             <hr />

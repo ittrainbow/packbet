@@ -7,6 +7,7 @@ import { auth } from '../db/firebase'
 import { sendPasswordReset } from '../db/auth'
 
 import './auth.scss'
+import { Button } from '../UI'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
@@ -28,9 +29,9 @@ export const Reset = () => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail"
         />
-        <button className="auth__btn" onClick={() => sendPasswordReset(email)}>
+        <Button className="login" onClick={() => sendPasswordReset(email)}>
           Выслать письмо
-        </button>
+        </Button>
         <div>
           Нет аккаунта? <Link to="/register">Регистрация</Link>.
         </div>

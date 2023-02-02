@@ -8,15 +8,19 @@ import {
   FaPenNib
 } from 'react-icons/fa'
 
+import { headerLocale } from '../../locale'
+
+const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg} = headerLocale('ua')
+
 export const userMenu = [
-  { path: '/', name: 'Об игре', icon: <FaInfoCircle className="header__icon-padding"/>, id: 0 },
-  { path: '/userpage', name: 'Профиль', icon: <FaUserAlt className="header__icon-padding" />, id: 1 },
-  { path: '/week', name: 'Неделя', icon: <FaFootballBall className="header__icon-padding" />, id: 2 },
-  { path: '/calendar', name: 'Календарь', icon: <FaCalendarAlt className="header__icon-padding" />, id: 3 },
-  { path: '/standings', name: 'Таблица', icon: <FaListUl className="header__icon-padding" />, id: 4 },
+  { path: '/', name: tab0msg, icon: <FaInfoCircle className="header__icon-padding"/>, id: 0 },
+  { path: '/userpage', name: tab1msg, icon: <FaUserAlt className="header__icon-padding" />, id: 1 },
+  { path: '/week', name: tab2msg, icon: <FaFootballBall className="header__icon-padding" />, id: 2 },
+  { path: '/calendar', name: tab3msg, icon: <FaCalendarAlt className="header__icon-padding" />, id: 3 },
+  { path: '/standings', name: tab4msg, icon: <FaListUl className="header__icon-padding" />, id: 4 },
 ]
 
 export const adminMenu = [
-  { path: '/calendar', name: 'Редактор', icon: <FaChevronCircleRight className="header__icon-padding" />, id: 5 },
-  { path: '/editor', name: 'Создать', icon: <FaPenNib className="header__icon-padding" />, id: 6 }
+  { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight className="header__icon-padding" />, id: 5 },
+  { path: '/editor', name: tab6msg, icon: <FaPenNib className="header__icon-padding" />, id: 6 }
 ]

@@ -1,11 +1,15 @@
-.about {
-  margin-top: 20px;
-}
+@import '../../styles/vars';
 
-.paragraph {
-  margin: 7px 0 7px;
-  text-align: justify;
-  font-family: 'Arial'
+.about {
+  &__container {
+    padding-left: 10px;
+  }
+
+  &__paragraph {
+    margin: 7px 0 7px;
+    text-align: justify;
+    font-family: 'Arial'
+  }
 }
 
 .FaArrowDown,
@@ -16,22 +20,26 @@
 }
 
 .FaArrowDown {
-  color: darkred;
+  color: $base-red-active;
 }
 
 .FaArrowUp {
-  color: darkgreen;
+  color: $base-green-active;
 }
 
 .FaCheck {
-  color: darkgreen;
+  color: $base-green-active;
 }
 
 .FaBan {
-  color: darkred;
+  color: $base-red-active;
 }
 
 .legend {
   display: flex;
-  margin: 3px 0 3px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
 }

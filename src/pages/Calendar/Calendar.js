@@ -38,7 +38,6 @@ export const Calendar = () => {
 
   return (
     <div className="container">
-      <h3>{editor ? 'Редактор' : 'Календарь'}</h3>
       {!isItYou && !editor ? <OtherUser /> : null}
       <div className="weeklist">{renderWeeks()}</div>
     </div>

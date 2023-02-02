@@ -2,14 +2,15 @@
 
 .auth {
   height: 60vh;
-  max-width: 500px;
   display: flex;
   align-items: center;
   padding: 15px;
   justify-content: center;
+  max-width: 500px;
 
-  &__container,
-  &__profile {
+  &__container {
+    width: 100%;
+    max-width: 210px;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -17,64 +18,9 @@
   }
 
   &__textBox {
-    padding: 10px;
-    height: 23px;
-    min-width: 250px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    outline: none;
+    height: 42px;
+    padding: 0 10px 0 10px;
+    width: calc(100% - 24px);
+    margin: 3px 0 3px;
   }
-
-  &__btn {
-    font-size: 16px;
-    width: 100%;
-    margin-bottom: 10px;
-    border: none;
-    color: white;
-    background-color: black;
-    height: 45px;
-    border-radius: 5px;
-    cursor: pointer;
-
-    &__inactive {
-      cursor: not-allowed !important;
-      color: $base-button-text-inactive !important;
-    }
-  }
-
-  &__google {
-    background-color: $base-google;
-  }
-
-  &__dashboard {
-    background-color: $base-buttonbg;
-    font-size: 16px;
-    width: 100%;
-    margin-bottom: 10px;
-    border: 1px solid $base-buttonborder;
-    height: 45px;
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:active {
-      background-color: $base-buttonbg-active;
-      border: 1px solid black;
-    }
-  }
-
-  &__name {
-    font-size: 17px;
-    margin-bottom: 5px;
-  }
-
-  &__data-div {
-    font-size: 17px;
-    width: 250px;
-    padding-bottom: 24px;
-    text-align: center;
-  }
-}
-
-.p5 {
-  padding: 5px;
 }

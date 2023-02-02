@@ -50,7 +50,6 @@ export const Standings = () => {
 
   return (
     <div className="container">
-      <h3>Таблица</h3>
       <table className="table">
         <thead>
           <tr>

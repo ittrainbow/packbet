@@ -56,8 +56,9 @@ export const Init = () => {
         const users = objectCompose(response)
         setUserListContext(users)
         if (user) {
-          const { name, email, admin } = users[user.uid]
-          setUserContext({ ...userContext, name, email, admin })
+          const { name, email, admin, locale } = users[user.uid]
+          console.log(1, locale)
+          setUserContext({ ...userContext, name, email, admin, locale })
         }
       })
 

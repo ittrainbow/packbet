@@ -3,7 +3,7 @@
 .container,
 .container-mobile {
   padding: 15px;
-  background-color: #d7d7d7;
+  background-color: $base-bg;
   height: 100%;
   max-width: 500px;
 }
@@ -13,9 +13,10 @@ input {
 }
 
 h3 {
+  margin: 5px 0 10px 0;
+  font-size: 17px;
+  font-family: Arial;
   font-weight: bold;
-  font-size: 18px;
-  margin: 0 0 10px;
 }
 
 .btn {
@@ -33,7 +34,7 @@ h3 {
 }
 
 :root {
-  --toastify-color-success: #3d9f40!important;
+  --toastify-color-success: $base-green!important;
   --toastify-toast-width: 320px;
   --toastify-color: black
 }
