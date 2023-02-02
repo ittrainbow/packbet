@@ -1,13 +1,16 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './Standings.scss'
 
 import { Context } from '../../App'
 import { setEditor } from '../../redux/actions'
+import { auth } from '../../db'
 
 export const Standings = () => {
+  const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { standingsContext, appContext, setAppContext } = useContext(Context)
@@ -33,14 +36,16 @@ export const Standings = () => {
   }
 
   const clickHandler = (uid, name) => {
-    setAppContext({
-      ...appContext,
-      otherUserUID: uid,
-      otherUserName: name,
-      isItYou: false
-    })
-    dispatch(setEditor(false))
-    navigate('/calendar')
+    if (uid !== user.uid) {
+      setAppContext({
+        ...appContext,
+        otherUserUID: uid,
+        otherUserName: name,
+        isItYou: false
+      })
+      dispatch(setEditor(false))
+      navigate('/calendar')
+    }
   }
 
   return (

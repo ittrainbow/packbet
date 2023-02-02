@@ -5,7 +5,7 @@ export const app = {
   nextWeek: null,
   selectedWeek: 0,
   emptyEditor: false,
-  isItYou: false,
+  isItYou: true,
   otherUserUID: null,
   otherUserName: null,
   alert: false
@@ -15,7 +15,7 @@ export const user = {
   name: '', 
   email: '', 
   admin: false, 
-  adminAsPlayer: false 
+  adminAsPlayer: true 
 }
 
 export const weeks = [{ number: '', name: '', questions: {} }]

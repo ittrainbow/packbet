@@ -14,7 +14,7 @@ export const AdminPlayer = () => {
 
   return (
     <label className="switch">
-      <input type="checkbox" value={adminAsPlayer} onClick={() => onClickHandler()} />
+      <input type="checkbox" onClick={() => onClickHandler()} />
       <span className="slider round"></span>
     </label>
   )
