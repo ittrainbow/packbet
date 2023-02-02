@@ -4,8 +4,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 
-// import { Button } from '../UI'
-
 const initialState = {
   email: '',
   emailValid: false,

@@ -36,16 +36,16 @@ export const Standings = () => {
   }
 
   const clickHandler = (uid, name) => {
-    if (uid !== user.uid) {
-      setAppContext({
-        ...appContext,
-        otherUserUID: uid,
-        otherUserName: name,
-        isItYou: false
-      })
-      dispatch(setEditor(false))
-      navigate('/calendar')
+    const otherUser = uid !== user.uid
+    const obj = {
+      ...appContext,
+      otherUserUID: otherUser ? uid : null,
+      otherUserName: otherUser ? name : null,
+      isItYou: otherUser ? false : true
     }
+    setAppContext(obj)
+    dispatch(setEditor(false))
+    navigate('/calendar')
   }
 
   return (

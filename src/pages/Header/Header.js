@@ -1,17 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-// import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './Header.scss'
 
 import { userMenu, adminMenu } from './menuItems'
 import { Context } from '../../App'
-// import { auth } from '../../db'
 import { setEditor } from '../../redux/actions'
 
 export const Header = () => {
-  // const [user] = useAuthState(auth)
   const { mobile, editor } = useSelector((state) => state)
   const { appContext, setAppContext, userContext } = useContext(Context)
   const { admin } = userContext

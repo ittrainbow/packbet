@@ -17,7 +17,6 @@ import { setLoading } from '../../redux/actions'
 export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const [thisWeek, setThisWeek] = useState()
   const [adm, setAdm] = useState(true)
   const [uid, setUid] = useState(user.uid)
   const [ans, setAns] = useState()
@@ -39,68 +38,67 @@ export const Week = () => {
 
   const res = answersContext.results[selectedWeek] || {}
 
-  const weekDispatch = (value) => {
-    const data = value ? value : admin && !adminAsPlayer ? res : ans
-    // console.log(data)
-    setThisWeek(data || {})
-  }
-  useEffect(() => {
-    setUid(isItYou ? user.uid : otherUserUID)
-  }, [isItYou, otherUserUID])
-
   const setAnswers = () => {
-    const data = user && answersContext[uid] ? answersContext[uid][selectedWeek] : {}
-    setAns(data)
+    const data = user && answersContext[uid] ? answersContext[uid][selectedWeek] : null
+    setAns(data || {})
   }
-
-  useEffect(() => {
-    setAnswers()
-  }, [uid])
-
-  useEffect(() => {
-    setAnswers()
-    setUserContext({ ...userContext, adminAsPlayer: true })
-    weekDispatch() // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    setAdm(admin && !adminAsPlayer)
-    weekDispatch() // eslint-disable-next-line
-  }, [adminAsPlayer, selectedWeek])
 
   const noChanges = objectCompare(answersContext, compareContext)
 
+  useEffect(() => {
+    setAnswers()
+    setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    setUid(isItYou ? user.uid : otherUserUID) // eslint-disable-next-line
+  }, [isItYou, otherUserUID])
+
+  useEffect(() => {
+    setAnswers() // eslint-disable-next-line
+  }, [uid, answersContext])
+
+  useEffect(() => {
+    setAdm(admin && !adminAsPlayer) // eslint-disable-next-line
+  }, [adminAsPlayer, selectedWeek])
+
+  const outdated = () => new Date().getTime() < deadline
+
   const writeAllowed = () => {
-    return adm || (!adm && new Date().getTime() < deadline)
+    return adm || (!adm && outdated)
   }
 
-  const onClickHandler = (value, id, activity) => {
+  const onClickHandler = (value, id, act) => {
     if (user && writeAllowed() && isItYou) {
       const { uid } = user
-      let answer = structuredClone(ans)
-      let context = structuredClone(answersContext)
+      let answer = { ...ans }
+      let result = { ...res }
+      let context = { ...answersContext }
 
       if (!context[uid]) context[uid] = {}
-      if (value !== activity) answer[id] = value
-      if (value === activity) answer = objectTrim(answer, id)
 
-      const data = Object.keys(answer).length !== 0 ? answer : null
-
-      if (adm) {
-        setResultsContext(data)
+      if (value !== act) {
+        adm ? (result[id] = value) : (answer[id] = value)
       }
+
+      if (value === act) {
+        adm ? (result = objectTrim(result, id)) : (answer = objectTrim(answer, id))
+      }
+
+      const data = Object.keys(adm ? result : answer).length !== 0 ? (adm ? result : answer) : null
+
+      if (adm) setResultsContext(data)
 
       if (!adm) {
         context[uid][selectedWeek] = data
         setAnswersContext(context)
       }
-
-      weekDispatch(answer)
     }
   }
 
   const activity = (id) => {
-    return adminAsPlayer ? (ans ? ans[id] : 0) : res ? res[id] : 0
+    if ((!isItYou && !outdated()) || isItYou)
+      return adminAsPlayer ? (ans ? ans[id] : 0) : res ? res[id] : 0
   }
 
   const submitHandler = async () => {
@@ -128,24 +126,17 @@ export const Week = () => {
   const questionStyle = (id) => {
     const styles = ['question']
     if (user) {
-      const { ans, res } = ansHelper(answersContext, selectedWeek, user.uid, id)
+      const { ans, res } = ansHelper(answersContext, selectedWeek, uid, id)
 
-      if (res && ans && adminAsPlayer)
+      if (res && ans && adminAsPlayer && !outdated())
         res === ans ? styles.push('question__green') : styles.push('question__red')
     }
 
     return styles.join(' ')
   }
 
-  const handler = () => {
-    console.log('uid', uid)
-    console.log('thisweek', thisWeek)
-    console.log('ans', ans)
-  }
-
   return (
     <div className="container">
-      <button onClick={() => handler()}>123</button>
       <div className="week-header">
         <div className="week-header__name">{name}</div>
         {admin ? (
@@ -156,7 +147,7 @@ export const Week = () => {
         ) : null}
       </div>
       <OtherUser />
-      <ToastContainer position="top-center" autoClose={2000} theme="colored" />
+      <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
       <Countdown date={deadline} renderer={renderer} />
       <div>
         {Object.keys(questions).map((el) => {
@@ -185,7 +176,7 @@ export const Week = () => {
       <button
         className="btn"
         onClick={() => submitHandler()}
-        disabled={!writeAllowed() || noChanges}
+        disabled={!writeAllowed() || noChanges || !isItYou}
       >
         {noChanges ? 'Нет изменений' : 'Сохранить ответы'}
       </button>
