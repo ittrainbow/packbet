@@ -13,10 +13,10 @@
   &__desc {
     flex-grow: 1;
     justify-content: center;
-    padding: 2px 2px 5px 5px;
+    padding: 5px 5px 8px 5px;
 
     @media only screen and (max-width: 530px) {
-      padding-bottom: 2px !important;
+      padding-bottom: 5px;
     }
   }
 }

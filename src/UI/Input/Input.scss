@@ -8,12 +8,8 @@ input {
   font-family: 'Segoe UI';
   font-size: 16px;
   border-radius: 5px;
-  padding: 6px 0px 8px 8px;
+  padding: 7px 0px 9px 8px;
   border: 2px solid $base-buttonborder;
-
-  @media only screen and (max-width: 530px) {
-    height: $height-mobile !important;
-  }
 }
 
 .short {

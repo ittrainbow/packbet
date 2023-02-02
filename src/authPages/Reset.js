@@ -24,10 +24,9 @@ export const Reset = () => {
       <div className="auth__container">
         <Input
           type={"email"}
-          className="auth__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail"
+          placeholder={"E-mail"}
         />
         <Button className="login" onClick={() => sendPasswordReset(email)}>
           Выслать письмо

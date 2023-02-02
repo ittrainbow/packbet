@@ -111,10 +111,10 @@ export const Week = () => {
         await setDoc(doc(db, 'answers', link), data).then(async () => {
           const response = await getDoc(doc(db, 'answers', link))
           if (objectCompare(response.data(), data)) toast.success('Данные сохранены')
-          else toast.error('Произошла ошибка')
+          else toast.error('Ошибка')
         })
       } catch (error) {
-        alert('Произошла ошибка')
+        toast.error('Ошибка')
         console.error(error)
       }
       setUserContext({ ...userContext, adminAsPlayer: false })

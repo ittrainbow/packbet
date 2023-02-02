@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+import './Routes.scss'
+
 import { Header, About, Week, PageNotFound, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI/Loader/Loader'
@@ -12,7 +14,9 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Header />
       {loading ? (
-        <Loader />
+        <div className='loader-div'>
+          <Loader />
+        </div>
       ) : (
         <Routes>
           <Route exact path="/" element={<About />} />
