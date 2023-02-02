@@ -6,7 +6,7 @@ import { getDoc, setDoc, doc } from 'firebase/firestore'
 import './auth.scss'
 
 import { auth, db } from '../db'
-import { Button, Loader } from '../UI'
+import { Button, Loader, Input } from '../UI'
 import { Context } from '../App'
 import { setLoading } from '../redux/actions'
 
@@ -46,13 +46,8 @@ export const Profile = () => {
     <div className="container">
       <div className="auth">
         <div className="auth__container">
-          <div>Изменить профиль</div>
-          <input
-            className="auth__textBox"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <div className="text-container">Изменить профиль</div>
+          <Input type={'text'} onChange={(e) => setName(e.target.value)} value={name} />
           <Button disabled={noChanges()} onClick={submitHandler}>
             {noChanges() ? 'Изменений нет' : 'Сохранить'}
           </Button>

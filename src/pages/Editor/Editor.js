@@ -12,7 +12,7 @@ import { Context } from '../../App'
 import { objectCompare, objectTrim, objectReplace, objectNewId } from '../../helpers'
 import { setLoading } from '../../redux/actions'
 import { questionInWorkInit, editor } from '../../templates/_initialContexts'
-import { Button } from '../../UI'
+import { Button, Input } from '../../UI'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -125,48 +125,53 @@ export const Editor = () => {
   return (
     <div className="container">
       <div className="editor-form">
-        <input
-          className="editor-form__desc"
+        <Input
+          type={'text'}
           onChange={(e) => changeNameHandler(e.target.value)}
-          placeholder="Введите название недели"
+          placeholder={'Введите название недели'}
           value={name}
-        ></input>
+        />
         <div>
-        <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
-          Сохранить
-        </Button>
+          <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
+            Сохранить
+          </Button>
         </div>
       </div>
       <div className="editor-form">
-        <input
-          className="editor-form__desc"
+        <Input
+          type={'text'}
+          className={'long'}
           onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
-          placeholder="Создайте или выберите вопрос"
+          placeholder={'Создайте или выберите вопрос'}
           value={question}
-        ></input>
-        <input
-          className="editor-form__total"
+        />
+        <Input
+          type={'text'}
           onChange={(e) => totalHandler(e.target.value)}
           value={total}
-        ></input>
-        <Button className="editor-small" onClick={() => addQuestionHandler()}>
+          className={'short'}
+          placeholder={'Тотал'}
+        />
+        <Button
+          className="editor-small"
+          onClick={() => addQuestionHandler()}
+          disabled={!question || !total}
+        >
           {id !== null ? <FaCheck /> : <FaPlus />}
         </Button>
       </div>
       {renderQuestions()}
       <div className="editor-checkbox">
-        <input
-          type="checkbox"
-          className="editor-checkbox__box"
+        <div className="editor-checkbox__pad">Активность</div>
+        <Input
+          type={'checkbox'}
           checked={active}
           onChange={() => setEditorContext({ ...editorContext, active: !active })}
         />
-        Активность
       </div>
       <div className="editor-datetime__container">
-        <input
-          type="datetime-local"
-          className="editor-datetime__timer"
+        <Input
+          type={'datetime-local'}
           value={getDeadline()}
           onChange={(e) => changeDateHandler(e.target.value)}
         />

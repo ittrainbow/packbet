@@ -1,5 +1,5 @@
 export const headerLocale = (locale) => {
-  const tab0msg = locale === 'ru' ? 'Инфо' : 'Iнфо'
+  const tab0msg = locale === 'ru' ? 'Инфо' : 'Конкурс'
   const tab1msg = locale === 'ru' ? 'Профиль' : 'Профiль'
   const tab2msg = locale === 'ru' ? 'Неделя' : 'Тиждень'
   const tab3msg = locale === 'ru' ? 'Календарь' : 'Календар'

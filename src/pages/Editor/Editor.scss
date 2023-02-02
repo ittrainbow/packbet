@@ -7,26 +7,10 @@
   margin: 5px 0 5px;
   border-radius: 5px;
 
-  &__desc,
-  &__week,
-  &__total {
-    font-size: 15px;
-    height: 24px;
-    border: 1px solid $base-itemborder;
-  }
-
-  &__desc,
-  &__total {
-    padding: 5px;
-    display: flex;
-  }
-
   &__desc {
+    height: 24px;
+    display: flex;
     flex-grow: 1;
-  }
-
-  &__total {
-    width: 40px;
   }
 }
 
@@ -59,7 +43,7 @@
     font-size: 22px;
     cursor: pointer;
   }
-  
+
   &__check:active {
     color: $base-green-active;
     transition: 0.22s;
@@ -70,10 +54,15 @@
     transition: 0.22s;
   }
 }
-
 .editor-checkbox {
-  padding-top: 7px;
   display: flex;
+  width: 110px;
+  align-items: center;
+
+  &__pad {
+    flex-grow: 1;
+    padding: 0 4px 4px;
+  }
 
   &__box {
     cursor: pointer;
@@ -83,13 +72,17 @@
 .editor-datetime {
   &__container {
     margin: 5px 0 5px;
+    max-width: 200px;
   }
 
   &__timer {
-    height: 37px;
+    height: $height-desktop;
     padding: 1px 7px 0 7px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
     cursor: pointer;
+
+    @media only screen {
+      height: $height-mobile;
+    }
   }
 }

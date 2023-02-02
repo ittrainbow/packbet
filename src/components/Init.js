@@ -57,7 +57,6 @@ export const Init = () => {
         setUserListContext(users)
         if (user) {
           const { name, email, admin, locale } = users[user.uid]
-          console.log(1, locale)
           setUserContext({ ...userContext, name, email, admin, locale })
         }
       })

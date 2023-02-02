@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import {
   FaInfoCircle,
   FaUserAlt,
@@ -13,32 +14,35 @@ import {
 
 import './Header.scss'
 
-// import { userMenu, adminMenu } from './menuItems'
+import { auth } from '../../db'
 import { Context } from '../../App'
 import { setEditor } from '../../redux/actions'
 import { headerLocale } from '../../locale'
 
 export const Header = () => {
+  const [user] = useAuthState(auth)
   const { mobile, editor } = useSelector((state) => state)
   const { appContext, setAppContext, userContext } = useContext(Context)
   const { admin, locale } = userContext
-  const { tabActive, nextWeek, currentWeek, selectedWeek, } = appContext
+  const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg} = headerLocale(locale)
-  
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale(locale)
+
+  const cls = 'header__icon-padding'
+
   const userMenu = [
-    { path: '/', name: tab0msg, icon: <FaInfoCircle className="header__icon-padding"/>, id: 0 },
-    { path: '/userpage', name: tab1msg, icon: <FaUserAlt className="header__icon-padding" />, id: 1 },
-    { path: '/week', name: tab2msg, icon: <FaFootballBall className="header__icon-padding" />, id: 2 },
-    { path: '/calendar', name: tab3msg, icon: <FaCalendarAlt className="header__icon-padding" />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <FaListUl className="header__icon-padding" />, id: 4 },
+    { path: '/', name: tab0msg, icon: <FaInfoCircle className={cls} />, id: 0 },
+    { path: '/userpage', name: tab1msg, icon: <FaUserAlt className={cls} />, id: 1 },
+    { path: '/week', name: tab2msg, icon: <FaFootballBall className={cls} />, id: 2 },
+    { path: '/calendar', name: tab3msg, icon: <FaCalendarAlt className={cls} />, id: 3 },
+    { path: '/standings', name: tab4msg, icon: <FaListUl className={cls} />, id: 4 }
   ]
-  
+
   const adminMenu = [
-    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight className="header__icon-padding" />, id: 5 },
-    { path: '/editor', name: tab6msg, icon: <FaPenNib className="header__icon-padding" />, id: 6 }
+    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight className={cls} />, id: 5 },
+    { path: '/editor', name: tab6msg, icon: <FaPenNib className={cls} />, id: 6 }
   ]
 
   useEffect(() => {
@@ -63,8 +67,11 @@ export const Header = () => {
   }
 
   const getClass = (id) => {
-    if (isTabActive(id)) return mobile ? 'header-mobile__tab-active' : 'header__tab-active'
-    if (!isTabActive(id)) return mobile ? 'header-mobile__tab' : 'header__tab'
+    return id === 1 && !user
+      ? 'header__no-login'
+      : isTabActive(id)
+      ? 'header__tab-active'
+      : 'header__tab'
   }
 
   const bar = admin ? userMenu.concat(adminMenu) : userMenu
@@ -75,14 +82,14 @@ export const Header = () => {
       return (
         <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
           {icon}
-          <div className="header__name">{mobile ? null : name}</div>
+          <div className="header__message">{mobile ? null : name}</div>
         </div>
       )
     })
   }
 
   return (
-    <div className={mobile ? 'header-mobile' : 'header'}>
+    <div className="header">
       <div className="header__icons">{renderBar()}</div>
     </div>
   )

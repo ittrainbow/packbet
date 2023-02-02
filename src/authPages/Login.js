@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
-import { Button } from '../UI'
+import { Button, Input } from '../UI'
 
 const initialState = {
   email: '',
@@ -49,19 +49,17 @@ export const Login = () => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <input
-          type="text"
-          className="auth__textBox"
+        <Input
+          type={'text'}
           value={email}
           onChange={(e) => emailInputHandler(e.target.value)}
-          placeholder="E-mail"
+          placeholder={'E-mail'}
         />
-        <input
-          type="password"
-          className="auth__textBox"
+        <Input
+          type={'password'}
           value={password}
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
-          placeholder="Password"
+          placeholder={'Password'}
         />
         <Button
           className={'login'}
@@ -70,13 +68,13 @@ export const Login = () => {
         >
           Войти
         </Button>
-        <Button className="google" onClick={signInWithGoogle}>
+        <Button className="google" onClick={signInWithGoogle} >
           Войти через Google
         </Button>
-        <div>
+        <div className="link-container">
           <Link to="/reset">Забыли пароль</Link>?
         </div>
-        <div>
+        <div className="link-container">
           Нет аккаунта? <Link to="/register">Регистрация</Link>.
         </div>
       </div>

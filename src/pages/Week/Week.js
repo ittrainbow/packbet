@@ -18,7 +18,7 @@ export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const [adm, setAdm] = useState(true)
-  const [uid, setUid] = useState(user.uid)
+  const [uid, setUid] = useState(user ? user.uid : null)
   const [ans, setAns] = useState()
 
   const {
@@ -51,7 +51,7 @@ export const Week = () => {
   }, [])
 
   useEffect(() => {
-    setUid(isItYou ? user.uid : otherUserUID) // eslint-disable-next-line
+    setUid(isItYou ? (user ? user.uid : null) : otherUserUID) // eslint-disable-next-line
   }, [isItYou, otherUserUID])
 
   useEffect(() => {
@@ -172,10 +172,7 @@ export const Week = () => {
           )
         })}
       </div>
-      <Button
-        onClick={() => submitHandler()}
-        disabled={!writeAllowed() || noChanges || !isItYou}
-      >
+      <Button onClick={() => submitHandler()} disabled={!writeAllowed() || noChanges || !isItYou}>
         {noChanges ? 'Нет изменений' : 'Сохранить изменения'}
       </Button>
     </div>

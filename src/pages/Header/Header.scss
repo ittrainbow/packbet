@@ -1,61 +1,51 @@
 @import '../../styles/vars';
 
 .header {
+  background: black;
   height: 90px;
 
   &__tab,
-  &__tab-active {
-    padding-top: 0.12em;
+  &__tab-active,
+  &__no-login {
+    font-size: 40px;
+    text-align: center;
+    transition: 0.5s;
+    cursor: pointer;
     width: 67px;
   }
-}
 
-.header-mobile {
-  height: 65px;
+  @media only screen and (max-width: 530px) {
+    &__tab,
+    &__tab-active,
+    &__no-login {
+      width: 55px;
+    }
 
-  &__tab,
-  &__tab-active {
-    padding-top: 0.15em;
-    width: 55px;
+    height: 65px;
   }
-}
-
-.header,
-.header-mobile {
-  background: black;
 
   &__icons {
     display: flex;
     padding-left: 5px;
   }
 
-  &__tab,
-  &__tab-active {
-    font-size: 40px;
-    text-align: center;
-    transition: 0.5s;
-    cursor: pointer;
-  }
-
   &__tab {
     color: $base-grey;
   }
 
-  &__tab-no-login {
-    color: $base-dark-grey;
-    padding: 0.15em 0.1em;
-    font-size: 40px;
+  &__no-login {
+    color: $base-dark;
   }
 
   &__tab-active {
     color: $base-green;
   }
 
-  &__name {
+  &__message {
     font-size: 14px;
   }
 
   &__icon-padding {
-    padding: 6px 4px 0 4px;
+    padding-top: 12px;
   }
 }

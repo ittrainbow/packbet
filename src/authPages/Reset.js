@@ -7,7 +7,7 @@ import { auth } from '../db/firebase'
 import { sendPasswordReset } from '../db/auth'
 
 import './auth.scss'
-import { Button } from '../UI'
+import { Button, Input } from '../UI'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
@@ -22,8 +22,8 @@ export const Reset = () => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <input
-          type="text"
+        <Input
+          type={"email"}
           className="auth__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -32,7 +32,7 @@ export const Reset = () => {
         <Button className="login" onClick={() => sendPasswordReset(email)}>
           Выслать письмо
         </Button>
-        <div>
+        <div className="link-container">
           Нет аккаунта? <Link to="/register">Регистрация</Link>.
         </div>
       </div>

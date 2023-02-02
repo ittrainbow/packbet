@@ -21,11 +21,13 @@ export const Dashboard = () => {
     <div className="container">
       <div className="auth">
         <div className="auth__container">
-          Вы вошли как
-          <div>{name ? name : '...loading'}</div>
-          <div>{email ? email : '...loading'}</div>
-          {admin ? <div>Вы - админ</div> : null}
-          <Button onClick={() => navigate('/profile')}>Изменить имя</Button>
+          <div className="text-container">
+            Вы вошли как
+            <div>{name ? name : '...loading'}</div>
+            <div>{email ? email : '...loading'}</div>
+            {admin ? <div>Вы - админ</div> : null}
+          </div>
+          <Button onClick={() => navigate('/profile')}>Изменить профиль</Button>
           <Button onClick={() => logoutHandler()}>Выйти</Button>
         </div>
       </div>

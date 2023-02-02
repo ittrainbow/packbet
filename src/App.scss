@@ -6,31 +6,13 @@
   background-color: $base-bg;
   height: 100%;
   max-width: 500px;
-}
-
-input {
-  border-radius: 5px;
+  font-size: 16px;
 }
 
 h3 {
   margin: 5px 0 10px 0;
-  font-size: 17px;
   font-family: Arial;
   font-weight: bold;
-}
-
-.btn {
-  width: 100%;
-  font-size: 15px;
-  height: 40px;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: $base-buttonbg;
-  border: 1px solid $base-buttonborder;
-
-  &:active {
-    background-color: $base-buttonbg-active;
-  }
 }
 
 :root {
