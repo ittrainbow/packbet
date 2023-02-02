@@ -7,7 +7,8 @@ export const app = {
   emptyEditor: false,
   isItYou: false,
   otherUserUID: null,
-  otherUserName: null
+  otherUserName: null,
+  alert: false
 }
 
 export const user = { 

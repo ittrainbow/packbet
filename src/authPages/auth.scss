@@ -1,3 +1,5 @@
+@import '../styles/vars';
+
 .auth {
   height: 60vh;
   max-width: 500px;
@@ -10,7 +12,6 @@
   &__profile {
     align-items: center;
     display: flex;
-    // max-width: 400px;
     flex-direction: column;
     padding: 30px;
   }
@@ -37,27 +38,26 @@
 
     &__inactive {
       cursor: not-allowed !important;
-      color: #999 !important;
+      color: $base-button-text-inactive !important;
     }
   }
 
   &__google {
-    background-color: #4285f4;
+    background-color: $base-google;
   }
 
   &__dashboard {
-    background-color: #c1c1c1;
+    background-color: $base-buttonbg;
     font-size: 16px;
     width: 100%;
     margin-bottom: 10px;
-    border: 1px solid grey;
-    color: black;
+    border: 1px solid $base-buttonborder;
     height: 45px;
     border-radius: 5px;
     cursor: pointer;
 
     &:active {
-      background-color: #b1b1b1;
+      background-color: $base-buttonbg-active;
       border: 1px solid black;
     }
   }

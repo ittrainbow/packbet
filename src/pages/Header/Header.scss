@@ -1,4 +1,4 @@
-@import '../../templates/vars';
+@import '../../styles/vars';
 
 .header {
   height: 90px;
@@ -22,7 +22,7 @@
 
 .header,
 .header-mobile {
-  background: $base-black;
+  background: black;
 
   &__icons {
     display: flex;

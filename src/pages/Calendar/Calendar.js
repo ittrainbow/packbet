@@ -30,7 +30,7 @@ export const Calendar = () => {
       .map((el, index) => {
         return (
           <div key={index} className="week" onClick={() => clickHandler(Number(el))}>
-            {weeksContext[el].name}
+            <div className="week__desc">{weeksContext[el].name}</div>
           </div>
         )
       })

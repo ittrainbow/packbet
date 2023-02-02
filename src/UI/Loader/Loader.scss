@@ -1,14 +1,16 @@
+@import '../../styles/vars';
+
 .loader,
 .loader:before,
 .loader:after {
-  background: #3d9f40;
+  background: $base-green;
   -webkit-animation: load1 1s infinite ease-in-out;
   animation: load1 1s infinite ease-in-out;
   width: 1em;
   height: 4em;
 }
 .loader {
-  color: #3d9f40;
+  color: $base-green;
   text-indent: -9999em;
   margin: 88px auto;
   position: relative;

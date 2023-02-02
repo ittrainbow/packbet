@@ -12,12 +12,15 @@ export const Standings = () => {
   const dispatch = useDispatch()
   const { standingsContext, appContext, setAppContext } = useContext(Context)
 
+  const getPosition = (i) =>
+    i > 0 && standingsContext[i].correct === standingsContext[i - 1].correct ? '-' : i + 1
+
   const renderRows = () => {
     return Object.keys(standingsContext).map((el, index) => {
       const { name, uid, slash, total, correct } = standingsContext[el]
       return (
         <tr key={index}>
-          <td className="cellOne">{index + 1}</td>
+          <td className="cellOne">{getPosition(index)}</td>
           <td className="cellTwo" onClick={() => clickHandler(uid, name)}>
             {name}
           </td>

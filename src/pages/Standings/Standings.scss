@@ -1,4 +1,6 @@
-.table{
+@import '../../styles/vars';
+
+.table {
   display: table-cell;
   width: 500px;
 }
@@ -7,13 +9,15 @@
 .cellTwo,
 .cellThree,
 .cellFour {
-  background-color: #f0f0f0;
-  padding-top: 2px;
-  padding: 0 4px 2px 4px;
+  background-color: $base-itembg;
   border: 1px solid #c1c1c1;
   border-radius: 5px;
-  align-items: center;
   font-size: 15px;
+  padding: 0 2px 3px 2px;
+
+  @media only screen and (max-width: 530px) {
+    padding-bottom: 0 !important;
+  }
 }
 
 .cellOne,
@@ -24,18 +28,21 @@
 
 .cellOne {
   width: 6%;
+  min-width: 20px;
 }
 
 .cellTwo {
   width: 60%;
   cursor: pointer;
+  padding-left: 5px;
 }
 
 .cellThree,
 .cellFour {
-  width: 10%;
+  width: 9%;
+  min-width: 40px;
 }
 
 .cellFour {
-  letter-spacing: -0.05em
+  letter-spacing: -0.05em;
 }

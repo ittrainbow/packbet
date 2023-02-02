@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { isMobile } from 'react-device-detect'
+import 'react-toastify/dist/ReactToastify.css'
+
+import './App.scss'
 
 import { Init } from './components/Init'
 import AppRoutes from './router/Routes'
 import { setMobile } from './redux/actions'
-import './App.scss'
-
 import * as initialContext from './templates/_initialContexts'
-import { objectReplace, } from './helpers'
+import { objectReplace } from './helpers'
 
 export const Context = React.createContext()
 

@@ -1,3 +1,5 @@
+@import '../../styles/vars';
+
 .editor-form {
   display: flex;
   align-items: center;
@@ -10,7 +12,7 @@
   &__total {
     font-size: 16px;
     height: 24px;
-    border: 1px solid #555;
+    border: 1px solid $base-itemborder;
   }
 
   &__desc {
@@ -35,7 +37,7 @@
     width: 50px;
     height: 2.31em;
     border-radius: 5px;
-    border: 1px solid #555;
+    border: 1px solid $base-buttonborder;
     font-size: 17px;
     padding: 3px 0 0 1px;
 
@@ -48,10 +50,11 @@
 .editor-q {
   display: flex;
   align-items: center;
+  background-color: $base-itembg;
+  border: 1px solid $base-itemborder;
   gap: 3px;
   padding: 3px;
   margin: 0 0 3px;
-  background-color: #efefef;
   border-radius: 5px;
   height: 30px;
 
@@ -86,12 +89,8 @@
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    border: 1px solid grey;
-
-    &:active {
-      border: 1px solid grey;
-      background-color: #d3d3d3;
-    }
+    border: 1px solid $base-buttonborder;
+    background-color: $base-buttonbg;
   }
 
   &__btn {
@@ -125,6 +124,7 @@
 
   &__box {
     cursor: pointer;
+    border: 1px solid $base-itemborder;
     margin-right: 10px;
   }
 }
@@ -143,9 +143,5 @@
     font-size: 16px;
     cursor: pointer;
     border: 1px solid grey;
-  }
-
-  &__text {
-    display: flex;
   }
 }

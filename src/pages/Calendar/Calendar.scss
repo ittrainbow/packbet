@@ -1,11 +1,22 @@
+@import '../../styles/vars';
+
 .week {
-  border: 1px solid #aaa;
-  padding: 2px 0 5px 7px;
-  margin-bottom: 5px;
-  background-color: #e3e3e3;
   display: flex;
-  height: 30px;
-  border-radius: 5px;
   align-items: center;
   cursor: pointer;
+  border: 1px solid $base-itemborder;
+  background-color: $base-itembg;
+  border-radius: 5px;
+  padding: 2px 5px 2px 5px;
+  margin-bottom: 5px;
+
+  &__desc {
+    flex-grow: 1;
+    justify-content: center;
+    padding: 2px 2px 5px 5px;
+
+    @media only screen and (max-width: 530px) {
+      padding-bottom: 2px !important;
+    }
+  }
 }

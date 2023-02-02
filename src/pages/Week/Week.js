@@ -4,6 +4,7 @@ import { getDoc, setDoc, doc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import Countdown from 'react-countdown'
 import structuredClone from '@ungap/structured-clone'
+import { ToastContainer, toast } from 'react-toastify'
 
 import './Week.scss'
 
@@ -68,11 +69,12 @@ export const Week = () => {
       if (value !== activity) answer[id] = value
       if (value === activity) answer = objectTrim(answer, id)
 
-      const ans = Object.keys(answer).length !== 0 ? answer : undefined
+      const ans = Object.keys(answer).length !== 0 ? answer : null
 
       if (adm) {
         setResultsContext(ans)
       }
+
       if (!adm) {
         context[uid][selectedWeek] = ans
         setAnswersContext(context)
@@ -93,8 +95,9 @@ export const Week = () => {
       const data = adminAsPlayer ? answersContext[uid] : answersContext.results
       const link = adm ? 'results' : uid
       await setDoc(doc(db, 'answers', link), data).then(async () => {
-        const response = await getDoc(doc(db, 'answers', uid))
-        if (objectCompare(response.data(), data)) alert('Результат сохранен')
+        const response = await getDoc(doc(db, 'answers', link))
+        if (objectCompare(response.data(), data)) toast.success('Данные сохранены')
+        else toast.error('Произошла ошибка')
       })
     } catch (error) {
       alert('Произошла ошибка')
@@ -129,6 +132,11 @@ export const Week = () => {
         ) : null}
       </div>
       <OtherUser />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        theme="colored"
+      />
       <Countdown date={deadline} renderer={renderer} />
       <div>
         {Object.keys(questions).map((el) => {

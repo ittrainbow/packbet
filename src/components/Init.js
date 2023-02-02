@@ -7,7 +7,7 @@ import structuredClone from '@ungap/structured-clone'
 import { Context } from '../App'
 import { db, auth } from '../db'
 import { setLoading } from '../redux/actions'
-import { objectCompose, getWeeksIDs, standingsCreator } from '../helpers'
+import { objectCompose, getWeeksIDs, tableCreator } from '../helpers'
 
 export const Init = () => {
   const {
@@ -33,7 +33,7 @@ export const Init = () => {
 
   useEffect(() => {
     if (answersContext && userListContext) {
-      setStandingsContext(standingsCreator(answersContext, userListContext))
+      setStandingsContext(tableCreator(answersContext, userListContext))
     } // eslint-disable-next-line
   }, [answersContext, userListContext])
 

@@ -1,7 +1,9 @@
+@import '../../styles/vars';
+
 .switch {
   position: relative;
   display: inline-block;
-  border: 1px solid #b7b7b7;
+  border: 1px solid $base-itemborder;
   margin-right: -2px;
   border-radius: 34px;
   width: 60px;
@@ -23,7 +25,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: $base-itembg;
   -webkit-transition: .2s;
   transition: .2s;
 }
@@ -41,7 +43,7 @@
 }
 
 input:checked + .slider {
-  background-color: #3d9f40;
+  background-color: $base-green;
 }
 
 input:checked + .slider:before {

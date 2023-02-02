@@ -6,7 +6,7 @@ export const tableObjectCreator = (ansTotal, ansCorrect, resultsTotal) => {
   return { total, correct, slash }
 }
 
-export const standingsCreator = (answersContext, userListContext) => {
+export const tableCreator = (answersContext, userListContext) => {
   const userList = Object.keys(userListContext)
   const object = {}
   userList.forEach((el) => {
@@ -19,7 +19,7 @@ export const standingsCreator = (answersContext, userListContext) => {
     const res = answersContext.results || null
     Object.keys(res).forEach((el) => {
       const subAns = ans ? ans[el] : null
-      Object.keys(res[el]).forEach((i) => {
+      if (res[el]) Object.keys(res[el]).forEach((i) => {
         resultsTotal++
         if (subAns && subAns[i]) ansTotal++
         if (subAns && subAns[i] && subAns[i] === res[el][i]) ansCorrect++
