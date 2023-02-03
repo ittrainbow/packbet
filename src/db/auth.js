@@ -24,18 +24,18 @@ export const signInWithGoogle = async () => {
       await setDoc(doc(db, 'users', uid), user)
       await setDoc(doc(db, 'answers', uid), answers)
     }
-  } catch (err) {
-    console.error(err)
-    alert(err.message)
+  } catch (error) {
+    console.error(error)
+    alert(error.message)
   }
 }
 
 export const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password)
-  } catch (err) {
-    console.error(err)
-    alert(err.message)
+  } catch (error) {
+    console.error(error)
+    alert(error.message)
   }
 }
 
@@ -55,9 +55,9 @@ export const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email)
     alert('Password reset link sent!')
-  } catch (err) {
-    console.error(err)
-    alert(err.message)
+  } catch (error) {
+    console.error(error)
+    alert(error.message)
   }
 }
 

@@ -4,7 +4,7 @@
   box-sizing: border-box;
   width: 100%;
   font-size: 16px;
-  height: 40px;
+  height: $row-height;
 
   border-radius: 5px;
   cursor: pointer;
@@ -13,8 +13,9 @@
   border: 2px solid $base-buttonborder;
   margin: 3px 0 3px;
 
-  @media only screen and (max-width: 530px) {
+  @media only screen and (max-width: 500px) {
     padding-bottom: 2px;
+    height: $row-height-mobile;
   }
 
   &:active {
@@ -39,23 +40,14 @@
 
 .editor {
   width: fit-content;
-  @media only screen and (max-width: 400px) {
-    height: 2.33em !important;
-  }
 }
 
 .editor-small {
   width: 50px;
-  padding-top: 6px;
-  @media only screen and (max-width: 400px) {
-    height: 2.35em !important;
-    margin-top: 0.2em;
+  padding-top: 5px;
+  @media only screen and (max-width: 500px) {
+    width: 64px;
   }
-}
-
-.editor,
-.editor-small {
-  height: 40px;
 }
 
 .auth-width {

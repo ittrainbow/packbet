@@ -140,7 +140,7 @@ export const Editor = () => {
         <Input
           type={'text'}
           onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
-          placeholder={'Создайте или выберите вопрос'}
+          placeholder={'Вопрос'}
           value={question}
         />
         <Input
@@ -171,6 +171,7 @@ export const Editor = () => {
         <Input
           type={'datetime-local'}
           value={getDeadline()}
+          className={'timer'}
           onChange={(e) => changeDateHandler(e.target.value)}
         />
       </div>
