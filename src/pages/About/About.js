@@ -5,6 +5,7 @@ import './About.scss'
 
 import { Context } from '../../App'
 import { Button } from '../../UI'
+import { i18n } from '../../locale/locale'
 
 const aboutLegend = [
   { icon: <FaCheck className="FaCheck" />, text: 'ответ "Да"' },
@@ -15,7 +16,10 @@ const aboutLegend = [
 
 export const About = () => {
   const [open, setOpen] = useState(false)
-  const { aboutContext } = useContext(Context)
+  const { aboutContext, userContext } = useContext(Context)
+  const { locale } = userContext
+
+  const { buttonDetailsMsg } = i18n(locale, 'buttons')
 
   return (
     <div className="container">
@@ -23,7 +27,7 @@ export const About = () => {
         Каждую неделю до конца сезона мы будем представлять вашему вниманию прогнозы по "тоталам" на
         игры Пэкерз. Вам нужно будет угадать, произойдет ли то или иное событие.
       </div>
-      <Button onClick={() => setOpen(!open)}>Подробнее</Button>
+      <Button onClick={() => setOpen(!open)}>{buttonDetailsMsg}</Button>
       <div>
         {open ? (
           <>
@@ -33,11 +37,8 @@ export const About = () => {
               </div>
             ))}
             {aboutLegend.map(({ icon, text }, index) => (
-              <div className="legend">
-                <div key={index} className="legend__icon">
-                  {icon}
-                </div>
-                - {text}
+              <div key={index} className="legend">
+                <div className="legend__icon">{icon}</div>- {text}
               </div>
             ))}
             <hr />

@@ -21,10 +21,10 @@
   &__desc {
     flex-grow: 1;
     justify-content: center;
-    padding-bottom: 3px;
+    padding: 3px;
 
     @media only screen and (max-width: 500px) {
-      padding-bottom: 0;
+      padding-bottom: 1px;
     }
   }
 
@@ -49,6 +49,7 @@
   align-items: center;
   display: flex;
   border: none;
+  margin-bottom: 5px;
 
   &__name {
     flex-grow: 1;

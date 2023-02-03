@@ -13,12 +13,20 @@ import { objectCompare, objectTrim, objectReplace, objectNewId } from '../../hel
 import { setLoading } from '../../redux/actions'
 import { questionInWorkInit, editor } from '../../templates/_initialContexts'
 import { Button, Input } from '../../UI'
+import { i18n } from '../../locale/locale'
 
 export const Editor = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { weeksContext, setWeeksContext, appContext, editorContext, setEditorContext } =
-    useContext(Context)
+  const {
+    userContext,
+    weeksContext,
+    setWeeksContext,
+    appContext,
+    editorContext,
+    setEditorContext
+  } = useContext(Context)
+  const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
   const { selectedWeek, nextWeek, emptyEditor } = appContext
   const { questions, name, active, deadline } = editorContext
@@ -122,25 +130,28 @@ export const Editor = () => {
       })
   }
 
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg} = i18n(locale, 'buttons')
+
   return (
     <div className="container">
       <div className="editor-form">
         <Input
           type={'text'}
           onChange={(e) => changeNameHandler(e.target.value)}
-          placeholder={'Введите название недели'}
+          placeholder={weekNameMsg}
           id={'weekname'}
           value={name}
         />
         <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
-          Сохранить
+          {buttonSaveMsg}
         </Button>
       </div>
       <div className="editor-form">
         <Input
           type={'text'}
           onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
-          placeholder={'Вопрос'}
+          placeholder={weekQuestionMsg}
           value={question}
         />
         <Input
@@ -148,7 +159,7 @@ export const Editor = () => {
           onChange={(e) => totalHandler(e.target.value)}
           value={total}
           className={'short'}
-          placeholder={'Тотал'}
+          placeholder={weekTotalMsg}
         />
         <Button
           className="editor-small"
@@ -160,7 +171,7 @@ export const Editor = () => {
       </div>
       {renderQuestions()}
       <div className="editor-checkbox">
-        <div className="editor-checkbox__pad">Активность</div>
+        <div className="editor-checkbox__pad">{weekActivityMsg}</div>
         <Input
           type={'checkbox'}
           checked={active}
@@ -177,13 +188,13 @@ export const Editor = () => {
       </div>
       {!changes ? (
         <Button className={'editor'} onClick={() => navigate(-1)}>
-          Отменить
+          {buttonCancelMsg}
         </Button>
       ) : null}
       {!emptyEditor ? (
         <div>
           <Button className={'editor'} onClick={() => deleteWeek()}>
-            Удалить неделю
+            {buttonDeleteWeekMsg}
           </Button>
         </div>
       ) : null}

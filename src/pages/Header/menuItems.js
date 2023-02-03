@@ -8,9 +8,11 @@ import {
   FaPenNib
 } from 'react-icons/fa'
 
-import { headerLocale } from '../../locale'
+import { i18n } from '../../locale/locale'
 
-const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg} = headerLocale('ua')
+const locale = 'ru'
+
+const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg} = i18n(locale, 'header')
 
 export const userMenu = [
   { path: '/', name: tab0msg, icon: <FaInfoCircle className="header__icon-padding"/>, id: 0 },

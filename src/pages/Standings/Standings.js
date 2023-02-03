@@ -8,12 +8,14 @@ import './Standings.scss'
 import { Context } from '../../App'
 import { setEditor } from '../../redux/actions'
 import { auth } from '../../db'
+import { i18n } from '../../locale/locale'
 
 export const Standings = () => {
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { standingsContext, appContext, setAppContext } = useContext(Context)
+  const { userContext, standingsContext, appContext, setAppContext } = useContext(Context)
+  const { locale } = userContext
 
   const getPosition = (i) =>
     i > 0 && standingsContext[i].correct === standingsContext[i - 1].correct ? '-' : i + 1
@@ -31,14 +33,16 @@ export const Standings = () => {
     navigate('/calendar')
   }
 
+  const { tableNameMsg, tableCorrectMsg } = i18n(locale, 'standings')
+
   return (
     <div className="container">
       <div className="standings">
         <div className="standings-header">
           <div className="cellOne">#</div>
-          <div className="cellTwo">Имя</div>
-          <div className="cellThree">Всего</div>
-          <div className="cellFour">Точно</div>
+          <div className="cellTwo">{tableNameMsg}</div>
+          <div className="cellThree"></div>
+          <div className="cellFour">{tableCorrectMsg}</div>
           <div className="cellThree">90%</div>
         </div>
         {Object.keys(standingsContext).map((el, index) => {

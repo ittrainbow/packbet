@@ -1,9 +1,11 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, Input } from '../UI'
+import { i18n } from '../locale/locale'
+import { Context } from '../App'
 
 const initialState = {
   email: '',
@@ -26,9 +28,14 @@ const reducer = (state, action) => {
 
 export const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { userContext } = useContext(Context)
+  const { locale } = userContext
   const { email, emailValid, password } = state
   const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
+
+  // eslint-disable-next-line
+  const { profHeaderMsg, profNameMsg, profLangMsg } = i18n(locale, 'auth')
 
   const loginButtonActive = emailValid && password.length > 2
 

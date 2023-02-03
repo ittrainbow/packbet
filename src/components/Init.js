@@ -27,6 +27,8 @@ export const Init = () => {
   const [user] = useAuthState(auth)
   const dispatch = useDispatch()
 
+  const locale = 'ru'
+
   useEffect(() => {
     fetch() // eslint-disable-next-line
   }, [user])

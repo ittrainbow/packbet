@@ -10,9 +10,10 @@ import './Week.scss'
 
 import { auth, db } from '../../db'
 import { Context } from '../../App'
-import { objectCompare, ansHelper, objectTrim, renderer } from '../../helpers'
+import { objectCompare, ansHelper, objectTrim } from '../../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button } from '../../UI'
 import { setLoading } from '../../redux/actions'
+import { i18n } from '../../locale/locale'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -33,7 +34,7 @@ export const Week = () => {
     setResultsContext
   } = useContext(Context)
   const { selectedWeek, isItYou, otherUserUID } = appContext
-  const { admin, adminAsPlayer } = userContext
+  const { admin, adminAsPlayer, locale } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
   const res = answersContext.results[selectedWeek] || {}
@@ -135,20 +136,51 @@ export const Week = () => {
     return styles.join(' ')
   }
 
+  const {
+    countdownMsg,
+    gameStartedMsg,
+    fiveDaysMsg,
+    twoDaysMsg,
+    oneDayMsg,
+    fiveHoursMsg,
+    twoHoursMsg,
+    oneHourMsg,
+    minutesMsg,
+    secondsMsg
+  } = i18n(locale, 'countdown')
+  const { buttonChangesMsg, buttonSaveMsg } = i18n(locale, 'buttons')
+  const { playerMsg, adminMsg } = i18n(locale, 'week')
+
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg
+    const hoursText = hours % 20 === 1 ? oneHourMsg : hours % 20 < 4 ? twoHoursMsg : fiveHoursMsg
+
+    return (
+      <div className="countdown">
+        {completed
+          ? gameStartedMsg
+          : `${countdownMsg} ${
+              days > 0 ? days + ' ' + daysText : ''
+            } ${hours} ${hoursText} ${minutes}
+        ${minutesMsg} ${seconds} ${secondsMsg}`}
+      </div>
+    )
+  }
+
   return (
     <div className="container">
       <div className="week-header">
         <div className="week-header__name h3">{name}</div>
         {admin ? (
           <div className="question__admplayer">
-            <div className="question__actions">{adminAsPlayer ? 'Игрок' : 'Админ'}</div>
+            <div className="question__actions">{adminAsPlayer ? playerMsg : adminMsg}</div>
             <div className="question__actions">{admin ? <AdminPlayer /> : null}</div>
           </div>
         ) : null}
       </div>
       <OtherUser />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
-      <Countdown date={deadline} renderer={renderer} />
+      <Countdown date={deadline} renderer={renderer} locale={locale} />
       <div>
         {Object.keys(questions).map((el) => {
           const id = Number(el)
@@ -173,7 +205,7 @@ export const Week = () => {
         })}
       </div>
       <Button onClick={() => submitHandler()} disabled={!writeAllowed() || noChanges || !isItYou}>
-        {noChanges ? 'Нет изменений' : 'Сохранить изменения'}
+        {noChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
     </div>
   )

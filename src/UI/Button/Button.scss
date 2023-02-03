@@ -16,6 +16,7 @@
 
   @media only screen and (max-width: 500px) {
     height: $row-height-mobile;
+    padding-bottom: 1px;
   }
 
   &:active {
