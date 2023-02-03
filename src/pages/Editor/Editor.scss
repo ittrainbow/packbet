@@ -26,11 +26,7 @@
 
   &__desc {
     flex-grow: 1;
-    padding: 0 0 3px 5px;
-
-    @media only screen and (max-width: 500px) {
-      padding-bottom: 0;
-    }
+    padding: 0 0 3px 3px;
   }
 
   &__buttons {
@@ -39,7 +35,7 @@
 
   &__check,
   &__trash {
-    padding: 2px 4px 4px;
+    padding: 3px;
     font-size: 22px;
     cursor: pointer;
   }

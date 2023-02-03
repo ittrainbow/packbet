@@ -18,23 +18,6 @@ export const Standings = () => {
   const getPosition = (i) =>
     i > 0 && standingsContext[i].correct === standingsContext[i - 1].correct ? '-' : i + 1
 
-  const renderRows = () => {
-    return Object.keys(standingsContext).map((el, index) => {
-      const { name, uid, slash, total, correct } = standingsContext[el]
-      return (
-        <tr key={index}>
-          <td className="cellOne">{getPosition(index)}</td>
-          <td className="cellTwo" onClick={() => clickHandler(uid, name)}>
-            {name}
-          </td>
-          <td className="cellThree">{slash}</td>
-          <td className="cellFour">{correct}</td>
-          <td className="cellThree">{total}</td>
-        </tr>
-      )
-    })
-  }
-
   const clickHandler = (uid, name) => {
     const otherUser = uid !== user.uid
     const obj = {
@@ -50,18 +33,29 @@ export const Standings = () => {
 
   return (
     <div className="container">
-      <table className="table">
-        <thead>
-          <tr>
-            <td className="cellOne">#</td>
-            <td className="cellTwo">Имя</td>
-            <td className="cellThree">Всего</td>
-            <td className="cellFour">Точно</td>
-            <td className="cellThree">90%</td>
-          </tr>
-          {renderRows()}
-        </thead>
-      </table>
+      <div className="standings">
+        <div className="standings-header">
+          <div className="cellOne">#</div>
+          <div className="cellTwo">Имя</div>
+          <div className="cellThree">Всего</div>
+          <div className="cellFour">Точно</div>
+          <div className="cellThree">90%</div>
+        </div>
+        {Object.keys(standingsContext).map((el, index) => {
+          const { name, uid, slash, total, correct } = standingsContext[el]
+          return (
+            <div key={index} className="standings-header">
+              <div className="cellOne">{getPosition(index)}</div>
+              <div className="cellTwo" onClick={() => clickHandler(uid, name)}>
+                {name}
+              </div>
+              <div className="cellThree">{slash}</div>
+              <div className="cellFour">{correct}</div>
+              <div className="cellThree">{total}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

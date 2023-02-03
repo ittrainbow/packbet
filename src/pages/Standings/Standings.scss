@@ -1,8 +1,9 @@
 @import '../../styles/vars';
 
-.table {
-  display: table-cell;
-  width: 500px;
+.standings-header {
+  display: flex;
+  gap: 2px;
+  margin: 2px;
 }
 
 .cellOne,
@@ -10,14 +11,8 @@
 .cellThree,
 .cellFour {
   background-color: $base-itembg;
-  border: 1px solid #c1c1c1;
+  padding: 1px 2px 3px 2px;
   border-radius: 5px;
-  padding: 0 2px 1px 2px;
-
-  @media only screen and (max-width: 500px) {
-    font-size: 15px;
-    padding-bottom: 0;
-  }
 }
 
 .cellOne,

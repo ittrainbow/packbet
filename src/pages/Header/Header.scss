@@ -7,7 +7,7 @@
   &__tab,
   &__tab-active,
   &__no-login {
-    font-size: 40px;
+    font-size: 45px;
     text-align: center;
     transition: 0.5s;
     cursor: pointer;
@@ -30,7 +30,7 @@
   }
 
   &__tab {
-    color: $base-grey;
+    color: $base-bg;
   }
 
   &__no-login {

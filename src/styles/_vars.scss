@@ -6,8 +6,8 @@ $base-red-active: #5f1313;
 $green: #439245;
 $base-dark: #222;
 $base-buttonbg: #d1d1d1;
-$base-buttonborder: #999;
-$base-buttonborder-active: #777;
+$base-border: #777;
+$base-border-active: #777;
 $base-itembg: #e7e7e7;
 $base-itemborder: #aaa;
 $base-buttonbg-active: #b1b1b1;
@@ -15,8 +15,11 @@ $base-button-text-inactive: #999;
 $base-google: #4285f4;
 $q-red: #ffe5e5;
 $q-green: #e5ffe5;
-$base-grey: #d3d3d3;
 
 $auth-width: 240px;
 $row-height: 38px;
 $row-height-mobile: 45px;
+
+$fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+sans-serif;
