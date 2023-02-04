@@ -58,6 +58,8 @@ input:checked + .locale:before {
 }
 
 .locale-switcher {
+  min-width: 220px;
+  max-width: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,6 +67,5 @@ input:checked + .locale:before {
 
 .locale-flag {
   width: 20%;
-  align-items: center;
   justify-content: center;
 }

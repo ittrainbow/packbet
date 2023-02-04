@@ -18,7 +18,6 @@ import { auth } from '../../db'
 import { Context } from '../../App'
 import { setEditor } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
-import { cloudloggingOrigin } from 'firebase-tools/lib/api'
 
 export const Header = () => {
   const [user] = useAuthState(auth)
@@ -31,7 +30,7 @@ export const Header = () => {
 
   // console.log(locale)
 
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n('ru', 'header')
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale || 'ru', 'header')
 
   const cls = 'header__icon-padding'
 

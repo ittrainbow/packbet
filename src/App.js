@@ -10,6 +10,7 @@ import AppRoutes from './router/Routes'
 import { setMobile } from './redux/actions'
 import * as initialContext from './templates/_initialContexts'
 import { objectReplace } from './helpers'
+import { Footer } from './pages/Footer/Footer'
 
 export const Context = React.createContext()
 
@@ -66,6 +67,7 @@ const App = () => {
     >
       <Init />
       <AppRoutes />
+      <Footer />
     </Context.Provider>
   )
 }

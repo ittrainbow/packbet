@@ -2,7 +2,7 @@
 
 .header {
   background: black;
-  height: 90px;
+  height: $header-height;
 
   &__tab,
   &__tab-active,
@@ -21,7 +21,7 @@
       width: 55px;
     }
 
-    height: 65px;
+    height: $header-height-mobile;
   }
 
   &__icons {

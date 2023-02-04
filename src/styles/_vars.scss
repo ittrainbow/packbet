@@ -1,7 +1,7 @@
 $base-bg: #d7d7d7;
 $base-green: #3d9f40;
 $base-green-active: #1a571c;
-$base-red:  #af4c4c;
+$base-red: #af4c4c;
 $base-red-active: #5f1313;
 $green: #439245;
 $base-dark: #222;
@@ -20,6 +20,12 @@ $auth-width: 240px;
 $row-height: 38px;
 $row-height-mobile: 45px;
 
-$fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-sans-serif;
+$header-height: 92px;
+$header-height-mobile: 70px;
+$footer-height: 66px;
+
+$container-height-diff: calc(92px + 60px + 40px);
+$container-height-diff-mobile: calc($header-height-mobile + $footer-height + 40px);
+
+$fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+  'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;

@@ -1,17 +1,20 @@
 import React, { useContext } from 'react'
 import ReactCountryFlag from 'react-country-flag'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './LocaleSwitcher.scss'
 
 import { Context } from '../../App'
+import { auth } from '../../db'
 
 export const LocaleSwitcher = () => {
+  const [user] = useAuthState(auth)
   const { userContext, setUserContext } = useContext(Context)
   const { locale, tempLocale } = userContext
 
   const onClickHandler = () => {
     const newLocale = tempLocale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, tempLocale: newLocale })
+    setUserContext({ ...userContext, locale: newLocale, tempLocale: newLocale })
   }
 
   const flagRu = (
@@ -43,12 +46,12 @@ export const LocaleSwitcher = () => {
 
   return (
     <div className="locale-switcher">
-      <div className="locale-flag">{locale === 'ru' ? flagRu : flagUa}</div>
+      <div className="locale-flag">{flagRu}</div>
       <label className="locale-switch">
-        <input type="checkbox" onClick={() => onClickHandler()} />
+        <input type="checkbox" onClick={() => onClickHandler()} checked={tempLocale === 'ua'} />
         <span className="locale round"></span>
       </label>
-      <div className="locale-flag">{locale === 'ru' ? flagUa : flagRu}</div>
+      <div className="locale-flag">{flagUa}</div>
     </div>
   )
 }
