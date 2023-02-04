@@ -10,7 +10,7 @@ export const OtherUser = () => {
   const { otherUserName, isItYou } = appContext
   const { locale } = userContext
 
-  const onClickHandler = () => {
+  const setContextHandler = () => {
     setAppContext({
       ...appContext,
       isItYou: true,
@@ -24,7 +24,7 @@ export const OtherUser = () => {
 
   return isItYou ? null : (
     <div>
-      <button className="otheruser" onClick={() => onClickHandler()}>
+      <button className="otheruser" onClick={setContextHandler}>
         {otherUser1msg}
         <b>{otherUserName}</b>
         {otherUser2msg}

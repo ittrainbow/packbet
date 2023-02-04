@@ -42,23 +42,21 @@ export const Profile = () => {
   const noChanges = () => name === tempName && locale === tempLocale
 
   return (
-    <div className="container">
-      <div className="auth">
-        <div className="auth__container">
-          <div className="text-container bold">{profileHeaderMsg}</div>
-          <div className="text-container">{profileLangMsg}</div>
-          <LocaleSwitcher />
-          <div className="text-container">{profileNameMsg}</div>
-          <Input
-            type={'text'}
-            onChange={(e) => setUserContext({ ...userContext, tempName: e.target.value })}
-            value={name}
-          />
-          <Button disabled={noChanges()} onClick={submitHandler}>
-            {noChanges() ? buttonChangesMsg : buttonSaveMsg}
-          </Button>
-          <Button onClick={() => navigate(-1)}>{buttonCancelMsg}</Button>
-        </div>
+    <div className="auth">
+      <div className="auth__container">
+        <div className="text-container bold">{profileHeaderMsg}</div>
+        <div className="text-container">{profileLangMsg}</div>
+        <LocaleSwitcher />
+        <div className="text-container">{profileNameMsg}</div>
+        <Input
+          type={'text'}
+          onChange={(e) => setUserContext({ ...userContext, tempName: e.target.value })}
+          value={name}
+        />
+        <Button disabled={noChanges()} onClick={submitHandler}>
+          {noChanges() ? buttonChangesMsg : buttonSaveMsg}
+        </Button>
+        <Button onClick={() => navigate(-1)}>{buttonCancelMsg}</Button>
       </div>
     </div>
   )

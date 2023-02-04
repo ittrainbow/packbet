@@ -111,11 +111,11 @@ export const Week = () => {
         const link = adm ? 'results' : uid
         await setDoc(doc(db, 'answers', link), data).then(async () => {
           const response = await getDoc(doc(db, 'answers', link))
-          if (objectCompare(response.data(), data)) toast.success('Данные сохранены')
-          else toast.error('Ошибка')
+          if (objectCompare(response.data(), data)) toast.success(successMsg)
+          else toast.error(failureMsg)
         })
       } catch (error) {
-        toast.error('Ошибка')
+        toast.error(failureMsg)
         console.error(error)
       }
       setUserContext({ ...userContext, adminAsPlayer: false })
@@ -149,7 +149,7 @@ export const Week = () => {
     secondsMsg
   } = i18n(locale, 'countdown')
   const { buttonChangesMsg, buttonSaveMsg } = i18n(locale, 'buttons')
-  const { playerMsg, adminMsg } = i18n(locale, 'week')
+  const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week')
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg
@@ -205,7 +205,7 @@ export const Week = () => {
           )
         })}
       </div>
-      <Button onClick={() => submitHandler()} disabled={!writeAllowed() || noChanges || !isItYou}>
+      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges || !isItYou}>
         {noChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
     </div>

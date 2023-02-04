@@ -45,6 +45,8 @@ export const i18n = (locale, component) => {
 
   const playerMsg = locale === 'ru' ? 'Игрок' : 'Гравець'
   const adminMsg = locale === 'ru' ? 'Админ' : 'Адмiн'
+  const successMsg = locale === 'ru' ? 'Успешно сохранено' : 'Успішно збережено'
+  const failureMsg = locale === 'ru' ? 'Не удалось сохранить' : 'Не вдалося зберегти'
 
   const tableNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
   const tableAllMsg = locale === 'ru' ? 'Всего' : 'Всього'
@@ -76,7 +78,7 @@ export const i18n = (locale, component) => {
       return { otherUser1msg, otherUser2msg }
 
     case 'week':
-      return { playerMsg, adminMsg }
+      return { playerMsg, adminMsg, successMsg, failureMsg }
 
     case 'countdown':
       return {

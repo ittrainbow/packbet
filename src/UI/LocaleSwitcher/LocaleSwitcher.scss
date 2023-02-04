@@ -59,7 +59,7 @@ input:checked + .locale:before {
 
 .locale-switcher {
   min-width: 220px;
-  max-width: 500px;
+  max-width: $max-width;
   display: flex;
   align-items: center;
   justify-content: center;

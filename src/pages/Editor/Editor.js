@@ -143,7 +143,7 @@ export const Editor = () => {
           id={'weekname'}
           value={name}
         />
-        <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
+        <Button className={'editor'} disabled={changes} onClick={submitHandler}>
           {buttonSaveMsg}
         </Button>
       </div>
@@ -163,7 +163,7 @@ export const Editor = () => {
         />
         <Button
           className="editor-small"
-          onClick={() => addQuestionHandler()}
+          onClick={addQuestionHandler}
           disabled={!question || !total}
         >
           {id !== null ? <FaCheck /> : <FaPlus />}
@@ -193,7 +193,7 @@ export const Editor = () => {
       ) : null}
       {!emptyEditor ? (
         <div>
-          <Button className={'editor'} onClick={() => deleteWeek()}>
+          <Button className={'editor'} onClick={deleteWeek}>
             {buttonDeleteWeekMsg}
           </Button>
         </div>
