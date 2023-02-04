@@ -1,0 +1,203 @@
+import React, { useState, useEffect, useContext } from 'react'
+import { setDoc, doc, deleteDoc } from 'firebase/firestore'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { FaEdit, FaTrashAlt, FaCheck, FaPlus } from 'react-icons/fa'
+import moment from 'moment/moment'
+
+import './Editor.scss'
+
+import { db } from '../../db'
+import { Context } from '../../App'
+import { objectCompare, objectTrim, objectReplace, objectNewId } from '../../helpers'
+import { setLoading } from '../../redux/actions'
+import { questionInWorkInit, editor } from '../../templates/_initialContexts'
+import { Button, Input } from '../../UI'
+import { i18n } from '../../locale/locale'
+
+export const Editor = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {
+    userContext,
+    weeksContext,
+    setWeeksContext,
+    appContext,
+    editorContext,
+    setEditorContext
+  } = useContext(Context)
+  const { locale } = userContext
+  const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
+  const { selectedWeek, nextWeek, emptyEditor } = appContext
+  const { questions, name, active, deadline } = editorContext
+  const { question, total, id } = questionInWork
+  const loadedWeek = weeksContext[selectedWeek]
+
+  useEffect(() => {
+    if (emptyEditor) setEditorContext(editor) // eslint-disable-next-line
+  }, [emptyEditor])
+
+  const changes = emptyEditor
+    ? Object.keys(questions).length < 1
+    : objectCompare(editorContext, loadedWeek)
+
+  const changeNameHandler = (name) => {
+    setEditorContext({ ...editorContext, name })
+  }
+
+  const addQuestionHandler = () => {
+    const { question, total, id } = questionInWork
+    const newId = id !== null ? id : objectNewId(editorContext)
+    if (question && total) {
+      const obj = objectReplace(questions, newId, questionInWork)
+      setEditorContext({ ...editorContext, questions: obj })
+      setQuestionInWork(questionInWorkInit)
+    }
+  }
+
+  const removeQuestionHandler = (id) => {
+    const q = objectTrim(questions, id)
+    setEditorContext({ ...editorContext, questions: q })
+  }
+
+  const changeDateHandler = (value) => {
+    const deadline = new Date(value).getTime()
+    setEditorContext({ ...editorContext, deadline })
+  }
+
+  const submitHandler = async () => {
+    try {
+      dispatch(setLoading(true))
+      const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
+      const link = (emptyEditor ? nextWeek : selectedWeek).toString()
+      setWeeksContext(weeks)
+      await setDoc(doc(db, 'weeks', link), editorContext)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dispatch(setLoading(false))
+    }
+  }
+
+  const totalHandler = (value) => {
+    if (!isNaN(value)) {
+      setQuestionInWork({ ...questionInWork, total: value })
+    }
+  }
+
+  const deleteWeek = async () => {
+    const weeks = objectTrim(weeksContext, selectedWeek)
+    try {
+      dispatch(setLoading(true))
+      setWeeksContext(weeks)
+      await deleteDoc(doc(db, 'weeks', selectedWeek.toString()))
+    } catch (error) {
+      console.error(error)
+    } finally {
+      navigate('/calendar')
+      dispatch(setLoading(false))
+    }
+  }
+
+  const getDeadline = () => {
+    return moment(deadline || new Date().getTime())
+      .format()
+      .substring(0, 16)
+  }
+
+  function renderQuestions() {
+    if (questions)
+      return Object.keys(questions).map((el) => {
+        const id = Number(el)
+        const { question, total } = questions[id]
+        return (
+          <div key={id} className="editor-question">
+            <div className="editor-question__desc">
+              {question}: {total}
+            </div>
+            <div className="editor-question__buttons">
+              <FaEdit
+                className="editor-question__check editor-btn__green"
+                onClick={() => setQuestionInWork({ question, total, id })}
+              />
+              <FaTrashAlt
+                className="editor-question__trash editor-btn__red"
+                onClick={() => removeQuestionHandler(id)}
+              />
+            </div>
+          </div>
+        )
+      })
+  }
+
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg} = i18n(locale, 'buttons')
+
+  return (
+    <div className="container">
+      <div className="editor-form">
+        <Input
+          type={'text'}
+          onChange={(e) => changeNameHandler(e.target.value)}
+          placeholder={weekNameMsg}
+          id={'weekname'}
+          value={name}
+        />
+        <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
+          {buttonSaveMsg}
+        </Button>
+      </div>
+      <div className="editor-form">
+        <Input
+          type={'text'}
+          onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
+          placeholder={weekQuestionMsg}
+          value={question}
+        />
+        <Input
+          type={'text'}
+          onChange={(e) => totalHandler(e.target.value)}
+          value={total}
+          className={'short'}
+          placeholder={weekTotalMsg}
+        />
+        <Button
+          className="editor-small"
+          onClick={() => addQuestionHandler()}
+          disabled={!question || !total}
+        >
+          {id !== null ? <FaCheck /> : <FaPlus />}
+        </Button>
+      </div>
+      {renderQuestions()}
+      <div className="editor-checkbox">
+        <div className="editor-checkbox__pad">{weekActivityMsg}</div>
+        <Input
+          type={'checkbox'}
+          checked={active}
+          onChange={() => setEditorContext({ ...editorContext, active: !active })}
+        />
+      </div>
+      <div className="editor-datetime__container">
+        <Input
+          type={'datetime-local'}
+          value={getDeadline()}
+          className={'timer'}
+          onChange={(e) => changeDateHandler(e.target.value)}
+        />
+      </div>
+      {!changes ? (
+        <Button className={'editor'} onClick={() => navigate(-1)}>
+          {buttonCancelMsg}
+        </Button>
+      ) : null}
+      {!emptyEditor ? (
+        <div>
+          <Button className={'editor'} onClick={() => deleteWeek()}>
+            {buttonDeleteWeekMsg}
+          </Button>
+        </div>
+      ) : null}
+    </div>
+  )
+}

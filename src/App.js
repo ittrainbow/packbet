@@ -1,31 +1,78 @@
-import React, { Component } from 'react'
-import AppRoutes from './Routes/Routes'
-import InitState from './Components/InitState/InitState'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { isMobile } from 'react-device-detect'
-import { connect } from 'react-redux'
-import { actionSetView } from './redux/actions/viewActions'
-import { actionAutoLogin } from './redux/actions/authActions'
+import 'react-toastify/dist/ReactToastify.css'
 
-class App extends Component {
-  componentDidMount() {
-    this.props.setView(isMobile)
+import './App.scss'
+
+import { Init } from './components/Init'
+import AppRoutes from './router/Routes'
+import { setMobile } from './redux/actions'
+import * as initialContext from './templates/_initialContexts'
+import { objectReplace } from './helpers'
+
+export const Context = React.createContext()
+
+const App = () => {
+  const dispatch = useDispatch()
+  const { about, weeks, app, user, editor } = initialContext
+  const [aboutContext, setAboutContext] = useState(about)
+  const [weeksContext, setWeeksContext] = useState(weeks)
+  const [appContext, setAppContext] = useState(app)
+  const [userContext, setUserContext] = useState(user)
+  const [answersContext, setAnswersContext] = useState()
+  const [editorContext, setEditorContext] = useState(editor)
+  const [userListContext, setUserListContext] = useState()
+  const [compareContext, setCompareContext] = useState()
+  const [standingsContext, setStandingsContext] = useState()
+
+  useEffect(() => {
+    const mobile = isMobile
+    dispatch(setMobile(mobile)) // eslint-disable-next-line
+  }, [])
+
+  const clearUserContext = () => {
+    setUserContext(user)
   }
 
-  render() {
-    return (
-      <>
-        <AppRoutes />
-        <InitState />
-      </>
-    )
+  const setResultsContext = (value) => {
+    const { selectedWeek } = appContext
+    const newResults = objectReplace(answersContext.results, selectedWeek, value)
+    setAnswersContext({
+      ...answersContext,
+      results: newResults
+    })
   }
+
+  return (
+    <Context.Provider
+      value={{
+        weeksContext,
+        setWeeksContext,
+        appContext,
+        setAppContext,
+        userContext,
+        setUserContext,
+        clearUserContext,
+        aboutContext,
+        setAboutContext,
+        answersContext,
+        setAnswersContext,
+        setResultsContext,
+        editorContext,
+        setEditorContext,
+        userListContext,
+        setUserListContext,
+        compareContext,
+        setCompareContext,
+        standingsContext,
+        setStandingsContext
+      }}
+    >
+      <Init />
+      <AppRoutes />
+    </Context.Provider>
+  )
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setView: (boolean) => dispatch(actionSetView(boolean)),
-    autoLogin: () => dispatch(actionAutoLogin())
-  }
-}
-
-export default connect(null, mapDispatchToProps)(App)
+export default App

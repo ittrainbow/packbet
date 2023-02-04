@@ -1,0 +1,77 @@
+@import '../../styles/vars';
+
+.editor-form {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 5px 0 5px;
+  border-radius: 5px;
+
+  &__desc {
+    height: 24px;
+    display: flex;
+    flex-grow: 1;
+  }
+}
+
+.editor-question {
+  display: flex;
+  align-items: center;
+  background-color: $base-itembg;
+  border: 1px solid $base-itemborder;
+  gap: 3px;
+  padding: 3px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+
+  &__desc {
+    flex-grow: 1;
+    padding: 0 0 3px 3px;
+  }
+
+  &__buttons {
+    display: flex;
+  }
+
+  &__check,
+  &__trash {
+    padding: 3px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  &__check:active {
+    color: $base-green-active;
+    transition: 0.22s;
+  }
+
+  &__red:active {
+    color: $base-red-active;
+    transition: 0.22s;
+  }
+}
+.editor-checkbox {
+  display: flex;
+  width: 110px;
+  align-items: center;
+
+  &__pad {
+    flex-grow: 1;
+    padding: 0 4px 4px;
+
+    @media only screen and (max-width: 500px) {
+      padding-bottom: 1px;
+    }
+  }
+
+  &__box {
+    cursor: pointer;
+  }
+}
+
+.editor-datetime {
+  &__container {
+    margin: 5px 0 5px;
+    max-width: 200px;
+  }
+}

@@ -1,48 +1,23 @@
-import React from 'react'
-import './YesNoButtons.scss'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
-import { connect } from 'react-redux'
+import { Button } from '../Button/Button'
 
-const YesNoButtons = (props) => {
-  let styleSetFirst = [props.mobile ? 'buttonMobile' : 'button']
-  let styleSetSecond = [props.mobile ? 'buttonMobile' : 'button']
+import './YesNoButtons.scss'
 
-  if (props.mobile) {
-    styleSetFirst.push('marginLeft')
-  }
-  if (props.activity === 1 && !props.result) styleSetFirst.push('selected', 'green')
-  if (props.activity === 2 && !props.result) styleSetSecond.push('selected', 'red')
-  if (props.activity === 1 && props.result) {
-    styleSetFirst.push('black')
-    styleSetSecond.push('white')
-  }
-  if (props.activity === 2 && props.result) {
-    styleSetFirst.push('white')
-    styleSetSecond.push('black')
-  }
-
+export const YesNoButtons = ({ total, id, activity, onClick, admin }) => {
   return (
-    <div className={props.mobile ? 'buttonsDivMobile' : 'buttonsDiv'}>
-      <button
-        className={styleSetFirst.join(' ')}
-        onClick={() => props.onClick(props.index * 2)}
+    <div className="yn__parent">
+      <Button
+        className={activity === 1 ? (admin ? 'yn__dark' : 'yn__green') : 'yn__grey'}
+        onClick={() => onClick(1, id, activity)}
       >
-        {!props.arrow ? <FaArrowUp /> : <FaCheck />}
-      </button>
-      <button
-        className={styleSetSecond.join(' ')}
-        onClick={() => props.onClick(props.index * 2 + 1)}
+        {total === 1 ? <FaCheck /> : <FaArrowUp />}
+      </Button>
+      <Button
+        className={activity === 2 ? (admin ? 'yn__dark' : 'yn__red') : 'yn__grey'}
+        onClick={() => onClick(2, id, activity)}
       >
-        {!props.arrow ? <FaArrowDown /> : <FaBan />}
-      </button>
+        {total === 1 ? <FaBan /> : <FaArrowDown />}
+      </Button>
     </div>
   )
 }
-
-function mapStateToProps(state) {
-  return {
-    mobile: state.view.mobile
-  }
-}
-
-export default connect(mapStateToProps, null)(YesNoButtons)

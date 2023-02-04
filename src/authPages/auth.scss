@@ -1,0 +1,33 @@
+@import '../styles/vars';
+
+.auth {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  max-width: 500px;
+
+  &__container {
+    text-align: center;
+    max-width: 220px;
+    flex-direction: column;
+    padding: 30px;
+  }
+}
+
+.link-container {
+  padding: 5px 0 5px;
+}
+
+.text-container {
+  text-align: center;
+  padding: 10px 0 10px;
+}
+
+.profile-container > * {
+  padding-bottom: 10px;
+}
+
+.locale-div {
+  position: absolute;
+  bottom: 10px;
+}

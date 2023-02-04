@@ -1,21 +1,11 @@
 import React from 'react'
-import classes from './Loader.module.scss'
 
-const Loader = (props) => {
+import './Loader.scss'
+
+export const Loader = () => {
   return (
-    <div className={classes.Center}>
-      <div className={classes.ldsDualRing}>
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-      </div>
+    <div className="container auth__container">
+      <span className="loader"></span>
     </div>
   )
 }
-
-export default Loader

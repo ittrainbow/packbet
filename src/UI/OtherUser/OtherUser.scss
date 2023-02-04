@@ -1,0 +1,11 @@
+@import '../../styles/vars';
+
+.otheruser {
+  border-radius: 5px;
+  border: 1px solid $base-border;
+  background-color: $base-buttonbg;
+  font-size: 14px;
+  margin: 5px 0 5px 0;
+  padding: 5px;
+  cursor: pointer;
+}

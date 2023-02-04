@@ -1,0 +1,51 @@
+@import '../../styles/vars';
+
+.header {
+  background: black;
+  height: $header-height;
+
+  &__tab,
+  &__tab-active,
+  &__no-login {
+    font-size: 45px;
+    text-align: center;
+    transition: 0.5s;
+    cursor: pointer;
+    width: 67px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    &__tab,
+    &__tab-active,
+    &__no-login {
+      width: 55px;
+    }
+
+    height: $header-height-mobile;
+  }
+
+  &__icons {
+    display: flex;
+    padding-left: 5px;
+  }
+
+  &__tab {
+    color: $base-bg;
+  }
+
+  &__no-login {
+    color: $base-dark;
+  }
+
+  &__tab-active {
+    color: $base-green;
+  }
+
+  &__message {
+    font-size: 14px;
+  }
+
+  &__icon-padding {
+    padding-top: 12px;
+  }
+}
