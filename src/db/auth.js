@@ -12,14 +12,14 @@ import {
 } from 'firebase/auth'
 
 const googleProvider = new GoogleAuthProvider()
-
 export const signInWithGoogle = async () => {
   try {
     const response = await signInWithPopup(auth, googleProvider)
     const { email, displayName, uid } = response.user
     const docs = await getDoc(doc(db, 'users', uid))
     if (docs.data() === undefined) {
-      const user = { email, name: displayName, admin: false, locale: 'ru' }
+      const locale = localStorage.getItem('locale')
+      const user = { email, name: displayName, admin: false, locale }
       const answers = {}
       await setDoc(doc(db, 'users', uid), user)
       await setDoc(doc(db, 'answers', uid), answers)
@@ -43,7 +43,8 @@ export const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const response = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data = { name, email, admin: false, locale: 'ru' }
+    const locale = localStorage.getItem('locale')
+    const data = { name, email, admin: false, locale }
     await setDoc(doc(db, 'users', uid), data)
   } catch (error) {
     console.error(error)

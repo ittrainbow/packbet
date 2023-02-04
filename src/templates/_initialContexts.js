@@ -13,9 +13,12 @@ export const app = {
 
 export const user = { 
   name: '', 
+  locale: '',
   email: '', 
   admin: false, 
-  adminAsPlayer: true 
+  adminAsPlayer: true,
+  tempName: '',
+  tempLocale: ''
 }
 
 export const weeks = [{ number: '', name: '', questions: {} }]

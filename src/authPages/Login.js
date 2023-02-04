@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
-import { Button, Input } from '../UI'
+import { Button, Input, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
 import { Context } from '../App'
 
@@ -34,17 +34,19 @@ export const Login = () => {
   const [user, loading, error] = useAuthState(auth)
   const navigate = useNavigate()
 
-  // eslint-disable-next-line
-
   const loginButtonActive = emailValid && password.length > 2
+
+  // const locale = localStorage.getItem('locale') || 'ru'
+  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
+  const { registerMsg, registerIntro, forgotMsg } = i18n(locale, 'auth')
 
   useEffect(() => {
     const locale = localStorage.getItem('locale')
-    if (locale) setUserContext({ ...userContext, locale, tempLocale: locale })
+    if (locale) setUserContext({ ...userContext, locale })
     else {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
-    }
+    } // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -61,13 +63,8 @@ export const Login = () => {
     dispatch({ type: 'EMAIL_VALID', payload: checkEmailValid })
   }
 
-  const handler = () => {
-    console.log(userContext)
-  }
-
   return (
     <div className="auth">
-      <button onClick={handler}>123</button>
       <div className="auth__container">
         <Input
           type={'text'}
@@ -86,16 +83,19 @@ export const Login = () => {
           disabled={!loginButtonActive}
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
-          Войти
+          {buttonLoginMsg}
         </Button>
         <Button className="google" onClick={signInWithGoogle}>
-          Войти через Google
+          {buttonLoginGoogleMsg}
         </Button>
         <div className="link-container">
-          <Link to="/reset">Забыли пароль</Link>?
+          <Link to="/reset">{forgotMsg}</Link>
         </div>
         <div className="link-container">
-          Нет аккаунта? <Link to="/register">Регистрация</Link>.
+          {registerIntro} <Link to="/register">{registerMsg}</Link>
+        </div>
+        <div className="locale-div">
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

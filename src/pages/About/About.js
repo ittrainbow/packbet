@@ -30,22 +30,18 @@ export const About = () => {
       <Button onClick={() => setOpen(!open)}>{buttonDetailsMsg}</Button>
       <div>
         {open ? (
-          <>
+          <div>
             {aboutContext.map((el, index) => (
               <div key={index} className="about__paragraph">
                 {el}
               </div>
             ))}
             {aboutLegend.map(({ icon, text }, index) => (
-              <div key={index} className="legend">
+              <div key={index} className={index === 3 ? 'legend legend__margin': 'legend'}>
                 <div className="legend__icon">{icon}</div>- {text}
               </div>
             ))}
-            <hr />
-            <div className="paragraph">
-              Обратная связь - <a href="https://t.me/ittrainbow">ittrainbow</a>
-            </div>
-          </>
+          </div>
         ) : null}
       </div>
     </div>

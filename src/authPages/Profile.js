@@ -15,22 +15,22 @@ export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userContext, setUserContext } = useContext(Context)
-  const { name, tempName, locale, tempLocale } = userContext
+  const { name, locale, tempName, tempLocale } = userContext
+
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth')
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons')
 
   useEffect(() => {
-    setUserContext({ ...userContext, tempName: name, tempLocale: locale }) // eslint-disable-next-line
+    setUserContext({ ...userContext, tempLocale: locale, tempName: name }) // eslint-disable-next-line
   }, [])
-
-  const { profHeaderMsg, profNameMsg, profLangMsg } = i18n(locale, 'auth')
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons')
 
   const submitHandler = async () => {
     dispatch(setLoading(true))
     try {
       const { uid } = auth.currentUser
-      setUserContext({ ...userContext, locale: tempLocale, name: tempName })
+      setUserContext({ ...userContext, locale, name, tempLocale: locale, tempName: name })
       const response = await getDoc(doc(db, 'users', uid))
-      const data = { ...response.data(), locale: tempLocale, name: tempName }
+      const data = { ...response.data(), locale, name }
       await setDoc(doc(db, 'users', uid), data)
     } catch (error) {
       console.error(error)
@@ -39,22 +39,21 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const noChanges = () => tempName === name && tempLocale === locale
+  const noChanges = () => name === tempName && locale === tempLocale
 
   return (
     <div className="container">
       <div className="auth">
         <div className="auth__container">
-          <div className="text-container">{profHeaderMsg}</div>
-          <div className="text-container">{profNameMsg}</div>
+          <div className="text-container bold">{profileHeaderMsg}</div>
+          <div className="text-container">{profileLangMsg}</div>
+          <LocaleSwitcher />
+          <div className="text-container">{profileNameMsg}</div>
           <Input
             type={'text'}
             onChange={(e) => setUserContext({ ...userContext, tempName: e.target.value })}
-            value={tempName ? tempName : ''}
+            value={name}
           />
-
-          <div className="text-container">{profLangMsg}</div>
-          <LocaleSwitcher />
           <Button disabled={noChanges()} onClick={submitHandler}>
             {noChanges() ? buttonChangesMsg : buttonSaveMsg}
           </Button>

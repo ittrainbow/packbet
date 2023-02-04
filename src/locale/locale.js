@@ -7,11 +7,17 @@ export const i18n = (locale, component) => {
   const tab5msg = locale === 'ru' ? 'Редактор' : 'Редактор'
   const tab6msg = locale === 'ru' ? 'Создать' : 'Створити'
 
-  const dbEnterMsg = locale === 'ru' ? 'Вы вошли как' : 'Ви увiйшли як'
-  const dbAdminMsg = locale === 'ru' ? 'Вы - админ' : 'Ви - адмiн'
-  const profHeaderMsg = locale === 'ru' ? 'Настройка профиля' : 'Налаштування профiлю'
-  const profNameMsg = locale === 'ru' ? 'Введите имя' : `Введіть ім'я`
-  const profLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
+  const dashboardEnterMsg = locale === 'ru' ? 'Вы вошли как' : 'Ви увiйшли як'
+  const dashboardAdminMsg = locale === 'ru' ? 'Вы - админ' : 'Ви - адмiн'
+  const profileHeaderMsg = locale === 'ru' ? 'Настройка профиля' : 'Налаштування профiлю'
+  const profileNameMsg = locale === 'ru' ? 'Введите имя' : `Введіть ім'я`
+  const profileLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
+  const loginIntro =  locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
+  const loginMsg =  locale === 'ru' ? 'Войти' : 'Увiйти'
+  const registerIntro = locale === 'ru' ? 'Нет аккаунта?' : 'Немає профілю?'
+  const registerMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
+  const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
+  const registerNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
 
   const buttonChangesMsg = locale === 'ru' ? 'Изменений нет' : 'Немає змiн'
   const buttonCancelMsg = locale === 'ru' ? 'Отменить' : 'Скасувати'
@@ -20,6 +26,11 @@ export const i18n = (locale, component) => {
   const buttonProfileMsg = locale === 'ru' ? 'Настроить профиль' : 'Налаштувати профіль'
   const buttonDetailsMsg = locale === 'ru' ? 'Подробнее' : 'Детальнiше'
   const buttonDeleteWeekMsg = locale === 'ru' ? 'Удалить неделю' : 'Видалити тиждень'
+  const buttonRegisterMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
+  const buttonRegisterGoogleMsg = locale === 'ru' ? 'Регистрация Google' : 'Реєстрація Google'
+  const buttonLoginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
+  const buttonLoginGoogleMsg = locale === 'ru' ? 'Войти через Google' : 'Увiйти через Google'
+  const buttonRecoverMsg = locale === 'ru' ? 'Выслать e-mail' : 'Надіслати e-mail'
 
   const countdownMsg = locale === 'ru' ? 'До начала игры' : 'До початку гри'
   const gameStartedMsg = locale === 'ru' ? 'Игра началась' : 'Гра почалась'
@@ -83,11 +94,17 @@ export const i18n = (locale, component) => {
 
     case 'auth':
       return {
-        dbEnterMsg,
-        dbAdminMsg,
-        profHeaderMsg,
-        profNameMsg,
-        profLangMsg
+        dashboardEnterMsg,
+        dashboardAdminMsg,
+        profileHeaderMsg,
+        profileNameMsg,
+        profileLangMsg,
+        loginMsg,
+        loginIntro,
+        registerMsg,
+        registerIntro,
+        forgotMsg,
+        registerNameMsg
       }
 
     case 'buttons':
@@ -98,7 +115,12 @@ export const i18n = (locale, component) => {
         buttonLogoutMsg,
         buttonProfileMsg,
         buttonDetailsMsg,
-        buttonDeleteWeekMsg
+        buttonDeleteWeekMsg,
+        buttonRegisterMsg,
+        buttonRegisterGoogleMsg,
+        buttonLoginMsg,
+        buttonLoginGoogleMsg,
+        buttonRecoverMsg
       }
 
     default:

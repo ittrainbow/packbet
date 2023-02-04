@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
-import { auth } from '../db/firebase'
-import { sendPasswordReset } from '../db/auth'
-
 import './auth.scss'
-import { Button, Input } from '../UI'
+
+import { auth } from '../db/firebase'
+import { i18n } from '../locale/locale'
+import { sendPasswordReset } from '../db/auth'
+import { Button, Input, LocaleSwitcher } from '../UI'
+import { Context } from '../App'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
   const [user, loading] = useAuthState(auth)
+  const { userContext } = useContext(Context)
+  const { locale } = userContext
   const navigate = useNavigate()
+
+  const { buttonRecoverMsg } = i18n(locale, 'buttons')
+  const { loginMsg, loginIntro, registerMsg, registerIntro } = i18n(locale, 'auth')
 
   useEffect(() => {
     if (loading) return
@@ -23,16 +30,22 @@ export const Reset = () => {
     <div className="auth">
       <div className="auth__container">
         <Input
-          type={"email"}
+          type={'email'}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder={"E-mail"}
+          placeholder={'E-mail'}
         />
         <Button className="login" onClick={() => sendPasswordReset(email)}>
-          Выслать письмо
+          {buttonRecoverMsg}
         </Button>
         <div className="link-container">
-          Нет аккаунта? <Link to="/register">Регистрация</Link>.
+          {registerIntro} <Link to="/register">{registerMsg}</Link>
+        </div>
+        <div className="link-container">
+          {loginIntro} <Link to="/login">{loginMsg}</Link>
+        </div>
+        <div className="locale-div">
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

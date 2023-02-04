@@ -4,7 +4,7 @@ $base-green-active: #1a571c;
 $base-red: #af4c4c;
 $base-red-active: #5f1313;
 $green: #439245;
-$base-dark: #222;
+$base-dark: #444;
 $base-buttonbg: #d1d1d1;
 $base-border: #777;
 $base-border-active: #777;
@@ -22,10 +22,9 @@ $row-height-mobile: 45px;
 
 $header-height: 92px;
 $header-height-mobile: 70px;
-$footer-height: 66px;
 
-$container-height-diff: calc(92px + 60px + 40px);
-$container-height-diff-mobile: calc($header-height-mobile + $footer-height + 40px);
+$container-height-diff: 122px;
+$container-height-diff-mobile: 100px;
 
 $fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
   'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;

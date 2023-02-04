@@ -153,7 +153,8 @@ export const Week = () => {
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg
-    const hoursText = hours % 20 === 1 ? oneHourMsg : hours % 20 < 4 ? twoHoursMsg : fiveHoursMsg
+    const hoursText =
+      hours % 20 > 4 || hours % 20 === 0 ? fiveHoursMsg : hours % 20 > 1 ? twoHoursMsg : oneHourMsg
 
     return (
       <div className="countdown">
@@ -170,7 +171,7 @@ export const Week = () => {
   return (
     <div className="container">
       <div className="week-header">
-        <div className="week-header__name h3">{name}</div>
+        <div className="week-header__name bold">{name}</div>
         {admin ? (
           <div className="question__admplayer">
             <div className="question__actions">{adminAsPlayer ? playerMsg : adminMsg}</div>

@@ -6,10 +6,25 @@
   }
 
   &__paragraph {
-    margin: 7px 0 7px;
+    padding: 5px 0 5px;
     text-align: justify;
   }
 }
+
+.legend {
+  display: flex;
+  padding-bottom: 5px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
+
+  &__margin {
+    padding-bottom: 15px;
+  }
+}
+
 
 .FaArrowDown,
 .FaArrowUp,
@@ -32,13 +47,4 @@
 
 .FaBan {
   color: $base-red-active;
-}
-
-.legend {
-  display: flex;
-
-  &__icon {
-    display: flex;
-    align-items: center;
-  }
 }

@@ -2,17 +2,12 @@
 
 .auth {
   display: flex;
-  align-items: center;
   justify-content: center;
   padding: 15px;
   max-width: 500px;
 
   &__container {
-    display: block;
-    align-items: center;
-    justify-content: center;
     text-align: center;
-    width: 100%;
     max-width: 220px;
     flex-direction: column;
     padding: 30px;
@@ -25,5 +20,14 @@
 
 .text-container {
   text-align: center;
-  padding: 15px 0 5px;
+  padding: 10px 0 10px;
+}
+
+.profile-container > * {
+  padding-bottom: 10px;
+}
+
+.locale-div {
+  position: absolute;
+  bottom: 10px;
 }

@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
-import { Button, Input } from '../UI'
+import { Button, Input, LocaleSwitcher } from '../UI'
+import { i18n } from '../locale/locale'
 
 const initialState = {
   email: '',
@@ -38,6 +39,10 @@ export const Register = () => {
     else registerWithEmailAndPassword(name, email, password)
   }
 
+  const locale = localStorage.getItem('locale') || 'ru'
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons')
+  const { loginIntro, loginMsg, registerNameMsg } = i18n(locale, 'auth')
+
   useEffect(() => {
     if (loading) return
     if (user) navigate('/dashboard') // eslint-disable-next-line
@@ -47,31 +52,34 @@ export const Register = () => {
     <div className="auth">
       <div className="auth__container">
         <Input
-          type={"text"}
+          type={'text'}
           value={name}
           onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
-          placeholder={"Имя"}
+          placeholder={registerNameMsg}
         />
         <Input
-          type={"email"}
+          type={'email'}
           value={email}
           onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
-          placeholder={"E-mail"}
+          placeholder={'E-mail'}
         />
         <Input
-          type={"password"}
+          type={'password'}
           value={password}
           onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
-          placeholder={"Password"}
+          placeholder={'Password'}
         />
         <Button className="login" onClick={register}>
-          Регистрация
+          {buttonRegisterMsg}
         </Button>
         <Button className="google" onClick={signInWithGoogle}>
-          Регистрация через Google
+          {buttonRegisterGoogleMsg}
         </Button>
         <div className="link-container">
-          Уже есть аккаунт? <Link to="/login">Войти</Link>.
+          {loginIntro} <Link to="/login">{loginMsg}</Link>
+        </div>
+        <div className="locale-div">
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

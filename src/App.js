@@ -10,7 +10,6 @@ import AppRoutes from './router/Routes'
 import { setMobile } from './redux/actions'
 import * as initialContext from './templates/_initialContexts'
 import { objectReplace } from './helpers'
-import { Footer } from './pages/Footer/Footer'
 
 export const Context = React.createContext()
 
@@ -32,6 +31,10 @@ const App = () => {
     dispatch(setMobile(mobile)) // eslint-disable-next-line
   }, [])
 
+  const clearUserContext = () => {
+    setUserContext(user)
+  }
+
   const setResultsContext = (value) => {
     const { selectedWeek } = appContext
     const newResults = objectReplace(answersContext.results, selectedWeek, value)
@@ -50,6 +53,7 @@ const App = () => {
         setAppContext,
         userContext,
         setUserContext,
+        clearUserContext,
         aboutContext,
         setAboutContext,
         answersContext,
@@ -67,7 +71,6 @@ const App = () => {
     >
       <Init />
       <AppRoutes />
-      <Footer />
     </Context.Provider>
   )
 }
