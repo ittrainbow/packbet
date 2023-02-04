@@ -3,7 +3,7 @@
 .editor-form {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 10px;
   margin: 5px 0 5px;
   border-radius: 5px;
 
@@ -33,14 +33,14 @@
     display: flex;
   }
 
-  &__check,
+  &__edit,
   &__trash {
     padding: 3px;
     font-size: 22px;
     cursor: pointer;
   }
 
-  &__check:active {
+  &__edit:active {
     color: $base-green-active;
     transition: 0.22s;
   }
@@ -50,6 +50,12 @@
     transition: 0.22s;
   }
 }
+
+.faBan {
+  padding-right: 5px;
+  color: $base-red-active;
+}
+
 .editor-checkbox {
   display: flex;
   width: 110px;

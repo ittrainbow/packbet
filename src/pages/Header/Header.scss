@@ -11,14 +11,14 @@
     text-align: center;
     transition: 0.5s;
     cursor: pointer;
-    width: 67px;
+    width: 1.635em;
   }
 
   @media only screen and (max-width: $max-width) {
     &__tab,
     &__tab-active,
     &__no-login {
-      width: 55px;
+      width: 1.22em;
     }
 
     height: $header-height-mobile;
@@ -26,7 +26,11 @@
 
   &__icons {
     display: flex;
-    padding-left: 5px;
+    padding: 0 0.55em 0 0.55em;
+
+    @media only screen and (max-width: $max-width) {
+      padding: 0 5px 0 5px;
+    }
   }
 
   &__tab {

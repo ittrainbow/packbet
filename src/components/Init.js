@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
 
@@ -61,9 +61,8 @@ export const Init = () => {
         }
       })
 
-      await getDoc(doc(db, 'about', 'about')).then((response) => {
-        const resp = response.data()
-        const about = Object.keys(resp).map((el) => resp[el])
+      await getDocs(collection(db, 'about')).then((response) => {
+        const about = objectCompose(response)
         setAboutContext(about)
       })
     } catch (error) {

@@ -45,6 +45,8 @@ export const Week = () => {
   }
 
   const noChanges = objectCompare(answersContext, compareContext)
+  const outdated = () => new Date().getTime() < deadline
+  const writeAllowed = () => adm || (!adm && outdated)
 
   useEffect(() => {
     setAnswers()
@@ -63,34 +65,25 @@ export const Week = () => {
     setAdm(admin && !adminAsPlayer) // eslint-disable-next-line
   }, [adminAsPlayer, selectedWeek])
 
-  const outdated = () => new Date().getTime() < deadline
-
-  const writeAllowed = () => {
-    return adm || (!adm && outdated)
-  }
 
   const onClickHandler = (value, id, act) => {
     if (user && writeAllowed() && isItYou) {
-      const { uid } = user
       let answer = { ...ans }
       let result = { ...res }
-      let context = { ...answersContext }
 
-      if (!context[uid]) context[uid] = {}
-
-      if (value !== act) {
-        adm ? (result[id] = value) : (answer[id] = value)
-      }
-
-      if (value === act) {
-        adm ? (result = objectTrim(result, id)) : (answer = objectTrim(answer, id))
-      }
-
+      if (value !== act) adm ? (result[id] = value) : (answer[id] = value)
+      if (value === act) adm ? (result = objectTrim(result, id)) : (answer = objectTrim(answer, id))
+      
       const data = Object.keys(adm ? result : answer).length !== 0 ? (adm ? result : answer) : null
 
-      if (adm) setResultsContext(data)
+      if (adm) {
+        setResultsContext(data)
+      }
 
       if (!adm) {
+        const { uid } = user
+        const context = { ...answersContext }
+        if (!context[uid]) context[uid] = {}
         context[uid][selectedWeek] = data
         setAnswersContext(context)
       }

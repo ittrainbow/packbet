@@ -28,8 +28,6 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // console.log(locale)
-
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale || 'ru', 'header')
 
   const cls = 'header__icon-padding'

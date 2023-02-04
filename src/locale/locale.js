@@ -12,8 +12,8 @@ export const i18n = (locale, component) => {
   const profileHeaderMsg = locale === 'ru' ? 'Настройка профиля' : 'Налаштування профiлю'
   const profileNameMsg = locale === 'ru' ? 'Введите имя' : `Введіть ім'я`
   const profileLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
-  const loginIntro =  locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
-  const loginMsg =  locale === 'ru' ? 'Войти' : 'Увiйти'
+  const loginIntro = locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
+  const loginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
   const registerIntro = locale === 'ru' ? 'Нет аккаунта?' : 'Немає профілю?'
   const registerMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
@@ -24,7 +24,7 @@ export const i18n = (locale, component) => {
   const buttonSaveMsg = locale === 'ru' ? 'Сохранить' : 'Зберегти'
   const buttonLogoutMsg = locale === 'ru' ? 'Выйти' : 'Вийти'
   const buttonProfileMsg = locale === 'ru' ? 'Настроить профиль' : 'Налаштувати профіль'
-  const buttonDetailsMsg = locale === 'ru' ? 'Подробнее' : 'Детальнiше'
+  const buttonDetailsMsg = locale === 'ru' ? 'Подробнее' : 'Докладніше'
   const buttonDeleteWeekMsg = locale === 'ru' ? 'Удалить неделю' : 'Видалити тиждень'
   const buttonRegisterMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const buttonRegisterGoogleMsg = locale === 'ru' ? 'Регистрация Google' : 'Реєстрація Google'
@@ -53,7 +53,7 @@ export const i18n = (locale, component) => {
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
-  const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Питання'
+  const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
 
@@ -63,7 +63,15 @@ export const i18n = (locale, component) => {
       ? ', прогнозы не начавшихся игр скрыты. Нажмите для возвращения к своему профилю.'
       : ', прогнози ігор, що не почалися, приховані. Натисніть, щоб повернутися до свого профілю.'
 
+  const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
+  const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
+  const aboutOverMsg = locale === 'ru' ? `Ответ "Больше"` : `Відповідь "Більше"`
+  const aboutUnderMsg = locale === 'ru' ? `Ответ "Меньше"` : `Відповідь "Менше"`
+
   switch (component) {
+    case 'about':
+      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg }
+      
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
