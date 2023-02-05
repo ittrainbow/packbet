@@ -4,12 +4,11 @@ import { getDoc, setDoc, doc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
 import { ToastContainer, toast } from 'react-toastify'
-//1111111111111111111111111
 import './Week.scss'
 
 import { auth, db } from '../../db'
 import { Context } from '../../App'
-import { objectCompare, ansHelper, objectTrim } from '../../helpers'
+import { objectCompare, ansHelper } from '../../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../../UI'
 import { setLoading } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
@@ -19,8 +18,6 @@ export const Week = () => {
   const [user] = useAuthState(auth)
   const [adm, setAdm] = useState(true)
   const [uid, setUid] = useState(user ? user.uid : null)
-  const [ans, setAns] = useState()
-  const [res, setRes] = useState()
 
   const {
     appContext,
@@ -30,25 +27,18 @@ export const Week = () => {
     answersContext,
     setAnswersContext,
     compareContext,
-    setCompareContext,
-    setResultsContext
+    setCompareContext
   } = useContext(Context)
+
   const { selectedWeek, isItYou, otherUserUID } = appContext
   const { admin, adminAsPlayer, locale } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
-
-  const setAnswers = () => {
-    const data = user && answersContext[uid] ? answersContext[uid][selectedWeek] : null
-    setAns(data || {})
-  }
 
   const noChanges = objectCompare(answersContext, compareContext)
   const outdated = () => new Date().getTime() < deadline
   const writeAllowed = () => adm || (!adm && outdated())
 
   useEffect(() => {
-    setRes(answersContext.results[selectedWeek] || {})
-    setAnswers()
     setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
   }, [])
 
@@ -57,36 +47,27 @@ export const Week = () => {
   }, [isItYou, otherUserUID])
 
   useEffect(() => {
-    setAnswers() // eslint-disable-next-line
-  }, [uid, answersContext])
-
-  useEffect(() => {
     setAdm(admin && !adminAsPlayer) // eslint-disable-next-line
   }, [adminAsPlayer, selectedWeek])
 
+  const onClickHandler = (value, id, activity) => {
+    const ansOrRes = adm ? 'results' : uid
 
-  const onClickHandler = (value, id, act) => {
     if (user && writeAllowed() && isItYou) {
-      if (value !== act) adm ? (res[id] = value) : (ans[id] = value)
-      if (value === act) adm ? (setRes(objectTrim(res, id))) : (setAns(objectTrim(ans, id)))
-      
-      const data = Object.keys(adm ? res : ans).length !== 0 ? (adm ? res : ans) : null
+      const data = structuredClone(answersContext)
+      const trimValue = value === activity
+      const modifyData = data[ansOrRes][selectedWeek]
 
-      if (adm) setResultsContext(data)
-
-      if (!adm) {
-        const { uid } = user
-        const context = { ...answersContext }
-        if (!context[uid]) context[uid] = {}
-        context[uid][selectedWeek] = data
-        setAnswersContext(context)
-      }
+      trimValue ? delete modifyData[id] : (modifyData[id] = value)
+      setAnswersContext(data)
     }
   }
 
   const activity = (id) => {
-    if ((!isItYou && !outdated()) || isItYou)
-      return adminAsPlayer ? (ans ? ans[id] : 0) : res ? res[id] : 0
+    if ((!isItYou && !outdated()) || isItYou) {
+      const ansOrRes = adm ? 'results' : uid
+      return answersContext[ansOrRes][selectedWeek][id]
+    }
   }
 
   const submitHandler = async () => {
@@ -125,8 +106,13 @@ export const Week = () => {
   const { buttonChangesMsg, buttonSaveMsg } = i18n(locale, 'buttons')
   const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week')
 
+  const clicker = () => {
+    console.log(answersContext)
+  }
+
   return (
     <div className="container">
+      <button onClick={clicker}>123</button>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
         {admin ? (
