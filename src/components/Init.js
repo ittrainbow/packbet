@@ -28,6 +28,11 @@ export const Init = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    const browserLocale = localStorage.getItem('locale')
+    setUserContext({...userContext, locale: browserLocale}) // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     fetch() // eslint-disable-next-line
   }, [user])
 
@@ -57,6 +62,8 @@ export const Init = () => {
         setUserListContext(users)
         if (user) {
           const { name, email, admin, locale } = users[user.uid]
+          const browserLocale = localStorage.getItem('locale')
+          if (locale !== browserLocale) localStorage.setItem('locale', locale)
           setUserContext({ ...userContext, name, email, admin, locale })
         }
       })

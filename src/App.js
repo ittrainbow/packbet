@@ -31,8 +31,8 @@ const App = () => {
     dispatch(setMobile(mobile)) // eslint-disable-next-line
   }, [])
 
-  const clearUserContext = () => {
-    setUserContext(user)
+  const clearUserContext = (locale) => {
+    setUserContext({ ...user, locale })
   }
 
   const setResultsContext = (value) => {

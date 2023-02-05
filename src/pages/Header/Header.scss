@@ -12,6 +12,7 @@
     transition: 0.5s;
     cursor: pointer;
     width: 1.635em;
+    flex-grow: 1;
   }
 
   @media only screen and (max-width: $max-width) {
@@ -26,7 +27,9 @@
 
   &__icons {
     display: flex;
-    padding: 0 0.55em 0 0.55em;
+    justify-content: center;
+    max-width: 500px;
+    padding-left: 15px;
 
     @media only screen and (max-width: $max-width) {
       padding: 0 5px 0 5px;

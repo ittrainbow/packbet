@@ -85,7 +85,7 @@ export const Editor = () => {
   }
 
   const totalHandler = (value) => {
-    if (!isNaN(value)) {
+    if (!isNaN(value) || value === '-') {
       setQuestionInWork({ ...questionInWork, total: value })
     }
   }

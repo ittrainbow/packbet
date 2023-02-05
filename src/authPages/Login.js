@@ -35,8 +35,6 @@ export const Login = () => {
   const navigate = useNavigate()
 
   const loginButtonActive = emailValid && password.length > 2
-
-  // const locale = localStorage.getItem('locale') || 'ru'
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
   const { registerMsg, registerIntro, forgotMsg } = i18n(locale, 'auth')
 
@@ -62,6 +60,12 @@ export const Login = () => {
     dispatch({ type: 'EMAIL', payload: email })
     dispatch({ type: 'EMAIL_VALID', payload: checkEmailValid })
   }
+
+  const onChange = () => {
+    setUserContext({ ...userContext, locale: locale === 'ru' ? 'ua' : 'ru' })
+  }
+
+  const checked = () => (locale ? locale === 'ua' : false)
 
   return (
     <div className="auth">
@@ -95,7 +99,7 @@ export const Login = () => {
           {registerIntro} <Link to="/register">{registerMsg}</Link>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher />
+          <LocaleSwitcher checked={checked()} onChange={onChange} />
         </div>
       </div>
     </div>

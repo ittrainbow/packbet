@@ -17,8 +17,8 @@ export const Dashboard = () => {
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons')
 
   const logoutHandler = () => {
+    clearUserContext(localStorage.getItem('locale'))
     logout()
-    clearUserContext()
     navigate('/userpage')
   }
 
