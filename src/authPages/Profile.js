@@ -50,7 +50,7 @@ export const Profile = () => {
         <div className="text-container">{profileNameMsg}</div>
         <Input
           type={'text'}
-          onChange={(e) => setUserContext({ ...userContext, tempName: e.target.value })}
+          onChange={(e) => setUserContext({ ...userContext, name: e.target.value })}
           value={name}
         />
         <Button disabled={noChanges()} onClick={submitHandler}>

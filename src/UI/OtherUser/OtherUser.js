@@ -19,15 +19,17 @@ export const OtherUser = () => {
     })
   }
 
-  
-  const { otherUser1msg, otherUser2msg } = i18n(locale, 'otheruser')
+  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser')
 
   return isItYou ? null : (
     <div>
       <button className="otheruser" onClick={setContextHandler}>
-        {otherUser1msg}
-        <b>{otherUserName}</b>
-        {otherUser2msg}
+        <div className="otheruser__text">{otherUser1msg}</div>
+        <div className="otheruser__text">
+          {otherUser2msg}
+          <b>{otherUserName}</b>
+          {otherUser3msg}
+        </div>
       </button>
     </div>
   )

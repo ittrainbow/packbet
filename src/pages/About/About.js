@@ -38,20 +38,26 @@ export const About = () => {
         {open ? (
           <div>
             {description.map((el, index) => {
-              return (
+              return index < 8 ? (
                 <div
                   key={index}
                   className={index === 6 ? 'about__paragraph bold' : 'about__paragraph'}
                 >
                   {index === 0 ? null : el}
                 </div>
-              )
+              ) : null
             })}
             {legend.map(({ icon, text }, index) => (
-              <div key={index} className={index === 3 ? 'legend legend__margin' : 'legend'}>
+              <div key={index} className="legend">
                 <div className="legend__icon">{icon}</div>- {text}
               </div>
             ))}
+            {description.length === 9 ? (
+              <div className="about__paragraph about__last-div">
+                <hr />
+                <div>{description[8]}</div>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>

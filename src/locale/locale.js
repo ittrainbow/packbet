@@ -57,11 +57,17 @@ export const i18n = (locale, component) => {
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
 
-  const otherUser1msg = locale === 'ru' ? 'Вы просматриваете ответы ' : 'Ви переглядаєте відповіді '
-  const otherUser2msg =
+  const otherUser1msg =
     locale === 'ru'
-      ? ', прогнозы не начавшихся игр скрыты. Нажмите для возвращения к своему профилю.'
-      : ', прогнози ігор, що не почалися, приховані. Натисніть, щоб повернутися до свого профілю.'
+      ? 'Нажмите, чтобы вернуться к своему профилю.'
+      : 'Натисніть, щоб повернутися до свого профілю.'
+  const otherUser2msg =
+    locale === 'ru' ? 'Сейчас вы просматриваете профиль ' : 'Зараз ви переглядаєте профіль '
+  const otherUser3msg =
+    locale === 'ru'
+      ? ', прогнозы не начавшихся игр скрыты.'
+      : ', прогнози ігор, що не почалися, приховані.'
+  // const otherUser3msg = locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю' : 'Натисніть, щоб повернутися до свого профілю.'
 
   const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
@@ -71,7 +77,7 @@ export const i18n = (locale, component) => {
   switch (component) {
     case 'about':
       return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg }
-      
+
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
@@ -83,7 +89,7 @@ export const i18n = (locale, component) => {
       return { tableNameMsg, tableAllMsg, tableCorrectMsg }
 
     case 'otheruser':
-      return { otherUser1msg, otherUser2msg }
+      return { otherUser1msg, otherUser2msg, otherUser3msg }
 
     case 'week':
       return { playerMsg, adminMsg, successMsg, failureMsg }

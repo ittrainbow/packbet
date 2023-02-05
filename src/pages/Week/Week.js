@@ -2,16 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
-import Countdown from 'react-countdown'
 import structuredClone from '@ungap/structured-clone'
 import { ToastContainer, toast } from 'react-toastify'
-
+//1111111111111111111111111
 import './Week.scss'
 
 import { auth, db } from '../../db'
 import { Context } from '../../App'
 import { objectCompare, ansHelper, objectTrim } from '../../helpers'
-import { YesNoButtons, AdminPlayer, OtherUser, Button } from '../../UI'
+import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../../UI'
 import { setLoading } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
 
@@ -21,6 +20,7 @@ export const Week = () => {
   const [adm, setAdm] = useState(true)
   const [uid, setUid] = useState(user ? user.uid : null)
   const [ans, setAns] = useState()
+  const [res, setRes] = useState()
 
   const {
     appContext,
@@ -37,8 +37,6 @@ export const Week = () => {
   const { admin, adminAsPlayer, locale } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
 
-  const res = answersContext.results[selectedWeek] || {}
-
   const setAnswers = () => {
     const data = user && answersContext[uid] ? answersContext[uid][selectedWeek] : null
     setAns(data || {})
@@ -46,9 +44,10 @@ export const Week = () => {
 
   const noChanges = objectCompare(answersContext, compareContext)
   const outdated = () => new Date().getTime() < deadline
-  const writeAllowed = () => adm || (!adm && outdated)
+  const writeAllowed = () => adm || (!adm && outdated())
 
   useEffect(() => {
+    setRes(answersContext.results[selectedWeek] || {})
     setAnswers()
     setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
   }, [])
@@ -68,17 +67,12 @@ export const Week = () => {
 
   const onClickHandler = (value, id, act) => {
     if (user && writeAllowed() && isItYou) {
-      let answer = { ...ans }
-      let result = { ...res }
-
-      if (value !== act) adm ? (result[id] = value) : (answer[id] = value)
-      if (value === act) adm ? (result = objectTrim(result, id)) : (answer = objectTrim(answer, id))
+      if (value !== act) adm ? (res[id] = value) : (ans[id] = value)
+      if (value === act) adm ? (setRes(objectTrim(res, id))) : (setAns(objectTrim(ans, id)))
       
-      const data = Object.keys(adm ? result : answer).length !== 0 ? (adm ? result : answer) : null
+      const data = Object.keys(adm ? res : ans).length !== 0 ? (adm ? res : ans) : null
 
-      if (adm) {
-        setResultsContext(data)
-      }
+      if (adm) setResultsContext(data)
 
       if (!adm) {
         const { uid } = user
@@ -128,38 +122,8 @@ export const Week = () => {
 
     return styles.join(' ')
   }
-
-  const {
-    countdownMsg,
-    gameStartedMsg,
-    fiveDaysMsg,
-    twoDaysMsg,
-    oneDayMsg,
-    fiveHoursMsg,
-    twoHoursMsg,
-    oneHourMsg,
-    minutesMsg,
-    secondsMsg
-  } = i18n(locale, 'countdown')
   const { buttonChangesMsg, buttonSaveMsg } = i18n(locale, 'buttons')
   const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week')
-
-  const renderer = ({ days, hours, minutes, seconds, completed }) => {
-    const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg
-    const hoursText =
-      hours % 20 > 4 || hours % 20 === 0 ? fiveHoursMsg : hours % 20 > 1 ? twoHoursMsg : oneHourMsg
-
-    return (
-      <div className="countdown">
-        {completed
-          ? gameStartedMsg
-          : `${countdownMsg} ${
-              days > 0 ? days + ' ' + daysText : ''
-            } ${hours} ${hoursText} ${minutes}
-        ${minutesMsg} ${seconds} ${secondsMsg}`}
-      </div>
-    )
-  }
 
   return (
     <div className="container">
@@ -174,7 +138,7 @@ export const Week = () => {
       </div>
       <OtherUser />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
-      <Countdown date={deadline} renderer={renderer} locale={locale} />
+      <KickoffCountdown />
       <div>
         {Object.keys(questions).map((el) => {
           const id = Number(el)
