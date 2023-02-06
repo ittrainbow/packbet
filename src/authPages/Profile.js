@@ -19,9 +19,6 @@ export const Profile = () => {
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState(locale)
 
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth')
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons')
-
   const submitHandler = async () => {
     dispatch(setLoading(true))
     try {
@@ -43,9 +40,21 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const noChanges = () => name === tempName && locale === tempLocale
-  const onChangeHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
-  const checked = () => tempLocale === 'ua'
+  const noChanges = () => {
+    return name === tempName && locale === tempLocale
+  }
+
+  const onChangeHandler = () => {
+    return setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
+  }
+  
+  const checked = () => {
+    return tempLocale === 'ua'
+  }
+
+  // locale
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth')
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons')
 
   return (
     <div className="auth">

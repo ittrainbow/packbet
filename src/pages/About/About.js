@@ -19,6 +19,8 @@ export const About = () => {
     setDescription(array) // eslint-disable-next-line
   }, [])
 
+  // locale
+  const { buttonDetailsMsg } = i18n(locale, 'buttons')
   const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n(locale, 'about')
 
   const legend = [
@@ -27,8 +29,6 @@ export const About = () => {
     { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
-
-  const { buttonDetailsMsg } = i18n(locale, 'buttons')
 
   return (
     <div className="container">

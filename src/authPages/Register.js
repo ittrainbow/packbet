@@ -39,14 +39,15 @@ export const Register = () => {
     else registerWithEmailAndPassword(name, email, password)
   }
 
+  useEffect(() => {
+    if (loading) return
+    if (user) navigate('/dashboard')
+  }, [loading, user, navigate])
+
+  // locale
   const locale = localStorage.getItem('locale') || 'ru'
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons')
   const { loginIntro, loginMsg, registerNameMsg } = i18n(locale, 'auth')
-
-  useEffect(() => {
-    if (loading) return
-    if (user) navigate('/dashboard') // eslint-disable-next-line
-  }, [loading, user])
 
   return (
     <div className="auth">

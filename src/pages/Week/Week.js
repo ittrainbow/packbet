@@ -16,7 +16,6 @@ import { i18n } from '../../locale/locale'
 export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const [adm, setAdm] = useState(true)
   const [uid, setUid] = useState(user ? user.uid : null)
 
   const {
@@ -33,40 +32,52 @@ export const Week = () => {
   const { selectedWeek, isItYou, otherUserUID } = appContext
   const { admin, adminAsPlayer, locale } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
+  const [adm, setAdm] = useState(admin && adminAsPlayer)
 
-  const noChanges = objectCompare(answersContext, compareContext)
-  const outdated = () => new Date().getTime() < deadline
-  const writeAllowed = () => adm || (!adm && outdated())
+  const noChanges = () => {
+    return objectCompare(answersContext, compareContext)
+  }
+
+  const outdated = () => {
+    return new Date().getTime() < deadline
+  }
+
+  const writeAllowed = () => {
+    return adm || (!adm && outdated())
+  }
+
+  const ansOrRes = adm ? 'results' : uid
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    setUid(isItYou ? (user ? user.uid : null) : otherUserUID) // eslint-disable-next-line
-  }, [isItYou, otherUserUID])
+    setUid(isItYou ? (user ? user.uid : null) : otherUserUID)
+  }, [isItYou, otherUserUID, user])
 
   useEffect(() => {
-    setAdm(admin && !adminAsPlayer) // eslint-disable-next-line
-  }, [adminAsPlayer, selectedWeek])
+    setAdm(admin && !adminAsPlayer)
+  }, [adminAsPlayer, selectedWeek, admin])
 
   const onClickHandler = (value, id, activity) => {
-    const ansOrRes = adm ? 'results' : uid
-
     if (user && writeAllowed() && isItYou) {
       const data = structuredClone(answersContext)
-      const trimValue = value === activity
-      const modifyData = data[ansOrRes][selectedWeek]
 
-      trimValue ? delete modifyData[id] : (modifyData[id] = value)
+      if (!data[uid]) data[uid] = {}
+      if (!data[uid][selectedWeek]) data[uid][selectedWeek] = {}
+
+      const modifyData = data[ansOrRes][selectedWeek]
+      value === activity ? delete modifyData[id] : (modifyData[id] = value)
       setAnswersContext(data)
     }
   }
 
   const activity = (id) => {
     if ((!isItYou && !outdated()) || isItYou) {
-      const ansOrRes = adm ? 'results' : uid
-      return answersContext[ansOrRes][selectedWeek][id]
+      return answersContext[uid] && answersContext[uid][selectedWeek]
+        ? answersContext[uid][selectedWeek][id]
+        : 0
     }
   }
 
@@ -74,20 +85,19 @@ export const Week = () => {
     if (isItYou) {
       dispatch(setLoading(true))
       try {
-        const { uid } = user
         const data = adminAsPlayer ? answersContext[uid] : answersContext.results
-        const link = adm ? 'results' : uid
-        await setDoc(doc(db, 'answers', link), data).then(async () => {
-          const response = await getDoc(doc(db, 'answers', link))
+        if (Object.keys(data[selectedWeek]).length === 0) delete data[selectedWeek]
+        await setDoc(doc(db, 'answers', ansOrRes), data).then(async () => {
+          const response = await getDoc(doc(db, 'answers', ansOrRes))
           if (objectCompare(response.data(), data)) toast.success(successMsg)
           else toast.error(failureMsg)
         })
       } catch (error) {
-        toast.error(failureMsg)
         console.error(error)
       }
-      setUserContext({ ...userContext, adminAsPlayer: false })
+      setUserContext({ ...userContext, adminAsPlayer: true })
       setCompareContext(structuredClone(answersContext))
+
       dispatch(setLoading(false))
     }
   }
@@ -96,23 +106,19 @@ export const Week = () => {
     const styles = ['question']
     if (user) {
       const { ans, res } = ansHelper(answersContext, selectedWeek, uid, id)
-
-      if (res && ans && adminAsPlayer && !outdated())
-        res === ans ? styles.push('question__green') : styles.push('question__red')
+      const styling = res && ans && adminAsPlayer && !outdated()
+      if (styling) styles.push(res === ans ? 'question__green' : 'question__red')
     }
 
     return styles.join(' ')
   }
+
+  // locale
   const { buttonChangesMsg, buttonSaveMsg } = i18n(locale, 'buttons')
   const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week')
 
-  const clicker = () => {
-    console.log(answersContext)
-  }
-
   return (
     <div className="container">
-      <button onClick={clicker}>123</button>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
         {admin ? (
@@ -148,8 +154,8 @@ export const Week = () => {
           )
         })}
       </div>
-      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges || !isItYou}>
-        {noChanges ? buttonChangesMsg : buttonSaveMsg}
+      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges() || !isItYou}>
+        {noChanges() ? buttonChangesMsg : buttonSaveMsg}
       </Button>
     </div>
   )

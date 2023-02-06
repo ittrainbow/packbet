@@ -39,8 +39,8 @@ export const Init = () => {
   useEffect(() => {
     if (answersContext && userListContext) {
       setStandingsContext(tableCreator(answersContext, userListContext))
-    } // eslint-disable-next-line
-  }, [answersContext, userListContext])
+    } 
+  }, [answersContext, userListContext, setStandingsContext])
 
   const fetch = async () => {
     try {

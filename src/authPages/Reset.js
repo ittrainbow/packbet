@@ -18,13 +18,14 @@ export const Reset = () => {
   const { locale } = userContext
   const navigate = useNavigate()
 
-  const { buttonRecoverMsg } = i18n(locale, 'buttons')
-  const { loginMsg, loginIntro, registerMsg, registerIntro } = i18n(locale, 'auth')
-
   useEffect(() => {
     if (loading) return
-    if (user) navigate('/') // eslint-disable-next-line
-  }, [user, loading])
+    if (user) navigate('/')
+  }, [user, loading, navigate])
+  
+  // locale
+  const { buttonRecoverMsg } = i18n(locale, 'buttons')
+  const { loginMsg, loginIntro, registerMsg, registerIntro } = i18n(locale, 'auth')
 
   return (
     <div className="auth">

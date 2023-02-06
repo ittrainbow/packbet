@@ -17,24 +17,23 @@ export const Standings = () => {
   const { userContext, standingsContext, appContext, setAppContext } = useContext(Context)
   const { locale } = userContext
 
-  const getPosition = (i) =>
-    i > 0 && standingsContext[i].correct === standingsContext[i - 1].correct ? '-' : i + 1
-
   const clickHandler = (uid, name) => {
-    const otherUser = uid !== user.uid
-    const obj = {
-      ...appContext,
-      otherUserUID: otherUser ? uid : null,
-      otherUserName: otherUser ? name : null,
-      isItYou: otherUser ? false : true
+    if (uid !== user.uid) {
+      setAppContext({
+        ...appContext,
+        otherUserUID: uid,
+        otherUserName: name,
+        isItYou: false,
+        tabActive: 3
+      })
+      dispatch(setEditor(false))
+      navigate('/calendar')
     }
-    setAppContext(obj)
-    dispatch(setEditor(false))
-    navigate('/calendar')
   }
 
+  // locale
   const { tableNameMsg, tableCorrectMsg } = i18n(locale, 'standings')
-
+  
   return (
     <div className="container">
       <div className="standings">
@@ -46,10 +45,10 @@ export const Standings = () => {
           <div className="cellThree">90%</div>
         </div>
         {Object.keys(standingsContext).map((el, index) => {
-          const { name, uid, slash, total, correct } = standingsContext[el]
+          const { name, uid, slash, total, correct, position } = standingsContext[el]
           return (
             <div key={index} className="standings-header">
-              <div className="cellOne">{getPosition(index)}</div>
+              <div className="cellOne">{position}</div>
               <div className="cellTwo" onClick={() => clickHandler(uid, name)}>
                 {name}
               </div>

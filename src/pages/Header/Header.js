@@ -28,29 +28,26 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale || 'ru', 'header')
-
-  const cls = 'header__icon-padding'
+  // locale
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header')
 
   const userMenu = [
-    { path: '/', name: tab0msg, icon: <FaInfoCircle className={cls} />, id: 0 },
-    { path: '/userpage', name: tab1msg, icon: <FaUserAlt className={cls} />, id: 1 },
-    { path: '/week', name: tab2msg, icon: <FaFootballBall className={cls} />, id: 2 },
-    { path: '/calendar', name: tab3msg, icon: <FaCalendarAlt className={cls} />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <FaListUl className={cls} />, id: 4 }
+    { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
+    { path: '/userpage', name: tab1msg, icon: <FaUserAlt />, id: 1 },
+    { path: '/week', name: tab2msg, icon: <FaFootballBall />, id: 2 },
+    { path: '/calendar', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
+    { path: '/standings', name: tab4msg, icon: <FaListUl />, id: 4 }
   ]
 
   const adminMenu = [
-    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight className={cls} />, id: 5 },
-    { path: '/editor', name: tab6msg, icon: <FaPenNib className={cls} />, id: 6 }
+    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight />, id: 5 },
+    { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
   ]
 
   useEffect(() => {
     navigate('/userpage')
     setAppContext({ ...appContext, tabActive: 1 }) // eslint-disable-next-line
   }, [])
-
-  const isTabActive = (id) => id === tabActive
 
   const clickHandler = (id, path) => {
     const context = {
@@ -69,28 +66,26 @@ export const Header = () => {
   const getClass = (id) => {
     return id === 1 && !user
       ? 'header__no-login'
-      : isTabActive(id)
+      : id === tabActive
       ? 'header__tab-active'
       : 'header__tab'
   }
 
   const bar = admin ? userMenu.concat(adminMenu) : userMenu
 
-  function renderBar() {
-    return bar.map((el) => {
-      const { id, path, icon, name } = el
-      return (
-        <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
-          {icon}
-          <div className="header__message">{mobile ? null : name}</div>
-        </div>
-      )
-    })
-  }
-
   return (
     <div className="header">
-      <div className="header__icons">{renderBar()}</div>
+      <div className="header__icons">
+        {bar.map((el) => {
+          const { id, path, icon, name } = el
+          return (
+            <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
+              <div className='header__icon-padding'>{icon}</div>
+              <div className="header__message">{mobile ? null : name}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

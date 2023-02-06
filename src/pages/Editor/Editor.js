@@ -33,12 +33,10 @@ export const Editor = () => {
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
   const loadedWeek = weeksContext[selectedWeek]
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons')
 
   useEffect(() => {
     if (emptyEditor) setEditorContext(editor) // eslint-disable-next-line
-  }, [emptyEditor])
+  }, [])
 
   const changes = emptyEditor
     ? Object.keys(questions).length < 1
@@ -149,6 +147,10 @@ export const Editor = () => {
       })
   }
 
+  // locale
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons')
+  
   return (
     <div className="container">
       <Input

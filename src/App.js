@@ -28,8 +28,8 @@ const App = () => {
 
   useEffect(() => {
     const mobile = isMobile
-    dispatch(setMobile(mobile)) // eslint-disable-next-line
-  }, [])
+    dispatch(setMobile(mobile))
+  }, [dispatch])
 
   const clearUserContext = (locale) => {
     setUserContext({ ...user, locale })

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 import './Routes.scss'
 
-import { Header, About, Week, PageNotFound, Calendar, Editor, Standings } from '../pages'
+import { Header, About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI/Loader/Loader'
 
@@ -30,7 +30,6 @@ const AppRoutes = () => {
           <Route exact path="/reset" element={<Reset />} />
           <Route exact path="/standings" element={<Standings />} />
           <Route exact path="/editor" element={<Editor />} />
-          <Route path="*" element={<PageNotFound />} />
         </Routes>
       )}
     </BrowserRouter>

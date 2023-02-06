@@ -19,6 +19,7 @@ export const OtherUser = () => {
     })
   }
 
+  // locale
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser')
 
   return isItYou ? null : (

@@ -9,18 +9,10 @@ export const KickoffCountdown = () => {
   const { selectedWeek } = appContext
   const { deadline } = weeksContext[selectedWeek]
   const { locale } = userContext
-  const {
-    countdownMsg,
-    gameStartedMsg,
-    fiveDaysMsg,
-    twoDaysMsg,
-    oneDayMsg,
-    fiveHoursMsg,
-    twoHoursMsg,
-    oneHourMsg,
-    minutesMsg,
-    secondsMsg
-  } = i18n(locale, 'countdown')
+
+  // locale
+  const { countdownMsg, gameStartedMsg, fiveDaysMsg, twoDaysMsg, oneDayMsg } = i18n(locale, 'ticks')
+  const { fiveHoursMsg, twoHoursMsg, oneHourMsg, minutesMsg, secondsMsg } = i18n(locale, 'ticks')
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg

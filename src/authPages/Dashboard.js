@@ -13,14 +13,15 @@ export const Dashboard = () => {
   const { name, email, admin, locale } = userContext
   const navigate = useNavigate()
 
-  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth')
-  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons')
-
   const logoutHandler = () => {
     clearUserContext(localStorage.getItem('locale'))
     logout()
     navigate('/userpage')
   }
+
+  // locale
+  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth')
+  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons')
 
   return (
     <div className="auth">

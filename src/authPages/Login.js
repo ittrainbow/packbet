@@ -35,8 +35,6 @@ export const Login = () => {
   const navigate = useNavigate()
 
   const loginButtonActive = emailValid && password.length > 2
-  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
-  const { registerMsg, registerIntro, forgotMsg } = i18n(locale, 'auth')
 
   useEffect(() => {
     const locale = localStorage.getItem('locale')
@@ -51,8 +49,7 @@ export const Login = () => {
     if (loading) return
     if (user) navigate('/dashboard')
     if (error) alert(error)
-    return // eslint-disable-next-line
-  }, [user, loading])
+  }, [user, loading, error, navigate])
 
   const emailInputHandler = (email) => {
     const checkEmailValid = /\S+@\S+\.\S+/.test(email)
@@ -65,7 +62,13 @@ export const Login = () => {
     setUserContext({ ...userContext, locale: locale === 'ru' ? 'ua' : 'ru' })
   }
 
-  const checked = () => (locale ? locale === 'ua' : false)
+  const checked = () => {
+    return locale ? locale === 'ua' : false
+  }
+
+  // locale
+  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
+  const { registerMsg, registerIntro, forgotMsg } = i18n(locale, 'auth')
 
   return (
     <div className="auth">

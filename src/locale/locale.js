@@ -94,7 +94,7 @@ export const i18n = (locale, component) => {
     case 'week':
       return { playerMsg, adminMsg, successMsg, failureMsg }
 
-    case 'countdown':
+    case 'ticks':
       return {
         countdownMsg,
         gameStartedMsg,
