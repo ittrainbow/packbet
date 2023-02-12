@@ -1,20 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ReactCountryFlag from 'react-country-flag'
 
 import './LocaleSwitcher.scss'
 
-import { Context } from '../../App'
-
-export const LocaleSwitcher = () => {
-  const { userContext, setUserContext } = useContext(Context)
-  const { locale } = userContext
-
-  const onChangeHandler = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    localStorage.setItem('locale', newLocale)
-    setUserContext({ ...userContext, locale: newLocale })
-  }
-
+export const LocaleSwitcher = ({ onChange, checked }) => {
   const flagRu = (
     <ReactCountryFlag
       className="emojiFlag"
@@ -46,7 +35,7 @@ export const LocaleSwitcher = () => {
     <div className="locale-switcher">
       <div className="locale-flag">{flagRu}</div>
       <label className="locale-switch">
-        <input type="checkbox" onChange={onChangeHandler} checked={locale === 'ua'} />
+        <input type="checkbox" onChange={onChange} checked={checked} />
         <span className="locale round"></span>
       </label>
       <div className="locale-flag">{flagUa}</div>

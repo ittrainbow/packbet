@@ -9,19 +9,19 @@
     padding: 5px 0 5px;
     text-align: justify;
   }
+
+  &__last-div {
+    padding-bottom: 15px;
+  }
 }
 
 .legend {
   display: flex;
-  padding-bottom: 5px;
+  padding: 5px 0 5px;
 
   &__icon {
     display: flex;
     align-items: center;
-  }
-
-  &__margin {
-    padding-bottom: 15px;
   }
 }
 

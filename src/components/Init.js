@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
 
@@ -28,14 +28,19 @@ export const Init = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    const browserLocale = localStorage.getItem('locale')
+    setUserContext({...userContext, locale: browserLocale}) // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     fetch() // eslint-disable-next-line
   }, [user])
 
   useEffect(() => {
     if (answersContext && userListContext) {
       setStandingsContext(tableCreator(answersContext, userListContext))
-    } // eslint-disable-next-line
-  }, [answersContext, userListContext])
+    } 
+  }, [answersContext, userListContext, setStandingsContext])
 
   const fetch = async () => {
     try {
@@ -57,13 +62,14 @@ export const Init = () => {
         setUserListContext(users)
         if (user) {
           const { name, email, admin, locale } = users[user.uid]
+          const browserLocale = localStorage.getItem('locale')
+          if (locale !== browserLocale) localStorage.setItem('locale', locale)
           setUserContext({ ...userContext, name, email, admin, locale })
         }
       })
 
-      await getDoc(doc(db, 'about', 'about')).then((response) => {
-        const resp = response.data()
-        const about = Object.keys(resp).map((el) => resp[el])
+      await getDocs(collection(db, 'about')).then((response) => {
+        const about = objectCompose(response)
         setAboutContext(about)
       })
     } catch (error) {

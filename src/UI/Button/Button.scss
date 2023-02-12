@@ -14,7 +14,7 @@
   border: 1px solid $base-border;
   margin: 3px 0 3px;
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: $max-width) {
     height: $row-height-mobile;
     padding-bottom: 1px;
   }
@@ -30,8 +30,8 @@
 }
 
 .login {
-  background-color: #e1e1e1;
-  color: black;
+  background-color: $base-dark;
+  color: white;
 }
 
 .google {
@@ -46,7 +46,7 @@
 .editor-small {
   width: 50px;
   padding-top: 5px;
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: $max-width) {
     width: 64px;
   }
 }

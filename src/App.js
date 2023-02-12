@@ -20,19 +20,18 @@ const App = () => {
   const [weeksContext, setWeeksContext] = useState(weeks)
   const [appContext, setAppContext] = useState(app)
   const [userContext, setUserContext] = useState(user)
-  const [answersContext, setAnswersContext] = useState()
   const [editorContext, setEditorContext] = useState(editor)
+  const [answersContext, setAnswersContext] = useState()
   const [userListContext, setUserListContext] = useState()
   const [compareContext, setCompareContext] = useState()
   const [standingsContext, setStandingsContext] = useState()
 
   useEffect(() => {
-    const mobile = isMobile
-    dispatch(setMobile(mobile)) // eslint-disable-next-line
-  }, [])
+    dispatch(setMobile(isMobile))
+  }, [dispatch])
 
-  const clearUserContext = () => {
-    setUserContext(user)
+  const clearUserContext = (locale) => {
+    setUserContext({ ...user, locale })
   }
 
   const setResultsContext = (value) => {

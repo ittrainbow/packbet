@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import './About.scss'
@@ -7,40 +7,58 @@ import { Context } from '../../App'
 import { Button } from '../../UI'
 import { i18n } from '../../locale/locale'
 
-const aboutLegend = [
-  { icon: <FaCheck className="FaCheck" />, text: 'ответ "Да"' },
-  { icon: <FaBan className="FaBan" />, text: 'ответ "Нет"' },
-  { icon: <FaArrowUp className="FaArrowUp" />, text: 'ответ "Больше"' },
-  { icon: <FaArrowDown className="FaArrowDown" />, text: 'ответ "Меньше"' }
-]
-
 export const About = () => {
   const [open, setOpen] = useState(false)
   const { aboutContext, userContext } = useContext(Context)
   const { locale } = userContext
+  const [description, setDescription] = useState([])
 
+  useEffect(() => {
+    const array = []
+    Object.keys(aboutContext[locale]).forEach((el) => array.push(aboutContext[locale][el]))
+    setDescription(array) // eslint-disable-next-line
+  }, [])
+
+  // locale
   const { buttonDetailsMsg } = i18n(locale, 'buttons')
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about')
+
+  const legend = [
+    { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
+    { icon: <FaBan className="FaBan" />, text: aboutNoMsg },
+    { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
+    { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
+  ]
 
   return (
     <div className="container">
-      <div className="about__paragraph">
-        Каждую неделю до конца сезона мы будем представлять вашему вниманию прогнозы по "тоталам" на
-        игры Пэкерз. Вам нужно будет угадать, произойдет ли то или иное событие.
-      </div>
+      <div className="about__paragraph">{description[0]}</div>
       <Button onClick={() => setOpen(!open)}>{buttonDetailsMsg}</Button>
       <div>
         {open ? (
           <div>
-            {aboutContext.map((el, index) => (
-              <div key={index} className="about__paragraph">
-                {el}
-              </div>
-            ))}
-            {aboutLegend.map(({ icon, text }, index) => (
-              <div key={index} className={index === 3 ? 'legend legend__margin': 'legend'}>
+            {description.map((el, index) => {
+              return index < 8 ? (
+                <div
+                  key={index}
+                  className={index === 6 ? 'about__paragraph bold' : 'about__paragraph'}
+                >
+                  {index === 0 ? null : el}
+                </div>
+              ) : null
+            })}
+            {legend.map(({ icon, text }, index) => (
+              <div key={index} className="legend">
                 <div className="legend__icon">{icon}</div>- {text}
               </div>
             ))}
+            {description.length === 9 ? (
+              <div className="about__paragraph">
+                <div>{description[8]}</div>
+              </div>
+            ) : null}
+            <hr />
+            <div className="about__paragraph about__last-div">{devMsg}</div>
           </div>
         ) : null}
       </div>

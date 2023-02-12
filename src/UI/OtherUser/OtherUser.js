@@ -10,7 +10,7 @@ export const OtherUser = () => {
   const { otherUserName, isItYou } = appContext
   const { locale } = userContext
 
-  const onClickHandler = () => {
+  const setContextHandler = () => {
     setAppContext({
       ...appContext,
       isItYou: true,
@@ -19,15 +19,18 @@ export const OtherUser = () => {
     })
   }
 
-  
-  const { otherUser1msg, otherUser2msg } = i18n(locale, 'otheruser')
+  // locale
+  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser')
 
   return isItYou ? null : (
     <div>
-      <button className="otheruser" onClick={() => onClickHandler()}>
-        {otherUser1msg}
-        <b>{otherUserName}</b>
-        {otherUser2msg}
+      <button className="otheruser" onClick={setContextHandler}>
+        <div className="otheruser__text">{otherUser1msg}</div>
+        <div className="otheruser__text">
+          {otherUser2msg}
+          <b>{otherUserName}</b>
+          {otherUser3msg}
+        </div>
       </button>
     </div>
   )

@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { setDoc, doc, deleteDoc } from 'firebase/firestore'
+import { setDoc, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { FaEdit, FaTrashAlt, FaCheck, FaPlus } from 'react-icons/fa'
+import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
 import './Editor.scss'
 
 import { db } from '../../db'
 import { Context } from '../../App'
-import { objectCompare, objectTrim, objectReplace, objectNewId } from '../../helpers'
+import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../../helpers'
 import { setLoading } from '../../redux/actions'
 import { questionInWorkInit, editor } from '../../templates/_initialContexts'
 import { Button, Input } from '../../UI'
@@ -22,9 +22,10 @@ export const Editor = () => {
     userContext,
     weeksContext,
     setWeeksContext,
-    appContext,
     editorContext,
-    setEditorContext
+    setEditorContext,
+    appContext,
+    setAppContext
   } = useContext(Context)
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
@@ -35,7 +36,7 @@ export const Editor = () => {
 
   useEffect(() => {
     if (emptyEditor) setEditorContext(editor) // eslint-disable-next-line
-  }, [emptyEditor])
+  }, [])
 
   const changes = emptyEditor
     ? Object.keys(questions).length < 1
@@ -68,8 +69,10 @@ export const Editor = () => {
   const submitHandler = async () => {
     try {
       dispatch(setLoading(true))
-      const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
+      const { questions } = editorContext
+      Object.keys(questions).forEach((el) => delete questions[el].id)
       const link = (emptyEditor ? nextWeek : selectedWeek).toString()
+      const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
       setWeeksContext(weeks)
       await setDoc(doc(db, 'weeks', link), editorContext)
     } catch (error) {
@@ -80,7 +83,7 @@ export const Editor = () => {
   }
 
   const totalHandler = (value) => {
-    if (!isNaN(value)) {
+    if (!isNaN(value) || value === '-') {
       setQuestionInWork({ ...questionInWork, total: value })
     }
   }
@@ -89,7 +92,13 @@ export const Editor = () => {
     const weeks = objectTrim(weeksContext, selectedWeek)
     try {
       dispatch(setLoading(true))
+
+      const { currentWeek, nextWeek } = getWeeksIDs(weeks)
+      const data = { [selectedWeek]: deleteField() }
+
       setWeeksContext(weeks)
+      setAppContext({ ...appContext, currentWeek, nextWeek })
+      await updateDoc(doc(db, 'answers', 'results'), data)
       await deleteDoc(doc(db, 'weeks', selectedWeek.toString()))
     } catch (error) {
       console.error(error)
@@ -110,16 +119,24 @@ export const Editor = () => {
       return Object.keys(questions).map((el) => {
         const id = Number(el)
         const { question, total } = questions[id]
+        const selected = id === questionInWork.id
         return (
           <div key={id} className="editor-question">
             <div className="editor-question__desc">
               {question}: {total}
             </div>
             <div className="editor-question__buttons">
-              <FaEdit
-                className="editor-question__check editor-btn__green"
-                onClick={() => setQuestionInWork({ question, total, id })}
-              />
+              {selected ? (
+                <FaBan
+                  className="editor-question__edit editor-btn__green faBan"
+                  onClick={() => setQuestionInWork(questionInWorkInit)}
+                />
+              ) : (
+                <FaEdit
+                  className="editor-question__edit editor-btn__green"
+                  onClick={() => setQuestionInWork({ question, total, id })}
+                />
+              )}
               <FaTrashAlt
                 className="editor-question__trash editor-btn__red"
                 onClick={() => removeQuestionHandler(id)}
@@ -130,44 +147,44 @@ export const Editor = () => {
       })
   }
 
+  // locale
   const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg} = i18n(locale, 'buttons')
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons')
 
   return (
     <div className="container">
-      <div className="editor-form">
+      <div className="editor-input">
         <Input
+          sx={{ width: '100%' }}
           type={'text'}
           onChange={(e) => changeNameHandler(e.target.value)}
           placeholder={weekNameMsg}
           id={'weekname'}
           value={name}
         />
-        <Button className={'editor'} disabled={changes} onClick={() => submitHandler()}>
-          {buttonSaveMsg}
-        </Button>
-      </div>
-      <div className="editor-form">
-        <Input
-          type={'text'}
-          onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
-          placeholder={weekQuestionMsg}
-          value={question}
-        />
-        <Input
-          type={'text'}
-          onChange={(e) => totalHandler(e.target.value)}
-          value={total}
-          className={'short'}
-          placeholder={weekTotalMsg}
-        />
-        <Button
-          className="editor-small"
-          onClick={() => addQuestionHandler()}
-          disabled={!question || !total}
-        >
-          {id !== null ? <FaCheck /> : <FaPlus />}
-        </Button>
+        <div className="editor-form">
+          <Input
+            sx={{ width: '100%' }}
+            type={'text'}
+            onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
+            placeholder={weekQuestionMsg}
+            value={question}
+          />
+          <Input
+            type={'text'}
+            onChange={(e) => totalHandler(e.target.value)}
+            value={total}
+            className={'short'}
+            placeholder={weekTotalMsg}
+          />
+          <Button
+            className="editor-small"
+            onClick={addQuestionHandler}
+            disabled={!question || !total}
+          >
+            {id !== null ? <FaCheck /> : <FaPlus />}
+          </Button>
+        </div>
       </div>
       {renderQuestions()}
       <div className="editor-checkbox">
@@ -175,6 +192,7 @@ export const Editor = () => {
         <Input
           type={'checkbox'}
           checked={active}
+          className={'checkbox'}
           onChange={() => setEditorContext({ ...editorContext, active: !active })}
         />
       </div>
@@ -186,17 +204,18 @@ export const Editor = () => {
           onChange={(e) => changeDateHandler(e.target.value)}
         />
       </div>
-      {!changes ? (
+      <div className="editor-form">
+        <Button className={'editor'} disabled={changes} onClick={submitHandler}>
+          {buttonSaveMsg}
+        </Button>
         <Button className={'editor'} onClick={() => navigate(-1)}>
           {buttonCancelMsg}
         </Button>
-      ) : null}
+      </div>
       {!emptyEditor ? (
-        <div>
-          <Button className={'editor'} onClick={() => deleteWeek()}>
-            {buttonDeleteWeekMsg}
-          </Button>
-        </div>
+        <Button className={'editor'} onClick={deleteWeek}>
+          {buttonDeleteWeekMsg}
+        </Button>
       ) : null}
     </div>
   )
