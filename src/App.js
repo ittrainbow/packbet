@@ -27,8 +27,7 @@ const App = () => {
   const [standingsContext, setStandingsContext] = useState()
 
   useEffect(() => {
-    const mobile = isMobile
-    dispatch(setMobile(mobile))
+    dispatch(setMobile(isMobile))
   }, [dispatch])
 
   const clearUserContext = (locale) => {

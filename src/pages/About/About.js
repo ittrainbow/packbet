@@ -21,7 +21,7 @@ export const About = () => {
 
   // locale
   const { buttonDetailsMsg } = i18n(locale, 'buttons')
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n(locale, 'about')
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about')
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -53,11 +53,12 @@ export const About = () => {
               </div>
             ))}
             {description.length === 9 ? (
-              <div className="about__paragraph about__last-div">
-                <hr />
+              <div className="about__paragraph">
                 <div>{description[8]}</div>
               </div>
             ) : null}
+            <hr />
+            <div className="about__paragraph about__last-div">{devMsg}</div>
           </div>
         ) : null}
       </div>

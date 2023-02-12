@@ -18,6 +18,9 @@ export const i18n = (locale, component) => {
   const registerMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
   const registerNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
+  const registerNameAlert = locale === 'ru' ? "Введите имя" : `Введiть iм'я`
+  const registerEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
+  const registerPasswordAlert = locale === 'ru' ? 'Введите пароль не менее трех символов' : 'Введіть пароль щонайменше трьох символів'
 
   const buttonChangesMsg = locale === 'ru' ? 'Изменений нет' : 'Немає змiн'
   const buttonCancelMsg = locale === 'ru' ? 'Отменить' : 'Скасувати'
@@ -67,7 +70,11 @@ export const i18n = (locale, component) => {
     locale === 'ru'
       ? ', прогнозы не начавшихся игр скрыты.'
       : ', прогнози ігор, що не почалися, приховані.'
-  // const otherUser3msg = locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю' : 'Натисніть, щоб повернутися до свого профілю.'
+
+  const devMsg =
+    locale === 'ru'
+      ? 'Разработка и тестирование: Андрей Гордиенко и Николай Асиновский.'
+      : 'Розробка та тестування: Андрій Гордієнко та Микола Асиновський.'
 
   const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
@@ -76,7 +83,7 @@ export const i18n = (locale, component) => {
 
   switch (component) {
     case 'about':
-      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg }
+      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
@@ -120,7 +127,10 @@ export const i18n = (locale, component) => {
         registerMsg,
         registerIntro,
         forgotMsg,
-        registerNameMsg
+        registerNameMsg,
+        registerNameAlert,
+        registerEmailAlert,
+        registerPasswordAlert
       }
 
     case 'buttons':

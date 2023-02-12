@@ -150,37 +150,41 @@ export const Editor = () => {
   // locale
   const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons')
-  
+
   return (
     <div className="container">
-      <Input
-        type={'text'}
-        onChange={(e) => changeNameHandler(e.target.value)}
-        placeholder={weekNameMsg}
-        id={'weekname'}
-        value={name}
-      />
-      <div className="editor-form">
+      <div className="editor-input">
         <Input
+          sx={{ width: '100%' }}
           type={'text'}
-          onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
-          placeholder={weekQuestionMsg}
-          value={question}
+          onChange={(e) => changeNameHandler(e.target.value)}
+          placeholder={weekNameMsg}
+          id={'weekname'}
+          value={name}
         />
-        <Input
-          type={'text'}
-          onChange={(e) => totalHandler(e.target.value)}
-          value={total}
-          className={'short'}
-          placeholder={weekTotalMsg}
-        />
-        <Button
-          className="editor-small"
-          onClick={addQuestionHandler}
-          disabled={!question || !total}
-        >
-          {id !== null ? <FaCheck /> : <FaPlus />}
-        </Button>
+        <div className="editor-form">
+          <Input
+            sx={{ width: '100%' }}
+            type={'text'}
+            onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
+            placeholder={weekQuestionMsg}
+            value={question}
+          />
+          <Input
+            type={'text'}
+            onChange={(e) => totalHandler(e.target.value)}
+            value={total}
+            className={'short'}
+            placeholder={weekTotalMsg}
+          />
+          <Button
+            className="editor-small"
+            onClick={addQuestionHandler}
+            disabled={!question || !total}
+          >
+            {id !== null ? <FaCheck /> : <FaPlus />}
+          </Button>
+        </div>
       </div>
       {renderQuestions()}
       <div className="editor-checkbox">

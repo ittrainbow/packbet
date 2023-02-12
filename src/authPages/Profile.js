@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
+import { Input } from '@mui/material'
 
 import './auth.scss'
 
 import { auth, db } from '../db'
-import { Button, Input, LocaleSwitcher } from '../UI'
+import { Button, LocaleSwitcher } from '../UI'
 import { Context } from '../App'
 import { setLoading } from '../redux/actions'
 import { i18n } from '../locale/locale'
@@ -47,7 +48,7 @@ export const Profile = () => {
   const onChangeHandler = () => {
     return setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
   }
-  
+
   const checked = () => {
     return tempLocale === 'ua'
   }
@@ -59,15 +60,17 @@ export const Profile = () => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <div className="text-container bold">{profileHeaderMsg}</div>
-        <div className="text-container">{profileLangMsg}</div>
-        <LocaleSwitcher onChange={onChangeHandler} checked={checked()} />
-        <div className="text-container">{profileNameMsg}</div>
-        <Input type={'text'} onChange={(e) => setTempName(e.target.value)} value={tempName} />
-        <Button disabled={noChanges()} onClick={submitHandler}>
-          {noChanges() ? buttonChangesMsg : buttonSaveMsg}
-        </Button>
-        <Button onClick={noSaveHandler}>{buttonCancelMsg}</Button>
+        <div className="auth__data">
+          <div className="text-container bold">{profileHeaderMsg}</div>
+          <div className="text-container">{profileLangMsg}</div>
+          <LocaleSwitcher onChange={onChangeHandler} checked={checked()} />
+          <div className="text-container">{profileNameMsg}</div>
+          <Input type={'text'} onChange={(e) => setTempName(e.target.value)} value={tempName} />
+          <Button disabled={noChanges()} onClick={submitHandler}>
+            {noChanges() ? buttonChangesMsg : buttonSaveMsg}
+          </Button>
+          <Button onClick={noSaveHandler}>{buttonCancelMsg}</Button>
+        </div>
       </div>
     </div>
   )

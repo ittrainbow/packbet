@@ -1,9 +1,10 @@
 import React, { useEffect, useReducer, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { Input } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
-import { Button, Input, LocaleSwitcher } from '../UI'
+import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
 import { Context } from '../App'
 
@@ -35,11 +36,13 @@ export const Login = () => {
   const navigate = useNavigate()
 
   const loginButtonActive = emailValid && password.length > 2
+  const trimSpaces = (value) => value.replace(/\s/g, '')
 
   useEffect(() => {
-    const locale = localStorage.getItem('locale')
-    if (locale) setUserContext({ ...userContext, locale })
-    else {
+    const browserLocale = localStorage.getItem('locale')
+    if (browserLocale) {
+      setUserContext({ ...userContext, locale: browserLocale })
+    } else {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
     } // eslint-disable-next-line
@@ -51,15 +54,20 @@ export const Login = () => {
     if (error) alert(error)
   }, [user, loading, error, navigate])
 
-  const emailInputHandler = (email) => {
-    const checkEmailValid = /\S+@\S+\.\S+/.test(email)
-
-    dispatch({ type: 'EMAIL', payload: email })
+  const emailInputHandler = ({ value }) => {
+    const checkEmailValid = /\S+@\S+\.\S+/.test(value)
+    dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
     dispatch({ type: 'EMAIL_VALID', payload: checkEmailValid })
   }
 
-  const onChange = () => {
-    setUserContext({ ...userContext, locale: locale === 'ru' ? 'ua' : 'ru' })
+  const passwordInputHandler = ({ value }) => {
+    dispatch({ type: 'PASSWORD', payload: trimSpaces(value) })
+  }
+
+  const localeChangeHandler = () => {
+    const setLocale = locale === 'ru' ? 'ua' : 'ru'
+    setUserContext({ ...userContext, locale: setLocale })
+    localStorage.setItem('locale', setLocale)
   }
 
   const checked = () => {
@@ -73,36 +81,38 @@ export const Login = () => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <Input
-          type={'text'}
-          value={email}
-          onChange={(e) => emailInputHandler(e.target.value)}
-          placeholder={'E-mail'}
-        />
-        <Input
-          type={'password'}
-          value={password}
-          onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
-          placeholder={'Password'}
-        />
-        <Button
-          className={'login'}
-          disabled={!loginButtonActive}
-          onClick={() => logInWithEmailAndPassword(email, password)}
-        >
-          {buttonLoginMsg}
-        </Button>
-        <Button className="google" onClick={signInWithGoogle}>
-          {buttonLoginGoogleMsg}
-        </Button>
-        <div className="link-container">
-          <Link to="/reset">{forgotMsg}</Link>
-        </div>
-        <div className="link-container">
-          {registerIntro} <Link to="/register">{registerMsg}</Link>
+        <div className="auth__data">
+          <Input
+            type={'text'}
+            value={email}
+            onChange={(e) => emailInputHandler(e.target)}
+            placeholder={'E-mail'}
+          />
+          <Input
+            type={'password'}
+            value={password}
+            onChange={(e) => passwordInputHandler(e.target)}
+            placeholder={'Password'}
+          />
+          <Button
+            className={'login'}
+            disabled={!loginButtonActive}
+            onClick={() => logInWithEmailAndPassword(email, password)}
+          >
+            {buttonLoginMsg}
+          </Button>
+          <Button className="google" onClick={signInWithGoogle}>
+            {buttonLoginGoogleMsg}
+          </Button>
+          <div className="link-container">
+            <Link to="/reset">{forgotMsg}</Link>
+          </div>
+          <div className="link-container">
+            {registerIntro} <Link to="/register">{registerMsg}</Link>
+          </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={checked()} onChange={onChange} />
+          <LocaleSwitcher checked={checked()} onChange={localeChangeHandler} />
         </div>
       </div>
     </div>

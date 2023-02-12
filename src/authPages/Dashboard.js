@@ -26,7 +26,7 @@ export const Dashboard = () => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <div className="profile-container">
+        <div className="auth__data">
           <div className="bold">{dashboardEnterMsg}</div>
           <div>{name ? name : '...loading'}</div>
           <div>{email ? email : '...loading'}</div>

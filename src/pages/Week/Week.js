@@ -34,6 +34,8 @@ export const Week = () => {
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const [adm, setAdm] = useState(admin && adminAsPlayer)
 
+  
+
   const noChanges = () => {
     return objectCompare(answersContext, compareContext)
   }
@@ -64,8 +66,8 @@ export const Week = () => {
     if (user && writeAllowed() && isItYou) {
       const data = structuredClone(answersContext)
 
-      if (!data[uid]) data[uid] = {}
-      if (!data[uid][selectedWeek]) data[uid][selectedWeek] = {}
+      if (!data[ansOrRes]) data[ansOrRes] = {}
+      if (!data[ansOrRes][selectedWeek]) data[ansOrRes][selectedWeek] = {}
 
       const modifyData = data[ansOrRes][selectedWeek]
       value === activity ? delete modifyData[id] : (modifyData[id] = value)
@@ -75,8 +77,8 @@ export const Week = () => {
 
   const activity = (id) => {
     if ((!isItYou && !outdated()) || isItYou) {
-      return answersContext[uid] && answersContext[uid][selectedWeek]
-        ? answersContext[uid][selectedWeek][id]
+      return answersContext[ansOrRes] && answersContext[ansOrRes][selectedWeek]
+        ? answersContext[ansOrRes][selectedWeek][id]
         : 0
     }
   }

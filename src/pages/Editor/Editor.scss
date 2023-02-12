@@ -1,5 +1,9 @@
 @import '../../styles/vars';
 
+.editor-input {
+  width: 100%;
+}
+
 .editor-form {
   display: flex;
   align-items: center;
@@ -40,11 +44,13 @@
     cursor: pointer;
   }
 
+  &__edit:hover,
   &__edit:active {
     color: $base-green-active;
     transition: 0.22s;
   }
 
+  &__red:hover,
   &__red:active {
     color: $base-red-active;
     transition: 0.22s;
@@ -80,4 +86,8 @@
     margin: 5px 0 5px;
     max-width: 200px;
   }
+}
+
+.short {
+  width: 60px;
 }
