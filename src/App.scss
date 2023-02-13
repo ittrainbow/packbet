@@ -161,3 +161,7 @@ html, body, #root {
 :root {
   --toastify-color-success: #3d9f40;
 }
+
+fieldset {
+  border: none !important;
+}

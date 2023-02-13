@@ -82,8 +82,8 @@ export const Editor = () => {
     }
   }
 
-  const totalHandler = (value) => {
-    if (!isNaN(value) || value === '-') {
+  const totalHandler = ({ value }) => {
+    if (!isNaN(Number(value)) || value === '-') {
       setQuestionInWork({ ...questionInWork, total: value })
     }
   }
@@ -172,7 +172,7 @@ export const Editor = () => {
           />
           <Input
             type={'text'}
-            onChange={(e) => totalHandler(e.target.value)}
+            onChange={(e) => totalHandler(e.target)}
             value={total}
             className={'short'}
             placeholder={weekTotalMsg}
