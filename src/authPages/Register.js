@@ -95,7 +95,7 @@ export const Register = () => {
             placeholder={registerNameMsg}
           />
           <Input
-            type={'text'}
+            type={'email'}
             value={email}
             onChange={(e) => emailInputHandler(e.target)}
             placeholder={'E-mail'}
