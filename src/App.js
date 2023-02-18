@@ -34,6 +34,10 @@ const App = () => {
     setUserContext({ ...user, locale })
   }
 
+  const clearEditorContext = () => {
+    setEditorContext(editor)
+  }
+
   const setResultsContext = (value) => {
     const { selectedWeek } = appContext
     const newResults = objectReplace(answersContext.results, selectedWeek, value)
@@ -60,6 +64,7 @@ const App = () => {
         setResultsContext,
         editorContext,
         setEditorContext,
+        clearEditorContext,
         userListContext,
         setUserListContext,
         compareContext,

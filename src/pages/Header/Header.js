@@ -22,7 +22,7 @@ import { i18n } from '../../locale/locale'
 export const Header = () => {
   const [user] = useAuthState(auth)
   const { mobile, editor } = useSelector((state) => state)
-  const { appContext, setAppContext, userContext } = useContext(Context)
+  const { appContext, setAppContext, userContext, clearEditorContext } = useContext(Context)
   const { admin, locale } = userContext
   const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()
@@ -61,6 +61,7 @@ export const Header = () => {
 
     if (editor && id <= 4) dispatch(setEditor(false))
     if (!editor && id >= 5) dispatch(setEditor(true))
+    if (id === 6) clearEditorContext()
   }
 
   const getClass = (id) => {
