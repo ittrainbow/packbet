@@ -43,7 +43,7 @@ export const About = () => {
                   key={index}
                   className={index === 6 ? 'about__paragraph bold' : 'about__paragraph'}
                 >
-                  {index === 0 ? null : el}
+                  {!index ? null : el}
                 </div>
               ) : null
             })}

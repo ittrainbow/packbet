@@ -33,22 +33,12 @@ export const Week = () => {
   const { admin, adminAsPlayer, locale } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const [adm, setAdm] = useState(admin && adminAsPlayer)
-
-  
-
-  const noChanges = () => {
-    return objectCompare(answersContext, compareContext)
-  }
-
-  const outdated = () => {
-    return new Date().getTime() < deadline
-  }
-
-  const writeAllowed = () => {
-    return adm || (!adm && outdated())
-  }
-
   const ansOrRes = adm ? 'results' : uid
+
+  const noChanges = () => objectCompare(answersContext, compareContext)
+  const outdated = () => new Date().getTime() < deadline
+  const writeAllowed = () => adm || (!adm && outdated())
+
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
@@ -69,8 +59,9 @@ export const Week = () => {
       if (!data[ansOrRes]) data[ansOrRes] = {}
       if (!data[ansOrRes][selectedWeek]) data[ansOrRes][selectedWeek] = {}
 
-      const modifyData = data[ansOrRes][selectedWeek]
-      value === activity ? delete modifyData[id] : (modifyData[id] = value)
+      const tmp = data[ansOrRes][selectedWeek]
+      value === activity ? delete tmp[id] : (tmp[id] = value)
+      if (!Object.keys(tmp).some(el => el)) delete data[ansOrRes][selectedWeek]
       setAnswersContext(data)
     }
   }
@@ -88,7 +79,7 @@ export const Week = () => {
       dispatch(setLoading(true))
       try {
         const data = adminAsPlayer ? answersContext[uid] : answersContext.results
-        if (Object.keys(data[selectedWeek]).length === 0) delete data[selectedWeek]
+        if (!Object.keys(data[selectedWeek]).some(el => el)) delete data[selectedWeek]
         await setDoc(doc(db, 'answers', ansOrRes), data).then(async () => {
           const response = await getDoc(doc(db, 'answers', ansOrRes))
           if (objectCompare(response.data(), data)) toast.success(successMsg)

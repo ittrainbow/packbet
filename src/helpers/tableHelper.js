@@ -15,7 +15,7 @@ export const tableCreator = (answersContext, userListContext) => {
     const uid = el
     const { name } = userListContext[el]
     const ans = answersContext ? answersContext[el] : null
-    const res = answersContext.results || null
+    const res = answersContext.results ?? null
     Object.keys(res).forEach((el) => {
       const subAns = ans ? ans[el] : null
       if (res[el])

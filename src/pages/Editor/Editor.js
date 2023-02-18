@@ -109,7 +109,7 @@ export const Editor = () => {
   }
 
   const getDeadline = () => {
-    return moment(deadline || new Date().getTime())
+    return moment(deadline ?? new Date().getTime())
       .format()
       .substring(0, 16)
   }
