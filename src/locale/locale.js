@@ -14,7 +14,7 @@ export const i18n = (locale, component) => {
   const profileLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
   const loginIntro = locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
   const loginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
-  const registerIntro = locale === 'ru' ? 'Нет аккаунта?' : 'Немає профілю?'
+  const registerIntro = locale === 'ru' ? 'Нет профиля?' : 'Немає профілю?'
   const registerMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
   const registerNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`

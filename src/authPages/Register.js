@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useContext } from 'react'
+import React, { useEffect, useReducer, useContext, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -30,6 +30,7 @@ const reducer = (state, action) => {
 }
 
 export const Register = () => {
+  const inputRef = useRef()
   const [state, dispatch] = useReducer(reducer, initialState)
   const { email, password, name } = state
   const [user, loading] = useAuthState(auth)
@@ -45,6 +46,7 @@ export const Register = () => {
 
   useEffect(() => {
     const browserLocale = localStorage.getItem('locale')
+    inputRef.current.focus()
     if (browserLocale) {
       setUserContext({ ...userContext, locale: browserLocale })
     } else {
@@ -91,6 +93,7 @@ export const Register = () => {
           <Input
             type={'text'}
             value={name}
+            inputRef={inputRef}
             onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
             placeholder={registerNameMsg}
           />

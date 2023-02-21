@@ -2,10 +2,10 @@ import React from 'react'
 
 import './Input.scss'
 
-export const Input = ({ type, value, onChange, placeholder, id, className, inputRef }) => {
+export const Input = ({ type, value, onChange, placeholder, id, className, setRef }) => {
   return (
     <input
-      ref={inputRef}
+      ref={setRef}
       type={type}
       value={value}
       onChange={onChange}

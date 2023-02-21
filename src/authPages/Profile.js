@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
@@ -15,10 +15,15 @@ import { i18n } from '../locale/locale'
 export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const inputRef = useRef()
   const { userContext, setUserContext } = useContext(Context)
   const { name, locale } = userContext
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState(locale)
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
 
   const submitHandler = async () => {
     dispatch(setLoading(true))
@@ -65,7 +70,12 @@ export const Profile = () => {
           <div className="text-container">{profileLangMsg}</div>
           <LocaleSwitcher onChange={onChangeHandler} checked={checked()} />
           <div className="text-container">{profileNameMsg}</div>
-          <Input type={'text'} onChange={(e) => setTempName(e.target.value)} value={tempName} />
+          <Input
+            type={'text'}
+            inputRef={inputRef}
+            onChange={(e) => setTempName(e.target.value)}
+            value={tempName}
+          />
           <Button disabled={noChanges()} onClick={submitHandler}>
             {noChanges() ? buttonChangesMsg : buttonSaveMsg}
           </Button>

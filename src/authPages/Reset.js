@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -14,12 +14,17 @@ import { Context } from '../App'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
+  const inputRef = useRef()
   const [user, loading] = useAuthState(auth)
   const { userContext, setUserContext } = useContext(Context)
   const { locale } = userContext
   const navigate = useNavigate()
 
   const trimSpaces = (value) => value.replace(/\s/g, '')
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
 
   useEffect(() => {
     if (loading) return
@@ -51,6 +56,7 @@ export const Reset = () => {
           <Input
             type={'text'}
             value={email}
+            inputRef={inputRef}
             onChange={(e) => emailInputHandler(e.target)}
             placeholder={'E-mail'}
           />

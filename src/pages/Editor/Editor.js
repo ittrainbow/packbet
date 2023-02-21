@@ -19,6 +19,7 @@ export const Editor = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const inputRef = useRef()
+  const nameRef = useRef()
   const {
     userContext,
     weeksContext,
@@ -37,6 +38,7 @@ export const Editor = () => {
   const loadedWeek = weeksContext[selectedWeek]
 
   useEffect(() => {
+    nameRef.current.focus()
     if (emptyEditor) setEditorContext(editor) // eslint-disable-next-line
   }, [])
 
@@ -113,7 +115,7 @@ export const Editor = () => {
   }
 
   const getDeadline = () => {
-    return moment(deadline ?? new Date().getTime())
+    return moment(deadline || new Date().getTime())
       .format()
       .substring(0, 16)
   }
@@ -168,6 +170,7 @@ export const Editor = () => {
         <Input
           sx={{ width: '100%' }}
           type={'text'}
+          setRef={nameRef}
           onChange={(e) => changeNameHandler(e.target.value)}
           placeholder={weekNameMsg}
           id={'weekname'}
@@ -177,7 +180,7 @@ export const Editor = () => {
           <Input
             sx={{ width: '100%' }}
             type={'text'}
-            inputRef={inputRef}
+            setRef={inputRef}
             onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
             placeholder={weekQuestionMsg}
             value={question}
