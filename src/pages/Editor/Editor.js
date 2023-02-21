@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { setDoc, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -18,6 +18,7 @@ import { i18n } from '../../locale/locale'
 export const Editor = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const inputRef = useRef()
   const {
     userContext,
     weeksContext,
@@ -29,6 +30,7 @@ export const Editor = () => {
   } = useContext(Context)
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
+  const [compareQuestion, setCompareQuestion] = useState()
   const { selectedWeek, nextWeek, emptyEditor } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
@@ -41,6 +43,8 @@ export const Editor = () => {
   const changes = emptyEditor
     ? Object.keys(questions).length < 1
     : objectCompare(editorContext, loadedWeek)
+
+  const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
   const changeNameHandler = (name) => {
     setEditorContext({ ...editorContext, name })
@@ -114,6 +118,13 @@ export const Editor = () => {
       .substring(0, 16)
   }
 
+  const editButtonHandler = (question, total, id) => {
+    setQuestionInWork({ question, total, id })
+    setCompareQuestion({ question, total, id })
+
+    inputRef.current.focus()
+  }
+
   function renderQuestions() {
     if (questions)
       return Object.keys(questions).map((el) => {
@@ -134,7 +145,7 @@ export const Editor = () => {
               ) : (
                 <FaEdit
                   className="editor-question__edit editor-btn__green"
-                  onClick={() => setQuestionInWork({ question, total, id })}
+                  onClick={() => editButtonHandler(question, total, id)}
                 />
               )}
               <FaTrashAlt
@@ -166,6 +177,7 @@ export const Editor = () => {
           <Input
             sx={{ width: '100%' }}
             type={'text'}
+            inputRef={inputRef}
             onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
             placeholder={weekQuestionMsg}
             value={question}
@@ -180,7 +192,7 @@ export const Editor = () => {
           <Button
             className="editor-small"
             onClick={addQuestionHandler}
-            disabled={!question || !total}
+            disabled={!question || !total || questionButtonDisabled}
           >
             {id !== null ? <FaCheck /> : <FaPlus />}
           </Button>
