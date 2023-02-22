@@ -10,7 +10,7 @@ import { auth } from '../db/firebase'
 import { i18n } from '../locale/locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
-import { Context } from '../App'
+import { Context } from '../context/Context'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')

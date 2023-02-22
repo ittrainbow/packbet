@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import './Calendar.scss'
 
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 import { OtherUser } from '../../UI'
 
 export const Calendar = () => {

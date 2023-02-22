@@ -7,7 +7,7 @@ import { Header, About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI/Loader/Loader'
 
-const AppRoutes = () => {
+export const AppRoutes = () => {
   const { loading } = useSelector((state) => state)
 
   return (
@@ -35,5 +35,3 @@ const AppRoutes = () => {
     </BrowserRouter>
   )
 }
-
-export default AppRoutes

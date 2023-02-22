@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import './auth.scss'
 
 import { logout } from '../db/auth'
-import { Context } from '../App'
+import { Context } from '../context/Context'
 import { Button } from '../UI'
 import { i18n } from '../locale/locale'
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import './AdminPlayer.scss'
 
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 
 export const AdminPlayer = () => {
   const { userContext, setUserContext } = useContext(Context)

@@ -3,7 +3,7 @@ import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import './About.scss'
 
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 import { Button } from '../../UI'
 import { i18n } from '../../locale/locale'
 

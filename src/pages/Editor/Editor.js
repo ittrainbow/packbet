@@ -8,7 +8,7 @@ import moment from 'moment/moment'
 import './Editor.scss'
 
 import { db } from '../../db'
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../../helpers'
 import { setLoading } from '../../redux/actions'
 import { questionInWorkInit, editor } from '../../templates/_initialContexts'

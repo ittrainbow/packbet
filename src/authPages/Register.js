@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useContext, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { Context } from '../App'
+import { Context } from '../context/Context'
 
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'

@@ -19,6 +19,7 @@ export const objectReplace = (object, id, replacement) => {
 }
 
 export const objectCompare = (obj1, obj2) => {
+  if (obj1 === undefined && Object.keys(obj2).length === 0) return true
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 

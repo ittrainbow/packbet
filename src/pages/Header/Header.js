@@ -15,7 +15,7 @@ import {
 import './Header.scss'
 
 import { auth } from '../../db'
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 import { setEditor } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import './OtherUser.scss'
 
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 import { i18n } from '../../locale/locale'
 
 export const OtherUser = () => {

@@ -1,10 +1,10 @@
-import React, { useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { collection, getDocs } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import structuredClone from '@ungap/structured-clone'
 
-import { Context } from '../App'
+import { Context } from '../context/Context'
 import { db, auth } from '../db'
 import { setLoading } from '../redux/actions'
 import { objectCompose, getWeeksIDs, tableCreator } from '../helpers'
@@ -24,6 +24,7 @@ export const Init = () => {
     setCompareContext,
     setStandingsContext
   } = useContext(Context)
+
   const [user] = useAuthState(auth)
   const dispatch = useDispatch()
 
@@ -79,5 +80,5 @@ export const Init = () => {
     }
   }
 
-  return <div></div>
+  return 
 }

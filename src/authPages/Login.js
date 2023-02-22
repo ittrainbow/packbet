@@ -6,7 +6,7 @@ import { Input } from '@mui/material'
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
-import { Context } from '../App'
+import { Context } from '../context/Context'
 
 const initialState = {
   email: '',

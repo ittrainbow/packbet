@@ -8,7 +8,7 @@ import './auth.scss'
 
 import { auth, db } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
-import { Context } from '../App'
+import { Context } from '../context/Context'
 import { setLoading } from '../redux/actions'
 import { i18n } from '../locale/locale'
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import Countdown from 'react-countdown'
 
-import { Context } from '../../App'
+import { Context } from '../../context/Context'
 import { i18n } from '../../locale/locale'
 
 export const KickoffCountdown = () => {
