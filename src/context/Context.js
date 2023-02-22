@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import * as initialContext from './initialContexts'
 import { objectReplace } from '../helpers'
 
 export const Context = React.createContext()
+
+export const useAppContext = () => {
+  return useContext(Context)
+}
 
 export const ContextProvider = ({ children }) => {
   const { about, weeks, app, user, editor } = initialContext

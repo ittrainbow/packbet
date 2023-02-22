@@ -1,9 +1,8 @@
-import React, { useEffect, useReducer, useContext, useRef } from 'react'
+import React, { useEffect, useReducer, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { Context } from '../context/Context'
-
+import { useAppContext } from '../context/Context'
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
@@ -34,7 +33,7 @@ export const Register = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { email, password, name } = state
   const [user, loading] = useAuthState(auth)
-  const { userContext, setUserContext } = useContext(Context)
+  const { userContext, setUserContext } = useAppContext()
   const navigate = useNavigate()
 
   const trimSpaces = (value) => value.replace(/\s/g, '')

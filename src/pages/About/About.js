@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import './About.scss'
 
-import { Context } from '../../context/Context'
+import { useAppContext } from '../../context/Context'
 import { Button } from '../../UI'
 import { i18n } from '../../locale/locale'
 
 export const About = () => {
   const [open, setOpen] = useState(false)
-  const { aboutContext, userContext } = useContext(Context)
+  const { aboutContext, userContext } = useAppContext()
   const { locale } = userContext
   const [description, setDescription] = useState([])
 

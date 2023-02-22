@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { setDoc, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -8,8 +8,8 @@ import moment from 'moment/moment'
 import './Editor.scss'
 
 import { db } from '../../db'
-import { Context } from '../../context/Context'
 import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../../helpers'
+import { useAppContext } from '../../context/Context'
 import { setLoading } from '../../redux/actions'
 import { questionInWorkInit, editor } from '../../context/initialContexts'
 import { Button, Input } from '../../UI'
@@ -28,7 +28,7 @@ export const Editor = () => {
     setEditorContext,
     appContext,
     setAppContext
-  } = useContext(Context)
+  } = useAppContext()
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
   const [compareQuestion, setCompareQuestion] = useState()

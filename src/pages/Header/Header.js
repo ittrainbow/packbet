@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -15,14 +15,14 @@ import {
 import './Header.scss'
 
 import { auth } from '../../db'
-import { Context } from '../../context/Context'
+import { useAppContext } from '../../context/Context'
 import { setEditor } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
 
 export const Header = () => {
   const [user] = useAuthState(auth)
   const { mobile, editor } = useSelector((state) => state)
-  const { appContext, setAppContext, userContext, clearEditorContext } = useContext(Context)
+  const { appContext, setAppContext, userContext, clearEditorContext } = useAppContext()
   const { admin, locale } = userContext
   const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()

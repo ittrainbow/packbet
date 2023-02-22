@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import './Week.scss'
 
 import { auth, db } from '../../db'
-import { Context } from '../../context/Context'
+import { useAppContext } from '../../context/Context'
 import { objectCompare, ansHelper } from '../../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../../UI'
 import { setLoading } from '../../redux/actions'
@@ -29,7 +29,7 @@ export const Week = () => {
     setAnswersContext,
     compareContext,
     setCompareContext
-  } = useContext(Context)
+  } = useAppContext()
 
   const { selectedWeek, isItYou, otherUserUID } = appContext
   const { admin, adminAsPlayer, locale } = userContext
@@ -37,9 +37,12 @@ export const Week = () => {
   const [adm, setAdm] = useState(admin && adminAsPlayer)
   const ansOrRes = adm ? 'results' : uid
 
-  const noChanges = () => objectCompare(answersContext, compareContext)
   const outdated = () => new Date().getTime() < deadline
   const writeAllowed = () => adm || (!adm && outdated())
+
+  const noChanges = () => {
+    return objectCompare(answersContext, compareContext)
+  }
 
   useEffect(() => {
     setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
@@ -80,10 +83,11 @@ export const Week = () => {
       dispatch(setLoading(true))
       try {
         const data = adminAsPlayer ? answersContext[uid] : answersContext.results
+        const submit = true
 
         const showToast = async () => {
           const response = await getDoc(doc(db, 'answers', ansOrRes))
-          objectCompare(response.data(), data) ? toast.success(successMsg) : toast.error(failureMsg)
+          objectCompare(response.data(), data, submit) ? toast.success(successMsg) : toast.error(failureMsg)
         }
 
         if (!data[selectedWeek]) {

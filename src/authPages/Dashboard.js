@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import './auth.scss'
 
 import { logout } from '../db/auth'
-import { Context } from '../context/Context'
 import { Button } from '../UI'
 import { i18n } from '../locale/locale'
+import { useAppContext } from '../context/Context'
 
 export const Dashboard = () => {
-  const { userContext, clearUserContext } = useContext(Context)
+  const { userContext, clearUserContext } = useAppContext()
   const { name, email, admin, locale } = userContext
   const navigate = useNavigate()
 

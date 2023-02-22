@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import './OtherUser.scss'
 
-import { Context } from '../../context/Context'
 import { i18n } from '../../locale/locale'
+import { useAppContext } from '../../context/Context'
 
 export const OtherUser = () => {
-  const { userContext, appContext, setAppContext } = useContext(Context)
+  const { userContext, appContext, setAppContext } = useAppContext()
   const { otherUserName, isItYou } = appContext
   const { locale } = userContext
 

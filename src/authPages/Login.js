@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useContext } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Input } from '@mui/material'
@@ -6,7 +6,7 @@ import { Input } from '@mui/material'
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
-import { Context } from '../context/Context'
+import { useAppContext } from '../context/Context'
 
 const initialState = {
   email: '',
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 
 export const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { userContext, setUserContext } = useContext(Context)
+  const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
   const { email, emailValid, password } = state
   const [user, loading, error] = useAuthState(auth)

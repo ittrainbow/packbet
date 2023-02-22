@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import './AdminPlayer.scss'
 
-import { Context } from '../../context/Context'
+import { useAppContext } from '../../context/Context'
 
 export const AdminPlayer = () => {
-  const { userContext, setUserContext } = useContext(Context)
+  const { userContext, setUserContext } = useAppContext()
   const { adminAsPlayer } = userContext
 
   const setContextHandler = () => {

@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Countdown from 'react-countdown'
 
-import { Context } from '../../context/Context'
 import { i18n } from '../../locale/locale'
+import { useAppContext } from '../../context/Context'
 
 export const KickoffCountdown = () => {
-  const { userContext, weeksContext, appContext } = useContext(Context)
+  const { userContext, weeksContext, appContext } = useAppContext()
   const { selectedWeek } = appContext
   const { deadline } = weeksContext[selectedWeek]
   const { locale } = userContext

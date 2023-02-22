@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
@@ -8,7 +8,7 @@ import './auth.scss'
 
 import { auth, db } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
-import { Context } from '../context/Context'
+import { useAppContext } from '../context/Context'
 import { setLoading } from '../redux/actions'
 import { i18n } from '../locale/locale'
 
@@ -16,7 +16,7 @@ export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const inputRef = useRef()
-  const { userContext, setUserContext } = useContext(Context)
+  const { userContext, setUserContext } = useAppContext()
   const { name, locale } = userContext
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState(locale)

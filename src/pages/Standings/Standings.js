@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './Standings.scss'
 
-import { Context } from '../../context/Context'
+import { useAppContext } from '../../context/Context'
 import { setEditor } from '../../redux/actions'
 import { auth } from '../../db'
 import { i18n } from '../../locale/locale'
@@ -14,7 +14,7 @@ export const Standings = () => {
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { userContext, standingsContext, appContext, setAppContext } = useContext(Context)
+  const { userContext, standingsContext, appContext, setAppContext } = useAppContext()
   const { locale } = userContext
 
   const clickHandler = (uid, name) => {

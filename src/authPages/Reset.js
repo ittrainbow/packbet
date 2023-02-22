@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -10,13 +10,13 @@ import { auth } from '../db/firebase'
 import { i18n } from '../locale/locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
-import { Context } from '../context/Context'
+import { useAppContext } from '../context/Context'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
   const inputRef = useRef()
   const [user, loading] = useAuthState(auth)
-  const { userContext, setUserContext } = useContext(Context)
+  const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
   const navigate = useNavigate()
 

@@ -1,16 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import './Calendar.scss'
 
-import { Context } from '../../context/Context'
 import { OtherUser } from '../../UI'
+import { useAppContext } from '../../context/Context'
 
 export const Calendar = () => {
   const navigate = useNavigate()
   const { editor } = useSelector((state) => state)
-  const { weeksContext, appContext, setAppContext, setEditorContext } = useContext(Context)
+  const { weeksContext, appContext, setAppContext, setEditorContext } = useAppContext()
   const { isItYou } = appContext
 
   const clickHandler = (selectedWeek) => {

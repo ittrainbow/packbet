@@ -18,8 +18,8 @@ export const objectReplace = (object, id, replacement) => {
   return obj
 }
 
-export const objectCompare = (obj1, obj2) => {
-  if (obj1 === undefined && Object.keys(obj2).length === 0) return true
+export const objectCompare = (obj1, obj2, submit) => {
+  if (obj1 === undefined && Object.keys(obj2).length === 0 && submit) return true
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 
