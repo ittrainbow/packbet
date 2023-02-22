@@ -11,7 +11,7 @@ import { db } from '../../db'
 import { Context } from '../../context/Context'
 import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../../helpers'
 import { setLoading } from '../../redux/actions'
-import { questionInWorkInit, editor } from '../../templates/_initialContexts'
+import { questionInWorkInit, editor } from '../../context/initialContexts'
 import { Button, Input } from '../../UI'
 import { i18n } from '../../locale/locale'
 
