@@ -29,7 +29,7 @@ export const Profile = () => {
     dispatch(setLoading(true))
     try {
       const { uid } = auth.currentUser
-      if (localStorage.getItem('locale') !== tempLocale) localStorage.setItem('locale', tempLocale)
+      localStorage.getItem('locale') !== tempLocale && localStorage.setItem('locale', tempLocale)
       setUserContext({ ...userContext, locale: tempLocale, name: tempName })
       const response = await getDoc(doc(db, 'users', uid))
       const data = { ...response.data(), locale: tempLocale, name: tempName }
@@ -46,17 +46,9 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const noChanges = () => {
-    return name === tempName && locale === tempLocale
-  }
-
-  const onChangeHandler = () => {
-    return setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
-  }
-
-  const checked = () => {
-    return tempLocale === 'ua'
-  }
+  const noChanges = () => name === tempName && locale === tempLocale
+  const onChangeHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
+  const checked = () => tempLocale === 'ua'
 
   // locale
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth')

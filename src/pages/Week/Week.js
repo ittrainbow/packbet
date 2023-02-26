@@ -37,11 +37,11 @@ export const Week = () => {
   const [adm, setAdm] = useState(admin && adminAsPlayer)
   const ansOrRes = adm ? 'results' : uid
 
-  const outdated = () => new Date().getTime() < deadline
-  const writeAllowed = () => adm || (!adm && outdated())
+  const outdated = () => new Date().getTime() > deadline
+  const writeAllowed = () => adm || (!adm && !outdated())
 
   const noChanges = () => {
-    return objectCompare(answersContext, compareContext)
+    return objectCompare(answersContext[ansOrRes] || {}, compareContext[ansOrRes] || {})
   }
 
   useEffect(() => {
@@ -57,51 +57,52 @@ export const Week = () => {
   }, [adminAsPlayer, selectedWeek, admin])
 
   const activity = (id) => {
-    if ((!isItYou && !outdated()) || isItYou) {
-      return answersContext[ansOrRes] && answersContext[ansOrRes][selectedWeek]
-        ? answersContext[ansOrRes][selectedWeek][id]
-        : 0
-    }
+    return ((!isItYou && outdated()) || isItYou) &&
+      answersContext[ansOrRes] &&
+      answersContext[ansOrRes][selectedWeek]
+      ? answersContext[ansOrRes][selectedWeek][id]
+      : 0
   }
 
   const onClickHandler = (value, id, activity) => {
     if (user && writeAllowed() && isItYou) {
       const data = structuredClone(answersContext)
-
       if (!data[ansOrRes]) data[ansOrRes] = {}
       if (!data[ansOrRes][selectedWeek]) data[ansOrRes][selectedWeek] = {}
 
-      const tmp = data[ansOrRes][selectedWeek]
-      value === activity ? delete tmp[id] : (tmp[id] = value)
-      if (!Object.keys(tmp).some((el) => el)) delete data[ansOrRes][selectedWeek]
+      const thisWeek = data[ansOrRes][selectedWeek]
+      value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
+      if (!Object.keys(thisWeek).some((el) => el)) delete data[ansOrRes][selectedWeek]
       setAnswersContext(data)
     }
   }
 
   const submitHandler = async () => {
     if (isItYou) {
-      dispatch(setLoading(true))
       try {
+        dispatch(setLoading(true))
         const data = adminAsPlayer ? answersContext[uid] : answersContext.results
         const submit = true
-
         const showToast = async () => {
           const response = await getDoc(doc(db, 'answers', ansOrRes))
-          objectCompare(response.data(), data, submit) ? toast.success(successMsg) : toast.error(failureMsg)
+          objectCompare(response.data(), data, submit)
+            ? toast.success(successMsg)
+            : toast.error(failureMsg)
+          dispatch(setLoading(false))
         }
-
-        if (!data[selectedWeek]) {
+        const deleteWeek = async () =>
           await deleteDoc(doc(db, 'answers', ansOrRes)).then(() => showToast())
-        } else {
+        const setWeek = async () =>
           await setDoc(doc(db, 'answers', ansOrRes), data).then(() => showToast())
-        }
+
+        !data[selectedWeek] ? deleteWeek() : setWeek()
       } catch (error) {
         console.error(error)
-      }
-      setUserContext({ ...userContext, adminAsPlayer: true })
-      setCompareContext(structuredClone(answersContext))
+      } finally {
+        setUserContext({ ...userContext, adminAsPlayer: true })
+        setCompareContext(structuredClone(answersContext))
 
-      dispatch(setLoading(false))
+      }
     }
   }
 
@@ -109,10 +110,9 @@ export const Week = () => {
     const styles = ['question']
     if (user) {
       const { ans, res } = ansHelper(answersContext, selectedWeek, uid, id)
-      const styling = res && ans && adminAsPlayer && !outdated()
-      if (styling) styles.push(res === ans ? 'question__green' : 'question__red')
+      const styling = res && ans && adminAsPlayer && outdated()
+      styling && styles.push(res === ans ? 'question__green' : 'question__red')
     }
-
     return styles.join(' ')
   }
 

@@ -23,16 +23,16 @@
 
   &__green {
     background-color: $base-green;
-    color: white;
+    color: $yesno-light;
   }
 
   &__dark {
     background-color: $base-dark;
-    color: #ffb512;
+    color: $yesno-dark;
   }
 
   &__red {
     background-color: $base-red;
-    color: white;
+    color: $yesno-light;
   }
 }

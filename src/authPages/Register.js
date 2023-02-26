@@ -19,7 +19,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'EMAIL':
       return { ...state, email: action.payload }
-    case 'PASSWORD':
+    case 'PWD':
       return { ...state, password: action.payload }
     case 'NAME':
       return { ...state, name: action.payload }
@@ -31,8 +31,8 @@ const reducer = (state, action) => {
 export const Register = () => {
   const inputRef = useRef()
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { email, password, name } = state
   const [user, loading] = useAuthState(auth)
+  const { email, password, name } = state
   const { userContext, setUserContext } = useAppContext()
   const navigate = useNavigate()
 
@@ -40,34 +40,28 @@ export const Register = () => {
 
   useEffect(() => {
     if (loading) return
-    if (user) navigate('/dashboard')
-  }, [loading, user, navigate])
+    user && navigate('/dashboard') // eslint-disable-next-line
+  }, [loading, user])
 
   useEffect(() => {
     const browserLocale = localStorage.getItem('locale')
     inputRef.current.focus()
-    if (browserLocale) {
-      setUserContext({ ...userContext, locale: browserLocale })
-    } else {
+    const noLocale = () => {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
-    } // eslint-disable-next-line
+    }
+    browserLocale ? setUserContext({ ...userContext, locale: browserLocale }) : noLocale() // eslint-disable-next-line
   }, [])
 
   const register = () => {
-    if (!name) alert(registerNameAlert)
-    if (!email) alert(registerEmailAlert)
-    if (password.length < 3) alert(registerPasswordAlert)
-    else registerWithEmailAndPassword(name, email, password)
+    !name && alert(registerNameAlert)
+    !email && alert(registerEmailAlert)
+    password.length < 3 && alert(registerPasswordAlert)
+    name && email && password.length > 2 && registerWithEmailAndPassword(name, email, password)
   }
 
-  const emailInputHandler = ({ value }) => {
-    dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
-  }
-
-  const passwordInputHandler = ({ value }) => {
-    dispatch({ type: 'PASSWORD', payload: trimSpaces(value) })
-  }
+  const emailInputHandler = ({ value }) => dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
+  const passwordInputHandler = ({ value }) => dispatch({ type: 'PWD', payload: trimSpaces(value) })
 
   const localeChangeHandler = () => {
     const setLocale = locale === 'ru' ? 'ua' : 'ru'

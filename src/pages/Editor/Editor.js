@@ -39,7 +39,7 @@ export const Editor = () => {
 
   useEffect(() => {
     nameRef.current.focus()
-    if (emptyEditor) setEditorContext(editor) // eslint-disable-next-line
+    emptyEditor && setEditorContext(editor) // eslint-disable-next-line
   }, [])
 
   const changes = emptyEditor
@@ -55,11 +55,12 @@ export const Editor = () => {
   const addQuestionHandler = () => {
     const { question, total, id } = questionInWork
     const newId = id !== null ? id : objectNewId(editorContext)
-    if (question && total) {
+    const addQuestion = () => {
       const obj = objectReplace(questions, newId, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(questionInWorkInit)
     }
+    question && total && addQuestion()
   }
 
   const removeQuestionHandler = (id) => {

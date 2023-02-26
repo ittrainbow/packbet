@@ -5,9 +5,7 @@ import { objectReplace } from '../helpers'
 
 export const Context = React.createContext()
 
-export const useAppContext = () => {
-  return useContext(Context)
-}
+export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }) => {
   const { about, weeks, app, user, editor } = initialContext
@@ -32,33 +30,36 @@ export const ContextProvider = ({ children }) => {
   const setResultsContext = (value) => {
     const { selectedWeek } = appContext
     const newResults = objectReplace(answersContext.results, selectedWeek, value)
-    setAnswersContext({
-      ...answersContext,
-      results: newResults
-    })
+    setAnswersContext({ ...answersContext, results: newResults })
   }
 
-  return <Context.Provider value={{
-    weeksContext,
-    setWeeksContext,
-    appContext,
-    setAppContext,
-    userContext,
-    setUserContext,
-    clearUserContext,
-    aboutContext,
-    setAboutContext,
-    answersContext,
-    setAnswersContext,
-    setResultsContext,
-    editorContext,
-    setEditorContext,
-    clearEditorContext,
-    userListContext,
-    setUserListContext,
-    compareContext,
-    setCompareContext,
-    standingsContext,
-    setStandingsContext
-  }}>{children}</Context.Provider>
+  return (
+    <Context.Provider
+      value={{
+        weeksContext,
+        setWeeksContext,
+        appContext,
+        setAppContext,
+        userContext,
+        setUserContext,
+        clearUserContext,
+        aboutContext,
+        setAboutContext,
+        answersContext,
+        setAnswersContext,
+        setResultsContext,
+        editorContext,
+        setEditorContext,
+        clearEditorContext,
+        userListContext,
+        setUserListContext,
+        compareContext,
+        setCompareContext,
+        standingsContext,
+        setStandingsContext
+      }}
+    >
+      {children}
+    </Context.Provider>
+  )
 }

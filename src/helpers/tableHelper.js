@@ -18,11 +18,11 @@ export const tableCreator = (answersContext, userListContext) => {
     const res = answersContext.results ?? null
     Object.keys(res).forEach((el) => {
       const subAns = ans ? ans[el] : null
-      if (res[el])
+      res[el] &&
         Object.keys(res[el]).forEach((i) => {
           resultsTotal++
-          if (subAns && subAns[i]) ansTotal++
-          if (subAns && subAns[i] && subAns[i] === res[el][i]) ansCorrect++
+          subAns && subAns[i] && ansTotal++
+          subAns && subAns[i] && subAns[i] === res[el][i] && ansCorrect++
         })
     })
 

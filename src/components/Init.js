@@ -30,7 +30,7 @@ export const Init = () => {
 
   useEffect(() => {
     const browserLocale = localStorage.getItem('locale')
-    setUserContext({...userContext, locale: browserLocale}) // eslint-disable-next-line
+    setUserContext({ ...userContext, locale: browserLocale }) // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -38,9 +38,9 @@ export const Init = () => {
   }, [user])
 
   useEffect(() => {
-    if (answersContext && userListContext) {
+    answersContext &&
+      userListContext &&
       setStandingsContext(tableCreator(answersContext, userListContext))
-    } 
   }, [answersContext, userListContext, setStandingsContext])
 
   const fetch = async () => {
@@ -61,12 +61,13 @@ export const Init = () => {
       await getDocs(collection(db, 'users')).then((response) => {
         const users = objectCompose(response)
         setUserListContext(users)
-        if (user) {
+        const setLocale = () => {
           const { name, email, admin, locale } = users[user.uid]
           const browserLocale = localStorage.getItem('locale')
-          if (locale !== browserLocale) localStorage.setItem('locale', locale)
+          locale !== browserLocale && localStorage.setItem('locale', locale)
           setUserContext({ ...userContext, name, email, admin, locale })
         }
+        user && setLocale()
       })
 
       await getDocs(collection(db, 'about')).then((response) => {
@@ -80,5 +81,5 @@ export const Init = () => {
     }
   }
 
-  return 
+  return
 }

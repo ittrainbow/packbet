@@ -3,7 +3,7 @@ import { Button } from '../Button/Button'
 
 import './YesNoButtons.scss'
 
-export const YesNoButtons = ({ total, id, activity, onClick, admin }) => {
+export const YesNoButtons = ({ total, id, activity, onClick, admin, outdated }) => {
   return (
     <div className="yn__parent">
       <Button

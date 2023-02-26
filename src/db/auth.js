@@ -17,13 +17,14 @@ export const signInWithGoogle = async () => {
     const response = await signInWithPopup(auth, googleProvider)
     const { email, displayName, uid } = response.user
     const docs = await getDoc(doc(db, 'users', uid))
-    if (docs.data() === undefined) {
+    const googleAuth = async () => {
       const locale = localStorage.getItem('locale')
       const user = { email, name: displayName, admin: false, locale }
       const answers = {}
       await setDoc(doc(db, 'users', uid), user)
       await setDoc(doc(db, 'answers', uid), answers)
     }
+    docs.data() === undefined && googleAuth()
   } catch (error) {
     console.error(error)
     alert(error.message)
