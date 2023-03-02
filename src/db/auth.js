@@ -7,8 +7,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut,
-  sendEmailVerification
+  signOut
 } from 'firebase/auth'
 
 const googleProvider = new GoogleAuthProvider()
@@ -61,10 +60,6 @@ export const sendPasswordReset = async (email) => {
     console.error(error)
     alert(error.message)
   }
-}
-
-export const verifyEmail = async () => {
-  sendEmailVerification(auth.currentUser)
 }
 
 export const logout = () => {

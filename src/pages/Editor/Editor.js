@@ -11,7 +11,7 @@ import { db } from '../../db'
 import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../../helpers'
 import { useAppContext } from '../../context/Context'
 import { setLoading } from '../../redux/actions'
-import { questionInWorkInit, editor } from '../../context/initialContexts'
+import { initialQuestionInWork, initialEditorContext } from '../../context/initialContexts'
 import { Button, Input } from '../../UI'
 import { i18n } from '../../locale/locale'
 
@@ -30,7 +30,7 @@ export const Editor = () => {
     setAppContext
   } = useAppContext()
   const { locale } = userContext
-  const [questionInWork, setQuestionInWork] = useState(questionInWorkInit)
+  const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork)
   const [compareQuestion, setCompareQuestion] = useState()
   const { selectedWeek, nextWeek, emptyEditor } = appContext
   const { questions, name, active, deadline } = editorContext
@@ -39,8 +39,8 @@ export const Editor = () => {
 
   useEffect(() => {
     nameRef.current.focus()
-    emptyEditor && setEditorContext(editor) // eslint-disable-next-line
-  }, [])
+    emptyEditor && setEditorContext(initialEditorContext) // eslint-disable-next-line
+  }, [selectedWeek])
 
   const changes = emptyEditor
     ? Object.keys(questions).length < 1
@@ -58,7 +58,7 @@ export const Editor = () => {
     const addQuestion = () => {
       const obj = objectReplace(questions, newId, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
-      setQuestionInWork(questionInWorkInit)
+      setQuestionInWork(initialQuestionInWork)
     }
     question && total && addQuestion()
   }
@@ -77,9 +77,11 @@ export const Editor = () => {
     try {
       dispatch(setLoading(true))
       const { questions } = editorContext
-      Object.keys(questions).forEach((el) => delete questions[el].id)
       const link = (emptyEditor ? nextWeek : selectedWeek).toString()
       const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
+      const { currentWeek } = getWeeksIDs(weeks)
+      Object.keys(questions).forEach((el) => delete questions[el].id)
+      setAppContext({ ...appContext, currentWeek})
       setWeeksContext(weeks)
       await setDoc(doc(db, 'weeks', link), editorContext)
     } catch (error) {
@@ -143,7 +145,7 @@ export const Editor = () => {
               {selected ? (
                 <FaBan
                   className="editor-question__edit editor-btn__green faBan"
-                  onClick={() => setQuestionInWork(questionInWorkInit)}
+                  onClick={() => setQuestionInWork(initialQuestionInWork)}
                 />
               ) : (
                 <FaEdit

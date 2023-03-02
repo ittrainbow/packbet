@@ -45,8 +45,8 @@ export const Header = () => {
   ]
 
   useEffect(() => {
-    navigate('/userpage')
-    setAppContext({ ...appContext, tabActive: 1 }) // eslint-disable-next-line
+    setAppContext({ ...appContext, tabActive: 1 }) 
+    navigate('/userpage') // eslint-disable-next-line
   }, [])
 
   const clickHandler = (id, path) => {

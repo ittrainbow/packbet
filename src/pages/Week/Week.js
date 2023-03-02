@@ -12,6 +12,7 @@ import { auth, db } from '../../db'
 import { useAppContext } from '../../context/Context'
 import { objectCompare, ansHelper } from '../../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../../UI'
+import { YesNoMemo } from '../../UI'
 import { setLoading } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
 
@@ -145,7 +146,7 @@ export const Week = () => {
                 {total !== 1 ? `: ${total}` : null}
               </div>
               <div className="question__actions">
-                <YesNoButtons
+                <YesNoMemo
                   total={total}
                   id={id}
                   activity={activity(id)}

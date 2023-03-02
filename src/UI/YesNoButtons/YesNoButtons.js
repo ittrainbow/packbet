@@ -1,9 +1,10 @@
+import React from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { Button } from '../Button/Button'
 
 import './YesNoButtons.scss'
 
-export const YesNoButtons = ({ total, id, activity, onClick, admin, outdated }) => {
+export const YesNoButtons = ({ total, id, activity, onClick, admin }) => {
   return (
     <div className="yn__parent">
       <Button
@@ -21,3 +22,5 @@ export const YesNoButtons = ({ total, id, activity, onClick, admin, outdated }) 
     </div>
   )
 }
+
+export const YesNoMemo = React.memo(YesNoButtons)
