@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
-import structuredClone from '@ungap/structured-clone'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,15 +11,12 @@ import { auth, db } from '../../db'
 import { useAppContext } from '../../context/Context'
 import { objectCompare, ansHelper } from '../../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../../UI'
-import { YesNoMemo } from '../../UI'
 import { setLoading } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
 
 export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const [uid, setUid] = useState(user ? user.uid : null)
-
   const {
     appContext,
     weeksContext,
@@ -31,23 +27,19 @@ export const Week = () => {
     compareContext,
     setCompareContext
   } = useAppContext()
-
   const { selectedWeek, isItYou, otherUserUID } = appContext
-  const { admin, adminAsPlayer, locale } = userContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
-  const [adm, setAdm] = useState(admin && adminAsPlayer)
+  const { admin, adminAsPlayer, locale } = userContext
+  const [uid, setUid] = useState(user ? user.uid : null)
+  const [adm, setAdm] = useState(admin && !adminAsPlayer)
+  
   const ansOrRes = adm ? 'results' : uid
-
   const outdated = () => new Date().getTime() > deadline
   const writeAllowed = () => adm || (!adm && !outdated())
 
   const noChanges = () => {
     return objectCompare(answersContext[ansOrRes] || {}, compareContext[ansOrRes] || {})
   }
-
-  useEffect(() => {
-    setUserContext({ ...userContext, adminAsPlayer: true }) // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     setUid(isItYou ? (user ? user.uid : null) : otherUserUID)
@@ -146,7 +138,7 @@ export const Week = () => {
                 {total !== 1 ? `: ${total}` : null}
               </div>
               <div className="question__actions">
-                <YesNoMemo
+                <YesNoButtons
                   total={total}
                   id={id}
                   activity={activity(id)}

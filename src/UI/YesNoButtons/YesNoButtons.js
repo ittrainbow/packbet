@@ -22,5 +22,3 @@ export const YesNoButtons = ({ total, id, activity, onClick, admin }) => {
     </div>
   )
 }
-
-export const YesNoMemo = React.memo(YesNoButtons)

@@ -37,7 +37,7 @@ export const ContextProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    fetchUserData() // eslint-disable-next-line
+    user && fetchUserData() // eslint-disable-next-line
   }, [user])
 
   useEffect(() => {
@@ -50,25 +50,23 @@ export const ContextProvider = ({ children }) => {
     try {
       await getDocs(collection(db, 'users')).then((response) => {
         const users = objectCompose(response)
+        const { uid } = user
+        const { name, email, admin, locale } = users[uid]
+        const browserLocale = localStorage.getItem('locale')
+        locale !== browserLocale && localStorage.setItem('locale', locale)
+
         setUserListContext(users)
-        if (user) {
-          const { uid } = user
-          const { name, email, admin, locale } = users[uid]
-          const browserLocale = localStorage.getItem('locale')
-          locale !== browserLocale && localStorage.setItem('locale', locale)
-          setUserContext({ ...userContext, name, email, admin, locale })
-        }
+        setUserContext({ ...userContext, name, email, admin, locale })
       })
 
       await getDocs(collection(db, 'users')).then((response) => {
         const users = objectCompose(response)
+        const { name, email, admin, locale } = users[user.uid]
+        const browserLocale = localStorage.getItem('locale')
+        locale !== browserLocale && localStorage.setItem('locale', locale)
+
         setUserListContext(users)
-        if (user) {
-          const { name, email, admin, locale } = users[user.uid]
-          const browserLocale = localStorage.getItem('locale')
-          locale !== browserLocale && localStorage.setItem('locale', locale)
-          setUserContext({ ...userContext, name, email, admin, locale })
-        }
+        setUserContext({ ...userContext, name, email, admin, locale })
       })
     } catch (error) {
       console.error(error)
@@ -112,6 +110,7 @@ export const ContextProvider = ({ children }) => {
   const setResultsContext = (value) => {
     const { selectedWeek } = appContext
     const newResults = objectReplace(answersContext.results, selectedWeek, value)
+    
     setAnswersContext({ ...answersContext, results: newResults })
   }
 
