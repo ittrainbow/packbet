@@ -28,31 +28,30 @@ const reducer = (state, action) => {
 }
 
 export const Login = () => {
+  const navigate = useNavigate()
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [user, loading, error] = useAuthState(auth)
   const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
   const { email, emailValid, password } = state
-  const [user, loading, error] = useAuthState(auth)
-  const navigate = useNavigate()
 
   const loginButtonActive = emailValid && password.length > 2
   const trimSpaces = (value) => value.replace(/\s/g, '')
 
   useEffect(() => {
     const browserLocale = localStorage.getItem('locale')
-    if (browserLocale) {
-      setUserContext({ ...userContext, locale: browserLocale })
-    } else {
+    const noLocale = () => {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
-    } // eslint-disable-next-line
+    }
+    browserLocale ? setUserContext({ ...userContext, locale: browserLocale }) : noLocale() // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (loading) return
-    if (user) navigate('/dashboard')
-    if (error) alert(error)
-  }, [user, loading, error, navigate])
+    user && navigate('/dashboard')
+    error && alert(error) // eslint-disable-next-line
+  }, [user, loading, error])
 
   const emailInputHandler = ({ value }) => {
     const checkEmailValid = /\S+@\S+\.\S+/.test(value)
@@ -70,9 +69,7 @@ export const Login = () => {
     localStorage.setItem('locale', setLocale)
   }
 
-  const checked = () => {
-    return locale ? locale === 'ua' : false
-  }
+  const localeChecked = () => locale ? locale === 'ua' : false
 
   // locale
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
@@ -112,7 +109,7 @@ export const Login = () => {
           </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={checked()} onChange={localeChangeHandler} />
+          <LocaleSwitcher checked={localeChecked()} onChange={localeChangeHandler} />
         </div>
       </div>
     </div>

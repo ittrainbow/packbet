@@ -28,21 +28,16 @@ export const Reset = () => {
 
   useEffect(() => {
     if (loading) return
-    if (user) navigate('/')
-  }, [user, loading, navigate])
+    user && navigate('/') // eslint-disable-next-line
+  }, [user, loading])
 
-  const emailInputHandler = ({ value }) => {
-    setEmail(trimSpaces(value))
-  }
+  const emailInputHandler = ({ value }) => setEmail(trimSpaces(value))
+  const localeChecked = () => (locale ? locale === 'ua' : false)
 
   const localeChangeHandler = () => {
     const setLocale = locale === 'ru' ? 'ua' : 'ru'
     setUserContext({ ...userContext, locale: setLocale })
     localStorage.setItem('locale', setLocale)
-  }
-
-  const checked = () => {
-    return locale ? locale === 'ua' : false
   }
 
   // locale
@@ -71,7 +66,7 @@ export const Reset = () => {
           </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={checked()} onChange={localeChangeHandler} />
+          <LocaleSwitcher checked={localeChecked()} onChange={localeChangeHandler} />
         </div>
       </div>
     </div>

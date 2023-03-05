@@ -21,7 +21,7 @@
 
   &:active {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 2px 2px rgba(0, 0, 0, 0.1);
-    border: 2px solid $base-border-active;
+    border: 2px solid $base-border;
   }
 
   &:disabled {

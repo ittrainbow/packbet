@@ -45,8 +45,8 @@ export const Header = () => {
   ]
 
   useEffect(() => {
-    navigate('/userpage')
-    setAppContext({ ...appContext, tabActive: 1 }) // eslint-disable-next-line
+    setAppContext({ ...appContext, tabActive: 1 }) 
+    navigate('/userpage') // eslint-disable-next-line
   }, [])
 
   const clickHandler = (id, path) => {
@@ -59,9 +59,9 @@ export const Header = () => {
     setAppContext(context)
     navigate(path)
 
-    if (editor && id <= 4) dispatch(setEditor(false))
-    if (!editor && id >= 5) dispatch(setEditor(true))
-    if (id === 6) clearEditorContext()
+    id <= 4 && editor && dispatch(setEditor(false))
+    id >= 5 && !editor && dispatch(setEditor(true))
+    id === 6 && clearEditorContext()
   }
 
   const getClass = (id) => {

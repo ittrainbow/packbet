@@ -18,7 +18,7 @@ export const Standings = () => {
   const { locale } = userContext
 
   const clickHandler = (uid, name) => {
-    if (uid !== user.uid) {
+    const setApp = () => {
       setAppContext({
         ...appContext,
         otherUserUID: uid,
@@ -29,11 +29,12 @@ export const Standings = () => {
       dispatch(setEditor(false))
       navigate('/calendar')
     }
+    uid !== user.uid && setApp()
   }
 
   // locale
   const { tableNameMsg, tableCorrectMsg } = i18n(locale, 'standings')
-  
+
   return (
     <div className="container">
       <div className="standings">

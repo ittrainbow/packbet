@@ -1,4 +1,4 @@
-export const app = {
+export const initialAppContext = {
   tabActive: 1,
   about: '',
   currentWeek: 0,
@@ -11,7 +11,7 @@ export const app = {
   alert: false
 }
 
-export const user = { 
+export const initialUserContext = { 
   name: '', 
   locale: '',
   email: '', 
@@ -21,18 +21,18 @@ export const user = {
   tempLocale: ''
 }
 
-export const weeks = [{ number: '', name: '', questions: {} }]
+export const initialWeeksContext = [{ number: '', name: '', questions: {} }]
 
-export const about = []
+export const initialAboutContext = []
 
-export const editor = { 
+export const initialEditorContext = { 
   questions: {}, 
   name: '', 
   active: false, 
   deadline: '' 
 }
 
-export const questionInWorkInit = { 
+export const initialQuestionInWork = { 
   question: '', 
   total: '', 
   id: null

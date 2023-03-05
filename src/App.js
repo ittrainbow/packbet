@@ -5,7 +5,6 @@ import { isMobile } from 'react-device-detect'
 import './App.scss'
 
 import { AppRoutes } from './router/Routes'
-import { Init } from './components/Init'
 import { setMobile } from './redux/actions'
 import { ContextProvider } from './context/Context'
 
@@ -20,7 +19,6 @@ const App = () => {
 
   return (
     <ContextProvider>
-      <Init />
       <AppRoutes />
     </ContextProvider>
   )

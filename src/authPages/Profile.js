@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
 import { Input } from '@mui/material'
@@ -15,6 +16,7 @@ import { i18n } from '../locale/locale'
 export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
   const inputRef = useRef()
   const { userContext, setUserContext } = useAppContext()
   const { name, locale } = userContext
@@ -28,8 +30,8 @@ export const Profile = () => {
   const submitHandler = async () => {
     dispatch(setLoading(true))
     try {
-      const { uid } = auth.currentUser
-      if (localStorage.getItem('locale') !== tempLocale) localStorage.setItem('locale', tempLocale)
+      const { uid } = user
+      localStorage.getItem('locale') !== tempLocale && localStorage.setItem('locale', tempLocale)
       setUserContext({ ...userContext, locale: tempLocale, name: tempName })
       const response = await getDoc(doc(db, 'users', uid))
       const data = { ...response.data(), locale: tempLocale, name: tempName }
@@ -46,17 +48,9 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const noChanges = () => {
-    return name === tempName && locale === tempLocale
-  }
-
-  const onChangeHandler = () => {
-    return setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
-  }
-
-  const checked = () => {
-    return tempLocale === 'ua'
-  }
+  const noChanges = () => name === tempName && locale === tempLocale
+  const onChangeHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
+  const checked = () => tempLocale === 'ua'
 
   // locale
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth')

@@ -1,3 +1,4 @@
+import React from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { Button } from '../Button/Button'
 

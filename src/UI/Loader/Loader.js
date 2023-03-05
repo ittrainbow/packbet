@@ -4,7 +4,7 @@ import './Loader.scss'
 
 export const Loader = () => {
   return (
-    <div className="container auth__container">
+    <div className="loader-div">
       <span className="loader"></span>
     </div>
   )
