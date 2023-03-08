@@ -14,10 +14,11 @@ export const About = () => {
   const [description, setDescription] = useState([])
 
   useEffect(() => {
-    const array = []
-    Object.keys(aboutContext[locale]).forEach((el) => array.push(aboutContext[locale][el]))
-    setDescription(array) // eslint-disable-next-line
-  }, [])
+    if (locale && aboutContext) {
+      const array = Object.values(aboutContext[locale])
+      setDescription(array)
+    }
+  }, [locale, aboutContext])
 
   // locale
   const { buttonDetailsMsg } = i18n(locale, 'buttons')
@@ -30,19 +31,20 @@ export const About = () => {
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
 
+  const openHandler = () => setOpen(prev => !prev)
+
   return (
     <div className="container">
       <div className="about__paragraph">{description[0]}</div>
-      <Button onClick={() => setOpen(!open)}>{buttonDetailsMsg}</Button>
+      <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
       <div>
         {open ? (
           <div>
             {description.map((el, index) => {
+              const classes = `about__paragraph` + (index === 6 ? ' bold' : '')
+
               return index < 8 ? (
-                <div
-                  key={index}
-                  className={index === 6 ? 'about__paragraph bold' : 'about__paragraph'}
-                >
+                <div key={index} className={classes}>
                   {!index ? null : el}
                 </div>
               ) : null

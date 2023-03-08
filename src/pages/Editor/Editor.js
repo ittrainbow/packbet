@@ -48,28 +48,28 @@ export const Editor = () => {
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
-  const changeNameHandler = (name) => {
-    setEditorContext({ ...editorContext, name })
-  }
+  const changeNameHandler = (name) => setEditorContext({ ...editorContext, name })
 
   const addQuestionHandler = () => {
     const { question, total, id } = questionInWork
     const newId = id !== null ? id : objectNewId(editorContext)
-    const addQuestion = () => {
-      const obj = objectReplace(questions, newId, questionInWork)
+    const obj = objectReplace(questions, newId, questionInWork)
+
+    if (question && total) {
       setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(initialQuestionInWork)
     }
-    question && total && addQuestion()
   }
 
   const removeQuestionHandler = (id) => {
     const q = objectTrim(questions, id)
+
     setEditorContext({ ...editorContext, questions: q })
   }
 
   const changeDateHandler = (value) => {
     const deadline = new Date(value).getTime()
+
     setEditorContext({ ...editorContext, deadline })
   }
 
@@ -80,8 +80,10 @@ export const Editor = () => {
       const link = (emptyEditor ? nextWeek : selectedWeek).toString()
       const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
       const { currentWeek } = getWeeksIDs(weeks)
+
       Object.keys(questions).forEach((el) => delete questions[el].id)
-      setAppContext({ ...appContext, currentWeek})
+
+      setAppContext({ ...appContext, currentWeek })
       setWeeksContext(weeks)
       await setDoc(doc(db, 'weeks', link), editorContext)
     } catch (error) {
@@ -135,14 +137,15 @@ export const Editor = () => {
       return Object.keys(questions).map((el) => {
         const id = Number(el)
         const { question, total } = questions[id]
-        const selected = id === questionInWork.id
+        const thisQuestionIsSelected = id === questionInWork.id
+
         return (
           <div key={id} className="editor-question">
             <div className="editor-question__desc">
               {question}: {total}
             </div>
             <div className="editor-question__buttons">
-              {selected ? (
+              {thisQuestionIsSelected ? (
                 <FaBan
                   className="editor-question__edit editor-btn__green faBan"
                   onClick={() => setQuestionInWork(initialQuestionInWork)}

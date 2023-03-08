@@ -138,7 +138,8 @@ table {
   font-size: 15px;
 }
 
-.container, .auth {
+.container,
+.auth {
   height: calc(100% - $container-height-diff);
 
   @media only screen and (max-width: $max-width) {
@@ -146,8 +147,10 @@ table {
   }
 }
 
-html, body, #root {
-  height: 100%
+html,
+body,
+#root {
+  height: 100%;
 }
 
 #root {
@@ -164,4 +167,12 @@ html, body, #root {
 
 fieldset {
   border: none !important;
+}
+
+.loader-div {
+  display: flex;
+  padding-top: 30px;
+  max-width: calc($max-width + 30px);
+  text-align: center;
+  justify-content: center;
 }

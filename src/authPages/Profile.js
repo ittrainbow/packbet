@@ -31,10 +31,12 @@ export const Profile = () => {
     dispatch(setLoading(true))
     try {
       const { uid } = user
+      const name = tempName
+      const locale = tempLocale
       localStorage.getItem('locale') !== tempLocale && localStorage.setItem('locale', tempLocale)
-      setUserContext({ ...userContext, locale: tempLocale, name: tempName })
+      setUserContext({ ...userContext, locale, name })
       const response = await getDoc(doc(db, 'users', uid))
-      const data = { ...response.data(), locale: tempLocale, name: tempName }
+      const data = { ...response.data(), locale, name }
       await setDoc(doc(db, 'users', uid), data)
     } catch (error) {
       console.error(error)
@@ -43,13 +45,9 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const noSaveHandler = () => {
-    setUserContext({ ...userContext, tempLocale: locale, tempName: name })
-    navigate(-1)
-  }
-
+  const noSaveHandler = () => navigate(-1)
   const noChanges = () => name === tempName && locale === tempLocale
-  const onChangeHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
+  const onChangeLocaleHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
   const checked = () => tempLocale === 'ua'
 
   // locale
@@ -62,7 +60,7 @@ export const Profile = () => {
         <div className="auth__data">
           <div className="text-container bold">{profileHeaderMsg}</div>
           <div className="text-container">{profileLangMsg}</div>
-          <LocaleSwitcher onChange={onChangeHandler} checked={checked()} />
+          <LocaleSwitcher onChange={onChangeLocaleHandler} checked={checked()} />
           <div className="text-container">{profileNameMsg}</div>
           <Input
             type={'text'}

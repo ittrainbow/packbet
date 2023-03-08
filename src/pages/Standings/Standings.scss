@@ -3,7 +3,7 @@
 .standings-header {
   display: flex;
   gap: 2px;
-  margin: 2px;
+  margin: 2px 0;
 }
 
 .cellOne,
@@ -31,7 +31,7 @@
 }
 
 .cellTwo {
-  width: 60%;
+  width: 61%;
   cursor: pointer;
   padding-left: 5px;
 }

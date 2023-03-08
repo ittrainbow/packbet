@@ -6,9 +6,7 @@ export const objectTrim = (object, id) => {
 
 export const objectCompose = (response) => {
   const obj = {}
-  response.forEach((el) => {
-    obj[el.id] = el.data()
-  })
+  response.forEach((el) => (obj[el.id] = el.data()))
   return obj
 }
 
@@ -18,11 +16,8 @@ export const objectReplace = (object, id, replacement) => {
   return obj
 }
 
-export const objectCompare = (obj1, obj2, submit) => {
-  return (
-    (obj1 === undefined && Object.keys(obj2).some((el) => el) && submit) ||
-    JSON.stringify(obj1 || {}) === JSON.stringify(obj2)
-  )
+export const objectCompare = (obj1 = {}, obj2 = {}, submit) => {
+  return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 
 export const objectNewId = ({ questions }) => {

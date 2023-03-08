@@ -6,6 +6,6 @@ import { auth } from '../db/firebase'
 
 export const UserPage = () => {
   const [user] = useAuthState(auth)
-  
+
   return user ? <Dashboard /> : <Login />
 }

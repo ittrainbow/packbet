@@ -33,12 +33,8 @@ export const ContextProvider = ({ children }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    fetchAppData() // eslint-disable-next-line
+    fetchData() // eslint-disable-next-line
   }, [])
-
-  useEffect(() => {
-    user && fetchUserData() // eslint-disable-next-line
-  }, [user])
 
   useEffect(() => {
     if (answersContext && userListContext) {
@@ -46,52 +42,37 @@ export const ContextProvider = ({ children }) => {
     }
   }, [answersContext, userListContext])
 
-  const fetchUserData = async () => {
-    try {
-      await getDocs(collection(db, 'users')).then((response) => {
-        const users = objectCompose(response)
-        const { uid } = user
-        const { name, email, admin, locale } = users[uid]
-        const browserLocale = localStorage.getItem('locale')
-        locale !== browserLocale && localStorage.setItem('locale', locale)
+  useEffect(() => {
+    if (user && userListContext) {
+      const { uid } = user
+      const { name, email, admin, locale } = userListContext[uid]
+      const browserLocale = localStorage.getItem('locale')
+      locale !== browserLocale && localStorage.setItem('locale', locale)
 
-        setUserListContext(users)
-        setUserContext({ ...userContext, name, email, admin, locale })
-      })
+      setUserContext({ ...userContext, name, email, admin, locale })
+    } // eslint-disable-next-line
+  }, [user, userListContext])
 
-      await getDocs(collection(db, 'users')).then((response) => {
-        const users = objectCompose(response)
-        const { name, email, admin, locale } = users[user.uid]
-        const browserLocale = localStorage.getItem('locale')
-        locale !== browserLocale && localStorage.setItem('locale', locale)
-
-        setUserListContext(users)
-        setUserContext({ ...userContext, name, email, admin, locale })
-      })
-    } catch (error) {
-      console.error(error)
-    }
+  const fetchFromDB = async (link) => {
+    return getDocs(collection(db, link)).then((response) => {
+      return objectCompose(response)
+    })
   }
 
-  const fetchAppData = async () => {
+  const fetchData = async () => {
     try {
-      await getDocs(collection(db, 'weeks')).then((response) => {
-        const weeks = objectCompose(response)
-        const { currentWeek, nextWeek } = getWeeksIDs(weeks)
-        setAppContext({ ...appContext, currentWeek, nextWeek })
-        setWeeksContext(weeks)
-      })
+      const weeks = await fetchFromDB('weeks')
+      const about = await fetchFromDB('about')
+      const users = await fetchFromDB('users')
+      const answers = await fetchFromDB('answers')
+      const { currentWeek, nextWeek } = getWeeksIDs(weeks)
 
-      await getDocs(collection(db, 'answers')).then((response) => {
-        const answers = objectCompose(response)
-        setAnswersContext(answers)
-        setCompareContext(structuredClone(answers))
-      })
-
-      await getDocs(collection(db, 'about')).then((response) => {
-        const about = objectCompose(response)
-        setAboutContext(about)
-      })
+      setAppContext({ ...appContext, currentWeek, nextWeek })
+      setWeeksContext(weeks)
+      setAnswersContext(answers)
+      setCompareContext(structuredClone(answers))
+      setAboutContext(about)
+      setUserListContext(users)
     } catch (error) {
       console.error(error)
     } finally {
@@ -103,15 +84,11 @@ export const ContextProvider = ({ children }) => {
     setUserContext({ ...user, locale })
   }
 
-  const clearEditorContext = () => {
-    setEditorContext(initialEditorContext)
-  }
-
   const setResultsContext = (value) => {
     const { selectedWeek } = appContext
-    const newResults = objectReplace(answersContext.results, selectedWeek, value)
-    
-    setAnswersContext({ ...answersContext, results: newResults })
+    const results = objectReplace(answersContext.results, selectedWeek, value)
+
+    setAnswersContext({ ...answersContext, results })
   }
 
   return (
@@ -131,7 +108,6 @@ export const ContextProvider = ({ children }) => {
         setResultsContext,
         editorContext,
         setEditorContext,
-        clearEditorContext,
         userListContext,
         setUserListContext,
         compareContext,

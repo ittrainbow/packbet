@@ -39,12 +39,12 @@ export const Login = () => {
   const trimSpaces = (value) => value.replace(/\s/g, '')
 
   useEffect(() => {
-    const browserLocale = localStorage.getItem('locale')
+    const locale = localStorage.getItem('locale')
     const noLocale = () => {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
     }
-    browserLocale ? setUserContext({ ...userContext, locale: browserLocale }) : noLocale() // eslint-disable-next-line
+    locale ? setUserContext({ ...userContext, locale }) : noLocale() // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -64,9 +64,9 @@ export const Login = () => {
   }
 
   const localeChangeHandler = () => {
-    const setLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: setLocale })
-    localStorage.setItem('locale', setLocale)
+    const newLocale = locale === 'ru' ? 'ua' : 'ru'
+    setUserContext({ ...userContext, locale: newLocale })
+    localStorage.setItem('locale', newLocale)
   }
 
   const localeChecked = () => locale ? locale === 'ua' : false

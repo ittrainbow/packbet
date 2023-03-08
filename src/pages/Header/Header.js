@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import {
   FaInfoCircle,
   FaUserAlt,
@@ -14,16 +13,15 @@ import {
 
 import './Header.scss'
 
-import { auth } from '../../db'
 import { useAppContext } from '../../context/Context'
 import { setEditor } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
+import { initialEditorContext } from '../../context/initialContexts'
 
 export const Header = () => {
-  const [user] = useAuthState(auth)
   const { mobile, editor } = useSelector((state) => state)
-  const { appContext, setAppContext, userContext, clearEditorContext } = useAppContext()
-  const { admin, locale } = userContext
+  const { appContext, setAppContext, userContext, setEditorContext } = useAppContext()
+  const { admin, locale, name } = userContext
   const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -45,7 +43,6 @@ export const Header = () => {
   ]
 
   useEffect(() => {
-    setAppContext({ ...appContext, tabActive: 1 }) 
     navigate('/userpage') // eslint-disable-next-line
   }, [])
 
@@ -61,18 +58,18 @@ export const Header = () => {
 
     id <= 4 && editor && dispatch(setEditor(false))
     id >= 5 && !editor && dispatch(setEditor(true))
-    id === 6 && clearEditorContext()
+    id === 6 && setEditorContext(initialEditorContext)
   }
 
   const getClass = (id) => {
-    return id === 1 && !user
+    return id === 1 && !name
       ? 'header__no-login'
       : id === tabActive
       ? 'header__tab-active'
       : 'header__tab'
   }
 
-  const bar = admin ? userMenu.concat(adminMenu) : userMenu
+  const bar = admin ? [...userMenu, ...adminMenu] : userMenu
 
   return (
     <div className="header">
@@ -81,7 +78,7 @@ export const Header = () => {
           const { id, path, icon, name } = el
           return (
             <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
-              <div className='header__icon-padding'>{icon}</div>
+              <div className="header__icon-padding">{icon}</div>
               <div className="header__message">{mobile ? null : name}</div>
             </div>
           )
@@ -90,3 +87,5 @@ export const Header = () => {
     </div>
   )
 }
+
+export const MemoHeader = React.memo(Header)

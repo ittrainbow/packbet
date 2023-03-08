@@ -35,9 +35,9 @@ export const Reset = () => {
   const localeChecked = () => (locale ? locale === 'ua' : false)
 
   const localeChangeHandler = () => {
-    const setLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: setLocale })
-    localStorage.setItem('locale', setLocale)
+    const newLocale = locale === 'ru' ? 'ua' : 'ru'
+    setUserContext({ ...userContext, locale: newLocale })
+    localStorage.setItem('locale', newLocale)
   }
 
   // locale

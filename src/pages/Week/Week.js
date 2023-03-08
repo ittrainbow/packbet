@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
@@ -30,19 +30,22 @@ export const Week = () => {
   const { selectedWeek, isItYou, otherUserUID } = appContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const { admin, adminAsPlayer, locale } = userContext
-  const [uid, setUid] = useState(user ? user.uid : null)
+  const [uid, setUid] = useState(user && user.uid)
   const [adm, setAdm] = useState(admin && !adminAsPlayer)
-  
-  const ansOrRes = adm ? 'results' : uid
+  const [gotChanges, setGotChanges] = useState(false)
   const outdated = () => new Date().getTime() > deadline
   const writeAllowed = () => adm || (!adm && !outdated())
 
-  const noChanges = () => {
-    return objectCompare(answersContext[ansOrRes] || {}, compareContext[ansOrRes] || {})
+  const ansOrRes = useMemo(() => {
+    return adm ? 'results' : uid
+  }, [adm, uid])
+
+  const checkChanges = (data) => {
+    setGotChanges(!objectCompare(data, compareContext[ansOrRes]))
   }
 
   useEffect(() => {
-    setUid(isItYou ? (user ? user.uid : null) : otherUserUID)
+    setUid(isItYou ? user && user.uid : otherUserUID)
   }, [isItYou, otherUserUID, user])
 
   useEffect(() => {
@@ -66,7 +69,9 @@ export const Week = () => {
       const thisWeek = data[ansOrRes][selectedWeek]
       value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
       if (!Object.keys(thisWeek).some((el) => el)) delete data[ansOrRes][selectedWeek]
+
       setAnswersContext(data)
+      checkChanges(data[ansOrRes])
     }
   }
 
@@ -74,29 +79,30 @@ export const Week = () => {
     if (isItYou) {
       try {
         dispatch(setLoading(true))
-        const data = adminAsPlayer ? answersContext[uid] : answersContext.results
-        const submit = true
-        const showToast = async () => {
-          const response = await getDoc(doc(db, 'answers', ansOrRes))
-          objectCompare(response.data(), data, submit)
-            ? toast.success(successMsg)
-            : toast.error(failureMsg)
-          dispatch(setLoading(false))
-        }
-        const deleteWeek = async () =>
-          await deleteDoc(doc(db, 'answers', ansOrRes)).then(() => showToast())
-        const setWeek = async () =>
-          await setDoc(doc(db, 'answers', ansOrRes), data).then(() => showToast())
 
-        !data[selectedWeek] ? deleteWeek() : setWeek()
+        const data = adminAsPlayer ? answersContext[uid] : answersContext.results
+        const setWeek = () =>
+          !data[selectedWeek]
+            ? deleteDoc(doc(db, 'answers', ansOrRes))
+            : setDoc(doc(db, 'answers', ansOrRes), data)
+
+        setWeek().then(async () => {
+          const response = await getDoc(doc(db, 'answers', ansOrRes))
+          objectCompare(response.data(), data) ? toast.success(successMsg) : toast.error(failureMsg)
+          dispatch(setLoading(false))
+        })
       } catch (error) {
         console.error(error)
       } finally {
         setUserContext({ ...userContext, adminAsPlayer: true })
         setCompareContext(structuredClone(answersContext))
-
       }
     }
+  }
+
+  const discardHandler = () => {
+    setAnswersContext(compareContext)
+    setGotChanges(false)
   }
 
   const questionStyle = (id) => {
@@ -110,7 +116,7 @@ export const Week = () => {
   }
 
   // locale
-  const { buttonChangesMsg, buttonSaveMsg } = i18n(locale, 'buttons')
+  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons')
   const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week')
 
   return (
@@ -150,9 +156,10 @@ export const Week = () => {
           )
         })}
       </div>
-      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges() || !isItYou}>
-        {noChanges() ? buttonChangesMsg : buttonSaveMsg}
+      <Button onClick={submitHandler} disabled={!writeAllowed() || !gotChanges || !isItYou}>
+        {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
+      {gotChanges ? <Button onClick={discardHandler}>{buttonCancelMsg}</Button> : null}
     </div>
   )
 }

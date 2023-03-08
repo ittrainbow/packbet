@@ -9,6 +9,7 @@ import { useAppContext } from '../../context/Context'
 import { setEditor } from '../../redux/actions'
 import { auth } from '../../db'
 import { i18n } from '../../locale/locale'
+import { OtherUser } from '../../UI'
 
 export const Standings = () => {
   const [user] = useAuthState(auth)
@@ -17,19 +18,19 @@ export const Standings = () => {
   const { userContext, standingsContext, appContext, setAppContext } = useAppContext()
   const { locale } = userContext
 
-  const clickHandler = (uid, name) => {
+  const clickHandler = ({ uid: otherUserUID, name: otherUserName }) => {
     const setApp = () => {
       setAppContext({
         ...appContext,
-        otherUserUID: uid,
-        otherUserName: name,
+        otherUserUID,
+        otherUserName,
         isItYou: false,
         tabActive: 3
       })
       dispatch(setEditor(false))
       navigate('/calendar')
     }
-    uid !== user.uid && setApp()
+    otherUserUID !== user.uid && setApp()
   }
 
   // locale
@@ -38,6 +39,7 @@ export const Standings = () => {
   return (
     <div className="container">
       <div className="standings">
+        <OtherUser />
         <div className="standings-header">
           <div className="cellOne">#</div>
           <div className="cellTwo">{tableNameMsg}</div>
@@ -45,12 +47,12 @@ export const Standings = () => {
           <div className="cellFour">{tableCorrectMsg}</div>
           <div className="cellThree">90%</div>
         </div>
-        {Object.keys(standingsContext).map((el, index) => {
-          const { name, uid, slash, total, correct, position } = standingsContext[el]
+        {standingsContext && Object.values(standingsContext).map((el, index) => {
+          const { name, uid, slash, total, correct, position } = el
           return (
             <div key={index} className="standings-header">
               <div className="cellOne">{position}</div>
-              <div className="cellTwo" onClick={() => clickHandler(uid, name)}>
+              <div className="cellTwo" onClick={() => clickHandler({ uid, name })}>
                 {name}
               </div>
               <div className="cellThree">{slash}</div>

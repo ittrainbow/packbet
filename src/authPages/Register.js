@@ -44,13 +44,13 @@ export const Register = () => {
   }, [loading, user])
 
   useEffect(() => {
-    const browserLocale = localStorage.getItem('locale')
+    const locale = localStorage.getItem('locale')
     inputRef.current.focus()
     const noLocale = () => {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
     }
-    browserLocale ? setUserContext({ ...userContext, locale: browserLocale }) : noLocale() // eslint-disable-next-line
+    locale ? setUserContext({ ...userContext, locale }) : noLocale() // eslint-disable-next-line
   }, [])
 
   const register = () => {
@@ -63,15 +63,14 @@ export const Register = () => {
   const emailInputHandler = ({ value }) => dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
   const passwordInputHandler = ({ value }) => dispatch({ type: 'PWD', payload: trimSpaces(value) })
 
+  // TODO
   const localeChangeHandler = () => {
-    const setLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: setLocale })
-    localStorage.setItem('locale', setLocale)
+    const newLocale = locale === 'ru' ? 'ua' : 'ru'
+    setUserContext({ ...userContext, locale: newLocale })
+    localStorage.setItem('locale', newLocale)
   }
 
-  const checked = () => {
-    return locale ? locale === 'ua' : false
-  }
+  const checked = () => locale ? locale === 'ua' : false
 
   // locale
   const locale = localStorage.getItem('locale') || 'ru'
