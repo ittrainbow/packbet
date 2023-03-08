@@ -32,6 +32,7 @@ export const Editor = () => {
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork)
   const [compareQuestion, setCompareQuestion] = useState()
+  const [noChanges, setNoChanges] = useState(true)
   const { selectedWeek, nextWeek, emptyEditor } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
@@ -42,9 +43,12 @@ export const Editor = () => {
     emptyEditor && setEditorContext(initialEditorContext) // eslint-disable-next-line
   }, [selectedWeek])
 
-  const changes = emptyEditor
-    ? Object.keys(questions).length < 1
-    : objectCompare(editorContext, loadedWeek)
+  const checkChanges = () => {
+    const changes = emptyEditor
+      ? Object.keys(questions).some((el) => el)
+      : !objectCompare(editorContext, loadedWeek)
+    setNoChanges(changes)
+  }
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
@@ -58,6 +62,7 @@ export const Editor = () => {
     if (question && total) {
       setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(initialQuestionInWork)
+      checkChanges()
     }
   }
 
@@ -226,7 +231,7 @@ export const Editor = () => {
         />
       </div>
       <div className="editor-form">
-        <Button className={'editor'} disabled={changes} onClick={submitHandler}>
+        <Button className={'editor'} disabled={noChanges} onClick={submitHandler}>
           {buttonSaveMsg}
         </Button>
         <Button className={'editor'} onClick={() => navigate(-1)}>

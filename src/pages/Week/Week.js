@@ -32,7 +32,7 @@ export const Week = () => {
   const { admin, adminAsPlayer, locale } = userContext
   const [uid, setUid] = useState(user && user.uid)
   const [adm, setAdm] = useState(admin && !adminAsPlayer)
-  const [gotChanges, setGotChanges] = useState(false)
+  const [noChanges, setNoChanges] = useState(true)
   const outdated = () => new Date().getTime() > deadline
   const writeAllowed = () => adm || (!adm && !outdated())
 
@@ -41,7 +41,7 @@ export const Week = () => {
   }, [adm, uid])
 
   const checkChanges = (data) => {
-    setGotChanges(!objectCompare(data, compareContext[ansOrRes]))
+    setNoChanges(objectCompare(data, compareContext[ansOrRes]))
   }
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export const Week = () => {
 
   const discardHandler = () => {
     setAnswersContext(compareContext)
-    setGotChanges(false)
+    setNoChanges(true)
   }
 
   const questionStyle = (id) => {
@@ -156,10 +156,10 @@ export const Week = () => {
           )
         })}
       </div>
-      <Button onClick={submitHandler} disabled={!writeAllowed() || !gotChanges || !isItYou}>
-        {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges || !isItYou}>
+        {noChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
-      {gotChanges ? <Button onClick={discardHandler}>{buttonCancelMsg}</Button> : null}
+      {noChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
     </div>
   )
 }
