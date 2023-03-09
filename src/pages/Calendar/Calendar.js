@@ -29,12 +29,12 @@ export const Calendar = () => {
         {Object.keys(weeksContext)
           .sort((a, b) => b - a)
           .filter((el) => (weeksContext[el].active || editor ? el : null))
-          .map((el, index) => {
+          .map((el) => {
             const { name } = weeksContext[el]
             const num = name.split(':')[0].split(' ')[1]
             const selectedWeek = Number(el)
             return (
-              <div key={index} className="week" onClick={() => clickHandler({ selectedWeek, num })}>
+              <div key={selectedWeek} className="week" onClick={() => clickHandler({ selectedWeek, num })}>
                 <div className="week__desc">{name}</div>
               </div>
             )

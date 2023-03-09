@@ -17,25 +17,17 @@ import { i18n } from '../../locale/locale'
 export const Week = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const {
-    appContext,
-    weeksContext,
-    userContext,
-    setUserContext,
-    answersContext,
-    setAnswersContext,
-    compareContext,
-    setCompareContext
-  } = useAppContext()
+  const { appContext, weeksContext, userContext, setUserContext } = useAppContext()
+  const { answersContext, setAnswersContext, compareContext, setCompareContext } = useAppContext()
   const { selectedWeek, isItYou, otherUserUID } = appContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const { admin, adminAsPlayer, locale } = userContext
   const [uid, setUid] = useState(user && user.uid)
   const [adm, setAdm] = useState(admin && !adminAsPlayer)
   const [noChanges, setNoChanges] = useState(true)
+
   const outdated = () => new Date().getTime() > deadline
   const writeAllowed = () => adm || (!adm && !outdated())
-
   const ansOrRes = useMemo(() => {
     return adm ? 'results' : uid
   }, [adm, uid])

@@ -31,7 +31,7 @@ export const About = () => {
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
 
-  const openHandler = () => setOpen(prev => !prev)
+  const openHandler = () => setOpen((prev) => !prev)
 
   return (
     <div className="container">
@@ -41,16 +41,17 @@ export const About = () => {
         {open ? (
           <div>
             {description.map((el, index) => {
+              const key = el.toString().trim(0, 25)
               const classes = `about__paragraph` + (index === 6 ? ' bold' : '')
 
               return index < 8 ? (
-                <div key={index} className={classes}>
+                <div key={key} className={classes}>
                   {!index ? null : el}
                 </div>
               ) : null
             })}
-            {legend.map(({ icon, text }, index) => (
-              <div key={index} className="legend">
+            {legend.map(({ icon, text }) => (
+              <div key={icon} className="legend">
                 <div className="legend__icon">{icon}</div>- {text}
               </div>
             ))}

@@ -47,10 +47,10 @@ export const Standings = () => {
           <div className="cellFour">{tableCorrectMsg}</div>
           <div className="cellThree">90%</div>
         </div>
-        {standingsContext && Object.values(standingsContext).map((el, index) => {
+        {standingsContext && Object.values(standingsContext).map((el) => {
           const { name, uid, slash, total, correct, position } = el
           return (
-            <div key={index} className="standings-header">
+            <div key={uid} className="standings-header">
               <div className="cellOne">{position}</div>
               <div className="cellTwo" onClick={() => clickHandler({ uid, name })}>
                 {name}
