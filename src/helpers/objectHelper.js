@@ -16,7 +16,7 @@ export const objectReplace = (object, id, replacement) => {
   return obj
 }
 
-export const objectCompare = (obj1 = {}, obj2 = {}, submit) => {
+export const objectCompare = (obj1 = {}, obj2 = {}) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 

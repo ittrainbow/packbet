@@ -8,9 +8,9 @@ import { Button } from '../../UI'
 import { i18n } from '../../locale/locale'
 
 export const About = () => {
-  const [open, setOpen] = useState(false)
   const { aboutContext, userContext } = useAppContext()
   const { locale } = userContext
+  const [open, setOpen] = useState(false)
   const [description, setDescription] = useState([])
 
   useEffect(() => {

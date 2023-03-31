@@ -74,8 +74,8 @@ export const Editor = () => {
 
   const changeDateHandler = (value) => {
     const deadline = new Date(value).getTime()
-
     setEditorContext({ ...editorContext, deadline })
+    checkChanges()
   }
 
   const submitHandler = async () => {
@@ -138,8 +138,9 @@ export const Editor = () => {
   }
 
   function renderQuestions() {
-    if (questions)
-      return Object.keys(questions).map((el) => {
+    return (
+      questions &&
+      Object.keys(questions).map((el) => {
         const id = Number(el)
         const { question, total } = questions[id]
         const thisQuestionIsSelected = id === questionInWork.id
@@ -169,6 +170,7 @@ export const Editor = () => {
           </div>
         )
       })
+    )
   }
 
   // locale
