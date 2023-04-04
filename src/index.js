@@ -8,7 +8,8 @@ import './index.scss'
 import App from './App'
 
 const store = configureStore({
-  reducer
+  reducer,
+  devTools: process.env.NODE_ENV === 'development'
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
