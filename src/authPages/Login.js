@@ -69,7 +69,7 @@ export const Login = () => {
     localStorage.setItem('locale', newLocale)
   }
 
-  const localeChecked = () => locale ? locale === 'ua' : false
+  const localeChecked = () => (locale ? locale === 'ua' : false)
 
   // locale
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')

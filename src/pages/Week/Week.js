@@ -55,12 +55,18 @@ export const Week = () => {
   const onClickHandler = (value, id, activity) => {
     if (user && writeAllowed() && isItYou) {
       const data = structuredClone(answersContext)
-      if (!data[ansOrRes]) data[ansOrRes] = {}
-      if (!data[ansOrRes][selectedWeek]) data[ansOrRes][selectedWeek] = {}
+      if (!data[ansOrRes]) {
+        data[ansOrRes] = {}
+      }
+      if (!data[ansOrRes][selectedWeek]) {
+        data[ansOrRes][selectedWeek] = {}
+      }
 
       const thisWeek = data[ansOrRes][selectedWeek]
       value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
-      if (!Object.keys(thisWeek).some((el) => el)) delete data[ansOrRes][selectedWeek]
+      if (!Object.keys(thisWeek).some((el) => el)) {
+        delete data[ansOrRes][selectedWeek]
+      }
 
       setAnswersContext(data)
       checkChanges(data[ansOrRes])
