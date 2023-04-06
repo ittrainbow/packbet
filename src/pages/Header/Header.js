@@ -19,12 +19,14 @@ import { i18n } from '../../locale/locale'
 import { initialEditorContext } from '../../context/initialContexts'
 
 export const Header = () => {
-  const { mobile, editor } = useSelector((state) => state.app)
+  const { mobile, editor } = useSelector((store) => store.app)
   const { appContext, setAppContext, userContext, setEditorContext } = useAppContext()
   const { admin, locale, name } = userContext
   const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  // console.log(history)
 
   // locale
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header')

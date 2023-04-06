@@ -1,16 +1,18 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { HistoryRouter } from 'redux-first-history/rr6'
 
 import { About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { ContextProvider } from '../context/Context'
 import { Loader } from '../UI'
 import { Header } from '../pages'
+import { history } from '../redux/store'
 
 export const Router = ({ children }) => {
-  const { loading } = useSelector((state) => state.app)
-  
+  const { loading } = useSelector((store) => store.app)
+
   const routes = () => {
     return (
       <Routes>
@@ -35,14 +37,12 @@ export const Router = ({ children }) => {
   }
 
   return (
-    <div>
-      <BrowserRouter>
-        <ContextProvider>
-          <Header />
-          {children}
-          {loading ? <Loader /> : routes()}
-        </ContextProvider>
-      </BrowserRouter>
-    </div>
+    <HistoryRouter history={history}>
+      <ContextProvider>
+        <Header />
+        {children}
+        {loading ? <Loader /> : routes()}
+      </ContextProvider>
+    </HistoryRouter>
   )
 }
