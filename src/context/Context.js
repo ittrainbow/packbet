@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 
 import * as initialContext from './initialContexts'
 import { db, auth } from '../db'
-import { setLoading } from '../redux/actions'
 import { objectCompose, getWeeksIDs, tableCreator, objectReplace } from '../helpers'
 
 export const Context = React.createContext()
@@ -76,7 +75,7 @@ export const ContextProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
     } finally {
-      dispatch(setLoading(false))
+      dispatch({ type: 'SET_LOADING', payload: false })
     }
   }
 

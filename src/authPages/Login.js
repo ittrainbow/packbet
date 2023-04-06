@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 
 export const Login = () => {
   const navigate = useNavigate()
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, setState] = useReducer(reducer, initialState)
   const [user, loading, error] = useAuthState(auth)
   const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
@@ -55,12 +55,12 @@ export const Login = () => {
 
   const emailInputHandler = ({ value }) => {
     const checkEmailValid = /\S+@\S+\.\S+/.test(value)
-    dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
-    dispatch({ type: 'EMAIL_VALID', payload: checkEmailValid })
+    setState({ type: 'EMAIL', payload: trimSpaces(value) })
+    setState({ type: 'EMAIL_VALID', payload: checkEmailValid })
   }
 
   const passwordInputHandler = ({ value }) => {
-    dispatch({ type: 'PASSWORD', payload: trimSpaces(value) })
+    setState({ type: 'PASSWORD', payload: trimSpaces(value) })
   }
 
   const localeChangeHandler = () => {

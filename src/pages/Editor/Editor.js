@@ -10,7 +10,6 @@ import './Editor.scss'
 import { db } from '../../db'
 import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../../helpers'
 import { useAppContext } from '../../context/Context'
-import { setLoading } from '../../redux/actions'
 import { initialQuestionInWork, initialEditorContext } from '../../context/initialContexts'
 import { Button, Input } from '../../UI'
 import { i18n } from '../../locale/locale'
@@ -80,7 +79,7 @@ export const Editor = () => {
 
   const submitHandler = async () => {
     try {
-      dispatch(setLoading(true))
+      dispatch({ type: 'SET_LOADING', payload: true })
       const { questions } = editorContext
       const link = (emptyEditor ? nextWeek : selectedWeek).toString()
       const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
@@ -94,7 +93,7 @@ export const Editor = () => {
     } catch (error) {
       console.error(error)
     } finally {
-      dispatch(setLoading(false))
+      dispatch({ type: 'SET_LOADING', payload: false })
     }
   }
 
@@ -107,7 +106,7 @@ export const Editor = () => {
   const deleteWeek = async () => {
     const weeks = objectTrim(weeksContext, selectedWeek)
     try {
-      dispatch(setLoading(true))
+      dispatch({ type: 'SET_LOADING', payload: true })
 
       const { currentWeek, nextWeek } = getWeeksIDs(weeks)
       const data = { [selectedWeek]: deleteField() }
@@ -120,7 +119,7 @@ export const Editor = () => {
       console.error(error)
     } finally {
       navigate('/calendar')
-      dispatch(setLoading(false))
+      dispatch({ type: 'SET_LOADING', payload: false })
     }
   }
 

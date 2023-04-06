@@ -10,7 +10,6 @@ import './auth.scss'
 import { auth, db } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { useAppContext } from '../context/Context'
-import { setLoading } from '../redux/actions'
 import { i18n } from '../locale/locale'
 
 export const Profile = () => {
@@ -28,7 +27,7 @@ export const Profile = () => {
   }, [])
 
   const submitHandler = async () => {
-    dispatch(setLoading(true))
+    dispatch({ type: 'SET_LOADING', payload: true })
     try {
       const { uid } = user
       const name = tempName
@@ -41,7 +40,7 @@ export const Profile = () => {
     } catch (error) {
       console.error(error)
     }
-    dispatch(setLoading(false))
+    dispatch({ type: 'SET_LOADING', payload: false })
     navigate(-1)
   }
 
