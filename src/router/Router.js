@@ -6,6 +6,7 @@ import { About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { ContextProvider } from '../context/Context'
 import { Loader } from '../UI'
+import { Header } from '../pages'
 
 export const Router = ({ children }) => {
   const { loading } = useSelector((state) => state.app)
@@ -37,6 +38,7 @@ export const Router = ({ children }) => {
     <div>
       <BrowserRouter>
         <ContextProvider>
+          <Header />
           {children}
           {loading ? <Loader /> : routes()}
         </ContextProvider>
