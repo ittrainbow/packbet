@@ -15,11 +15,11 @@ export const Calendar = () => {
 
   const clickHandler = ({ selectedWeek, num }) => {
     setAppContext({ ...appContext, selectedWeek })
-    const setEditor = () => {
+    const setEditorTab = () => {
       setEditorContext(weeksContext[selectedWeek])
       navigate(`/editor/${num}`)
     }
-    editor ? setEditor() : navigate(`/week/${num}`)
+    editor ? setEditorTab() : navigate(`/week/${num}`)
   }
 
   return (

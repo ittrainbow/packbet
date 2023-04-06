@@ -19,6 +19,7 @@ export const Router = ({ children }) => {
         <Route exact path="/" element={<About />} />
         <Route exact path="/userpage" element={<UserPage />} />
         <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/season" element={<Calendar />} />
         <Route exact path="/calendar" element={<Calendar />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />

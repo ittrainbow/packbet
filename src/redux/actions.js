@@ -1,4 +1,4 @@
-import { SET_MOBILE, SET_LOADING, SET_EDITOR } from './types'
+import { SET_MOBILE, SET_LOADING } from './types'
 
 export const setMobile = (boolean) => {
   return {
@@ -10,13 +10,6 @@ export const setMobile = (boolean) => {
 export const setLoading = (boolean) => {
   return {
     type: SET_LOADING,
-    payload: boolean
-  }
-}
-
-export const setEditor = (boolean) => {
-  return {
-    type: SET_EDITOR,
     payload: boolean
   }
 }
