@@ -8,7 +8,7 @@ import { ContextProvider } from '../context/Context'
 import { Loader } from '../UI'
 
 export const Router = ({ children }) => {
-  const { loading } = useSelector((state) => state)
+  const { loading } = useSelector((state) => state.app)
   
   const routes = () => {
     return (

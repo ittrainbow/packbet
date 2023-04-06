@@ -19,7 +19,7 @@ import { i18n } from '../../locale/locale'
 import { initialEditorContext } from '../../context/initialContexts'
 
 export const Header = () => {
-  const { mobile, editor } = useSelector((state) => state)
+  const { mobile, editor } = useSelector((state) => state.app)
   const { appContext, setAppContext, userContext, setEditorContext } = useAppContext()
   const { admin, locale, name } = userContext
   const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext

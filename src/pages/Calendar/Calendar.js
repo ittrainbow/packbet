@@ -9,7 +9,7 @@ import { useAppContext } from '../../context/Context'
 
 export const Calendar = () => {
   const navigate = useNavigate()
-  const { editor } = useSelector((state) => state)
+  const { editor } = useSelector((state) => state.app)
   const { weeksContext, appContext, setAppContext, setEditorContext } = useAppContext()
   const { isItYou } = appContext
 
