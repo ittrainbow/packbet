@@ -13,7 +13,7 @@ export const initialAppContext = {
 
 export const initialUserContext = { 
   name: '', 
-  locale: '',
+  locale: 'ru',
   email: '', 
   admin: false, 
   adminAsPlayer: true,
