@@ -9,17 +9,17 @@ import { useAppContext } from '../../context/Context'
 
 export const Calendar = () => {
   const navigate = useNavigate()
-  const { editor } = useSelector((state) => state)
+  const { editor } = useSelector((store) => store.app)
   const { weeksContext, appContext, setAppContext, setEditorContext } = useAppContext()
   const { isItYou } = appContext
 
   const clickHandler = ({ selectedWeek, num }) => {
     setAppContext({ ...appContext, selectedWeek })
-    const setEditor = () => {
+    const setEditorTab = () => {
       setEditorContext(weeksContext[selectedWeek])
       navigate(`/editor/${num}`)
     }
-    editor ? setEditor() : navigate(`/week/${num}`)
+    editor ? setEditorTab() : navigate(`/week/${num}`)
   }
 
   return (

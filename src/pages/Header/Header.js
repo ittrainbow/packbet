@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   FaInfoCircle,
   FaUserAlt,
@@ -14,17 +14,15 @@ import {
 import './Header.scss'
 
 import { useAppContext } from '../../context/Context'
-import { setEditor } from '../../redux/actions'
 import { i18n } from '../../locale/locale'
 import { initialEditorContext } from '../../context/initialContexts'
 
 export const Header = () => {
-  const { mobile, editor } = useSelector((state) => state)
+  const { mobile } = useSelector((store) => store.app)
   const { appContext, setAppContext, userContext, setEditorContext } = useAppContext()
   const { admin, locale, name } = userContext
   const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   // locale
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header')
@@ -33,7 +31,7 @@ export const Header = () => {
     { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
     { path: '/userpage', name: tab1msg, icon: <FaUserAlt />, id: 1 },
     { path: '/week', name: tab2msg, icon: <FaFootballBall />, id: 2 },
-    { path: '/calendar', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
+    { path: '/season', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
     { path: '/standings', name: tab4msg, icon: <FaListUl />, id: 4 }
   ]
 
@@ -56,8 +54,6 @@ export const Header = () => {
     setAppContext(context)
     navigate(path)
 
-    id <= 4 && editor && dispatch(setEditor(false))
-    id >= 5 && !editor && dispatch(setEditor(true))
     id === 6 && setEditorContext(initialEditorContext)
   }
 

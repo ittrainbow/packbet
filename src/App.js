@@ -1,25 +1,15 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { isMobile } from 'react-device-detect'
-
-import './App.scss'
+import { useDispatch } from 'react-redux'
 
 import { Router } from './router/Router'
-import { Header } from './pages'
-import { setMobile } from './redux/actions'
 
-const App = () => {
+export const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setMobile(isMobile)) // eslint-disable-next-line
+    dispatch({ type: 'SET_MOBILE', payload: isMobile }) // eslint-disable-next-line
   }, [])
 
-  return (
-    <Router>
-      <Header />
-    </Router>
-  )
+  return <Router />
 }
-
-export default App

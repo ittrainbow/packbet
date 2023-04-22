@@ -1,21 +1,25 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { HistoryRouter } from 'redux-first-history/rr6'
 
 import { About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { ContextProvider } from '../context/Context'
 import { Loader } from '../UI'
+import { Header } from '../pages'
+import { history } from '../redux/store'
 
 export const Router = ({ children }) => {
-  const { loading } = useSelector((state) => state)
-  
+  const { loading } = useSelector((store) => store.app)
+
   const routes = () => {
     return (
       <Routes>
         <Route exact path="/" element={<About />} />
         <Route exact path="/userpage" element={<UserPage />} />
         <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/season" element={<Calendar />} />
         <Route exact path="/calendar" element={<Calendar />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
@@ -34,13 +38,12 @@ export const Router = ({ children }) => {
   }
 
   return (
-    <div>
-      <BrowserRouter>
-        <ContextProvider>
-          {children}
-          {loading ? <Loader /> : routes()}
-        </ContextProvider>
-      </BrowserRouter>
-    </div>
+    <HistoryRouter history={history}>
+      <ContextProvider>
+        <Header />
+        {children}
+        {loading ? <Loader /> : routes()}
+      </ContextProvider>
+    </HistoryRouter>
   )
 }

@@ -1,12 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import './Standings.scss'
 
 import { useAppContext } from '../../context/Context'
-import { setEditor } from '../../redux/actions'
 import { auth } from '../../db'
 import { i18n } from '../../locale/locale'
 import { OtherUser } from '../../UI'
@@ -14,7 +12,6 @@ import { OtherUser } from '../../UI'
 export const Standings = () => {
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const { userContext, standingsContext, appContext, setAppContext } = useAppContext()
   const { locale } = userContext
 
@@ -27,8 +24,7 @@ export const Standings = () => {
         isItYou: false,
         tabActive: 3
       })
-      dispatch(setEditor(false))
-      navigate('/calendar')
+      navigate('/season')
     }
     otherUserUID !== user.uid && setApp()
   }
