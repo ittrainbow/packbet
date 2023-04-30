@@ -3,6 +3,7 @@
 .header {
   background: black;
   height: $header-height;
+  -webkit-tap-highlight-color: transparent;
 
   &__tab,
   &__tab-active,
