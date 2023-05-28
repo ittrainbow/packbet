@@ -1,0 +1,97 @@
+@import './vars';
+
+.editor-input {
+  width: 100%;
+}
+
+.editor-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0 5px;
+  border-radius: 5px;
+
+  &__desc {
+    height: 24px;
+    display: flex;
+    flex-grow: 1;
+  }
+}
+
+.editor-question {
+  display: flex;
+  align-items: center;
+  background-color: $base-itembg;
+  border: 1px solid $base-itemborder;
+  gap: 3px;
+  padding: 3px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+
+  &__desc {
+    flex-grow: 1;
+    padding: 0 0 3px 3px;
+
+    @media only screen and (max-width: $max-width) {
+      padding-bottom: 0;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+  }
+
+  &__edit,
+  &__trash {
+    padding: 3px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  &__edit:hover,
+  &__edit:active {
+    color: $base-green-active;
+    transition: 0.22s;
+  }
+
+  &__red:hover,
+  &__red:active {
+    color: $base-red-active;
+    transition: 0.22s;
+  }
+}
+
+.faBan {
+  padding-right: 5px;
+  color: $base-red-active;
+}
+
+.editor-checkbox {
+  display: flex;
+  width: 110px;
+  align-items: center;
+
+  &__pad {
+    flex-grow: 1;
+    padding: 0 4px 4px;
+
+    @media only screen and (max-width: $max-width) {
+      padding-bottom: 1px;
+    }
+  }
+
+  &__box {
+    cursor: pointer;
+  }
+}
+
+.editor-datetime {
+  &__container {
+    margin: 5px 0 5px;
+    max-width: 200px;
+  }
+}
+
+.short {
+  width: 60px;
+}

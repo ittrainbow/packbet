@@ -10,7 +10,7 @@ export const getWeeksIDs = (weeks) => {
 }
 
 export const getLastWeek = (weeks) => {
-  return weeks[weeks.length - 1]
+  return weeks.at(-1)
 }
 
 export const ansHelper = (answersContext, selectedWeek, uid, id) => {

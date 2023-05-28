@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Input } from '@mui/material'
 
-import './auth.scss'
-
 import { auth } from '../db/firebase'
 import { i18n } from '../locale/locale'
 import { sendPasswordReset } from '../db/auth'

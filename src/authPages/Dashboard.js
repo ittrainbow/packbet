@@ -1,8 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import './auth.scss'
-
 import { logout } from '../db/auth'
 import { Button } from '../UI'
 import { i18n } from '../locale/locale'
