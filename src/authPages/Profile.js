@@ -5,8 +5,6 @@ import { useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
 import { Input } from '@mui/material'
 
-import './auth.scss'
-
 import { auth, db } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { useAppContext } from '../context/Context'

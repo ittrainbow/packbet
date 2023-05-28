@@ -1,10 +1,23 @@
 @import './styles/vars';
+@import './styles/auth';
+@import './styles/adminPlayer';
+@import './styles/button';
+@import './styles/input';
+@import './styles/loader';
+@import './styles/localeSwitcher';
+@import './styles/otherUser';
+@import './styles/ynButtons';
+@import './styles/header';
+@import './styles/calendar';
+@import './styles/about';
+@import './styles/editor';
+@import './styles/week';
+@import './styles/standings';
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #d7d7d7;

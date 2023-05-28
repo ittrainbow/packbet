@@ -1,0 +1,71 @@
+@import './vars';
+
+.locale-switch {
+  position: relative;
+  display: inline-block;
+  border: 1px solid $base-itemborder;
+  margin: 15px 0 15px;
+  border-radius: 34px;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.locale-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The locale */
+.locale {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $base-itembg;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.locale:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: $base-itemborder;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+input:checked + .locale:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded locales */
+.locale.round {
+  border-radius: 34px;
+}
+
+.locale.round:before {
+  border-radius: 50%;
+}
+
+.locale-switcher {
+  min-width: 220px;
+  max-width: $max-width;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locale-flag {
+  width: 20%;
+  justify-content: center;
+}
