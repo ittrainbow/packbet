@@ -14,6 +14,7 @@ import {
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
 import { initialEditorContext } from '../context/initialContexts'
+import { setTabActive } from '../helpers/tabActive'
 
 export const Header = () => {
   const { mobile } = useSelector((store) => store.app)
@@ -50,6 +51,7 @@ export const Header = () => {
       emptyEditor: id === 6 ? true : false
     }
     setAppContext(context)
+    setTabActive(id)
     navigate(path)
 
     id === 6 && setEditorContext(initialEditorContext)

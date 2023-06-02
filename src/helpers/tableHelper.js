@@ -1,8 +1,7 @@
 export const tableObjectCreator = (ansTotal, ansCorrect, resultsTotal) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
   const correct = ansTotal ? (ansCorrect / ansTotal).toFixed(3).toString() : '0.000'
-  const slash = ansCorrect + '/' + ansTotal
-  return { total, correct, slash }
+  return { total, correct }
 }
 
 export const tableCreator = (answersContext, userListContext) => {
@@ -26,8 +25,8 @@ export const tableCreator = (answersContext, userListContext) => {
         })
     })
 
-    const { total, correct, slash } = tableObjectCreator(ansTotal, ansCorrect, resultsTotal)
-    object[el] = { name, uid, slash, total, correct }
+    const { total, correct } = tableObjectCreator(ansTotal, ansCorrect, resultsTotal)
+    object[el] = { name, uid, total, ansTotal, correct, ansCorrect }
   })
 
   const array = []

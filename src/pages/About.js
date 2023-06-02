@@ -37,30 +37,28 @@ export const About = () => {
       <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
       <div>
         {open ? (
-          <div>
+          <>
             {description.map((el, index) => {
               const key = el.toString().trim(0, 25)
-              const classes = `about__paragraph` + (index === 6 ? ' bold' : '')
+              const classes = `about__paragraph` + (index === 8 ? ' bold' : '')
 
-              return index < 8 ? (
+              return index < 9 ? (
                 <div key={key} className={classes}>
                   {!index ? null : el}
                 </div>
               ) : null
             })}
-            {legend.map(({ icon, text }) => (
-              <div key={icon} className="legend">
+            {legend.map(({ icon, text }, index) => (
+              <div key={index} className="legend">
                 <div className="legend__icon">{icon}</div>- {text}
               </div>
             ))}
-            {description.length === 9 ? (
-              <div className="about__paragraph">
-                <div>{description[8]}</div>
-              </div>
-            ) : null}
+            <div className="about__paragraph">
+              <div>{description[9]}</div>
+            </div>
             <hr />
             <div className="about__paragraph about__last-div">{devMsg}</div>
-          </div>
+          </>
         ) : null}
       </div>
     </div>

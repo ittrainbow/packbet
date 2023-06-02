@@ -13,7 +13,7 @@
   background-color: $base-itembg;
   padding: 2px 2px 3px 2px;
   border-radius: 5px;
-  
+
   @media only screen and (max-width: $max-width) {
     padding-bottom: 1px;
   }
@@ -44,4 +44,9 @@
 
 .cellFour {
   letter-spacing: -0.05em;
+}
+
+.tierline {
+  text-align: justify;
+  padding: 15px;
 }

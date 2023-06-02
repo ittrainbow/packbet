@@ -10,6 +10,10 @@ import {
   signOut
 } from 'firebase/auth'
 
+import { initialAppContext } from '../context/initialContexts'
+
+const { season } = initialAppContext
+
 const googleProvider = new GoogleAuthProvider()
 export const signInWithGoogle = async () => {
   try {
@@ -21,7 +25,7 @@ export const signInWithGoogle = async () => {
       const user = { email, name, locale, admin: false }
       const answers = {}
       await setDoc(doc(db, 'users', uid), user)
-      await setDoc(doc(db, 'answers', uid), answers)
+      await setDoc(doc(db, `answers${season}`, uid), answers)
     }
     docs.data() === undefined && googleAuth()
   } catch (error) {

@@ -18,9 +18,12 @@ export const i18n = (locale, component) => {
   const registerMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
   const registerNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
-  const registerNameAlert = locale === 'ru' ? "Введите имя" : `Введiть iм'я`
+  const registerNameAlert = locale === 'ru' ? 'Введите имя' : `Введiть iм'я`
   const registerEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
-  const registerPasswordAlert = locale === 'ru' ? 'Введите пароль не менее трех символов' : 'Введіть пароль щонайменше трьох символів'
+  const registerPasswordAlert =
+    locale === 'ru'
+      ? 'Введите пароль не менее трех символов'
+      : 'Введіть пароль щонайменше трьох символів'
 
   const buttonChangesMsg = locale === 'ru' ? 'Изменений нет' : 'Немає змiн'
   const buttonCancelMsg = locale === 'ru' ? 'Отменить' : 'Скасувати'
@@ -51,9 +54,13 @@ export const i18n = (locale, component) => {
   const successMsg = locale === 'ru' ? 'Успешно сохранено' : 'Успішно збережено'
   const failureMsg = locale === 'ru' ? 'Не удалось сохранить' : 'Не вдалося зберегти'
 
-  const tableNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
+  const tableNameMsg = locale === 'ru' ? 'Игрок' : `Гравець`
   const tableAllMsg = locale === 'ru' ? 'Всего' : 'Всього'
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
+  const tableTierline =
+    locale === 'ru'
+      ? 'В таблице отображены только игроки, давшие ответ хотя бы на один вопрос.'
+      : 'У таблиці відображені лише гравці, які дали відповідь хоча б на одне питання.'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -73,8 +80,8 @@ export const i18n = (locale, component) => {
 
   const devMsg =
     locale === 'ru'
-      ? 'Разработка и тестирование: Андрей Гордиенко и Николай Асиновский.'
-      : 'Розробка та тестування: Андрій Гордієнко та Микола Асиновський.'
+      ? 'Разработка: Андрей Гордиенко. Тестирование: Николай Асиновский. Корректор: Сергей Павленко.'
+      : 'Розробка: Андрій Гордіенко. Тестування: Микола Асиновський. Коректор: Сергiй Павленко.'
 
   const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
@@ -93,7 +100,7 @@ export const i18n = (locale, component) => {
     }
 
     case 'standings':
-      return { tableNameMsg, tableAllMsg, tableCorrectMsg }
+      return { tableNameMsg, tableAllMsg, tableCorrectMsg, tableTierline }
 
     case 'otheruser':
       return { otherUser1msg, otherUser2msg, otherUser3msg }

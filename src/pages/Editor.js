@@ -11,6 +11,7 @@ import { useAppContext } from '../context/Context'
 import { initialQuestionInWork, initialEditorContext } from '../context/initialContexts'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
+import { setTabActive } from '../helpers/tabActive'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ export const Editor = () => {
   const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork)
   const [compareQuestion, setCompareQuestion] = useState()
   const [noChanges, setNoChanges] = useState(true)
-  const { selectedWeek, nextWeek, emptyEditor } = appContext
+  const { selectedWeek, nextWeek, emptyEditor, season } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
   const loadedWeek = weeksContext[selectedWeek]
@@ -87,7 +88,7 @@ export const Editor = () => {
 
       setAppContext({ ...appContext, currentWeek })
       setWeeksContext(weeks)
-      await setDoc(doc(db, 'weeks', link), editorContext)
+      await setDoc(doc(db, `weeks${season}`, link), editorContext)
     } catch (error) {
       console.error(error)
     } finally {
@@ -111,8 +112,8 @@ export const Editor = () => {
 
       setWeeksContext(weeks)
       setAppContext({ ...appContext, currentWeek, nextWeek })
-      await updateDoc(doc(db, 'answers', 'results'), data)
-      await deleteDoc(doc(db, 'weeks', selectedWeek.toString()))
+      await updateDoc(doc(db, `answers${season}`, 'results'), data)
+      await deleteDoc(doc(db, `weeks${season}`, selectedWeek.toString()))
     } catch (error) {
       console.error(error)
     } finally {
@@ -137,6 +138,7 @@ export const Editor = () => {
   const goBackHandler = () => {
     const context = { ...appContext, tabActive: 5, emptyEditor: false }
     setAppContext(context)
+    setTabActive(5)
     navigate('/calendar')
   }
 

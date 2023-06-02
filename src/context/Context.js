@@ -60,13 +60,15 @@ export const ContextProvider = ({ children }) => {
 
   const fetchData = async () => {
     try {
-      const weeks = await fetchFromDB('weeks')
+      const { season } = appContext
+      
+      const weeks = await fetchFromDB(`weeks${season}`)
+      const answers = await fetchFromDB(`answers${season}`)
       const about = await fetchFromDB('about')
       const users = await fetchFromDB('users')
-      const answers = await fetchFromDB('answers')
       const { currentWeek, nextWeek } = getWeeksIDs(weeks)
 
-      setAppContext({ ...appContext, currentWeek, nextWeek })
+      setAppContext({ ...appContext, currentWeek, nextWeek, season })
       setWeeksContext(weeks)
       setAnswersContext(answers)
       setCompareContext(structuredClone(answers))

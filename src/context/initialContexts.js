@@ -1,5 +1,6 @@
 export const initialAppContext = {
   tabActive: 1,
+  season: 2023,
   about: '',
   currentWeek: 0,
   nextWeek: null,
@@ -11,11 +12,11 @@ export const initialAppContext = {
   alert: false
 }
 
-export const initialUserContext = { 
-  name: '', 
+export const initialUserContext = {
+  name: '',
   locale: 'ru',
-  email: '', 
-  admin: false, 
+  email: '',
+  admin: false,
   adminAsPlayer: true,
   tempName: '',
   tempLocale: ''
@@ -25,15 +26,15 @@ export const initialWeeksContext = [{ number: '', name: '', questions: {} }]
 
 export const initialAboutContext = []
 
-export const initialEditorContext = { 
-  questions: {}, 
-  name: '', 
-  active: false, 
-  deadline: '' 
+export const initialEditorContext = {
+  questions: {},
+  name: '',
+  active: false,
+  deadline: ''
 }
 
-export const initialQuestionInWork = { 
-  question: '', 
-  total: '', 
+export const initialQuestionInWork = {
+  question: '',
+  total: '',
   id: null
 }

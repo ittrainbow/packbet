@@ -17,7 +17,7 @@ export const Week = () => {
   const [user] = useAuthState(auth)
   const { appContext, weeksContext, userContext, setUserContext } = useAppContext()
   const { answersContext, setAnswersContext, compareContext, setCompareContext } = useAppContext()
-  const { selectedWeek, isItYou, otherUserUID } = appContext
+  const { selectedWeek, isItYou, otherUserUID, season } = appContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const { admin, adminAsPlayer, locale } = userContext
   const [uid, setUid] = useState(user && user.uid)
@@ -79,12 +79,13 @@ export const Week = () => {
         const data = adminAsPlayer ? answersContext[uid] : answersContext.results
         const setWeek = () =>
           !data[selectedWeek]
-            ? deleteDoc(doc(db, 'answers', ansOrRes))
-            : setDoc(doc(db, 'answers', ansOrRes), data)
+            ? deleteDoc(doc(db, `answers${season}`, ansOrRes))
+            : setDoc(doc(db, `answers${season}`, ansOrRes), data)
 
         setWeek().then(async () => {
-          const response = await getDoc(doc(db, 'answers', ansOrRes))
-          objectCompare(response.data(), data) ? toast.success(successMsg) : toast.error(failureMsg)
+          const response = await getDoc(doc(db, `answers${season}`, ansOrRes))
+          const saveSuccess = objectCompare(response.data(), data)
+          saveSuccess ? toast.success(successMsg) : toast.error(failureMsg)
           dispatch({ type: 'SET_LOADING', payload: false })
         })
       } catch (error) {
