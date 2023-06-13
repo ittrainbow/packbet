@@ -12,6 +12,7 @@ import { initialQuestionInWork, initialEditorContext } from '../context/initialC
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { setTabActive } from '../helpers/tabActive'
+import { SET_LOADING } from '../redux/types'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -78,7 +79,7 @@ export const Editor = () => {
 
   const submitHandler = async () => {
     try {
-      dispatch({ type: 'SET_LOADING', payload: true })
+      dispatch({ type: SET_LOADING, payload: true })
       const { questions } = editorContext
       const link = (emptyEditor ? nextWeek : selectedWeek).toString()
       const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
@@ -92,7 +93,7 @@ export const Editor = () => {
     } catch (error) {
       console.error(error)
     } finally {
-      dispatch({ type: 'SET_LOADING', payload: false })
+      dispatch({ type: SET_LOADING, payload: false })
     }
   }
 
@@ -105,7 +106,7 @@ export const Editor = () => {
   const deleteWeek = async () => {
     const weeks = objectTrim(weeksContext, selectedWeek)
     try {
-      dispatch({ type: 'SET_LOADING', payload: true })
+      dispatch({ type: SET_LOADING, payload: true })
 
       const { currentWeek, nextWeek } = getWeeksIDs(weeks)
       const data = { [selectedWeek]: deleteField() }
@@ -118,7 +119,7 @@ export const Editor = () => {
       console.error(error)
     } finally {
       navigate('/calendar')
-      dispatch({ type: 'SET_LOADING', payload: false })
+      dispatch({ type: SET_LOADING, payload: false })
     }
   }
 

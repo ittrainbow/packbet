@@ -11,6 +11,7 @@ import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
 import { i18n } from '../locale/locale'
+import { SET_LOADING } from '../redux/types'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -74,7 +75,7 @@ export const Week = () => {
   const submitHandler = async () => {
     if (isItYou) {
       try {
-        dispatch({ type: 'SET_LOADING', payload: true })
+        dispatch({ type: SET_LOADING, payload: true })
 
         const data = adminAsPlayer ? answersContext[uid] : answersContext.results
         const setWeek = () =>
@@ -86,7 +87,7 @@ export const Week = () => {
           const response = await getDoc(doc(db, `answers${season}`, ansOrRes))
           const saveSuccess = objectCompare(response.data(), data)
           saveSuccess ? toast.success(successMsg) : toast.error(failureMsg)
-          dispatch({ type: 'SET_LOADING', payload: false })
+          dispatch({ type: SET_LOADING, payload: false })
         })
       } catch (error) {
         console.error(error)

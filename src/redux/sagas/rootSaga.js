@@ -1,9 +1,10 @@
 import { spawn, call, all } from 'redux-saga/effects'
 
-import { switchEditorSaga } from "./appSagas"
+import { switchEditorSaga } from './appSagas'
+import { initSaga } from './initSagas'
 
 export function* rootSaga() {
-  const sagas = [switchEditorSaga]
+  const sagas = [switchEditorSaga, initSaga]
   const retrySagas = sagas.map((saga) => {
     return spawn(function* () {
       while (true) {

@@ -9,6 +9,7 @@ import { auth, db } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
+import { SET_LOADING } from '../redux/types'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export const Profile = () => {
   }, [])
 
   const submitHandler = async () => {
-    dispatch({ type: 'SET_LOADING', payload: true })
+    dispatch({ type: SET_LOADING, payload: true })
     try {
       const { uid } = user
       const name = tempName
@@ -38,7 +39,7 @@ export const Profile = () => {
     } catch (error) {
       console.error(error)
     }
-    dispatch({ type: 'SET_LOADING', payload: false })
+    dispatch({ type: SET_LOADING, payload: false })
     navigate(-1)
   }
 

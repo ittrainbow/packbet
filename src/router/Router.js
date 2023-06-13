@@ -39,11 +39,11 @@ export const Router = ({ children }) => {
 
   return (
     <HistoryRouter history={history}>
-      <ContextProvider>
+      {/* <ContextProvider> */}
         <Header />
         {children}
         {loading ? <Loader /> : routes()}
-      </ContextProvider>
+      {/* </ContextProvider> */}
     </HistoryRouter>
   )
 }

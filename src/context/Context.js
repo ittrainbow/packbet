@@ -1,13 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
+import React, { useState, useContext, useEffect, createContext } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDispatch } from 'react-redux'
 
 import * as initialContext from './initialContexts'
-import { db, auth } from '../db'
-import { objectCompose, getWeeksIDs, tableCreator, objectReplace } from '../helpers'
+import { auth } from '../db'
+import { tableCreator, objectReplace } from '../helpers'
 
-export const Context = React.createContext()
+export const Context = createContext()
 
 export const useAppContext = () => useContext(Context)
 
@@ -29,11 +27,6 @@ export const ContextProvider = ({ children }) => {
   const [compareContext, setCompareContext] = useState()
   const [standingsContext, setStandingsContext] = useState()
   const [user] = useAuthState(auth)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    fetchData() // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     if (answersContext && userListContext) {
@@ -51,35 +44,6 @@ export const ContextProvider = ({ children }) => {
       setUserContext({ ...userContext, name, email, admin, locale })
     } // eslint-disable-next-line
   }, [user, userListContext])
-
-  const fetchFromDB = async (link) => {
-    return getDocs(collection(db, link)).then((response) => {
-      return objectCompose(response)
-    })
-  }
-
-  const fetchData = async () => {
-    try {
-      const { season } = appContext
-      
-      const weeks = await fetchFromDB(`weeks${season}`)
-      const answers = await fetchFromDB(`answers${season}`)
-      const about = await fetchFromDB('about')
-      const users = await fetchFromDB('users')
-      const { currentWeek, nextWeek } = getWeeksIDs(weeks)
-
-      setAppContext({ ...appContext, currentWeek, nextWeek, season })
-      setWeeksContext(weeks)
-      setAnswersContext(answers)
-      setCompareContext(structuredClone(answers))
-      setAboutContext(about)
-      setUserListContext(users)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      dispatch({ type: 'SET_LOADING', payload: false })
-    }
-  }
 
   const clearUserContext = (locale) => {
     setUserContext({ ...user, locale })
