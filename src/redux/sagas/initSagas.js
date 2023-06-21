@@ -1,8 +1,8 @@
 import { take, all, call, put } from 'redux-saga/effects'
 import { getDocs, collection } from 'firebase/firestore'
-import { db } from '../../db'
-import { objectCompose, getWeeksIDs } from '../../helpers'
 
+import { objectCompose, getWeeksIDs } from '../../helpers'
+import { db } from '../../db'
 import { INIT_APP, SET_ERROR, SET_LOADING } from '../types'
 
 const season = 2023

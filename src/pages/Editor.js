@@ -31,7 +31,7 @@ export const Editor = () => {
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork)
   const [compareQuestion, setCompareQuestion] = useState()
-  const [noChanges, setNoChanges] = useState(true)
+  const [anyChanges, setAnyChanges] = useState(false)
   const { selectedWeek, nextWeek, emptyEditor, season } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
@@ -42,12 +42,12 @@ export const Editor = () => {
     emptyEditor && setEditorContext(initialEditorContext) // eslint-disable-next-line
   }, [selectedWeek])
 
-  const checkChanges = () => {
+  useEffect(() => {
     const changes = emptyEditor
       ? Object.keys(questions).some((el) => el)
       : !objectCompare(editorContext, loadedWeek)
-    setNoChanges(changes)
-  }
+    setAnyChanges(changes) // eslint-disable-next-line
+  }, [questions, name, active, deadline])
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
@@ -61,7 +61,6 @@ export const Editor = () => {
     if (question && total) {
       setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(initialQuestionInWork)
-      checkChanges()
     }
   }
 
@@ -74,7 +73,6 @@ export const Editor = () => {
   const changeDateHandler = (value) => {
     const deadline = new Date(value).getTime()
     setEditorContext({ ...editorContext, deadline })
-    checkChanges()
   }
 
   const submitHandler = async () => {
@@ -239,7 +237,7 @@ export const Editor = () => {
         />
       </div>
       <div className="editor-form">
-        <Button className={'editor'} disabled={noChanges} onClick={submitHandler}>
+        <Button className={'editor'} disabled={!anyChanges} onClick={submitHandler}>
           {buttonSaveMsg}
         </Button>
         <Button className={'editor'} onClick={goBackHandler}>

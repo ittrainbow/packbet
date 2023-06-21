@@ -39,7 +39,7 @@ export const Standings = () => {
         <div className="standings-header">
           <div className="cellOne">#</div>
           <div className="cellTwo">{tableNameMsg}</div>
-          <div className="cellThree"></div>
+          <div className="cellThree">%</div>
           <div className="cellFour">{tableCorrectMsg}</div>
           <div className="cellThree">90%</div>
         </div>

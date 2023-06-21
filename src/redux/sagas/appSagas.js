@@ -1,5 +1,6 @@
 import { take, put, select } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'redux-first-history'
+
 import { SET_EDITOR } from '../types'
 
 export function* switchEditorSaga() {
