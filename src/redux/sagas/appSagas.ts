@@ -2,13 +2,11 @@ import { take, put, select } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'redux-first-history'
 
 import { SET_EDITOR } from '../types'
+import { ReduxRouterType } from '../../types'
 
 type LocationActionType = {
   type: string
-  payload: {
-    action: string
-    location: { [key: string]: string }
-  }
+  payload: ReduxRouterType
 }
 
 export function* switchEditorSaga() {

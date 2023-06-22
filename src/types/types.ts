@@ -35,3 +35,24 @@ export type SetUserListContextType = React.Dispatch<React.SetStateAction<IUserLi
 export type SetUserContextType = React.Dispatch<React.SetStateAction<IUserContext>>
 export type SetWeeksContextType = React.Dispatch<React.SetStateAction<IWeeksContext>>
 export type SetStandingsContextType = React.Dispatch<React.SetStateAction<IUserStandings[]>>
+
+export type ReduxRouterType = {
+  location: {
+    pathname: string
+    search: string
+    hash: string
+    state: string | null
+    key: string
+  }
+  action: string
+}
+
+export type StoreType = {
+  router: ReduxRouterType
+  app: {
+    mobile: boolean
+    loading: boolean
+    editor: boolean
+    error: string | null
+  }
+}

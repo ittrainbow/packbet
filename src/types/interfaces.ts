@@ -6,7 +6,7 @@ export interface IAppContext {
   currentWeek: number
   emptyEditor: boolean
   isItYou: boolean
-  nextWeek: number | null
+  nextWeek: number
   otherUserName: string
   otherUserUID: string
   season: number

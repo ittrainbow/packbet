@@ -6,6 +6,7 @@ import { auth } from '../db'
 import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
 import { setTabActive } from '../helpers/tabActive'
+import { LocaleType } from '../types'
 
 export const Standings = () => {
   const [user] = useAuthState(auth)
@@ -13,7 +14,7 @@ export const Standings = () => {
   const { userContext, standingsContext, appContext, setAppContext } = useAppContext()
   const { locale } = userContext
 
-  const clickHandler = ({ uid: otherUserUID, name: otherUserName }) => {
+  const clickHandler = (otherUserUID: string, otherUserName: string) => {
     const setApp = () => {
       setAppContext({
         ...appContext,
@@ -25,11 +26,11 @@ export const Standings = () => {
       setTabActive(3)
       navigate('/season')
     }
-    otherUserUID !== user.uid && setApp()
+    user && otherUserUID !== user.uid && setApp()
   }
 
   // locale
-  const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(locale, 'standings')
+  const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(locale, 'standings') as LocaleType
 
   return (
     <div className="container">
@@ -50,7 +51,7 @@ export const Standings = () => {
               return (
                 <div key={uid} className="standings-header">
                   <div className="cellOne">{position}</div>
-                  <div className="cellTwo" onClick={() => clickHandler({ uid, name })}>
+                  <div className="cellTwo" onClick={() => clickHandler(uid, name)}>
                     {name}
                   </div>
                   <div className="cellThree">{ansCorrect + '/' + ansTotal}</div>

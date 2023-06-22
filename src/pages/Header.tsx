@@ -15,16 +15,21 @@ import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
 import { initialEditorContext } from '../context/initialContexts'
 import { setTabActive } from '../helpers/tabActive'
+import { selectApp } from '../redux/selectors'
+import { IAppContext, LocaleType } from '../types'
 
 export const Header = () => {
-  const { mobile } = useSelector((store) => store.app)
+  const { mobile } = useSelector(selectApp)
   const { appContext, setAppContext, userContext, setEditorContext } = useAppContext()
   const { admin, locale, name } = userContext
-  const { tabActive, nextWeek, currentWeek, selectedWeek } = appContext
+  const { tabActive, nextWeek, currentWeek } = appContext
   const navigate = useNavigate()
 
   // locale
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header')
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(
+    locale,
+    'header'
+  ) as LocaleType
 
   const userMenu = [
     { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
@@ -43,12 +48,16 @@ export const Header = () => {
     navigate('/userpage') // eslint-disable-next-line
   }, [])
 
-  const clickHandler = (id, path) => {
-    const context = {
+  const clickHandler = (id: number, path: string) => {
+    const tabActive = id
+    const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : appContext.selectedWeek
+    const emptyEditor = id === 6 ? true : false
+
+    const context: IAppContext = {
       ...appContext,
-      tabActive: id,
-      selectedWeek: id === 2 ? currentWeek : id === 6 ? nextWeek : selectedWeek,
-      emptyEditor: id === 6 ? true : false
+      tabActive,
+      selectedWeek,
+      emptyEditor
     }
     setAppContext(context)
     setTabActive(id)
@@ -57,7 +66,7 @@ export const Header = () => {
     id === 6 && setEditorContext(initialEditorContext)
   }
 
-  const getClass = (id) => {
+  const getClass = (id: number) => {
     return id === 1 && !name
       ? 'header__no-login'
       : id === tabActive

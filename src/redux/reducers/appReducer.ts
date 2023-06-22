@@ -7,7 +7,13 @@ const initialState = {
   error: null
 }
 
-export const appReducer = (state = initialState, action) => {
+type ActionType = {
+  type: string
+  payload: boolean | string | null
+}
+
+export const appReducer = (state = initialState, action: ActionType) => {
+  console.log(1, action)
   const { type, payload } = action
 
   switch (type) {
