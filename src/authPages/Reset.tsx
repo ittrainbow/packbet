@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -9,19 +9,20 @@ import { i18n } from '../locale/locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { useAppContext } from '../context/Context'
+import { LocaleType } from '../types'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
-  const inputRef = useRef()
+  const ref = useRef<HTMLInputElement>()
   const [user, loading] = useAuthState(auth)
   const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
   const navigate = useNavigate()
 
-  const trimSpaces = (value) => value.replace(/\s/g, '')
+  const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
-    inputRef.current.focus()
+    ref.current?.focus()
   }, [])
 
   useEffect(() => {
@@ -29,7 +30,10 @@ export const Reset = () => {
     user && navigate('/') // eslint-disable-next-line
   }, [user, loading])
 
-  const emailInputHandler = ({ value }) => setEmail(trimSpaces(value))
+  const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setEmail(trimSpaces(value))
+  }
   const localeChecked = () => (locale ? locale === 'ua' : false)
 
   const localeChangeHandler = () => {
@@ -39,8 +43,8 @@ export const Reset = () => {
   }
 
   // locale
-  const { buttonRecoverMsg } = i18n(locale, 'buttons')
-  const { loginMsg, loginIntro, registerMsg, registerIntro } = i18n(locale, 'auth')
+  const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
+  const { loginMsg, loginIntro, registerMsg, registerIntro } = i18n(locale, 'auth') as LocaleType
 
   return (
     <div className="auth">
@@ -49,8 +53,8 @@ export const Reset = () => {
           <Input
             type={'text'}
             value={email}
-            inputRef={inputRef}
-            onChange={(e) => emailInputHandler(e.target)}
+            inputRef={ref}
+            onChange={emailInputHandler}
             placeholder={'E-mail'}
           />
           <Button className="login" onClick={() => sendPasswordReset(email)}>

@@ -3,7 +3,7 @@ import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import { useAppContext } from '../context/Context'
 import { Button } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale/locale.ts'
 
 export const About = () => {
   const { aboutContext, userContext } = useAppContext()

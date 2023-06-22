@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { setDoc, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -38,7 +38,7 @@ export const Editor = () => {
   const loadedWeek = weeksContext[selectedWeek]
 
   useEffect(() => {
-    nameRef.current.focus()
+    // nameRef.current.focus()
     emptyEditor && setEditorContext(initialEditorContext) // eslint-disable-next-line
   }, [selectedWeek])
 
@@ -55,7 +55,7 @@ export const Editor = () => {
 
   const addQuestionHandler = () => {
     const { question, total, id } = questionInWork
-    const newId = id !== null ? id : objectNewId(editorContext)
+    const newId = id !== null ? id : objectNewId(editorContext.questions)
     const obj = objectReplace(questions, newId, questionInWork)
 
     if (question && total) {
@@ -197,7 +197,7 @@ export const Editor = () => {
           <Input
             sx={{ width: '100%' }}
             type={'text'}
-            setRef={inputRef}
+            // ref={inputRef}
             onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
             placeholder={weekQuestionMsg}
             value={question}

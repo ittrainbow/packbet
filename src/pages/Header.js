@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa'
 
 import { useAppContext } from '../context/Context'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale/locale.ts'
 import { initialEditorContext } from '../context/initialContexts'
 import { setTabActive } from '../helpers/tabActive'
 

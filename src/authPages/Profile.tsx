@@ -1,8 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch } from 'react-redux'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
+import { User } from 'firebase/auth'
 import { Input } from '@mui/material'
 
 import { auth, db } from '../db'
@@ -10,6 +11,7 @@ import { Button, LocaleSwitcher } from '../UI'
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
 import { SET_LOADING } from '../redux/types'
+import { LocaleType } from '../types'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -22,13 +24,13 @@ export const Profile = () => {
   const [tempLocale, setTempLocale] = useState(locale)
 
   useEffect(() => {
-    inputRef.current.focus()
+    // inputRef.current.focus()
   }, [])
 
   const submitHandler = async () => {
     dispatch({ type: SET_LOADING, payload: true })
     try {
-      const { uid } = user
+      const { uid } = user as User
       const name = tempName
       const locale = tempLocale
       localStorage.getItem('locale') !== tempLocale && localStorage.setItem('locale', tempLocale)
@@ -49,8 +51,8 @@ export const Profile = () => {
   const checked = () => tempLocale === 'ua'
 
   // locale
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth')
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons')
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
     <div className="auth">

@@ -1,4 +1,4 @@
-export const i18n = (locale, component) => {
+export const i18n = (locale: string, component: string): { [key: string]: string } | undefined => {
   const tab0msg = locale === 'ru' ? 'Инфо' : 'Iнфо'
   const tab1msg = locale === 'ru' ? 'Профиль' : 'Профiль'
   const tab2msg = locale === 'ru' ? 'Неделя' : 'Тиждень'

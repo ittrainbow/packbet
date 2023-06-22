@@ -8,6 +8,13 @@ import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { Input } from '@mui/material'
 import { i18n } from '../locale/locale'
+import { LocaleType } from '../types'
+
+type RegisterStateType = {
+  email: string
+  password: string
+  name: string
+}
 
 const initialState = {
   email: '',
@@ -15,7 +22,7 @@ const initialState = {
   name: ''
 }
 
-const reducer = (state, action) => {
+const reducer = (state: RegisterStateType, action: any) => {
   switch (action.type) {
     case 'EMAIL':
       return { ...state, email: action.payload }
@@ -29,14 +36,14 @@ const reducer = (state, action) => {
 }
 
 export const Register = () => {
-  const inputRef = useRef()
+  const ref = useRef<HTMLInputElement>()
   const [state, dispatch] = useReducer(reducer, initialState)
   const [user, loading] = useAuthState(auth)
   const { email, password, name } = state
   const { userContext, setUserContext } = useAppContext()
   const navigate = useNavigate()
 
-  const trimSpaces = (value) => value.replace(/\s/g, '')
+  const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
     if (loading) return
@@ -45,7 +52,7 @@ export const Register = () => {
 
   useEffect(() => {
     const locale = localStorage.getItem('locale')
-    inputRef.current.focus()
+    ref.current?.focus()
     const noLocale = () => {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
@@ -60,23 +67,39 @@ export const Register = () => {
     name && email && password.length > 2 && registerWithEmailAndPassword(name, email, password)
   }
 
-  const emailInputHandler = ({ value }) => dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
-  const passwordInputHandler = ({ value }) => dispatch({ type: 'PWD', payload: trimSpaces(value) })
+  const nameInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    dispatch({ type: 'NAME', payload: value })
+  }
 
-  // TODO
+  const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
+  }
+  const passwordInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    dispatch({ type: 'PWD', payload: trimSpaces(value) })
+  }
+
   const localeChangeHandler = () => {
     const newLocale = locale === 'ru' ? 'ua' : 'ru'
     setUserContext({ ...userContext, locale: newLocale })
     localStorage.setItem('locale', newLocale)
   }
 
-  const checked = () => locale ? locale === 'ua' : false
+  const checked = () => (locale ? locale === 'ua' : false)
 
   // locale
   const locale = localStorage.getItem('locale') || 'ru'
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons')
-  const { loginIntro, loginMsg, registerNameMsg } = i18n(locale, 'auth')
-  const { registerNameAlert, registerEmailAlert, registerPasswordAlert } = i18n(locale, 'auth')
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
+  const {
+    loginIntro,
+    loginMsg,
+    registerNameMsg,
+    registerNameAlert,
+    registerEmailAlert,
+    registerPasswordAlert
+  } = i18n(locale, 'auth') as LocaleType
 
   return (
     <div className="auth">
@@ -85,20 +108,15 @@ export const Register = () => {
           <Input
             type={'text'}
             value={name}
-            inputRef={inputRef}
-            onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
+            inputRef={ref}
+            onChange={nameInputHandler}
             placeholder={registerNameMsg}
           />
-          <Input
-            type={'email'}
-            value={email}
-            onChange={(e) => emailInputHandler(e.target)}
-            placeholder={'E-mail'}
-          />
+          <Input type={'email'} value={email} onChange={emailInputHandler} placeholder={'E-mail'} />
           <Input
             type={'password'}
             value={password}
-            onChange={(e) => passwordInputHandler(e.target)}
+            onChange={passwordInputHandler}
             placeholder={'Password'}
           />
           <Button className="login" onClick={register}>

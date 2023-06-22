@@ -1,9 +1,13 @@
 import React from 'react'
 import ReactCountryFlag from 'react-country-flag'
 
-export const LocaleSwitcher = ({ onChange, checked }) => {
-  
-  const flag = (countryCode) => (
+type LocaleSwitcherProps = {
+  onChange: any
+  checked: boolean
+}
+
+export const LocaleSwitcher = ({ onChange, checked }: LocaleSwitcherProps) => {
+  const flag = (countryCode: string) => (
     <ReactCountryFlag
       className="emojiFlag"
       countryCode={countryCode}
@@ -16,7 +20,7 @@ export const LocaleSwitcher = ({ onChange, checked }) => {
       }}
     />
   )
-  
+
   return (
     <div className="locale-switcher">
       <div className="locale-flag">{flag('RU')}</div>

@@ -1,15 +1,15 @@
 export const initialAppContext = {
-  tabActive: 1,
-  season: 2023,
   about: '',
+  alert: false,
   currentWeek: 0,
-  nextWeek: null,
-  selectedWeek: 0,
   emptyEditor: false,
   isItYou: true,
-  otherUserUID: null,
-  otherUserName: null,
-  alert: false
+  nextWeek: null,
+  otherUserName: '',
+  otherUserUID: '',
+  season: 2023,
+  selectedWeek: 0,
+  tabActive: 1
 }
 
 export const initialUserContext = {

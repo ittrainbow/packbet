@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom/dist'
+import { Link } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Input } from '@mui/material'
 
@@ -8,13 +9,13 @@ import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
 import { useAppContext } from '../context/Context'
 
-const initialState = {
-  email: '',
-  emailValid: false,
-  password: ''
+type LoginStateType = {
+  email: string
+  password: string
+  emailValid: boolean
 }
 
-const reducer = (state, action) => {
+const reducer = (state: LoginStateType, action: any) => {
   switch (action.type) {
     case 'EMAIL':
       return { ...state, email: action.payload }
@@ -29,14 +30,14 @@ const reducer = (state, action) => {
 
 export const Login = () => {
   const navigate = useNavigate()
-  const [state, setState] = useReducer(reducer, initialState)
+  const [state, setState] = useReducer(reducer, { emailValid: false } as LoginStateType)
   const [user, loading, error] = useAuthState(auth)
   const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
   const { email, emailValid, password } = state
 
   const loginButtonActive = emailValid && password.length > 2
-  const trimSpaces = (value) => value.replace(/\s/g, '')
+  const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
     const locale = localStorage.getItem('locale')
@@ -53,13 +54,15 @@ export const Login = () => {
     error && alert(error) // eslint-disable-next-line
   }, [user, loading, error])
 
-  const emailInputHandler = ({ value }) => {
+  const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
     const checkEmailValid = /\S+@\S+\.\S+/.test(value)
     setState({ type: 'EMAIL', payload: trimSpaces(value) })
     setState({ type: 'EMAIL_VALID', payload: checkEmailValid })
   }
 
-  const passwordInputHandler = ({ value }) => {
+  const passwordInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
     setState({ type: 'PASSWORD', payload: trimSpaces(value) })
   }
 
@@ -69,26 +72,21 @@ export const Login = () => {
     localStorage.setItem('locale', newLocale)
   }
 
-  const localeChecked = () => locale ? locale === 'ua' : false
+  const localeChecked = () => (locale ? locale === 'ua' : false)
 
   // locale
-  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
-  const { registerMsg, registerIntro, forgotMsg } = i18n(locale, 'auth')
+  const { buttonLoginMsg, buttonLoginGoogleMsg }: any = i18n(locale, 'buttons')
+  const { registerMsg, registerIntro, forgotMsg }: any = i18n(locale, 'auth')
 
   return (
     <div className="auth">
       <div className="auth__container">
         <div className="auth__data">
-          <Input
-            type={'text'}
-            value={email}
-            onChange={(e) => emailInputHandler(e.target)}
-            placeholder={'E-mail'}
-          />
+          <Input type={'text'} value={email} onChange={emailInputHandler} placeholder={'E-mail'} />
           <Input
             type={'password'}
             value={password}
-            onChange={(e) => passwordInputHandler(e.target)}
+            onChange={passwordInputHandler}
             placeholder={'Password'}
           />
           <Button

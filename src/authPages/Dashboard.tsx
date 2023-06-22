@@ -1,7 +1,7 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { logout } from '../db/auth'
+import { LocaleType } from '../types'
 import { Button } from '../UI'
 import { i18n } from '../locale/locale'
 import { useAppContext } from '../context/Context'
@@ -12,14 +12,18 @@ export const Dashboard = () => {
   const navigate = useNavigate()
 
   const logoutHandler = () => {
-    clearUserContext(localStorage.getItem('locale'))
+    clearUserContext(localStorage.getItem('locale') || 'ru')
     logout()
     navigate('/userpage')
   }
 
+  const navigateHandler = () => {
+    navigate('/profile')
+  }
+
   // locale
-  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth')
-  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons')
+  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
+  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
     <div className="auth">
@@ -30,7 +34,7 @@ export const Dashboard = () => {
           <div>{email ? email : '...loading'}</div>
           <div>{admin ? <div>{dashboardAdminMsg}</div> : null}</div>
         </div>
-        <Button onClick={() => navigate('/profile')}>{buttonProfileMsg}</Button>
+        <Button onClick={navigateHandler}>{buttonProfileMsg}</Button>
         <Button onClick={logoutHandler}>{buttonLogoutMsg}</Button>
       </div>
     </div>

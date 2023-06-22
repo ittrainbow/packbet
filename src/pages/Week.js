@@ -10,7 +10,7 @@ import { auth, db } from '../db'
 import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale/locale.ts'
 import { SET_LOADING } from '../redux/types'
 
 export const Week = () => {

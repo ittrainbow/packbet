@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { useAppContext } from '../context/Context'
 import { auth } from '../db'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale/locale.ts'
 import { OtherUser } from '../UI'
 import { setTabActive } from '../helpers/tabActive'
 
@@ -47,7 +47,7 @@ export const Standings = () => {
           Object.values(standingsContext)
             .filter((el) => el.ansTotal > 0)
             .map((el) => {
-              const { name, uid, ansCorrect, ansTotal, total, correct, position } = el
+              const { name, uid, ansCorrect, ansTotal, position, resultsTotal } = el
               return (
                 <div key={uid} className="standings-header">
                   <div className="cellOne">{position}</div>
@@ -55,8 +55,8 @@ export const Standings = () => {
                     {name}
                   </div>
                   <div className="cellThree">{ansCorrect + '/' + ansTotal}</div>
-                  <div className="cellFour">{correct}</div>
-                  <div className="cellThree">{total}</div>
+                  <div className="cellFour">{(ansCorrect / ansTotal).toFixed(3)}</div>
+                  <div className="cellThree">{((ansTotal * 100) / resultsTotal).toFixed(0)}%</div>
                 </div>
               )
             })}
