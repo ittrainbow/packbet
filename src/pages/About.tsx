@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import { useAppContext } from '../context/Context'
 import { Button } from '../UI'
-import { i18n } from '../locale/locale.ts'
+import { i18n } from '../locale/locale'
+import { LocaleType } from '../types'
 
 export const About = () => {
   const { aboutContext, userContext } = useAppContext()
   const { locale } = userContext
   const [open, setOpen] = useState(false)
-  const [description, setDescription] = useState([])
+  const [description, setDescription] = useState([] as string[])
 
   useEffect(() => {
     if (locale && aboutContext) {
@@ -19,8 +20,11 @@ export const About = () => {
   }, [locale, aboutContext])
 
   // locale
-  const { buttonDetailsMsg } = i18n(locale, 'buttons')
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about')
+  const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(
+    locale,
+    'about'
+  ) as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -39,11 +43,10 @@ export const About = () => {
         {open ? (
           <>
             {description.map((el, index) => {
-              const key = el.toString().trim(0, 25)
               const classes = `about__paragraph` + (index === 8 ? ' bold' : '')
 
               return index < 9 ? (
-                <div key={key} className={classes}>
+                <div key={index} className={classes}>
                   {!index ? null : el}
                 </div>
               ) : null

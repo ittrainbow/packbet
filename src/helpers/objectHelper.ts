@@ -8,7 +8,7 @@ import {
   Week
 } from '../types'
 
-export const objectTrim = (object: QuestionType, id: number) => {
+export const objectTrim = (object: QuestionsType, id: number) => {
   const obj = structuredClone(object)
   delete obj[id]
   return obj
@@ -21,20 +21,9 @@ export const objectCompose = (response: QuerySnapshot<DocumentData>) => {
   })
   return obj
 }
-
-type ReplacementType = {
-  id?: number | null
-  question: string
-  total: string
-}
-
-export const objectReplace = (
-  questions: QuestionsType,
-  id: number,
-  replacement: ReplacementType
-) => {
-  console.log(3, replacement)
+export const objectReplace = (questions: QuestionsType, id: number, replacement: QuestionType) => {
   const obj = structuredClone(questions)
+  // delete replacement['id']
   obj[id] = replacement
   return obj
 }

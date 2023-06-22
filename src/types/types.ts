@@ -10,7 +10,11 @@ import {
 
 export type LocaleType = { [key: string]: string }
 
-export type QuestionType = { [key: string]: string }
+export type QuestionType = {
+  question: string
+  total: string
+  id?: number | null
+}
 export type QuestionsType = { [key: number]: QuestionType }
 
 export type Week = {
@@ -18,6 +22,10 @@ export type Week = {
   deadline: number
   name: string
   questions: QuestionsType
+}
+
+export type Weeks = {
+  [key: number]: Week
 }
 
 export type SetAboutContextType = React.Dispatch<React.SetStateAction<IAboutContext>>

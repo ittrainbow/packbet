@@ -48,6 +48,7 @@ export interface IUserStandings {
   ansTotal: number
   resultsTotal: number
   name: string
-  position: number
+  position: number | string
+  correct: number
   uid: string
 }

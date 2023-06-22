@@ -127,9 +127,21 @@ export const Editor = () => {
       .substring(0, 16)
   }
 
-  const editButtonHandler = (question, total, id) => {
-    setQuestionInWork({ question, total, id })
-    setCompareQuestion({ question, total, id })
+  const editButtonHandler = (
+    question,
+    total
+    // id
+  ) => {
+    setQuestionInWork({
+      question,
+      total
+      // id
+    })
+    setCompareQuestion({
+      question,
+      total
+      // id
+    })
 
     inputRef.current.focus()
   }

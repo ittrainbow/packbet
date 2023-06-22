@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useDispatch } from 'react-redux'
 
@@ -12,7 +12,8 @@ export const App = () => {
 
   useEffect(() => {
     dispatch({ type: INIT_APP, payload: contextMethods })
-    dispatch({ type: SET_MOBILE, payload: isMobile }) // eslint-disable-next-line
+    dispatch({ type: SET_MOBILE, payload: isMobile })
+    // eslint-disable-next-line
   }, [])
 
   return <Router />
