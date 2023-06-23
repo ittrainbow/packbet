@@ -6,19 +6,20 @@ import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
 import { db } from '../db'
-import { objectCompare, objectTrim, objectReplace, objectNewId, getWeeksIDs } from '../helpers'
+import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId } from '../helpers'
 import { useAppContext } from '../context/Context'
 import { initialQuestionInWork, initialEditorContext } from '../context/initialContexts'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { setTabActive } from '../helpers/tabActive'
 import { SET_LOADING } from '../redux/types'
+import { LocaleType, QuestionType, QuestionsType } from '../types'
 
 export const Editor = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const inputRef = useRef()
-  const nameRef = useRef()
+  const inputRef = useRef<HTMLInputElement>()
+  const nameRef = useRef<HTMLInputElement>()
   const {
     userContext,
     weeksContext,
@@ -29,8 +30,8 @@ export const Editor = () => {
     setAppContext
   } = useAppContext()
   const { locale } = userContext
-  const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork)
-  const [compareQuestion, setCompareQuestion] = useState()
+  const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork as QuestionType)
+  const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState(false)
   const { selectedWeek, nextWeek, emptyEditor, season } = appContext
   const { questions, name, active, deadline } = editorContext
@@ -38,7 +39,7 @@ export const Editor = () => {
   const loadedWeek = weeksContext[selectedWeek]
 
   useEffect(() => {
-    // nameRef.current.focus()
+    nameRef.current?.focus()
     emptyEditor && setEditorContext(initialEditorContext) // eslint-disable-next-line
   }, [selectedWeek])
 
@@ -51,43 +52,36 @@ export const Editor = () => {
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
-  const changeNameHandler = (name) => setEditorContext({ ...editorContext, name })
-
   const addQuestionHandler = () => {
-    const { question, total, id } = questionInWork
-    const newId = id !== null ? id : objectNewId(editorContext.questions)
-    const obj = objectReplace(questions, newId, questionInWork)
-
+    const { question, total } = questionInWork
+    const { questions } = editorContext
+    const { id } = questionInWork
+    const isNewQuestion = id === null || id !== 0
     if (question && total) {
+      const setId = isNewQuestion ? getNewQuestionId(questions) : id
+      const obj = objectReplace(questions, setId, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(initialQuestionInWork)
     }
   }
 
-  const removeQuestionHandler = (id) => {
-    const q = objectTrim(questions, id)
-
+  const removeQuestionHandler = (id: number) => {
+    const q: QuestionsType = objectTrim(questions, id)
     setEditorContext({ ...editorContext, questions: q })
-  }
-
-  const changeDateHandler = (value) => {
-    const deadline = new Date(value).getTime()
-    setEditorContext({ ...editorContext, deadline })
   }
 
   const submitHandler = async () => {
     try {
       dispatch({ type: SET_LOADING, payload: true })
+      const id: number = emptyEditor ? nextWeek : selectedWeek
       const { questions } = editorContext
-      const link = (emptyEditor ? nextWeek : selectedWeek).toString()
-      const weeks = objectReplace(weeksContext, selectedWeek, editorContext)
-      const { currentWeek } = getWeeksIDs(weeks)
-
-      Object.keys(questions).forEach((el) => delete questions[el].id)
-
-      setAppContext({ ...appContext, currentWeek })
+      Object.keys(questions).forEach((el) => {
+        delete questions[Number(el)]['id']
+      })
+      const weeks = structuredClone(weeksContext)
+      weeks[id] = editorContext
       setWeeksContext(weeks)
-      await setDoc(doc(db, `weeks${season}`, link), editorContext)
+      await setDoc(doc(db, `weeks${season}`, id.toString()), editorContext)
     } catch (error) {
       console.error(error)
     } finally {
@@ -95,20 +89,14 @@ export const Editor = () => {
     }
   }
 
-  const totalHandler = ({ value }) => {
-    if (!isNaN(Number(value)) || value === '-') {
-      setQuestionInWork({ ...questionInWork, total: value })
-    }
-  }
-
   const deleteWeek = async () => {
-    const weeks = objectTrim(weeksContext, selectedWeek)
+    const weeks = structuredClone(weeksContext)
+    delete weeks[selectedWeek]
     try {
       dispatch({ type: SET_LOADING, payload: true })
 
       const { currentWeek, nextWeek } = getWeeksIDs(weeks)
       const data = { [selectedWeek]: deleteField() }
-
       setWeeksContext(weeks)
       setAppContext({ ...appContext, currentWeek, nextWeek })
       await updateDoc(doc(db, `answers${season}`, 'results'), data)
@@ -127,23 +115,12 @@ export const Editor = () => {
       .substring(0, 16)
   }
 
-  const editButtonHandler = (
-    question,
-    total
-    // id
-  ) => {
-    setQuestionInWork({
-      question,
-      total
-      // id
-    })
-    setCompareQuestion({
-      question,
-      total
-      // id
-    })
+  const editButtonHandler = (id: number) => {
+    const { question, total } = questions[id]
+    setQuestionInWork({ question, total, id })
+    setCompareQuestion({ question, total, id })
 
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const goBackHandler = () => {
@@ -167,7 +144,7 @@ export const Editor = () => {
               {question}: {total}
             </div>
             <div className="editor-question__buttons">
-              {thisQuestionIsSelected ? (
+              {thisQuestionIsSelected ? ( //TODO
                 <FaBan
                   className="editor-question__edit editor-btn__green faBan"
                   onClick={() => setQuestionInWork(initialQuestionInWork)}
@@ -175,7 +152,9 @@ export const Editor = () => {
               ) : (
                 <FaEdit
                   className="editor-question__edit editor-btn__green"
-                  onClick={() => editButtonHandler(question, total, id)}
+                  onClick={() => {
+                    editButtonHandler(id)
+                  }}
                 />
               )}
               <FaTrashAlt
@@ -190,8 +169,41 @@ export const Editor = () => {
   }
 
   // locale
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor')
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons')
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(
+    locale,
+    'editor'
+  ) as LocaleType
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(
+    locale,
+    'buttons'
+  ) as LocaleType
+
+  const changeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setEditorContext({ ...editorContext, name: value })
+  }
+
+  const changeQuestionHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestionInWork({ ...questionInWork, question: e.target.value })
+  }
+
+  const changeTotalHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    if (!isNaN(Number(value)) || value === '-') {
+      setQuestionInWork({ ...questionInWork, total: value })
+    }
+  }
+
+  const changeDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    const deadline = new Date(value).getTime()
+    setEditorContext({ ...editorContext, deadline })
+  }
+
+  const changeActivityHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target
+    setEditorContext({ ...editorContext, active: checked })
+  }
 
   return (
     <div className="container">
@@ -199,8 +211,8 @@ export const Editor = () => {
         <Input
           sx={{ width: '100%' }}
           type={'text'}
-          setRef={nameRef}
-          onChange={(e) => changeNameHandler(e.target.value)}
+          ref={nameRef}
+          onChange={changeNameHandler}
           placeholder={weekNameMsg}
           id={'weekname'}
           value={name}
@@ -209,14 +221,14 @@ export const Editor = () => {
           <Input
             sx={{ width: '100%' }}
             type={'text'}
-            // ref={inputRef}
-            onChange={(e) => setQuestionInWork({ ...questionInWork, question: e.target.value })}
+            ref={inputRef}
+            onChange={changeQuestionHandler}
             placeholder={weekQuestionMsg}
             value={question}
           />
           <Input
             type={'text'}
-            onChange={(e) => totalHandler(e.target)}
+            onChange={changeTotalHandler}
             value={total}
             className={'short'}
             placeholder={weekTotalMsg}
@@ -237,7 +249,7 @@ export const Editor = () => {
           type={'checkbox'}
           checked={active}
           className={'checkbox'}
-          onChange={() => setEditorContext({ ...editorContext, active: !active })}
+          onChange={changeActivityHandler}
         />
       </div>
       <div className="editor-datetime__container">
@@ -245,7 +257,7 @@ export const Editor = () => {
           type={'datetime-local'}
           value={getDeadline()}
           className={'timer'}
-          onChange={(e) => changeDateHandler(e.target.value)}
+          onChange={changeDateHandler}
         />
       </div>
       <div className="editor-form">

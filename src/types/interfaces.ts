@@ -1,4 +1,4 @@
-import { Week } from './types'
+import { WeekType } from './types'
 
 export interface IAppContext {
   about: string
@@ -40,7 +40,7 @@ export interface IUserListContext {
 }
 
 export interface IWeeksContext {
-  [key: number]: Week
+  [key: number]: WeekType
 }
 
 export interface IUserStandings {

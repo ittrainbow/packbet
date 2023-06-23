@@ -1,12 +1,13 @@
 type InputProps = {
   type: 'text' | 'checkbox' | 'datetime-local'
-  value: string | undefined
-  onChange: () => void
-  placeholder: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   id?: string
   className?: string
+  placeholder?: string
   ref?: any
+  value?: string | undefined
   checked?: boolean
+  sx?: { [key: string]: string }
 }
 
 export const Input = (props: InputProps) => {

@@ -17,14 +17,14 @@ export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>()
   const { userContext, setUserContext } = useAppContext()
   const { name, locale } = userContext
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState(locale)
 
   useEffect(() => {
-    // inputRef.current.focus()
+    inputRef.current?.focus()
   }, [])
 
   const submitHandler = async () => {

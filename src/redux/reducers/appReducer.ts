@@ -4,16 +4,15 @@ const initialState = {
   mobile: false,
   loading: true,
   editor: false,
-  error: null
+  error: ''
 }
 
 type ActionType = {
   type: string
-  payload: boolean | string | null
+  payload: boolean | string
 }
 
 export const appReducer = (state = initialState, action: ActionType) => {
-  console.log(1, action)
   const { type, payload } = action
 
   switch (type) {

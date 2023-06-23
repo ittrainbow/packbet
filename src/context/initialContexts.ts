@@ -1,10 +1,12 @@
-export const initialAppContext = {
+import { IAppContext, IUserContext, WeekType } from "../types"
+
+export const initialAppContext: IAppContext = {
   about: '',
   alert: false,
   currentWeek: 0,
   emptyEditor: false,
   isItYou: true,
-  nextWeek: null,
+  nextWeek: 0,
   otherUserName: '',
   otherUserUID: '',
   season: 2023,
@@ -12,7 +14,7 @@ export const initialAppContext = {
   tabActive: 1
 }
 
-export const initialUserContext = {
+export const initialUserContext: IUserContext = {
   name: '',
   locale: 'ru',
   email: '',
@@ -22,15 +24,15 @@ export const initialUserContext = {
   tempLocale: ''
 }
 
-export const initialWeeksContext = [{ number: '', name: '', questions: {} }]
+// export const initialWeeksContext = [{ number: '', name: '', questions: {} }]
 
-export const initialAboutContext = []
+// export const initialAboutContext = []
 
-export const initialEditorContext = {
+export const initialEditorContext: WeekType = {
   questions: {},
   name: '',
   active: false,
-  deadline: ''
+  deadline: new Date().getTime()
 }
 
 export const initialQuestionInWork = {

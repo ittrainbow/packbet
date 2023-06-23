@@ -13,7 +13,7 @@ import { LocaleType } from '../types'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
-  const ref = useRef<HTMLInputElement>()
+  const inputRef = useRef<HTMLInputElement>()
   const [user, loading] = useAuthState(auth)
   const { userContext, setUserContext } = useAppContext()
   const { locale } = userContext
@@ -22,7 +22,7 @@ export const Reset = () => {
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
-    ref.current?.focus()
+    inputRef.current?.focus()
   }, [])
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const Reset = () => {
           <Input
             type={'text'}
             value={email}
-            inputRef={ref}
+            ref={inputRef}
             onChange={emailInputHandler}
             placeholder={'E-mail'}
           />

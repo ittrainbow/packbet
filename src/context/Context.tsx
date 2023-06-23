@@ -23,8 +23,8 @@ interface IContextType {
   answersContext: types.IAnswersContext
   setAnswersContext: types.SetAnswersContextType
   // setResultsContext: types.setAnswersContextType
-  editorContext: types.IWeeksContext
-  setEditorContext: types.SetWeeksContextType
+  editorContext: types.WeekType
+  setEditorContext: types.SetEditorContextType
   userListContext: types.IUserListContext
   setUserListContext: types.SetUserListContextType
   compareContext: types.IAnswersContext
@@ -42,7 +42,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [weeksContext, setWeeksContext] = useState({} as types.IWeeksContext)
   const [appContext, setAppContext] = useState(initialAppContext as types.IAppContext)
   const [userContext, setUserContext] = useState(initialUserContext as types.IUserContext)
-  const [editorContext, setEditorContext] = useState({} as types.IWeeksContext)
+  const [editorContext, setEditorContext] = useState({} as types.WeekType)
   const [answersContext, setAnswersContext] = useState({} as types.IAnswersContext)
   const [userListContext, setUserListContext] = useState({} as types.IUserListContext)
   const [compareContext, setCompareContext] = useState({} as types.IAnswersContext)

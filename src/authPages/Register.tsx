@@ -36,7 +36,7 @@ const reducer = (state: RegisterStateType, action: any) => {
 }
 
 export const Register = () => {
-  const ref = useRef<HTMLInputElement>()
+  const inputRef = useRef<HTMLInputElement>()
   const [state, dispatch] = useReducer(reducer, initialState)
   const [user, loading] = useAuthState(auth)
   const { email, password, name } = state
@@ -52,7 +52,7 @@ export const Register = () => {
 
   useEffect(() => {
     const locale = localStorage.getItem('locale')
-    ref.current?.focus()
+    inputRef.current?.focus()
     const noLocale = () => {
       localStorage.setItem('locale', 'ru')
       setUserContext({ ...userContext, locale: 'ru' })
@@ -108,7 +108,7 @@ export const Register = () => {
           <Input
             type={'text'}
             value={name}
-            inputRef={ref}
+            ref={inputRef}
             onChange={nameInputHandler}
             placeholder={registerNameMsg}
           />
