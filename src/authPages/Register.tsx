@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -10,38 +10,14 @@ import { Input } from '@mui/material'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
 
-type RegisterStateType = {
-  email: string
-  password: string
-  name: string
-}
-
-const initialState = {
-  email: '',
-  password: '',
-  name: ''
-}
-
-const reducer = (state: RegisterStateType, action: any) => {
-  switch (action.type) {
-    case 'EMAIL':
-      return { ...state, email: action.payload }
-    case 'PWD':
-      return { ...state, password: action.payload }
-    case 'NAME':
-      return { ...state, name: action.payload }
-    default:
-      return state
-  }
-}
-
 export const Register = () => {
-  const inputRef = useRef<HTMLInputElement>()
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const [user, loading] = useAuthState(auth)
-  const { email, password, name } = state
-  const { userContext, setUserContext } = useAppContext()
   const navigate = useNavigate()
+  const inputRef = useRef<HTMLInputElement>()
+  const [user, loading] = useAuthState(auth)
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const { userContext, setUserContext } = useAppContext()
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -61,24 +37,24 @@ export const Register = () => {
   }, [])
 
   const register = () => {
-    !name && alert(registerNameAlert)
-    !email && alert(registerEmailAlert)
-    password.length < 3 && alert(registerPasswordAlert)
+    !name && alert(regNameAlert)
+    !email && alert(regEmailAlert)
+    password.length < 3 && alert(regPasswordAlert)
     name && email && password.length > 2 && registerWithEmailAndPassword(name, email, password)
   }
 
   const nameInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    dispatch({ type: 'NAME', payload: value })
+    setName(value)
   }
 
   const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    dispatch({ type: 'EMAIL', payload: trimSpaces(value) })
+    setEmail(trimSpaces(value))
   }
   const passwordInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    dispatch({ type: 'PWD', payload: trimSpaces(value) })
+    setPassword(trimSpaces(value))
   }
 
   const localeChangeHandler = () => {
@@ -91,15 +67,11 @@ export const Register = () => {
 
   // locale
   const locale = localStorage.getItem('locale') || 'ru'
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
-  const {
-    loginIntro,
-    loginMsg,
-    registerNameMsg,
-    registerNameAlert,
-    registerEmailAlert,
-    registerPasswordAlert
-  } = i18n(locale, 'auth') as LocaleType
+  const buttonsLocale = i18n(locale, 'buttons') as LocaleType
+  const authLocale = i18n(locale, 'auth') as LocaleType
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = buttonsLocale
+  const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert } =
+    authLocale
 
   return (
     <div className="auth">
@@ -110,7 +82,7 @@ export const Register = () => {
             value={name}
             ref={inputRef}
             onChange={nameInputHandler}
-            placeholder={registerNameMsg}
+            placeholder={regNameMsg}
           />
           <Input type={'email'} value={email} onChange={emailInputHandler} placeholder={'E-mail'} />
           <Input

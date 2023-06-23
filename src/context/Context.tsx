@@ -70,7 +70,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
     setUserContext({ ...initialUserContext, locale })
   }
 
-  // const setResultsContext = (value: any) => {
+  // const setResultsContext = (value) => {
   //   const { selectedWeek } = appContext
   //   const results = objectReplace(answersContext.results, selectedWeek, value)
 

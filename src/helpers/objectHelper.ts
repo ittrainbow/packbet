@@ -3,7 +3,6 @@ import {
   IAboutContext,
   IAnswersContext,
   IUserListContext,
-  IWeeksContext,
   QuestionType,
   QuestionsType,
   WeekType
@@ -19,7 +18,7 @@ export const getNewQuestionId = (questions: QuestionsType) => {
   const num =
     Object.keys(questions)
       .map((el) => Number(el))
-      .sort((a, b) => b - a)[0] + 1
+      .sort((a, b) => b - a)[0] + 1 || 0
   return num
 }
 
@@ -44,7 +43,6 @@ export const objectCompare = (obj1: CompareAnswersType = {}, obj2: CompareAnswer
 }
 
 export const objectNewId = (questions: { [key: number]: QuestionType }) => {
-  console.log(1, questions)
   const nums = Object.keys(questions)
   const value =
     nums.map((el: string) => Number(el)).sort((a: number, b: number) => b - a)[0] + 1 || 0

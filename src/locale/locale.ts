@@ -14,13 +14,13 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const profileLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
   const loginIntro = locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
   const loginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
-  const registerIntro = locale === 'ru' ? 'Нет профиля?' : 'Немає профілю?'
-  const registerMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
+  const regIntro = locale === 'ru' ? 'Нет профиля?' : 'Немає профілю?'
+  const regMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
-  const registerNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
-  const registerNameAlert = locale === 'ru' ? 'Введите имя' : `Введiть iм'я`
-  const registerEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
-  const registerPasswordAlert =
+  const regNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
+  const regNameAlert = locale === 'ru' ? 'Введите имя' : `Введiть iм'я`
+  const regEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
+  const regPasswordAlert =
     locale === 'ru'
       ? 'Введите пароль не менее трех символов'
       : 'Введіть пароль щонайменше трьох символів'
@@ -131,13 +131,13 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         profileLangMsg,
         loginMsg,
         loginIntro,
-        registerMsg,
-        registerIntro,
+        regMsg,
+        regIntro,
         forgotMsg,
-        registerNameMsg,
-        registerNameAlert,
-        registerEmailAlert,
-        registerPasswordAlert
+        regNameMsg,
+        regNameAlert,
+        regEmailAlert,
+        regPasswordAlert
       }
 
     case 'buttons':

@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { auth, db } from '../db'
+import { auth } from '../db'
 import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
 import { i18n } from '../locale/locale'
-import { SET_LOADING } from '../redux/types'
-import { LocaleType } from '../types'
+import { SUBMIT_WEEK } from '../redux/types'
+import { Answers, LocaleType } from '../types'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -36,29 +35,20 @@ export const Week = () => {
       else setUid(otherUserUID)
     }
     if (admin) setAdm(adminAsPlayer)
-  }, [user, admin, isItYou, otherUserUID])
-
-  // useEffect(() => {
-  //   setUid(isItYou ? user && user.uid : otherUserUID)
-  // }, [isItYou, otherUserUID, user])
+  }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
   useEffect(() => {
     setAdm(admin && !adminAsPlayer)
   }, [adminAsPlayer, selectedWeek, admin])
 
-  const checkChanges = (data: any) => {
+  const checkChanges = (data: Answers) =>
     setNoChanges(objectCompare(data, compareContext[ansOrRes]))
-  }
 
-  const outdated = () => {
-    return new Date().getTime() > deadline
-  }
+  const outdated = () => new Date().getTime() > deadline
 
-  const writeAllowed = () => {
-    return adm || (!adm && !outdated())
-  }
+  const writeAllowed = () => adm || (!adm && !outdated())
 
-  const activity = (id: any) => {
+  const activity = (id: number) => {
     return ((!isItYou && outdated()) || isItYou) &&
       answersContext[ansOrRes] &&
       answersContext[ansOrRes][selectedWeek]
@@ -83,27 +73,15 @@ export const Week = () => {
 
   const submitHandler = async () => {
     if (isItYou) {
-      try {
-        dispatch({ type: SET_LOADING, payload: true })
+      const data = adminAsPlayer ? answersContext[uid] : answersContext.results
 
-        const data = adminAsPlayer ? answersContext[uid] : answersContext.results
-        const setWeek = () =>
-          !data[selectedWeek]
-            ? deleteDoc(doc(db, `answers${season}`, ansOrRes))
-            : setDoc(doc(db, `answers${season}`, ansOrRes), data)
+      const toastSuccess = () => toast.success(successMsg)
+      const toastFailure = () => toast.error(failureMsg)
+      const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
-        setWeek().then(async () => {
-          const response = await getDoc(doc(db, `answers${season}`, ansOrRes))
-          const saveSuccess = objectCompare(response.data(), data)
-          saveSuccess ? toast.success(successMsg) : toast.error(failureMsg)
-          dispatch({ type: SET_LOADING, payload: false })
-        })
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setUserContext({ ...userContext, adminAsPlayer: true })
-        setCompareContext(structuredClone(answersContext))
-      }
+      dispatch({ type: SUBMIT_WEEK, payload: { data, selectedWeek, season, ansOrRes, toaster } })
+      setUserContext({ ...userContext, adminAsPlayer: true })
+      setCompareContext(structuredClone(answersContext))
     }
   }
 

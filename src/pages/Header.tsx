@@ -26,10 +26,8 @@ export const Header = () => {
   const navigate = useNavigate()
 
   // locale
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(
-    locale,
-    'header'
-  ) as LocaleType
+  const headerLocale = i18n(locale, 'header') as LocaleType
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
 
   const userMenu = [
     { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },

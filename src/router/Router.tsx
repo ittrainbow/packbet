@@ -7,9 +7,14 @@ import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPag
 import { Loader } from '../UI'
 import { Header } from '../pages'
 import { history } from '../redux/store'
+import { selectApp } from '../redux/selectors'
 
-export const Router = ({ children }: any) => {
-  const { loading } = useSelector((store: any) => store.app)
+type RouterProps = {
+  children?: React.ReactNode
+}
+
+export const Router = ({ children }: RouterProps) => {
+  const { loading } = useSelector(selectApp)
 
   const routes = () => {
     return (

@@ -1,4 +1,6 @@
+import { FieldValue } from 'firebase/firestore'
 import {
+  Answers,
   IAboutContext,
   IAnswersContext,
   IAppContext,
@@ -56,4 +58,34 @@ export type StoreType = {
     editor: boolean
     error: string | null
   }
+}
+
+export type UserUpdateType = {
+  locale: 'ua' | 'ru'
+  name: string
+  uid: string
+}
+
+export type WeekUpdateType = {
+  season: number
+  id: number
+  editorContext: WeekType
+}
+
+export type WeekDeleteType = {
+  season: number
+  selectedWeek: number
+}
+
+export type WeekSubmitType = {
+  data: Answers
+  selectedWeek: number
+  season: number
+  ansOrRes: string
+  toaster: (success: boolean) => void
+}
+
+export type ActionType<T> = {
+  type: string
+  payload: T
 }

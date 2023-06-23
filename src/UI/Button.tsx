@@ -1,7 +1,7 @@
 import React from 'react'
 
 type ButtonProps = {
-  onClick: any
+  onClick: () => void
   disabled?: boolean
   className?: string
   children: React.ReactNode

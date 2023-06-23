@@ -1,8 +1,7 @@
-import React from 'react'
 import ReactCountryFlag from 'react-country-flag'
 
 type LocaleSwitcherProps = {
-  onChange: any
+  onChange: () => void
   checked: boolean
 }
 

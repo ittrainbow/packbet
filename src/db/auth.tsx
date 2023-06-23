@@ -17,6 +17,7 @@ import { IUser } from '../types'
 const { season } = initialAppContext
 
 const googleProvider = new GoogleAuthProvider()
+
 export const signInWithGoogle = async () => {
   try {
     const response: UserCredential = await signInWithPopup(auth, googleProvider)

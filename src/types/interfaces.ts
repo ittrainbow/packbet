@@ -31,8 +31,12 @@ export interface IAboutContext {
   [key: string]: { [key: number]: string }
 }
 
+export interface Answers {
+  [key: number]: { [key: number]: number }
+}
+
 export interface IAnswersContext {
-  [key: string]: { [key: number]: { [key: number]: number } }
+  [key: string]: Answers
 }
 
 export interface IUserListContext {

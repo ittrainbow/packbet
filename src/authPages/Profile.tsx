@@ -2,16 +2,15 @@ import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch } from 'react-redux'
-import { getDoc, setDoc, doc } from 'firebase/firestore'
 import { User } from 'firebase/auth'
 import { Input } from '@mui/material'
 
-import { auth, db } from '../db'
+import { UPDATE_PROFILE } from '../redux/types'
+import { auth } from '../db'
+import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
-import { SET_LOADING } from '../redux/types'
-import { LocaleType } from '../types'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -28,20 +27,10 @@ export const Profile = () => {
   }, [])
 
   const submitHandler = async () => {
-    dispatch({ type: SET_LOADING, payload: true })
-    try {
-      const { uid } = user as User
-      const name = tempName
-      const locale = tempLocale
-      localStorage.getItem('locale') !== tempLocale && localStorage.setItem('locale', tempLocale)
-      setUserContext({ ...userContext, locale, name })
-      const response = await getDoc(doc(db, 'users', uid))
-      const data = { ...response.data(), locale, name }
-      await setDoc(doc(db, 'users', uid), data)
-    } catch (error) {
-      console.error(error)
-    }
-    dispatch({ type: SET_LOADING, payload: false })
+    const { uid } = user as User
+    const [name, locale] = [tempName, tempLocale]
+    dispatch({ type: UPDATE_PROFILE, payload: { uid, name, locale } })
+    setUserContext({ ...userContext, name, locale })
     navigate(-1)
   }
 

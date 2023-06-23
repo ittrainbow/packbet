@@ -44,7 +44,7 @@ export const Reset = () => {
 
   // locale
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
-  const { loginMsg, loginIntro, registerMsg, registerIntro } = i18n(locale, 'auth') as LocaleType
+  const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
 
   return (
     <div className="auth">
@@ -61,7 +61,7 @@ export const Reset = () => {
             {buttonRecoverMsg}
           </Button>
           <div className="link-container">
-            {registerIntro} <Link to="/register">{registerMsg}</Link>
+            {regIntro} <Link to="/register">{regMsg}</Link>
           </div>
           <div className="link-container">
             {loginIntro} <Link to="/login">{loginMsg}</Link>

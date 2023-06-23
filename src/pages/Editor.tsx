@@ -12,7 +12,7 @@ import { initialQuestionInWork, initialEditorContext } from '../context/initialC
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { setTabActive } from '../helpers/tabActive'
-import { SET_LOADING } from '../redux/types'
+import { DELETE_WEEK, SET_LOADING, SET_WEEK } from '../redux/types'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 
 export const Editor = () => {
@@ -50,6 +50,12 @@ export const Editor = () => {
     setAnyChanges(changes) // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
+  // locale
+  const editorLocale = i18n(locale, 'editor') as LocaleType
+  const buttonsLocale = i18n(locale, 'buttons') as LocaleType
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = editorLocale
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = buttonsLocale
+
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
   const addQuestionHandler = () => {
@@ -71,49 +77,33 @@ export const Editor = () => {
   }
 
   const submitHandler = async () => {
-    try {
-      dispatch({ type: SET_LOADING, payload: true })
-      const id: number = emptyEditor ? nextWeek : selectedWeek
-      const { questions } = editorContext
-      Object.keys(questions).forEach((el) => {
-        delete questions[Number(el)]['id']
-      })
-      const weeks = structuredClone(weeksContext)
-      weeks[id] = editorContext
-      setWeeksContext(weeks)
-      await setDoc(doc(db, `weeks${season}`, id.toString()), editorContext)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      dispatch({ type: SET_LOADING, payload: false })
-    }
+    const id: number = emptyEditor ? nextWeek : selectedWeek
+    Object.keys(editorContext.questions).forEach((el) => delete questions[Number(el)]['id'])
+    const weeks = structuredClone(weeksContext)
+    weeks[id] = editorContext
+    const weekIDs = getWeeksIDs(weeks)
+
+    dispatch({ type: SET_WEEK, payload: { season, id, editorContext } })
+    setAppContext({ ...appContext, ...weekIDs })
+    setWeeksContext(weeks)
+    navigate('/calendar')
   }
 
-  const deleteWeek = async () => {
+  const deleteWeekHandler = async () => {
     const weeks = structuredClone(weeksContext)
     delete weeks[selectedWeek]
-    try {
-      dispatch({ type: SET_LOADING, payload: true })
+    const weekIDs = getWeeksIDs(weeks)
 
-      const { currentWeek, nextWeek } = getWeeksIDs(weeks)
-      const data = { [selectedWeek]: deleteField() }
-      setWeeksContext(weeks)
-      setAppContext({ ...appContext, currentWeek, nextWeek })
-      await updateDoc(doc(db, `answers${season}`, 'results'), data)
-      await deleteDoc(doc(db, `weeks${season}`, selectedWeek.toString()))
-    } catch (error) {
-      console.error(error)
-    } finally {
-      navigate('/calendar')
-      dispatch({ type: SET_LOADING, payload: false })
-    }
+    dispatch({ type: DELETE_WEEK, payload: { season, selectedWeek } })
+    setAppContext({ ...appContext, ...weekIDs })
+    setWeeksContext(weeks)
+    navigate('/calendar')
   }
 
-  const getDeadline = () => {
-    return moment(deadline || new Date().getTime())
+  const getDeadline = () =>
+    moment(deadline || new Date().getTime())
       .format()
       .substring(0, 16)
-  }
 
   const editButtonHandler = (id: number) => {
     const { question, total } = questions[id]
@@ -130,62 +120,13 @@ export const Editor = () => {
     navigate('/calendar')
   }
 
-  function renderQuestions() {
-    return (
-      questions &&
-      Object.keys(questions).map((el) => {
-        const id = Number(el)
-        const { question, total } = questions[id]
-        const thisQuestionIsSelected = id === questionInWork.id
-
-        return (
-          <div key={id} className="editor-question">
-            <div className="editor-question__desc">
-              {question}: {total}
-            </div>
-            <div className="editor-question__buttons">
-              {thisQuestionIsSelected ? ( //TODO
-                <FaBan
-                  className="editor-question__edit editor-btn__green faBan"
-                  onClick={() => setQuestionInWork(initialQuestionInWork)}
-                />
-              ) : (
-                <FaEdit
-                  className="editor-question__edit editor-btn__green"
-                  onClick={() => {
-                    editButtonHandler(id)
-                  }}
-                />
-              )}
-              <FaTrashAlt
-                className="editor-question__trash editor-btn__red"
-                onClick={() => removeQuestionHandler(id)}
-              />
-            </div>
-          </div>
-        )
-      })
-    )
-  }
-
-  // locale
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(
-    locale,
-    'editor'
-  ) as LocaleType
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(
-    locale,
-    'buttons'
-  ) as LocaleType
-
   const changeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEditorContext({ ...editorContext, name: value })
   }
 
-  const changeQuestionHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeQuestionHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     setQuestionInWork({ ...questionInWork, question: e.target.value })
-  }
 
   const changeTotalHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -200,9 +141,42 @@ export const Editor = () => {
     setEditorContext({ ...editorContext, deadline })
   }
 
-  const changeActivityHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target
-    setEditorContext({ ...editorContext, active: checked })
+  const changeActivityHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEditorContext({ ...editorContext, active: e.target.checked })
+
+  function renderQuestions() {
+    return Object.keys(questions).map((el) => {
+      const id = Number(el)
+      const { question, total } = questions[id]
+      const thisQuestionIsSelected = id === questionInWork.id
+
+      return (
+        <div key={id} className="editor-question">
+          <div className="editor-question__desc">
+            {question}: {total}
+          </div>
+          <div className="editor-question__buttons">
+            {thisQuestionIsSelected ? ( //TODO
+              <FaBan
+                className="editor-question__edit editor-btn__green faBan"
+                onClick={() => setQuestionInWork(initialQuestionInWork)}
+              />
+            ) : (
+              <FaEdit
+                className="editor-question__edit editor-btn__green"
+                onClick={() => {
+                  editButtonHandler(id)
+                }}
+              />
+            )}
+            <FaTrashAlt
+              className="editor-question__trash editor-btn__red"
+              onClick={() => removeQuestionHandler(id)}
+            />
+          </div>
+        </div>
+      )
+    })
   }
 
   return (
@@ -211,7 +185,7 @@ export const Editor = () => {
         <Input
           sx={{ width: '100%' }}
           type={'text'}
-          ref={nameRef}
+          inputRef={nameRef}
           onChange={changeNameHandler}
           placeholder={weekNameMsg}
           id={'weekname'}
@@ -221,7 +195,7 @@ export const Editor = () => {
           <Input
             sx={{ width: '100%' }}
             type={'text'}
-            ref={inputRef}
+            inputRef={inputRef}
             onChange={changeQuestionHandler}
             placeholder={weekQuestionMsg}
             value={question}
@@ -269,7 +243,7 @@ export const Editor = () => {
         </Button>
       </div>
       {!emptyEditor ? (
-        <Button className={'editor'} onClick={deleteWeek}>
+        <Button className={'editor'} onClick={deleteWeekHandler}>
           {buttonDeleteWeekMsg}
         </Button>
       ) : null}
