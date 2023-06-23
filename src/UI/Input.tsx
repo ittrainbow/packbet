@@ -1,4 +1,3 @@
-
 type InputProps = {
   type: 'text' | 'checkbox' | 'datetime-local'
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void

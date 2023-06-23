@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, createContext } from 'react'
+import { useState, useContext, useEffect, createContext, ReactNode } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { initialUserContext, initialAppContext } from './initialContexts'
@@ -28,7 +28,7 @@ import {
 } from '../types'
 
 type ContextProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 interface IContextType {

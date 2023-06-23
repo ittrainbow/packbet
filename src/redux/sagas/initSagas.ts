@@ -1,9 +1,9 @@
-import { take, all, call, put } from 'redux-saga/effects'
+import { take, all, call } from 'redux-saga/effects'
 
 import { getWeeksIDs } from '../../helpers'
 import { fetchDataFromFirestore } from '../../db/api'
 import { setLoading, setError } from './generators'
-import { INIT_APP, SET_ERROR } from '../types'
+import { INIT_APP } from '../types'
 import {
   IAboutContext,
   IAnswersContext,

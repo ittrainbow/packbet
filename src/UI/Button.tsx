@@ -1,10 +1,10 @@
-import React from 'react'
+import { ReactNode } from 'react'
 
 type ButtonProps = {
   onClick: () => void
   disabled?: boolean
   className?: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export const Button = ({ onClick, disabled = false, className, children }: ButtonProps) => {

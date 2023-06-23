@@ -1,18 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import { setDoc, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
-import { db } from '../db'
 import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId } from '../helpers'
 import { useAppContext } from '../context/Context'
 import { initialQuestionInWork, initialEditorContext } from '../context/initialContexts'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { setTabActive } from '../helpers/tabActive'
-import { DELETE_WEEK, SET_LOADING, SET_WEEK } from '../redux/types'
+import { DELETE_WEEK, SET_WEEK } from '../redux/types'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 
 export const Editor = () => {

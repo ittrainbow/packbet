@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom/dist'
 import { Link } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -42,12 +42,12 @@ export const Login = () => {
     error && alert(error) // eslint-disable-next-line
   }, [user, loading, error])
 
-  const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const emailInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
-  const passwordInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }

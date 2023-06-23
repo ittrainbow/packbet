@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {
@@ -94,4 +94,4 @@ export const Header = () => {
   )
 }
 
-export const MemoHeader = React.memo(Header)
+export const MemoHeader = memo(Header)
