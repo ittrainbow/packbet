@@ -4,33 +4,53 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { initialUserContext, initialAppContext } from './initialContexts'
 import { auth } from '../db'
 import { tableCreator } from '../helpers/index'
-import * as types from '../types'
+
+import {
+  IWeeksContext,
+  IAppContext,
+  IUserContext,
+  IAboutContext,
+  IEditorContext,
+  IAnswersContext,
+  IUserListContext,
+  IUserStandings
+} from '../types'
+
+import {
+  SetWeeksContextType,
+  SetAppContextType,
+  SetUserContextType,
+  SetAboutContextType,
+  SetAnswersContextType,
+  SetEditorContextType,
+  SetUserListContextType,
+  SetStandingsContextType
+} from '../types'
 
 type ContextProps = {
   children: React.ReactNode
 }
 
 interface IContextType {
-  weeksContext: types.IWeeksContext
-  setWeeksContext: types.SetWeeksContextType
-  appContext: types.IAppContext
-  setAppContext: types.SetAppContextType
-  userContext: types.IUserContext
-  setUserContext: types.SetUserContextType
+  weeksContext: IWeeksContext
+  setWeeksContext: SetWeeksContextType
+  appContext: IAppContext
+  setAppContext: SetAppContextType
+  userContext: IUserContext
+  setUserContext: SetUserContextType
   clearUserContext: (locale: string) => void
-  aboutContext: types.IAboutContext
-  setAboutContext: types.SetAboutContextType
-  answersContext: types.IAnswersContext
-  setAnswersContext: types.SetAnswersContextType
-  // setResultsContext: types.setAnswersContextType
-  editorContext: types.WeekType
-  setEditorContext: types.SetEditorContextType
-  userListContext: types.IUserListContext
-  setUserListContext: types.SetUserListContextType
-  compareContext: types.IAnswersContext
-  setCompareContext: types.SetAnswersContextType
-  standingsContext: types.IUserStandings[]
-  setStandingsContext: types.SetStandingsContextType
+  aboutContext: IAboutContext
+  setAboutContext: SetAboutContextType
+  answersContext: IAnswersContext
+  setAnswersContext: SetAnswersContextType
+  editorContext: IEditorContext
+  setEditorContext: SetEditorContextType
+  userListContext: IUserListContext
+  setUserListContext: SetUserListContextType
+  compareContext: IAnswersContext
+  setCompareContext: SetAnswersContextType
+  standingsContext: IUserStandings[]
+  setStandingsContext: SetStandingsContextType
 }
 
 export const Context = createContext<IContextType>({} as IContextType)
@@ -38,15 +58,15 @@ export const Context = createContext<IContextType>({} as IContextType)
 export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }: ContextProps) => {
-  const [aboutContext, setAboutContext] = useState({} as types.IAboutContext)
-  const [weeksContext, setWeeksContext] = useState({} as types.IWeeksContext)
-  const [appContext, setAppContext] = useState(initialAppContext as types.IAppContext)
-  const [userContext, setUserContext] = useState(initialUserContext as types.IUserContext)
-  const [editorContext, setEditorContext] = useState({} as types.WeekType)
-  const [answersContext, setAnswersContext] = useState({} as types.IAnswersContext)
-  const [userListContext, setUserListContext] = useState({} as types.IUserListContext)
-  const [compareContext, setCompareContext] = useState({} as types.IAnswersContext)
-  const [standingsContext, setStandingsContext] = useState([] as types.IUserStandings[])
+  const [aboutContext, setAboutContext] = useState({} as IAboutContext)
+  const [weeksContext, setWeeksContext] = useState({} as IWeeksContext)
+  const [appContext, setAppContext] = useState(initialAppContext as IAppContext)
+  const [userContext, setUserContext] = useState(initialUserContext as IUserContext)
+  const [editorContext, setEditorContext] = useState({} as IEditorContext)
+  const [answersContext, setAnswersContext] = useState({} as IAnswersContext)
+  const [userListContext, setUserListContext] = useState({} as IUserListContext)
+  const [compareContext, setCompareContext] = useState({} as IAnswersContext)
+  const [standingsContext, setStandingsContext] = useState([] as IUserStandings[])
   const [user] = useAuthState(auth)
 
   useEffect(() => {
@@ -70,13 +90,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
     setUserContext({ ...initialUserContext, locale })
   }
 
-  // const setResultsContext = (value) => {
-  //   const { selectedWeek } = appContext
-  //   const results = objectReplace(answersContext.results, selectedWeek, value)
-
-  //   setAnswersContext({ ...answersContext, results })
-  // }
-
   return (
     <Context.Provider
       value={{
@@ -91,7 +104,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
         setAboutContext,
         answersContext,
         setAnswersContext,
-        // setResultsContext,
         editorContext,
         setEditorContext,
         userListContext,

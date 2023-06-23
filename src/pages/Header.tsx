@@ -57,9 +57,12 @@ export const Header = () => {
       selectedWeek,
       emptyEditor
     }
-    setAppContext(context)
-    setTabActive(id)
-    navigate(path)
+
+    if (currentWeek || id !== 2) {
+      setAppContext(context)
+      setTabActive(id)
+      navigate(path)
+    }
 
     id === 6 && setEditorContext(initialEditorContext)
   }

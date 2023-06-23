@@ -31,6 +31,8 @@ export interface IAboutContext {
   [key: string]: { [key: number]: string }
 }
 
+export interface IEditorContext extends WeekType {}
+
 export interface Answers {
   [key: number]: { [key: number]: number }
 }
