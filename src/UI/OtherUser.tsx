@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { i18n } from '../locale/locale'
 import { useAppContext } from '../context/Context'
 import { LocaleType } from '../types'

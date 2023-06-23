@@ -1,7 +1,8 @@
+import { ChangeEvent } from 'react'
 
 type InputProps = {
   type: 'text' | 'checkbox' | 'datetime-local'
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
   id?: string
   className?: string
   placeholder?: string

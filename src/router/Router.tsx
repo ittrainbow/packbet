@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { HistoryRouter } from 'redux-first-history/rr6'
@@ -10,7 +11,7 @@ import { history } from '../redux/store'
 import { selectApp } from '../redux/selectors'
 
 type RouterProps = {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const Router = ({ children }: RouterProps) => {

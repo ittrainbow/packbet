@@ -1,18 +1,16 @@
-import { useState, useEffect, useRef } from 'react'
-import { setDoc, doc, updateDoc, deleteDoc, deleteField } from 'firebase/firestore'
+import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
-import { db } from '../db'
 import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId } from '../helpers'
 import { useAppContext } from '../context/Context'
 import { initialQuestionInWork, initialEditorContext } from '../context/initialContexts'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { setTabActive } from '../helpers/tabActive'
-import { DELETE_WEEK, SET_LOADING, SET_WEEK } from '../redux/types'
+import { DELETE_WEEK, SET_WEEK } from '../redux/types'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 
 export const Editor = () => {
@@ -120,28 +118,28 @@ export const Editor = () => {
     navigate('/calendar')
   }
 
-  const changeNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEditorContext({ ...editorContext, name: value })
   }
 
-  const changeQuestionHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const changeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setQuestionInWork({ ...questionInWork, question: e.target.value })
 
-  const changeTotalHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeTotalHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     if (!isNaN(Number(value)) || value === '-') {
       setQuestionInWork({ ...questionInWork, total: value })
     }
   }
 
-  const changeDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeDateHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
     setEditorContext({ ...editorContext, deadline })
   }
 
-  const changeActivityHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const changeActivityHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setEditorContext({ ...editorContext, active: e.target.checked })
 
   function renderQuestions() {
@@ -156,7 +154,7 @@ export const Editor = () => {
             {question}: {total}
           </div>
           <div className="editor-question__buttons">
-            {thisQuestionIsSelected ? ( //TODO
+            {thisQuestionIsSelected ? (
               <FaBan
                 className="editor-question__edit editor-btn__green faBan"
                 onClick={() => setQuestionInWork(initialQuestionInWork)}

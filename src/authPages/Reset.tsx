@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, ChangeEvent } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -30,7 +30,7 @@ export const Reset = () => {
     user && navigate('/') // eslint-disable-next-line
   }, [user, loading])
 
-  const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const emailInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }

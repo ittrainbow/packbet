@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, ChangeEvent } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -43,16 +43,16 @@ export const Register = () => {
     name && email && password.length > 2 && registerWithEmailAndPassword(name, email, password)
   }
 
-  const nameInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const nameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setName(value)
   }
 
-  const emailInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const emailInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
-  const passwordInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }

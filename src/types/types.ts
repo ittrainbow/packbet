@@ -1,4 +1,4 @@
-import { FieldValue } from 'firebase/firestore'
+import { Dispatch, SetStateAction } from 'react'
 import {
   Answers,
   IAboutContext,
@@ -30,14 +30,14 @@ export type WeeksType = {
   [key: number]: WeekType
 }
 
-export type SetAboutContextType = React.Dispatch<React.SetStateAction<IAboutContext>>
-export type SetAnswersContextType = React.Dispatch<React.SetStateAction<IAnswersContext>>
-export type SetAppContextType = React.Dispatch<React.SetStateAction<IAppContext>>
-export type SetUserListContextType = React.Dispatch<React.SetStateAction<IUserListContext>>
-export type SetUserContextType = React.Dispatch<React.SetStateAction<IUserContext>>
-export type SetWeeksContextType = React.Dispatch<React.SetStateAction<WeeksType>>
-export type SetEditorContextType = React.Dispatch<React.SetStateAction<WeekType>>
-export type SetStandingsContextType = React.Dispatch<React.SetStateAction<IUserStandings[]>>
+export type SetAboutContextType = Dispatch<SetStateAction<IAboutContext>>
+export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
+export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
+export type SetUserListContextType = Dispatch<SetStateAction<IUserListContext>>
+export type SetUserContextType = Dispatch<SetStateAction<IUserContext>>
+export type SetWeeksContextType = Dispatch<SetStateAction<WeeksType>>
+export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
+export type SetStandingsContextType = Dispatch<SetStateAction<IUserStandings[]>>
 
 export type ReduxRouterType = {
   location: {
