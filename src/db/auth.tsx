@@ -21,16 +21,20 @@ const googleProvider = new GoogleAuthProvider()
 export const signInWithGoogle = async () => {
   try {
     const response: UserCredential = await signInWithPopup(auth, googleProvider)
-    const { email, displayName: name, uid } = response.user
-    const docs: DocumentSnapshot<DocumentData> = await getDoc(doc(db, 'users', uid))
-    const googleAuth = async () => {
-      const locale = localStorage.getItem('locale')
-      const user = { email, name, locale, admin: false }
-      const answers = {}
-      await setDoc(doc(db, 'users', uid), user)
-      await setDoc(doc(db, `answers${season}`, uid), answers)
+    if (response) {
+      const { email, displayName: name, uid } = response.user
+      const docs = await getDoc(doc(db, 'users', uid))
+      const googleAuth = async () => {
+        const locale = localStorage.getItem('locale')
+        const user = { email, name, locale, admin: false }
+        const answers = {}
+        await setDoc(doc(db, 'users', uid), user)
+        await setDoc(doc(db, `answers${season}`, uid), answers)
+      }
+      docs.data() === undefined && googleAuth()
+      const data = docs.data() as IUser
+      return { data, uid }
     }
-    docs.data() === undefined && googleAuth()
   } catch (error) {
     if (error instanceof Error) console.error(error)
   }
@@ -55,6 +59,7 @@ export const registerWithEmailAndPassword = async (
     const locale = localStorage.getItem('locale') || 'ru'
     const data: IUser = { name, email, locale, admin: false }
     await setDoc(doc(db, 'users', uid), data)
+    return { uid, locale }
   } catch (error) {
     if (error instanceof Error) console.error(error)
   }

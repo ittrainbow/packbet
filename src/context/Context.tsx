@@ -13,7 +13,8 @@ import {
   IEditorContext,
   IAnswersContext,
   IUserListContext,
-  IUserStandings
+  IUserStandings,
+  IUser
 } from '../types'
 
 import {
@@ -78,13 +79,13 @@ export const ContextProvider = ({ children }: ContextProps) => {
   useEffect(() => {
     if (user && Object.keys(userListContext).length > 0) {
       const { uid } = user
-      const { name, email, admin, locale } = userListContext[uid]
+      const { name, email, admin, locale } = userListContext[uid] as IUser
       const browserLocale = localStorage.getItem('locale')
       locale !== browserLocale && localStorage.setItem('locale', locale)
 
       setUserContext({ ...userContext, name, email, admin, locale })
     } // eslint-disable-next-line
-  }, [user, userListContext])
+  }, [userListContext])
 
   const clearUserContext = (locale: string) => {
     setUserContext({ ...initialUserContext, locale })

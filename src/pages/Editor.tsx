@@ -30,7 +30,7 @@ export const Editor = () => {
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
-  const [anyChanges, setAnyChanges] = useState(false)
+  const [anyChanges, setAnyChanges] = useState<boolean>(false)
   const { selectedWeek, nextWeek, emptyEditor, season } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork

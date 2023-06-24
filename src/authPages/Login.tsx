@@ -15,7 +15,7 @@ export const Login = () => {
   const [password, setPassword] = useState<string>('')
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
-  const { userContext, setUserContext } = useAppContext()
+  const { userContext, setUserContext, userListContext, setUserListContext } = useAppContext()
   const { locale } = userContext
 
   const loginButtonActive = emailValid && password.length > 2
@@ -59,9 +59,19 @@ export const Login = () => {
 
   const localeChecked = () => (locale ? locale === 'ua' : false)
 
+  const googleHandleClick = async () => {
+    const r = await signInWithGoogle()
+    if (r) {
+      const { uid, data } = r
+      const userList = structuredClone(userListContext)
+      userList[uid] = data
+      setUserListContext(userList)
+    }
+  }
+
   // locale
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType
-  const { registerMsg, registerIntro, forgotMsg } = i18n(locale, 'auth') as LocaleType
+  const { regMsg, regIntro, forgotMsg } = i18n(locale, 'auth') as LocaleType
 
   return (
     <div className="auth">
@@ -81,14 +91,14 @@ export const Login = () => {
           >
             {buttonLoginMsg}
           </Button>
-          <Button className="google" onClick={signInWithGoogle}>
+          <Button className="google" onClick={googleHandleClick}>
             {buttonLoginGoogleMsg}
           </Button>
           <div className="link-container">
             <Link to="/reset">{forgotMsg}</Link>
           </div>
           <div className="link-container">
-            {registerIntro} <Link to="/register">{registerMsg}</Link>
+            {regIntro} <Link to="/register">{regMsg}</Link>
           </div>
         </div>
         <div className="locale-div">

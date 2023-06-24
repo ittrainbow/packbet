@@ -23,7 +23,7 @@ export const Week = () => {
   const { admin, adminAsPlayer, locale } = userContext
   const [uid, setUid] = useState<string>('')
   const [adm, setAdm] = useState<boolean>(false)
-  const [noChanges, setNoChanges] = useState(true)
+  const [noChanges, setNoChanges] = useState<boolean>(true)
 
   const ansOrRes = useMemo(() => {
     return adm ? 'results' : uid

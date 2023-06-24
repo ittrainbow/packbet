@@ -11,10 +11,6 @@ export const getWeeksIDs = (weeks: WeeksType | IWeeksContext) => {
   return { currentWeek, nextWeek }
 }
 
-// export const getLastWeek = (weeks) => {
-//   return weeks.at(-1)
-// }
-
 export const ansHelper = (
   answersContext: IAnswersContext,
   selectedWeek: number,

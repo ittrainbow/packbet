@@ -69,6 +69,7 @@ function* fetchUsersSaga(setUserListContext: SetUserListContextType) {
 export function* initSaga() {
   while (true) {
     const { payload } = yield take(INIT_APP)
+    yield setLoading(true)
     const {
       setAboutContext,
       appContext,
