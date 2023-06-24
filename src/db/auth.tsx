@@ -32,8 +32,8 @@ export const signInWithGoogle = async () => {
         await setDoc(doc(db, `answers${season}`, uid), answers)
       }
       docs.data() === undefined && googleAuth()
-      const data = docs.data() as IUser
-      return { data, uid }
+      const user = docs.data() as IUser
+      return { user, uid }
     }
   } catch (error) {
     if (error instanceof Error) console.error(error)
@@ -42,7 +42,11 @@ export const signInWithGoogle = async () => {
 
 export const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password)
+    const responseLogin: UserCredential = await signInWithEmailAndPassword(auth, email, password)
+    const { uid } = responseLogin.user
+    const responseUser = await getDoc(doc(db, 'users', uid))
+    const user = responseUser.data() as IUser
+    return { user, uid }
   } catch (error) {
     if (error instanceof Error) console.error(error)
   }

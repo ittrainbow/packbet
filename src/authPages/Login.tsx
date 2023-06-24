@@ -7,7 +7,7 @@ import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
 import { useAppContext } from '../context/Context'
-import { LocaleType } from '../types'
+import { IUser, LocaleType } from '../types'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -59,14 +59,21 @@ export const Login = () => {
 
   const localeChecked = () => (locale ? locale === 'ua' : false)
 
+  const setUserListHandler = (response: { user: IUser; uid: string }) => {
+    const { uid, user } = response
+    const userList = structuredClone(userListContext)
+    userList[uid] = user
+    setUserListContext(userList)
+  }
+
   const googleHandleClick = async () => {
-    const r = await signInWithGoogle()
-    if (r) {
-      const { uid, data } = r
-      const userList = structuredClone(userListContext)
-      userList[uid] = data
-      setUserListContext(userList)
-    }
+    const response = await signInWithGoogle()
+    response && setUserListHandler(response)
+  }
+
+  const emailLogInHandler = async () => {
+    const response = await logInWithEmailAndPassword(email, password)
+    response && setUserListHandler(response)
   }
 
   // locale
@@ -84,11 +91,7 @@ export const Login = () => {
             onChange={passwordInputHandler}
             placeholder={'Password'}
           />
-          <Button
-            className={'login'}
-            disabled={!loginButtonActive}
-            onClick={() => logInWithEmailAndPassword(email, password)}
-          >
+          <Button className={'login'} disabled={!loginButtonActive} onClick={emailLogInHandler}>
             {buttonLoginMsg}
           </Button>
           <Button className="google" onClick={googleHandleClick}>
