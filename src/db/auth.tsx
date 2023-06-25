@@ -1,5 +1,5 @@
 import { useContext, createContext, ReactNode } from 'react'
-import { getDoc, setDoc, doc, DocumentSnapshot, DocumentData } from 'firebase/firestore'
+import { getDoc, setDoc, doc } from 'firebase/firestore'
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -12,7 +12,8 @@ import {
 
 import { db, auth } from './firebase'
 import { initialAppContext } from '../context/initialContexts'
-import { IUser } from '../types'
+import { IUser, LocaleType } from '../types'
+import { i18n } from '../locale/locale'
 
 const { season } = initialAppContext
 
@@ -57,15 +58,19 @@ export const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
+  const locale = localStorage.getItem('locale') || 'ru'
   try {
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const locale = localStorage.getItem('locale') || 'ru'
     const data: IUser = { name, email, locale, admin: false }
     await setDoc(doc(db, 'users', uid), data)
     return { uid, locale }
   } catch (error) {
-    if (error instanceof Error) console.error(error)
+    if (error instanceof Error) {
+      const { emailExistsMsg } = i18n(locale, 'auth') as LocaleType
+      if (error.message.includes('email-already-in-use')) alert(emailExistsMsg)
+      console.error(error)
+    }
   }
 }
 

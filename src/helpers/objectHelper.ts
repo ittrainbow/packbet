@@ -14,7 +14,7 @@ export const objectTrim = (object: QuestionsType, id: number) => {
   return obj
 }
 
-export const getNewQuestionId = (questions: QuestionsType) => {
+export const getNewQuestionId = (questions: QuestionsType): number => {
   const num =
     Object.keys(questions)
       .map((el) => Number(el))

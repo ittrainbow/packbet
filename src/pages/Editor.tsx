@@ -38,17 +38,18 @@ export const Editor = () => {
 
   useEffect(() => {
     nameRef.current?.focus()
-    emptyEditor && setEditorContext(initialEditorContext) // eslint-disable-next-line
+    emptyEditor && setEditorContext(initialEditorContext)
+    // eslint-disable-next-line
   }, [selectedWeek])
 
   useEffect(() => {
     const changes = emptyEditor
       ? Object.keys(questions).some((el) => el)
       : !objectCompare(editorContext, loadedWeek)
-    setAnyChanges(changes) // eslint-disable-next-line
+    setAnyChanges(changes)
+    // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
-  // locale
   const editorLocale = i18n(locale, 'editor') as LocaleType
   const buttonsLocale = i18n(locale, 'buttons') as LocaleType
   const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = editorLocale
@@ -60,9 +61,8 @@ export const Editor = () => {
     const { question, total } = questionInWork
     const { questions } = editorContext
     const { id } = questionInWork
-    const isNewQuestion = id === null || id !== 0
     if (question && total) {
-      const setId = isNewQuestion ? getNewQuestionId(questions) : id
+      const setId = id === null ? getNewQuestionId(questions) : (id as number)
       const obj = objectReplace(questions, setId, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(initialQuestionInWork)
@@ -124,7 +124,7 @@ export const Editor = () => {
   }
 
   const changeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setQuestionInWork({ ...questionInWork, question: e.target.value })
+    setQuestionInWork({ ...questionInWork, question: e.target.value.substring(0, 120) })
 
   const changeTotalHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -162,9 +162,7 @@ export const Editor = () => {
             ) : (
               <FaEdit
                 className="editor-question__edit editor-btn__green"
-                onClick={() => {
-                  editButtonHandler(id)
-                }}
+                onClick={() => editButtonHandler(id)}
               />
             )}
             <FaTrashAlt
@@ -182,7 +180,7 @@ export const Editor = () => {
       <div className="editor-input">
         <Input
           sx={{ width: '100%' }}
-          type={'text'}
+          type="text"
           inputRef={nameRef}
           onChange={changeNameHandler}
           placeholder={weekNameMsg}
@@ -192,14 +190,14 @@ export const Editor = () => {
         <div className="editor-form">
           <Input
             sx={{ width: '100%' }}
-            type={'text'}
+            type="text"
             inputRef={inputRef}
             onChange={changeQuestionHandler}
             placeholder={weekQuestionMsg}
             value={question}
           />
           <Input
-            type={'text'}
+            type="text"
             onChange={changeTotalHandler}
             value={total}
             className={'short'}
@@ -218,7 +216,7 @@ export const Editor = () => {
       <div className="editor-checkbox">
         <div className="editor-checkbox__pad">{weekActivityMsg}</div>
         <Input
-          type={'checkbox'}
+          type="checkbox"
           checked={active}
           className={'checkbox'}
           onChange={changeActivityHandler}
@@ -226,7 +224,7 @@ export const Editor = () => {
       </div>
       <div className="editor-datetime__container">
         <Input
-          type={'datetime-local'}
+          type="datetime-local"
           value={getDeadline()}
           className={'timer'}
           onChange={changeDateHandler}
@@ -245,6 +243,7 @@ export const Editor = () => {
           {buttonDeleteWeekMsg}
         </Button>
       ) : null}
+      {/* <Button onClick={logContextHandler}>Context</Button> */}
     </div>
   )
 }

@@ -25,7 +25,6 @@ export const Header = () => {
   const { tabActive, nextWeek, currentWeek } = appContext
   const navigate = useNavigate()
 
-  // locale
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
 
@@ -43,7 +42,8 @@ export const Header = () => {
   ]
 
   useEffect(() => {
-    navigate('/userpage') // eslint-disable-next-line
+    navigate('/userpage') 
+    // eslint-disable-next-line
   }, [])
 
   const clickHandler = (id: number, path: string) => {
@@ -58,7 +58,7 @@ export const Header = () => {
       emptyEditor
     }
 
-    if (currentWeek || id !== 2) {
+    if (currentWeek || currentWeek === 0 || id !== 2) {
       setAppContext(context)
       setTabActive(id)
       navigate(path)

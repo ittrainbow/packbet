@@ -27,7 +27,8 @@ export const Reset = () => {
 
   useEffect(() => {
     if (loading) return
-    user && navigate('/') // eslint-disable-next-line
+    user && navigate('/')
+    // eslint-disable-next-line
   }, [user, loading])
 
   const emailInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,6 @@ export const Reset = () => {
     localStorage.setItem('locale', newLocale)
   }
 
-  // locale
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
   const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
 
@@ -51,7 +51,7 @@ export const Reset = () => {
       <div className="auth__container">
         <div className="auth__data">
           <Input
-            type={'text'}
+            type="text"
             value={email}
             ref={inputRef}
             onChange={emailInputHandler}

@@ -10,7 +10,7 @@ export const AdminPlayer = () => {
 
   return (
     <label className="switch">
-      <input type="checkbox" onClick={setContextHandler} />
+      <input type="checkbox" checked={adminAsPlayer} onChange={setContextHandler} />
       <span className="slider round"></span>
     </label>
   )

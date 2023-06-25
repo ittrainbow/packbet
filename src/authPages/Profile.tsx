@@ -39,7 +39,6 @@ export const Profile = () => {
   const onChangeLocaleHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
   const checked = () => tempLocale === 'ua'
 
-  // locale
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
 
@@ -52,7 +51,7 @@ export const Profile = () => {
           <LocaleSwitcher onChange={onChangeLocaleHandler} checked={checked()} />
           <div className="text-container">{profileNameMsg}</div>
           <Input
-            type={'text'}
+            type='text'
             inputRef={inputRef}
             onChange={(e) => setTempName(e.target.value)}
             value={tempName}

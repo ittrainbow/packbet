@@ -29,7 +29,6 @@ export const Standings = () => {
     user && otherUserUID !== user.uid && setApp()
   }
 
-  // locale
   const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(locale, 'standings') as LocaleType
 
   return (

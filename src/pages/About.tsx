@@ -19,7 +19,6 @@ export const About = () => {
     }
   }, [locale, aboutContext])
 
-  // locale
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
   const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(
     locale,

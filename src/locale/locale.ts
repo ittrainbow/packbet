@@ -22,8 +22,11 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const regEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
   const regPasswordAlert =
     locale === 'ru'
-      ? 'Введите пароль не менее трех символов'
-      : 'Введіть пароль щонайменше трьох символів'
+      ? 'Введите пароль не менее шести символов'
+      : 'Введіть пароль щонайменше шести символів'
+  const emailMsg = locale === 'ru' ? 'E-mail' : 'E-mail'
+  const passwordMsg = locale === 'ru' ? 'Пароль' : 'Пароль'
+  const emailExistsMsg = locale === 'ru' ? 'E-mail уже используется' : 'E-mail вже використовується'
 
   const buttonChangesMsg = locale === 'ru' ? 'Изменений нет' : 'Немає змiн'
   const buttonCancelMsg = locale === 'ru' ? 'Отменить' : 'Скасувати'
@@ -49,8 +52,8 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const minutesMsg = locale === 'ru' ? 'мин' : 'хв'
   const secondsMsg = locale === 'ru' ? 'сек' : 'сек'
 
-  const playerMsg = locale === 'ru' ? 'Игрок' : 'Гравець'
-  const adminMsg = locale === 'ru' ? 'Админ' : 'Адмiн'
+  const playerMsg = locale === 'ru' ? 'Режим игрока' : 'Режим гравця'
+  const adminMsg = locale === 'ru' ? 'Режим админа' : 'Режим адмiна'
   const successMsg = locale === 'ru' ? 'Успешно сохранено' : 'Успішно збережено'
   const failureMsg = locale === 'ru' ? 'Не удалось сохранить' : 'Не вдалося зберегти'
 
@@ -137,7 +140,10 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         regNameMsg,
         regNameAlert,
         regEmailAlert,
-        regPasswordAlert
+        regPasswordAlert,
+        emailMsg,
+        passwordMsg,
+        emailExistsMsg
       }
 
     case 'buttons':

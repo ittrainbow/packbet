@@ -100,7 +100,9 @@ export const Week = () => {
     return styles.join(' ')
   }
 
-  // locale
+  const qWidth = document.querySelector('.question') as HTMLElement
+  const width = qWidth?.offsetWidth - 130 || 270
+
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
 
@@ -125,7 +127,7 @@ export const Week = () => {
             const { question, total } = questions[id]
             return (
               <div key={index} className={questionStyle(id)}>
-                <div className="question__desc">
+                <div className="question__desc" style={{ width }}>
                   {question}
                   {total !== '1' ? `: ${total}` : null}
                 </div>

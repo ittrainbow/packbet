@@ -10,7 +10,6 @@ export const KickoffCountdown = () => {
   const { deadline } = weeksContext[selectedWeek]
   const { locale } = userContext
 
-  // locale
   const {
     countdownMsg,
     gameStartedMsg,

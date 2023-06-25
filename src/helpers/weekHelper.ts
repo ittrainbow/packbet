@@ -7,7 +7,7 @@ export const getWeeksIDs = (weeks: WeeksType | IWeeksContext) => {
     .map((el) => Number(el))
     .sort((a, b) => b - a)[0]
 
-  const nextWeek = Number(arr.map((el) => Number(el)).sort((a, b) => b - a)[0]) + 1
+  const nextWeek = arr.map((el) => Number(el)).sort((a, b) => b - a)[0] + 1 || 0
   return { currentWeek, nextWeek }
 }
 

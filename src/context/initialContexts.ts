@@ -24,10 +24,6 @@ export const initialUserContext: IUserContext = {
   tempLocale: ''
 }
 
-// export const initialWeeksContext = [{ number: '', name: '', questions: {} }]
-
-// export const initialAboutContext = []
-
 export const initialEditorContext: WeekType = {
   questions: {},
   name: '',
