@@ -1,4 +1,5 @@
 import { put } from 'redux-saga/effects'
+
 import { SET_ERROR, SET_LOADING } from '../types'
 
 export function* setLoading(bool: boolean) {

@@ -12,7 +12,14 @@ type ActionType = {
   payload: boolean | string
 }
 
-export const appReducer = (state = initialState, action: ActionType) => {
+type StateType = {
+  mobile: boolean
+  loading: boolean
+  editor: boolean
+  error: string
+}
+
+export const appReducer = (state: StateType = initialState, action: ActionType) => {
   const { type, payload } = action
 
   switch (type) {
