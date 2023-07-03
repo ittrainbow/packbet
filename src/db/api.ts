@@ -15,7 +15,13 @@ import { db } from './firebase'
 import { IUser, WeekDeleteType, WeekUpdateType, WeekSubmitType } from '../types'
 import { objectCompare, objectCompose } from '../helpers'
 
-export const writeNameToFirestore = async ({ uid, data }: { uid: string; data: IUser }) => {
+type WriteNameType = {
+  uid: string
+  data: IUser
+}
+
+export const writeNameToFirestore = async (props: WriteNameType) => {
+  const { uid, data } = props
   try {
     await setDoc(doc(db, 'users', uid), data)
     return

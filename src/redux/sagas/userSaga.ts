@@ -2,7 +2,7 @@ import { takeEvery, call } from 'redux-saga/effects'
 
 import { UPDATE_PROFILE } from '../types'
 import { ActionType, IUser, UserUpdateType } from '../../types'
-import { getNameFromFirestore, writeNameToFirestore } from '../../db/api'
+import { getNameFromFirestore, writeNameToFirestore } from '../../db'
 import { setLoading, setError } from './generators'
 
 function* updateProfileSaga(action: ActionType<UserUpdateType>) {

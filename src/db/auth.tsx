@@ -77,14 +77,14 @@ export const registerWithEmailAndPassword = async (
 export const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email)
-    alert('Password reset link sent!')
+    return alert('Password reset link sent!')
   } catch (error) {
     if (error instanceof Error) console.error(error)
   }
 }
 
 export const logout = () => {
-  signOut(auth)
+  return signOut(auth)
 }
 
 export function useAuthValue() {

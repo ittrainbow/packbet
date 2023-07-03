@@ -1,7 +1,7 @@
 import { take, all, call } from 'redux-saga/effects'
 
 import { getWeeksIDs } from '../../helpers'
-import { fetchDataFromFirestore } from '../../db/api'
+import { fetchDataFromFirestore } from '../../db'
 import { setLoading, setError } from './generators'
 import { INIT_APP } from '../types'
 import {

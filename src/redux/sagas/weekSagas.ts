@@ -2,7 +2,7 @@ import { call, takeEvery } from 'redux-saga/effects'
 
 import { ActionType, WeekDeleteType, WeekSubmitType, WeekUpdateType } from '../../types'
 import { SET_WEEK, DELETE_WEEK, SUBMIT_WEEK } from '../types'
-import { deleteWeekFromFirestore, setWeekToFirestore, submitWeekToFirestore } from '../../db/api'
+import { deleteWeekFromFirestore, setWeekToFirestore, submitWeekToFirestore } from '../../db'
 import { setLoading, setError } from './generators'
 
 function* setWeekSaga(action: ActionType<WeekUpdateType>) {
