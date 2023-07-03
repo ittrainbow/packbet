@@ -1,5 +1,7 @@
 import ReactCountryFlag from 'react-country-flag'
 
+import { Input } from './Input'
+
 type LocaleSwitcherProps = {
   onChange: () => void
   checked: boolean
@@ -24,7 +26,7 @@ export const LocaleSwitcher = ({ onChange, checked }: LocaleSwitcherProps) => {
     <div className="locale-switcher">
       <div className="locale-flag">{flag('RU')}</div>
       <label className="locale-switch">
-        <input type="checkbox" onChange={onChange} checked={checked} />
+        <Input type="checkbox" onChange={onChange} checked={checked} />
         <span className="locale round"></span>
       </label>
       <div className="locale-flag">{flag('UA')}</div>

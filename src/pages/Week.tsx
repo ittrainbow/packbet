@@ -104,18 +104,13 @@ export const Week = () => {
   const width = qWidth?.offsetWidth - 130 || 270
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
-  const { playerMsg, adminMsg, successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
+  const { successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
 
   return (
     <div className="container">
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {admin ? (
-          <div className="question__admplayer">
-            <div className="question__actions">{adminAsPlayer ? playerMsg : adminMsg}</div>
-            <div className="question__actions">{admin ? <AdminPlayer /> : null}</div>
-          </div>
-        ) : null}
+        {admin ? <AdminPlayer /> : null}
       </div>
       <OtherUser />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />

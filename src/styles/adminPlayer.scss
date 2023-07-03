@@ -1,5 +1,17 @@
 @import './vars';
 
+.admin-switch-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.admin-greeting-container {
+  width: 110px;
+  align-items: left;
+  padding-bottom: 3px;
+}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -27,20 +39,20 @@
   right: 0;
   bottom: 0;
   background-color: $base-itembg;
-  -webkit-transition: .2s;
-  transition: .2s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 26px;
   width: 26px;
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .2s;
-  transition: .2s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 input:checked + .slider {
