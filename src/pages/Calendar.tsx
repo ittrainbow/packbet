@@ -11,13 +11,13 @@ export const Calendar = () => {
   const { weeksContext, appContext, setAppContext, setEditorContext } = useAppContext()
   const { isItYou } = appContext
 
-  const clickHandler = (selectedWeek: number, shortName: string) => {
+  const clickHandler = (selectedWeek: number) => {
     setAppContext({ ...appContext, selectedWeek })
     const setEditorTab = () => {
       setEditorContext(weeksContext[selectedWeek])
-      navigate(`/editor/${shortName}`)
+      navigate(`/editor/${selectedWeek}`)
     }
-    editor ? setEditorTab() : navigate(`/week/${shortName}`)
+    editor ? setEditorTab() : navigate(`/week/${selectedWeek}`)
   }
 
   return (
@@ -26,17 +26,16 @@ export const Calendar = () => {
       <div className="weeklist">
         {Object.keys(weeksContext)
           .map((el) => Number(el))
-          .sort((a, b) => b - a)
           .filter((el) => weeksContext[el].active || editor)
+          .sort((a, b) => b - a)
           .map((el) => {
             const { name } = weeksContext[el]
-            const shortName = name.split(':')[0].split(' ')[1]
             const selectedWeek = Number(el)
             return (
               <div
                 key={selectedWeek}
                 className="week"
-                onClick={() => clickHandler(selectedWeek, shortName)}
+                onClick={() => clickHandler(selectedWeek)}
               >
                 <div className="week__desc">{name}</div>
               </div>
