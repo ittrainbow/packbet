@@ -5,7 +5,7 @@ import { useAppContext } from '../context/Context'
 import { auth } from '../db'
 import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
-import { setTabActive } from '../helpers/tabActive'
+import { setTabActive } from '../helpers'
 import { LocaleType } from '../types'
 
 export const Standings = () => {

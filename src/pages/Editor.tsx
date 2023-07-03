@@ -16,7 +16,7 @@ import {
 import { useAppContext } from '../context/Context'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
-import { setTabActive } from '../helpers/tabActive'
+import { setTabActive } from '../helpers'
 import { DELETE_WEEK, SET_WEEK } from '../redux/types'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 

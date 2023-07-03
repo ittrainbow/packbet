@@ -14,7 +14,7 @@ import {
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
 import { emptyWeek } from '../helpers'
-import { setTabActive } from '../helpers/tabActive'
+import { setTabActive } from '../helpers'
 import { selectApp } from '../redux/selectors'
 import { IAppContext, LocaleType } from '../types'
 
