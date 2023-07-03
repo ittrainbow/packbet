@@ -11,7 +11,7 @@ import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
 import { i18n } from '../locale/locale'
 import { SUBMIT_WEEK } from '../redux/types'
-import { Answers, LocaleType } from '../types'
+import { Answers, LocaleType, YesNoHandlerPropsType } from '../types'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -56,7 +56,8 @@ export const Week = () => {
       : 0
   }
 
-  const onClickHandler = (value: number, id: number, activity: number) => {
+  const onClickHandler = (props: YesNoHandlerPropsType) => {
+    const { value, id, activity } = props
     if (user && writeAllowed() && isItYou) {
       const data = structuredClone(answersContext)
       if (!data[ansOrRes]) data[ansOrRes] = {}
@@ -132,7 +133,7 @@ export const Week = () => {
                     id={id}
                     activity={activity(id)}
                     admin={admin && !adminAsPlayer}
-                    onClick={(value, id, activity) => onClickHandler(value, id, activity)}
+                    onClick={onClickHandler}
                   />
                 </div>
               </div>

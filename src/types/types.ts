@@ -89,3 +89,9 @@ export type ActionType<T> = {
   type: string
   payload: T
 }
+
+export type YesNoHandlerPropsType = {
+  value: number
+  id: number
+  activity: number
+}
