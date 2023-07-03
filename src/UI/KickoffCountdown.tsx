@@ -23,15 +23,16 @@ export const KickoffCountdown = () => {
     secondsMsg
   } = i18n(locale, 'ticks') as LocaleType
 
-  type RendererProps = {
+  type ClockPropsType = {
     days: number
     hours: number
     minutes: number
     seconds: number
-    completed: boolean
   }
 
-  const renderer = ({ days, hours, minutes, seconds, completed }: RendererProps) => {
+  type RendererPropsType = ClockPropsType & { completed: boolean }
+
+  const renderer = ({ days, hours, minutes, seconds, completed }: RendererPropsType) => {
     const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg
     const hoursText =
       hours % 20 > 4 || hours % 20 === 0 ? fiveHoursMsg : hours % 20 > 1 ? twoHoursMsg : oneHourMsg

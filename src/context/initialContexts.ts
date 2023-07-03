@@ -1,4 +1,4 @@
-import { IAppContext, IUserContext, WeekType } from "../types"
+import { IAppContext, IUserContext, WeekType } from '../types'
 
 export const initialAppContext: IAppContext = {
   about: '',
@@ -22,17 +22,4 @@ export const initialUserContext: IUserContext = {
   adminAsPlayer: true,
   tempName: '',
   tempLocale: ''
-}
-
-export const initialEditorContext: WeekType = {
-  questions: {},
-  name: '',
-  active: false,
-  deadline: new Date().getTime()
-}
-
-export const initialQuestionInWork = {
-  question: '',
-  total: '',
-  id: null
 }

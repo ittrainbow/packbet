@@ -4,9 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
-import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId } from '../helpers'
+import {
+  objectCompare,
+  objectTrim,
+  objectReplace,
+  getWeeksIDs,
+  getNewQuestionId,
+  emptyWeek,
+  emptyQuestion
+} from '../helpers'
 import { useAppContext } from '../context/Context'
-import { initialQuestionInWork, initialEditorContext } from '../context/initialContexts'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { setTabActive } from '../helpers/tabActive'
@@ -28,7 +35,7 @@ export const Editor = () => {
     setAppContext
   } = useAppContext()
   const { locale } = userContext
-  const [questionInWork, setQuestionInWork] = useState(initialQuestionInWork as QuestionType)
+  const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
   const { selectedWeek, nextWeek, emptyEditor, season } = appContext
@@ -38,7 +45,7 @@ export const Editor = () => {
 
   useEffect(() => {
     nameRef.current?.focus()
-    emptyEditor && setEditorContext(initialEditorContext)
+    emptyEditor && setEditorContext(emptyWeek)
     // eslint-disable-next-line
   }, [selectedWeek])
 
@@ -65,7 +72,7 @@ export const Editor = () => {
       const setId = id === null ? getNewQuestionId(questions) : (id as number)
       const obj = objectReplace(questions, setId, questionInWork)
       setEditorContext({ ...editorContext, questions: obj })
-      setQuestionInWork(initialQuestionInWork)
+      setQuestionInWork(emptyQuestion)
     }
   }
 
@@ -157,7 +164,7 @@ export const Editor = () => {
             {thisQuestionIsSelected ? (
               <FaBan
                 className="editor-question__edit editor-btn__green faBan"
-                onClick={() => setQuestionInWork(initialQuestionInWork)}
+                onClick={() => setQuestionInWork(emptyQuestion)}
               />
             ) : (
               <FaEdit

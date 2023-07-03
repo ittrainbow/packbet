@@ -13,7 +13,7 @@ import {
 
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
-import { initialEditorContext } from '../context/initialContexts'
+import { emptyWeek } from '../helpers'
 import { setTabActive } from '../helpers/tabActive'
 import { selectApp } from '../redux/selectors'
 import { IAppContext, LocaleType } from '../types'
@@ -42,7 +42,7 @@ export const Header = () => {
   ]
 
   useEffect(() => {
-    navigate('/userpage') 
+    navigate('/userpage')
     // eslint-disable-next-line
   }, [])
 
@@ -64,7 +64,7 @@ export const Header = () => {
       navigate(path)
     }
 
-    id === 6 && setEditorContext(initialEditorContext)
+    id === 6 && setEditorContext(emptyWeek)
   }
 
   const getClass = (id: number) => {
