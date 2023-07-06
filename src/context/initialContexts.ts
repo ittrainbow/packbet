@@ -1,4 +1,4 @@
-import { IAppContext, IUserContext, WeekType } from '../types'
+import { IAppContext, IUserContext } from '../types'
 
 export const initialAppContext: IAppContext = {
   about: '',

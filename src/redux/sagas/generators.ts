@@ -9,6 +9,20 @@ export function* setLoading(bool: boolean) {
   })
 }
 
+export function* setLoadingTrue() {
+  yield put({
+    type: SET_LOADING,
+    payload: true
+  })
+}
+
+export function* setLoadingFalse() {
+  yield put({
+    type: SET_LOADING,
+    payload: false
+  })
+}
+
 export function* setError(error: Error) {
   yield put({
     type: SET_ERROR,
