@@ -22,24 +22,17 @@ export const Week = () => {
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const { admin, adminAsPlayer, locale } = userContext
   const [uid, setUid] = useState<string>('')
-  const [adm, setAdm] = useState<boolean>(false)
   const [noChanges, setNoChanges] = useState<boolean>(true)
 
-  const ansOrRes = useMemo(() => {
-    return adm ? 'results' : uid
-  }, [adm, uid])
+  const adm = useMemo(() => {
+    return admin && !adminAsPlayer
+  }, [admin, adminAsPlayer])
+
+  const ansOrRes = adm ? 'results' : uid
 
   useEffect(() => {
-    if (user) {
-      if (isItYou) setUid(user.uid)
-      else setUid(otherUserUID)
-    }
-    if (admin) setAdm(adminAsPlayer)
+    if (user) isItYou ? setUid(user.uid) : setUid(otherUserUID)
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
-
-  useEffect(() => {
-    setAdm(admin && !adminAsPlayer)
-  }, [adminAsPlayer, selectedWeek, admin])
 
   const checkChanges = (data: Answers) =>
     setNoChanges(objectCompare(data, compareContext[ansOrRes]))
