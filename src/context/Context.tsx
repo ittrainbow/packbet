@@ -80,7 +80,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
         const { name, email, admin } = userListContext[uid] as IUser
         setUserContext({ ...userContext, name, email, admin })
       }
-    }
+    } // eslint-disable-next-line
   }, [answersContext, userListContext])
 
   const clearUserContext = (locale: string) => {

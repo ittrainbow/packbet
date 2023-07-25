@@ -33,7 +33,7 @@ export const App = () => {
       obj[user.uid] = newUser
       setUserListContext(obj)
       setUserContext({ ...newUser, adminAsPlayer: false })
-    }
+    } // eslint-disable-next-line
   }, [user])
 
   return <Router />
