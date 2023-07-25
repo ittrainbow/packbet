@@ -59,7 +59,9 @@ export const About = () => {
               <div>{description[9]}</div>
             </div>
             <hr />
-            <div className="about__paragraph about__last-div">{devMsg}</div>
+            <div className="about__paragraph about__last-div">
+              {devMsg} <a href="https://t.me/packersnews">Green 19</a>
+            </div>
           </>
         ) : null}
       </div>

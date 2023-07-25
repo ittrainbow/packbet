@@ -10,15 +10,15 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const dashboardEnterMsg = locale === 'ru' ? 'Вы вошли как' : 'Ви увiйшли як'
   const dashboardAdminMsg = locale === 'ru' ? 'Вы - админ' : 'Ви - адмiн'
   const profileHeaderMsg = locale === 'ru' ? 'Настройка профиля' : 'Налаштування профiлю'
-  const profileNameMsg = locale === 'ru' ? 'Введите имя' : `Введіть ім'я`
+  const profileNameMsg = locale === 'ru' ? 'Введите username' : `Введіть username`
   const profileLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
   const loginIntro = locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
   const loginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
   const regIntro = locale === 'ru' ? 'Нет профиля?' : 'Немає профілю?'
   const regMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const forgotMsg = locale === 'ru' ? 'Забыли пароль?' : 'Забули пароль?'
-  const regNameMsg = locale === 'ru' ? 'Имя' : `Iм'я`
-  const regNameAlert = locale === 'ru' ? 'Введите имя' : `Введiть iм'я`
+  const regNameMsg = locale === 'ru' ? 'Username' : `Username`
+  const regNameAlert = locale === 'ru' ? 'Введите username' : `Введiть username`
   const regEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
   const regPasswordAlert =
     locale === 'ru'
@@ -83,8 +83,8 @@ export const i18n = (locale: string, component: string): { [key: string]: string
 
   const devMsg =
     locale === 'ru'
-      ? 'Разработка: Андрей Гордиенко. Тестирование: Николай Асиновский. Корректор: Сергей Павленко.'
-      : 'Розробка: Андрій Гордіенко. Тестування: Микола Асиновський. Коректор: Сергiй Павленко.'
+      ? 'Разработка:'
+      : 'Розробка:'
 
   const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
