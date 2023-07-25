@@ -71,21 +71,17 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [user] = useAuthState(auth)
 
   useEffect(() => {
-    if (answersContext && userListContext) {
-      setStandingsContext(tableCreator(answersContext, userListContext))
+    if (Object.keys(answersContext).length > 0 && Object.keys(userListContext).length > 0 && user) {
+      userListContext[user.uid] &&
+        setStandingsContext(tableCreator(answersContext, userListContext))
+
+      if (userListContext[user.uid]) {
+        const { uid } = user
+        const { name, email, admin } = userListContext[uid] as IUser
+        setUserContext({ ...userContext, name, email, admin })
+      }
     }
   }, [answersContext, userListContext])
-
-  useEffect(() => {
-    if (user && Object.keys(userListContext).length > 0) {
-      const { uid } = user
-      const { name, email, admin, locale } = userListContext[uid] as IUser
-      const browserLocale = localStorage.getItem('locale')
-      locale !== browserLocale && localStorage.setItem('locale', locale)
-
-      setUserContext({ ...userContext, name, email, admin, locale })
-    } // eslint-disable-next-line
-  }, [userListContext])
 
   const clearUserContext = (locale: string) => {
     setUserContext({ ...initialUserContext, locale })

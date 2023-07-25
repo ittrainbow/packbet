@@ -18,7 +18,7 @@ export interface IUser {
   admin: boolean
   locale: string
   name: string
-  email: string
+  email: string | null
 }
 
 export interface IUserContext extends IUser {
