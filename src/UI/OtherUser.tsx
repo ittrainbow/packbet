@@ -14,12 +14,6 @@ export const OtherUser = () => {
   const { locale } = userContext
 
   const setContextHandler = () => {
-    // setAppContext({
-    //   ...appContext,
-    //   isItYou: true,
-    //   otherUserName: '',
-    //   otherUserUID: ''
-    // })
     dispatch(appActions.setIsItYou(true))
     dispatch(appActions.setOtherUserName(''))
     dispatch(appActions.setOtherUserUID(''))

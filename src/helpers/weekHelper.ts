@@ -7,8 +7,8 @@ export const getWeeksIDs = (weeks: WeeksType | IWeeksContext) => {
     .map((el) => Number(el))
     .sort((a, b) => b - a)[0]
 
-  const newNextWeek = arr.map((el) => Number(el)).sort((a, b) => b - a)[0] + 1 || 0
-  return { currentWeek, newNextWeek }
+  const nextWeek = arr.map((el) => Number(el)).sort((a, b) => b - a)[0] + 1 || 0
+  return { currentWeek, nextWeek }
 }
 
 export const ansHelper = (
@@ -17,14 +17,11 @@ export const ansHelper = (
   uid: string,
   id: number
 ) => {
-  console.log(1, answersContext, selectedWeek, uid, id)
   const res = answersContext?.results[selectedWeek] ? answersContext.results[selectedWeek][id] : 0
-  console.log(2)
   const ans =
     answersContext[uid] && answersContext[uid][selectedWeek]
       ? answersContext[uid][selectedWeek][id]
       : 0
-  console.log(3)
   return { ans, res }
 }
 

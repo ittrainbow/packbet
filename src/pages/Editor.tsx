@@ -27,20 +27,12 @@ export const Editor = () => {
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  const {
-    userContext,
-    weeksContext,
-    setWeeksContext,
-    editorContext,
-    setEditorContext
-    // appContext,
-    // setAppContext
-  } = useAppContext()
+  const { userContext, weeksContext, setWeeksContext, editorContext, setEditorContext } =
+    useAppContext()
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
-  // const { nextWeek, emptyEditor, season } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
   const loadedWeek = weeksContext[selectedWeek]
@@ -88,12 +80,9 @@ export const Editor = () => {
     Object.keys(editorContext.questions).forEach((el) => delete questions[Number(el)]['id'])
     const weeks = structuredClone(weeksContext)
     weeks[id] = editorContext
-    const { currentWeek, newNextWeek } = getWeeksIDs(weeks)
 
     dispatch({ type: SET_WEEK, payload: { season, id, editorContext } })
-
-    // setAppContext({ ...appContext, currentWeek, nextWeek: newNextWeek })
-    dispatch(appActions.setNextAndCurrentWeeks({ currentWeek, nextWeek: newNextWeek }))
+    dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
     setWeeksContext(weeks)
     navigate('/calendar')
@@ -102,12 +91,10 @@ export const Editor = () => {
   const deleteWeekHandler = async () => {
     const weeks = structuredClone(weeksContext)
     delete weeks[selectedWeek]
-    const { currentWeek, newNextWeek } = getWeeksIDs(weeks)
 
     dispatch({ type: DELETE_WEEK, payload: { season, selectedWeek } })
 
-    // setAppContext({ ...appContext, currentWeek, nextWeek: newNextWeek })
-    dispatch(appActions.setNextAndCurrentWeeks({ currentWeek, nextWeek: newNextWeek }))
+    dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
     setWeeksContext(weeks)
     navigate('/calendar')
@@ -127,8 +114,6 @@ export const Editor = () => {
   }
 
   const goBackHandler = () => {
-    // const context = { ...appContext, tabActive: 5, emptyEditor: false }
-    // setAppContext(context)
     dispatch(appActions.setEmptyEditor(false))
     dispatch(appActions.setTabActive(5))
     navigate('/calendar')

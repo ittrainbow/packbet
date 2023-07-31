@@ -21,18 +21,11 @@ export const Standings = () => {
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
     const setApp = () => {
-      // setAppContext({
-      //   ...appContext,
-      //   otherUserUID,
-      //   otherUserName,
-      //   isItYou: false,
-      //   tabActive: 3
-      // })
       dispatch(appActions.setOtherUserName(otherUserName))
       dispatch(appActions.setOtherUserUID(otherUserUID))
       dispatch(appActions.setIsItYou(false))
       dispatch(appActions.setTabActive(3))
-      
+
       navigate('/season')
     }
     user && otherUserUID !== user.uid && setApp()

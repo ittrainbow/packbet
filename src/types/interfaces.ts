@@ -5,8 +5,6 @@ export interface IApp {
   loading: boolean
   editor: boolean
   error: string
-  about: string
-  alert: boolean //
   currentWeek: number
   emptyEditor: boolean
   isItYou: boolean

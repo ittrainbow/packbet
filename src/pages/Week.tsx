@@ -89,7 +89,6 @@ export const Week = () => {
   const questionStyle = (id: number) => {
     const styles = ['question']
     if (user) {
-      console.log(0, answersContext, selectedWeek, uid, id)
       const { ans, res } = ansHelper(answersContext, selectedWeek, uid, id)
       const styling = res && ans && adminAsPlayer && outdated()
       styling && styles.push(res === ans ? 'question__green' : 'question__red')

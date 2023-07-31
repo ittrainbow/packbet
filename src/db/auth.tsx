@@ -11,12 +11,11 @@ import {
 } from 'firebase/auth'
 
 import { db, auth } from './firebase'
-import { initialAppContext } from '../context/initialContexts'
 import { IUser, LocaleType } from '../types'
 import { i18n } from '../locale/locale'
 import { appActions } from '../redux/slices/appSlice'
 
-const { season } = initialAppContext
+const season = 2023
 
 const googleProvider = new GoogleAuthProvider()
 

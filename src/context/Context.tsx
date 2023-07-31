@@ -1,12 +1,11 @@
 import { useState, useContext, useEffect, createContext, ReactNode } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { initialUserContext, initialAppContext } from './initialContexts'
+import { initialUserContext } from './initialContexts'
 import { auth } from '../db'
 
 import {
   IWeeksContext,
-  // IApp,
   IUserContext,
   IEditorContext,
   IAnswersContext,
@@ -16,7 +15,6 @@ import {
 
 import {
   SetWeeksContextType,
-  // SetAppContextType,
   SetUserContextType,
   SetAnswersContextType,
   SetEditorContextType,
@@ -30,8 +28,6 @@ type ContextProps = {
 interface IContextType {
   weeksContext: IWeeksContext
   setWeeksContext: SetWeeksContextType
-  // appContext: IApp
-  // setAppContext: SetAppContextType
   userContext: IUserContext
   setUserContext: SetUserContextType
   clearUserContext: (locale: string) => void
@@ -51,17 +47,12 @@ export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }: ContextProps) => {
   const [weeksContext, setWeeksContext] = useState({} as IWeeksContext)
-  // const [appContext, setAppContext] = useState(initialAppContext as IApp)
   const [userContext, setUserContext] = useState(initialUserContext as IUserContext)
   const [editorContext, setEditorContext] = useState({} as IEditorContext)
   const [answersContext, setAnswersContext] = useState({} as IAnswersContext)
   const [userListContext, setUserListContext] = useState({} as IUserListContext)
   const [compareContext, setCompareContext] = useState({} as IAnswersContext)
   const [user] = useAuthState(auth)
-
-  useEffect(() => {
-    console.log(101, answersContext)
-  }, [answersContext])
 
   useEffect(() => {
     if (Object.keys(answersContext).length > 0 && Object.keys(userListContext).length > 0 && user) {
@@ -82,8 +73,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
       value={{
         weeksContext,
         setWeeksContext,
-        // appContext,
-        // setAppContext,
         userContext,
         setUserContext,
         clearUserContext,

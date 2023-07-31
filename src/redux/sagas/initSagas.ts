@@ -5,15 +5,11 @@ import { fetchDataFromFirestore } from '../../db'
 import { INIT_APP } from '../types'
 import {
   IAbout,
-  // IAboutContext,
   IAnswersContext,
-  IApp,
   IUserListContext,
   IUserStandings,
   IWeeksContext,
-  // SetAboutContextType,
   SetAnswersContextType,
-  // SetAppContextType,
   SetUserListContextType,
   SetWeeksContextType
 } from '../../types'
@@ -34,13 +30,7 @@ function* fetchAboutSaga() {
   }
 }
 
-function* fetchStandingsSaga() {
-
-}
-
 function* fetchWeeksSaga(
-  // appContext: IApp,
-  // setAppContext: SetAppContextType,
   setWeeksContext: SetWeeksContextType,
   setAnswersContext: SetAnswersContextType,
   setCompareContext: SetAnswersContextType,
@@ -49,19 +39,15 @@ function* fetchWeeksSaga(
   try {
     const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
     const answers: IAnswersContext = yield call(fetchDataFromFirestore, `answers${season}`)
-    console.log(100, answers)
     const users: IUserListContext = yield call(fetchDataFromFirestore, 'users')
 
     const standings: IUserStandings[] = tableCreator(answers, users)
-    const { currentWeek, newNextWeek } = getWeeksIDs(weeks)
 
     setUserListContext(users)
 
     setWeeksContext(weeks)
-    // setAppContext({ ...appContext, currentWeek, nextWeek: newNextWeek, season })
     yield put(appActions.setSeason(season))
-    yield put(appActions.setNextAndCurrentWeeks({ currentWeek, nextWeek: newNextWeek }))
-    // yield put(appActions.setNextWeek(newNextWeek))
+    yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
     setAnswersContext(answers)
     setCompareContext(structuredClone(answers))
@@ -74,40 +60,11 @@ function* fetchWeeksSaga(
   }
 }
 
-function* fetchAnswersSaga(
-  setAnswersContext: SetAnswersContextType,
-  setCompareContext: SetAnswersContextType
-) {
-  // try {
-  //   const answers: IAnswersContext = yield call(fetchDataFromFirestore, `answers${season}`)
-  //   setAnswersContext(answers)
-  //   setCompareContext(structuredClone(answers))
-  // } catch (error) {
-  //   if (error instanceof Error) {
-  //     yield put(appActions.setError(error.message))
-  //   }
-  // }
-}
-
-function* fetchUsersSaga(setUserListContext: SetUserListContextType) {
-  try {
-    const users: IUserListContext = yield call(fetchDataFromFirestore, 'users')
-    setUserListContext(users)
-  } catch (error) {
-    if (error instanceof Error) {
-      yield put(appActions.setError(error.message))
-    }
-  }
-}
-
 export function* initSaga() {
   while (true) {
     const { payload } = yield take(INIT_APP)
     yield put(appActions.setLoading(true))
     const {
-      // setAboutContext,
-      // appContext,
-      // setAppContext,
       setWeeksContext,
       setAnswersContext,
       setCompareContext,
@@ -116,8 +73,6 @@ export function* initSaga() {
     yield all([
       fetchAboutSaga(),
       fetchWeeksSaga(setWeeksContext, setAnswersContext, setCompareContext, setUserListContext),
-      fetchAnswersSaga(setAnswersContext, setCompareContext),
-      fetchUsersSaga(setUserListContext)
     ])
     yield put(appActions.setLoading(false))
   }

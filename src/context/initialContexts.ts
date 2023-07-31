@@ -1,6 +1,6 @@
-import { IAppContext, IUserContext } from '../types'
+import { IApp, IUserContext } from '../types'
 
-export const initialAppContext: IAppContext = {
+export const initialAppContext: IApp = {
   about: '',
   alert: false,
   currentWeek: 0,

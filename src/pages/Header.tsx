@@ -22,7 +22,7 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const app = useSelector(selectApp)
-  const { mobile, tabActive, nextWeek, currentWeek } = app
+  const { mobile, tabActive, nextWeek, currentWeek, editor } = app
   const { userContext, setEditorContext } = useAppContext()
   const { admin, locale, name } = userContext
   // const { nextWeek, currentWeek } = appContext
@@ -52,15 +52,13 @@ export const Header = () => {
     const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
     const emptyEditor = id === 6 ? true : false
 
-    if (id === 2) {
-      dispatch(appActions.setSelectedWeek(selectedWeek))
-    }
+    id === 2 && dispatch(appActions.setSelectedWeek(selectedWeek))
+
+    id === 5 && !editor && dispatch(appActions.setEditor(true))
+    id === 3 && editor && dispatch(appActions.setEditor(false))
 
     if (currentWeek || currentWeek === 0 || id !== 2) {
-      // setAppContext({ ...appContext, selectedWeek, emptyEditor })
-      dispatch(appActions.setTabActive(id))
-      dispatch(appActions.setSelectedWeek(selectedWeek))
-      dispatch(appActions.setEmptyEditor(emptyEditor))
+      dispatch(appActions.setHeader({ id, selectedWeek, emptyEditor }))
       navigate(path)
     }
 
