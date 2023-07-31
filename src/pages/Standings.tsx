@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useSelector } from 'react-redux'
 
 import { useAppContext } from '../context/Context'
+import { selectStandings } from '../redux/selectors'
 import { auth } from '../db'
 import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
@@ -10,8 +12,10 @@ import { LocaleType } from '../types'
 
 export const Standings = () => {
   const [user] = useAuthState(auth)
+  const standings = useSelector(selectStandings)
+
   const navigate = useNavigate()
-  const { userContext, standingsContext, appContext, setAppContext } = useAppContext()
+  const { userContext, appContext, setAppContext } = useAppContext()
   const { locale } = userContext
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
@@ -42,8 +46,8 @@ export const Standings = () => {
           <div className="cellFour">{tableCorrectMsg}</div>
           <div className="cellThree">90%</div>
         </div>
-        {standingsContext &&
-          Object.values(standingsContext)
+        {standings &&
+          Object.values(standings)
             .filter((el) => el.ansTotal > 0)
             .map((el) => {
               const { name, uid, ansCorrect, ansTotal, position, resultsTotal } = el

@@ -3,7 +3,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { initialUserContext, initialAppContext } from './initialContexts'
 import { auth } from '../db'
-import { tableCreator } from '../helpers/index'
 
 import {
   IWeeksContext,
@@ -12,7 +11,6 @@ import {
   IEditorContext,
   IAnswersContext,
   IUserListContext,
-  IUserStandings,
   IUser
 } from '../types'
 
@@ -22,8 +20,7 @@ import {
   SetUserContextType,
   SetAnswersContextType,
   SetEditorContextType,
-  SetUserListContextType,
-  SetStandingsContextType
+  SetUserListContextType
 } from '../types'
 
 type ContextProps = {
@@ -46,8 +43,6 @@ interface IContextType {
   setUserListContext: SetUserListContextType
   compareContext: IAnswersContext
   setCompareContext: SetAnswersContextType
-  standingsContext: IUserStandings[]
-  setStandingsContext: SetStandingsContextType
 }
 
 export const Context = createContext<IContextType>({} as IContextType)
@@ -55,7 +50,6 @@ export const Context = createContext<IContextType>({} as IContextType)
 export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }: ContextProps) => {
-  // const [aboutContext, setAboutContext] = useState({} as IAboutContext)
   const [weeksContext, setWeeksContext] = useState({} as IWeeksContext)
   const [appContext, setAppContext] = useState(initialAppContext as IAppContext)
   const [userContext, setUserContext] = useState(initialUserContext as IUserContext)
@@ -63,14 +57,10 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [answersContext, setAnswersContext] = useState({} as IAnswersContext)
   const [userListContext, setUserListContext] = useState({} as IUserListContext)
   const [compareContext, setCompareContext] = useState({} as IAnswersContext)
-  const [standingsContext, setStandingsContext] = useState([] as IUserStandings[])
   const [user] = useAuthState(auth)
 
   useEffect(() => {
     if (Object.keys(answersContext).length > 0 && Object.keys(userListContext).length > 0 && user) {
-      userListContext[user.uid] &&
-        setStandingsContext(tableCreator(answersContext, userListContext))
-
       if (userListContext[user.uid]) {
         const { uid } = user
         const { name, email, admin } = userListContext[uid] as IUser
@@ -100,9 +90,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
         userListContext,
         setUserListContext,
         compareContext,
-        setCompareContext,
-        standingsContext,
-        setStandingsContext
+        setCompareContext
       }}
     >
       {children}

@@ -27,7 +27,7 @@ export interface IUserContext extends IUser {
   tempName?: string
 }
 
-export interface IAboutContext {
+export interface IAbout {
   [key: string]: { [key: number]: string }
 }
 

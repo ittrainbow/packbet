@@ -2,7 +2,7 @@ import { take, put, select } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'redux-first-history'
 
 import { appActions } from '../slices/appSlice'
-import { ReduxRouterType, StoreType } from '../../types'
+import { ReduxRouterType, IStore } from '../../types'
 
 type LocationActionType = {
   type: string
@@ -13,7 +13,7 @@ export function* switchEditorSaga() {
   while (true) {
     const action: LocationActionType = yield take(LOCATION_CHANGE)
     const { pathname } = action.payload.location
-    const { editor } = yield select((store: StoreType) => store.app)
+    const { editor } = yield select((store: IStore) => store.app)
     const wasEditor = ['/editor', '/calendar'].includes(pathname)
 
     if (wasEditor !== editor) {

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 import {
   Answers,
-  IAboutContext,
   IAnswersContext,
   IAppContext,
   IUserContext,
@@ -10,6 +9,8 @@ import {
 } from './interfaces'
 
 export type LocaleType = { [key: string]: string }
+
+export type AboutLocaleType = { [key: string]: string }
 
 export type QuestionType = {
   question: string
@@ -30,15 +31,6 @@ export type WeeksType = {
   [key: number]: WeekType
 }
 
-export type AboutLocaleType = {
-  [key: number]: string
-}
-
-export type AboutStoreType = {
-  [key: string]: AboutLocaleType
-}
-
-export type SetAboutContextType = Dispatch<SetStateAction<IAboutContext>>
 export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
 export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
 export type SetUserListContextType = Dispatch<SetStateAction<IUserListContext>>
@@ -56,17 +48,6 @@ export type ReduxRouterType = {
     key: string
   }
   action: string
-}
-
-export type StoreType = {
-  router: ReduxRouterType
-  app: {
-    mobile: boolean
-    loading: boolean
-    editor: boolean
-    error: string | null
-  }
-  about: AboutStoreType
 }
 
 export type UserUpdateType = {
