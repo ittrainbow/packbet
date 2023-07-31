@@ -9,15 +9,19 @@ import { i18n } from '../locale/locale'
 import { useAppContext } from '../context/Context'
 import { LocaleType } from '../types'
 import { userListHelper } from '../helpers'
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '../redux/slices/userSlice'
+import { selectUser } from '../redux/selectors'
 
 export const Login = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
-  const { userContext, setUserContext, userListContext, setUserListContext } = useAppContext()
-  const { locale } = userContext
+  const { userListContext, setUserListContext } = useAppContext()
+  const { locale } = useSelector(selectUser)
 
   const loginButtonActive = emailValid && password.length > 2
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
@@ -26,9 +30,9 @@ export const Login = () => {
     const locale = localStorage.getItem('locale')
     const noLocale = () => {
       localStorage.setItem('locale', 'ru')
-      setUserContext({ ...userContext, locale: 'ru' })
+      dispatch(userActions.setLocale('ru'))
     }
-    locale ? setUserContext({ ...userContext, locale }) : noLocale()
+    locale ? dispatch(userActions.setLocale(locale)) : noLocale()
     // eslint-disable-next-line
   }, [])
 
@@ -53,14 +57,6 @@ export const Login = () => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }
-
-  const localeChangeHandler = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: newLocale })
-    localStorage.setItem('locale', newLocale)
-  }
-
-  const localeChecked = () => (locale ? locale === 'ua' : false)
 
   const googleClickHandler = async () => {
     const response = await signInWithGoogle()
@@ -100,7 +96,7 @@ export const Login = () => {
           </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={localeChecked()} onChange={localeChangeHandler} />
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

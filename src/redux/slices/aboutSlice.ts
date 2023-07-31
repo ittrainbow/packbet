@@ -8,7 +8,7 @@ const initialState: IAbout = {
 }
 
 export const aboutSlice = createSlice({
-  name: 'app',
+  name: 'about',
   initialState,
   reducers: {
     setAbout(state, action: PayloadAction<IAbout>) {

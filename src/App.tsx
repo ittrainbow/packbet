@@ -8,12 +8,13 @@ import { useAppContext } from './context/Context'
 import { INIT_APP } from './redux/types'
 import { auth } from './db'
 import { appSlice } from './redux/slices/appSlice'
+import { userActions } from './redux/slices/userSlice'
 
 export const App = () => {
   const dispatch = useDispatch()
   const contextMethods = useAppContext()
   const { setMobile } = appSlice.actions
-  const { userListContext, setUserListContext, setUserContext } = contextMethods
+  const { userListContext, setUserListContext } = contextMethods
   const [user] = useAuthState(auth)
 
   useEffect(() => {
@@ -30,11 +31,13 @@ export const App = () => {
         admin: false,
         name: displayName || '',
         email,
-        locale: localStorage.getItem('locale') || 'ru'
+        locale: localStorage.getItem('locale') || 'ru',
+        adminAsPlayer: false
       }
       obj[user.uid] = newUser
       setUserListContext(obj)
-      setUserContext({ ...newUser, adminAsPlayer: false })
+
+      dispatch(userActions.setUser(newUser))
     }
     // eslint-disable-next-line
   }, [user])

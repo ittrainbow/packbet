@@ -10,7 +10,7 @@ export const Calendar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { editor, isItYou } = useSelector(selectApp)
-  const { weeksContext, appContext, setEditorContext } = useAppContext()
+  const { weeksContext, setEditorContext } = useAppContext()
   // const { isItYou } = appContext
 
   const clickHandler = (selectedWeek: number) => {

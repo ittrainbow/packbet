@@ -1,18 +1,17 @@
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { logout } from '../db/auth'
 import { LocaleType } from '../types'
 import { Button } from '../UI'
 import { i18n } from '../locale/locale'
-import { useAppContext } from '../context/Context'
+import { selectUser } from '../redux/selectors'
 
 export const Dashboard = () => {
-  const { userContext, clearUserContext } = useAppContext()
-  const { name, email, admin, locale } = userContext
+  const { name, email, admin, locale } = useSelector(selectUser)
   const navigate = useNavigate()
 
   const logoutHandler = () => {
-    clearUserContext(localStorage.getItem('locale') || 'ru')
     logout()
     navigate('/userpage')
   }

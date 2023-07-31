@@ -5,7 +5,7 @@ import { IUserStandings } from '../../types'
 const initialState: IUserStandings[] = []
 
 export const standingsSlice = createSlice({
-  name: 'app',
+  name: 'standings',
   initialState,
   reducers: {
     setStandings(_, action: PayloadAction<IUserStandings[]>) {

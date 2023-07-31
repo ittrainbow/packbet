@@ -1,8 +1,10 @@
-import { IApp, IUserContext } from '../types'
+import { IApp, IUser } from '../types'
 
 export const initialAppContext: IApp = {
-  about: '',
-  alert: false,
+  mobile: true,
+  loading: false,
+  editor: false,
+  error: '',
   currentWeek: 0,
   emptyEditor: false,
   isItYou: true,
@@ -14,12 +16,12 @@ export const initialAppContext: IApp = {
   tabActive: 1
 }
 
-export const initialUserContext: IUserContext = {
+export const initialUser: IUser = {
   name: '',
   locale: 'ru',
   email: '',
   admin: false,
   adminAsPlayer: true,
-  tempName: '',
-  tempLocale: ''
+  // tempName: '',
+  // tempLocale: ''
 }

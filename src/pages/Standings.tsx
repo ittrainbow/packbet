@@ -2,8 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { useAppContext } from '../context/Context'
-import { selectStandings } from '../redux/selectors'
+import { selectStandings, selectUser } from '../redux/selectors'
 import { auth } from '../db'
 import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
@@ -16,8 +15,7 @@ export const Standings = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { userContext } = useAppContext()
-  const { locale } = userContext
+  const { locale } = useSelector(selectUser)
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
     const setApp = () => {

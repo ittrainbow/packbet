@@ -1,17 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux'
 
 import { i18n } from '../locale/locale'
-import { useAppContext } from '../context/Context'
 import { LocaleType } from '../types'
-import { selectApp } from '../redux/selectors'
+import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
 
 export const OtherUser = () => {
   const dispatch = useDispatch()
   const { otherUserName, isItYou } = useSelector(selectApp)
-  const { userContext } = useAppContext()
-  // const { otherUserName, isItYou } = appContext
-  const { locale } = userContext
+  const { locale } = useSelector(selectUser)
 
   const setContextHandler = () => {
     dispatch(appActions.setIsItYou(true))

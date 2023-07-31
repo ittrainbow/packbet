@@ -2,10 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 import {
   Answers,
   IAnswersContext,
-  // IAppContext,
-  IUserContext,
   IUserListContext,
-  IUserStandings
 } from './interfaces'
 
 export type LocaleType = { [key: string]: string }
@@ -34,7 +31,6 @@ export type WeeksType = {
 export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
 // export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
 export type SetUserListContextType = Dispatch<SetStateAction<IUserListContext>>
-export type SetUserContextType = Dispatch<SetStateAction<IUserContext>>
 export type SetWeeksContextType = Dispatch<SetStateAction<WeeksType>>
 export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
 // export type SetStandingsContextType = Dispatch<SetStateAction<IUserStandings[]>>

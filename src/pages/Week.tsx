@@ -12,17 +12,17 @@ import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '
 import { i18n } from '../locale/locale'
 import { SUBMIT_WEEK } from '../redux/types'
 import { Answers, LocaleType, YesNoHandlerPropsType } from '../types'
-import { selectApp } from '../redux/selectors'
+import { selectApp, selectUser } from '../redux/selectors'
+import { userActions } from '../redux/slices/userSlice'
 
 export const Week = () => {
   const dispatch = useDispatch()
   const { selectedWeek, isItYou, otherUserUID, season } = useSelector(selectApp)
   const [user] = useAuthState(auth)
-  const { weeksContext, userContext, setUserContext } = useAppContext()
+  const { weeksContext } = useAppContext()
   const { answersContext, setAnswersContext, compareContext, setCompareContext } = useAppContext()
-  // const { isItYou, otherUserUID, season } = appContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
-  const { admin, adminAsPlayer, locale } = userContext
+  const { admin, adminAsPlayer, locale } = useSelector(selectUser)
   const [uid, setUid] = useState<string>('')
   const [noChanges, setNoChanges] = useState<boolean>(true)
 
@@ -76,8 +76,9 @@ export const Week = () => {
       const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
       dispatch({ type: SUBMIT_WEEK, payload: { data, selectedWeek, season, ansOrRes, toaster } })
-      setUserContext({ ...userContext, adminAsPlayer: true })
       setCompareContext(structuredClone(answersContext))
+
+      dispatch(userActions.setAdminAsPlayer(true))
     }
   }
 

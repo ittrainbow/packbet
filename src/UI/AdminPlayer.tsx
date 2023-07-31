@@ -1,14 +1,18 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import { useAppContext } from '../context/Context'
 import { Input } from './Input'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
+import { userActions } from '../redux/slices/userSlice'
+import { selectUser } from '../redux/selectors'
 
 export const AdminPlayer = () => {
-  const { userContext, setUserContext } = useAppContext()
-  const { adminAsPlayer, locale } = userContext
+  const dispatch = useDispatch()
+  const { adminAsPlayer, locale } = useSelector(selectUser)
 
   const setContextHandler = () => {
-    setUserContext({ ...userContext, adminAsPlayer: !adminAsPlayer })
+    dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
   }
 
   const { playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, ChangeEvent } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useAppContext } from '../context/Context'
 import { auth } from '../db/firebase'
@@ -10,15 +11,17 @@ import { Input } from '@mui/material'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
 import { userListHelper } from '../helpers'
+import { selectUser } from '../redux/selectors'
 
 export const Register = () => {
   const navigate = useNavigate()
+  const { locale } = useSelector(selectUser)
   const inputRef = useRef<HTMLInputElement>()
   const [user, loading] = useAuthState(auth)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const { userContext, setUserContext, userListContext, setUserListContext } = useAppContext()
+  const { userListContext, setUserListContext } = useAppContext()
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -29,14 +32,7 @@ export const Register = () => {
   }, [loading, user])
 
   useEffect(() => {
-    const locale = localStorage.getItem('locale')
     inputRef.current?.focus()
-    const noLocale = () => {
-      localStorage.setItem('locale', 'ru')
-      setUserContext({ ...userContext, locale: 'ru' })
-    }
-    locale ? setUserContext({ ...userContext, locale }) : noLocale()
-    // eslint-disable-next-line
   }, [])
 
   const register = async () => {
@@ -47,7 +43,7 @@ export const Register = () => {
       const response = await registerWithEmailAndPassword(name, email, password)
       if (response) {
         const data = {
-          user: { admin: false, locale: userContext.locale, name, email },
+          user: { admin: false, locale, name, email },
           uid: response.uid
         }
         setUserListContext(userListHelper(data, userListContext))
@@ -70,20 +66,12 @@ export const Register = () => {
     setPassword(trimSpaces(value))
   }
 
-  const localeChangeHandler = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: newLocale })
-    localStorage.setItem('locale', newLocale)
-  }
-
   const googleClickHandler = async () => {
     const response = await signInWithGoogle()
     response && setUserListContext(userListHelper(response, userListContext))
   }
 
-  const checked = () => (locale ? locale === 'ua' : false)
-
-  const locale = localStorage.getItem('locale') || 'ru'
+  // const locale = localStorage.getItem('locale') || 'ru'
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
   const {
     loginIntro,
@@ -125,7 +113,7 @@ export const Register = () => {
           </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={checked()} onChange={localeChangeHandler} />
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

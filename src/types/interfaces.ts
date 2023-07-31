@@ -21,12 +21,7 @@ export interface IUser {
   locale: string
   name: string
   email: string | null
-}
-
-export interface IUserContext extends IUser {
-  adminAsPlayer: boolean
-  tempLocale?: string
-  tempName?: string
+  adminAsPlayer?: boolean
 }
 
 export interface IAbout {

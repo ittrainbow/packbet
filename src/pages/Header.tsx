@@ -14,8 +14,8 @@ import {
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
 import { emptyWeek } from '../helpers'
-import { selectApp } from '../redux/selectors'
-import { IApp, LocaleType } from '../types'
+import { selectApp, selectUser } from '../redux/selectors'
+import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 
 export const Header = () => {
@@ -23,8 +23,8 @@ export const Header = () => {
   const dispatch = useDispatch()
   const app = useSelector(selectApp)
   const { mobile, tabActive, nextWeek, currentWeek, editor } = app
-  const { userContext, setEditorContext } = useAppContext()
-  const { admin, locale, name } = userContext
+  const { setEditorContext } = useAppContext()
+  const { admin, locale, name } = useSelector(selectUser)
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale

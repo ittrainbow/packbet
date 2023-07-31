@@ -18,7 +18,7 @@ import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { DELETE_WEEK, SET_WEEK } from '../redux/types'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
-import { selectApp } from '../redux/selectors'
+import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
 
 export const Editor = () => {
@@ -27,9 +27,9 @@ export const Editor = () => {
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  const { userContext, weeksContext, setWeeksContext, editorContext, setEditorContext } =
+  const { weeksContext, setWeeksContext, editorContext, setEditorContext } =
     useAppContext()
-  const { locale } = userContext
+  const { locale } = useSelector(selectUser)
   const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)

@@ -8,15 +8,15 @@ import { auth } from '../db/firebase'
 import { i18n } from '../locale/locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
-import { useAppContext } from '../context/Context'
 import { LocaleType } from '../types'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../redux/selectors'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
   const inputRef = useRef<HTMLInputElement>()
   const [user, loading] = useAuthState(auth)
-  const { userContext, setUserContext } = useAppContext()
-  const { locale } = userContext
+  const { locale } = useSelector(selectUser)
   const navigate = useNavigate()
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
@@ -34,13 +34,6 @@ export const Reset = () => {
   const emailInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
-  }
-  const localeChecked = () => (locale ? locale === 'ua' : false)
-
-  const localeChangeHandler = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: newLocale })
-    localStorage.setItem('locale', newLocale)
   }
 
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
@@ -68,7 +61,7 @@ export const Reset = () => {
           </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={localeChecked()} onChange={localeChangeHandler} />
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

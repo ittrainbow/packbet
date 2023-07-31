@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { User } from 'firebase/auth'
 import { Input } from '@mui/material'
 
@@ -9,16 +9,16 @@ import { UPDATE_PROFILE } from '../redux/types'
 import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
-import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
+import { userActions } from '../redux/slices/userSlice'
+import { selectUser } from '../redux/selectors'
 
 export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const inputRef = useRef<HTMLInputElement>()
-  const { userContext, setUserContext } = useAppContext()
-  const { name, locale } = userContext
+  const { name, locale } = useSelector(selectUser)
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState(locale)
 
@@ -30,14 +30,14 @@ export const Profile = () => {
     const { uid } = user as User
     const [name, locale] = [tempName, tempLocale]
     dispatch({ type: UPDATE_PROFILE, payload: { uid, name, locale } })
-    setUserContext({ ...userContext, name, locale })
+
+    dispatch(userActions.updateUser({ name, locale }))
+
     navigate(-1)
   }
 
   const noSaveHandler = () => navigate(-1)
   const noChanges = () => name === tempName && locale === tempLocale
-  const onChangeLocaleHandler = () => setTempLocale(tempLocale === 'ua' ? 'ru' : 'ua')
-  const checked = () => tempLocale === 'ua'
 
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
@@ -48,10 +48,10 @@ export const Profile = () => {
         <div className="auth__data">
           <div className="text-container bold">{profileHeaderMsg}</div>
           <div className="text-container">{profileLangMsg}</div>
-          <LocaleSwitcher onChange={onChangeLocaleHandler} checked={checked()} />
+          <LocaleSwitcher />
           <div className="text-container">{profileNameMsg}</div>
           <Input
-            type='text'
+            type="text"
             inputRef={inputRef}
             onChange={(e) => setTempName(e.target.value)}
             value={tempName}

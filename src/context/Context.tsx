@@ -1,25 +1,19 @@
 import { useState, useContext, useEffect, createContext, ReactNode } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useDispatch } from 'react-redux'
 
-import { initialUserContext } from './initialContexts'
+import { initialUser } from './initialContexts'
 import { auth } from '../db'
 
-import {
-  IWeeksContext,
-  IUserContext,
-  IEditorContext,
-  IAnswersContext,
-  IUserListContext,
-  IUser
-} from '../types'
+import { IWeeksContext, IEditorContext, IAnswersContext, IUserListContext, IUser } from '../types'
 
 import {
   SetWeeksContextType,
-  SetUserContextType,
   SetAnswersContextType,
   SetEditorContextType,
   SetUserListContextType
 } from '../types'
+import { userActions } from '../redux/slices/userSlice'
 
 type ContextProps = {
   children: ReactNode
@@ -28,9 +22,6 @@ type ContextProps = {
 interface IContextType {
   weeksContext: IWeeksContext
   setWeeksContext: SetWeeksContextType
-  userContext: IUserContext
-  setUserContext: SetUserContextType
-  clearUserContext: (locale: string) => void
   answersContext: IAnswersContext
   setAnswersContext: SetAnswersContextType
   editorContext: IEditorContext
@@ -46,8 +37,8 @@ export const Context = createContext<IContextType>({} as IContextType)
 export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }: ContextProps) => {
+  const dispatch = useDispatch()
   const [weeksContext, setWeeksContext] = useState({} as IWeeksContext)
-  const [userContext, setUserContext] = useState(initialUserContext as IUserContext)
   const [editorContext, setEditorContext] = useState({} as IEditorContext)
   const [answersContext, setAnswersContext] = useState({} as IAnswersContext)
   const [userListContext, setUserListContext] = useState({} as IUserListContext)
@@ -58,24 +49,17 @@ export const ContextProvider = ({ children }: ContextProps) => {
     if (Object.keys(answersContext).length > 0 && Object.keys(userListContext).length > 0 && user) {
       if (userListContext[user.uid]) {
         const { uid } = user
-        const { name, email, admin, locale } = userListContext[uid] as IUser
-        setUserContext({ ...userContext, name, email, admin, locale })
+        const userFromContext = userListContext[uid] as IUser
+        dispatch(userActions.setUser({ ...userFromContext, adminAsPlayer: false }))
       }
     } // eslint-disable-next-line
   }, [answersContext, userListContext])
-
-  const clearUserContext = (locale: string) => {
-    setUserContext({ ...initialUserContext, locale })
-  }
 
   return (
     <Context.Provider
       value={{
         weeksContext,
         setWeeksContext,
-        userContext,
-        setUserContext,
-        clearUserContext,
         answersContext,
         setAnswersContext,
         editorContext,
