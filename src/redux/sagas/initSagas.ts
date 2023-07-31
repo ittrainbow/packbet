@@ -1,8 +1,7 @@
-import { take, all, call } from 'redux-saga/effects'
+import { take, all, call, put } from 'redux-saga/effects'
 
 import { getWeeksIDs } from '../../helpers'
 import { fetchDataFromFirestore } from '../../db'
-import { setLoading, setError } from './generators'
 import { INIT_APP } from '../types'
 import {
   IAboutContext,
@@ -16,6 +15,7 @@ import {
   SetUserListContextType,
   SetWeeksContextType
 } from '../../types'
+import { appActions } from '../slices/appSlice'
 
 const season = 2023
 
@@ -24,7 +24,9 @@ function* fetchAboutSaga(setAboutContext: SetAboutContextType) {
     const about: IAboutContext = yield call(fetchDataFromFirestore, 'about')
     setAboutContext(about)
   } catch (error) {
-    if (error instanceof Error) yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 }
 
@@ -40,7 +42,9 @@ function* fetchWeeksSaga(
     setWeeksContext(weeks)
     setAppContext({ ...appContext, currentWeek, nextWeek, season })
   } catch (error) {
-    if (error instanceof Error) yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 }
 
@@ -53,7 +57,9 @@ function* fetchAnswersSaga(
     setAnswersContext(answers)
     setCompareContext(structuredClone(answers))
   } catch (error) {
-    if (error instanceof Error) yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 }
 
@@ -62,14 +68,16 @@ function* fetchUsersSaga(setUserListContext: SetUserListContextType) {
     const users: IUserListContext = yield call(fetchDataFromFirestore, 'users')
     setUserListContext(users)
   } catch (error) {
-    if (error instanceof Error) yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 }
 
 export function* initSaga() {
   while (true) {
     const { payload } = yield take(INIT_APP)
-    yield setLoading(true)
+    yield put(appActions.setLoading(true))
     const {
       setAboutContext,
       appContext,
@@ -85,6 +93,6 @@ export function* initSaga() {
       fetchAnswersSaga(setAnswersContext, setCompareContext),
       fetchUsersSaga(setUserListContext)
     ])
-    yield setLoading(false)
+    yield put(appActions.setLoading(false))
   }
 }

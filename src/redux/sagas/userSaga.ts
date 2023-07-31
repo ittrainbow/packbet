@@ -1,12 +1,12 @@
-import { takeEvery, call } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 
 import { UPDATE_PROFILE } from '../types'
 import { ActionType, IUser, UserUpdateType } from '../../types'
 import { getNameFromFirestore, writeNameToFirestore } from '../../db'
-import { setLoading, setError } from './generators'
+import { appActions } from '../slices/appSlice'
 
 function* updateProfileSaga(action: ActionType<UserUpdateType>) {
-  yield setLoading(true)
+  yield put(appActions.setLoading(true))
 
   const { payload } = action
   const { uid, name, locale } = payload
@@ -16,10 +16,12 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
     const data = { ...response, name, locale }
     yield call(writeNameToFirestore, { uid, data })
   } catch (error) {
-    if (error instanceof Error)  yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 
-  yield setLoading(false)
+  yield put(appActions.setLoading(false))
 }
 
 export function* userSaga() {

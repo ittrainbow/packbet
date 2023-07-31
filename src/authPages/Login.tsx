@@ -62,13 +62,6 @@ export const Login = () => {
 
   const localeChecked = () => (locale ? locale === 'ua' : false)
 
-  // const setUserListHandler = (response: { user: IUser; uid: string }) => {
-  //   const { uid, user } = response
-  //   const userList = structuredClone(userListContext)
-  //   userList[uid] = user
-  //   setUserListContext(userList)
-  // }
-
   const googleClickHandler = async () => {
     const response = await signInWithGoogle()
     response && setUserListContext(userListHelper(response, userListContext))

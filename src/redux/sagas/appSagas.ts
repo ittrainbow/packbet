@@ -1,7 +1,7 @@
 import { take, put, select } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'redux-first-history'
 
-import { SET_EDITOR } from '../types'
+import { appActions } from '../slices/appSlice'
 import { ReduxRouterType, StoreType } from '../../types'
 
 type LocationActionType = {
@@ -17,7 +17,7 @@ export function* switchEditorSaga() {
     const wasEditor = ['/editor', '/calendar'].includes(pathname)
 
     if (wasEditor !== editor) {
-      yield put({ type: SET_EDITOR, payload: wasEditor })
+      yield put(appActions.setEditor(wasEditor))
     }
   }
 }

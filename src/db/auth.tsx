@@ -11,17 +11,16 @@ import {
 } from 'firebase/auth'
 
 import { db, auth } from './firebase'
-import { store } from '../redux/store'
 import { initialAppContext } from '../context/initialContexts'
 import { IUser, LocaleType } from '../types'
 import { i18n } from '../locale/locale'
-import { SET_LOADING } from '../redux/types'
+import { appActions } from '../redux/slices/appSlice'
 
 const { season } = initialAppContext
 
-const setLoading = (value: boolean) => store?.dispatch({ type: SET_LOADING, payload: value })
-
 const googleProvider = new GoogleAuthProvider()
+
+const { setLoading } = appActions
 
 export const signInWithGoogle = async () => {
   try {

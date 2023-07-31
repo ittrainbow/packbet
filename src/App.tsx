@@ -5,18 +5,20 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Router } from './router/Router'
 import { useAppContext } from './context/Context'
-import { INIT_APP, SET_MOBILE } from './redux/types'
+import { INIT_APP } from './redux/types'
 import { auth } from './db'
+import { appSlice } from './redux/slices/appSlice'
 
 export const App = () => {
   const dispatch = useDispatch()
   const contextMethods = useAppContext()
+  const { setMobile } = appSlice.actions
   const { userListContext, setUserListContext, setUserContext } = contextMethods
   const [user] = useAuthState(auth)
 
   useEffect(() => {
     dispatch({ type: INIT_APP, payload: contextMethods })
-    dispatch({ type: SET_MOBILE, payload: isMobile })
+    dispatch(setMobile(isMobile))
     // eslint-disable-next-line
   }, [])
 
@@ -33,7 +35,8 @@ export const App = () => {
       obj[user.uid] = newUser
       setUserListContext(obj)
       setUserContext({ ...newUser, adminAsPlayer: false })
-    } // eslint-disable-next-line
+    }
+    // eslint-disable-next-line
   }, [user])
 
   return <Router />
