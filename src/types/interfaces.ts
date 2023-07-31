@@ -1,8 +1,12 @@
 import { WeekType } from './types'
 
-export interface IAppContext {
+export interface IApp {
+  mobile: boolean
+  loading: boolean
+  editor: boolean
+  error: string
   about: string
-  alert: boolean
+  alert: boolean //
   currentWeek: number
   emptyEditor: boolean
   isItYou: boolean
@@ -31,7 +35,7 @@ export interface IAbout {
   [key: string]: { [key: number]: string }
 }
 
-export interface IEditorContext extends WeekType {}
+export interface IEditorContext extends WeekType { }
 
 export interface Answers {
   [key: number]: { [key: number]: number }

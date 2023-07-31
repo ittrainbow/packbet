@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,13 +12,15 @@ import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '
 import { i18n } from '../locale/locale'
 import { SUBMIT_WEEK } from '../redux/types'
 import { Answers, LocaleType, YesNoHandlerPropsType } from '../types'
+import { selectApp } from '../redux/selectors'
 
 export const Week = () => {
   const dispatch = useDispatch()
+  const { selectedWeek, isItYou, otherUserUID, season } = useSelector(selectApp)
   const [user] = useAuthState(auth)
-  const { appContext, weeksContext, userContext, setUserContext } = useAppContext()
+  const { weeksContext, userContext, setUserContext } = useAppContext()
   const { answersContext, setAnswersContext, compareContext, setCompareContext } = useAppContext()
-  const { selectedWeek, isItYou, otherUserUID, season } = appContext
+  // const { isItYou, otherUserUID, season } = appContext
   const { name, questions, deadline } = weeksContext[selectedWeek]
   const { admin, adminAsPlayer, locale } = userContext
   const [uid, setUid] = useState<string>('')
@@ -87,6 +89,7 @@ export const Week = () => {
   const questionStyle = (id: number) => {
     const styles = ['question']
     if (user) {
+      console.log(0, answersContext, selectedWeek, uid, id)
       const { ans, res } = ansHelper(answersContext, selectedWeek, uid, id)
       const styling = res && ans && adminAsPlayer && outdated()
       styling && styles.push(res === ans ? 'question__green' : 'question__red')

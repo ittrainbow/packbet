@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 import {
   Answers,
   IAnswersContext,
-  IAppContext,
+  // IAppContext,
   IUserContext,
   IUserListContext,
   IUserStandings
@@ -32,12 +32,12 @@ export type WeeksType = {
 }
 
 export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
-export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
+// export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
 export type SetUserListContextType = Dispatch<SetStateAction<IUserListContext>>
 export type SetUserContextType = Dispatch<SetStateAction<IUserContext>>
 export type SetWeeksContextType = Dispatch<SetStateAction<WeeksType>>
 export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
-export type SetStandingsContextType = Dispatch<SetStateAction<IUserStandings[]>>
+// export type SetStandingsContextType = Dispatch<SetStateAction<IUserStandings[]>>
 
 export type ReduxRouterType = {
   location: {

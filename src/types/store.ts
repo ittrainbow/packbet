@@ -1,13 +1,8 @@
-import { ReduxRouterType, IAbout, IUserStandings } from ".";
+import { ReduxRouterType, IAbout, IUserStandings, IApp } from ".";
 
 export interface IStore {
   router: ReduxRouterType;
-  app: {
-    mobile: boolean;
-    loading: boolean;
-    editor: boolean;
-    error: string | null;
-  };
+  app: IApp;
   about: IAbout;
   standings: IUserStandings[]
 }

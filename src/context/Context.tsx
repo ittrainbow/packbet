@@ -6,7 +6,7 @@ import { auth } from '../db'
 
 import {
   IWeeksContext,
-  IAppContext,
+  // IApp,
   IUserContext,
   IEditorContext,
   IAnswersContext,
@@ -16,7 +16,7 @@ import {
 
 import {
   SetWeeksContextType,
-  SetAppContextType,
+  // SetAppContextType,
   SetUserContextType,
   SetAnswersContextType,
   SetEditorContextType,
@@ -30,8 +30,8 @@ type ContextProps = {
 interface IContextType {
   weeksContext: IWeeksContext
   setWeeksContext: SetWeeksContextType
-  appContext: IAppContext
-  setAppContext: SetAppContextType
+  // appContext: IApp
+  // setAppContext: SetAppContextType
   userContext: IUserContext
   setUserContext: SetUserContextType
   clearUserContext: (locale: string) => void
@@ -51,13 +51,17 @@ export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }: ContextProps) => {
   const [weeksContext, setWeeksContext] = useState({} as IWeeksContext)
-  const [appContext, setAppContext] = useState(initialAppContext as IAppContext)
+  // const [appContext, setAppContext] = useState(initialAppContext as IApp)
   const [userContext, setUserContext] = useState(initialUserContext as IUserContext)
   const [editorContext, setEditorContext] = useState({} as IEditorContext)
   const [answersContext, setAnswersContext] = useState({} as IAnswersContext)
   const [userListContext, setUserListContext] = useState({} as IUserListContext)
   const [compareContext, setCompareContext] = useState({} as IAnswersContext)
   const [user] = useAuthState(auth)
+
+  useEffect(() => {
+    console.log(101, answersContext)
+  }, [answersContext])
 
   useEffect(() => {
     if (Object.keys(answersContext).length > 0 && Object.keys(userListContext).length > 0 && user) {
@@ -78,8 +82,8 @@ export const ContextProvider = ({ children }: ContextProps) => {
       value={{
         weeksContext,
         setWeeksContext,
-        appContext,
-        setAppContext,
+        // appContext,
+        // setAppContext,
         userContext,
         setUserContext,
         clearUserContext,

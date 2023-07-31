@@ -1,33 +1,38 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { useAppContext } from '../context/Context'
 import { selectStandings } from '../redux/selectors'
 import { auth } from '../db'
 import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
-import { setTabActive } from '../helpers'
 import { LocaleType } from '../types'
+import { appActions } from '../redux/slices'
 
 export const Standings = () => {
   const [user] = useAuthState(auth)
   const standings = useSelector(selectStandings)
 
   const navigate = useNavigate()
-  const { userContext, appContext, setAppContext } = useAppContext()
+  const dispatch = useDispatch()
+  const { userContext } = useAppContext()
   const { locale } = userContext
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
     const setApp = () => {
-      setAppContext({
-        ...appContext,
-        otherUserUID,
-        otherUserName,
-        isItYou: false,
-        tabActive: 3
-      })
-      setTabActive(3)
+      // setAppContext({
+      //   ...appContext,
+      //   otherUserUID,
+      //   otherUserName,
+      //   isItYou: false,
+      //   tabActive: 3
+      // })
+      dispatch(appActions.setOtherUserName(otherUserName))
+      dispatch(appActions.setOtherUserUID(otherUserUID))
+      dispatch(appActions.setIsItYou(false))
+      dispatch(appActions.setTabActive(3))
+      
       navigate('/season')
     }
     user && otherUserUID !== user.uid && setApp()

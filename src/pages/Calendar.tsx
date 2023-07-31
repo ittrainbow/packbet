@@ -1,18 +1,20 @@
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { OtherUser } from '../UI'
 import { useAppContext } from '../context/Context'
 import { selectApp } from '../redux/selectors'
+import { appActions } from '../redux/slices'
 
 export const Calendar = () => {
   const navigate = useNavigate()
-  const { editor } = useSelector(selectApp)
-  const { weeksContext, appContext, setAppContext, setEditorContext } = useAppContext()
-  const { isItYou } = appContext
+  const dispatch = useDispatch()
+  const { editor, isItYou } = useSelector(selectApp)
+  const { weeksContext, appContext, setEditorContext } = useAppContext()
+  // const { isItYou } = appContext
 
   const clickHandler = (selectedWeek: number) => {
-    setAppContext({ ...appContext, selectedWeek })
+    dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditorTab = () => {
       setEditorContext(weeksContext[selectedWeek])
       navigate(`/editor/${selectedWeek}`)

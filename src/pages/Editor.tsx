@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
@@ -16,11 +16,13 @@ import {
 import { useAppContext } from '../context/Context'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
-import { setTabActive } from '../helpers'
 import { DELETE_WEEK, SET_WEEK } from '../redux/types'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
+import { selectApp } from '../redux/selectors'
+import { appActions } from '../redux/slices'
 
 export const Editor = () => {
+  const { selectedWeek, nextWeek, emptyEditor, season } = useSelector(selectApp)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
@@ -30,15 +32,15 @@ export const Editor = () => {
     weeksContext,
     setWeeksContext,
     editorContext,
-    setEditorContext,
-    appContext,
-    setAppContext
+    setEditorContext
+    // appContext,
+    // setAppContext
   } = useAppContext()
   const { locale } = userContext
   const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
-  const { selectedWeek, nextWeek, emptyEditor, season } = appContext
+  // const { nextWeek, emptyEditor, season } = appContext
   const { questions, name, active, deadline } = editorContext
   const { question, total, id } = questionInWork
   const loadedWeek = weeksContext[selectedWeek]
@@ -86,10 +88,13 @@ export const Editor = () => {
     Object.keys(editorContext.questions).forEach((el) => delete questions[Number(el)]['id'])
     const weeks = structuredClone(weeksContext)
     weeks[id] = editorContext
-    const weekIDs = getWeeksIDs(weeks)
+    const { currentWeek, newNextWeek } = getWeeksIDs(weeks)
 
     dispatch({ type: SET_WEEK, payload: { season, id, editorContext } })
-    setAppContext({ ...appContext, ...weekIDs })
+
+    // setAppContext({ ...appContext, currentWeek, nextWeek: newNextWeek })
+    dispatch(appActions.setNextAndCurrentWeeks({ currentWeek, nextWeek: newNextWeek }))
+
     setWeeksContext(weeks)
     navigate('/calendar')
   }
@@ -97,10 +102,13 @@ export const Editor = () => {
   const deleteWeekHandler = async () => {
     const weeks = structuredClone(weeksContext)
     delete weeks[selectedWeek]
-    const weekIDs = getWeeksIDs(weeks)
+    const { currentWeek, newNextWeek } = getWeeksIDs(weeks)
 
     dispatch({ type: DELETE_WEEK, payload: { season, selectedWeek } })
-    setAppContext({ ...appContext, ...weekIDs })
+
+    // setAppContext({ ...appContext, currentWeek, nextWeek: newNextWeek })
+    dispatch(appActions.setNextAndCurrentWeeks({ currentWeek, nextWeek: newNextWeek }))
+
     setWeeksContext(weeks)
     navigate('/calendar')
   }
@@ -119,9 +127,10 @@ export const Editor = () => {
   }
 
   const goBackHandler = () => {
-    const context = { ...appContext, tabActive: 5, emptyEditor: false }
-    setAppContext(context)
-    setTabActive(5)
+    // const context = { ...appContext, tabActive: 5, emptyEditor: false }
+    // setAppContext(context)
+    dispatch(appActions.setEmptyEditor(false))
+    dispatch(appActions.setTabActive(5))
     navigate('/calendar')
   }
 

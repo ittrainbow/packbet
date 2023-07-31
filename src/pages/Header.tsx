@@ -1,6 +1,6 @@
 import { useEffect, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   FaInfoCircle,
   FaUserAlt,
@@ -14,16 +14,18 @@ import {
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
 import { emptyWeek } from '../helpers'
-import { setTabActive } from '../helpers'
 import { selectApp } from '../redux/selectors'
-import { IAppContext, LocaleType } from '../types'
+import { IApp, LocaleType } from '../types'
+import { appActions } from '../redux/slices'
 
 export const Header = () => {
-  const { mobile } = useSelector(selectApp)
-  const { appContext, setAppContext, userContext, setEditorContext } = useAppContext()
-  const { admin, locale, name } = userContext
-  const { tabActive, nextWeek, currentWeek } = appContext
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const app = useSelector(selectApp)
+  const { mobile, tabActive, nextWeek, currentWeek } = app
+  const { userContext, setEditorContext } = useAppContext()
+  const { admin, locale, name } = userContext
+  // const { nextWeek, currentWeek } = appContext
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
@@ -47,24 +49,25 @@ export const Header = () => {
   }, [])
 
   const clickHandler = (id: number, path: string) => {
-    const tabActive = id
-    const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : appContext.selectedWeek
+    const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
     const emptyEditor = id === 6 ? true : false
 
-    const context: IAppContext = {
-      ...appContext,
-      tabActive,
-      selectedWeek,
-      emptyEditor
+    if (id === 2) {
+      dispatch(appActions.setSelectedWeek(selectedWeek))
     }
 
     if (currentWeek || currentWeek === 0 || id !== 2) {
-      setAppContext(context)
-      setTabActive(id)
+      // setAppContext({ ...appContext, selectedWeek, emptyEditor })
+      dispatch(appActions.setTabActive(id))
+      dispatch(appActions.setSelectedWeek(selectedWeek))
+      dispatch(appActions.setEmptyEditor(emptyEditor))
       navigate(path)
     }
 
-    id === 6 && setEditorContext(emptyWeek)
+    if (id === 6) {
+      dispatch(appActions.setEmptyEditor(emptyEditor))
+      setEditorContext(emptyWeek)
+    }
   }
 
   const getClass = (id: number) => {
