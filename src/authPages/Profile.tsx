@@ -20,24 +20,30 @@ export const Profile = () => {
   const inputRef = useRef<HTMLInputElement>()
   const { name, locale } = useSelector(selectUser)
   const [tempName, setTempName] = useState(name)
-  const [tempLocale, setTempLocale] = useState(locale)
+  const [tempLocale, setTempLocale] = useState('')
 
   useEffect(() => {
     inputRef.current?.focus()
+    setTempLocale(locale)
   }, [])
 
   const submitHandler = async () => {
     const { uid } = user as User
-    const [name, locale] = [tempName, tempLocale]
-    dispatch({ type: UPDATE_PROFILE, payload: { uid, name, locale } })
+    dispatch({ type: UPDATE_PROFILE, payload: { uid, name: tempName, locale } })
 
     dispatch(userActions.updateUser({ name, locale }))
 
     navigate(-1)
   }
 
-  const noSaveHandler = () => navigate(-1)
-  const noChanges = () => name === tempName && locale === tempLocale
+  const noSaveHandler = () => {
+    console.log(100, tempLocale)
+    localStorage.setItem('locale', tempLocale)
+    dispatch(userActions.setLocale(tempLocale))
+    navigate(-1)
+  }
+
+  const noChanges = name === tempName && locale === tempLocale
 
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
@@ -56,8 +62,8 @@ export const Profile = () => {
             onChange={(e) => setTempName(e.target.value)}
             value={tempName}
           />
-          <Button disabled={noChanges()} onClick={submitHandler}>
-            {noChanges() ? buttonChangesMsg : buttonSaveMsg}
+          <Button disabled={noChanges} onClick={submitHandler}>
+            {noChanges ? buttonChangesMsg : buttonSaveMsg}
           </Button>
           <Button onClick={noSaveHandler}>{buttonCancelMsg}</Button>
         </div>

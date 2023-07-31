@@ -51,8 +51,6 @@ export const Header = () => {
     const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
     const emptyEditor = id === 6 ? true : false
 
-    // id === 2 && dispatch(appActions.setSelectedWeek(selectedWeek))
-
     id === 5 && !editor && dispatch(appActions.setEditor(true))
     id === 3 && editor && dispatch(appActions.setEditor(false))
 

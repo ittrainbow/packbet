@@ -21,7 +21,5 @@ export const initialUser: IUser = {
   locale: 'ru',
   email: '',
   admin: false,
-  adminAsPlayer: true,
-  // tempName: '',
-  // tempLocale: ''
+  adminAsPlayer: true
 }

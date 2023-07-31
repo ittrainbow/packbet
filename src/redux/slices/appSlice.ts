@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IApp } from '../../types'
+import { IApp, SetStandingsType } from '../../types'
 
 const initialState: IApp = {
   mobile: false,
@@ -81,11 +81,20 @@ export const appSlice = createSlice({
     },
 
     setHeader(state, action: PayloadAction<{ id: number, selectedWeek: number, emptyEditor: boolean }>) {
-      state.tabActive = action.payload.id
-      state.selectedWeek = action.payload.selectedWeek
-      state.emptyEditor = action.payload.emptyEditor
-      localStorage.setItem('contestTabActive', action.payload.toString())
+      const { id, selectedWeek, emptyEditor } = action.payload
+      state.tabActive = id
+      state.selectedWeek = selectedWeek
+      state.emptyEditor = emptyEditor
+      localStorage.setItem('contestTabActive', id.toString())
     },
+
+    setOtherUserStandings(state, action: PayloadAction<SetStandingsType>) {
+      const { otherUserName, otherUserUID, isItYou, tabActive } = action.payload
+      state.otherUserName = otherUserName
+      state.otherUserUID = otherUserUID
+      state.isItYou = isItYou
+      state.tabActive = tabActive
+    }
   }
 })
 

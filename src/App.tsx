@@ -9,6 +9,7 @@ import { INIT_APP } from './redux/types'
 import { auth } from './db'
 import { appSlice } from './redux/slices/appSlice'
 import { userActions } from './redux/slices/userSlice'
+import { initialUser } from './context/initialContexts'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -25,15 +26,9 @@ export const App = () => {
 
   useEffect(() => {
     if (user && !userListContext[user.uid]) {
-      const { email, displayName } = user
+      const { displayName } = user
+      const newUser = { ...initialUser, name: displayName || '' }
       const obj = structuredClone(userListContext)
-      const newUser = {
-        admin: false,
-        name: displayName || '',
-        email,
-        locale: localStorage.getItem('locale') || 'ru',
-        adminAsPlayer: false
-      }
       obj[user.uid] = newUser
       setUserListContext(obj)
 

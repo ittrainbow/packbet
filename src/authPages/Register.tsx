@@ -71,7 +71,6 @@ export const Register = () => {
     response && setUserListContext(userListHelper(response, userListContext))
   }
 
-  // const locale = localStorage.getItem('locale') || 'ru'
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
   const {
     loginIntro,

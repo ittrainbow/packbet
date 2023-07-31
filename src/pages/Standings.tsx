@@ -10,23 +10,18 @@ import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 
 export const Standings = () => {
-  const [user] = useAuthState(auth)
-  const standings = useSelector(selectStandings)
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
+  const standings = useSelector(selectStandings)
   const { locale } = useSelector(selectUser)
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
-    const setApp = () => {
-      dispatch(appActions.setOtherUserName(otherUserName))
-      dispatch(appActions.setOtherUserUID(otherUserUID))
-      dispatch(appActions.setIsItYou(false))
-      dispatch(appActions.setTabActive(3))
-
+    if (user && otherUserUID !== user.uid) {
+      const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
+      dispatch(appActions.setOtherUserStandings(otherUser))
       navigate('/season')
     }
-    user && otherUserUID !== user.uid && setApp()
   }
 
   const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(locale, 'standings') as LocaleType

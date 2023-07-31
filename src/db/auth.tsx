@@ -23,8 +23,8 @@ const { setLoading } = appActions
 
 export const signInWithGoogle = async () => {
   try {
-    const response: UserCredential = await signInWithPopup(auth, googleProvider)
     setLoading(true)
+    const response: UserCredential = await signInWithPopup(auth, googleProvider)
     if (response) {
       const { email, displayName: name, uid } = response.user
       const docs = await getDoc(doc(db, 'users', uid))

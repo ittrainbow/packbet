@@ -29,22 +29,9 @@ export type WeeksType = {
 }
 
 export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
-// export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
 export type SetUserListContextType = Dispatch<SetStateAction<IUserListContext>>
 export type SetWeeksContextType = Dispatch<SetStateAction<WeeksType>>
 export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
-// export type SetStandingsContextType = Dispatch<SetStateAction<IUserStandings[]>>
-
-export type ReduxRouterType = {
-  location: {
-    pathname: string
-    search: string
-    hash: string
-    state: string | null
-    key: string
-  }
-  action: string
-}
 
 export type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -80,4 +67,11 @@ export type YesNoHandlerPropsType = {
   value: number
   id: number
   activity: number
+}
+
+export type SetStandingsType = {
+  otherUserUID: string
+  otherUserName: string
+  isItYou: boolean
+  tabActive: number
 }
