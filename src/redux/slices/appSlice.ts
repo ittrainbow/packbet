@@ -27,7 +27,7 @@ export const appSlice = createSlice({
     },
 
     setEditor(state, action: PayloadAction<boolean>) {
-      state.mobile = action.payload
+      state.editor = action.payload
     },
 
     setError(state, action: PayloadAction<string>) {
