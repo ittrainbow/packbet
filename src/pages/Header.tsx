@@ -25,6 +25,8 @@ export const Header = () => {
   const { tabActive, nextWeek, currentWeek } = appContext
   const navigate = useNavigate()
 
+  console.log(3, userContext)
+
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
 

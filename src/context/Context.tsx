@@ -63,8 +63,8 @@ export const ContextProvider = ({ children }: ContextProps) => {
     if (Object.keys(answersContext).length > 0 && Object.keys(userListContext).length > 0 && user) {
       if (userListContext[user.uid]) {
         const { uid } = user
-        const { name, email, admin } = userListContext[uid] as IUser
-        setUserContext({ ...userContext, name, email, admin })
+        const { name, email, admin, locale } = userListContext[uid] as IUser
+        setUserContext({ ...userContext, name, email, admin, locale })
       }
     } // eslint-disable-next-line
   }, [answersContext, userListContext])
