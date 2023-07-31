@@ -25,7 +25,6 @@ export const Header = () => {
   const { mobile, tabActive, nextWeek, currentWeek, editor } = app
   const { userContext, setEditorContext } = useAppContext()
   const { admin, locale, name } = userContext
-  // const { nextWeek, currentWeek } = appContext
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
@@ -52,7 +51,7 @@ export const Header = () => {
     const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
     const emptyEditor = id === 6 ? true : false
 
-    id === 2 && dispatch(appActions.setSelectedWeek(selectedWeek))
+    // id === 2 && dispatch(appActions.setSelectedWeek(selectedWeek))
 
     id === 5 && !editor && dispatch(appActions.setEditor(true))
     id === 3 && editor && dispatch(appActions.setEditor(false))
