@@ -30,6 +30,14 @@ export type WeeksType = {
   [key: number]: WeekType
 }
 
+export type AboutLocaleType = {
+  [key: number]: string
+}
+
+export type AboutStoreType = {
+  [key: string]: AboutLocaleType
+}
+
 export type SetAboutContextType = Dispatch<SetStateAction<IAboutContext>>
 export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
 export type SetAppContextType = Dispatch<SetStateAction<IAppContext>>
@@ -58,6 +66,7 @@ export type StoreType = {
     editor: boolean
     error: string | null
   }
+  about: AboutStoreType
 }
 
 export type UserUpdateType = {

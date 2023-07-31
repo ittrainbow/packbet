@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type StateType = {
+type AppStateType = {
   mobile: boolean
   loading: boolean
   editor: boolean
   error: string
 }
 
-const initialState: StateType = {
+const initialState: AppStateType = {
   mobile: false,
   loading: true,
   editor: false,

@@ -9,7 +9,6 @@ import {
   IWeeksContext,
   IAppContext,
   IUserContext,
-  IAboutContext,
   IEditorContext,
   IAnswersContext,
   IUserListContext,
@@ -21,7 +20,6 @@ import {
   SetWeeksContextType,
   SetAppContextType,
   SetUserContextType,
-  SetAboutContextType,
   SetAnswersContextType,
   SetEditorContextType,
   SetUserListContextType,
@@ -40,8 +38,6 @@ interface IContextType {
   userContext: IUserContext
   setUserContext: SetUserContextType
   clearUserContext: (locale: string) => void
-  aboutContext: IAboutContext
-  setAboutContext: SetAboutContextType
   answersContext: IAnswersContext
   setAnswersContext: SetAnswersContextType
   editorContext: IEditorContext
@@ -59,7 +55,7 @@ export const Context = createContext<IContextType>({} as IContextType)
 export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }: ContextProps) => {
-  const [aboutContext, setAboutContext] = useState({} as IAboutContext)
+  // const [aboutContext, setAboutContext] = useState({} as IAboutContext)
   const [weeksContext, setWeeksContext] = useState({} as IWeeksContext)
   const [appContext, setAppContext] = useState(initialAppContext as IAppContext)
   const [userContext, setUserContext] = useState(initialUserContext as IUserContext)
@@ -97,8 +93,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
         userContext,
         setUserContext,
         clearUserContext,
-        aboutContext,
-        setAboutContext,
         answersContext,
         setAnswersContext,
         editorContext,

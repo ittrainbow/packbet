@@ -16,12 +16,15 @@ import {
   SetWeeksContextType
 } from '../../types'
 import { appActions } from '../slices/appSlice'
+import { aboutActions } from '../slices'
 
 const season = 2023
 
 function* fetchAboutSaga(setAboutContext: SetAboutContextType) {
   try {
     const about: IAboutContext = yield call(fetchDataFromFirestore, 'about')
+    console.log(0, about)
+    yield put(aboutActions.setAbout(about))
     setAboutContext(about)
   } catch (error) {
     if (error instanceof Error) {
