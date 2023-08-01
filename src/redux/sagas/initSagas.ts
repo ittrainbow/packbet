@@ -45,10 +45,10 @@ function* fetchWeeksSaga(
 
     const standings: IUserStandings[] = yield call(getStandingsFromFirestore)
     
-    const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
-    const trimPlayers: { [key: string]: IUser } = yield call(emailTrim, players)
-
-    yield put(playersActions.setPlayers(trimPlayers))
+    // const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
+    // const trimPlayers: { [key: string]: IUser } = yield call(emailTrim, players)
+    // yield put(playersActions.setPlayers(trimPlayers))
+    
     yield put(standingsActions.setStandings(standings))
     yield put(appActions.setSeason(season))
     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))

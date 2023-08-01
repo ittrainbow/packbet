@@ -36,18 +36,18 @@ export const App = () => {
       const { displayName } = user
       const newUser = { ...initialUser, name: displayName || '' }
 
-      dispatch(playersActions.addPlayer({ uid, newUser }))
+      // dispatch(playersActions.addPlayer({ uid, newUser }))
       dispatch(userActions.setUser(newUser))
     } // eslint-disable-next-line
   }, [user])
 
-  useEffect(() => {
-    if (user && players[user.uid]) {
-      dispatch(
-        userActions.setUser({ ...players[user.uid], adminAsPlayer: true })
-      )
-    } // eslint-disable-next-line
-  }, [players])
+  // useEffect(() => {
+  //   if (user && players[user.uid]) {
+  //     dispatch(
+  //       userActions.setUser({ ...players[user.uid], adminAsPlayer: true })
+  //     )
+  //   } // eslint-disable-next-line
+  // }, [players])
 
   return <Router />
 }

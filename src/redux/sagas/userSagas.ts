@@ -6,7 +6,7 @@ import {
   getNameFromFirestore, writeNameToFirestore,
   getDataOnUserLogin, fetchDataFromFirestore, writeStandingsToFirestore, getDataOnOtherUser
 } from '../../db'
-import { appActions, answersActions, resultsActions, standingsActions } from '../slices'
+import { appActions, answersActions, resultsActions, standingsActions, userActions } from '../slices'
 import { tableCreator } from '../../helpers'
 
 function* updateProfileSaga(action: ActionType<UserUpdateType>) {
@@ -46,9 +46,11 @@ type FetchOtherUserActionType = {
 function* userLoginSaga(action: UserLoginActionType) {
   const { payload } = action
   try {
-    const response: UserLoginResponseType = yield call(getDataOnUserLogin, payload)
-    const { answers, results } = response
+    const answersResponse: UserLoginResponseType = yield call(getDataOnUserLogin, payload)
+    const userResponse: IUser = yield call(getNameFromFirestore, payload)
+    const { answers, results } = answersResponse
 
+    yield put(userActions.setUser({ ...userResponse, adminAsPlayer: true }))
     yield put(answersActions.updateAnswers({ answers, uid: payload }))
     yield put(resultsActions.setResults(results))
   } catch (error) {
