@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AnswersType, IAnswers, ResultsUpdateType } from '../../types'
+import { AnswersType } from '../../types'
 
 const initialState = {} as AnswersType
 
@@ -10,13 +10,6 @@ export const resultsSlice = createSlice({
   reducers: {
     setResults(_, action: PayloadAction<AnswersType>) {
       return action.payload
-    },
-
-    updateResults(state, action: PayloadAction<ResultsUpdateType>) {
-      // const { results, uid } = action.payload
-      // const newState = { ...state }
-      // newState[uid] = results
-      // return newState
     }
   }
 })

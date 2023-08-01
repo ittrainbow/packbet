@@ -13,7 +13,6 @@ export const store: ToolkitStore = configureStore({
     about: aboutSlice.reducer,
     standings: standingsSlice.reducer,
     user: userSlice.reducer,
-    // players: playersSlice.reducer,
     answers: answersSlice.reducer,
     results: resultsSlice.reducer
   }),

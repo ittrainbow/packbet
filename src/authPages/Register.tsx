@@ -9,10 +9,8 @@ import { Button, LocaleSwitcher } from '../UI'
 import { Input } from '@mui/material'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
-// import { userListHelper } from '../helpers'
-import { selectPlayers, selectUser } from '../redux/selectors'
+import { selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices'
-// import { playersActions } from '../redux/slices'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -23,7 +21,6 @@ export const Register = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const players = useSelector(selectPlayers)
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -65,14 +62,7 @@ export const Register = () => {
     setPassword(trimSpaces(value))
   }
 
-  const googleClickHandler = async () => {
-    await signInWithGoogle()
-    // if (response) {
-    // const newPlayers = userListHelper(response, players)
-
-    // dispatch(playersActions.setPlayers(newPlayers))
-    // }
-  }
+  const googleClickHandler = async () => await signInWithGoogle()
 
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(
     locale,

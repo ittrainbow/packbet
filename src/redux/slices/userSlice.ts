@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IUser, AboutLocaleType } from '../../types'
+import { IUser } from '../../types'
 
 const initialState: IUser = {
   admin: false,

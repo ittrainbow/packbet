@@ -62,18 +62,31 @@ function* userLoginSaga(action: UserLoginActionType) {
 
 function* updateStandingsSaga(action: any) {
   const results = action.payload
-  const answers: IAnswers = yield call(fetchDataFromFirestore, 'answers2023')
-  const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
-  const standings: IUserStandings[] = tableCreator(answers, players, results)
-  const standingsObject = Object.assign({}, standings)
-  yield call(writeStandingsToFirestore, standingsObject)
-  yield put(standingsActions.setStandings(standings))
+  try {
+    const answers: IAnswers = yield call(fetchDataFromFirestore, 'answers2023')
+    const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
+    const standings: IUserStandings[] = tableCreator(answers, players, results)
+    const standingsObject = Object.assign({}, standings)
+
+    yield call(writeStandingsToFirestore, standingsObject)
+    yield put(standingsActions.setStandings(standings))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
 }
 
 function* fetchOtherUserSaga(action: FetchOtherUserActionType) {
   const uid = action.payload
-  const response: AnswersType = yield call(getDataOnOtherUser, uid)
-  yield put(answersActions.updateAnswers({ answers: response, uid }))
+  try {
+    const response: AnswersType = yield call(getDataOnOtherUser, uid)
+    yield put(answersActions.updateAnswers({ answers: response, uid }))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
 }
 
 export function* userSaga() {

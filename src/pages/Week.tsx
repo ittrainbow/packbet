@@ -87,7 +87,7 @@ export const Week = () => {
       dispatch(userActions.setAdminAsPlayer(true))
     }
 
-    if (admin) {
+    if (adm) {
       dispatch({ type: UPDATE_STANDINGS, payload: results })
     }
   }

@@ -24,12 +24,13 @@ export const Profile = () => {
 
   useEffect(() => {
     inputRef.current?.focus()
-    setTempLocale(locale) // eslint-disable-next-line
+    setTempLocale(locale)
+    // eslint-disable-next-line
   }, [])
 
   const submitHandler = async () => {
     const { uid } = user as User
-    
+
     dispatch({ type: UPDATE_PROFILE, payload: { uid, name: tempName, locale } })
     dispatch(userActions.updateUser({ name, locale }))
     navigate(-1)
@@ -43,8 +44,14 @@ export const Profile = () => {
 
   const noChanges = name === tempName && locale === tempLocale
 
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(
+    locale,
+    'auth'
+  ) as LocaleType
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(
+    locale,
+    'buttons'
+  ) as LocaleType
 
   return (
     <div className="auth">

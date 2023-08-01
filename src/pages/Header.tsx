@@ -1,15 +1,7 @@
-import { useEffect, memo } from 'react'
+import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  FaInfoCircle,
-  FaUserAlt,
-  FaFootballBall,
-  FaCalendarAlt,
-  FaListUl,
-  FaChevronCircleRight,
-  FaPenNib
-} from 'react-icons/fa'
+import * as ico from 'react-icons/fa'
 
 import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
@@ -30,22 +22,17 @@ export const Header = () => {
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
 
   const userMenu = [
-    { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
-    { path: '/userpage', name: tab1msg, icon: <FaUserAlt />, id: 1 },
-    { path: '/week', name: tab2msg, icon: <FaFootballBall />, id: 2 },
-    { path: '/season', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <FaListUl />, id: 4 }
+    { path: '/', name: tab0msg, icon: <ico.FaInfoCircle />, id: 0 },
+    { path: '/userpage', name: tab1msg, icon: <ico.FaUserAlt />, id: 1 },
+    { path: '/week', name: tab2msg, icon: <ico.FaFootballBall />, id: 2 },
+    { path: '/season', name: tab3msg, icon: <ico.FaCalendarAlt />, id: 3 },
+    { path: '/standings', name: tab4msg, icon: <ico.FaListUl />, id: 4 }
   ]
 
   const adminMenu = [
-    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight />, id: 5 },
-    { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
+    { path: '/calendar', name: tab5msg, icon: <ico.FaChevronCircleRight />, id: 5 },
+    { path: '/editor', name: tab6msg, icon: <ico.FaPenNib />, id: 6 }
   ]
-
-  useEffect(() => {
-    navigate('/userpage')
-    // eslint-disable-next-line
-  }, [])
 
   const clickHandler = (id: number, path: string) => {
     const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek

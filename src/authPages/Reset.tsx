@@ -3,13 +3,13 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Input } from '@mui/material'
+import { useSelector } from 'react-redux'
 
 import { auth } from '../db/firebase'
 import { i18n } from '../locale/locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { LocaleType } from '../types'
-import { useSelector } from 'react-redux'
 import { selectUser } from '../redux/selectors'
 
 export const Reset = () => {

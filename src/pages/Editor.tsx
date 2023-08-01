@@ -30,7 +30,9 @@ export const Editor = () => {
   const { weeksContext, setWeeksContext, editorContext, setEditorContext } =
     useAppContext()
   const { locale } = useSelector(selectUser)
-  const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
+  const [questionInWork, setQuestionInWork] = useState(
+    emptyQuestion as QuestionType
+  )
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
   const { questions, name, active, deadline } = editorContext
@@ -53,7 +55,8 @@ export const Editor = () => {
 
   const editorLocale = i18n(locale, 'editor') as LocaleType
   const buttonsLocale = i18n(locale, 'buttons') as LocaleType
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = editorLocale
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } =
+    editorLocale
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = buttonsLocale
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
@@ -77,7 +80,9 @@ export const Editor = () => {
 
   const submitHandler = async () => {
     const id: number = emptyEditor ? nextWeek : selectedWeek
-    Object.keys(editorContext.questions).forEach((el) => delete questions[Number(el)]['id'])
+    Object.keys(editorContext.questions).forEach(
+      (el) => delete questions[Number(el)]['id']
+    )
     const weeks = structuredClone(weeksContext)
     weeks[id] = editorContext
 
@@ -125,7 +130,10 @@ export const Editor = () => {
   }
 
   const changeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setQuestionInWork({ ...questionInWork, question: e.target.value.substring(0, 120) })
+    setQuestionInWork({
+      ...questionInWork,
+      question: e.target.value.substring(0, 120)
+    })
 
   const changeTotalHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -232,7 +240,11 @@ export const Editor = () => {
         />
       </div>
       <div className="editor-form">
-        <Button className={'editor'} disabled={!anyChanges} onClick={submitHandler}>
+        <Button
+          className={'editor'}
+          disabled={!anyChanges}
+          onClick={submitHandler}
+        >
           {buttonSaveMsg}
         </Button>
         <Button className={'editor'} onClick={goBackHandler}>

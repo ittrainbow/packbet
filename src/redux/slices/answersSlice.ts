@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AnswersType, AnswersUpdateType, IAnswers } from '../../types'
+import { AnswersUpdateType, IAnswers } from '../../types'
 
 const initialState = {} as IAnswers
 

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
-import { useAppContext } from '../context/Context'
 import { selectAbout, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
 import { i18n } from '../locale/locale'

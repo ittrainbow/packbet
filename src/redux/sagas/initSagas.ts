@@ -1,18 +1,14 @@
 import { take, all, call, put } from 'redux-saga/effects'
 
-import { getWeeksIDs, tableCreator, emailTrim } from '../../helpers'
+import { getWeeksIDs } from '../../helpers'
 import { fetchDataFromFirestore, getStandingsFromFirestore } from '../../db'
 import { INIT_APP } from '../types'
 import {
   IAbout,
-  IAnswers,
-  IPlayers,
   IUserStandings,
   IWeeksContext,
   SetCompareContextType,
-  SetWeeksContextType,
-  IUser,
-  RawUser
+  SetWeeksContextType
 } from '../../types'
 import { appActions } from '../slices/appSlice'
 import { aboutActions } from '../slices'
