@@ -1,7 +1,7 @@
 import { take, all, call, put } from 'redux-saga/effects'
 
 import { getWeeksIDs, tableCreator, emailTrim } from '../../helpers'
-import { fetchDataFromFirestore } from '../../db'
+import { fetchDataFromFirestore, getStandingsFromFirestore } from '../../db'
 import { INIT_APP } from '../types'
 import {
   IAbout,
@@ -39,17 +39,17 @@ function* fetchWeeksSaga(
     const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
     setWeeksContext(weeks)
 
-    const answers: IAnswers = yield call(fetchDataFromFirestore, `answers${season}`)
+    // const answers: IAnswers = yield call(fetchDataFromFirestore, `answers${season}`)
     // yield put(answersActions.setAnswers(answers))
     // setCompareContext(structuredClone(answers))
+
+    const standings: IUserStandings[] = yield call(getStandingsFromFirestore)
     
     const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
     const trimPlayers: { [key: string]: IUser } = yield call(emailTrim, players)
-    yield put(playersActions.setPlayers(trimPlayers))
-    
-    const standings: IUserStandings[] = tableCreator(answers, players)
-    yield put(standingsActions.setStandings(standings))
 
+    yield put(playersActions.setPlayers(trimPlayers))
+    yield put(standingsActions.setStandings(standings))
     yield put(appActions.setSeason(season))
     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
   } catch (error) {

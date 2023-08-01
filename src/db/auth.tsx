@@ -69,7 +69,7 @@ export const registerWithEmailAndPassword = async (
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     setLoading(true)
     const { uid } = response.user
-    const data: IUser = { name, email, locale, admin: false }
+    const data: IUser = { name, locale, admin: false }
     await setDoc(doc(db, 'users', uid), data)
     setLoading(false)
     return { uid, locale }

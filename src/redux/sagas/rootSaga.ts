@@ -2,7 +2,7 @@ import { spawn, call, all } from 'redux-saga/effects'
 
 import { initSaga } from './initSagas'
 import { weekSagas } from './weekSagas'
-import { userSaga } from './userSaga'
+import { userSaga } from './userSagas'
 
 export function* rootSaga() {
   const sagas = [initSaga, weekSagas, userSaga]

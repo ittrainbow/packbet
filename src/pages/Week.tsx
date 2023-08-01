@@ -8,22 +8,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { auth } from '../db'
 import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
-import {
-  YesNoButtons,
-  AdminPlayer,
-  OtherUser,
-  Button,
-  KickoffCountdown
-} from '../UI'
+import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
 import { i18n } from '../locale/locale'
-import { SUBMIT_WEEK } from '../redux/types'
+import { SUBMIT_WEEK, UPDATE_STANDINGS } from '../redux/types'
 import { AnswersType, LocaleType, YesNoHandlerPropsType } from '../types'
-import {
-  selectAnswers,
-  selectApp,
-  selectResults,
-  selectUser
-} from '../redux/selectors'
+import { selectAnswers, selectApp, selectResults, selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices/userSlice'
 import { answersActions, resultsActions } from '../redux/slices'
 
@@ -59,9 +48,7 @@ export const Week = () => {
   const writeAllowed = () => adm || (!adm && !outdated())
 
   const activity = (id: number) => {
-    return ((!isItYou && outdated()) || isItYou) &&
-      ansOrResData &&
-      ansOrResData[selectedWeek]
+    return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
       ? ansOrResData[selectedWeek][id]
       : 0
   }
@@ -89,8 +76,7 @@ export const Week = () => {
     if (isItYou) {
       const toastSuccess = () => toast.success(successMsg)
       const toastFailure = () => toast.error(failureMsg)
-      const toaster = (success: boolean) =>
-        success ? toastSuccess() : toastFailure()
+      const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
       dispatch({
         type: SUBMIT_WEEK,
@@ -99,6 +85,10 @@ export const Week = () => {
       setCompareContext(structuredClone(answers))
 
       dispatch(userActions.setAdminAsPlayer(true))
+    }
+
+    if (admin) {
+      dispatch({ type: UPDATE_STANDINGS, payload: results })
     }
   }
 
@@ -120,10 +110,7 @@ export const Week = () => {
   const qWidth = document.querySelector('.question') as HTMLElement
   const width = qWidth?.offsetWidth - 130 || 270
 
-  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(
-    locale,
-    'buttons'
-  ) as LocaleType
+  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
 
   return (
@@ -133,12 +120,7 @@ export const Week = () => {
         {admin ? <AdminPlayer /> : null}
       </div>
       <OtherUser />
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        theme="colored"
-        pauseOnHover={false}
-      />
+      <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
       <KickoffCountdown />
       <div>
         {Object.keys(questions)
@@ -164,15 +146,10 @@ export const Week = () => {
             )
           })}
       </div>
-      <Button
-        onClick={submitHandler}
-        disabled={!writeAllowed() || noChanges || !isItYou}
-      >
+      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges || !isItYou}>
         {noChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
-      {noChanges ? null : (
-        <Button onClick={discardHandler}>{buttonCancelMsg}</Button>
-      )}
+      {noChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
     </div>
   )
 }

@@ -1,9 +1,13 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 
-import { UPDATE_PROFILE, USER_LOGIN } from '../types'
-import { ActionType, IUser, UserUpdateType, AnswersType } from '../../types'
-import { getNameFromFirestore, writeNameToFirestore, getDataOnUserLogin } from '../../db'
-import { appActions, answersActions, resultsActions } from '../slices'
+import { UPDATE_PROFILE, UPDATE_STANDINGS, USER_LOGIN, FETCH_OTHER_USER } from '../types'
+import { ActionType, IUser, UserUpdateType, AnswersType, IAnswers, RawUser, IUserStandings } from '../../types'
+import {
+  getNameFromFirestore, writeNameToFirestore,
+  getDataOnUserLogin, fetchDataFromFirestore, writeStandingsToFirestore
+} from '../../db'
+import { appActions, answersActions, resultsActions, standingsActions } from '../slices'
+import { tableCreator } from '../../helpers'
 
 function* updateProfileSaga(action: ActionType<UserUpdateType>) {
   yield put(appActions.setLoading(true))
@@ -49,7 +53,19 @@ function* userLoginSaga(action: UserLoginActionType) {
   }
 }
 
+function* updateStandingsSaga(action: any) {
+  const results = action.payload
+  const answers: IAnswers = yield call(fetchDataFromFirestore, 'answers2023')
+  const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
+  const standings: IUserStandings[] = tableCreator(answers, players, results)
+  const standingsObject = Object.assign({}, standings)
+  yield call(writeStandingsToFirestore, standingsObject)
+  yield put(standingsActions.setStandings(standings))
+}
+
 export function* userSaga() {
   yield takeEvery(UPDATE_PROFILE, updateProfileSaga)
   yield takeEvery(USER_LOGIN, userLoginSaga)
+  yield takeEvery(UPDATE_STANDINGS, updateStandingsSaga)
+  yield takeEvery(FETCH_OTHER_USER, updateStandingsSaga)
 }

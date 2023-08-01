@@ -1,4 +1,4 @@
-import { IAnswers, IPlayers, IUserStandings } from '../types'
+import { AnswersType, IAnswers, IPlayers, IUserStandings } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
@@ -8,7 +8,8 @@ export const tableObjectCreator = (ansTotal: number, ansCorrect: number, results
 
 export const tableCreator = (
   answers: IAnswers,
-  players: IPlayers
+  players: IPlayers,
+  results: AnswersType
 ) => {
   const userList = Object.keys(players)
   const object: { [key: string]: IUserStandings } = {}
@@ -19,18 +20,17 @@ export const tableCreator = (
     const uid = el
     const { name } = players[el]
     const ans = answers ? answers[el] : null
-    const res = answers.results ?? null
-    Object.keys(res)
+    Object.keys(results)
       .map((el) => Number(el))
       .forEach((el) => {
         const subAns = ans ? ans[el] : null
-        res[el] &&
-          Object.keys(res[el])
+        results[el] &&
+          Object.keys(results[el])
             .map((el) => Number(el))
             .forEach((i) => {
               resultsTotal++
               subAns && subAns[i] && ansTotal++
-              subAns && subAns[i] && subAns[i] === res[el][i] && ansCorrect++
+              subAns && subAns[i] && subAns[i] === results[el][i] && ansCorrect++
             })
       })
 

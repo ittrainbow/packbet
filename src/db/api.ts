@@ -9,11 +9,12 @@ import {
   QuerySnapshot,
   DocumentData,
   deleteField,
-  query
+  query,
+  DocumentSnapshot
 } from 'firebase/firestore'
 
 import { db } from './firebase'
-import { IUser, WeekDeleteType, WeekUpdateType, WeekSubmitType } from '../types'
+import { IUser, WeekDeleteType, WeekUpdateType, WeekSubmitType, IUserStandings } from '../types'
 import { objectCompare, objectCompose } from '../helpers'
 
 type WriteNameType = {
@@ -90,4 +91,20 @@ export const getDataOnUserLogin = async (uid: string) => {
   })
 
   return { answers, results }
+}
+
+export const getDataOnOtherUser = async (uid: string) => {
+  const response = await getDoc(doc(db, `answers2023`, uid))
+  return response.data()
+}
+
+export const writeStandingsToFirestore = async (payload: IUserStandings[]) => {
+  const response = await setDoc(doc(db, `results2023`, 'standings'), payload)
+  return response
+}
+
+export const getStandingsFromFirestore = async () => {
+  const response: DocumentSnapshot = await getDoc(doc(db, `results2023`, 'standings'))
+  const standings = Object.values(response.data() as DocumentData)
+  return standings
 }
