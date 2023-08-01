@@ -4,7 +4,7 @@ import { UPDATE_PROFILE, UPDATE_STANDINGS, USER_LOGIN, FETCH_OTHER_USER } from '
 import { ActionType, IUser, UserUpdateType, AnswersType, IAnswers, RawUser, IUserStandings } from '../../types'
 import {
   getNameFromFirestore, writeNameToFirestore,
-  getDataOnUserLogin, fetchDataFromFirestore, writeStandingsToFirestore
+  getDataOnUserLogin, fetchDataFromFirestore, writeStandingsToFirestore, getDataOnOtherUser
 } from '../../db'
 import { appActions, answersActions, resultsActions, standingsActions } from '../slices'
 import { tableCreator } from '../../helpers'
@@ -38,6 +38,11 @@ type UserLoginResponseType = {
   results: AnswersType
 }
 
+type FetchOtherUserActionType = {
+  type: string
+  payload: string
+}
+
 function* userLoginSaga(action: UserLoginActionType) {
   const { payload } = action
   try {
@@ -63,9 +68,15 @@ function* updateStandingsSaga(action: any) {
   yield put(standingsActions.setStandings(standings))
 }
 
+function* fetchOtherUserSaga(action: FetchOtherUserActionType) {
+  const uid = action.payload
+  const response: AnswersType = yield call(getDataOnOtherUser, uid)
+  yield put(answersActions.updateAnswers({ answers: response, uid }))
+}
+
 export function* userSaga() {
   yield takeEvery(UPDATE_PROFILE, updateProfileSaga)
   yield takeEvery(USER_LOGIN, userLoginSaga)
   yield takeEvery(UPDATE_STANDINGS, updateStandingsSaga)
-  yield takeEvery(FETCH_OTHER_USER, updateStandingsSaga)
+  yield takeEvery(FETCH_OTHER_USER, fetchOtherUserSaga)
 }

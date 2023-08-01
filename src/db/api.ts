@@ -95,6 +95,7 @@ export const getDataOnUserLogin = async (uid: string) => {
 
 export const getDataOnOtherUser = async (uid: string) => {
   const response = await getDoc(doc(db, `answers2023`, uid))
+  console.log(100, response.data())
   return response.data()
 }
 

@@ -8,6 +8,7 @@ import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
+import { FETCH_OTHER_USER } from '../redux/types'
 
 export const Standings = () => {
   const navigate = useNavigate()
@@ -18,13 +19,23 @@ export const Standings = () => {
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
     if (user && otherUserUID !== user.uid) {
-      const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
+      const otherUser = {
+        otherUserName,
+        otherUserUID,
+        tabActive: 3,
+        isItYou: false
+      }
       dispatch(appActions.setOtherUserStandings(otherUser))
       navigate('/season')
+
+      dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
     }
   }
 
-  const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(locale, 'standings') as LocaleType
+  const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(
+    locale,
+    'standings'
+  ) as LocaleType
 
   return (
     <div className="container">
@@ -41,16 +52,30 @@ export const Standings = () => {
           Object.values(standings)
             .filter((el) => el.ansTotal > 0)
             .map((el) => {
-              const { name, uid, ansCorrect, ansTotal, position, resultsTotal } = el
+              const {
+                name,
+                uid,
+                ansCorrect,
+                ansTotal,
+                position,
+                resultsTotal
+              } = el
               return (
                 <div key={uid} className="standings-header">
                   <div className="cellOne">{position}</div>
-                  <div className="cellTwo" onClick={() => clickHandler(uid, name)}>
+                  <div
+                    className="cellTwo"
+                    onClick={() => clickHandler(uid, name)}
+                  >
                     {name}
                   </div>
                   <div className="cellThree">{ansCorrect + '/' + ansTotal}</div>
-                  <div className="cellFour">{(ansCorrect / ansTotal).toFixed(3)}</div>
-                  <div className="cellThree">{((ansTotal * 100) / resultsTotal).toFixed(0)}%</div>
+                  <div className="cellFour">
+                    {(ansCorrect / ansTotal).toFixed(3)}
+                  </div>
+                  <div className="cellThree">
+                    {((ansTotal * 100) / resultsTotal).toFixed(0)}%
+                  </div>
                 </div>
               )
             })}
