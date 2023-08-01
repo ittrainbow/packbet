@@ -21,7 +21,7 @@ const { setLoading } = appActions
 
 export const signInWithGoogle = async () => {
   try {
-    setLoading(true)
+    appActions.setLoading(true)
     const response: UserCredential = await signInWithPopup(auth, googleProvider)
     if (response) {
       const { email, displayName: name, uid } = response.user
@@ -35,7 +35,7 @@ export const signInWithGoogle = async () => {
       }
       docs.data() === undefined && googleAuth()
       const user = docs.data() as IUser
-      setLoading(false)
+      appActions.setLoading(false)
       return { user, uid }
     }
   } catch (error) {
@@ -48,16 +48,16 @@ export const logInWithEmailAndPassword = async (
   password: string
 ) => {
   try {
+    appActions.setLoading(true)
     const responseLogin: UserCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     )
-    setLoading(true)
     const { uid } = responseLogin.user
     const responseUser = await getDoc(doc(db, 'users', uid))
     const user = responseUser.data() as IUser
-    setLoading(false)
+    appActions.setLoading(false)
     return { user, uid }
   } catch (error) {
     if (error instanceof Error) console.error(error)
@@ -71,16 +71,16 @@ export const registerWithEmailAndPassword = async (
 ) => {
   const locale = localStorage.getItem('locale') || 'ru'
   try {
+    appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     )
-    setLoading(true)
     const { uid } = response.user
     const data: IUser = { name, locale, admin: false }
     await setDoc(doc(db, 'users', uid), data)
-    setLoading(false)
+    appActions.setLoading(false)
     return { uid, locale }
   } catch (error) {
     if (error instanceof Error) {
@@ -101,9 +101,9 @@ export const sendPasswordReset = async (email: string) => {
 }
 
 export const logout = () => {
-  setLoading(true)
+  appActions.setLoading(true)
   signOut(auth)
-  return setLoading(false)
+  return appActions.setLoading(false)
 }
 
 export function useAuthValue() {

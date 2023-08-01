@@ -45,10 +45,6 @@ export const appSlice = createSlice({
       state.error = action.payload
     },
 
-    setCurrentWeek(state, action: PayloadAction<number>) {
-      state.currentWeek = action.payload
-    },
-
     setEmptyEditor(state, action: PayloadAction<boolean>) {
       state.emptyEditor = action.payload
     },
@@ -57,20 +53,12 @@ export const appSlice = createSlice({
       state.isItYou = action.payload
     },
 
-    setNextWeek(state, action: PayloadAction<number>) {
-      state.nextWeek = action.payload
-    },
-
     setOtherUserName(state, action: PayloadAction<string>) {
       state.otherUserName = action.payload
     },
 
     setOtherUserUID(state, action: PayloadAction<string>) {
       state.otherUserUID = action.payload
-    },
-
-    setSeason(state, action: PayloadAction<number>) {
-      state.season = action.payload
     },
 
     setSelectedWeek(state, action: PayloadAction<number>) {
@@ -95,7 +83,7 @@ export const appSlice = createSlice({
       localStorage.setItem('contestTabActive', id.toString())
     },
 
-    setOtherUserStandings(state, action: PayloadAction<SetStandingsType>) {
+    setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {
       const { otherUserName, otherUserUID, isItYou, tabActive } = action.payload
       state.otherUserName = otherUserName
       state.otherUserUID = otherUserUID

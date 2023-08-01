@@ -40,7 +40,6 @@ function* fetchWeeksSaga(
     const standings = Object.values(response)
 
     yield put(standingsActions.setStandings(standings))
-    yield put(appActions.setSeason(season))
     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
   } catch (error) {
     if (error instanceof Error) {

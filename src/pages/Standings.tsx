@@ -25,7 +25,7 @@ export const Standings = () => {
         tabActive: 3,
         isItYou: false
       }
-      dispatch(appActions.setOtherUserStandings(otherUser))
+      dispatch(appActions.setOtherUserFromStandings(otherUser))
       navigate('/season')
 
       dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
