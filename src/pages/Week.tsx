@@ -45,6 +45,7 @@ export const Week = () => {
   }, [admin, adminAsPlayer])
 
   const ansOrRes = adm ? 'results' : uid
+  const ansOrResData = adm ? results : answers[uid]
 
   useEffect(() => {
     if (user) isItYou ? setUid(user.uid) : setUid(otherUserUID)
@@ -59,9 +60,9 @@ export const Week = () => {
 
   const activity = (id: number) => {
     return ((!isItYou && outdated()) || isItYou) &&
-      answers[ansOrRes] &&
-      answers[ansOrRes][selectedWeek]
-      ? answers[ansOrRes][selectedWeek][id]
+      ansOrResData &&
+      ansOrResData[selectedWeek]
+      ? ansOrResData[selectedWeek][id]
       : 0
   }
 
