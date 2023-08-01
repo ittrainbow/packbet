@@ -10,7 +10,7 @@ import { auth } from './db'
 import { appSlice } from './redux/slices/appSlice'
 import { userActions } from './redux/slices/userSlice'
 import { initialUser } from './context/initialContexts'
-import { playersActions } from './redux/slices'
+// import { playersActions } from './redux/slices'
 import { selectPlayers } from './redux/selectors'
 
 export const App = () => {
@@ -31,8 +31,9 @@ export const App = () => {
       dispatch({ type: USER_LOGIN, payload: uid })
     }
 
-    if (user && !players[user.uid]) {
-      const { uid } = user
+    // if (user && !players[user.uid]) {
+    if (user) {
+      // const { uid } = user
       const { displayName } = user
       const newUser = { ...initialUser, name: displayName || '' }
 

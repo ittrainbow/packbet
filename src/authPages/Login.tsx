@@ -7,11 +7,11 @@ import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
-import { userListHelper } from '../helpers'
+// import { userListHelper } from '../helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/slices/userSlice'
 import { selectPlayers, selectUser } from '../redux/selectors'
-import { playersActions } from '../redux/slices'
+// import { playersActions } from '../redux/slices'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -21,7 +21,7 @@ export const Login = () => {
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
   const { locale } = useSelector(selectUser)
-  const players = useSelector(selectPlayers)
+  // const players = useSelector(selectPlayers)
 
   const loginButtonActive = emailValid && password.length > 2
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
@@ -59,38 +59,53 @@ export const Login = () => {
   }
 
   const googleClickHandler = async () => {
-    const response = await signInWithGoogle()
-    if (response) {
-      const newPlayers = userListHelper(response, players)
+    await signInWithGoogle()
+    // if (response) {
+    // const newPlayers = userListHelper(response, players)
 
-      dispatch(playersActions.setPlayers(newPlayers))
-    }
+    // dispatch(playersActions.setPlayers(newPlayers))
+    // }
   }
 
   const emailLogInHandler = async () => {
-    const response = await logInWithEmailAndPassword(email, password)
-    if (response) {
-      const newPlayers = userListHelper(response, players)
+    await logInWithEmailAndPassword(email, password)
+    // if (response) {
+    // const newPlayers = userListHelper(response, players)
 
-      dispatch(playersActions.setPlayers(newPlayers))
-    }
+    // dispatch(playersActions.setPlayers(newPlayers))
+    // }
   }
 
-  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType
-  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as LocaleType
+  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(
+    locale,
+    'buttons'
+  ) as LocaleType
+  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(
+    locale,
+    'auth'
+  ) as LocaleType
 
   return (
     <div className="auth">
       <div className="auth__container">
         <div className="auth__data">
-          <Input type="text" value={email} onChange={emailInputHandler} placeholder={emailMsg} />
+          <Input
+            type="text"
+            value={email}
+            onChange={emailInputHandler}
+            placeholder={emailMsg}
+          />
           <Input
             type="password"
             value={password}
             onChange={passwordInputHandler}
             placeholder={passwordMsg}
           />
-          <Button className="login" disabled={!loginButtonActive} onClick={emailLogInHandler}>
+          <Button
+            className="login"
+            disabled={!loginButtonActive}
+            onClick={emailLogInHandler}
+          >
             {buttonLoginMsg}
           </Button>
           <Button className="google" onClick={googleClickHandler}>

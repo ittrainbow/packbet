@@ -26,8 +26,6 @@ export const ansHelper = (
   return { ans, res }
 }
 
-
-
 export const emptyWeek: WeekType = {
   questions: {},
   name: '',

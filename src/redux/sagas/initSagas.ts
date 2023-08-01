@@ -15,7 +15,7 @@ import {
   RawUser
 } from '../../types'
 import { appActions } from '../slices/appSlice'
-import { aboutActions, answersActions, playersActions } from '../slices'
+import { aboutActions } from '../slices'
 import { standingsActions } from '../slices/standingsSlice'
 
 const season = 2023
@@ -39,16 +39,8 @@ function* fetchWeeksSaga(
     const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
     setWeeksContext(weeks)
 
-    // const answers: IAnswers = yield call(fetchDataFromFirestore, `answers${season}`)
-    // yield put(answersActions.setAnswers(answers))
-    // setCompareContext(structuredClone(answers))
-
     const standings: IUserStandings[] = yield call(getStandingsFromFirestore)
-    
-    // const players: { [key: string]: RawUser } = yield call(fetchDataFromFirestore, 'users')
-    // const trimPlayers: { [key: string]: IUser } = yield call(emailTrim, players)
-    // yield put(playersActions.setPlayers(trimPlayers))
-    
+
     yield put(standingsActions.setStandings(standings))
     yield put(appActions.setSeason(season))
     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))

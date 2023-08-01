@@ -9,9 +9,10 @@ import { Button, LocaleSwitcher } from '../UI'
 import { Input } from '@mui/material'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
-import { userListHelper } from '../helpers'
+// import { userListHelper } from '../helpers'
 import { selectPlayers, selectUser } from '../redux/selectors'
-import { playersActions } from '../redux/slices'
+import { userActions } from '../redux/slices'
+// import { playersActions } from '../redux/slices'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -43,13 +44,8 @@ export const Register = () => {
     if (name && email && password.length > 5) {
       const response = await registerWithEmailAndPassword(name, email, password)
       if (response) {
-        const data = {
-          user: { admin: false, locale, name, email },
-          uid: response.uid
-        }
-        const newPlayers = userListHelper(data, players)
-
-        dispatch(playersActions.setPlayers(newPlayers))
+        const user = { admin: false, locale, name, email }
+        dispatch(userActions.setUser(user))
       }
     }
   }
@@ -70,15 +66,18 @@ export const Register = () => {
   }
 
   const googleClickHandler = async () => {
-    const response = await signInWithGoogle()
-    if (response) {
-      const newPlayers = userListHelper(response, players)
+    await signInWithGoogle()
+    // if (response) {
+    // const newPlayers = userListHelper(response, players)
 
-      dispatch(playersActions.setPlayers(newPlayers))
-    }
+    // dispatch(playersActions.setPlayers(newPlayers))
+    // }
   }
 
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(
+    locale,
+    'buttons'
+  ) as LocaleType
   const {
     loginIntro,
     loginMsg,
@@ -101,7 +100,12 @@ export const Register = () => {
             onChange={nameInputHandler}
             placeholder={regNameMsg}
           />
-          <Input type="email" value={email} onChange={emailInputHandler} placeholder={emailMsg} />
+          <Input
+            type="email"
+            value={email}
+            onChange={emailInputHandler}
+            placeholder={emailMsg}
+          />
           <Input
             type="password"
             value={password}
