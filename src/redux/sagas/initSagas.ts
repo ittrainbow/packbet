@@ -6,15 +6,14 @@ import { INIT_APP } from '../types'
 import {
   IAbout,
   IAnswersContext,
-  IUserListContext,
+  IPlayers,
   IUserStandings,
   IWeeksContext,
   SetAnswersContextType,
-  SetUserListContextType,
   SetWeeksContextType
 } from '../../types'
 import { appActions } from '../slices/appSlice'
-import { aboutActions } from '../slices'
+import { aboutActions, playersActions } from '../slices'
 import { standingsActions } from '../slices/standingsSlice'
 
 const season = 2023
@@ -34,25 +33,23 @@ function* fetchWeeksSaga(
   setWeeksContext: SetWeeksContextType,
   setAnswersContext: SetAnswersContextType,
   setCompareContext: SetAnswersContextType,
-  setUserListContext: SetUserListContextType
 ) {
   try {
     const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
-    const answers: IAnswersContext = yield call(fetchDataFromFirestore, `answers${season}`)
-    const users: IUserListContext = yield call(fetchDataFromFirestore, 'users')
-
-    const standings: IUserStandings[] = tableCreator(answers, users)
-
-    setUserListContext(users)
-
     setWeeksContext(weeks)
-    yield put(appActions.setSeason(season))
-    yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
+    const answers: IAnswersContext = yield call(fetchDataFromFirestore, `answers${season}`)
     setAnswersContext(answers)
     setCompareContext(structuredClone(answers))
 
+    const players: IPlayers = yield call(fetchDataFromFirestore, 'users')
+    yield put(playersActions.setPlayers(players))
+
+    const standings: IUserStandings[] = tableCreator(answers, players)
     yield put(standingsActions.setStandings(standings))
+
+    yield put(appActions.setSeason(season))
+    yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -68,11 +65,10 @@ export function* initSaga() {
       setWeeksContext,
       setAnswersContext,
       setCompareContext,
-      setUserListContext
     } = payload
     yield all([
       fetchAboutSaga(),
-      fetchWeeksSaga(setWeeksContext, setAnswersContext, setCompareContext, setUserListContext),
+      fetchWeeksSaga(setWeeksContext, setAnswersContext, setCompareContext),
     ])
     yield put(appActions.setLoading(false))
   }

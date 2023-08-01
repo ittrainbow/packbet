@@ -24,20 +24,18 @@ export const Profile = () => {
 
   useEffect(() => {
     inputRef.current?.focus()
-    setTempLocale(locale)
+    setTempLocale(locale) // eslint-disable-next-line
   }, [])
 
   const submitHandler = async () => {
     const { uid } = user as User
+    
     dispatch({ type: UPDATE_PROFILE, payload: { uid, name: tempName, locale } })
-
     dispatch(userActions.updateUser({ name, locale }))
-
     navigate(-1)
   }
 
   const noSaveHandler = () => {
-    console.log(100, tempLocale)
     localStorage.setItem('locale', tempLocale)
     dispatch(userActions.setLocale(tempLocale))
     navigate(-1)

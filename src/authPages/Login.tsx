@@ -6,12 +6,12 @@ import { Input } from '@mui/material'
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
-import { useAppContext } from '../context/Context'
 import { LocaleType } from '../types'
 import { userListHelper } from '../helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/slices/userSlice'
-import { selectUser } from '../redux/selectors'
+import { selectPlayers, selectUser } from '../redux/selectors'
+import { playersActions } from '../redux/slices'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -20,8 +20,8 @@ export const Login = () => {
   const [password, setPassword] = useState<string>('')
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
-  const { userListContext, setUserListContext } = useAppContext()
   const { locale } = useSelector(selectUser)
+  const players = useSelector(selectPlayers)
 
   const loginButtonActive = emailValid && password.length > 2
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
@@ -60,12 +60,20 @@ export const Login = () => {
 
   const googleClickHandler = async () => {
     const response = await signInWithGoogle()
-    response && setUserListContext(userListHelper(response, userListContext))
+    if (response) {
+      const newPlayers = userListHelper(response, players)
+
+      dispatch(playersActions.setPlayers(newPlayers))
+    }
   }
 
   const emailLogInHandler = async () => {
     const response = await logInWithEmailAndPassword(email, password)
-    response && setUserListContext(userListHelper(response, userListContext))
+    if (response) {
+      const newPlayers = userListHelper(response, players)
+
+      dispatch(playersActions.setPlayers(newPlayers))
+    }
   }
 
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType

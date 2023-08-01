@@ -3,7 +3,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { useAppContext } from '../context/Context'
 import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
@@ -11,17 +10,19 @@ import { Input } from '@mui/material'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
 import { userListHelper } from '../helpers'
-import { selectUser } from '../redux/selectors'
+import { selectPlayers, selectUser } from '../redux/selectors'
+import { playersActions } from '../redux/slices'
 
 export const Register = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { locale } = useSelector(selectUser)
   const inputRef = useRef<HTMLInputElement>()
   const [user, loading] = useAuthState(auth)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const { userListContext, setUserListContext } = useAppContext()
+  const players = useSelector(selectPlayers)
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -46,7 +47,9 @@ export const Register = () => {
           user: { admin: false, locale, name, email },
           uid: response.uid
         }
-        setUserListContext(userListHelper(data, userListContext))
+        const newPlayers = userListHelper(data, players)
+
+        dispatch(playersActions.setPlayers(newPlayers))
       }
     }
   }
@@ -68,7 +71,11 @@ export const Register = () => {
 
   const googleClickHandler = async () => {
     const response = await signInWithGoogle()
-    response && setUserListContext(userListHelper(response, userListContext))
+    if (response) {
+      const newPlayers = userListHelper(response, players)
+
+      dispatch(playersActions.setPlayers(newPlayers))
+    }
   }
 
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType

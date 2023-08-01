@@ -11,7 +11,6 @@ export const Calendar = () => {
   const dispatch = useDispatch()
   const { editor, isItYou } = useSelector(selectApp)
   const { weeksContext, setEditorContext } = useAppContext()
-  // const { isItYou } = appContext
 
   const clickHandler = (selectedWeek: number) => {
     dispatch(appActions.setSelectedWeek(selectedWeek))
@@ -34,11 +33,7 @@ export const Calendar = () => {
             const { name } = weeksContext[el]
             const selectedWeek = Number(el)
             return (
-              <div
-                key={selectedWeek}
-                className="week"
-                onClick={() => clickHandler(selectedWeek)}
-              >
+              <div key={selectedWeek} className="week" onClick={() => clickHandler(selectedWeek)}>
                 <div className="week__desc">{name}</div>
               </div>
             )

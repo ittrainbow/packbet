@@ -38,7 +38,7 @@ export interface IAnswersContext {
   [key: string]: Answers
 }
 
-export interface IUserListContext {
+export interface IPlayers {
   [key: string]: IUser
 }
 

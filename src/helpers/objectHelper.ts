@@ -1,8 +1,8 @@
 import { QuerySnapshot, DocumentData } from 'firebase/firestore'
 import {
-  IAboutContext,
+  IAbout,
   IAnswersContext,
-  IUserListContext,
+  IPlayers,
   QuestionType,
   QuestionsType,
   WeekType
@@ -23,7 +23,7 @@ export const getNewQuestionId = (questions: QuestionsType): number => {
 }
 
 export const objectCompose = (response: QuerySnapshot<DocumentData>) => {
-  const obj: IAboutContext | IAboutContext | IUserListContext | IAnswersContext = {}
+  const obj: IAbout | IPlayers | IAnswersContext = {}
   response.forEach((el) => {
     obj[el.id] = el.data()
   })
