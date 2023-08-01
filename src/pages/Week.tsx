@@ -25,7 +25,7 @@ import {
   selectUser
 } from '../redux/selectors'
 import { userActions } from '../redux/slices/userSlice'
-import { answersActions } from '../redux/slices'
+import { answersActions, resultsActions } from '../redux/slices'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -69,24 +69,24 @@ export const Week = () => {
   const onClickHandler = (props: YesNoHandlerPropsType) => {
     const { value, id, activity } = props
     if (user && writeAllowed() && isItYou) {
-      const data = structuredClone(answers)
-      if (!data[ansOrRes]) data[ansOrRes] = {}
-      if (!data[ansOrRes][selectedWeek]) data[ansOrRes][selectedWeek] = {}
+      const data = structuredClone(ansOrResData) || {}
+      if (!data[selectedWeek]) data[selectedWeek] = {}
 
-      const thisWeek = data[ansOrRes][selectedWeek]
+      const thisWeek = data[selectedWeek]
       value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
-      if (!Object.keys(thisWeek).some((el) => el))
-        delete data[ansOrRes][selectedWeek]
+      if (!Object.keys(thisWeek).some((el) => el)) delete data[selectedWeek]
 
-      dispatch(answersActions.setAnswers(data))
-      checkChanges(data[ansOrRes])
+      if (adm) {
+        dispatch(resultsActions.setResults(data))
+      } else {
+        dispatch(answersActions.updateAnswers({ answers: data, uid }))
+      }
+      checkChanges(data)
     }
   }
 
   const submitHandler = async () => {
     if (isItYou) {
-      const data = adminAsPlayer ? answers[uid] : answers.results
-
       const toastSuccess = () => toast.success(successMsg)
       const toastFailure = () => toast.error(failureMsg)
       const toaster = (success: boolean) =>
@@ -94,7 +94,7 @@ export const Week = () => {
 
       dispatch({
         type: SUBMIT_WEEK,
-        payload: { data, selectedWeek, season, ansOrRes, toaster }
+        payload: { data: ansOrResData, selectedWeek, season, ansOrRes, toaster }
       })
       setCompareContext(structuredClone(answers))
 
