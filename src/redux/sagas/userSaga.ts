@@ -1,9 +1,9 @@
-import { takeEvery, call, put, take } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects'
 
 import { UPDATE_PROFILE, USER_LOGIN } from '../types'
-import { ActionType, IUser, UserUpdateType } from '../../types'
-import { getNameFromFirestore, writeNameToFirestore } from '../../db'
-import { appActions } from '../slices/appSlice'
+import { ActionType, IUser, UserUpdateType, AnswersType } from '../../types'
+import { getNameFromFirestore, writeNameToFirestore, getDataOnUserLogin } from '../../db'
+import { appActions, answersActions, resultsActions } from '../slices'
 
 function* updateProfileSaga(action: ActionType<UserUpdateType>) {
   yield put(appActions.setLoading(true))
@@ -26,13 +26,27 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
 
 type UserLoginActionType = {
   type: string
-  payload: {
-    uid: string
-  }
+  payload: string
+}
+
+type UserLoginResponseType = {
+  answers: AnswersType
+  results: AnswersType
 }
 
 function* userLoginSaga(action: UserLoginActionType) {
-  console.log(100, action.payload)
+  const { payload } = action
+  try {
+    const response: UserLoginResponseType = yield call(getDataOnUserLogin, payload)
+    const { answers, results } = response
+
+    yield put(answersActions.updateAnswers({ answers, uid: payload }))
+    yield put(resultsActions.setResults(results))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
 }
 
 export function* userSaga() {

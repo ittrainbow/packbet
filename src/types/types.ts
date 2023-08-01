@@ -13,6 +13,8 @@ export type QuestionType = {
 }
 export type QuestionsType = { [key: number]: QuestionType }
 export type AnswersType = { [key: number]: { [key: number]: number } }
+export type AnswersUpdateType = { answers: AnswersType, uid: string }
+export type ResultsUpdateType = { results: AnswersType, uid: string }
 
 export type WeekType = {
   active: boolean

@@ -8,7 +8,8 @@ import {
   collection,
   QuerySnapshot,
   DocumentData,
-  deleteField
+  deleteField,
+  query
 } from 'firebase/firestore'
 
 import { db } from './firebase'
@@ -78,4 +79,15 @@ export const submitWeekToFirestore = async (props: WeekSubmitType) => {
   const response = await getDoc(doc(db, `answers${season}`, ansOrRes))
   const success = objectCompare(response.data(), data)
   toaster(success)
+}
+
+export const getDataOnUserLogin = async (uid: string) => {
+  const response: QuerySnapshot = await getDocs(query(collection(db, 'answers2023')))
+  let answers, results
+  response.forEach(el => {
+    if (el.id === 'results') results = el.data()
+    if (el.id === uid) answers = el.data()
+  })
+
+  return { answers, results }
 }

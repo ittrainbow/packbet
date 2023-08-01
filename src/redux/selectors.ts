@@ -6,3 +6,4 @@ export const selectApp = (store: IStore) => store.app
 export const selectUser = (store: IStore) => store.user
 export const selectPlayers = (store: IStore) => store.players
 export const selectAnswers = (store: IStore) => store.answers
+export const selectResults = (store: IStore) => store.results

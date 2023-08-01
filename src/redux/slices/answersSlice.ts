@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IAnswers } from '../../types'
+import { AnswersType, AnswersUpdateType, IAnswers } from '../../types'
 
 const initialState = {} as IAnswers
 
@@ -8,12 +8,15 @@ export const answersSlice = createSlice({
   name: 'answers',
   initialState,
   reducers: {
-    setAnswers(state, action: PayloadAction<IAnswers>) {
+    setAnswers(_, action: PayloadAction<IAnswers>) {
       return action.payload
     },
-    
-    updateAnswers(state, action: PayloadAction<IAnswers>) {
-      return state
+
+    updateAnswers(state, action: PayloadAction<AnswersUpdateType>) {
+      const { answers, uid } = action.payload
+      const newState = { ...state }
+      newState[uid] = answers
+      return newState
     }
   }
 })

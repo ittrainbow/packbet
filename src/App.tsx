@@ -28,7 +28,6 @@ export const App = () => {
   useEffect(() => {
     if (user) {
       const { uid } = user
-      console.log(99, uid)
       dispatch({ type: USER_LOGIN, payload: uid })
     }
 
