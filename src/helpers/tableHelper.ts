@@ -1,4 +1,4 @@
-import { IAnswersContext, IUserListContext, IUserStandings } from '../types'
+import { IAnswers, IPlayers, IUserStandings } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
@@ -7,19 +7,19 @@ export const tableObjectCreator = (ansTotal: number, ansCorrect: number, results
 }
 
 export const tableCreator = (
-  answersContext: IAnswersContext,
-  userListContext: IUserListContext
+  answers: IAnswers,
+  players: IPlayers
 ) => {
-  const userList = Object.keys(userListContext)
+  const userList = Object.keys(players)
   const object: { [key: string]: IUserStandings } = {}
   userList.forEach((el) => {
     let ansTotal = 0
     let ansCorrect = 0
     let resultsTotal = 0
     const uid = el
-    const { name } = userListContext[el]
-    const ans = answersContext ? answersContext[el] : null
-    const res = answersContext.results ?? null
+    const { name } = players[el]
+    const ans = answers ? answers[el] : null
+    const res = answers.results ?? null
     Object.keys(res)
       .map((el) => Number(el))
       .forEach((el) => {

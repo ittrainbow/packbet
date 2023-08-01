@@ -1,4 +1,4 @@
-import { WeekType } from './types'
+import { WeekType, AnswersType } from './types'
 
 export interface IApp {
   mobile: boolean
@@ -28,14 +28,14 @@ export interface IAbout {
   [key: string]: { [key: number]: string }
 }
 
-export interface IEditorContext extends WeekType { }
-
-export interface Answers {
-  [key: number]: { [key: number]: number }
+export interface IAnswers {
+  [key: string]: AnswersType
 }
 
-export interface IAnswersContext {
-  [key: string]: Answers
+export interface IEditorContext extends WeekType { }
+
+export interface ICompareContext {
+  [key: string]: AnswersType
 }
 
 export interface IPlayers {

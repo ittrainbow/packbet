@@ -5,15 +5,15 @@ import { fetchDataFromFirestore } from '../../db'
 import { INIT_APP } from '../types'
 import {
   IAbout,
-  IAnswersContext,
+  IAnswers,
   IPlayers,
   IUserStandings,
   IWeeksContext,
-  SetAnswersContextType,
+  SetCompareContextType,
   SetWeeksContextType
 } from '../../types'
 import { appActions } from '../slices/appSlice'
-import { aboutActions, playersActions } from '../slices'
+import { aboutActions, answersActions, playersActions } from '../slices'
 import { standingsActions } from '../slices/standingsSlice'
 
 const season = 2023
@@ -31,15 +31,14 @@ function* fetchAboutSaga() {
 
 function* fetchWeeksSaga(
   setWeeksContext: SetWeeksContextType,
-  setAnswersContext: SetAnswersContextType,
-  setCompareContext: SetAnswersContextType,
+  setCompareContext: SetCompareContextType,
 ) {
   try {
     const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
     setWeeksContext(weeks)
 
-    const answers: IAnswersContext = yield call(fetchDataFromFirestore, `answers${season}`)
-    setAnswersContext(answers)
+    const answers: IAnswers = yield call(fetchDataFromFirestore, `answers${season}`)
+    yield put(answersActions.setAnswers(answers))
     setCompareContext(structuredClone(answers))
 
     const players: IPlayers = yield call(fetchDataFromFirestore, 'users')
@@ -63,12 +62,11 @@ export function* initSaga() {
     yield put(appActions.setLoading(true))
     const {
       setWeeksContext,
-      setAnswersContext,
       setCompareContext,
     } = payload
     yield all([
       fetchAboutSaga(),
-      fetchWeeksSaga(setWeeksContext, setAnswersContext, setCompareContext),
+      fetchWeeksSaga(setWeeksContext, setCompareContext),
     ])
     yield put(appActions.setLoading(false))
   }

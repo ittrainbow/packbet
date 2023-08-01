@@ -1,4 +1,4 @@
-import { IAnswersContext, WeeksType, IWeeksContext, WeekType, QuestionType } from '../types'
+import { WeeksType, IWeeksContext, WeekType, QuestionType, IAnswers } from '../types'
 
 export const getWeeksIDs = (weeks: WeeksType | IWeeksContext) => {
   const arr = Object.keys(weeks).map((el) => Number(el))
@@ -12,15 +12,15 @@ export const getWeeksIDs = (weeks: WeeksType | IWeeksContext) => {
 }
 
 export const ansHelper = (
-  answersContext: IAnswersContext,
+  answers: IAnswers,
   selectedWeek: number,
   uid: string,
   id: number
 ) => {
-  const res = answersContext?.results[selectedWeek] ? answersContext.results[selectedWeek][id] : 0
+  const res = answers?.results[selectedWeek] ? answers.results[selectedWeek][id] : 0
   const ans =
-    answersContext[uid] && answersContext[uid][selectedWeek]
-      ? answersContext[uid][selectedWeek][id]
+    answers[uid] && answers[uid][selectedWeek]
+      ? answers[uid][selectedWeek][id]
       : 0
   return { ans, res }
 }

@@ -1,20 +1,17 @@
 import { Dispatch, SetStateAction } from 'react'
 import {
-  Answers,
-  IAnswersContext
+  ICompareContext
 } from './interfaces'
 
 export type LocaleType = { [key: string]: string }
-
 export type AboutLocaleType = { [key: string]: string }
-
 export type QuestionType = {
   question: string
   total: string
   id?: number | null
 }
-
 export type QuestionsType = { [key: number]: QuestionType }
+export type AnswersType = { [key: number]: { [key: number]: number } }
 
 export type WeekType = {
   active: boolean
@@ -27,7 +24,7 @@ export type WeeksType = {
   [key: number]: WeekType
 }
 
-export type SetAnswersContextType = Dispatch<SetStateAction<IAnswersContext>>
+export type SetCompareContextType = Dispatch<SetStateAction<ICompareContext>>
 export type SetWeeksContextType = Dispatch<SetStateAction<WeeksType>>
 export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
 
@@ -49,7 +46,7 @@ export type WeekDeleteType = {
 }
 
 export type WeekSubmitType = {
-  data: Answers
+  data: AnswersType
   selectedWeek: number
   season: number
   ansOrRes: string
