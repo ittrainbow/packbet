@@ -5,7 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Router } from './router/Router'
 import { useAppContext } from './context/Context'
-import { INIT_APP, USER_LOGIN } from './redux/types'
+import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { auth } from './db'
 import { appSlice } from './redux/slices/appSlice'
 import { userActions } from './redux/slices/userSlice'

@@ -1,11 +1,11 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { ActionType, WeekDeleteType, WeekUpdateType } from '../../types'
-import { SET_WEEK, DELETE_WEEK } from '../types'
-import { deleteWeekFromDB, writeDocumentToDB } from '../../db'
+import { ActionType, WeekUpdateType } from '../../types'
+import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
+import { writeDocumentToDB, deleteDocumentFromDB } from '../../db'
 import { appActions } from '../slices/appSlice'
 
-function* setWeekSaga(action: ActionType<WeekUpdateType>) {
+function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action
   const { id, editorContext } = payload
   yield put(appActions.setLoading(true))
@@ -19,12 +19,11 @@ function* setWeekSaga(action: ActionType<WeekUpdateType>) {
   yield put(appActions.setLoading(false))
 }
 
-function* deleteWeekSaga(action: ActionType<WeekDeleteType>) {
-  const { payload } = action
+function* deleteWeekSaga(action: ActionType<number>) {
+  const weekId = action.payload
   yield put(appActions.setLoading(true))
-
   try {
-    yield call(deleteWeekFromDB, payload)
+    yield call(deleteDocumentFromDB, 'weeks2023', weekId)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -34,6 +33,6 @@ function* deleteWeekSaga(action: ActionType<WeekDeleteType>) {
 }
 
 export function* editorSagas() {
-  yield takeEvery(SET_WEEK, setWeekSaga)
+  yield takeEvery(SUBMIT_WEEK, submitWeekSaga)
   yield takeEvery(DELETE_WEEK, deleteWeekSaga)
 }

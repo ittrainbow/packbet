@@ -16,7 +16,7 @@ import {
 import { useAppContext } from '../context/Context'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
-import { DELETE_WEEK, SET_WEEK } from '../redux/types'
+import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
@@ -30,9 +30,7 @@ export const Editor = () => {
   const { weeksContext, setWeeksContext, editorContext, setEditorContext } =
     useAppContext()
   const { locale } = useSelector(selectUser)
-  const [questionInWork, setQuestionInWork] = useState(
-    emptyQuestion as QuestionType
-  )
+  const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
   const { questions, name, active, deadline } = editorContext
@@ -55,8 +53,7 @@ export const Editor = () => {
 
   const editorLocale = i18n(locale, 'editor') as LocaleType
   const buttonsLocale = i18n(locale, 'buttons') as LocaleType
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } =
-    editorLocale
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = editorLocale
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = buttonsLocale
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
@@ -86,7 +83,7 @@ export const Editor = () => {
     const weeks = structuredClone(weeksContext)
     weeks[id] = editorContext
 
-    dispatch({ type: SET_WEEK, payload: { season, id, editorContext } })
+    dispatch({ type: SUBMIT_WEEK, payload: { season, id, editorContext } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
     setWeeksContext(weeks)
@@ -97,7 +94,7 @@ export const Editor = () => {
     const weeks = structuredClone(weeksContext)
     delete weeks[selectedWeek]
 
-    dispatch({ type: DELETE_WEEK, payload: { season, selectedWeek } })
+    dispatch({ type: DELETE_WEEK, payload: selectedWeek })
 
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
@@ -240,11 +237,7 @@ export const Editor = () => {
         />
       </div>
       <div className="editor-form">
-        <Button
-          className={'editor'}
-          disabled={!anyChanges}
-          onClick={submitHandler}
-        >
+        <Button className={'editor'} disabled={!anyChanges} onClick={submitHandler}>
           {buttonSaveMsg}
         </Button>
         <Button className={'editor'} onClick={goBackHandler}>

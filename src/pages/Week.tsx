@@ -10,18 +10,19 @@ import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
 import { i18n } from '../locale/locale'
-import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/types'
+import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
 import { AnswersType, LocaleType, YesNoHandlerPropsType } from '../types'
 import { selectAnswers, selectApp, selectResults, selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices/userSlice'
 import { answersActions, resultsActions } from '../redux/slices'
 
 export const Week = () => {
-  const dispatch = useDispatch()
-  const { selectedWeek, isItYou, otherUserUID, season } = useSelector(selectApp)
+  const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale } = useSelector(selectUser)
   const answers = useSelector(selectAnswers)
   const results = useSelector(selectResults)
+
+  const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { weeksContext } = useAppContext()
   const { compareContext, setCompareContext } = useAppContext()
@@ -84,7 +85,7 @@ export const Week = () => {
     dispatch(userActions.setAdminAsPlayer(true))
 
     if (adm) {
-      dispatch({ type: SUBMIT_RESULTS, payload: results })
+      dispatch({ type: SUBMIT_RESULTS, payload: { results, toaster } })
     } else {
       dispatch({ type: SUBMIT_ANSWERS, payload: { answers, uid, toaster } })
     }

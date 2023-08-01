@@ -43,9 +43,16 @@ export const signInWithGoogle = async () => {
   }
 }
 
-export const logInWithEmailAndPassword = async (email: string, password: string) => {
+export const logInWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
   try {
-    const responseLogin: UserCredential = await signInWithEmailAndPassword(auth, email, password)
+    const responseLogin: UserCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    )
     setLoading(true)
     const { uid } = responseLogin.user
     const responseUser = await getDoc(doc(db, 'users', uid))
@@ -64,7 +71,11 @@ export const registerWithEmailAndPassword = async (
 ) => {
   const locale = localStorage.getItem('locale') || 'ru'
   try {
-    const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
+    const response: UserCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    )
     setLoading(true)
     const { uid } = response.user
     const data: IUser = { name, locale, admin: false }

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IAbout, AboutLocaleType } from '../../types'
+import { IAbout } from '../../types'
+
+type AboutLocaleType = { [key: string]: string }
 
 const initialState: IAbout = {
   ru: {} as AboutLocaleType,

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { User } from 'firebase/auth'
 import { Input } from '@mui/material'
 
-import { UPDATE_PROFILE } from '../redux/types'
+import { UPDATE_PROFILE } from '../redux/storetypes'
 import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'

@@ -2,7 +2,7 @@ import { take, all, call, put } from 'redux-saga/effects'
 
 import { getWeeksIDs } from '../../helpers'
 import { getCollectionFromDB, getDocumentFromDB } from '../../db'
-import { INIT_APP } from '../types'
+import { INIT_APP } from '../storetypes'
 import {
   IAbout,
   IFetchObject,

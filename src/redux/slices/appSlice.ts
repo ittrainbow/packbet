@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IApp, SetStandingsType } from '../../types'
+import { IApp } from '../../types'
+
+type SetStandingsType = {
+  otherUserUID: string
+  otherUserName: string
+  isItYou: boolean
+  tabActive: number
+}
 
 const initialState: IApp = {
   mobile: false,

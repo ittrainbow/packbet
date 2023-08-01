@@ -8,7 +8,7 @@ import { i18n } from '../locale/locale'
 import { OtherUser } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
-import { FETCH_OTHER_USER } from '../redux/types'
+import { FETCH_OTHER_USER } from '../redux/storetypes'
 
 export const Standings = () => {
   const navigate = useNavigate()
