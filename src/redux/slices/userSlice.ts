@@ -6,7 +6,6 @@ const initialState: IUser = {
   admin: false,
   locale: 'ru',
   name: '',
-  email: '',
   adminAsPlayer: false
 }
 
@@ -15,11 +14,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<IUser>) {
-      const { admin, locale, name, email, adminAsPlayer } = action.payload
+      const { admin, locale, name, adminAsPlayer } = action.payload
       state.admin = admin
       state.locale = locale
       state.name = name
-      state.email = email
       state.adminAsPlayer = adminAsPlayer
     },
 

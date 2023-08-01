@@ -1,6 +1,6 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeEvery, call, put, take } from 'redux-saga/effects'
 
-import { UPDATE_PROFILE } from '../types'
+import { UPDATE_PROFILE, USER_LOGIN } from '../types'
 import { ActionType, IUser, UserUpdateType } from '../../types'
 import { getNameFromFirestore, writeNameToFirestore } from '../../db'
 import { appActions } from '../slices/appSlice'
@@ -24,6 +24,18 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
   yield put(appActions.setLoading(false))
 }
 
+type UserLoginActionType = {
+  type: string
+  payload: {
+    uid: string
+  }
+}
+
+function* userLoginSaga(action: UserLoginActionType) {
+  console.log(100, action.payload)
+}
+
 export function* userSaga() {
   yield takeEvery(UPDATE_PROFILE, updateProfileSaga)
+  yield takeEvery(USER_LOGIN, userLoginSaga)
 }

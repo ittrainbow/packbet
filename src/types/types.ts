@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 import {
-  ICompareContext
+  ICompareContext,
+  IUser
 } from './interfaces'
 
 export type LocaleType = { [key: string]: string }

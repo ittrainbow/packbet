@@ -3,14 +3,25 @@ import {
   IAbout,
   IAnswers,
   IPlayers,
+  IUser,
   QuestionType,
   QuestionsType,
+  RawUser,
   WeekType
 } from '../types'
 
 export const objectTrim = (object: QuestionsType, id: number) => {
   const obj = structuredClone(object)
   delete obj[id]
+  return obj
+}
+
+export const emailTrim = (object: { [key: string]: RawUser }) => {
+  const obj: { [key: string]: IUser } = structuredClone(object)
+  Object.keys(object).forEach(el => {
+    const { admin, locale, name } = object[el]
+    obj[el] = { admin, locale, name }
+  })
   return obj
 }
 

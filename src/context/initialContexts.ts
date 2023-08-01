@@ -19,7 +19,6 @@ export const initialAppContext: IApp = {
 export const initialUser: IUser = {
   name: '',
   locale: 'ru',
-  email: '',
   admin: false,
   adminAsPlayer: true
 }

@@ -5,7 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Router } from './router/Router'
 import { useAppContext } from './context/Context'
-import { INIT_APP } from './redux/types'
+import { INIT_APP, USER_LOGIN } from './redux/types'
 import { auth } from './db'
 import { appSlice } from './redux/slices/appSlice'
 import { userActions } from './redux/slices/userSlice'
@@ -26,6 +26,12 @@ export const App = () => {
   }, [])
 
   useEffect(() => {
+    if (user) {
+      const { uid } = user
+      console.log(99, uid)
+      dispatch({ type: USER_LOGIN, payload: uid })
+    }
+
     if (user && !players[user.uid]) {
       const { uid } = user
       const { displayName } = user
@@ -38,7 +44,9 @@ export const App = () => {
 
   useEffect(() => {
     if (user && players[user.uid]) {
-      dispatch(userActions.setUser({ ...players[user.uid], adminAsPlayer: true }))
+      dispatch(
+        userActions.setUser({ ...players[user.uid], adminAsPlayer: true })
+      )
     } // eslint-disable-next-line
   }, [players])
 

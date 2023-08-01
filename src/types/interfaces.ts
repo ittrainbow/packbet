@@ -20,9 +20,9 @@ export interface IUser {
   admin: boolean
   locale: string
   name: string
-  email: string | null
   adminAsPlayer?: boolean
 }
+export interface RawUser extends IUser { email: string }
 
 export interface IAbout {
   [key: string]: { [key: number]: string }
