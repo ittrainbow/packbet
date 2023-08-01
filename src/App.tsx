@@ -9,7 +9,7 @@ import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { auth } from './db'
 import { appSlice } from './redux/slices/appSlice'
 import { userActions } from './redux/slices/userSlice'
-import { initialUser } from './context/initialContexts'
+import { initialUser } from './helpers/initials'
 
 export const App = () => {
   const dispatch = useDispatch()
