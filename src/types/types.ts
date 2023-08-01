@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 import {
-  ICompareContext,
-  IUser
+  ICompareContext
 } from './interfaces'
 
 export type LocaleType = { [key: string]: string }
@@ -54,6 +53,7 @@ export type WeekSubmitType = {
   season: number
   ansOrRes: string
   toaster: (success: boolean) => void
+  adm: any
 }
 
 export type ActionType<T> = {

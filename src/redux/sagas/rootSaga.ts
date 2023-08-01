@@ -1,11 +1,11 @@
 import { spawn, call, all } from 'redux-saga/effects'
 
 import { initSaga } from './initSagas'
-import { weekSagas } from './weekSagas'
+import { editorSagas } from './editorSagas'
 import { userSaga } from './userSagas'
 
 export function* rootSaga() {
-  const sagas = [initSaga, weekSagas, userSaga]
+  const sagas = [initSaga, editorSagas, userSaga]
   const retrySagas = sagas.map((saga) => {
     return spawn(function* () {
       while (true) {

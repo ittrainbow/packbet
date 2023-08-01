@@ -1,4 +1,4 @@
-import { AnswersType, IAnswers, IPlayers, IUserStandings } from '../types'
+import { AnswersType, IAnswers, IFetchObject, IPlayers, IUserStandings } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
@@ -12,7 +12,7 @@ export const tableCreator = (
   results: AnswersType
 ) => {
   const userList = Object.keys(players)
-  const object: { [key: string]: IUserStandings } = {}
+  const object: IFetchObject<IUserStandings> = {}
   userList.forEach((el) => {
     let ansTotal = 0
     let ansCorrect = 0

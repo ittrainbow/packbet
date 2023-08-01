@@ -22,8 +22,9 @@ export const userSlice = createSlice({
     },
 
     updateUser(state, action: PayloadAction<{ [key: string]: string }>) {
-      state.name = action.payload.name
-      state.locale = action.payload.locale
+      const { name, locale } = action.payload
+      state.name = name
+      state.locale = locale
     },
 
     setLocale(state, action: PayloadAction<string>) {

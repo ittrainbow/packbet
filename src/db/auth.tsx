@@ -15,8 +15,6 @@ import { IUser, LocaleType } from '../types'
 import { i18n } from '../locale/locale'
 import { appActions } from '../redux/slices/appSlice'
 
-const season = 2023
-
 const googleProvider = new GoogleAuthProvider()
 
 const { setLoading } = appActions
@@ -33,7 +31,7 @@ export const signInWithGoogle = async () => {
         const user = { email, name, locale, admin: false }
         const answers = {}
         await setDoc(doc(db, 'users', uid), user)
-        await setDoc(doc(db, `answers${season}`, uid), answers)
+        await setDoc(doc(db, `answers2023`, uid), answers)
       }
       docs.data() === undefined && googleAuth()
       const user = docs.data() as IUser

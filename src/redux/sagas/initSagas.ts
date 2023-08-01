@@ -1,10 +1,11 @@
 import { take, all, call, put } from 'redux-saga/effects'
 
 import { getWeeksIDs } from '../../helpers'
-import { fetchDataFromFirestore, getStandingsFromFirestore } from '../../db'
+import { getCollectionFromDB, getDocumentFromDB } from '../../db'
 import { INIT_APP } from '../types'
 import {
   IAbout,
+  IFetchObject,
   IUserStandings,
   IWeeksContext,
   SetCompareContextType,
@@ -18,7 +19,7 @@ const season = 2023
 
 function* fetchAboutSaga() {
   try {
-    const about: IAbout = yield call(fetchDataFromFirestore, 'about')
+    const about: IAbout = yield call(getCollectionFromDB, 'about')
     yield put(aboutActions.setAbout(about))
   } catch (error) {
     if (error instanceof Error) {
@@ -32,10 +33,11 @@ function* fetchWeeksSaga(
   setCompareContext: SetCompareContextType,
 ) {
   try {
-    const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
+    const weeks: IWeeksContext = yield call(getCollectionFromDB, 'weeks2023')
     setWeeksContext(weeks)
 
-    const standings: IUserStandings[] = yield call(getStandingsFromFirestore)
+    const response: IFetchObject<IUserStandings> = yield call(getDocumentFromDB, 'results2023', 'standings')
+    const standings = Object.values(response)
 
     yield put(standingsActions.setStandings(standings))
     yield put(appActions.setSeason(season))

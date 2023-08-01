@@ -10,7 +10,7 @@ import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
 import { i18n } from '../locale/locale'
-import { SUBMIT_WEEK, UPDATE_STANDINGS } from '../redux/types'
+import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/types'
 import { AnswersType, LocaleType, YesNoHandlerPropsType } from '../types'
 import { selectAnswers, selectApp, selectResults, selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices/userSlice'
@@ -48,7 +48,9 @@ export const Week = () => {
   const writeAllowed = () => adm || (!adm && !outdated())
 
   const activity = (id: number) => {
-    return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
+    return ((!isItYou && outdated()) || isItYou) &&
+      ansOrResData &&
+      ansOrResData[selectedWeek]
       ? ansOrResData[selectedWeek][id]
       : 0
   }
@@ -73,22 +75,18 @@ export const Week = () => {
   }
 
   const submitHandler = async () => {
-    if (isItYou) {
-      const toastSuccess = () => toast.success(successMsg)
-      const toastFailure = () => toast.error(failureMsg)
-      const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+    const toastSuccess = () => toast.success(successMsg)
+    const toastFailure = () => toast.error(failureMsg)
+    const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
-      dispatch({
-        type: SUBMIT_WEEK,
-        payload: { data: ansOrResData, selectedWeek, season, ansOrRes, toaster }
-      })
-      setCompareContext(structuredClone(answers))
+    setCompareContext(structuredClone(answers))
 
-      dispatch(userActions.setAdminAsPlayer(true))
-    }
+    dispatch(userActions.setAdminAsPlayer(true))
 
     if (adm) {
-      dispatch({ type: UPDATE_STANDINGS, payload: results })
+      dispatch({ type: SUBMIT_RESULTS, payload: results })
+    } else {
+      dispatch({ type: SUBMIT_ANSWERS, payload: { answers, uid, toaster } })
     }
   }
 
@@ -110,17 +108,25 @@ export const Week = () => {
   const qWidth = document.querySelector('.question') as HTMLElement
   const width = qWidth?.offsetWidth - 130 || 270
 
-  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
+  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(
+    locale,
+    'buttons'
+  ) as LocaleType
   const { successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
 
   return (
     <div className="container">
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {admin ? <AdminPlayer /> : null}
+        {admin && isItYou ? <AdminPlayer /> : null}
       </div>
       <OtherUser />
-      <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        theme="colored"
+        pauseOnHover={false}
+      />
       <KickoffCountdown />
       <div>
         {Object.keys(questions)
@@ -146,10 +152,19 @@ export const Week = () => {
             )
           })}
       </div>
-      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges || !isItYou}>
-        {noChanges ? buttonChangesMsg : buttonSaveMsg}
-      </Button>
-      {noChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
+      {isItYou ? (
+        <>
+          <Button
+            onClick={submitHandler}
+            disabled={!writeAllowed() || noChanges || !isItYou}
+          >
+            {noChanges ? buttonChangesMsg : buttonSaveMsg}
+          </Button>
+          {noChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
+        </>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

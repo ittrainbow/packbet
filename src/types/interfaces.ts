@@ -46,6 +46,10 @@ export interface IWeeksContext {
   [key: number]: WeekType
 }
 
+export interface IFetchObject<T> {
+  [key: number | string]: T
+}
+
 export interface IUserStandings {
   ansCorrect: number
   ansTotal: number

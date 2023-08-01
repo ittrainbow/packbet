@@ -30,9 +30,10 @@ export const Profile = () => {
 
   const submitHandler = async () => {
     const { uid } = user as User
+    const payload = { uid, name: tempName, locale }
 
-    dispatch({ type: UPDATE_PROFILE, payload: { uid, name: tempName, locale } })
-    dispatch(userActions.updateUser({ name, locale }))
+    dispatch({ type: UPDATE_PROFILE, payload })
+    dispatch(userActions.updateUser(payload))
     navigate(-1)
   }
 
