@@ -32,7 +32,6 @@ export const Editor = () => {
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  // const { editorContext, setEditorContext } = useAppContext()
   const { locale } = useSelector(selectUser)
   const [questionInWork, setQuestionInWork] = useState(
     emptyQuestion as QuestionType
@@ -44,7 +43,8 @@ export const Editor = () => {
   const loadedWeek = weeks[selectedWeek]
 
   useEffect(() => {
-    !questions && navigate('/calendar') // eslint-disable-next-line
+    !questions && navigate('/calendar')
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -58,7 +58,8 @@ export const Editor = () => {
     const changes = emptyEditor
       ? Object.keys(questions).some((el) => el)
       : !objectCompare(editor, loadedWeek)
-    setAnyChanges(changes) // eslint-disable-next-line
+    setAnyChanges(changes) 
+    // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
   const editorLocale = i18n(locale, 'editor') as LocaleType
@@ -78,7 +79,6 @@ export const Editor = () => {
       const obj = objectReplace(questions, setId, questionInWork)
       setQuestionInWork(emptyQuestion)
 
-      // setEditorContext({ ...editorContext, questions: obj })
       dispatch(editorActions.updateEditorQuestions(obj))
     }
   }
@@ -86,7 +86,6 @@ export const Editor = () => {
   const removeQuestionHandler = (id: number) => {
     const obj: QuestionsType = objectTrim(questions, id)
 
-    // setEditorContext({ ...editorContext, questions: obj })
     dispatch(editorActions.updateEditorQuestions(obj))
   }
 
@@ -133,7 +132,6 @@ export const Editor = () => {
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
 
-    // setEditorContext({ ...editorContext, name: value })
     dispatch(editorActions.updateEditorName(value))
   }
 
@@ -154,12 +152,10 @@ export const Editor = () => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
 
-    // setEditorContext({ ...editorContext, deadline })
     dispatch(editorActions.updateEditorDeadline(deadline))
   }
 
   const changeActivityHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // setEditorContext({ ...editorContext, active: e.target.checked })
     dispatch(editorActions.updateEditorActive(e.target.checked))
   }
 

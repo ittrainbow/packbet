@@ -13,7 +13,6 @@ export const Header = () => {
   const dispatch = useDispatch()
   const app = useSelector(selectApp)
   const { mobile, tabActive, nextWeek, currentWeek, editor } = app
-  // const { setEditorContext } = useAppContext()
   const { admin, locale, name } = useSelector(selectUser)
 
   useEffect(() => {

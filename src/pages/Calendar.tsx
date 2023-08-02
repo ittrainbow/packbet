@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { OtherUser } from '../UI'
-import { useAppContext } from '../context/Context'
 import { selectApp, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
 
@@ -11,12 +10,10 @@ export const Calendar = () => {
   const dispatch = useDispatch()
   const { editor, isItYou } = useSelector(selectApp)
   const weeks = useSelector(selectWeeks)
-  // const { setEditorContext } = useAppContext()
 
   const clickHandler = (selectedWeek: number) => {
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
-      // setEditorContext(weeks[selectedWeek])
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
 
       navigate(`/editor/${selectedWeek}`)

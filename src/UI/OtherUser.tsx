@@ -10,7 +10,7 @@ export const OtherUser = () => {
   const { otherUserName, isItYou } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
-  const setContextHandler = () => {
+  const switchHandler = () => {
     dispatch(appActions.setIsItYou(true))
     dispatch(appActions.setOtherUserName(''))
     dispatch(appActions.setOtherUserUID(''))
@@ -20,7 +20,7 @@ export const OtherUser = () => {
 
   return isItYou ? null : (
     <div>
-      <button className="otheruser" onClick={setContextHandler}>
+      <button className="otheruser" onClick={switchHandler}>
         <div className="otheruser__text">{otherUser1msg}</div>
         <div className="otheruser__text">
           {otherUser2msg}

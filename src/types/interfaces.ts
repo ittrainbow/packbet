@@ -32,14 +32,8 @@ export interface IAnswers {
   [key: string]: AnswersType
 }
 
-// export interface IEditorContext extends WeekType { }
-
 export interface IPlayers {
   [key: string]: IUser
-}
-
-export interface IWeeksContext {
-  [key: number]: WeekType
 }
 
 export interface IWeeks {

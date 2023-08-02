@@ -24,7 +24,8 @@ export const UserPage = () => {
       }
 
       dispatch(userActions.setLocale(storedLocale))
-    } // eslint-disable-next-line
+    } 
+    // eslint-disable-next-line
   }, [])
 
   return loading ? <Loader /> : user ? <Dashboard /> : <Login />

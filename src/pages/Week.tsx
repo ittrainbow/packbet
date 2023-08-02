@@ -82,8 +82,6 @@ export const Week = () => {
 
       if (adm) dispatch(resultsActions.setResults(data))
       else dispatch(answersActions.updateAnswers({ answers: data, uid }))
-
-      // checkChanges(data)
     }
   }
 

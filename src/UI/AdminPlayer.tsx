@@ -10,7 +10,7 @@ export const AdminPlayer = () => {
   const dispatch = useDispatch()
   const { adminAsPlayer, locale } = useSelector(selectUser)
 
-  const setContextHandler = () => {
+  const switchHandler = () => {
     dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
   }
 
@@ -20,7 +20,7 @@ export const AdminPlayer = () => {
     <div className="admin-switch-container">
       <div className="admin-greeting-container">{adminAsPlayer ? playerMsg : adminMsg}</div>
       <label className="switch">
-        <Input type="checkbox" checked={adminAsPlayer} onChange={setContextHandler} />
+        <Input type="checkbox" checked={adminAsPlayer} onChange={switchHandler} />
         <span className="slider round"></span>
       </label>
     </div>
