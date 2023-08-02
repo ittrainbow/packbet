@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRef, useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
-import { FaArrowCircleUp } from 'react-icons/fa'
+import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
 
 import { selectStandings, selectUser } from '../redux/selectors'
 import { auth } from '../db'
@@ -68,20 +68,22 @@ export const Standings = () => {
     setSearchString(value.trim())
   }
 
-  const scrollTopHandler = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  const scrollHandler = (direction: string) => {
+    window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' })
   }
 
-  const backClasses = `goback-button ${showGoBackButton ? 'animate-show-button' : 'animate-hide-button'}`
+  const backClasses = `${!isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'}`
 
-  const highlightUser = (name: string, uid: string) => {
-    return name === searchString || (user?.uid === uid && searchString === '')
+  const cellTwoClass = (name: string, uid: string) => {
+    return `cellTwo ${
+      name === searchString || (user?.uid === uid && !searchString.length) ? 'cellTwo__bold' : 'cellTwo__regular'
+    }`
   }
 
   return (
     <div className="container">
       <div className="standings-top-container">
-        <Input onChange={onChangeHandler} value={searchString} className={searchClass} type="search" />
+        <Input onChange={onChangeHandler} value={searchString} className={searchClass} type="text" />
         <div ref={buttonRef} className="standings-button">
           <Button onClick={findHandler} minWidth={80} disabled={isMyRefInViewport && !searchString}>
             {searchString ? findBtn : findMeBtn}
@@ -94,12 +96,14 @@ export const Standings = () => {
         </div>
       </div>
       {showGoBackButton ? (
-        <div
-          className={backClasses}
-          onClick={scrollTopHandler}
-          style={{ opacity: showGoBackButton ? 0.5 : 0, transition: '0.2s ease-in-out' }}
-        >
-          <FaArrowCircleUp />
+        <div className="arrow-container">
+          <div className={backClasses} style={{ opacity: !isButtonInViewport ? 0.5 : 0 }}>
+            <FaArrowCircleUp onClick={() => scrollHandler('top')} />
+
+            <div className={backClasses} style={{ opacity: !isButtonInViewport ? 0.5 : 0 }}>
+              <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
+            </div>
+          </div>
         </div>
       ) : (
         ''
@@ -122,13 +126,9 @@ export const Standings = () => {
                 <div key={index} className="standings-header">
                   <div className="cellOne">{position}</div>
                   <div
-                    className="cellTwo"
+                    className={cellTwoClass(name, uid)}
                     onClick={() => clickHandler(uid, name)}
                     id={uid === user?.uid ? 'findMyDivInStandings' : name}
-                    style={{
-                      fontWeight: highlightUser(name, uid) ? 'bold' : '',
-                      backgroundColor: highlightUser(name, uid) ? '#d0d0d0' : ''
-                    }}
                     ref={uid === user?.uid ? myRef : null}
                   >
                     {name}

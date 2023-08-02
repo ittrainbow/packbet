@@ -1,3 +1,4 @@
+import { FaChessKing } from 'react-icons/fa'
 import { AnswersType, IAnswers, IFetchObject, IPlayers, IUserStandings } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
