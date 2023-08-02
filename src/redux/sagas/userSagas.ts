@@ -3,9 +3,8 @@ import { takeEvery, call, put } from 'redux-saga/effects'
 import { UPDATE_PROFILE, USER_LOGIN, FETCH_OTHER_USER, SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../storetypes'
 import { ActionType, IUser, AnswersType, IAnswers, RawUser, IUserStandings } from '../../types'
 import { writeDocumentToDB, getCollectionFromDB, getDocumentFromDB, updateDocumentInDB } from '../../db'
-import { appActions, answersActions, resultsActions, standingsActions, userActions } from '../slices'
+import { appActions, answersActions, resultsActions, standingsActions, userActions, compareActions } from '../slices'
 import { objectCompare, tableCreator } from '../../helpers'
-import { compareActions } from '../slices/compareSlice'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'

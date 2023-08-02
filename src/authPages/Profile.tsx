@@ -10,7 +10,7 @@ import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale/locale'
-import { userActions } from '../redux/slices/userSlice'
+import { userActions } from '../redux/slices'
 import { selectUser } from '../redux/selectors'
 
 export const Profile = () => {

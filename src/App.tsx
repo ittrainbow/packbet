@@ -7,14 +7,13 @@ import { Router } from './router/Router'
 import { useAppContext } from './context/Context'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { auth } from './db'
-import { appSlice } from './redux/slices/appSlice'
-import { userActions } from './redux/slices/userSlice'
+import { userActions, appActions } from './redux/slices'
 import { initialUser } from './helpers/initials'
 
 export const App = () => {
   const dispatch = useDispatch()
   const contextMethods = useAppContext()
-  const { setMobile } = appSlice.actions
+  const { setMobile } = appActions
   const [user] = useAuthState(auth)
 
   useEffect(() => {

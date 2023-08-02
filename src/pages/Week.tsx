@@ -5,12 +5,11 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
-import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff } from '../UI'
 import { i18n } from '../locale/locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
-import { AnswersType, LocaleType, YesNoHandlerPropsType } from '../types'
+import { LocaleType, YesNoHandlerPropsType } from '../types'
 import {
   selectAnswers,
   selectApp,
@@ -19,8 +18,7 @@ import {
   selectUser,
   selectWeeks
 } from '../redux/selectors'
-import { userActions } from '../redux/slices/userSlice'
-import { answersActions, resultsActions } from '../redux/slices'
+import { answersActions, resultsActions, userActions } from '../redux/slices'
 
 export const Week = () => {
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
@@ -32,7 +30,6 @@ export const Week = () => {
 
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const {} = useAppContext()
   const { name, questions, deadline } = weeks[selectedWeek]
   const [uid, setUid] = useState<string>('')
 
@@ -52,7 +49,7 @@ export const Week = () => {
       ? !objectCompare(results, compare.results)
       : false
 
-    return userChanges || adminChanges
+    return userChanges || adminChanges // eslint-disable-next-line
   }, [adminAsPlayer, answers, results])
 
   const outdated = () => {

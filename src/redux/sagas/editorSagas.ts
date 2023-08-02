@@ -3,7 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 import { ActionType, WeekUpdateType } from '../../types'
 import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
 import { writeDocumentToDB, deleteDocumentFromDB } from '../../db'
-import { appActions } from '../slices/appSlice'
+import { appActions } from '../slices'
 
 function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { selectApp, selectUser } from '../redux/selectors'
-import { userActions } from '../redux/slices/userSlice'
+import { userActions } from '../redux/slices'
 import { Login, Dashboard } from '.'
 import { Loader } from '../UI'
 import { auth } from '../db/firebase'

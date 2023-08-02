@@ -9,12 +9,7 @@ import {
   IUserStandings,
   IWeeks
 } from '../../types'
-import { appActions } from '../slices/appSlice'
-import { aboutActions } from '../slices'
-import { standingsActions } from '../slices/standingsSlice'
-import { weeksActions } from '../slices/weeksSlice'
-
-const season = 2023
+import { appActions, aboutActions, standingsActions, weeksActions } from '../slices'
 
 function* fetchAboutSaga() {
   try {
@@ -46,7 +41,7 @@ function* fetchWeeksSaga() {
 
 export function* initSaga() {
   while (true) {
-    const { payload } = yield take(INIT_APP)
+    yield take(INIT_APP)
     yield put(appActions.setLoading(true))
     yield all([
       fetchAboutSaga(),

@@ -13,11 +13,9 @@ import {
 import { db, auth } from './firebase'
 import { IUser, LocaleType } from '../types'
 import { i18n } from '../locale/locale'
-import { appActions } from '../redux/slices/appSlice'
+import { appActions } from '../redux/slices'
 
 const googleProvider = new GoogleAuthProvider()
-
-const { setLoading } = appActions
 
 export const signInWithGoogle = async () => {
   try {

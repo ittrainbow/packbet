@@ -19,8 +19,7 @@ import { i18n } from '../locale/locale'
 import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
-import { appActions } from '../redux/slices'
-import { weeksActions } from '../redux/slices/weeksSlice'
+import { appActions, weeksActions } from '../redux/slices'
 
 export const Editor = () => {
   const { selectedWeek, emptyEditor, season } = useSelector(selectApp)
@@ -41,21 +40,19 @@ export const Editor = () => {
   const loadedWeek = weeks[selectedWeek]
 
   useEffect(() => {
-    !questions && navigate('/calendar')
+    !questions && navigate('/calendar') // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     nameRef.current?.focus()
-    emptyEditor && setEditorContext(emptyWeek)
-    // eslint-disable-next-line
+    emptyEditor && setEditorContext(emptyWeek) // eslint-disable-next-line
   }, [selectedWeek])
 
   useEffect(() => {
     const changes = emptyEditor
       ? Object.keys(questions).some((el) => el)
       : !objectCompare(editorContext, loadedWeek)
-    setAnyChanges(changes)
-    // eslint-disable-next-line
+    setAnyChanges(changes) // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
   const editorLocale = i18n(locale, 'editor') as LocaleType

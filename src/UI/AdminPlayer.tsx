@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Input } from './Input'
 import { i18n } from '../locale/locale'
 import { LocaleType } from '../types'
-import { userActions } from '../redux/slices/userSlice'
+import { userActions } from '../redux/slices'
 import { selectUser } from '../redux/selectors'
 
 export const AdminPlayer = () => {

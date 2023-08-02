@@ -1,11 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 
-import { appSlice, aboutSlice, standingsSlice, userSlice, answersSlice, resultsSlice } from './slices'
+import { appSlice, aboutSlice, standingsSlice, userSlice, answersSlice, resultsSlice, compareSlice, weeksSlice } from './slices'
 import { rootSaga } from './sagas/rootSaga'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
-import { weeksSlice } from './slices/weeksSlice'
-import { compareSlice } from './slices/compareSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 
