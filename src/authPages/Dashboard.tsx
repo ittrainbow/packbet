@@ -6,7 +6,7 @@ import { logout } from '../db/auth'
 import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { selectUser } from '../redux/selectors'
 
 export const Dashboard = () => {

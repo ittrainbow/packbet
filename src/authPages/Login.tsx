@@ -5,7 +5,7 @@ import { Input } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { Button, LocaleSwitcher } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/slices'

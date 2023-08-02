@@ -11,7 +11,6 @@ export interface IApp {
   nextWeek: number
   otherUserName: string
   otherUserUID: string
-  season: number
   selectedWeek: number
   tabActive: number
 }

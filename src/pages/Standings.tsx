@@ -6,7 +6,7 @@ import { FaArrowCircleUp } from 'react-icons/fa'
 
 import { selectStandings, selectUser } from '../redux/selectors'
 import { auth } from '../db'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { OtherUser } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'

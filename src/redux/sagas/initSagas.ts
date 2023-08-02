@@ -19,12 +19,12 @@ function* fetchAboutSaga() {
 
 function* fetchWeeksSaga() {
   try {
-    const weeks: IWeeks = yield call(getDBCollection, 'weeks2023')
+    const weeks: IWeeks = yield call(getDBCollection, 'weeks')
     const lastWeek = Number(Object.keys(weeks).slice(-1))
     yield put(appActions.setSelectedWeek(lastWeek))
     yield put(weeksActions.setWeeks(weeks))
 
-    const response: IFetchObject<IUserStandings> = yield call(getDBDocument, 'results2023', 'standings')
+    const response: IFetchObject<IUserStandings> = yield call(getDBDocument, 'results', 'standings')
     const standings = Object.values(response)
 
     yield put(standingsActions.setStandings(standings))

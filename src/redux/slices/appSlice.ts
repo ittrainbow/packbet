@@ -20,7 +20,6 @@ const initialState: IApp = {
   nextWeek: 0,
   otherUserName: '',
   otherUserUID: '',
-  season: 2023,
   selectedWeek: 0,
   tabActive: 1
 }

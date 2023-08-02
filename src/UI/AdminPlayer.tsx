@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Input } from './Input'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { userActions } from '../redux/slices'
 import { selectUser } from '../redux/selectors'

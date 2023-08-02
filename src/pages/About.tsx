@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import { selectAbout, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { LocaleType } from '../types'
 
 export const About = () => {

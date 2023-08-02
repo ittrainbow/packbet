@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'

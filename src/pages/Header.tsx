@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ico from 'react-icons/fa'
 
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { selectApp, selectUser } from '../redux/selectors'
 import { LocaleType } from '../types'
 import { appActions, editorActions } from '../redux/slices'

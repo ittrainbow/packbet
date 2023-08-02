@@ -30,7 +30,6 @@ export type WeeksType = {
 }
 
 export type WeekUpdateType = {
-  season: number
   id: number
   week: WeekType
 }

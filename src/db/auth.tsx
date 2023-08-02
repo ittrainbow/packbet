@@ -11,7 +11,7 @@ import {
 
 import { db, auth } from './firebase'
 import { IUser, LocaleType } from '../types'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { appActions } from '../redux/slices'
 
 const googleProvider = new GoogleAuthProvider()
@@ -28,7 +28,7 @@ export const signInWithGoogle = async () => {
         const locale = localStorage.getItem('locale') || 'ru'
         const user = { name, locale, admin: false }
         await setDoc(doc(db, 'users', uid), { ...user, email })
-        await setDoc(doc(db, `answers2023`, uid), {})
+        await setDoc(doc(db, `answers`, uid), {})
       }
       docs.data() === undefined && googleAuth()
       const user = docs.data() as IUser

@@ -6,14 +6,14 @@ import moment from 'moment/moment'
 
 import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, emptyQuestion } from '../helpers'
 import { Button, Input } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 import { selectApp, selectEditor, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../redux/slices'
 
 export const Editor = () => {
-  const { selectedWeek, emptyEditor, season } = useSelector(selectApp)
+  const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
   const dispatch = useDispatch()
@@ -75,7 +75,7 @@ export const Editor = () => {
   const submitHandler = async () => {
     const id = selectedWeek
 
-    dispatch({ type: SUBMIT_WEEK, payload: { season, id, week: editor } })
+    dispatch({ type: SUBMIT_WEEK, payload: { id, week: editor } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
 

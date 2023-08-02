@@ -2,12 +2,13 @@ import { useEffect, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
 import { objectCompare, ansHelper } from '../helpers'
 import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
 import { LocaleType, YesNoHandlerPropsType } from '../types'
 import { selectAnswers, selectApp, selectCompare, selectResults, selectUser, selectWeeks } from '../redux/selectors'
@@ -100,11 +101,11 @@ export const Week = () => {
 
   const questionStyle = (id: number) => {
     const styles = ['question']
-    if (user) {
-      const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
-      const styling = res && ans && adminAsPlayer && outdated()
-      styling && styles.push(res === ans ? 'question__green' : 'question__red')
-    }
+    // if (user) {
+    const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
+    const styling = res && ans && adminAsPlayer && outdated()
+    styling && styles.push(res === ans ? 'question__green' : 'question__red')
+    // }
     return styles.join(' ')
   }
 

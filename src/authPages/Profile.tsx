@@ -9,7 +9,7 @@ import { UPDATE_PROFILE } from '../redux/storetypes'
 import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { userActions } from '../redux/slices'
 import { selectUser } from '../redux/selectors'
 

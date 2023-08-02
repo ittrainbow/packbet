@@ -10,7 +10,7 @@ function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { id, week } = payload
   yield put(appActions.setLoading(true))
   try {
-    yield call(writeDBDocument, 'weeks2023', id, week)
+    yield call(writeDBDocument, 'weeks', id, week)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -24,7 +24,7 @@ function* deleteWeekSaga(action: ActionType<number>) {
   const weekId = action.payload
   yield put(appActions.setLoading(true))
   try {
-    yield call(deleteDBDocument, 'weeks2023', weekId)
+    yield call(deleteDBDocument, 'weeks', weekId)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))

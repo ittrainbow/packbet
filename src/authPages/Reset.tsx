@@ -6,7 +6,7 @@ import { Input } from '@mui/material'
 import { useSelector } from 'react-redux'
 
 import { auth } from '../db/firebase'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { LocaleType } from '../types'
