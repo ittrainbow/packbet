@@ -24,7 +24,7 @@ export const Standings = () => {
   const myRef = useRef<HTMLDivElement>(null)
   const [showGoBackButton, setShowGoBackButton] = useState<boolean>(false)
   const [searchString, setSearchString] = useState<string>('')
-  const [searching, setSearching] = useState<boolean>(false)
+  const [searchClass, setSearchClass] = useState<string>('')
 
   const isButtonInViewport = useVisibility(buttonRef)
   const isMyRefInViewport = useVisibility(myRef)
@@ -33,22 +33,12 @@ export const Standings = () => {
     setTimeout(() => setShowGoBackButton(!isButtonInViewport), 500)
   }, [isButtonInViewport])
 
-  useEffect(() => {
-    searching && setTimeout(() => setSearching(false), 1000)
-  }, [searching])
-
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
     if (user && otherUserUID !== user.uid) {
-      const otherUser = {
-        otherUserName,
-        otherUserUID,
-        tabActive: 3,
-        isItYou: false
-      }
+      const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
       dispatch(appActions.setOtherUserFromStandings(otherUser))
-      navigate('/season')
-
       dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
+      navigate('/season')
     }
   }
 
@@ -64,7 +54,8 @@ export const Standings = () => {
       const y = anchor?.getBoundingClientRect().top - 100
       window.scrollTo({ top: y, behavior: 'smooth' })
     } else {
-      setSearching(true)
+      setSearchClass('animate-draw-red')
+      setTimeout(() => setSearchClass(''), 500)
     }
   }
 
@@ -81,17 +72,16 @@ export const Standings = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const searchClasses = searching ? 'animate-draw-red' : ''
+  const backClasses = `goback-button ${showGoBackButton ? 'animate-show-button' : 'animate-hide-button'}`
 
-  const backClasses = `goback-button ${!isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'}`
-
-  const highlightUser = (name: string, uid: string) =>
-    name === searchString || (user?.uid === uid && searchString === '')
+  const highlightUser = (name: string, uid: string) => {
+    return name === searchString || (user?.uid === uid && searchString === '')
+  }
 
   return (
     <div className="container">
       <div className="standings-top-container">
-        <Input onChange={onChangeHandler} value={searchString} className={searchClasses} type="search" />
+        <Input onChange={onChangeHandler} value={searchString} className={searchClass} type="search" />
         <div ref={buttonRef} className="standings-button">
           <Button onClick={findHandler} minWidth={80} disabled={isMyRefInViewport && !searchString}>
             {searchString ? findBtn : findMeBtn}
@@ -104,7 +94,11 @@ export const Standings = () => {
         </div>
       </div>
       {showGoBackButton ? (
-        <div className={backClasses} onClick={scrollTopHandler} style={{ opacity: showGoBackButton ? 0.5 : 0 }}>
+        <div
+          className={backClasses}
+          onClick={scrollTopHandler}
+          style={{ opacity: showGoBackButton ? 0.5 : 0, transition: '0.2s ease-in-out' }}
+        >
           <FaArrowCircleUp />
         </div>
       ) : (
