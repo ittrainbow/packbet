@@ -29,7 +29,7 @@ export const Editor = () => {
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  const { setWeeksContext, editorContext, setEditorContext } = useAppContext()
+  const { editorContext, setEditorContext } = useAppContext()
   const { locale } = useSelector(selectUser)
   const [questionInWork, setQuestionInWork] = useState(
     emptyQuestion as QuestionType
@@ -84,16 +84,6 @@ export const Editor = () => {
   }
 
   const submitHandler = async () => {
-    // console.log(101, selectedWeek)
-    // console.log(102, nextWeek)
-    // console.log(103, editorContext)
-    // const id: number = emptyEditor ? nextWeek : selectedWeek
-    // Object.keys(editorContext.questions).forEach(
-    //   (el) => delete questions[Number(el)]['id']
-    // )
-    // const weeks = structuredClone(weeksContext)
-    // weeks[id] = editorContext
-
     const week = editorContext
     const id = selectedWeek
 
@@ -101,7 +91,6 @@ export const Editor = () => {
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
     dispatch(weeksActions.updateWeeks({ week, id }))
 
-    // setWeeksContext(weeks)
     navigate('/calendar')
   }
 
@@ -113,7 +102,6 @@ export const Editor = () => {
     dispatch(weeksActions.setWeeks(newWeeks))
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
-    // setWeeksContext(newWeeks)
     navigate('/calendar')
   }
 

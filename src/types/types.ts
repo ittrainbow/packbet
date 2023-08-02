@@ -26,8 +26,8 @@ export type WeeksType = {
 }
 
 export type SetCompareContextType = Dispatch<SetStateAction<ICompareContext>>
-export type SetWeeksContextType = Dispatch<SetStateAction<WeeksType>>
 export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
+
 export type WeekUpdateType = {
   season: number
   id: number

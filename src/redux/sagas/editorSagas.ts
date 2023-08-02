@@ -7,7 +7,6 @@ import { appActions } from '../slices/appSlice'
 
 function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action
-  console.log(100, payload)
   const { id, week } = payload
   yield put(appActions.setLoading(true))
   try {

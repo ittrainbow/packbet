@@ -7,9 +7,8 @@ import {
   IAbout,
   IFetchObject,
   IUserStandings,
-  IWeeksContext,
-  SetCompareContextType,
-  SetWeeksContextType
+  IWeeks,
+  SetCompareContextType
 } from '../../types'
 import { appActions } from '../slices/appSlice'
 import { aboutActions } from '../slices'
@@ -30,12 +29,10 @@ function* fetchAboutSaga() {
 }
 
 function* fetchWeeksSaga(
-  setWeeksContext: SetWeeksContextType,
   setCompareContext: SetCompareContextType,
 ) {
   try {
-    const weeks: IWeeksContext = yield call(getCollectionFromDB, 'weeks2023')
-    // setWeeksContext(weeks)
+    const weeks: IWeeks = yield call(getCollectionFromDB, 'weeks2023')
     yield put(weeksActions.setWeeks(weeks))
 
     const response: IFetchObject<IUserStandings> = yield call(getDocumentFromDB, 'results2023', 'standings')
@@ -54,13 +51,10 @@ export function* initSaga() {
   while (true) {
     const { payload } = yield take(INIT_APP)
     yield put(appActions.setLoading(true))
-    const {
-      setWeeksContext,
-      setCompareContext,
-    } = payload
+    const { setCompareContext } = payload
     yield all([
       fetchAboutSaga(),
-      fetchWeeksSaga(setWeeksContext, setCompareContext),
+      fetchWeeksSaga(setCompareContext),
     ])
     yield put(appActions.setLoading(false))
   }
