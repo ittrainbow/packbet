@@ -1,4 +1,4 @@
-import { IAbout, IUserStandings, IApp, IUser, IAnswers, AnswersType } from ".";
+import { IAbout, IUserStandings, IApp, IUser, IAnswers, AnswersType, IWeeks } from ".";
 
 export interface IStore {
   app: IApp
@@ -7,4 +7,5 @@ export interface IStore {
   user: IUser
   answers: IAnswers
   results: AnswersType
+  weeks: IWeeks
 }

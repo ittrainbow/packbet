@@ -54,15 +54,26 @@ type SubmitResultsType = {
   toaster: (value: boolean) => void
 }
 
+type SubmitAnswersType = {
+  answers: { [key: string]: AnswersType }
+  uid: string
+  toaster: (value: boolean) => void
+}
+
+function* setStandingsSaga(results: AnswersType) {
+  const answers: IAnswers = yield call(getCollectionFromDB, 'answers2023')
+  const players: { [key: string]: RawUser } = yield call(getCollectionFromDB, 'users')
+  const standingsArray: IUserStandings[] = tableCreator(answers, players, results)
+
+  return Object.assign({}, standingsArray)
+}
+
 function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
   const { results, toaster } = action.payload
   yield put(appActions.setLoading(true))
 
   try {
-    const answers: IAnswers = yield call(getCollectionFromDB, 'answers2023')
-    const players: { [key: string]: RawUser } = yield call(getCollectionFromDB, 'users')
-    const standingsArray: IUserStandings[] = tableCreator(answers, players, results)
-    const standings = Object.assign({}, standingsArray)
+    const standings: IUserStandings[] = yield call(setStandingsSaga, results)
 
     yield call(writeDocumentToDB, 'results2023', 'results', results)
     yield call(writeDocumentToDB, 'results2023', 'standings', standings)
@@ -81,12 +92,6 @@ function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
   }
 
   yield put(appActions.setLoading(false))
-}
-
-type SubmitAnswersType = {
-  answers: { [key: string]: AnswersType }
-  uid: string
-  toaster: (value: boolean) => void
 }
 
 function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {

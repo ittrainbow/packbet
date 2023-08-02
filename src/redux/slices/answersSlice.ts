@@ -14,9 +14,7 @@ export const answersSlice = createSlice({
 
     updateAnswers(state, action: PayloadAction<AnswersUpdateType>) {
       const { answers, uid } = action.payload
-      const newState = { ...state }
-      newState[uid] = answers
-      return newState
+      state[uid] = answers
     }
   }
 })

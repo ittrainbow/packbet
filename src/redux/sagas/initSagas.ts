@@ -14,6 +14,7 @@ import {
 import { appActions } from '../slices/appSlice'
 import { aboutActions } from '../slices'
 import { standingsActions } from '../slices/standingsSlice'
+import { weeksActions } from '../slices/weeksSlice'
 
 const season = 2023
 
@@ -34,7 +35,8 @@ function* fetchWeeksSaga(
 ) {
   try {
     const weeks: IWeeksContext = yield call(getCollectionFromDB, 'weeks2023')
-    setWeeksContext(weeks)
+    // setWeeksContext(weeks)
+    yield put(weeksActions.setWeeks(weeks))
 
     const response: IFetchObject<IUserStandings> = yield call(getDocumentFromDB, 'results2023', 'standings')
     const standings = Object.values(response)

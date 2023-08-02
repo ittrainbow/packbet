@@ -2,15 +2,14 @@ import Countdown from 'react-countdown'
 import { useSelector } from 'react-redux'
 
 import { i18n } from '../locale/locale'
-import { selectApp, selectUser } from '../redux/selectors'
-import { useAppContext } from '../context/Context'
+import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { LocaleType } from '../types'
 
-export const KickoffCountdown = () => {
-  const { weeksContext } = useAppContext()
+export const Kickoff = () => {
   const { selectedWeek } = useSelector(selectApp)
-  const { deadline } = weeksContext[selectedWeek]
   const { locale } = useSelector(selectUser)
+  const weeks = useSelector(selectWeeks)
+  const { deadline } = weeks[selectedWeek]
 
   const {
     countdownMsg,

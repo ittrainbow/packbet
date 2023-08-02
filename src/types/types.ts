@@ -31,7 +31,7 @@ export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
 export type WeekUpdateType = {
   season: number
   id: number
-  editorContext: WeekType
+  week: WeekType
 }
 
 export type ActionType<T> = {

@@ -46,6 +46,10 @@ export interface IWeeksContext {
   [key: number]: WeekType
 }
 
+export interface IWeeks {
+  [key: number]: WeekType
+}
+
 export interface IFetchObject<T> {
   [key: number | string]: T
 }

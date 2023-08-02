@@ -2,17 +2,22 @@ import { useEffect, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
-
 import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
 import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
-import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
+import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff } from '../UI'
 import { i18n } from '../locale/locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
 import { AnswersType, LocaleType, YesNoHandlerPropsType } from '../types'
-import { selectAnswers, selectApp, selectResults, selectUser } from '../redux/selectors'
+import {
+  selectAnswers,
+  selectApp,
+  selectResults,
+  selectUser,
+  selectWeeks
+} from '../redux/selectors'
 import { userActions } from '../redux/slices/userSlice'
 import { answersActions, resultsActions } from '../redux/slices'
 
@@ -21,12 +26,12 @@ export const Week = () => {
   const { admin, adminAsPlayer, locale } = useSelector(selectUser)
   const answers = useSelector(selectAnswers)
   const results = useSelector(selectResults)
+  const weeks = useSelector(selectWeeks)
 
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { weeksContext } = useAppContext()
   const { compareContext, setCompareContext } = useAppContext()
-  const { name, questions, deadline } = weeksContext[selectedWeek]
+  const { name, questions, deadline } = weeks[selectedWeek]
   const [uid, setUid] = useState<string>('')
   const [noChanges, setNoChanges] = useState<boolean>(true)
 
@@ -66,11 +71,9 @@ export const Week = () => {
       value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
       if (!Object.keys(thisWeek).some((el) => el)) delete data[selectedWeek]
 
-      if (adm) {
-        dispatch(resultsActions.setResults(data))
-      } else {
-        dispatch(answersActions.updateAnswers({ answers: data, uid }))
-      }
+      if (adm) dispatch(resultsActions.setResults(data))
+      else dispatch(answersActions.updateAnswers({ answers: data, uid }))
+
       checkChanges(data)
     }
   }
@@ -78,7 +81,8 @@ export const Week = () => {
   const submitHandler = async () => {
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
-    const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+    const toaster = (success: boolean) =>
+      success ? toastSuccess() : toastFailure()
 
     setCompareContext(structuredClone(answers))
 
@@ -128,7 +132,7 @@ export const Week = () => {
         theme="colored"
         pauseOnHover={false}
       />
-      <KickoffCountdown />
+      <Kickoff />
       <div>
         {Object.keys(questions)
           .map((el) => Number(el))
@@ -161,7 +165,9 @@ export const Week = () => {
           >
             {noChanges ? buttonChangesMsg : buttonSaveMsg}
           </Button>
-          {noChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
+          {noChanges ? null : (
+            <Button onClick={discardHandler}>{buttonCancelMsg}</Button>
+          )}
         </>
       ) : (
         ''

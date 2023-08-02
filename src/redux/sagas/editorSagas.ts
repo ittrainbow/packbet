@@ -7,10 +7,11 @@ import { appActions } from '../slices/appSlice'
 
 function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action
-  const { id, editorContext } = payload
+  console.log(100, payload)
+  const { id, week } = payload
   yield put(appActions.setLoading(true))
   try {
-    yield call(writeDocumentToDB, 'weeks2023', id, editorContext)
+    yield call(writeDocumentToDB, 'weeks2023', id, week)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
