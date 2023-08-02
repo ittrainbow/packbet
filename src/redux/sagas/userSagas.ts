@@ -44,11 +44,18 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
   yield put(appActions.setLoading(false))
 }
 
-function* userLoginSaga(action: ActionType<string>) {
-  const uid = action.payload
+type UserLoginType = {
+  uid: string
+  displayName: string
+  email: string
+}
+
+function* userLoginSaga(action: ActionType<UserLoginType>) {
+  const { uid, displayName, email } = action.payload
   try {
-    const user: IUser = yield call(getDocumentFromDB, 'users', uid)
-    yield put(userActions.setUser({ ...user, adminAsPlayer: true }))
+    const responseUser: IUser = yield call(getDocumentFromDB, 'users', uid)
+    const user = responseUser || { name: displayName, email, admin: false }
+    yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
 
     const answers: AnswersType = yield call(getDocumentFromDB, 'answers2023', uid)
     yield put(answersActions.updateAnswers({ answers, uid }))

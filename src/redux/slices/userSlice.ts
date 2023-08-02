@@ -14,11 +14,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<IUser>) {
-      const { admin, locale, name, adminAsPlayer } = action.payload
+      const { admin, locale, name } = action.payload
       state.admin = admin
       state.locale = locale
       state.name = name
-      state.adminAsPlayer = adminAsPlayer
     },
 
     updateUser(state, action: PayloadAction<{ [key: string]: string }>) {

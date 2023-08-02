@@ -72,7 +72,6 @@ export const appSlice = createSlice({
 
     setTabActive(state, action: PayloadAction<number>) {
       state.tabActive = action.payload
-      localStorage.setItem('contestTabActive', action.payload.toString())
     },
 
     setHeader(state, action: PayloadAction<{ id: number, selectedWeek: number, emptyEditor: boolean }>) {
@@ -80,7 +79,6 @@ export const appSlice = createSlice({
       state.tabActive = id
       state.selectedWeek = selectedWeek
       state.emptyEditor = emptyEditor
-      localStorage.setItem('contestTabActive', id.toString())
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {

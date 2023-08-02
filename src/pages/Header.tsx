@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ico from 'react-icons/fa'
@@ -18,8 +18,14 @@ export const Header = () => {
   const { setEditorContext } = useAppContext()
   const { admin, locale, name } = useSelector(selectUser)
 
+  useEffect(() => {
+    navigate(name ? '/week' : '/userpage')
+    dispatch(appActions.setTabActive(name ? 2 : 1))
+  }, [name])
+
   const headerLocale = i18n(locale, 'header') as LocaleType
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } =
+    headerLocale
 
   const userMenu = [
     { path: '/', name: tab0msg, icon: <ico.FaInfoCircle />, id: 0 },
@@ -30,12 +36,18 @@ export const Header = () => {
   ]
 
   const adminMenu = [
-    { path: '/calendar', name: tab5msg, icon: <ico.FaChevronCircleRight />, id: 5 },
+    {
+      path: '/calendar',
+      name: tab5msg,
+      icon: <ico.FaChevronCircleRight />,
+      id: 5
+    },
     { path: '/editor', name: tab6msg, icon: <ico.FaPenNib />, id: 6 }
   ]
 
   const clickHandler = (id: number, path: string) => {
-    const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
+    const selectedWeek =
+      id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
     const emptyEditor = id === 6 ? true : false
 
     id === 5 && !editor && dispatch(appActions.setEditor(true))
@@ -68,7 +80,11 @@ export const Header = () => {
         {bar.map((el) => {
           const { id, path, icon, name } = el
           return (
-            <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
+            <div
+              key={id}
+              className={getClass(id)}
+              onClick={() => clickHandler(id, path)}
+            >
               <div className="header__icon-padding">{icon}</div>
               <div className="header__message">{mobile ? null : name}</div>
             </div>

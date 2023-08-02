@@ -44,12 +44,14 @@ export const Week = () => {
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
   const gotChanges = useMemo(() => {
-    const userChanges = !objectCompare(answers[uid], compare.answers)
-    const adminChanges = admin
-      ? !objectCompare(results, compare.results)
-      : false
+    if (!!Object.keys(answers).length && !!Object.keys(results).length) {
+      const userChanges = !objectCompare(answers[uid], compare.answers)
+      const adminChanges = admin
+        ? !objectCompare(results, compare.results)
+        : false
 
-    return userChanges || adminChanges // eslint-disable-next-line
+      return userChanges || adminChanges
+    }
   }, [adminAsPlayer, answers, results])
 
   const outdated = () => {

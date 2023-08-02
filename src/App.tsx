@@ -7,8 +7,7 @@ import { Router } from './router/Router'
 import { useAppContext } from './context/Context'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { auth } from './db'
-import { userActions, appActions } from './redux/slices'
-import { initialUser } from './helpers/initials'
+import { appActions } from './redux/slices'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -23,14 +22,10 @@ export const App = () => {
 
   useEffect(() => {
     if (user) {
-      const { uid } = user
-      dispatch({ type: USER_LOGIN, payload: uid })
-    }
-    if (user) {
-      const { displayName } = user
-      const newUser = { ...initialUser, name: displayName || '' }
-
-      dispatch(userActions.setUser(newUser))
+      dispatch({
+        type: USER_LOGIN,
+        payload: user
+      })
     } // eslint-disable-next-line
   }, [user])
 

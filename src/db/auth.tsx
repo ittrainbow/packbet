@@ -22,14 +22,14 @@ export const signInWithGoogle = async () => {
     appActions.setLoading(true)
     const response: UserCredential = await signInWithPopup(auth, googleProvider)
     if (response) {
-      const { email, displayName: name, uid } = response.user
+      const { email, uid } = response.user
+      const name = response.user.displayName || 'username'
       const docs = await getDoc(doc(db, 'users', uid))
       const googleAuth = async () => {
-        const locale = localStorage.getItem('locale')
-        const user = { email, name, locale, admin: false }
-        const answers = {}
-        await setDoc(doc(db, 'users', uid), user)
-        await setDoc(doc(db, `answers2023`, uid), answers)
+        const locale = localStorage.getItem('locale') || 'ru'
+        const user = { name, locale, admin: false }
+        await setDoc(doc(db, 'users', uid), { ...user, email })
+        await setDoc(doc(db, `answers2023`, uid), {})
       }
       docs.data() === undefined && googleAuth()
       const user = docs.data() as IUser
