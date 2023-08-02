@@ -1,5 +1,33 @@
 @import './vars';
 
+.standings-top-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.standings-button {
+  white-space: nowrap;
+}
+
+.goback-button {
+  font-size: 50px;
+  width: 70px;
+  bottom: 25px;
+  right: 25px;
+  height: 70px;
+  position: fixed;
+  z-index: 100;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 1000ms linear;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .standings-header {
   display: flex;
   gap: 2px;
@@ -46,4 +74,54 @@
 .tierline {
   text-align: justify;
   padding: 15px;
+}
+
+@keyframes showButton {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+}
+
+.animate-show-button {
+  opacity: 0;
+  animation: showButton 0.5s ease-in-out forwards;
+}
+
+@keyframes hideButton {
+  0% {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.animate-hide-button {
+  opacity: 0.7;
+  animation: hideButton 0.5s ease-in-out forwards;
+}
+
+@keyframes drawRed {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+    background-color: rgb(235, 130, 130);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-draw-red {
+  opacity: 0;
+  animation: drawRed .7s ease-in-out forwards;
 }

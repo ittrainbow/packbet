@@ -64,6 +64,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
     locale === 'ru'
       ? 'В таблице отображены только игроки, давшие ответ хотя бы на один вопрос.'
       : 'У таблиці відображені лише гравці, які дали відповідь хоча б на одне питання.'
+  const findBtn = locale === 'ru' ? 'Найти' : 'Знайти'
+  const findMeBtn = locale === 'ru' ? 'Ко мне' : 'До мене'
+  const clearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -103,7 +106,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
     }
 
     case 'standings':
-      return { tableNameMsg, tableAllMsg, tableCorrectMsg, tableTierline }
+      return { tableNameMsg, tableAllMsg, tableCorrectMsg, tableTierline, findMeBtn, clearBtn, findBtn }
 
     case 'otheruser':
       return { otherUser1msg, otherUser2msg, otherUser3msg }

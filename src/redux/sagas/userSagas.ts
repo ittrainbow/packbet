@@ -55,7 +55,6 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
   try {
     const responseUser: IUser = yield call(getDocumentFromDB, 'users', uid)
     const user = responseUser || { name: displayName, email, admin: false }
-    console.log(100, user)
     yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
 
     const answers: AnswersType = yield call(getDocumentFromDB, 'answers2023', uid)

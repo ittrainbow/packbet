@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
+import { useRef, useState, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
+import { FaArrowCircleUp } from 'react-icons/fa'
 
 import { selectStandings, selectUser } from '../redux/selectors'
 import { auth } from '../db'
@@ -9,6 +11,8 @@ import { OtherUser } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER } from '../redux/storetypes'
+import { Button, Input } from '../UI'
+import { useVisibility } from '../hooks/useVisibility'
 
 export const Standings = () => {
   const navigate = useNavigate()
@@ -16,6 +20,22 @@ export const Standings = () => {
   const [user] = useAuthState(auth)
   const standings = useSelector(selectStandings)
   const { locale } = useSelector(selectUser)
+  const buttonRef = useRef<HTMLDivElement>(null)
+  const myRef = useRef<HTMLDivElement>(null)
+  const [showGoBackButton, setShowGoBackButton] = useState<boolean>(false)
+  const [searchString, setSearchString] = useState<string>('')
+  const [searching, setSearching] = useState<boolean>(false)
+
+  const isButtonInViewport = useVisibility(buttonRef)
+  const isMyRefInViewport = useVisibility(myRef)
+
+  useEffect(() => {
+    setTimeout(() => setShowGoBackButton(!isButtonInViewport), 500)
+  }, [isButtonInViewport])
+
+  useEffect(() => {
+    searching && setTimeout(() => setSearching(false), 1000)
+  }, [searching])
 
   const clickHandler = (otherUserUID: string, otherUserName: string) => {
     if (user && otherUserUID !== user.uid) {
@@ -32,13 +52,81 @@ export const Standings = () => {
     }
   }
 
-  const { tableNameMsg, tableCorrectMsg, tableTierline } = i18n(
-    locale,
-    'standings'
-  ) as LocaleType
+  const {
+    tableNameMsg,
+    tableCorrectMsg,
+    tableTierline,
+    findMeBtn,
+    findBtn,
+    clearBtn
+  } = i18n(locale, 'standings') as LocaleType
+
+  const findHandler = () => {
+    const link = searchString.length > 0 ? searchString : 'findMyDivInStandings'
+    const anchor = document.getElementById(link)
+    if (anchor) {
+      const y = anchor?.getBoundingClientRect().top - 100
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    } else {
+      setSearching(true)
+    }
+  }
+
+  const clearHandler = () => setSearchString('')
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setSearchString(value)
+  }
+
+  const scrollTopHandler = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const searchClasses = searching ? 'animate-draw-red' : ''
+
+  const backClasses = `goback-button ${
+    !isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'
+  }`
+
+  const highlightUser = (name: string, uid: string) =>
+    name === searchString || (user?.uid === uid && searchString === '')
 
   return (
     <div className="container">
+      <div className="standings-top-container">
+        <Input
+          onChange={onChangeHandler}
+          value={searchString}
+          className={searchClasses}
+          type="search"
+        />
+        <div ref={buttonRef} className="standings-button">
+          <Button
+            onClick={findHandler}
+            minWidth={80}
+            disabled={isMyRefInViewport}
+          >
+            {searchString ? findBtn : findMeBtn}
+          </Button>
+        </div>
+        <div ref={buttonRef} className="standings-button">
+          <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
+            {clearBtn}
+          </Button>
+        </div>
+      </div>
+      {showGoBackButton ? (
+        <div
+          className={backClasses}
+          onClick={scrollTopHandler}
+          style={{ opacity: showGoBackButton ? 0.5 : 0 }}
+        >
+          <FaArrowCircleUp />
+        </div>
+      ) : (
+        ''
+      )}
       <div className="standings">
         <OtherUser />
         <div className="standings-header">
@@ -51,7 +139,7 @@ export const Standings = () => {
         {standings &&
           Object.values(standings)
             .filter((el) => el.ansTotal > 0)
-            .map((el) => {
+            .map((el, index) => {
               const {
                 name,
                 uid,
@@ -61,11 +149,17 @@ export const Standings = () => {
                 resultsTotal
               } = el
               return (
-                <div key={uid} className="standings-header">
+                <div key={index} className="standings-header">
                   <div className="cellOne">{position}</div>
                   <div
                     className="cellTwo"
                     onClick={() => clickHandler(uid, name)}
+                    id={uid === user?.uid ? 'findMyDivInStandings' : name}
+                    style={{
+                      fontWeight: highlightUser(name, uid) ? 'bold' : '',
+                      backgroundColor: highlightUser(name, uid) ? '#d0d0d0' : ''
+                    }}
+                    ref={uid === user?.uid ? myRef : null}
                   >
                     {name}
                   </div>
