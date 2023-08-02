@@ -42,6 +42,10 @@ export interface IPlayers {
   [key: string]: IUser
 }
 
+export interface IWeeksContext {
+  [key: number]: WeekType
+}
+
 export interface IWeeks {
   [key: number]: WeekType
 }

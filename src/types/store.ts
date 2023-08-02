@@ -8,4 +8,5 @@ export interface IStore {
   answers: IAnswers
   results: AnswersType
   weeks: IWeeks
+  compare: IAnswers
 }

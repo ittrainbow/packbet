@@ -5,6 +5,7 @@ import { appSlice, aboutSlice, standingsSlice, userSlice, answersSlice, resultsS
 import { rootSaga } from './sagas/rootSaga'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
 import { weeksSlice } from './slices/weeksSlice'
+import { compareSlice } from './slices/compareSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -16,7 +17,8 @@ export const store: ToolkitStore = configureStore({
     user: userSlice.reducer,
     answers: answersSlice.reducer,
     results: resultsSlice.reducer,
-    weeks: weeksSlice.reducer
+    weeks: weeksSlice.reducer,
+    compare: compareSlice.reducer
   }),
   middleware: [sagaMiddleware],
   devTools: process.env.NODE_ENV === 'development'

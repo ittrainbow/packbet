@@ -7,3 +7,4 @@ export const selectUser = (store: IStore) => store.user
 export const selectAnswers = (store: IStore) => store.answers
 export const selectResults = (store: IStore) => store.results
 export const selectWeeks = (store: IStore) => store.weeks
+export const selectCompare = (store: IStore) => store.compare
