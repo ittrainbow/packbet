@@ -22,7 +22,7 @@ export type WeeksType = {
   [key: number]: WeekType
 }
 
-export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
+// export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
 
 export type WeekUpdateType = {
   season: number

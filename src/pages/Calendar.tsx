@@ -4,19 +4,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { OtherUser } from '../UI'
 import { useAppContext } from '../context/Context'
 import { selectApp, selectWeeks } from '../redux/selectors'
-import { appActions } from '../redux/slices'
+import { appActions, editorActions } from '../redux/slices'
 
 export const Calendar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { editor, isItYou } = useSelector(selectApp)
   const weeks = useSelector(selectWeeks)
-  const { setEditorContext } = useAppContext()
+  // const { setEditorContext } = useAppContext()
 
   const clickHandler = (selectedWeek: number) => {
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
-      setEditorContext(weeks[selectedWeek])
+      // setEditorContext(weeks[selectedWeek])
+      dispatch(editorActions.setEditor(weeks[selectedWeek]))
+
       navigate(`/editor/${selectedWeek}`)
     }
     editor ? setEditor() : navigate(`/week/${selectedWeek}`)

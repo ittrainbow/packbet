@@ -32,7 +32,7 @@ export interface IAnswers {
   [key: string]: AnswersType
 }
 
-export interface IEditorContext extends WeekType { }
+// export interface IEditorContext extends WeekType { }
 
 export interface IPlayers {
   [key: string]: IUser

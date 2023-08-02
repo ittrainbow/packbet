@@ -1,8 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { WeekType } from '../../types'
+import { QuestionsType, WeekType } from '../../types'
+
+const emptyWeek: WeekType = {
+  questions: {},
+  name: '',
+  active: false,
+  deadline: new Date().getTime()
+}
 
 const initialState = {} as WeekType
+
 export const editorSlice = createSlice({
   name: 'editor',
   initialState,
@@ -11,10 +19,25 @@ export const editorSlice = createSlice({
       return action.payload
     },
 
-    // updateEditor(state, action: PayloadAction<UpdateCompareType>) {
-    //   const { data, id } = action.payload
-    //   state[id] = data
-    // },
+    updateEditorQuestions(state, action: PayloadAction<QuestionsType>) {
+      state.questions = action.payload
+    },
+
+    updateEditorName(state, action: PayloadAction<string>) {
+      state.name = action.payload
+    },
+
+    updateEditorDeadline(state, action: PayloadAction<number>) {
+      state.deadline = action.payload
+    },
+
+    updateEditorActive(state, action: PayloadAction<boolean>) {
+      state.active = action.payload
+    },
+
+    clearEditor() {
+      return emptyWeek
+    }
   }
 })
 

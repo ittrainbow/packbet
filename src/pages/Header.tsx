@@ -3,19 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ico from 'react-icons/fa'
 
-import { useAppContext } from '../context/Context'
 import { i18n } from '../locale/locale'
-import { emptyWeek } from '../helpers'
 import { selectApp, selectUser } from '../redux/selectors'
 import { LocaleType } from '../types'
-import { appActions } from '../redux/slices'
+import { appActions, editorActions } from '../redux/slices'
 
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const app = useSelector(selectApp)
   const { mobile, tabActive, nextWeek, currentWeek, editor } = app
-  const { setEditorContext } = useAppContext()
+  // const { setEditorContext } = useAppContext()
   const { admin, locale, name } = useSelector(selectUser)
 
   useEffect(() => {
@@ -60,7 +58,7 @@ export const Header = () => {
 
     if (id === 6) {
       dispatch(appActions.setEmptyEditor(emptyEditor))
-      setEditorContext(emptyWeek)
+      dispatch(editorActions.clearEditor())
     }
   }
 

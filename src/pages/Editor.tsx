@@ -10,32 +10,36 @@ import {
   objectReplace,
   getWeeksIDs,
   getNewQuestionId,
-  emptyWeek,
   emptyQuestion
 } from '../helpers'
-import { useAppContext } from '../context/Context'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
-import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
-import { appActions, weeksActions } from '../redux/slices'
+import {
+  selectApp,
+  selectEditor,
+  selectUser,
+  selectWeeks
+} from '../redux/selectors'
+import { appActions, editorActions, weeksActions } from '../redux/slices'
 
 export const Editor = () => {
   const { selectedWeek, emptyEditor, season } = useSelector(selectApp)
   const weeks = useSelector(selectWeeks)
+  const editor = useSelector(selectEditor)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  const { editorContext, setEditorContext } = useAppContext()
+  // const { editorContext, setEditorContext } = useAppContext()
   const { locale } = useSelector(selectUser)
   const [questionInWork, setQuestionInWork] = useState(
     emptyQuestion as QuestionType
   )
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
-  const { questions, name, active, deadline } = editorContext
+  const { questions, name, active, deadline } = editor
   const { question, total, id } = questionInWork
   const loadedWeek = weeks[selectedWeek]
 
@@ -45,13 +49,15 @@ export const Editor = () => {
 
   useEffect(() => {
     nameRef.current?.focus()
-    emptyEditor && setEditorContext(emptyWeek) // eslint-disable-next-line
+    emptyEditor && dispatch(editorActions.clearEditor())
+
+    // eslint-disable-next-line
   }, [selectedWeek])
 
   useEffect(() => {
     const changes = emptyEditor
       ? Object.keys(questions).some((el) => el)
-      : !objectCompare(editorContext, loadedWeek)
+      : !objectCompare(editor, loadedWeek)
     setAnyChanges(changes) // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
@@ -65,28 +71,31 @@ export const Editor = () => {
 
   const addQuestionHandler = () => {
     const { question, total } = questionInWork
-    const { questions } = editorContext
+    const { questions } = editor
     const { id } = questionInWork
     if (question && total) {
       const setId = id === null ? getNewQuestionId(questions) : (id as number)
       const obj = objectReplace(questions, setId, questionInWork)
-      setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(emptyQuestion)
+
+      // setEditorContext({ ...editorContext, questions: obj })
+      dispatch(editorActions.updateEditorQuestions(obj))
     }
   }
 
   const removeQuestionHandler = (id: number) => {
-    const q: QuestionsType = objectTrim(questions, id)
-    setEditorContext({ ...editorContext, questions: q })
+    const obj: QuestionsType = objectTrim(questions, id)
+
+    // setEditorContext({ ...editorContext, questions: obj })
+    dispatch(editorActions.updateEditorQuestions(obj))
   }
 
   const submitHandler = async () => {
-    const week = editorContext
     const id = selectedWeek
 
-    dispatch({ type: SUBMIT_WEEK, payload: { season, id, week } })
+    dispatch({ type: SUBMIT_WEEK, payload: { season, id, week: editor } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
-    dispatch(weeksActions.updateWeeks({ week, id }))
+    dispatch(weeksActions.updateWeeks({ week: editor, id }))
 
     navigate('/calendar')
   }
@@ -123,7 +132,9 @@ export const Editor = () => {
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setEditorContext({ ...editorContext, name: value })
+
+    // setEditorContext({ ...editorContext, name: value })
+    dispatch(editorActions.updateEditorName(value))
   }
 
   const changeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -142,11 +153,15 @@ export const Editor = () => {
   const changeDateHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
-    setEditorContext({ ...editorContext, deadline })
+
+    // setEditorContext({ ...editorContext, deadline })
+    dispatch(editorActions.updateEditorDeadline(deadline))
   }
 
-  const changeActivityHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setEditorContext({ ...editorContext, active: e.target.checked })
+  const changeActivityHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    // setEditorContext({ ...editorContext, active: e.target.checked })
+    dispatch(editorActions.updateEditorActive(e.target.checked))
+  }
 
   function renderQuestions() {
     return (

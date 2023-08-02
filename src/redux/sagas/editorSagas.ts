@@ -3,7 +3,7 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 import { ActionType, WeekUpdateType } from '../../types'
 import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
 import { writeDocumentToDB, deleteDocumentFromDB } from '../../db'
-import { appActions } from '../slices'
+import { appActions, editorActions } from '../slices'
 
 function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action
@@ -16,6 +16,7 @@ function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
       yield put(appActions.setError(error.message))
     }
   }
+  yield put(editorActions.clearEditor())
   yield put(appActions.setLoading(false))
 }
 
@@ -29,6 +30,7 @@ function* deleteWeekSaga(action: ActionType<number>) {
       yield put(appActions.setError(error.message))
     }
   }
+  yield put(editorActions.clearEditor())
   yield put(appActions.setLoading(false))
 }
 
