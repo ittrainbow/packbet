@@ -111,9 +111,9 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
     }
 
     const response: AnswersType = yield call(getDocumentFromDB, 'answers2023', uid)
-    const saveSuccess: boolean = yield call(objectCompare, response, answers[uid])
-
     yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
+
+    const saveSuccess: boolean = yield call(objectCompare, response, answers[uid])
     yield call(toaster, saveSuccess)
   } catch (error) {
     yield toaster(false)

@@ -14,6 +14,7 @@ import { AnswersType, LocaleType, YesNoHandlerPropsType } from '../types'
 import {
   selectAnswers,
   selectApp,
+  selectCompare,
   selectResults,
   selectUser,
   selectWeeks
@@ -27,31 +28,40 @@ export const Week = () => {
   const answers = useSelector(selectAnswers)
   const results = useSelector(selectResults)
   const weeks = useSelector(selectWeeks)
+  const compare = useSelector(selectCompare)
 
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { compareContext, setCompareContext } = useAppContext()
+  const {} = useAppContext()
   const { name, questions, deadline } = weeks[selectedWeek]
   const [uid, setUid] = useState<string>('')
-  const [noChanges, setNoChanges] = useState<boolean>(true)
 
   const adm = useMemo(() => {
     return admin && !adminAsPlayer
   }, [admin, adminAsPlayer])
 
-  const ansOrRes = adm ? 'results' : uid
   const ansOrResData = adm ? results : answers[uid]
 
   useEffect(() => {
     if (user) isItYou ? setUid(user.uid) : setUid(otherUserUID)
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
-  const checkChanges = (data: AnswersType) =>
-    setNoChanges(objectCompare(data, compareContext[ansOrRes]))
+  const gotChanges = useMemo(() => {
+    const userChanges = !objectCompare(answers[uid], compare.answers)
+    const adminChanges = admin
+      ? !objectCompare(results, compare.results)
+      : false
 
-  const outdated = () => new Date().getTime() > deadline
+    return userChanges || adminChanges
+  }, [adminAsPlayer, answers, results])
 
-  const writeAllowed = () => adm || (!adm && !outdated())
+  const outdated = () => {
+    return new Date().getTime() > deadline
+  }
+
+  const writeAllowed = () => {
+    return adm || (!adm && !outdated())
+  }
 
   const activity = (id: number) => {
     return ((!isItYou && outdated()) || isItYou) &&
@@ -74,7 +84,7 @@ export const Week = () => {
       if (adm) dispatch(resultsActions.setResults(data))
       else dispatch(answersActions.updateAnswers({ answers: data, uid }))
 
-      checkChanges(data)
+      // checkChanges(data)
     }
   }
 
@@ -84,8 +94,6 @@ export const Week = () => {
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) =>
       success ? toastSuccess() : toastFailure()
-
-    setCompareContext(structuredClone(answers))
 
     dispatch(userActions.setAdminAsPlayer(true))
 
@@ -100,8 +108,8 @@ export const Week = () => {
   }
 
   const discardHandler = () => {
-    dispatch(answersActions.setAnswers(compareContext))
-    setNoChanges(true)
+    dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
+    admin && dispatch(resultsActions.setResults(compare.results))
   }
 
   const questionStyle = (id: number) => {
@@ -165,11 +173,11 @@ export const Week = () => {
         <>
           <Button
             onClick={submitHandler}
-            disabled={!writeAllowed() || noChanges || !isItYou}
+            disabled={!writeAllowed() || !gotChanges || !isItYou}
           >
-            {noChanges ? buttonChangesMsg : buttonSaveMsg}
+            {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
           </Button>
-          {noChanges ? null : (
+          {!gotChanges ? null : (
             <Button onClick={discardHandler}>{buttonCancelMsg}</Button>
           )}
         </>

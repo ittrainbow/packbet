@@ -1,7 +1,4 @@
 import { Dispatch, SetStateAction } from 'react'
-import {
-  ICompareContext
-} from './interfaces'
 
 export type LocaleType = { [key: string]: string }
 
@@ -25,7 +22,6 @@ export type WeeksType = {
   [key: number]: WeekType
 }
 
-export type SetCompareContextType = Dispatch<SetStateAction<ICompareContext>>
 export type SetEditorContextType = Dispatch<SetStateAction<WeekType>>
 
 export type WeekUpdateType = {

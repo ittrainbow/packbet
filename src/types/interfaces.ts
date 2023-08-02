@@ -34,10 +34,6 @@ export interface IAnswers {
 
 export interface IEditorContext extends WeekType { }
 
-export interface ICompareContext {
-  [key: string]: AnswersType
-}
-
 export interface IPlayers {
   [key: string]: IUser
 }
