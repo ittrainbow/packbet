@@ -79,6 +79,7 @@ export const Week = () => {
   }
 
   const submitHandler = async () => {
+    const firstData = !!Object.keys(answers[uid]).length
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) =>
@@ -91,7 +92,10 @@ export const Week = () => {
     if (adm) {
       dispatch({ type: SUBMIT_RESULTS, payload: { results, toaster } })
     } else {
-      dispatch({ type: SUBMIT_ANSWERS, payload: { answers, uid, toaster } })
+      dispatch({
+        type: SUBMIT_ANSWERS,
+        payload: { selectedWeek, answers, uid, toaster, firstData }
+      })
     }
   }
 

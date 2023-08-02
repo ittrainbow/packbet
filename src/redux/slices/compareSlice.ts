@@ -1,25 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IWeeks, WeekType } from '../../types'
+import { AnswersType } from '../../types'
 
-const initialState = {} as IWeeks
+const initialState = {} as CompareType
 
-type UpdateWeeksType = {
-  week: WeekType
-  id: number
+type CompareType = {
+  [key: string]: AnswersType
+}
+
+type UpdateCompareType = {
+  data: AnswersType,
+  id: string
 }
 
 export const compareSlice = createSlice({
   name: 'compare',
   initialState,
   reducers: {
-    setCompare(_, action: PayloadAction<IWeeks>) {
+    setCompare(_, action: PayloadAction<CompareType>) {
       return action.payload
     },
 
-    updateCompare(state, action: PayloadAction<UpdateWeeksType>) {
-      const { week, id } = action.payload
-      state[id] = week
+    updateCompare(state, action: PayloadAction<UpdateCompareType>) {
+      const { data, id } = action.payload
+      state[id] = data
     },
   }
 })

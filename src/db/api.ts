@@ -1,7 +1,8 @@
-import { setDoc, doc, getDoc, getDocs, deleteDoc, collection, QuerySnapshot, DocumentData } from 'firebase/firestore'
+import { setDoc, doc, getDoc, getDocs, deleteDoc, collection, QuerySnapshot, DocumentData, updateDoc } from 'firebase/firestore'
 
 import { db } from './firebase'
 import { objectCompose } from '../helpers'
+import { AnswersType } from '../types'
 
 export const getDocumentFromDB = async (collection: string, document: string | number) => {
   try {
@@ -16,6 +17,22 @@ export const writeDocumentToDB = async (collection: string, document: string | n
   try {
     await setDoc(doc(db, collection, document.toString()), data)
     return
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
+}
+
+export const updateDocumentInDB = async (collection: string,
+  document: string | number,
+  selectedWeek: number,
+  data: any
+) => {
+  try {
+    const emptyData = !Object.keys(data).length
+    const updateData = {} as AnswersType
+    updateData[selectedWeek] = data[document][selectedWeek]
+    if (emptyData) await updateDoc(doc(db, collection, document.toString()), updateData)
+    else await deleteDoc(doc(db, collection, document.toString()))
   } catch (error) {
     if (error instanceof Error) console.error(error.message)
   }
