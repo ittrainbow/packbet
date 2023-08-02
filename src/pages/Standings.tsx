@@ -72,11 +72,13 @@ export const Standings = () => {
     }
   }
 
-  const clearHandler = () => setSearchString('')
+  const clearHandler = () => {
+    setSearchString('')
+  }
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setSearchString(value)
+    setSearchString(value.trim())
   }
 
   const scrollTopHandler = () => {
@@ -105,7 +107,7 @@ export const Standings = () => {
           <Button
             onClick={findHandler}
             minWidth={80}
-            disabled={isMyRefInViewport}
+            disabled={isMyRefInViewport && !searchString}
           >
             {searchString ? findBtn : findMeBtn}
           </Button>
