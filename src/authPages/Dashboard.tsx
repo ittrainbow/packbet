@@ -1,18 +1,20 @@
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { logout } from '../db/auth'
+import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button } from '../UI'
-import { i18n } from '../locale/locale'
-import { useAppContext } from '../context/Context'
+import { i18n } from '../locale'
+import { selectUser } from '../redux/selectors'
 
 export const Dashboard = () => {
-  const { userContext, clearUserContext } = useAppContext()
-  const { name, email, admin, locale } = userContext
+  const [user] = useAuthState(auth)
+  const { name, admin, locale } = useSelector(selectUser)
   const navigate = useNavigate()
 
   const logoutHandler = () => {
-    clearUserContext(localStorage.getItem('locale') || 'ru')
     logout()
     navigate('/userpage')
   }
@@ -30,7 +32,7 @@ export const Dashboard = () => {
         <div className="auth__data">
           <div className="bold">{dashboardEnterMsg}</div>
           <div>{name ? name : '...loading'}</div>
-          <div>{email ? email : '...loading'}</div>
+          <div>{user ? user.email : '...loading'}</div>
           <div>{admin ? <div>{dashboardAdminMsg}</div> : null}</div>
         </div>
         <Button onClick={navigateHandler}>{buttonProfileMsg}</Button>

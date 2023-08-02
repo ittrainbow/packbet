@@ -1,29 +1,27 @@
 import { useState, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 
-import { useAppContext } from '../context/Context'
+import { selectAbout, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { LocaleType } from '../types'
 
 export const About = () => {
-  const { aboutContext, userContext } = useAppContext()
-  const { locale } = userContext
+  const about = useSelector(selectAbout)
+  const { locale } = useSelector(selectUser)
   const [open, setOpen] = useState(false)
   const [description, setDescription] = useState([] as string[])
 
   useEffect(() => {
-    if (locale && aboutContext) {
-      const array = Object.values(aboutContext[locale])
+    if (locale && about) {
+      const array = Object.values(about[locale])
       setDescription(array)
     }
-  }, [locale, aboutContext])
+  }, [locale, about])
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(
-    locale,
-    'about'
-  ) as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },

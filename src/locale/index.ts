@@ -21,9 +21,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const regNameAlert = locale === 'ru' ? 'Введите username' : `Введiть username`
   const regEmailAlert = locale === 'ru' ? 'Введите валидный e-mail' : 'Введiть валiдний e-mail'
   const regPasswordAlert =
-    locale === 'ru'
-      ? 'Введите пароль не менее шести символов'
-      : 'Введіть пароль щонайменше шести символів'
+    locale === 'ru' ? 'Введите пароль не менее шести символов' : 'Введіть пароль щонайменше шести символів'
   const emailMsg = locale === 'ru' ? 'E-mail' : 'E-mail'
   const passwordMsg = locale === 'ru' ? 'Пароль' : 'Пароль'
   const emailExistsMsg = locale === 'ru' ? 'E-mail уже используется' : 'E-mail вже використовується'
@@ -64,6 +62,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
     locale === 'ru'
       ? 'В таблице отображены только игроки, давшие ответ хотя бы на один вопрос.'
       : 'У таблиці відображені лише гравці, які дали відповідь хоча б на одне питання.'
+  const findBtn = locale === 'ru' ? 'Найти' : 'Знайти'
+  const findMeBtn = locale === 'ru' ? 'Ко мне' : 'До мене'
+  const clearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -71,20 +72,12 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
 
   const otherUser1msg =
-    locale === 'ru'
-      ? 'Нажмите, чтобы вернуться к своему профилю.'
-      : 'Натисніть, щоб повернутися до свого профілю.'
-  const otherUser2msg =
-    locale === 'ru' ? 'Сейчас вы просматриваете профиль ' : 'Зараз ви переглядаєте профіль '
+    locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю.' : 'Натисніть, щоб повернутися до свого профілю.'
+  const otherUser2msg = locale === 'ru' ? 'Сейчас вы просматриваете профиль ' : 'Зараз ви переглядаєте профіль '
   const otherUser3msg =
-    locale === 'ru'
-      ? ', прогнозы не начавшихся игр скрыты.'
-      : ', прогнози ігор, що не почалися, приховані.'
+    locale === 'ru' ? ', прогнозы не начавшихся игр скрыты.' : ', прогнози ігор, що не почалися, приховані.'
 
-  const devMsg =
-    locale === 'ru'
-      ? 'Разработка:'
-      : 'Розробка:'
+  const devMsg = locale === 'ru' ? 'Разработка:' : 'Розробка:'
 
   const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
@@ -103,7 +96,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
     }
 
     case 'standings':
-      return { tableNameMsg, tableAllMsg, tableCorrectMsg, tableTierline }
+      return { tableNameMsg, tableAllMsg, tableCorrectMsg, tableTierline, findMeBtn, clearBtn, findBtn }
 
     case 'otheruser':
       return { otherUser1msg, otherUser2msg, otherUser3msg }

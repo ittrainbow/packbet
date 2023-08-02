@@ -54,6 +54,12 @@
           "allowArrowFunction": true
         }
       ],
+      "no-multiple-empty-lines": [
+        "error",
+        {
+          "max": 1
+        }
+      ],
       "no-trailing-spaces": 0,
       "no-unused-vars": 1,
       "semi": 0

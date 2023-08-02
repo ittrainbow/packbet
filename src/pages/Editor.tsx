@@ -1,58 +1,47 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
-import {
-  objectCompare,
-  objectTrim,
-  objectReplace,
-  getWeeksIDs,
-  getNewQuestionId,
-  emptyWeek,
-  emptyQuestion
-} from '../helpers'
-import { useAppContext } from '../context/Context'
+import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, emptyQuestion } from '../helpers'
 import { Button, Input } from '../UI'
-import { i18n } from '../locale/locale'
-import { setTabActive } from '../helpers'
-import { DELETE_WEEK, SET_WEEK } from '../redux/types'
+import { i18n } from '../locale'
+import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
+import { selectApp, selectEditor, selectUser, selectWeeks } from '../redux/selectors'
+import { appActions, editorActions, weeksActions } from '../redux/slices'
 
 export const Editor = () => {
+  const { selectedWeek, emptyEditor } = useSelector(selectApp)
+  const weeks = useSelector(selectWeeks)
+  const editor = useSelector(selectEditor)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  const {
-    userContext,
-    weeksContext,
-    setWeeksContext,
-    editorContext,
-    setEditorContext,
-    appContext,
-    setAppContext
-  } = useAppContext()
-  const { locale } = userContext
+  const { locale } = useSelector(selectUser)
   const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
-  const { selectedWeek, nextWeek, emptyEditor, season } = appContext
-  const { questions, name, active, deadline } = editorContext
+  const { questions, name, active, deadline } = editor
   const { question, total, id } = questionInWork
-  const loadedWeek = weeksContext[selectedWeek]
+  const loadedWeek = weeks[selectedWeek]
+
+  useEffect(() => {
+    !questions && navigate('/calendar')
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     nameRef.current?.focus()
-    emptyEditor && setEditorContext(emptyWeek)
+    emptyEditor && dispatch(editorActions.clearEditor())
+
     // eslint-disable-next-line
   }, [selectedWeek])
 
   useEffect(() => {
-    const changes = emptyEditor
-      ? Object.keys(questions).some((el) => el)
-      : !objectCompare(editorContext, loadedWeek)
+    const changes = emptyEditor ? Object.keys(questions).some((el) => el) : !objectCompare(editor, loadedWeek)
     setAnyChanges(changes)
     // eslint-disable-next-line
   }, [questions, name, active, deadline])
@@ -66,42 +55,41 @@ export const Editor = () => {
 
   const addQuestionHandler = () => {
     const { question, total } = questionInWork
-    const { questions } = editorContext
+    const { questions } = editor
     const { id } = questionInWork
     if (question && total) {
       const setId = id === null ? getNewQuestionId(questions) : (id as number)
       const obj = objectReplace(questions, setId, questionInWork)
-      setEditorContext({ ...editorContext, questions: obj })
       setQuestionInWork(emptyQuestion)
+
+      dispatch(editorActions.updateEditorQuestions(obj))
     }
   }
 
   const removeQuestionHandler = (id: number) => {
-    const q: QuestionsType = objectTrim(questions, id)
-    setEditorContext({ ...editorContext, questions: q })
+    const obj: QuestionsType = objectTrim(questions, id)
+
+    dispatch(editorActions.updateEditorQuestions(obj))
   }
 
   const submitHandler = async () => {
-    const id: number = emptyEditor ? nextWeek : selectedWeek
-    Object.keys(editorContext.questions).forEach((el) => delete questions[Number(el)]['id'])
-    const weeks = structuredClone(weeksContext)
-    weeks[id] = editorContext
-    const weekIDs = getWeeksIDs(weeks)
+    const id = selectedWeek
 
-    dispatch({ type: SET_WEEK, payload: { season, id, editorContext } })
-    setAppContext({ ...appContext, ...weekIDs })
-    setWeeksContext(weeks)
+    dispatch({ type: SUBMIT_WEEK, payload: { id, week: editor } })
+    dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
+    dispatch(weeksActions.updateWeeks({ week: editor, id }))
+
     navigate('/calendar')
   }
 
   const deleteWeekHandler = async () => {
-    const weeks = structuredClone(weeksContext)
-    delete weeks[selectedWeek]
-    const weekIDs = getWeeksIDs(weeks)
+    const newWeeks = structuredClone(weeks)
+    delete newWeeks[selectedWeek]
 
-    dispatch({ type: DELETE_WEEK, payload: { season, selectedWeek } })
-    setAppContext({ ...appContext, ...weekIDs })
-    setWeeksContext(weeks)
+    dispatch({ type: DELETE_WEEK, payload: selectedWeek })
+    dispatch(weeksActions.setWeeks(newWeeks))
+    dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
+
     navigate('/calendar')
   }
 
@@ -119,19 +107,22 @@ export const Editor = () => {
   }
 
   const goBackHandler = () => {
-    const context = { ...appContext, tabActive: 5, emptyEditor: false }
-    setAppContext(context)
-    setTabActive(5)
+    dispatch(appActions.setEmptyEditor(false))
+    dispatch(appActions.setTabActive(5))
     navigate('/calendar')
   }
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setEditorContext({ ...editorContext, name: value })
+
+    dispatch(editorActions.updateEditorName(value))
   }
 
   const changeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setQuestionInWork({ ...questionInWork, question: e.target.value.substring(0, 120) })
+    setQuestionInWork({
+      ...questionInWork,
+      question: e.target.value.substring(0, 120)
+    })
 
   const changeTotalHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -143,43 +134,45 @@ export const Editor = () => {
   const changeDateHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
-    setEditorContext({ ...editorContext, deadline })
+
+    dispatch(editorActions.updateEditorDeadline(deadline))
   }
 
-  const changeActivityHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setEditorContext({ ...editorContext, active: e.target.checked })
+  const changeActivityHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(editorActions.updateEditorActive(e.target.checked))
+  }
 
   function renderQuestions() {
-    return Object.keys(questions).map((el) => {
-      const id = Number(el)
-      const { question, total } = questions[id]
-      const thisQuestionIsSelected = id === questionInWork.id
+    return (
+      questions &&
+      Object.keys(questions).map((el) => {
+        const id = Number(el)
+        const { question, total } = questions[id]
+        const thisQuestionIsSelected = id === questionInWork.id
 
-      return (
-        <div key={id} className="editor-question">
-          <div className="editor-question__desc">
-            {question}: {total}
-          </div>
-          <div className="editor-question__buttons">
-            {thisQuestionIsSelected ? (
-              <FaBan
-                className="editor-question__edit editor-btn__green faBan"
-                onClick={() => setQuestionInWork(emptyQuestion)}
+        return (
+          <div key={id} className="editor-question">
+            <div className="editor-question__desc">
+              {question}: {total}
+            </div>
+            <div className="editor-question__buttons">
+              {thisQuestionIsSelected ? (
+                <FaBan
+                  className="editor-question__edit editor-btn__green faBan"
+                  onClick={() => setQuestionInWork(emptyQuestion)}
+                />
+              ) : (
+                <FaEdit className="editor-question__edit editor-btn__green" onClick={() => editButtonHandler(id)} />
+              )}
+              <FaTrashAlt
+                className="editor-question__trash editor-btn__red"
+                onClick={() => removeQuestionHandler(id)}
               />
-            ) : (
-              <FaEdit
-                className="editor-question__edit editor-btn__green"
-                onClick={() => editButtonHandler(id)}
-              />
-            )}
-            <FaTrashAlt
-              className="editor-question__trash editor-btn__red"
-              onClick={() => removeQuestionHandler(id)}
-            />
+            </div>
           </div>
-        </div>
-      )
-    })
+        )
+      })
+    )
   }
 
   return (
@@ -222,20 +215,10 @@ export const Editor = () => {
       {renderQuestions()}
       <div className="editor-checkbox">
         <div className="editor-checkbox__pad">{weekActivityMsg}</div>
-        <Input
-          type="checkbox"
-          checked={active}
-          className={'checkbox'}
-          onChange={changeActivityHandler}
-        />
+        <Input type="checkbox" checked={active} className={'checkbox'} onChange={changeActivityHandler} />
       </div>
       <div className="editor-datetime__container">
-        <Input
-          type="datetime-local"
-          value={getDeadline()}
-          className={'timer'}
-          onChange={changeDateHandler}
-        />
+        <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={changeDateHandler} />
       </div>
       <div className="editor-form">
         <Button className={'editor'} disabled={!anyChanges} onClick={submitHandler}>
@@ -250,7 +233,6 @@ export const Editor = () => {
           {buttonDeleteWeekMsg}
         </Button>
       ) : null}
-      {/* <Button onClick={logContextHandler}>Context</Button> */}
     </div>
   )
 }

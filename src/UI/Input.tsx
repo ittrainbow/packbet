@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 
 type InputProps = {
-  type: 'text' | 'checkbox' | 'datetime-local'
+  type: 'text' | 'checkbox' | 'datetime-local' | 'search'
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   id?: string
   className?: string
@@ -22,8 +22,9 @@ export const Input = (props: InputProps) => {
       checked={checked}
       onChange={onChange}
       placeholder={placeholder}
+      autoComplete="off"
       id={id}
-      className={className}
+      className={className + ' dark'}
     />
   )
 }

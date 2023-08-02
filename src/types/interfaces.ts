@@ -1,15 +1,16 @@
-import { WeekType } from './types'
+import { WeekType, AnswersType } from './types'
 
-export interface IAppContext {
-  about: string
-  alert: boolean
+export interface IApp {
+  mobile: boolean
+  loading: boolean
+  editor: boolean
+  error: string
   currentWeek: number
   emptyEditor: boolean
   isItYou: boolean
   nextWeek: number
   otherUserName: string
   otherUserUID: string
-  season: number
   selectedWeek: number
   tabActive: number
 }
@@ -18,35 +19,32 @@ export interface IUser {
   admin: boolean
   locale: string
   name: string
-  email: string | null
+  adminAsPlayer?: boolean
+}
+export interface RawUser extends IUser {
+  email: string
 }
 
-export interface IUserContext extends IUser {
-  adminAsPlayer: boolean
-  tempLocale?: string
-  tempName?: string
+export interface IAbout {
+  [key: string]: {
+    [key: number]: string
+  }
 }
 
-export interface IAboutContext {
-  [key: string]: { [key: number]: string }
+export interface IAnswers {
+  [key: string]: AnswersType
 }
 
-export interface IEditorContext extends WeekType {}
-
-export interface Answers {
-  [key: number]: { [key: number]: number }
-}
-
-export interface IAnswersContext {
-  [key: string]: Answers
-}
-
-export interface IUserListContext {
+export interface IPlayers {
   [key: string]: IUser
 }
 
-export interface IWeeksContext {
+export interface IWeeks {
   [key: number]: WeekType
+}
+
+export interface IFetchObject<T> {
+  [key: number | string]: T
 }
 
 export interface IUserStandings {

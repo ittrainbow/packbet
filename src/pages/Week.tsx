@@ -1,96 +1,111 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
-import { useAppContext } from '../context/Context'
 import { objectCompare, ansHelper } from '../helpers'
-import { YesNoButtons, AdminPlayer, OtherUser, Button, KickoffCountdown } from '../UI'
-import { i18n } from '../locale/locale'
-import { SUBMIT_WEEK } from '../redux/types'
-import { Answers, LocaleType, YesNoHandlerPropsType } from '../types'
+import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff } from '../UI'
+import { i18n } from '../locale'
+import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
+import { LocaleType, YesNoHandlerPropsType } from '../types'
+import { selectAnswers, selectApp, selectCompare, selectResults, selectUser, selectWeeks } from '../redux/selectors'
+import { answersActions, resultsActions, userActions } from '../redux/slices'
 
 export const Week = () => {
+  const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
+  const { admin, adminAsPlayer, locale } = useSelector(selectUser)
+  const answers = useSelector(selectAnswers)
+  const results = useSelector(selectResults)
+  const weeks = useSelector(selectWeeks)
+  const compare = useSelector(selectCompare)
+
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const { appContext, weeksContext, userContext, setUserContext } = useAppContext()
-  const { answersContext, setAnswersContext, compareContext, setCompareContext } = useAppContext()
-  const { selectedWeek, isItYou, otherUserUID, season } = appContext
-  const { name, questions, deadline } = weeksContext[selectedWeek]
-  const { admin, adminAsPlayer, locale } = userContext
+  const { name, questions, deadline } = weeks[selectedWeek]
   const [uid, setUid] = useState<string>('')
-  const [noChanges, setNoChanges] = useState<boolean>(true)
 
   const adm = useMemo(() => {
     return admin && !adminAsPlayer
   }, [admin, adminAsPlayer])
 
-  const ansOrRes = adm ? 'results' : uid
+  const ansOrResData = adm ? results : answers[uid]
 
   useEffect(() => {
     if (user) isItYou ? setUid(user.uid) : setUid(otherUserUID)
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
-  const checkChanges = (data: Answers) =>
-    setNoChanges(objectCompare(data, compareContext[ansOrRes]))
+  const gotChanges = useMemo(() => {
+    if (!!Object.keys(answers).length && !!Object.keys(results).length) {
+      const userChanges = !objectCompare(answers[uid], compare.answers)
+      const adminChanges = admin ? !objectCompare(results, compare.results) : false
 
-  const outdated = () => new Date().getTime() > deadline
+      return userChanges || adminChanges
+    }
+    // eslint-disable-next-line
+  }, [adminAsPlayer, answers, results])
 
-  const writeAllowed = () => adm || (!adm && !outdated())
+  const outdated = () => {
+    return new Date().getTime() > deadline
+  }
+
+  const writeAllowed = () => {
+    return adm || (!adm && !outdated())
+  }
 
   const activity = (id: number) => {
-    return ((!isItYou && outdated()) || isItYou) &&
-      answersContext[ansOrRes] &&
-      answersContext[ansOrRes][selectedWeek]
-      ? answersContext[ansOrRes][selectedWeek][id]
+    return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
+      ? ansOrResData[selectedWeek][id]
       : 0
   }
 
   const onClickHandler = (props: YesNoHandlerPropsType) => {
     const { value, id, activity } = props
     if (user && writeAllowed() && isItYou) {
-      const data = structuredClone(answersContext)
-      if (!data[ansOrRes]) data[ansOrRes] = {}
-      if (!data[ansOrRes][selectedWeek]) data[ansOrRes][selectedWeek] = {}
+      const data = structuredClone(ansOrResData) || {}
+      if (!data[selectedWeek]) data[selectedWeek] = {}
 
-      const thisWeek = data[ansOrRes][selectedWeek]
+      const thisWeek = data[selectedWeek]
       value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
-      if (!Object.keys(thisWeek).some((el) => el)) delete data[ansOrRes][selectedWeek]
+      if (!Object.keys(thisWeek).some((el) => el)) delete data[selectedWeek]
 
-      setAnswersContext(data)
-      checkChanges(data[ansOrRes])
+      if (adm) dispatch(resultsActions.setResults(data))
+      else dispatch(answersActions.updateAnswers({ answers: data, uid }))
     }
   }
 
   const submitHandler = async () => {
-    if (isItYou) {
-      const data = adminAsPlayer ? answersContext[uid] : answersContext.results
+    const firstData = !!Object.keys(answers[uid]).length
+    const toastSuccess = () => toast.success(successMsg)
+    const toastFailure = () => toast.error(failureMsg)
+    const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
-      const toastSuccess = () => toast.success(successMsg)
-      const toastFailure = () => toast.error(failureMsg)
-      const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+    dispatch(userActions.setAdminAsPlayer(true))
 
-      dispatch({ type: SUBMIT_WEEK, payload: { data, selectedWeek, season, ansOrRes, toaster } })
-      setUserContext({ ...userContext, adminAsPlayer: true })
-      setCompareContext(structuredClone(answersContext))
+    if (adm) {
+      dispatch({ type: SUBMIT_RESULTS, payload: { results, toaster } })
+    } else {
+      dispatch({
+        type: SUBMIT_ANSWERS,
+        payload: { selectedWeek, answers, uid, toaster, firstData }
+      })
     }
   }
 
   const discardHandler = () => {
-    setAnswersContext(compareContext)
-    setNoChanges(true)
+    dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
+    admin && dispatch(resultsActions.setResults(compare.results))
   }
 
   const questionStyle = (id: number) => {
     const styles = ['question']
-    if (user) {
-      const { ans, res } = ansHelper(answersContext, selectedWeek, uid, id)
-      const styling = res && ans && adminAsPlayer && outdated()
-      styling && styles.push(res === ans ? 'question__green' : 'question__red')
-    }
+    // if (user) {
+    const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
+    const styling = res && ans && adminAsPlayer && outdated()
+    styling && styles.push(res === ans ? 'question__green' : 'question__red')
+    // }
     return styles.join(' ')
   }
 
@@ -104,11 +119,11 @@ export const Week = () => {
     <div className="container">
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {admin ? <AdminPlayer /> : null}
+        {admin && isItYou ? <AdminPlayer /> : null}
       </div>
       <OtherUser />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
-      <KickoffCountdown />
+      <Kickoff />
       <div>
         {Object.keys(questions)
           .map((el) => Number(el))
@@ -133,10 +148,16 @@ export const Week = () => {
             )
           })}
       </div>
-      <Button onClick={submitHandler} disabled={!writeAllowed() || noChanges || !isItYou}>
-        {noChanges ? buttonChangesMsg : buttonSaveMsg}
-      </Button>
-      {noChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
+      {isItYou ? (
+        <>
+          <Button onClick={submitHandler} disabled={!writeAllowed() || !gotChanges || !isItYou}>
+            {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+          </Button>
+          {!gotChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}
+        </>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

@@ -1,90 +1,46 @@
-import { take, all, call } from 'redux-saga/effects'
+import { take, all, call, put } from 'redux-saga/effects'
 
 import { getWeeksIDs } from '../../helpers'
-import { fetchDataFromFirestore } from '../../db'
-import { setLoading, setError } from './generators'
-import { INIT_APP } from '../types'
-import {
-  IAboutContext,
-  IAnswersContext,
-  IAppContext,
-  IUserListContext,
-  IWeeksContext,
-  SetAboutContextType,
-  SetAnswersContextType,
-  SetAppContextType,
-  SetUserListContextType,
-  SetWeeksContextType
-} from '../../types'
+import { getDBCollection, getDBDocument } from '../../db'
+import { INIT_APP } from '../storetypes'
+import { IAbout, IFetchObject, IUserStandings, IWeeks } from '../../types'
+import { appActions, aboutActions, standingsActions, weeksActions } from '../slices'
 
-const season = 2023
-
-function* fetchAboutSaga(setAboutContext: SetAboutContextType) {
+function* fetchAboutSaga() {
   try {
-    const about: IAboutContext = yield call(fetchDataFromFirestore, 'about')
-    setAboutContext(about)
+    const about: IAbout = yield call(getDBCollection, 'about')
+    yield put(aboutActions.setAbout(about))
   } catch (error) {
-    if (error instanceof Error) yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 }
 
-function* fetchWeeksSaga(
-  appContext: IAppContext,
-  setAppContext: SetAppContextType,
-  setWeeksContext: SetWeeksContextType
-) {
+function* fetchWeeksSaga() {
   try {
-    const weeks: IWeeksContext = yield call(fetchDataFromFirestore, `weeks${season}`)
-    const { currentWeek, nextWeek } = getWeeksIDs(weeks)
+    const weeks: IWeeks = yield call(getDBCollection, 'weeks')
+    const lastWeek = Number(Object.keys(weeks).slice(-1))
+    yield put(appActions.setSelectedWeek(lastWeek))
+    yield put(weeksActions.setWeeks(weeks))
 
-    setWeeksContext(weeks)
-    setAppContext({ ...appContext, currentWeek, nextWeek, season })
-  } catch (error) {
-    if (error instanceof Error) yield setError(error)
-  }
-}
+    const response: IFetchObject<IUserStandings> = yield call(getDBDocument, 'results', 'standings')
+    const standings = Object.values(response)
 
-function* fetchAnswersSaga(
-  setAnswersContext: SetAnswersContextType,
-  setCompareContext: SetAnswersContextType
-) {
-  try {
-    const answers: IAnswersContext = yield call(fetchDataFromFirestore, `answers${season}`)
-    setAnswersContext(answers)
-    setCompareContext(structuredClone(answers))
+    yield put(standingsActions.setStandings(standings))
+    yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
   } catch (error) {
-    if (error instanceof Error) yield setError(error)
-  }
-}
-
-function* fetchUsersSaga(setUserListContext: SetUserListContextType) {
-  try {
-    const users: IUserListContext = yield call(fetchDataFromFirestore, 'users')
-    setUserListContext(users)
-  } catch (error) {
-    if (error instanceof Error) yield setError(error)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
   }
 }
 
 export function* initSaga() {
   while (true) {
-    const { payload } = yield take(INIT_APP)
-    yield setLoading(true)
-    const {
-      setAboutContext,
-      appContext,
-      setAppContext,
-      setWeeksContext,
-      setAnswersContext,
-      setCompareContext,
-      setUserListContext
-    } = payload
-    yield all([
-      fetchAboutSaga(setAboutContext),
-      fetchWeeksSaga(appContext, setAppContext, setWeeksContext),
-      fetchAnswersSaga(setAnswersContext, setCompareContext),
-      fetchUsersSaga(setUserListContext)
-    ])
-    yield setLoading(false)
+    yield take(INIT_APP)
+    yield put(appActions.setLoading(true))
+    yield all([fetchAboutSaga(), fetchWeeksSaga()])
+    yield put(appActions.setLoading(false))
   }
 }

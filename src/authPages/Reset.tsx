@@ -3,20 +3,20 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Input } from '@mui/material'
+import { useSelector } from 'react-redux'
 
 import { auth } from '../db/firebase'
-import { i18n } from '../locale/locale'
+import { i18n } from '../locale'
 import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
-import { useAppContext } from '../context/Context'
 import { LocaleType } from '../types'
+import { selectUser } from '../redux/selectors'
 
 export const Reset = () => {
   const [email, setEmail] = useState('')
   const inputRef = useRef<HTMLInputElement>()
   const [user, loading] = useAuthState(auth)
-  const { userContext, setUserContext } = useAppContext()
-  const { locale } = userContext
+  const { locale } = useSelector(selectUser)
   const navigate = useNavigate()
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
@@ -35,13 +35,6 @@ export const Reset = () => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
-  const localeChecked = () => (locale ? locale === 'ua' : false)
-
-  const localeChangeHandler = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    setUserContext({ ...userContext, locale: newLocale })
-    localStorage.setItem('locale', newLocale)
-  }
 
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
   const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
@@ -50,13 +43,7 @@ export const Reset = () => {
     <div className="auth">
       <div className="auth__container">
         <div className="auth__data">
-          <Input
-            type="text"
-            value={email}
-            ref={inputRef}
-            onChange={emailInputHandler}
-            placeholder={'E-mail'}
-          />
+          <Input type="text" value={email} ref={inputRef} onChange={emailInputHandler} placeholder={'E-mail'} />
           <Button className="login" onClick={() => sendPasswordReset(email)}>
             {buttonRecoverMsg}
           </Button>
@@ -68,7 +55,7 @@ export const Reset = () => {
           </div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher checked={localeChecked()} onChange={localeChangeHandler} />
+          <LocaleSwitcher />
         </div>
       </div>
     </div>

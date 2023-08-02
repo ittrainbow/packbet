@@ -1,4 +1,3 @@
-import { useContext, createContext, ReactNode } from 'react'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
 import {
   GoogleAuthProvider,
@@ -11,35 +10,29 @@ import {
 } from 'firebase/auth'
 
 import { db, auth } from './firebase'
-import { store } from '../redux/store'
-import { initialAppContext } from '../context/initialContexts'
 import { IUser, LocaleType } from '../types'
-import { i18n } from '../locale/locale'
-import { SET_LOADING } from '../redux/types'
-
-const { season } = initialAppContext
-
-const setLoading = (value: boolean) => store?.dispatch({ type: SET_LOADING, payload: value })
+import { i18n } from '../locale'
+import { appActions } from '../redux/slices'
 
 const googleProvider = new GoogleAuthProvider()
 
 export const signInWithGoogle = async () => {
   try {
+    appActions.setLoading(true)
     const response: UserCredential = await signInWithPopup(auth, googleProvider)
-    setLoading(true)
     if (response) {
-      const { email, displayName: name, uid } = response.user
+      const { email, uid } = response.user
+      const name = response.user.displayName || 'username'
       const docs = await getDoc(doc(db, 'users', uid))
       const googleAuth = async () => {
-        const locale = localStorage.getItem('locale')
-        const user = { email, name, locale, admin: false }
-        const answers = {}
-        await setDoc(doc(db, 'users', uid), user)
-        await setDoc(doc(db, `answers${season}`, uid), answers)
+        const locale = localStorage.getItem('locale') || 'ru'
+        const user = { name, locale, admin: false }
+        await setDoc(doc(db, 'users', uid), { ...user, email })
+        await setDoc(doc(db, `answers`, uid), {})
       }
       docs.data() === undefined && googleAuth()
       const user = docs.data() as IUser
-      setLoading(false)
+      appActions.setLoading(false)
       return { user, uid }
     }
   } catch (error) {
@@ -49,31 +42,27 @@ export const signInWithGoogle = async () => {
 
 export const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
+    appActions.setLoading(true)
     const responseLogin: UserCredential = await signInWithEmailAndPassword(auth, email, password)
-    setLoading(true)
     const { uid } = responseLogin.user
     const responseUser = await getDoc(doc(db, 'users', uid))
     const user = responseUser.data() as IUser
-    setLoading(false)
+    appActions.setLoading(false)
     return { user, uid }
   } catch (error) {
     if (error instanceof Error) console.error(error)
   }
 }
 
-export const registerWithEmailAndPassword = async (
-  name: string,
-  email: string,
-  password: string
-) => {
+export const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
   const locale = localStorage.getItem('locale') || 'ru'
   try {
+    appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
-    setLoading(true)
     const { uid } = response.user
-    const data: IUser = { name, email, locale, admin: false }
+    const data: IUser = { name, locale, admin: false }
     await setDoc(doc(db, 'users', uid), data)
-    setLoading(false)
+    appActions.setLoading(false)
     return { uid, locale }
   } catch (error) {
     if (error instanceof Error) {
@@ -94,21 +83,7 @@ export const sendPasswordReset = async (email: string) => {
 }
 
 export const logout = () => {
-  setLoading(true)
+  appActions.setLoading(true)
   signOut(auth)
-  return setLoading(false)
-}
-
-export function useAuthValue() {
-  return useContext(AuthContext)
-}
-
-const AuthContext = createContext({})
-
-type AuthProviderProps = {
-  children: ReactNode
-}
-
-export function AuthProvider({ children }: AuthProviderProps) {
-  return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>
+  return appActions.setLoading(false)
 }

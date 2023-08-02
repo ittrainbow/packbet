@@ -3,79 +3,66 @@ import {
   doc,
   getDoc,
   getDocs,
-  updateDoc,
   deleteDoc,
   collection,
   QuerySnapshot,
   DocumentData,
-  deleteField
+  updateDoc
 } from 'firebase/firestore'
 
 import { db } from './firebase'
-import { IUser, WeekDeleteType, WeekUpdateType, WeekSubmitType } from '../types'
-import { objectCompare, objectCompose } from '../helpers'
+import { objectCompose } from '../helpers'
+import { AnswersType } from '../types'
 
-type WriteNameType = {
-  uid: string
-  data: IUser
-}
-
-export const writeNameToFirestore = async (props: WriteNameType) => {
-  const { uid, data } = props
+export const getDBDocument = async (collection: string, document: string | number) => {
   try {
-    await setDoc(doc(db, 'users', uid), data)
-    return
-  } catch (error) {
-    if (error instanceof Error) console.error(error.message)
-  }
-}
-
-export const getNameFromFirestore = async (uid: string) => {
-  try {
-    const response = await getDoc(doc(db, 'users', uid))
+    const response = await getDoc(doc(db, collection, document.toString()))
     return response.data()
   } catch (error) {
     if (error instanceof Error) console.error(error.message)
   }
 }
 
-export const fetchDataFromFirestore = async (link: string) => {
+export const writeDBDocument = async (collection: string, document: string | number, data: any) => {
+  try {
+    await setDoc(doc(db, collection, document.toString()), data)
+    return
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
+}
+
+export const updateDBDocument = async (
+  collection: string,
+  document: string | number,
+  selectedWeek: number,
+  data: any
+) => {
+  try {
+    const emptyData = !Object.keys(data).length
+    const updateData = {} as AnswersType
+    updateData[selectedWeek] = data[document][selectedWeek]
+    if (emptyData) await updateDoc(doc(db, collection, document.toString()), updateData)
+    else await deleteDoc(doc(db, collection, document.toString()))
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
+}
+
+export const deleteDBDocument = async (collection: string, document: string | number) => {
+  try {
+    await deleteDoc(doc(db, collection, document.toString()))
+    return
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
+}
+
+export const getDBCollection = async (link: string) => {
   try {
     const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, link))
     return objectCompose(response)
   } catch (error) {
     if (error instanceof Error) console.error(error.message)
   }
-}
-
-export const setWeekToFirestore = async (props: WeekUpdateType) => {
-  const { season, id, editorContext } = props
-  await setDoc(doc(db, `weeks${season}`, id.toString()), editorContext)
-}
-
-export const deleteWeekFromFirestore = async (props: WeekDeleteType) => {
-  const { season, selectedWeek } = props
-  const update = { [selectedWeek]: deleteField() }
-
-  try {
-    await updateDoc(doc(db, `answers${season}`, 'results'), update)
-    await deleteDoc(doc(db, `weeks${season}`, selectedWeek.toString()))
-  } catch (error) {
-    if (error instanceof Error) console.error(error.message)
-  }
-}
-
-export const submitWeekToFirestore = async (props: WeekSubmitType) => {
-  const { data, selectedWeek, season, ansOrRes, toaster } = props
-  const update = { [selectedWeek]: deleteField() }
-
-  if (data[selectedWeek]) {
-    await setDoc(doc(db, `answers${season}`, ansOrRes), data)
-  } else {
-    await updateDoc(doc(db, `answers${season}`, ansOrRes), update)
-  }
-
-  const response = await getDoc(doc(db, `answers${season}`, ansOrRes))
-  const success = objectCompare(response.data(), data)
-  toaster(success)
 }

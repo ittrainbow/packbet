@@ -1,13 +1,11 @@
 import { ReactNode } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { HistoryRouter } from 'redux-first-history/rr6'
 
 import { About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI'
 import { Header } from '../pages'
-import { history } from '../redux/store'
 import { selectApp } from '../redux/selectors'
 
 type RouterProps = {
@@ -42,12 +40,10 @@ export const Router = ({ children }: RouterProps) => {
   }
 
   return (
-    <HistoryRouter history={history}>
-      {/* <ContextProvider> */}
+    <BrowserRouter>
       <Header />
       {children}
       {loading ? <Loader /> : routes()}
-      {/* </ContextProvider> */}
-    </HistoryRouter>
+    </BrowserRouter>
   )
 }

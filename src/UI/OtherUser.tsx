@@ -1,26 +1,26 @@
-import { i18n } from '../locale/locale'
-import { useAppContext } from '../context/Context'
+import { useSelector, useDispatch } from 'react-redux'
+
+import { i18n } from '../locale'
 import { LocaleType } from '../types'
+import { selectApp, selectUser } from '../redux/selectors'
+import { appActions } from '../redux/slices'
 
 export const OtherUser = () => {
-  const { userContext, appContext, setAppContext } = useAppContext()
-  const { otherUserName, isItYou } = appContext
-  const { locale } = userContext
+  const dispatch = useDispatch()
+  const { otherUserName, isItYou } = useSelector(selectApp)
+  const { locale } = useSelector(selectUser)
 
-  const setContextHandler = () => {
-    setAppContext({
-      ...appContext,
-      isItYou: true,
-      otherUserName: '',
-      otherUserUID: ''
-    })
+  const switchHandler = () => {
+    dispatch(appActions.setIsItYou(true))
+    dispatch(appActions.setOtherUserName(''))
+    dispatch(appActions.setOtherUserUID(''))
   }
 
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as LocaleType
 
   return isItYou ? null : (
     <div>
-      <button className="otheruser" onClick={setContextHandler}>
+      <button className="otheruser" onClick={switchHandler}>
         <div className="otheruser__text">{otherUser1msg}</div>
         <div className="otheruser__text">
           {otherUser2msg}

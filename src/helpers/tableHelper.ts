@@ -1,4 +1,5 @@
-import { IAnswersContext, IUserListContext, IUserStandings } from '../types'
+import { FaChessKing } from 'react-icons/fa'
+import { AnswersType, IAnswers, IFetchObject, IPlayers, IUserStandings } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
@@ -6,31 +7,27 @@ export const tableObjectCreator = (ansTotal: number, ansCorrect: number, results
   return { total, correct }
 }
 
-export const tableCreator = (
-  answersContext: IAnswersContext,
-  userListContext: IUserListContext
-) => {
-  const userList = Object.keys(userListContext)
-  const object: { [key: string]: IUserStandings } = {}
+export const tableCreator = (answers: IAnswers, players: IPlayers, results: AnswersType) => {
+  const userList = Object.keys(players)
+  const object: IFetchObject<IUserStandings> = {}
   userList.forEach((el) => {
     let ansTotal = 0
     let ansCorrect = 0
     let resultsTotal = 0
     const uid = el
-    const { name } = userListContext[el]
-    const ans = answersContext ? answersContext[el] : null
-    const res = answersContext.results ?? null
-    Object.keys(res)
+    const { name } = players[el]
+    const ans = answers ? answers[el] : null
+    Object.keys(results)
       .map((el) => Number(el))
       .forEach((el) => {
         const subAns = ans ? ans[el] : null
-        res[el] &&
-          Object.keys(res[el])
+        results[el] &&
+          Object.keys(results[el])
             .map((el) => Number(el))
             .forEach((i) => {
               resultsTotal++
               subAns && subAns[i] && ansTotal++
-              subAns && subAns[i] && subAns[i] === res[el][i] && ansCorrect++
+              subAns && subAns[i] && subAns[i] === results[el][i] && ansCorrect++
             })
       })
 
