@@ -1,14 +1,5 @@
 import { QuerySnapshot, DocumentData } from 'firebase/firestore'
-import {
-  IAbout,
-  IAnswers,
-  IPlayers,
-  IUser,
-  QuestionType,
-  QuestionsType,
-  RawUser,
-  WeekType
-} from '../types'
+import { IAbout, IAnswers, IPlayers, IUser, QuestionType, QuestionsType, RawUser, WeekType } from '../types'
 
 export const objectTrim = (object: QuestionsType, id: number) => {
   const obj = structuredClone(object)
@@ -18,7 +9,7 @@ export const objectTrim = (object: QuestionsType, id: number) => {
 
 export const emailTrim = (object: { [key: string]: RawUser }) => {
   const obj: { [key: string]: IUser } = structuredClone(object)
-  Object.keys(object).forEach(el => {
+  Object.keys(object).forEach((el) => {
     const { admin, locale, name } = object[el]
     obj[el] = { admin, locale, name }
   })
@@ -55,7 +46,6 @@ export const objectCompare = (obj1: CompareAnswersType = {}, obj2: CompareAnswer
 
 export const objectNewId = (questions: { [key: number]: QuestionType }) => {
   const nums = Object.keys(questions)
-  const value =
-    nums.map((el: string) => Number(el)).sort((a: number, b: number) => b - a)[0] + 1 || 0
+  const value = nums.map((el: string) => Number(el)).sort((a: number, b: number) => b - a)[0] + 1 || 0
   return nums.length > 0 ? value : 0
 }

@@ -4,24 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
 
-import {
-  objectCompare,
-  objectTrim,
-  objectReplace,
-  getWeeksIDs,
-  getNewQuestionId,
-  emptyQuestion
-} from '../helpers'
+import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, emptyQuestion } from '../helpers'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale/locale'
 import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
-import {
-  selectApp,
-  selectEditor,
-  selectUser,
-  selectWeeks
-} from '../redux/selectors'
+import { selectApp, selectEditor, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../redux/slices'
 
 export const Editor = () => {
@@ -33,9 +21,7 @@ export const Editor = () => {
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
   const { locale } = useSelector(selectUser)
-  const [questionInWork, setQuestionInWork] = useState(
-    emptyQuestion as QuestionType
-  )
+  const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
   const { questions, name, active, deadline } = editor
@@ -55,17 +41,14 @@ export const Editor = () => {
   }, [selectedWeek])
 
   useEffect(() => {
-    const changes = emptyEditor
-      ? Object.keys(questions).some((el) => el)
-      : !objectCompare(editor, loadedWeek)
-    setAnyChanges(changes) 
+    const changes = emptyEditor ? Object.keys(questions).some((el) => el) : !objectCompare(editor, loadedWeek)
+    setAnyChanges(changes)
     // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
   const editorLocale = i18n(locale, 'editor') as LocaleType
   const buttonsLocale = i18n(locale, 'buttons') as LocaleType
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } =
-    editorLocale
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = editorLocale
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = buttonsLocale
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
@@ -179,10 +162,7 @@ export const Editor = () => {
                   onClick={() => setQuestionInWork(emptyQuestion)}
                 />
               ) : (
-                <FaEdit
-                  className="editor-question__edit editor-btn__green"
-                  onClick={() => editButtonHandler(id)}
-                />
+                <FaEdit className="editor-question__edit editor-btn__green" onClick={() => editButtonHandler(id)} />
               )}
               <FaTrashAlt
                 className="editor-question__trash editor-btn__red"
@@ -235,27 +215,13 @@ export const Editor = () => {
       {renderQuestions()}
       <div className="editor-checkbox">
         <div className="editor-checkbox__pad">{weekActivityMsg}</div>
-        <Input
-          type="checkbox"
-          checked={active}
-          className={'checkbox'}
-          onChange={changeActivityHandler}
-        />
+        <Input type="checkbox" checked={active} className={'checkbox'} onChange={changeActivityHandler} />
       </div>
       <div className="editor-datetime__container">
-        <Input
-          type="datetime-local"
-          value={getDeadline()}
-          className={'timer'}
-          onChange={changeDateHandler}
-        />
+        <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={changeDateHandler} />
       </div>
       <div className="editor-form">
-        <Button
-          className={'editor'}
-          disabled={!anyChanges}
-          onClick={submitHandler}
-        >
+        <Button className={'editor'} disabled={!anyChanges} onClick={submitHandler}>
           {buttonSaveMsg}
         </Button>
         <Button className={'editor'} onClick={goBackHandler}>

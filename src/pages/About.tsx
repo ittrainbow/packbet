@@ -21,10 +21,7 @@ export const About = () => {
   }, [locale, about])
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(
-    locale,
-    'about'
-  ) as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },

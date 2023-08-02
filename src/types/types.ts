@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
-
 export type LocaleType = { [key: string]: string }
 
 export type QuestionType = {
@@ -8,8 +6,17 @@ export type QuestionType = {
   id?: number | null
 }
 export type QuestionsType = { [key: number]: QuestionType }
-export type AnswersType = { [key: number]: { [key: number]: number } }
-export type AnswersUpdateType = { answers: AnswersType, uid: string }
+
+export type AnswersType = {
+  [key: number]: {
+    [key: number]: number
+  }
+}
+
+export type AnswersUpdateType = {
+  answers: AnswersType
+  uid: string
+}
 
 export type WeekType = {
   active: boolean

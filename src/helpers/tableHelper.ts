@@ -6,11 +6,7 @@ export const tableObjectCreator = (ansTotal: number, ansCorrect: number, results
   return { total, correct }
 }
 
-export const tableCreator = (
-  answers: IAnswers,
-  players: IPlayers,
-  results: AnswersType
-) => {
+export const tableCreator = (answers: IAnswers, players: IPlayers, results: AnswersType) => {
   const userList = Object.keys(players)
   const object: IFetchObject<IUserStandings> = {}
   userList.forEach((el) => {

@@ -33,11 +33,7 @@ export const Calendar = () => {
             const { name } = weeks[el]
             const selectedWeek = Number(el)
             return (
-              <div
-                key={selectedWeek}
-                className="week"
-                onClick={() => clickHandler(selectedWeek)}
-              >
+              <div key={selectedWeek} className="week" onClick={() => clickHandler(selectedWeek)}>
                 <div className="week__desc">{name}</div>
               </div>
             )

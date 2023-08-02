@@ -1,10 +1,20 @@
-import { setDoc, doc, getDoc, getDocs, deleteDoc, collection, QuerySnapshot, DocumentData, updateDoc } from 'firebase/firestore'
+import {
+  setDoc,
+  doc,
+  getDoc,
+  getDocs,
+  deleteDoc,
+  collection,
+  QuerySnapshot,
+  DocumentData,
+  updateDoc
+} from 'firebase/firestore'
 
 import { db } from './firebase'
 import { objectCompose } from '../helpers'
 import { AnswersType } from '../types'
 
-export const getDocumentFromDB = async (collection: string, document: string | number) => {
+export const getDBDocument = async (collection: string, document: string | number) => {
   try {
     const response = await getDoc(doc(db, collection, document.toString()))
     return response.data()
@@ -13,7 +23,7 @@ export const getDocumentFromDB = async (collection: string, document: string | n
   }
 }
 
-export const writeDocumentToDB = async (collection: string, document: string | number, data: any) => {
+export const writeDBDocument = async (collection: string, document: string | number, data: any) => {
   try {
     await setDoc(doc(db, collection, document.toString()), data)
     return
@@ -22,7 +32,8 @@ export const writeDocumentToDB = async (collection: string, document: string | n
   }
 }
 
-export const updateDocumentInDB = async (collection: string,
+export const updateDBDocument = async (
+  collection: string,
   document: string | number,
   selectedWeek: number,
   data: any
@@ -38,7 +49,7 @@ export const updateDocumentInDB = async (collection: string,
   }
 }
 
-export const deleteDocumentFromDB = async (collection: string, document: string | number) => {
+export const deleteDBDocument = async (collection: string, document: string | number) => {
   try {
     await deleteDoc(doc(db, collection, document.toString()))
     return
@@ -47,7 +58,7 @@ export const deleteDocumentFromDB = async (collection: string, document: string 
   }
 }
 
-export const getCollectionFromDB = async (link: string) => {
+export const getDBCollection = async (link: string) => {
   try {
     const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, link))
     return objectCompose(response)

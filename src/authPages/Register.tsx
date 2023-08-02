@@ -64,44 +64,17 @@ export const Register = () => {
 
   const googleClickHandler = async () => await signInWithGoogle()
 
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(
-    locale,
-    'buttons'
-  ) as LocaleType
-  const {
-    loginIntro,
-    loginMsg,
-    regNameMsg,
-    regNameAlert,
-    regEmailAlert,
-    regPasswordAlert,
-    emailMsg,
-    passwordMsg
-  } = i18n(locale, 'auth') as LocaleType
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
+  const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
+    i18n(locale, 'auth') as LocaleType
 
   return (
     <div className="auth">
       <div className="auth__container">
         <div className="auth__data">
-          <Input
-            type="text"
-            value={name}
-            ref={inputRef}
-            onChange={nameInputHandler}
-            placeholder={regNameMsg}
-          />
-          <Input
-            type="email"
-            value={email}
-            onChange={emailInputHandler}
-            placeholder={emailMsg}
-          />
-          <Input
-            type="password"
-            value={password}
-            onChange={passwordInputHandler}
-            placeholder={passwordMsg}
-          />
+          <Input type="text" value={name} ref={inputRef} onChange={nameInputHandler} placeholder={regNameMsg} />
+          <Input type="email" value={email} onChange={emailInputHandler} placeholder={emailMsg} />
+          <Input type="password" value={password} onChange={passwordInputHandler} placeholder={passwordMsg} />
           <Button className="login" onClick={register}>
             {buttonRegisterMsg}
           </Button>

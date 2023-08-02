@@ -74,7 +74,7 @@ export const appSlice = createSlice({
       state.tabActive = action.payload
     },
 
-    setHeader(state, action: PayloadAction<{ id: number, selectedWeek: number, emptyEditor: boolean }>) {
+    setHeader(state, action: PayloadAction<{ id: number; selectedWeek: number; emptyEditor: boolean }>) {
       const { id, selectedWeek, emptyEditor } = action.payload
       state.tabActive = id
       state.selectedWeek = selectedWeek

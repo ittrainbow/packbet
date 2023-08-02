@@ -15,7 +15,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch({ type: INIT_APP })
-    dispatch(setMobile(isMobile)) 
+    dispatch(setMobile(isMobile))
     // eslint-disable-next-line
   }, [])
 
@@ -25,7 +25,7 @@ export const App = () => {
         type: USER_LOGIN,
         payload: user
       })
-    } 
+    }
     // eslint-disable-next-line
   }, [user])
 

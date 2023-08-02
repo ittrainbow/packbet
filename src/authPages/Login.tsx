@@ -57,39 +57,18 @@ export const Login = () => {
 
   const googleClickHandler = async () => await signInWithGoogle()
 
-  const emailLogInHandler = async () =>
-    await logInWithEmailAndPassword(email, password)
+  const emailLogInHandler = async () => await logInWithEmailAndPassword(email, password)
 
-  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(
-    locale,
-    'buttons'
-  ) as LocaleType
-  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(
-    locale,
-    'auth'
-  ) as LocaleType
+  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType
+  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as LocaleType
 
   return (
     <div className="auth">
       <div className="auth__container">
         <div className="auth__data">
-          <Input
-            type="text"
-            value={email}
-            onChange={emailInputHandler}
-            placeholder={emailMsg}
-          />
-          <Input
-            type="password"
-            value={password}
-            onChange={passwordInputHandler}
-            placeholder={passwordMsg}
-          />
-          <Button
-            className="login"
-            disabled={!loginButtonActive}
-            onClick={emailLogInHandler}
-          >
+          <Input type="text" value={email} onChange={emailInputHandler} placeholder={emailMsg} />
+          <Input type="password" value={password} onChange={passwordInputHandler} placeholder={passwordMsg} />
+          <Button className="login" disabled={!loginButtonActive} onClick={emailLogInHandler}>
             {buttonLoginMsg}
           </Button>
           <Button className="google" onClick={googleClickHandler}>

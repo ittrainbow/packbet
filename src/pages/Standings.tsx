@@ -52,14 +52,10 @@ export const Standings = () => {
     }
   }
 
-  const {
-    tableNameMsg,
-    tableCorrectMsg,
-    tableTierline,
-    findMeBtn,
-    findBtn,
-    clearBtn
-  } = i18n(locale, 'standings') as LocaleType
+  const { tableNameMsg, tableCorrectMsg, tableTierline, findMeBtn, findBtn, clearBtn } = i18n(
+    locale,
+    'standings'
+  ) as LocaleType
 
   const findHandler = () => {
     const link = searchString.length > 0 ? searchString : 'findMyDivInStandings'
@@ -87,9 +83,7 @@ export const Standings = () => {
 
   const searchClasses = searching ? 'animate-draw-red' : ''
 
-  const backClasses = `goback-button ${
-    !isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'
-  }`
+  const backClasses = `goback-button ${!isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'}`
 
   const highlightUser = (name: string, uid: string) =>
     name === searchString || (user?.uid === uid && searchString === '')
@@ -97,18 +91,9 @@ export const Standings = () => {
   return (
     <div className="container">
       <div className="standings-top-container">
-        <Input
-          onChange={onChangeHandler}
-          value={searchString}
-          className={searchClasses}
-          type="search"
-        />
+        <Input onChange={onChangeHandler} value={searchString} className={searchClasses} type="search" />
         <div ref={buttonRef} className="standings-button">
-          <Button
-            onClick={findHandler}
-            minWidth={80}
-            disabled={isMyRefInViewport && !searchString}
-          >
+          <Button onClick={findHandler} minWidth={80} disabled={isMyRefInViewport && !searchString}>
             {searchString ? findBtn : findMeBtn}
           </Button>
         </div>
@@ -119,11 +104,7 @@ export const Standings = () => {
         </div>
       </div>
       {showGoBackButton ? (
-        <div
-          className={backClasses}
-          onClick={scrollTopHandler}
-          style={{ opacity: showGoBackButton ? 0.5 : 0 }}
-        >
+        <div className={backClasses} onClick={scrollTopHandler} style={{ opacity: showGoBackButton ? 0.5 : 0 }}>
           <FaArrowCircleUp />
         </div>
       ) : (
@@ -142,14 +123,7 @@ export const Standings = () => {
           Object.values(standings)
             .filter((el) => el.ansTotal > 0)
             .map((el, index) => {
-              const {
-                name,
-                uid,
-                ansCorrect,
-                ansTotal,
-                position,
-                resultsTotal
-              } = el
+              const { name, uid, ansCorrect, ansTotal, position, resultsTotal } = el
               return (
                 <div key={index} className="standings-header">
                   <div className="cellOne">{position}</div>
@@ -166,12 +140,8 @@ export const Standings = () => {
                     {name}
                   </div>
                   <div className="cellThree">{ansCorrect + '/' + ansTotal}</div>
-                  <div className="cellFour">
-                    {(ansCorrect / ansTotal).toFixed(3)}
-                  </div>
-                  <div className="cellThree">
-                    {((ansTotal * 100) / resultsTotal).toFixed(0)}%
-                  </div>
+                  <div className="cellFour">{(ansCorrect / ansTotal).toFixed(3)}</div>
+                  <div className="cellThree">{((ansTotal * 100) / resultsTotal).toFixed(0)}%</div>
                 </div>
               )
             })}

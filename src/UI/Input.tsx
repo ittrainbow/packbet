@@ -13,16 +13,7 @@ type InputProps = {
 }
 
 export const Input = (props: InputProps) => {
-  const {
-    type,
-    value,
-    onChange,
-    placeholder,
-    id,
-    className,
-    inputRef,
-    checked
-  } = props
+  const { type, value, onChange, placeholder, id, className, inputRef, checked } = props
   return (
     <input
       ref={inputRef}

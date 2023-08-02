@@ -22,10 +22,14 @@ export interface IUser {
   name: string
   adminAsPlayer?: boolean
 }
-export interface RawUser extends IUser { email: string }
+export interface RawUser extends IUser {
+  email: string
+}
 
 export interface IAbout {
-  [key: string]: { [key: number]: string }
+  [key: string]: {
+    [key: number]: string
+  }
 }
 
 export interface IAnswers {

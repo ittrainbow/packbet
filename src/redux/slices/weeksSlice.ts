@@ -20,7 +20,7 @@ export const weeksSlice = createSlice({
     updateWeeks(state, action: PayloadAction<UpdateWeeksType>) {
       const { week, id } = action.payload
       state[id] = week
-    },
+    }
   }
 })
 

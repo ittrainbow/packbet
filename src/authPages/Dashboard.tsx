@@ -23,14 +23,8 @@ export const Dashboard = () => {
     navigate('/profile')
   }
 
-  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(
-    locale,
-    'auth'
-  ) as LocaleType
-  const { buttonProfileMsg, buttonLogoutMsg } = i18n(
-    locale,
-    'buttons'
-  ) as LocaleType
+  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
+  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
     <div className="auth">

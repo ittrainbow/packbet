@@ -45,14 +45,8 @@ export const Profile = () => {
 
   const noChanges = name === tempName && locale === tempLocale
 
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(
-    locale,
-    'auth'
-  ) as LocaleType
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(
-    locale,
-    'buttons'
-  ) as LocaleType
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
     <div className="auth">
@@ -62,12 +56,7 @@ export const Profile = () => {
           <div className="text-container">{profileLangMsg}</div>
           <LocaleSwitcher />
           <div className="text-container">{profileNameMsg}</div>
-          <Input
-            type="text"
-            inputRef={inputRef}
-            onChange={(e) => setTempName(e.target.value)}
-            value={tempName}
-          />
+          <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
           <Button disabled={noChanges} onClick={submitHandler}>
             {noChanges ? buttonChangesMsg : buttonSaveMsg}
           </Button>

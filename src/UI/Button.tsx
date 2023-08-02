@@ -8,21 +8,10 @@ type ButtonProps = {
   children: ReactNode
 }
 
-export const Button = ({
-  onClick,
-  disabled = false,
-  className,
-  children,
-  minWidth = 40
-}: ButtonProps) => {
+export const Button = ({ onClick, disabled = false, className, children, minWidth = 40 }: ButtonProps) => {
   const classes = className ? 'button ' + className : 'button'
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={classes}
-      style={{ minWidth }}
-    >
+    <button onClick={onClick} disabled={disabled} className={classes} style={{ minWidth }}>
       {children}
     </button>
   )
