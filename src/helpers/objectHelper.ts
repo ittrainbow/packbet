@@ -1,16 +1,12 @@
 import { QuerySnapshot, DocumentData } from 'firebase/firestore'
-import { IAbout, IAnswers, IPlayers, QuestionType, QuestionsType, WeekType } from '../types'
+import { IAbout, IAnswers, AnswersType, IPlayers, QuestionType, QuestionsType, WeekType } from '../types'
 
-type CompareAnswersType = { [key: number]: { [key: number]: number } } | WeekType
+type CompareType = AnswersType | WeekType | { [key: number]: number }
 
 export const objectTrim = (object: QuestionsType, id: number) => {
   const obj = structuredClone(object)
   delete obj[id]
   return obj
-}
-
-export const checkObjEmpty = (obj: any) => {
-  
 }
 
 export const getNewQuestionId = (questions: QuestionsType): number => {
@@ -35,6 +31,6 @@ export const objectReplace = (questions: QuestionsType, id: number, replacement:
   return obj
 }
 
-export const objectCompare = (obj1: CompareAnswersType = {}, obj2: CompareAnswersType = {}) => {
+export const objectCompare = (obj1: CompareType = {}, obj2: CompareType = {}) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }

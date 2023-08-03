@@ -12,7 +12,7 @@ import { i18n } from '../locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
 import { LocaleType, YesNoHandlerPropsType } from '../types'
 import { selectAnswers, selectApp, selectCompare, selectResults, selectUser, selectWeeks } from '../redux/selectors'
-import { answersActions, resultsActions, userActions } from '../redux/slices'
+import { answersActions, resultsActions } from '../redux/slices'
 
 export const Week = () => {
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
@@ -38,11 +38,11 @@ export const Week = () => {
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
   const gotChanges = useMemo(() => {
-    if (!!Object.keys(answers).length && !!Object.keys(results).length) {
+    if (answers[uid] && !!Object.keys(answers).length && !!Object.keys(results).length) {
       const userChanges = !objectCompare(answers[uid], compare.answers)
       const adminChanges = admin ? !objectCompare(results, compare.results) : false
 
-      return userChanges || adminChanges
+      return adminAsPlayer ? userChanges : adminChanges
     }
     // eslint-disable-next-line
   }, [adminAsPlayer, answers, results])
@@ -75,15 +75,13 @@ export const Week = () => {
 
   const submitHandler = async () => {
     const firstData = !!Object.keys(answers[uid]).length
-    console.log(99, firstData)
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
-    const type = adm ? SUBMIT_RESULTS : SUBMIT_ANSWERS
-    const payload = adm ? { results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
+    const type = adm ? SUBMIT_RESULTS : SUBMIT_ANSWERS
+    const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
     dispatch({ type, payload })
-    dispatch(userActions.setAdminAsPlayer(true))
   }
 
   const discardHandler = () => {

@@ -1,15 +1,26 @@
-import { take, all, call, put } from 'redux-saga/effects'
+import { take, all, call, put, select } from 'redux-saga/effects'
 
-import { getWeeksIDs } from '../../helpers'
-import { getDBCollection, getDBDocument } from '../../db'
+import { getWeeksIDs, tableCreator } from '../../helpers'
+import { getDBCollection } from '../../db'
 import { INIT_APP } from '../storetypes'
-import { IAbout, IFetchObject, IUserStandings, IWeeks } from '../../types'
-import { appActions, aboutActions, standingsActions, weeksActions } from '../slices'
+import { IAbout, IUserStandings, IWeeks, AnswersType, IAnswers, RawUser, IStore } from '../../types'
+import { appActions, aboutActions, standingsActions, weeksActions, resultsActions } from '../slices'
 
 function* fetchAboutSaga() {
   try {
     const about: IAbout = yield call(getDBCollection, 'about')
     yield put(aboutActions.setAbout(about))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
+}
+
+function* fetchResultsSaga() {
+  try {
+    const response: AnswersType = yield call(getDBCollection, 'results')
+    yield put(resultsActions.setResults(response))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -23,12 +34,23 @@ function* fetchWeeksSaga() {
     const lastWeek = Number(Object.keys(weeks).slice(-1))
     yield put(appActions.setSelectedWeek(lastWeek))
     yield put(weeksActions.setWeeks(weeks))
-
-    const response: IFetchObject<IUserStandings> = yield call(getDBDocument, 'results', 'standings')
-    const standings = Object.values(response)
-
-    yield put(standingsActions.setStandings(standings))
     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
+}
+
+function* fetchStandingsSaga() {
+  try {
+    const results: AnswersType = yield select((store: IStore) => store.results)
+    const answers: IAnswers = yield call(getDBCollection, 'answers')
+    const players: { [key: string]: RawUser } = yield call(getDBCollection, 'users')
+    const standingsArray: IUserStandings[] = tableCreator(answers, players, results)
+
+    const standings = Object.assign({}, standingsArray)
+    yield put(standingsActions.setStandings(standings))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -40,7 +62,8 @@ export function* initSaga() {
   while (true) {
     yield take(INIT_APP)
     yield put(appActions.setLoading(true))
-    yield all([fetchAboutSaga(), fetchWeeksSaga()])
+    yield all([fetchAboutSaga(), fetchWeeksSaga(), fetchResultsSaga()])
+    yield call(fetchStandingsSaga)
     yield put(appActions.setLoading(false))
   }
 }

@@ -40,7 +40,6 @@ export const updateDBDocument = async (
 ) => {
   try {
     const emptyData = !Object.keys(data).length
-    console.log(101, emptyData)
     const updateData = {} as AnswersType
     updateData[selectedWeek] = data[document][selectedWeek]
     if (emptyData) await updateDoc(doc(db, collection, document.toString()), updateData)
@@ -52,7 +51,6 @@ export const updateDBDocument = async (
 
 export const deleteDBDocument = async (collection: string, document: string | number) => {
   try {
-    console.log(2)
     await deleteDoc(doc(db, collection, document.toString()))
     return
   } catch (error) {

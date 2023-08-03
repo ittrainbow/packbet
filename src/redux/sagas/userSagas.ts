@@ -1,10 +1,10 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeEvery, call, put, select } from 'redux-saga/effects'
 
 import { UPDATE_PROFILE, USER_LOGIN, FETCH_OTHER_USER, SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../storetypes'
-import { ActionType, IUser, AnswersType, IAnswers, RawUser, IUserStandings } from '../../types'
-import { writeDBDocument, getDBCollection, getDBDocument, updateDBDocument } from '../../db'
-import { appActions, answersActions, resultsActions, standingsActions, userActions, compareActions } from '../slices'
-import { objectCompare, tableCreator } from '../../helpers'
+import { ActionType, IUser, AnswersType, IStore } from '../../types'
+import { writeDBDocument, getDBDocument, updateDBDocument } from '../../db'
+import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
+import { objectCompare } from '../../helpers'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -15,6 +15,7 @@ type UserUpdateType = {
 type SubmitResultsType = {
   results: AnswersType
   toaster: (value: boolean) => void
+  selectedWeek: number
 }
 
 type SubmitAnswersType = {
@@ -58,11 +59,9 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
     yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
 
     const answers: AnswersType = yield call(getDBDocument, 'answers', uid)
-    yield put(answersActions.updateAnswers({ answers, uid }))
-
-    const results: AnswersType = yield call(getDBDocument, 'results', 'results')
-    yield put(resultsActions.setResults(results))
+    const results: AnswersType = yield select((store: IStore) => store.results)
     yield put(compareActions.setCompare({ answers, results }))
+    yield put(answersActions.updateAnswers({ answers, uid }))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -70,28 +69,16 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
   }
 }
 
-function* setStandingsSaga(results: AnswersType) {
-  const answers: IAnswers = yield call(getDBCollection, 'answers')
-  const players: { [key: string]: RawUser } = yield call(getDBCollection, 'users')
-  const standingsArray: IUserStandings[] = tableCreator(answers, players, results)
-
-  return Object.assign({}, standingsArray)
-}
-
 function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
-  const { results, toaster } = action.payload
+  const { results, selectedWeek, toaster } = action.payload
   yield put(appActions.setLoading(true))
 
   try {
-    const standings: IUserStandings[] = yield call(setStandingsSaga, results)
-
-    yield call(writeDBDocument, 'results', 'results', results)
-    yield call(writeDBDocument, 'results', 'standings', standings)
-    yield put(standingsActions.setStandings(standings))
+    yield call(writeDBDocument, 'results', selectedWeek, results[selectedWeek])
     yield put(resultsActions.setResults(results))
 
-    const response: AnswersType = yield call(getDBDocument, 'results', 'results')
-    const saveSuccess: boolean = yield call(objectCompare, response, results)
+    const response: AnswersType = yield call(getDBDocument, 'results', selectedWeek)
+    const saveSuccess: boolean = yield call(objectCompare, response, results[selectedWeek])
 
     yield put(compareActions.updateCompare({ data: response, id: 'results' }))
     yield call(toaster, saveSuccess)
@@ -111,10 +98,8 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
   yield put(appActions.setLoading(true))
   try {
     if (firstData) {
-      console.log(100, 'write', firstData)
       yield call(writeDBDocument, 'answers', uid, answers[uid])
     } else {
-      console.log(100, 'update', firstData)
       yield call(updateDBDocument, 'answers', uid, selectedWeek, answers)
     }
 
