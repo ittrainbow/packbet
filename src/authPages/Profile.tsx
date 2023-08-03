@@ -38,7 +38,7 @@ export const Profile = () => {
   }
 
   const noSaveHandler = () => {
-    localStorage.setItem('locale', tempLocale)
+    localStorage.setItem('packContestLocale', tempLocale)
     dispatch(userActions.setLocale(tempLocale))
     navigate(-1)
   }

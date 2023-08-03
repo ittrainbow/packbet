@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth'
 
 import { db, auth } from './firebase'
-import { IUser, LocaleType } from '../types'
+import { IUser, IUserStore, LocaleType } from '../types'
 import { i18n } from '../locale'
 import { appActions } from '../redux/slices'
 
@@ -21,13 +21,13 @@ export const signInWithGoogle = async () => {
     appActions.setLoading(true)
     const response: UserCredential = await signInWithPopup(auth, googleProvider)
     if (response) {
-      const { email, uid } = response.user
+      const { uid } = response.user
       const name = response.user.displayName || 'username'
       const docs = await getDoc(doc(db, 'users', uid))
       const googleAuth = async () => {
-        const locale = localStorage.getItem('locale') || 'ru'
-        const user = { name, locale, admin: false }
-        await setDoc(doc(db, 'users', uid), { ...user, email })
+        const locale = localStorage.getItem('packContestLocale') || 'ru'
+        const user = { name, locale, admin: false, buddies: [uid] }
+        await setDoc(doc(db, 'users', uid), user)
         await setDoc(doc(db, `answers`, uid), {})
       }
       docs.data() === undefined && googleAuth()
@@ -55,12 +55,12 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
 }
 
 export const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
-  const locale = localStorage.getItem('locale') || 'ru'
+  const locale = localStorage.getItem('packContestLocale') || 'ru'
   try {
     appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data: IUser = { name, uid, locale, admin: false }
+    const data: IUserStore = { name, uid, locale, admin: false, buddies: [uid] }
     await setDoc(doc(db, 'users', uid), data)
     appActions.setLoading(false)
     return { uid, locale }
@@ -85,6 +85,6 @@ export const sendPasswordReset = async (email: string) => {
 export const logout = () => {
   appActions.setLoading(true)
   signOut(auth)
-  
+
   return appActions.setLoading(false)
 }

@@ -3,18 +3,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IUser } from '../../types'
 import { initialUser } from '../../helpers/initials'
 
-const initialState: IUser = initialUser
+const initialState = initialUser
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<IUser>) {
-      const { admin, locale, name, adminAsPlayer } = action.payload
+      const { admin, locale, name, adminAsPlayer, buddies } = action.payload
       state.admin = admin
       state.locale = locale
       state.name = name
       state.adminAsPlayer = adminAsPlayer
+      state.buddies = buddies
     },
 
     updateUser(state, action: PayloadAction<{ [key: string]: string }>) {
@@ -33,6 +34,10 @@ export const userSlice = createSlice({
 
     setUid(state, action: PayloadAction<string>) {
       state.uid = action.payload
+    },
+
+    setBuddies(state, action: PayloadAction<string[]>) {
+      state.buddies = action.payload
     },
 
     clearUser() {

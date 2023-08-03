@@ -19,9 +19,14 @@ export interface IUser {
   admin: boolean
   locale: string
   name: string
-  uid: string | null
   adminAsPlayer?: boolean
+  buddies: string[]
 }
+
+export interface IUserStore extends IUser {
+  uid: string
+}
+
 export interface RawUser extends IUser {
   email: string
 }

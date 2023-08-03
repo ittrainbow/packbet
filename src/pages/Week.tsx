@@ -7,12 +7,12 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
 import { objectCompare, ansHelper } from '../helpers'
-import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff } from '../UI'
+import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff, Switch } from '../UI'
 import { i18n } from '../locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
 import { LocaleType, YesNoHandlerPropsType } from '../types'
 import { selectAnswers, selectApp, selectCompare, selectResults, selectUser, selectWeeks } from '../redux/selectors'
-import { answersActions, resultsActions } from '../redux/slices'
+import { answersActions, resultsActions, userActions } from '../redux/slices'
 
 export const Week = () => {
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
@@ -41,7 +41,6 @@ export const Week = () => {
     if (answers[uid] && !!Object.keys(answers).length && !!Object.keys(results).length) {
       const userChanges = !objectCompare(answers[uid], compare.answers)
       const adminChanges = admin ? !objectCompare(results, compare.results) : false
-
       return adminAsPlayer ? userChanges : adminChanges
     }
     // eslint-disable-next-line
@@ -97,14 +96,20 @@ export const Week = () => {
     return styles.join(' ')
   }
 
+  const adminPlayerHandler = () => {
+    dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
+  }
+
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
-  const { successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
+  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
   return (
     <div className="container">
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
-        {admin && isItYou ? <AdminPlayer /> : null}
+        {admin && isItYou ? (
+          <Switch onChange={adminPlayerHandler} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
+        ) : null}
       </div>
       <OtherUser />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />

@@ -53,7 +53,7 @@ export const tableCreator = (answers: IAnswers, players: IPlayers, results: Answ
       name: `Name ${i}`,
       position: i.toString(),
       correct: 0.5,
-      uid: ''
+      uid: Math.random().toString()
     }
 
     if (i > 50) table.push(obj)
@@ -64,10 +64,10 @@ export const tableCreator = (answers: IAnswers, players: IPlayers, results: Answ
 }
 
 export const tableHelper = (el: IUserStandings) => {
-  const { name, ansCorrect, ansTotal, position, resultsTotal } = el
+  const { name, ansCorrect, ansTotal, position, resultsTotal, uid } = el
   const answers = ansCorrect + '/' + ansTotal
   const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
   const ninety = ((ansTotal * 100) / resultsTotal).toFixed(0) + '%'
 
-  return { name, answers, correct, ninety, position }
+  return { name, answers, correct, ninety, position, uid }
 }

@@ -24,9 +24,9 @@ export const Login = () => {
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
-    const locale = localStorage.getItem('locale')
+    const locale = localStorage.getItem('packContestLocale')
     const noLocale = () => {
-      localStorage.setItem('locale', 'ru')
+      localStorage.setItem('packContestLocale', 'ru')
       dispatch(userActions.setLocale('ru'))
     }
     locale ? dispatch(userActions.setLocale(locale)) : noLocale()

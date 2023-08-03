@@ -1,8 +1,9 @@
-import { IUser } from '../types'
+import { IUserStore } from '../types'
 
-export const initialUser: IUser = {
+export const initialUser: IUserStore = {
   name: '',
   locale: 'ru',
   admin: false,
+  buddies: [],
   uid: null
 }

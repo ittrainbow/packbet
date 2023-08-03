@@ -4,11 +4,16 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 10px;
 }
 
-.standings-button {
-  white-space: nowrap;
+.standings-search {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-grow: 1;
 }
 
 .standings-header {
@@ -17,6 +22,7 @@
   margin: 2px 0;
 }
 
+.col-zero,
 .col-one,
 .col-two,
 .col-three,
@@ -24,10 +30,11 @@
 .col-five {
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
-  padding: 2px 2px 4px 2px;
+  padding: 2px 2px 3px;
   border-radius: 5px;
 }
 
+.col-zero,
 .col-one,
 .col-three,
 .col-four,
@@ -35,9 +42,17 @@
   text-align: center;
 }
 
+.col-zero,
 .col-one {
   width: 6%;
   min-width: 20px;
+}
+
+.col-one {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .col-two {

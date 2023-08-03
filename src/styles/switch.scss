@@ -1,15 +1,17 @@
 @import './vars';
 
-.admin-switch-container {
+.switch-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 }
 
-.admin-greeting-container {
-  width: 110px;
-  align-items: left;
-  padding-bottom: 3px;
+.greeting-container {
+  // width: fit-content;
+  width: 55px;
+  // align-items: center;
+  text-align: center;
+  padding: 0 2px 2px 0;
 }
 
 .switch {

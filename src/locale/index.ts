@@ -50,20 +50,22 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const minutesMsg = locale === 'ru' ? 'мин' : 'хв'
   const secondsMsg = locale === 'ru' ? 'сек' : 'сек'
 
-  const playerMsg = locale === 'ru' ? 'Режим игрока' : 'Режим гравця'
-  const adminMsg = locale === 'ru' ? 'Режим админа' : 'Режим адмiна'
+  const playerMsg = locale === 'ru' ? 'Игрок' : 'Гравець'
+  const adminMsg = locale === 'ru' ? 'Админ' : 'Адмiн'
   const successMsg = locale === 'ru' ? 'Успешно сохранено' : 'Успішно збережено'
   const failureMsg = locale === 'ru' ? 'Не удалось сохранить' : 'Не вдалося зберегти'
 
   const tableNameMsg = locale === 'ru' ? 'Игрок' : `Гравець`
   const tableAllMsg = locale === 'ru' ? 'Всего' : 'Всього'
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
+  const onlyBuddiesMsg = locale === 'ru' ? 'Друзья' : 'Друзi'
+  const allUsersMsg = locale === 'ru' ? 'Все' : 'Всi'
+  const onlyWeekMsg = locale === 'ru' ? 'Неделя' : 'Тиждень'
+  const allSeasonMsg = locale === 'ru' ? 'Сезон' : 'Сезон'
   const tableTierline =
     locale === 'ru'
       ? 'Таблица будет обновлена по итогам очередной недели.'
       : 'Таблиця буде оновлена за підсумками чергового тижня.'
-  const findBtn = locale === 'ru' ? 'Найти' : 'Знайти'
-  const findMeBtn = locale === 'ru' ? 'Ко мне' : 'До мене'
   const clearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
@@ -95,14 +97,24 @@ export const i18n = (locale: string, component: string): { [key: string]: string
       return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg }
     }
 
-    case 'standings':
-      return { tableNameMsg, tableAllMsg, tableCorrectMsg, tableTierline, findMeBtn, clearBtn, findBtn }
-
     case 'otheruser':
       return { otherUser1msg, otherUser2msg, otherUser3msg }
 
     case 'week':
       return { playerMsg, adminMsg, successMsg, failureMsg }
+
+    case 'standings':
+      return {
+        tableNameMsg,
+        tableAllMsg,
+        tableCorrectMsg,
+        tableTierline,
+        clearBtn,
+        onlyBuddiesMsg,
+        allUsersMsg,
+        onlyWeekMsg,
+        allSeasonMsg
+      }
 
     case 'ticks':
       return {

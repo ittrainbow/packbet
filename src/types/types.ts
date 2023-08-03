@@ -1,3 +1,5 @@
+import { IUserStore } from './interfaces'
+
 export type LocaleType = { [key: string]: string }
 
 export type QuestionType = {
@@ -6,6 +8,12 @@ export type QuestionType = {
   id?: number | null
 }
 export type QuestionsType = { [key: number]: QuestionType }
+
+export type BuddiesPayloadType = {
+  user: IUserStore
+  buddies: string[]
+  buddyUid: string
+}
 
 export type AnswersType = {
   [key: number]: {

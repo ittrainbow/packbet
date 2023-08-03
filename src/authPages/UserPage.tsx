@@ -16,10 +16,10 @@ export const UserPage = () => {
 
   useEffect(() => {
     if (!locale) {
-      let storedLocale = localStorage.getItem('locale')
+      let storedLocale = localStorage.getItem('packContestLocale')
 
       if (!storedLocale) {
-        localStorage.setItem('locale', 'ru')
+        localStorage.setItem('packContestLocale', 'ru')
         storedLocale = 'ru'
       }
 

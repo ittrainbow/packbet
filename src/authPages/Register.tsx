@@ -8,7 +8,7 @@ import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { Input } from '@mui/material'
 import { i18n } from '../locale'
-import { LocaleType } from '../types'
+import { IUser, LocaleType } from '../types'
 import { selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices'
 
@@ -41,7 +41,7 @@ export const Register = () => {
     if (name && email && password.length > 5) {
       const response = await registerWithEmailAndPassword(name, email, password)
       if (response) {
-        const user = { admin: false, locale, name, email }
+        const user: IUser = { admin: false, locale, name, buddies: [response.uid] }
         dispatch(userActions.setUser(user))
       }
     }

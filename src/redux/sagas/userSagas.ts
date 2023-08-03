@@ -1,7 +1,14 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 
-import { UPDATE_PROFILE, USER_LOGIN, FETCH_OTHER_USER, SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../storetypes'
-import { ActionType, IUser, AnswersType, IStore } from '../../types'
+import {
+  UPDATE_PROFILE,
+  USER_LOGIN,
+  FETCH_OTHER_USER,
+  SUBMIT_RESULTS,
+  SUBMIT_ANSWERS,
+  SET_BUDDIES
+} from '../storetypes'
+import { ActionType, IUser, AnswersType, IStore, IUserStore, BuddiesPayloadType } from '../../types'
 import { writeDBDocument, getDBDocument, updateDBDocument } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { objectCompare } from '../../helpers'
@@ -129,10 +136,29 @@ function* fetchOtherUserSaga(action: ActionType<string>) {
   }
 }
 
+function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
+  const { user, buddyUid, buddies } = action.payload
+  const { uid, adminAsPlayer, ...newUser } = user
+  const newBuddies = buddies.includes(buddyUid) ? buddies.filter((el) => el !== buddyUid) : [...buddies, buddyUid]
+  newUser.buddies = newBuddies
+
+  yield put(appActions.setLoading(true))
+  try {
+    yield call(writeDBDocument, 'users', user.uid, newUser)
+    yield put(userActions.setBuddies(newBuddies))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
+  yield put(appActions.setLoading(false))
+}
+
 export function* userSaga() {
   yield takeEvery(UPDATE_PROFILE, updateProfileSaga)
   yield takeEvery(USER_LOGIN, userLoginSaga)
   yield takeEvery(SUBMIT_RESULTS, submitResultsSaga)
   yield takeEvery(SUBMIT_ANSWERS, submitAnswersSaga)
   yield takeEvery(FETCH_OTHER_USER, fetchOtherUserSaga)
+  yield takeEvery(SET_BUDDIES, setBuddiesSaga)
 }

@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
+import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 
 import { selectStandings, selectUser } from '../redux/selectors'
 import { i18n } from '../locale'
-import { OtherUser } from '../UI'
+import { OtherUser, Switch } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
-import { FETCH_OTHER_USER } from '../redux/storetypes'
+import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
 import { Button, Input } from '../UI'
 import { useRefVisibility } from '../hooks/useVisibility'
 import { tableHelper } from '../helpers'
@@ -17,19 +17,14 @@ export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const standings = useSelector(selectStandings)
-  const { uid } = useSelector(selectUser)
+  const user = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
   const buttonRef = useRef<HTMLDivElement>(null)
   const [showGoBackButton, setShowGoBackButton] = useState<boolean>(false)
   const [searchString, setSearchString] = useState<string>('')
-  const [searchClass, setSearchClass] = useState<string>('')
-  const [imInTable, setImInTable] = useState<boolean>(true)
-
-  useEffect(() => {
-    const me = Object.values(standings).find((el) => el.uid === uid)
-    // const imInTable = !!(me && me.ansTotal > 0 && me.resultsTotal > 0)
-    setImInTable(!!me)
-  }, [standings, uid])
+  const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
+  const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(false)
+  const { uid, buddies } = user
 
   const isButtonInViewport = useRefVisibility(buttonRef)
 
@@ -46,24 +41,16 @@ export const Standings = () => {
     }
   }
 
-  const { tableNameMsg, tableCorrectMsg, findMeBtn, findBtn, clearBtn, tableTierline } = i18n(
-    locale,
-    'standings'
-  ) as LocaleType
-
-  const findHandler = () => {
-    const link = searchString.length > 0 ? searchString : 'findMyDivInStandings'
-    const anchor = document.getElementById(link)
-    if (anchor) {
-      const y = anchor?.getBoundingClientRect().top - window.innerHeight / 2
-      window.scrollTo({ top: y, behavior: 'smooth' })
-      setTimeout(() => anchor.classList.add('animate-find-dark'), 200)
-      setTimeout(() => anchor.classList.remove('animate-find-dark'), 1700)
-    } else {
-      setSearchClass('animate-draw-red')
-      setTimeout(() => setSearchClass(''), 500)
-    }
-  }
+  const {
+    tableNameMsg,
+    tableCorrectMsg,
+    clearBtn,
+    tableTierline,
+    allUsersMsg,
+    onlyBuddiesMsg,
+    onlyWeekMsg,
+    allSeasonMsg
+  } = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => {
     setSearchString('')
@@ -84,20 +71,39 @@ export const Standings = () => {
     return `col-two ${name === searchString || (elUid === uid && !searchString.length) ? 'col-two__bold' : ''}`
   }
 
+  const buddyHandler = (uid: string) => {
+    dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
+  }
+
+  const spanSelectHandler = () => {
+    setOneWeekOnly(!oneWeekOnly)
+  }
+
+  const onlyBuddiesHandler = () => {
+    const value = !onlyBuddies
+    console.log('onlybuddies')
+    setOnlyBuddies(value)
+    localStorage.setItem('packContestFavList', value.toString())
+  }
+
   return (
     <div className="container">
       <div className="standings-top-container">
-        <Input onChange={onChangeHandler} value={searchString} className={searchClass} type="text" />
-        <div ref={buttonRef} className="standings-button">
-          <Button onClick={findHandler} minWidth={80} disabled={!imInTable && searchString === ''}>
-            {searchString ? findBtn : findMeBtn}
-          </Button>
+        <div className="standings-search">
+          <Input onChange={onChangeHandler} value={searchString} type="text" />
+          <div ref={buttonRef}>
+            <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
+              {clearBtn}
+            </Button>
+          </div>
         </div>
-        <div ref={buttonRef} className="standings-button">
-          <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
-            {clearBtn}
-          </Button>
-        </div>
+        <Switch onChange={spanSelectHandler} checked={oneWeekOnly} messageOn={onlyWeekMsg} messageOff={allSeasonMsg} />
+        <Switch
+          onChange={onlyBuddiesHandler}
+          checked={onlyBuddies}
+          messageOn={onlyBuddiesMsg}
+          messageOff={allUsersMsg}
+        />
       </div>
       {showGoBackButton ? (
         <div className="arrow-container">
@@ -115,7 +121,8 @@ export const Standings = () => {
       <div className="standings">
         <OtherUser />
         <div className="standings-header">
-          <div className="col-one">#</div>
+          <div className="col-zero">#</div>
+          <div className="col-one">Fav</div>
           <div className="col-two">{tableNameMsg}</div>
           <div className="col-three">%</div>
           <div className="col-four">{tableCorrectMsg}</div>
@@ -124,11 +131,23 @@ export const Standings = () => {
         {standings &&
           Object.values(standings)
             // .filter((el) => el.ansTotal > 0)
+            .filter((el) => el.name.includes(searchString))
+            .filter((el) => {
+              return onlyBuddies ? buddies.includes(el.uid) : el
+            })
             .map((el, index) => {
-              const { name, answers, correct, ninety, position } = tableHelper(el)
+              const { name, answers, correct, ninety, position, uid } = tableHelper(el)
+              const buddy = buddies.includes(uid)
               return (
                 <div key={index} className="standings-header">
-                  <div className="col-one">{position}</div>
+                  <div className="col-zero">{position}</div>
+                  <div
+                    className="col-one"
+                    style={{ color: buddy ? 'darkgoldenrod' : 'lightgrey' }}
+                    onClick={() => buddyHandler(uid)}
+                  >
+                    <FaStar />
+                  </div>
                   <div
                     className={cellTwoClass(name, el.uid)}
                     onClick={() => clickHandler(name, el.uid)}
