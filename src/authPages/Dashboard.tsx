@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { logout } from '../db/auth'
@@ -8,13 +8,19 @@ import { LocaleType } from '../types'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { selectUser } from '../redux/selectors'
+import { answersActions, compareActions, resultsActions, userActions } from '../redux/slices'
 
 export const Dashboard = () => {
   const [user] = useAuthState(auth)
+  const dispatch = useDispatch()
   const { name, admin, locale } = useSelector(selectUser)
   const navigate = useNavigate()
 
   const logoutHandler = () => {
+    dispatch(userActions.clearUser())
+    dispatch(answersActions.clearAnswers())
+    dispatch(resultsActions.clearResults())
+    dispatch(compareActions.clearCompare())
     logout()
     navigate('/userpage')
   }

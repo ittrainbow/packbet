@@ -14,8 +14,8 @@ import { selectUser } from '../redux/selectors'
 export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
+  const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
   const { locale } = useSelector(selectUser)
@@ -55,9 +55,15 @@ export const Login = () => {
     setPassword(trimSpaces(value))
   }
 
-  const googleClickHandler = async () => await signInWithGoogle()
+  const googleClickHandler = async () => {
+    await signInWithGoogle()
+  }
 
-  const emailLogInHandler = async () => await logInWithEmailAndPassword(email, password)
+  const emailLogInHandler = async () => {
+    localStorage.setItem('packContestEmail', email)
+    localStorage.setItem('packContestPassword', password)
+    await logInWithEmailAndPassword(email, password)
+  }
 
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType
   const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as LocaleType

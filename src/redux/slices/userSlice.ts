@@ -1,14 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { IUser } from '../../types'
+import { initialUser } from '../../helpers/initials'
 
-const initialState: IUser = {
-  admin: false,
-  locale: 'ru',
-  name: '',
-  uid: null,
-  adminAsPlayer: false
-}
+const initialState: IUser = initialUser
 
 export const userSlice = createSlice({
   name: 'user',
@@ -38,6 +33,10 @@ export const userSlice = createSlice({
 
     setUid(state, action: PayloadAction<string>) {
       state.uid = action.payload
+    },
+
+    clearUser() {
+      return initialState
     }
   }
 })

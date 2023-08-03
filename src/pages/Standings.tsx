@@ -23,6 +23,13 @@ export const Standings = () => {
   const [showGoBackButton, setShowGoBackButton] = useState<boolean>(false)
   const [searchString, setSearchString] = useState<string>('')
   const [searchClass, setSearchClass] = useState<string>('')
+  const [imInTable, setImInTable] = useState<boolean>(true)
+
+  useEffect(() => {
+    const me = Object.values(standings).find((el) => el.uid === uid)
+    // const imInTable = !!(me && me.ansTotal > 0 && me.resultsTotal > 0)
+    setImInTable(!!me)
+  }, [standings, uid])
 
   const isButtonInViewport = useRefVisibility(buttonRef)
 
@@ -39,8 +46,10 @@ export const Standings = () => {
     }
   }
 
-  const { tableNameMsg, tableCorrectMsg, findMeBtn, findBtn, clearBtn } = i18n(locale, 'standings') as LocaleType
-  // const { tableTierline } = i18n(locale, 'standings') as LocaleType
+  const { tableNameMsg, tableCorrectMsg, findMeBtn, findBtn, clearBtn, tableTierline } = i18n(
+    locale,
+    'standings'
+  ) as LocaleType
 
   const findHandler = () => {
     const link = searchString.length > 0 ? searchString : 'findMyDivInStandings'
@@ -80,7 +89,7 @@ export const Standings = () => {
       <div className="standings-top-container">
         <Input onChange={onChangeHandler} value={searchString} className={searchClass} type="text" />
         <div ref={buttonRef} className="standings-button">
-          <Button onClick={findHandler} minWidth={80}>
+          <Button onClick={findHandler} minWidth={80} disabled={!imInTable && searchString === ''}>
             {searchString ? findBtn : findMeBtn}
           </Button>
         </div>
@@ -133,7 +142,7 @@ export const Standings = () => {
                 </div>
               )
             })}
-        {/* <div className="tierline">{tableTierline}</div> */}
+        <div className="tierline">{tableTierline}</div>
       </div>
     </div>
   )

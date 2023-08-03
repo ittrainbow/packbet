@@ -60,7 +60,7 @@ export const registerWithEmailAndPassword = async (name: string, email: string, 
     appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data: IUser = { name, locale, admin: false }
+    const data: IUser = { name, uid, locale, admin: false }
     await setDoc(doc(db, 'users', uid), data)
     appActions.setLoading(false)
     return { uid, locale }
@@ -85,5 +85,6 @@ export const sendPasswordReset = async (email: string) => {
 export const logout = () => {
   appActions.setLoading(true)
   signOut(auth)
+  
   return appActions.setLoading(false)
 }

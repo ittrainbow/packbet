@@ -60,8 +60,8 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
   const tableTierline =
     locale === 'ru'
-      ? 'В таблице отображены только игроки, давшие ответ хотя бы на один вопрос.'
-      : 'У таблиці відображені лише гравці, які дали відповідь хоча б на одне питання.'
+      ? 'Таблица будет обновлена по итогам очередной недели.'
+      : 'Таблиця буде оновлена за підсумками чергового тижня.'
   const findBtn = locale === 'ru' ? 'Найти' : 'Знайти'
   const findMeBtn = locale === 'ru' ? 'Ко мне' : 'До мене'
   const clearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'

@@ -24,6 +24,10 @@ export const compareSlice = createSlice({
     updateCompare(state, action: PayloadAction<UpdateCompareType>) {
       const { data, id } = action.payload
       state[id] = data
+    },
+
+    clearCompare() {
+      return initialState
     }
   }
 })

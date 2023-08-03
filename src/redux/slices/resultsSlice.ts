@@ -10,6 +10,10 @@ export const resultsSlice = createSlice({
   reducers: {
     setResults(_, action: PayloadAction<AnswersType>) {
       return action.payload
+    },
+
+    clearResults() {
+      return initialState
     }
   }
 })

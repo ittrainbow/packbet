@@ -2,14 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { QuestionsType, WeekType } from '../../types'
 
-const emptyWeek: WeekType = {
+const initialState: WeekType = {
   questions: {},
   name: '',
   active: false,
   deadline: new Date().getTime()
 }
-
-const initialState = {} as WeekType
 
 export const editorSlice = createSlice({
   name: 'editor',
@@ -36,7 +34,7 @@ export const editorSlice = createSlice({
     },
 
     clearEditor() {
-      return emptyWeek
+      return initialState
     }
   }
 })
