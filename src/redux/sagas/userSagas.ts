@@ -111,8 +111,10 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
   yield put(appActions.setLoading(true))
   try {
     if (firstData) {
+      console.log(100, 'write', firstData)
       yield call(writeDBDocument, 'answers', uid, answers[uid])
     } else {
+      console.log(100, 'update', firstData)
       yield call(updateDBDocument, 'answers', uid, selectedWeek, answers)
     }
 

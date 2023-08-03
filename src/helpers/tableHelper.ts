@@ -1,4 +1,3 @@
-import { FaChessKing } from 'react-icons/fa'
 import { AnswersType, IAnswers, IFetchObject, IPlayers, IUserStandings } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
@@ -46,5 +45,29 @@ export const tableCreator = (answers: IAnswers, players: IPlayers, results: Answ
     table[index]['position'] = samePosition ? '-' : index + 1
   })
 
+  for (let i = 10; i < 100; i++) {
+    const obj = {
+      ansCorrect: 5,
+      ansTotal: 10,
+      resultsTotal: 12,
+      name: `Name ${i}`,
+      position: i.toString(),
+      correct: 0.5,
+      uid: ''
+    }
+
+    if (i > 50) table.push(obj)
+    else table.unshift(obj)
+  }
+
   return table
+}
+
+export const tableHelper = (el: IUserStandings) => {
+  const { name, ansCorrect, ansTotal, position, resultsTotal } = el
+  const answers = ansCorrect + '/' + ansTotal
+  const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
+  const ninety = ((ansTotal * 100) / resultsTotal).toFixed(0) + '%'
+
+  return { name, answers, correct, ninety, position }
 }

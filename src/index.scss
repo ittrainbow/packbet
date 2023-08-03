@@ -20,7 +20,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #d7d7d7;
+  background-color: $base-bg;
 }
 
 code {
@@ -165,10 +165,12 @@ table {
   font-size: 15px;
 }
 
-.container,
 .auth {
   height: calc(100% - $container-height-diff);
+}
 
+.container,
+.auth {
   @media only screen and (max-width: $max-width) {
     height: calc(100% - $container-height-diff-mobile);
   }
@@ -178,10 +180,7 @@ html,
 body,
 #root {
   height: 100%;
-}
-
-#root {
-  min-height: 100%;
+  box-sizing: border-box;
 }
 
 .bold {

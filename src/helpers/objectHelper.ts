@@ -9,6 +9,10 @@ export const objectTrim = (object: QuestionsType, id: number) => {
   return obj
 }
 
+export const checkObjEmpty = (obj: any) => {
+  
+}
+
 export const getNewQuestionId = (questions: QuestionsType): number => {
   const num =
     Object.keys(questions)

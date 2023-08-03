@@ -6,6 +6,7 @@ const initialState: IUser = {
   admin: false,
   locale: 'ru',
   name: '',
+  uid: null,
   adminAsPlayer: false
 }
 
@@ -33,6 +34,10 @@ export const userSlice = createSlice({
 
     setAdminAsPlayer(state, action: PayloadAction<boolean>) {
       state.adminAsPlayer = action.payload
+    },
+
+    setUid(state, action: PayloadAction<string>) {
+      state.uid = action.payload
     }
   }
 })

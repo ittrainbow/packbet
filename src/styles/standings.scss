@@ -4,7 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 5px;
 }
 
 .standings-button {
@@ -17,51 +17,49 @@
   margin: 2px 0;
 }
 
-.cellOne,
-.cellTwo,
-.cellThree,
-.cellFour {
+.col-one,
+.col-two,
+.col-three,
+.col-four,
+.col-five {
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
   padding: 2px 2px 4px 2px;
   border-radius: 5px;
 }
 
-.cellOne,
-.cellThree,
-.cellFour {
+.col-one,
+.col-three,
+.col-four,
+.col-five {
   text-align: center;
 }
 
-.cellOne {
+.col-one {
   width: 6%;
   min-width: 20px;
 }
 
-.cellTwo {
+.col-two {
   width: 61%;
   cursor: pointer;
   padding-left: 5px;
   transition: 0.25s ease-in-out;
 
   &__bold {
-    transition: 0.25s ease-in-out;
     font-weight: 600;
-    background-color: #d0d0d0;
-  }
-
-  &__regular {
-    transition: 0.25s ease-in-out;
+    background-color: $standings-grey;
   }
 }
 
-.cellThree,
-.cellFour {
+.col-three,
+.col-four,
+.col-five {
   width: 9%;
   min-width: 40px;
 }
 
-.cellFour {
+.col-four {
   letter-spacing: -0.05em;
 }
 
@@ -108,7 +106,20 @@
   }
   50% {
     opacity: 0.7;
-    background-color: rgb(235, 130, 130);
+    background-color: $standings-red;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes drawDark {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+    background-color: $base-green;
   }
   100% {
     opacity: 1;
@@ -118,6 +129,11 @@
 .animate-draw-red {
   opacity: 0;
   animation: drawRed 0.5s ease-in-out forwards;
+}
+
+.animate-find-dark {
+  opacity: 0;
+  animation: drawDark 1.5s ease-in-out forwards;
 }
 
 .arrow-container {

@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 
 type InputProps = {
-  type: 'text' | 'checkbox' | 'datetime-local' | 'search'
+  type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   id?: string
   className?: string
@@ -13,9 +13,11 @@ type InputProps = {
 }
 
 export const Input = (props: InputProps) => {
-  const { type, value, onChange, placeholder, id, className, inputRef, checked } = props
+  const { type = 'text', value, onChange, placeholder, id, className, inputRef, checked } = props
+  const num = type === 'number'
   return (
     <input
+      style={{ width: num ? 60 : '', textAlign: num ? 'center' : 'left' }}
       ref={inputRef}
       type={type}
       value={value}
@@ -24,7 +26,7 @@ export const Input = (props: InputProps) => {
       placeholder={placeholder}
       autoComplete="off"
       id={id}
-      className={className + ' dark'}
+      className={className}
     />
   )
 }

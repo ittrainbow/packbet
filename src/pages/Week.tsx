@@ -47,13 +47,8 @@ export const Week = () => {
     // eslint-disable-next-line
   }, [adminAsPlayer, answers, results])
 
-  const outdated = () => {
-    return new Date().getTime() > deadline
-  }
-
-  const writeAllowed = () => {
-    return adm || (!adm && !outdated())
-  }
+  const outdated = () => new Date().getTime() > deadline
+  const writeAllowed = () => adm || (!adm && !outdated())
 
   const activity = (id: number) => {
     return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
@@ -63,35 +58,32 @@ export const Week = () => {
 
   const onClickHandler = (props: YesNoHandlerPropsType) => {
     const { value, id, activity } = props
+
     if (user && writeAllowed() && isItYou) {
       const data = structuredClone(ansOrResData) || {}
+
       if (!data[selectedWeek]) data[selectedWeek] = {}
 
       const thisWeek = data[selectedWeek]
       value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
+
       if (!Object.keys(thisWeek).some((el) => el)) delete data[selectedWeek]
 
-      if (adm) dispatch(resultsActions.setResults(data))
-      else dispatch(answersActions.updateAnswers({ answers: data, uid }))
+      adm ? dispatch(resultsActions.setResults(data)) : dispatch(answersActions.updateAnswers({ answers: data, uid }))
     }
   }
 
   const submitHandler = async () => {
     const firstData = !!Object.keys(answers[uid]).length
+    console.log(99, firstData)
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+    const type = adm ? SUBMIT_RESULTS : SUBMIT_ANSWERS
+    const payload = adm ? { results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
+    dispatch({ type, payload })
     dispatch(userActions.setAdminAsPlayer(true))
-
-    if (adm) {
-      dispatch({ type: SUBMIT_RESULTS, payload: { results, toaster } })
-    } else {
-      dispatch({
-        type: SUBMIT_ANSWERS,
-        payload: { selectedWeek, answers, uid, toaster, firstData }
-      })
-    }
   }
 
   const discardHandler = () => {
@@ -101,16 +93,11 @@ export const Week = () => {
 
   const questionStyle = (id: number) => {
     const styles = ['question']
-    // if (user) {
     const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
     const styling = res && ans && adminAsPlayer && outdated()
     styling && styles.push(res === ans ? 'question__green' : 'question__red')
-    // }
     return styles.join(' ')
   }
-
-  const qWidth = document.querySelector('.question') as HTMLElement
-  const width = qWidth?.offsetWidth - 130 || 270
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg } = i18n(locale, 'week') as LocaleType
@@ -131,7 +118,7 @@ export const Week = () => {
             const { question, total } = questions[id]
             return (
               <div key={index} className={questionStyle(id)}>
-                <div className="question__desc" style={{ width }}>
+                <div className="question__desc">
                   {question}
                   {total !== '1' ? `: ${total}` : null}
                 </div>

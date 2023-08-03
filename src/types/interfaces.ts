@@ -19,6 +19,7 @@ export interface IUser {
   admin: boolean
   locale: string
   name: string
+  uid: string | null
   adminAsPlayer?: boolean
 }
 export interface RawUser extends IUser {

@@ -1,40 +1,37 @@
 import { useNavigate } from 'react-router-dom'
 import { useRef, useState, useEffect } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
 
 import { selectStandings, selectUser } from '../redux/selectors'
-import { auth } from '../db'
 import { i18n } from '../locale'
 import { OtherUser } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER } from '../redux/storetypes'
 import { Button, Input } from '../UI'
-import { useVisibility } from '../hooks/useVisibility'
+import { useRefVisibility } from '../hooks/useVisibility'
+import { tableHelper } from '../helpers'
 
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [user] = useAuthState(auth)
   const standings = useSelector(selectStandings)
+  const { uid } = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
   const buttonRef = useRef<HTMLDivElement>(null)
-  const myRef = useRef<HTMLDivElement>(null)
   const [showGoBackButton, setShowGoBackButton] = useState<boolean>(false)
   const [searchString, setSearchString] = useState<string>('')
   const [searchClass, setSearchClass] = useState<string>('')
 
-  const isButtonInViewport = useVisibility(buttonRef)
-  const isMyRefInViewport = useVisibility(myRef)
+  const isButtonInViewport = useRefVisibility(buttonRef)
 
   useEffect(() => {
     setTimeout(() => setShowGoBackButton(!isButtonInViewport), 500)
   }, [isButtonInViewport])
 
-  const clickHandler = (otherUserUID: string, otherUserName: string) => {
-    if (user && otherUserUID !== user.uid) {
+  const clickHandler = (otherUserName: string, otherUserUID: string) => {
+    if (uid && otherUserUID !== uid) {
       const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
       dispatch(appActions.setOtherUserFromStandings(otherUser))
       dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
@@ -42,17 +39,17 @@ export const Standings = () => {
     }
   }
 
-  const { tableNameMsg, tableCorrectMsg, tableTierline, findMeBtn, findBtn, clearBtn } = i18n(
-    locale,
-    'standings'
-  ) as LocaleType
+  const { tableNameMsg, tableCorrectMsg, findMeBtn, findBtn, clearBtn } = i18n(locale, 'standings') as LocaleType
+  // const { tableTierline } = i18n(locale, 'standings') as LocaleType
 
   const findHandler = () => {
     const link = searchString.length > 0 ? searchString : 'findMyDivInStandings'
     const anchor = document.getElementById(link)
     if (anchor) {
-      const y = anchor?.getBoundingClientRect().top - 100
+      const y = anchor?.getBoundingClientRect().top - window.innerHeight / 2
       window.scrollTo({ top: y, behavior: 'smooth' })
+      setTimeout(() => anchor.classList.add('animate-find-dark'), 200)
+      setTimeout(() => anchor.classList.remove('animate-find-dark'), 1700)
     } else {
       setSearchClass('animate-draw-red')
       setTimeout(() => setSearchClass(''), 500)
@@ -65,7 +62,7 @@ export const Standings = () => {
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setSearchString(value.trim())
+    setSearchString(value)
   }
 
   const scrollHandler = (direction: string) => {
@@ -74,10 +71,8 @@ export const Standings = () => {
 
   const backClasses = `${!isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'}`
 
-  const cellTwoClass = (name: string, uid: string) => {
-    return `cellTwo ${
-      name === searchString || (user?.uid === uid && !searchString.length) ? 'cellTwo__bold' : 'cellTwo__regular'
-    }`
+  const cellTwoClass = (name: string, elUid: string) => {
+    return `col-two ${name === searchString || (elUid === uid && !searchString.length) ? 'col-two__bold' : ''}`
   }
 
   return (
@@ -85,7 +80,7 @@ export const Standings = () => {
       <div className="standings-top-container">
         <Input onChange={onChangeHandler} value={searchString} className={searchClass} type="text" />
         <div ref={buttonRef} className="standings-button">
-          <Button onClick={findHandler} minWidth={80} disabled={isMyRefInViewport && !searchString}>
+          <Button onClick={findHandler} minWidth={80}>
             {searchString ? findBtn : findMeBtn}
           </Button>
         </div>
@@ -111,35 +106,34 @@ export const Standings = () => {
       <div className="standings">
         <OtherUser />
         <div className="standings-header">
-          <div className="cellOne">#</div>
-          <div className="cellTwo">{tableNameMsg}</div>
-          <div className="cellThree">%</div>
-          <div className="cellFour">{tableCorrectMsg}</div>
-          <div className="cellThree">90%</div>
+          <div className="col-one">#</div>
+          <div className="col-two">{tableNameMsg}</div>
+          <div className="col-three">%</div>
+          <div className="col-four">{tableCorrectMsg}</div>
+          <div className="col-three">90%</div>
         </div>
         {standings &&
           Object.values(standings)
-            .filter((el) => el.ansTotal > 0)
+            // .filter((el) => el.ansTotal > 0)
             .map((el, index) => {
-              const { name, uid, ansCorrect, ansTotal, position, resultsTotal } = el
+              const { name, answers, correct, ninety, position } = tableHelper(el)
               return (
                 <div key={index} className="standings-header">
-                  <div className="cellOne">{position}</div>
+                  <div className="col-one">{position}</div>
                   <div
-                    className={cellTwoClass(name, uid)}
-                    onClick={() => clickHandler(uid, name)}
-                    id={uid === user?.uid ? 'findMyDivInStandings' : name}
-                    ref={uid === user?.uid ? myRef : null}
+                    className={cellTwoClass(name, el.uid)}
+                    onClick={() => clickHandler(name, el.uid)}
+                    id={uid === el.uid ? 'findMyDivInStandings' : name}
                   >
                     {name}
                   </div>
-                  <div className="cellThree">{ansCorrect + '/' + ansTotal}</div>
-                  <div className="cellFour">{(ansCorrect / ansTotal).toFixed(3)}</div>
-                  <div className="cellThree">{((ansTotal * 100) / resultsTotal).toFixed(0)}%</div>
+                  <div className="col-three">{answers}</div>
+                  <div className="col-four">{correct}</div>
+                  <div className="col-five">{ninety}</div>
                 </div>
               )
             })}
-        <div className="tierline">{tableTierline}</div>
+        {/* <div className="tierline">{tableTierline}</div> */}
       </div>
     </div>
   )

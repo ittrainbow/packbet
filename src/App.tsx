@@ -6,7 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Router } from './router/Router'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { auth } from './db'
-import { appActions } from './redux/slices'
+import { appActions, userActions } from './redux/slices'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -21,6 +21,7 @@ export const App = () => {
 
   useEffect(() => {
     if (user) {
+      dispatch(userActions.setUid(user.uid))
       dispatch({
         type: USER_LOGIN,
         payload: user
