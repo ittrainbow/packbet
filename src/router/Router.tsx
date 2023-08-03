@@ -41,7 +41,7 @@ export const Router = ({ children }: RouterProps) => {
 
   return (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       {children}
       {loading ? <Loader /> : routes()}
     </BrowserRouter>

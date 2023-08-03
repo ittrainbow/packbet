@@ -58,6 +58,8 @@ export const Header = () => {
       dispatch(appActions.setEmptyEditor(emptyEditor))
       dispatch(editorActions.clearEditor())
     }
+
+    localStorage.setItem('packContextLastTabActive', id.toString())
   }
 
   const getClass = (id: number) => {

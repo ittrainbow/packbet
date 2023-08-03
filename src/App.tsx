@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Router } from './router/Router'
+import { Header } from './pages'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { auth } from './db'
 import { appActions, userActions } from './redux/slices'
@@ -26,9 +27,11 @@ export const App = () => {
         type: USER_LOGIN,
         payload: user
       })
+
+      const lastTab = localStorage.getItem('packContextLastTabActive')
     }
     // eslint-disable-next-line
   }, [user])
 
-  return <Router />
+  return <Header />
 }

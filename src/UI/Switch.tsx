@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Input } from './Input'
-import { selectUser } from '../redux/selectors'
 
 type SwitchPropsType = {
   onChange: any

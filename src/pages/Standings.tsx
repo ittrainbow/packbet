@@ -131,7 +131,7 @@ export const Standings = () => {
         {standings &&
           Object.values(standings)
             // .filter((el) => el.ansTotal > 0)
-            .filter((el) => el.name.includes(searchString))
+            .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
             .filter((el) => {
               return onlyBuddies ? buddies.includes(el.uid) : el
             })
