@@ -1,5 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux'
-
 import { Input } from './Input'
 
 type SwitchPropsType = {
@@ -7,11 +5,13 @@ type SwitchPropsType = {
   checked: boolean | undefined
   messageOn: string
   messageOff: string
+  vertical?: boolean
 }
 
-export const Switch = ({ onChange, checked, messageOff, messageOn }: SwitchPropsType) => {
+export const Switch = ({ onChange, checked, messageOff, messageOn, vertical = true }: SwitchPropsType) => {
+  const classes = `switch-container-${vertical ? 'vertical' : 'horizontal'}`
   return (
-    <div className="switch-container">
+    <div className={classes}>
       <div className="greeting-container">{checked ? messageOn : messageOff}</div>
       <label className="switch">
         <Input type="checkbox" checked={checked} onChange={onChange} />

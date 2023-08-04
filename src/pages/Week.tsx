@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
 import { objectCompare, ansHelper } from '../helpers'
-import { YesNoButtons, AdminPlayer, OtherUser, Button, Kickoff, Switch } from '../UI'
+import { YesNoButtons, OtherUser, Button, Kickoff, Switch } from '../UI'
 import { i18n } from '../locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
 import { LocaleType, YesNoHandlerPropsType } from '../types'

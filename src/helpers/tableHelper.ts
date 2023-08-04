@@ -20,7 +20,7 @@ export const tableCreator = ({ answers, players, results, fullSeason }: TableCre
     Object.keys(results)
       .map((el) => Number(el))
       .filter((el) => {
-        return fullSeason ? el === el : el === lastWeek
+        return fullSeason ? el >= 0 : el === lastWeek
       })
       .forEach((el) => {
         const subAns = ans ? ans[el] : null

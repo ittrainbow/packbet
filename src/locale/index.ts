@@ -59,9 +59,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const tableAllMsg = locale === 'ru' ? 'Всего' : 'Всього'
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
   const onlyBuddiesMsg = locale === 'ru' ? 'Избранное' : 'Обране'
-  const allUsersMsg = locale === 'ru' ? 'Все' : 'Всi'
+  const allUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравци'
   const onlyWeekMsg = locale === 'ru' ? 'Неделя' : 'Тиждень'
-  const allSeasonMsg = locale === 'ru' ? 'Сезон' : 'Сезон'
+  const allSeasonMsg = locale === 'ru' ? 'Cезон' : 'Cезон'
   const tableTierline =
     locale === 'ru'
       ? 'Таблица будет обновлена по итогам очередной недели.'

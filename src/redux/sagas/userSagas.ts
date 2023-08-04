@@ -8,7 +8,8 @@ import {
   SUBMIT_ANSWERS,
   SET_BUDDIES
 } from '../storetypes'
-import { ActionType, IUser, AnswersType, IStore, IUserStore, BuddiesPayloadType } from '../../types'
+import {  } from '../../helpers'
+import { ActionType, IUser, AnswersType, IStore, BuddiesPayloadType } from '../../types'
 import { writeDBDocument, getDBDocument, updateDBDocument } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { objectCompare } from '../../helpers'

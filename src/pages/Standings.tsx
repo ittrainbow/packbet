@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState, useEffect, useMemo } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 
@@ -73,7 +73,7 @@ export const Standings = () => {
     return `col-two ${name === searchString || (elUid === uid && !searchString.length) ? 'col-two__bold' : ''}`
   }
 
-  const buddyHandler = (uid: string) => {
+  const addRemoveBuddyHandler = (uid: string) => {
     dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
   }
 
@@ -123,7 +123,9 @@ export const Standings = () => {
         <OtherUser />
         <div className="standings-header">
           <div className="col-zero">#</div>
-          <div className="col-one">Fav</div>
+          <div className="col-one">
+            <FaStar color="grey" />
+          </div>
           <div className="col-two">{tableNameMsg}</div>
           <div className="col-three">%</div>
           <div className="col-four">{tableCorrectMsg}</div>
@@ -145,7 +147,7 @@ export const Standings = () => {
                   <div
                     className="col-one"
                     style={{ color: buddy ? 'darkgoldenrod' : 'lightgrey' }}
-                    onClick={() => buddyHandler(uid)}
+                    onClick={() => addRemoveBuddyHandler(uid)}
                   >
                     <FaStar />
                   </div>

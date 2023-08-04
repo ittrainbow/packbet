@@ -1,4 +1,4 @@
-import { take, all, call, put, select, takeEvery } from 'redux-saga/effects'
+import { take, all, call, put, select } from 'redux-saga/effects'
 
 import { getWeeksIDs, tableCreator } from '../../helpers'
 import { getDBCollection } from '../../db'

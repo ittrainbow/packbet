@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ico from 'react-icons/fa'
@@ -14,12 +14,6 @@ export const Header = () => {
   const app = useSelector(selectApp)
   const { mobile, tabActive, nextWeek, currentWeek, editor } = app
   const { admin, locale, name } = useSelector(selectUser)
-
-  useEffect(() => {
-    navigate(name ? '/week' : '/userpage')
-    dispatch(appActions.setTabActive(name ? 2 : 1))
-    // eslint-disable-next-line
-  }, [name])
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
@@ -59,7 +53,7 @@ export const Header = () => {
       dispatch(editorActions.clearEditor())
     }
 
-    localStorage.setItem('packContextLastTabActive', id.toString())
+    localStorage.setItem('packContextLastTab', id.toString())
   }
 
   const getClass = (id: number) => {

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import { About, Week, Calendar, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI'
-import { Header } from '../pages'
 import { selectApp } from '../redux/selectors'
 
 type RouterProps = {
@@ -41,7 +40,6 @@ export const Router = ({ children }: RouterProps) => {
 
   return (
     <BrowserRouter>
-      {/* <Header /> */}
       {children}
       {loading ? <Loader /> : routes()}
     </BrowserRouter>

@@ -5,5 +5,7 @@ export const initialUser: IUserStore = {
   locale: 'ru',
   admin: false,
   buddies: [],
-  uid: null
+  uid: ''
 }
+
+export const initialRedirects = ['/', '/userpage', '/week', 'season', '/standings', '/calendar', '/editor']
