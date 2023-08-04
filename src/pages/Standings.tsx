@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 
@@ -16,7 +16,7 @@ import { tableHelper } from '../helpers'
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const standings = useSelector(selectStandings)
+  const { season, week } = useSelector(selectStandings)
   const user = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
   const buttonRef = useRef<HTMLDivElement>(null)
@@ -25,6 +25,8 @@ export const Standings = () => {
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
   const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(false)
   const { uid, buddies } = user
+
+  const standings = oneWeekOnly ? week : season
 
   const isButtonInViewport = useRefVisibility(buttonRef)
 
@@ -81,7 +83,6 @@ export const Standings = () => {
 
   const onlyBuddiesHandler = () => {
     const value = !onlyBuddies
-    console.log('onlybuddies')
     setOnlyBuddies(value)
     localStorage.setItem('packContestFavList', value.toString())
   }

@@ -1,4 +1,4 @@
-import { AnswersType, IAnswers, IFetchObject, IPlayers, IUserStandings } from '../types'
+import { IFetchObject, IUserStandings, TableCreatorType } from '../types'
 
 export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
@@ -6,7 +6,7 @@ export const tableObjectCreator = (ansTotal: number, ansCorrect: number, results
   return { total, correct }
 }
 
-export const tableCreator = (answers: IAnswers, players: IPlayers, results: AnswersType) => {
+export const tableCreator = ({ answers, players, results, fullSeason }: TableCreatorType) => {
   const userList = Object.keys(players)
   const object: IFetchObject<IUserStandings> = {}
   userList.forEach((el) => {
@@ -15,9 +15,13 @@ export const tableCreator = (answers: IAnswers, players: IPlayers, results: Answ
     let resultsTotal = 0
     const uid = el
     const { name } = players[el]
-    const ans = answers ? answers[el] : null
+    const lastWeek = Number(Object.keys(results).splice(-1))
+    const ans = answers && answers[el] ? answers[el] : {}
     Object.keys(results)
       .map((el) => Number(el))
+      .filter((el) => {
+        return fullSeason ? el === el : el === lastWeek
+      })
       .forEach((el) => {
         const subAns = ans ? ans[el] : null
         results[el] &&
@@ -42,23 +46,8 @@ export const tableCreator = (answers: IAnswers, players: IPlayers, results: Answ
 
   table.forEach((_, index) => {
     const samePosition = index > 0 && table[index].correct === table[index - 1].correct
-    table[index]['position'] = samePosition ? '-' : index + 1
+    table[index]['position'] = samePosition ? table[index - 1].position : index + 1
   })
-
-  for (let i = 10; i < 100; i++) {
-    const obj = {
-      ansCorrect: 5,
-      ansTotal: 10,
-      resultsTotal: 12,
-      name: `Name ${i}`,
-      position: i.toString(),
-      correct: 0.5,
-      uid: Math.random().toString()
-    }
-
-    if (i > 50) table.push(obj)
-    else table.unshift(obj)
-  }
 
   return table
 }

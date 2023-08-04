@@ -12,6 +12,7 @@ import { ActionType, IUser, AnswersType, IStore, IUserStore, BuddiesPayloadType 
 import { writeDBDocument, getDBDocument, updateDBDocument } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { objectCompare } from '../../helpers'
+import { fetchStandingsSaga } from './initSagas'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -86,8 +87,8 @@ function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
 
     const response: AnswersType = yield call(getDBDocument, 'results', selectedWeek)
     const saveSuccess: boolean = yield call(objectCompare, response, results[selectedWeek])
-
     yield put(compareActions.updateCompare({ data: response, id: 'results' }))
+    yield call(fetchStandingsSaga)
     yield call(toaster, saveSuccess)
   } catch (error) {
     yield toaster(false)

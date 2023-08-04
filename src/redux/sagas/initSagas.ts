@@ -1,4 +1,4 @@
-import { take, all, call, put, select } from 'redux-saga/effects'
+import { take, all, call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { getWeeksIDs, tableCreator } from '../../helpers'
 import { getDBCollection } from '../../db'
@@ -42,15 +42,17 @@ function* fetchWeeksSaga() {
   }
 }
 
-function* fetchStandingsSaga() {
+export function* fetchStandingsSaga() {
   try {
     const results: AnswersType = yield select((store: IStore) => store.results)
     const answers: IAnswers = yield call(getDBCollection, 'answers')
     const players: { [key: string]: RawUser } = yield call(getDBCollection, 'users')
-    const standingsArray: IUserStandings[] = tableCreator(answers, players, results)
+    const seasonArray: IUserStandings[] = tableCreator({ answers, players, results, fullSeason: true })
+    const weekArray: IUserStandings[] = tableCreator({ answers, players, results, fullSeason: false })
+    const season = Object.assign({}, seasonArray)
+    const week = Object.assign({}, weekArray)
 
-    const standings = Object.assign({}, standingsArray)
-    yield put(standingsActions.setStandings(standings))
+    yield put(standingsActions.setStandings({ season, week }))
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))

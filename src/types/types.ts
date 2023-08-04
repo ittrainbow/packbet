@@ -1,4 +1,4 @@
-import { IUserStore } from './interfaces'
+import { IUserStore, IAnswers, IPlayers } from '.'
 
 export type LocaleType = { [key: string]: string }
 
@@ -13,6 +13,13 @@ export type BuddiesPayloadType = {
   user: IUserStore
   buddies: string[]
   buddyUid: string
+}
+
+export type TableCreatorType = {
+  answers: IAnswers
+  players: IPlayers
+  results: AnswersType
+  fullSeason: boolean
 }
 
 export type AnswersType = {

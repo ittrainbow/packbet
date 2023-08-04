@@ -2,13 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { IUserStandings } from '../../types'
 
-const initialState: IUserStandings[] = []
+type StandingsType = {
+  season: IUserStandings[]
+  week: IUserStandings[]
+}
+
+const initialState: StandingsType = {
+  season: [],
+  week: []
+}
 
 export const standingsSlice = createSlice({
   name: 'standings',
   initialState,
   reducers: {
-    setStandings(_, action: PayloadAction<IUserStandings[]>) {
+    setStandings(_, action: PayloadAction<StandingsType>) {
       return action.payload
     }
   }
