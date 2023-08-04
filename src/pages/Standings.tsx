@@ -24,6 +24,7 @@ export const Standings = () => {
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
   const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(false)
+  const [justLoaded, setJustLoaded] = useState<boolean>(true)
   const { uid, buddies } = user
 
   const standings = oneWeekOnly ? week : season
@@ -31,8 +32,13 @@ export const Standings = () => {
   const isButtonInViewport = useRefVisibility(buttonRef)
 
   useEffect(() => {
-    setTimeout(() => setShowGoBackButton(!isButtonInViewport), 500)
+    !justLoaded && setTimeout(() => setShowGoBackButton(!isButtonInViewport), 700)
+    // eslint-disable-next-line
   }, [isButtonInViewport])
+
+  useEffect(() => {
+    setTimeout(() => setJustLoaded(false), 200)
+  }, [])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
@@ -69,10 +75,6 @@ export const Standings = () => {
 
   const backClasses = `${!isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'}`
 
-  const cellTwoClass = (name: string, elUid: string) => {
-    return `col-two ${name === searchString || (elUid === uid && !searchString.length) ? 'col-two__bold' : ''}`
-  }
-
   const addRemoveBuddyHandler = (uid: string) => {
     dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
   }
@@ -87,12 +89,14 @@ export const Standings = () => {
     localStorage.setItem('packContestFavList', value.toString())
   }
 
+  const getClass = (className: string, index: number) => `${className} + ${index % 2 === 0 ? ' dark' : ''}`
+
   return (
     <div className="container">
-      <div className="standings-top-container">
+      <div ref={buttonRef} className="standings-top-container">
         <div className="standings-search">
           <Input onChange={onChangeHandler} value={searchString} type="text" />
-          <div ref={buttonRef}>
+          <div>
             <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
               {clearBtn}
             </Button>
@@ -123,9 +127,7 @@ export const Standings = () => {
         <OtherUser />
         <div className="standings-header">
           <div className="col-zero">#</div>
-          <div className="col-one">
-            <FaStar color="grey" />
-          </div>
+          <div className="col-one"></div>
           <div className="col-two">{tableNameMsg}</div>
           <div className="col-three">%</div>
           <div className="col-four">{tableCorrectMsg}</div>
@@ -143,24 +145,24 @@ export const Standings = () => {
               const buddy = buddies.includes(uid)
               return (
                 <div key={index} className="standings-header">
-                  <div className="col-zero">{position}</div>
+                  <div className={getClass('col-zero', index)}>{position}</div>
                   <div
-                    className="col-one"
-                    style={{ color: buddy ? 'darkgoldenrod' : 'lightgrey' }}
+                    className={getClass('col-one', index)}
+                    style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
                     onClick={() => addRemoveBuddyHandler(uid)}
                   >
                     <FaStar />
                   </div>
                   <div
-                    className={cellTwoClass(name, el.uid)}
+                    className={getClass('col-two', index)}
                     onClick={() => clickHandler(name, el.uid)}
-                    id={uid === el.uid ? 'findMyDivInStandings' : name}
+                    style={{ fontWeight: user.uid === uid ? 600 : '' }}
                   >
                     {name}
                   </div>
-                  <div className="col-three">{answers}</div>
-                  <div className="col-four">{correct}</div>
-                  <div className="col-five">{ninety}</div>
+                  <div className={getClass('col-three', index)}>{answers}</div>
+                  <div className={getClass('col-four', index)}>{correct}</div>
+                  <div className={getClass('col-five', index)}>{ninety}</div>
                 </div>
               )
             })}

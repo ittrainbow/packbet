@@ -4,7 +4,7 @@ export const useRefVisibility = (ref: React.RefObject<HTMLDivElement>) => {
   const [isIntersecting, setIsIntersecting] = useState<boolean>(false)
   const observer = useMemo(() => new IntersectionObserver(([entry]) => setIsIntersecting(entry.isIntersecting)), [])
   useEffect(() => {
-    ref.current && observer.observe(ref.current as HTMLDivElement)
+    ref && ref.current && observer.observe(ref.current as HTMLDivElement)
     return () => {
       observer.disconnect()
     }

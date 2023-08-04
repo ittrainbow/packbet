@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth'
 
 import { db, auth } from './firebase'
-import { IUser, IUserStore, LocaleType } from '../types'
+import { IUser, LocaleType } from '../types'
 import { i18n } from '../locale'
 import { appActions } from '../redux/slices'
 
@@ -60,7 +60,7 @@ export const registerWithEmailAndPassword = async (name: string, email: string, 
     appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data: IUserStore = { name, uid, locale, admin: false, buddies: [uid] }
+    const data: IUser = { name, locale, admin: false, buddies: [uid] }
     await setDoc(doc(db, 'users', uid), data)
     appActions.setLoading(false)
     return { uid, locale }
