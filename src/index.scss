@@ -165,17 +165,6 @@ table {
   font-size: 15px;
 }
 
-.auth {
-  height: calc(100% - $container-height-diff);
-}
-
-.container,
-.auth {
-  @media only screen and (max-width: $max-width) {
-    height: calc(100% - $container-height-diff-mobile);
-  }
-}
-
 html,
 body,
 #root {

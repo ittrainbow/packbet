@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
+import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
 
 import {
   appSlice,
@@ -13,7 +14,6 @@ import {
   editorSlice
 } from './slices'
 import { rootSaga } from './sagas/rootSaga'
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
 
 const sagaMiddleware = createSagaMiddleware()
 

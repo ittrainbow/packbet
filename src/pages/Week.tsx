@@ -108,7 +108,13 @@ export const Week = () => {
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
         {admin && isItYou ? (
-          <Switch onChange={adminPlayerHandler} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
+          <Switch
+            onChange={adminPlayerHandler}
+            checked={adminAsPlayer}
+            messageOn={playerMsg}
+            messageOff={adminMsg}
+            vertical={false}
+          />
         ) : null}
       </div>
       <OtherUser />
