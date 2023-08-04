@@ -8,7 +8,7 @@ import {
   SUBMIT_ANSWERS,
   SET_BUDDIES
 } from '../storetypes'
-import {  } from '../../helpers'
+import {} from '../../helpers'
 import { ActionType, IUser, AnswersType, IStore, BuddiesPayloadType } from '../../types'
 import { writeDBDocument, getDBDocument, updateDBDocument } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
@@ -144,16 +144,14 @@ function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
   const newBuddies = buddies.includes(buddyUid) ? buddies.filter((el) => el !== buddyUid) : [...buddies, buddyUid]
   newUser.buddies = newBuddies
 
-  yield put(appActions.setLoading(true))
   try {
-    yield call(writeDBDocument, 'users', user.uid, newUser)
     yield put(userActions.setBuddies(newBuddies))
+    yield call(writeDBDocument, 'users', user.uid, newUser)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
     }
   }
-  yield put(appActions.setLoading(false))
 }
 
 export function* userSaga() {
