@@ -24,7 +24,7 @@ export const Header = () => {
     { path: '/userpage', name: tab1msg, icon: <ico.FaUserAlt />, id: 1 },
     { path: '/week', name: tab2msg, icon: <ico.FaFootballBall />, id: 2 },
     { path: '/season', name: tab3msg, icon: <ico.FaCalendarAlt />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <ico.FaThList />, id: 4 }
+    { path: '/standings', name: tab4msg, icon: <ico.FaClipboardList />, id: 4 }
   ]
 
   const adminMenu = [

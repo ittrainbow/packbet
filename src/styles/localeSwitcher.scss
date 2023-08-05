@@ -26,8 +26,8 @@
   right: 0;
   bottom: 0;
   background-color: $base-itembg;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
+  -webkit-transition: 0.22 ease-in-out;
+  transition: 0.22s;
 }
 
 .locale:before {
@@ -38,8 +38,8 @@
   left: 4px;
   bottom: 4px;
   background-color: $base-itemborder;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
+  -webkit-transition: 0.22s ease-in-out;
+  transition: 0.22s ease-in-out;
 }
 
 input:checked + .locale:before {

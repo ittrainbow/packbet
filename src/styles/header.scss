@@ -10,7 +10,7 @@
   &__no-login {
     font-size: 45px;
     text-align: center;
-    transition: 0.5s;
+    transition: 0.5s ease-in-out;
     cursor: pointer;
     width: 1.635em;
     flex-grow: 1;

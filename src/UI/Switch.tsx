@@ -23,7 +23,7 @@ export const Switch = ({
   const { mobile } = useSelector(selectApp)
 
   const mobileMessage = checked ? messageOn : messageOff
-  const border = mobile && bordered ? '1px solid #aaa' : ''
+  const border = bordered ? '1px solid #aaa' : ''
   const mobileStyle = `switch-inner-container switch-${mobile ? 'mobile' : 'desktop'}-left`
 
   return (

@@ -51,13 +51,13 @@
   &__edit:hover,
   &__edit:active {
     color: $base-green-active;
-    transition: 0.22s;
+    transition: 0.22s ease-in-out;
   }
 
   &__red:hover,
   &__red:active {
     color: $base-red-active;
-    transition: 0.22s;
+    transition: 0.22s ease-in-out;
   }
 }
 

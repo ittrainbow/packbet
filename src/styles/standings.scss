@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
   gap: 5px;
-  margin-bottom: 10px;
   min-height: 30px;
 
   &__left {
@@ -22,7 +21,7 @@
     border-radius: 50%;
     font-size: 24px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.5s ease-in-out;
   }
 
   &__grey {
@@ -31,6 +30,18 @@
 
   &__green {
     color: $base-green;
+  }
+}
+
+.tools-container {
+  &__closed {
+    opacity: 0;
+    transition: 0.22s ease-in-out;
+  }
+
+  &__open {
+    opacity: 1;
+    transition: 0.22s ease-in-out;
   }
 }
 
@@ -105,7 +116,7 @@
   width: 61%;
   cursor: pointer;
   padding-left: 5px;
-  transition: 0.25s ease-in-out;
+  transition: 0.22s ease-in-out;
 
   &__bold {
     font-weight: 600;
@@ -146,14 +157,14 @@
   font-size: 50px;
   opacity: 0.4;
   transform: translateY(0);
-  transition: 0.5s;
+  transition: 0.5s ease-in-out;
 }
 
 .arrows-hide {
   font-size: 50px;
   opacity: 0;
   transform: translateY(150px);
-  transition: 0.5s;
+  transition: 0.5s ease-in-out;
 }
 
 //////////////////

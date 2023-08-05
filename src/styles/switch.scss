@@ -10,6 +10,7 @@
   border-radius: 5px;
   padding: 5px 0;
   margin: 5px 0;
+  max-height: 45px;
 }
 
 .switch-inner-container {
@@ -50,8 +51,8 @@
   right: 0;
   bottom: 0;
   background-color: $base-itembg;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
+  -webkit-transition: 0.22s ease-in-out;
+  transition: 0.22s ease-in-out;
 }
 
 .slider:before {
@@ -62,8 +63,8 @@
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
+  -webkit-transition: 0.22s ease-in-out;
+  transition: 0.22s ease-in-out;
 }
 
 input:checked + .slider {
