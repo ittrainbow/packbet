@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import { About, Week, Calendar, Editor, Standings } from '../pages'
+import { About, Week, Calendar, Season, Editor, Standings } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI'
 import { selectApp } from '../redux/selectors'
@@ -20,7 +20,7 @@ export const Router = ({ children }: RouterProps) => {
         <Route path="/" element={<About />} />
         <Route path="/userpage" element={<UserPage />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/season" element={<Calendar />} />
+        <Route path="/season" element={<Season />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

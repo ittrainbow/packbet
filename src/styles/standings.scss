@@ -70,7 +70,6 @@
 }
 
 .col-zero,
-.col-one,
 .col-two,
 .col-three,
 .col-four,
@@ -102,10 +101,11 @@
 }
 
 .col-one {
+  background-color: $base-itembg;
+  border: 1px solid $base-itemborder;
+  border-radius: 5px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0 3px;
   -webkit-tap-highlight-color: transparent;
 }
 

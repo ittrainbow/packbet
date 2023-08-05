@@ -32,12 +32,14 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const buttonLogoutMsg = locale === 'ru' ? 'Выйти' : 'Вийти'
   const buttonProfileMsg = locale === 'ru' ? 'Настроить профиль' : 'Налаштувати профіль'
   const buttonDetailsMsg = locale === 'ru' ? 'Подробнее' : 'Докладніше'
-  const buttonDeleteWeekMsg = locale === 'ru' ? 'Удалить неделю' : 'Видалити тиждень'
+  const buttonDeleteWeekMsg = locale === 'ru' ? 'Удалить' : 'Видалити'
   const buttonRegisterMsg = locale === 'ru' ? 'Регистрация' : 'Реєстрація'
   const buttonRegisterGoogleMsg = locale === 'ru' ? 'Регистрация Google' : 'Реєстрація Google'
   const buttonLoginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
   const buttonLoginGoogleMsg = locale === 'ru' ? 'Войти через Google' : 'Увiйти через Google'
   const buttonRecoverMsg = locale === 'ru' ? 'Выслать e-mail' : 'Надіслати e-mail'
+  const buttonDeleteYesMsg = locale === 'ru' ? 'Да' : 'Так'
+  const buttonDeleteNoMsg = locale === 'ru' ? 'Нет' : 'Нi'
 
   const countdownMsg = locale === 'ru' ? 'До начала игры' : 'До початку гри'
   const gameStartedMsg = locale === 'ru' ? 'Игра началась' : 'Гра почалась'
@@ -58,9 +60,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const tableNameMsg = locale === 'ru' ? 'Игрок' : `Гравець`
   const tableAllMsg = locale === 'ru' ? 'Всего' : 'Всього'
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
-  const tableBuddiesMsg = locale === 'ru' ? 'Избранное' : 'Обране'
-  const tableAllUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравци'
-  const tableOnlyWeekMsg = locale === 'ru' ? 'НЗа неделю' : 'За тиждень'
+  const tableBuddiesMsg = locale === 'ru' ? 'Избранное' : 'Вибранi'
+  const tableAllUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравцi'
+  const tableOnlyWeekMsg = locale === 'ru' ? 'Неделя' : 'Тиждень'
   const tableAllSeasonMsg = locale === 'ru' ? 'За сезон' : 'За сезон'
   const tableTierline =
     locale === 'ru'
@@ -68,12 +70,13 @@ export const i18n = (locale: string, component: string): { [key: string]: string
       : 'Таблиця буде оновлена після внесення результатів чергового тижня.'
   const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
   const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
-  const tableHeaderhMsg = locale === 'ru' ? 'Таблица по результатам недели #' : 'Таблиця за пидсумком тижня #'
+  const tableHeaderhMsg = locale === 'ru' ? 'Таблица по результатам недели #' : 'Таблиця за пiдсумком тижня #'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
+  const weekDeleteMsg = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
 
   const otherUser1msg =
     locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю.' : 'Натисніть, щоб повернутися до свого профілю.'
@@ -96,7 +99,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
     case 'editor': {
-      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg }
+      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg }
     }
 
     case 'otheruser':
@@ -168,7 +171,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         buttonRegisterGoogleMsg,
         buttonLoginMsg,
         buttonLoginGoogleMsg,
-        buttonRecoverMsg
+        buttonRecoverMsg,
+        buttonDeleteYesMsg,
+        buttonDeleteNoMsg
       }
 
     default:

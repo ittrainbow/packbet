@@ -8180,6 +8180,11 @@ react-app@^1.1.2:
   resolved "https://registry.npmjs.org/react-app/-/react-app-1.1.2.tgz"
   integrity sha512-4MrTmJWu3WDX3upmEyyHGhA15L0qtqJBDMoVZRjd5hrf8lEoX/ja/EOG31eppiyRTWpZGGigCwb2lzsI6ZKDFQ==
 
+react-confirm-alert@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-confirm-alert/-/react-confirm-alert-3.0.6.tgz#f7552ec839c1e189370cef02ffed3035e7ca2e22"
+  integrity sha512-rplP6Ed9ZSNd0KFV5BUzk4EPQ77BxsrayllBXGFuA8xPXc7sbBjgU5KUrNpl7aWFmP7mXRlVXfuy1IT5DbffYw==
+
 react-countdown@^2.3.5:
   version "2.3.5"
   resolved "https://registry.npmjs.org/react-countdown/-/react-countdown-2.3.5.tgz"

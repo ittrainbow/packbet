@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import moment from 'moment/moment'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, emptyQuestion } from '../helpers'
 import { Button, Input } from '../UI'
@@ -45,8 +47,14 @@ export const Editor = () => {
     // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
-  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg } = i18n(locale, 'editor') as LocaleType
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons') as LocaleType
+  const { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg } = i18n(
+    locale,
+    'editor'
+  ) as LocaleType
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg, buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(
+    locale,
+    'buttons'
+  ) as LocaleType
 
   const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
 
@@ -77,7 +85,24 @@ export const Editor = () => {
     navigate('/calendar')
   }
 
-  const deleteWeekHandler = async () => {
+  const deleteWeekHandler = () => {
+    confirmAlert({
+      message: weekDeleteMsg,
+      // message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: buttonDeleteYesMsg,
+          onClick: async () => deleteWeek()
+        },
+        {
+          label: buttonDeleteNoMsg
+          //onClick: () => alert('Click No')
+        }
+      ]
+    })
+  }
+
+  const deleteWeek = async () => {
     const newWeeks = structuredClone(weeks)
     delete newWeeks[selectedWeek]
     dispatch({ type: DELETE_WEEK, payload: selectedWeek })
@@ -178,18 +203,12 @@ export const Editor = () => {
         <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={changeDateHandler} />
       </div>
       <div className="editor-form">
-        <Button className={'editor'} disabled={!anyChanges} onClick={submitHandler}>
+        <Button disabled={!anyChanges} onClick={submitHandler}>
           {buttonSaveMsg}
         </Button>
-        <Button className={'editor'} onClick={goBackHandler}>
-          {buttonCancelMsg}
-        </Button>
+        <Button onClick={goBackHandler}>{buttonCancelMsg}</Button>
+        {!emptyEditor ? <Button onClick={deleteWeekHandler}>{buttonDeleteWeekMsg}</Button> : null}
       </div>
-      {!emptyEditor ? (
-        <Button className={'editor'} onClick={deleteWeekHandler}>
-          {buttonDeleteWeekMsg}
-        </Button>
-      ) : null}
     </div>
   )
 }

@@ -1,0 +1,24 @@
+@import './vars';
+
+.react-confirm-alert-body {
+  text-align: center;
+  color: $base-black;
+  background-color: $base-bg;
+  font-size: 16px;
+  padding: 40px;
+  width: 200px;
+}
+
+.react-confirm-alert-button-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0 0;
+  gap: 10px;
+}
+
+.react-confirm-alert-button-group > button {
+  margin-right: 0;
+  height: 40px;
+  background-color: $base-green;
+  font-size: 16px;
+}

@@ -1,6 +1,6 @@
 import { Weeklist } from './Weeklist'
 
-export const Calendar = () => {
+export const Season = () => {
   return (
     <div className="container">
       <Weeklist />

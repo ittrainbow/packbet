@@ -33,6 +33,7 @@ export const App = () => {
       const lastTab = Number(localStorage.getItem('packContextLastTab'))
       navigate(initialRedirects[lastTab])
       dispatch(appActions.setTabActive(lastTab))
+      lastTab === 5 && dispatch(appActions.setEditor(true))
     }
     // eslint-disable-next-line
   }, [user])
