@@ -33,6 +33,11 @@ export type AnswersUpdateType = {
   uid: string
 }
 
+export type ResultsUpdateType = {
+  results: AnswersType
+  selectedWeek: number
+}
+
 export type WeekType = {
   active: boolean
   deadline: number

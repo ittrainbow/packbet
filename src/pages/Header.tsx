@@ -12,8 +12,9 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const app = useSelector(selectApp)
+  const user = useSelector(selectUser)
   const { mobile, tabActive, nextWeek, currentWeek, editor } = app
-  const { admin, locale, name } = useSelector(selectUser)
+  const { admin, locale, name } = user
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
@@ -23,7 +24,7 @@ export const Header = () => {
     { path: '/userpage', name: tab1msg, icon: <ico.FaUserAlt />, id: 1 },
     { path: '/week', name: tab2msg, icon: <ico.FaFootballBall />, id: 2 },
     { path: '/season', name: tab3msg, icon: <ico.FaCalendarAlt />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <ico.FaListUl />, id: 4 }
+    { path: '/standings', name: tab4msg, icon: <ico.FaThList />, id: 4 }
   ]
 
   const adminMenu = [

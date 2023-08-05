@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState, useEffect } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 
@@ -10,7 +10,6 @@ import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
 import { Button, Input } from '../UI'
-import { useRefVisibility } from '../hooks/useVisibility'
 import { tableHelper } from '../helpers'
 
 export const Standings = () => {
@@ -19,26 +18,32 @@ export const Standings = () => {
   const { season, week } = useSelector(selectStandings)
   const user = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
-  const buttonRef = useRef<HTMLDivElement>(null)
-  const [showGoBackButton, setShowGoBackButton] = useState<boolean>(false)
+  const arrowsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
   const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(false)
-  const [justLoaded, setJustLoaded] = useState<boolean>(true)
+  const [scrolled, setScrolled] = useState<boolean>(false)
   const { uid, buddies } = user
 
   const standings = oneWeekOnly ? week : season
 
-  const isButtonInViewport = useRefVisibility(buttonRef)
-
   useEffect(() => {
-    !justLoaded && setTimeout(() => setShowGoBackButton(!isButtonInViewport), 700)
-    // eslint-disable-next-line
-  }, [isButtonInViewport])
+    let listener = () => {
+      if (window.scrollY > 350 && !scrolled) {
+        setScrolled(true)
+        arrowsRef.current?.classList.add('arrows-show')
+        arrowsRef.current?.classList.remove('arrows-hide')
+      }
+      if (window.scrollY < 350 && scrolled) {
+        setScrolled(false)
+        arrowsRef.current?.classList.remove('arrows-show')
+        arrowsRef.current?.classList.add('arrows-hide')
+      }
+    }
 
-  useEffect(() => {
-    setTimeout(() => setJustLoaded(false), 200)
-  }, [])
+    window.addEventListener('scroll', listener)
+    return () => window.removeEventListener('scroll', listener)
+  }, [window.onscroll, scrolled])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
@@ -73,8 +78,6 @@ export const Standings = () => {
     window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' })
   }
 
-  const backClasses = `${!isButtonInViewport ? 'animate-show-button' : 'animate-hide-button'}`
-
   const addRemoveBuddyHandler = (uid: string) => {
     dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
   }
@@ -93,7 +96,7 @@ export const Standings = () => {
 
   return (
     <div className="container">
-      <div ref={buttonRef} className="standings-top-container">
+      <div className="standings-top-container">
         <div className="standings-search">
           <Input onChange={onChangeHandler} value={searchString} type="text" />
           <div>
@@ -110,19 +113,6 @@ export const Standings = () => {
           messageOff={allUsersMsg}
         />
       </div>
-      {showGoBackButton ? (
-        <div className="arrow-container">
-          <div className={backClasses} style={{ opacity: !isButtonInViewport ? 0.5 : 0 }}>
-            <FaArrowCircleUp onClick={() => scrollHandler('top')} />
-
-            <div className={backClasses} style={{ opacity: !isButtonInViewport ? 0.5 : 0 }}>
-              <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
       <div className="standings">
         <OtherUser />
         <div className="standings-header">
@@ -133,39 +123,42 @@ export const Standings = () => {
           <div className="col-four">{tableCorrectMsg}</div>
           <div className="col-three">90%</div>
         </div>
-        {standings &&
-          Object.values(standings)
-            // .filter((el) => el.ansTotal > 0)
-            .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
-            .filter((el) => {
-              return onlyBuddies ? buddies.includes(el.uid) : el
-            })
-            .map((el, index) => {
-              const { name, answers, correct, ninety, position, uid } = tableHelper(el)
-              const buddy = buddies.includes(uid)
-              return (
-                <div key={index} className="standings-header">
-                  <div className={getClass('col-zero', index)}>{position}</div>
-                  <div
-                    className={getClass('col-one', index)}
-                    style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
-                    onClick={() => addRemoveBuddyHandler(uid)}
-                  >
-                    <FaStar />
-                  </div>
-                  <div
-                    className={getClass('col-two', index)}
-                    onClick={() => clickHandler(name, el.uid)}
-                    style={{ fontWeight: user.uid === uid ? 600 : '' }}
-                  >
-                    {name}
-                  </div>
-                  <div className={getClass('col-three', index)}>{answers}</div>
-                  <div className={getClass('col-four', index)}>{correct}</div>
-                  <div className={getClass('col-five', index)}>{ninety}</div>
+        {Object.values(standings)
+          // .filter((el) => el.ansTotal > 0)
+          .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
+          .filter((el) => {
+            return onlyBuddies ? buddies.includes(el.uid) : el
+          })
+          .map((el, index) => {
+            const { name, answers, correct, ninety, position, uid } = tableHelper(el)
+            const buddy = buddies.includes(uid)
+            return (
+              <div key={index} className="standings-header">
+                <div className={getClass('col-zero', index)}>{position}</div>
+                <div
+                  className={getClass('col-one', index)}
+                  style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
+                  onClick={() => addRemoveBuddyHandler(uid)}
+                >
+                  <FaStar />
                 </div>
-              )
-            })}
+                <div
+                  className={getClass('col-two', index)}
+                  onClick={() => clickHandler(name, el.uid)}
+                  style={{ fontWeight: user.uid === uid ? 600 : '' }}
+                >
+                  {user.uid === uid ? user.name : name}
+                </div>
+                <div className={getClass('col-three', index)}>{answers}</div>
+                <div className={getClass('col-four', index)}>{correct}</div>
+                <div className={getClass('col-five', index)}>{ninety}</div>
+              </div>
+            )
+          })}
+        <div className="arrows-container arrows-hide" ref={arrowsRef}>
+          <FaArrowCircleUp onClick={() => scrollHandler('top')} />
+          <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
+        </div>
         <div className="tierline">{tableTierline}</div>
       </div>
     </div>

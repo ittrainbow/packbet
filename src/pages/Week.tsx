@@ -41,7 +41,7 @@ export const Week = () => {
     if (answers[uid] && !!Object.keys(answers).length && !!Object.keys(results).length) {
       const userChanges = !objectCompare(answers[uid], compare.answers)
       const adminChanges = admin ? !objectCompare(results, compare.results) : false
-      return adminAsPlayer ? userChanges : adminChanges
+      return !admin || adminAsPlayer ? userChanges : adminChanges
     }
     // eslint-disable-next-line
   }, [adminAsPlayer, answers, results])
@@ -68,7 +68,9 @@ export const Week = () => {
 
       if (!Object.keys(thisWeek).some((el) => el)) delete data[selectedWeek]
 
-      adm ? dispatch(resultsActions.setResults(data)) : dispatch(answersActions.updateAnswers({ answers: data, uid }))
+      adm
+        ? dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
+        : dispatch(answersActions.updateAnswers({ answers: data, uid }))
     }
   }
 
@@ -85,7 +87,7 @@ export const Week = () => {
 
   const discardHandler = () => {
     dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
-    admin && dispatch(resultsActions.setResults(compare.results))
+    admin && dispatch(resultsActions.updateResults({ results: compare.results, selectedWeek }))
   }
 
   const questionStyle = (id: number) => {

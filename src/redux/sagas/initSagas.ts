@@ -5,7 +5,6 @@ import { getDBCollection } from '../../db'
 import { INIT_APP } from '../storetypes'
 import { IAbout, IUserStandings, IWeeks, AnswersType, IAnswers, RawUser, IStore } from '../../types'
 import { appActions, aboutActions, standingsActions, weeksActions, resultsActions } from '../slices'
-
 function* fetchAboutSaga() {
   try {
     const about: IAbout = yield call(getDBCollection, 'about')

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
@@ -11,14 +11,6 @@ export const About = () => {
   const about = useSelector(selectAbout)
   const { locale } = useSelector(selectUser)
   const [open, setOpen] = useState(false)
-  const [description, setDescription] = useState([] as string[])
-
-  useEffect(() => {
-    if (locale && about) {
-      const array = Object.values(about[locale])
-      setDescription(array)
-    }
-  }, [locale, about])
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
   const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
@@ -31,6 +23,8 @@ export const About = () => {
   ]
 
   const openHandler = () => setOpen((prev) => !prev)
+
+  const description = Object.values(about[locale])
 
   return (
     <div className="container">

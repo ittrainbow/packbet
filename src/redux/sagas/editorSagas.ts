@@ -1,9 +1,15 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, select } from 'redux-saga/effects'
 
-import { ActionType, WeekUpdateType } from '../../types'
+import { ActionType, IWeeks, WeekUpdateType } from '../../types'
+import { getWeeksIDs } from '../../helpers'
 import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
 import { writeDBDocument, deleteDBDocument } from '../../db'
 import { appActions, editorActions } from '../slices'
+
+function* setNextAndCurrentWeeksSaga() {
+  const weeks: IWeeks = yield select((store) => store.weeks)
+  yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
+}
 
 function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   const { payload } = action
@@ -11,12 +17,13 @@ function* submitWeekSaga(action: ActionType<WeekUpdateType>) {
   yield put(appActions.setLoading(true))
   try {
     yield call(writeDBDocument, 'weeks', id, week)
+    yield call(setNextAndCurrentWeeksSaga)
+    yield put(editorActions.clearEditor())
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
     }
   }
-  yield put(editorActions.clearEditor())
   yield put(appActions.setLoading(false))
 }
 
@@ -25,12 +32,13 @@ function* deleteWeekSaga(action: ActionType<number>) {
   yield put(appActions.setLoading(true))
   try {
     yield call(deleteDBDocument, 'weeks', weekId)
+    yield call(setNextAndCurrentWeeksSaga)
+    yield put(editorActions.clearEditor())
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
     }
   }
-  yield put(editorActions.clearEditor())
   yield put(appActions.setLoading(false))
 }
 
