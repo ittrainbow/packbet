@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 
@@ -22,6 +22,7 @@ export const Standings = () => {
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
   const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(false)
+  const [showSearch, setShowSearch] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
   const { uid, buddies } = user
 
@@ -43,6 +44,7 @@ export const Standings = () => {
 
     window.addEventListener('scroll', listener)
     return () => window.removeEventListener('scroll', listener)
+    // eslint-disable-next-line
   }, [window.onscroll, scrolled])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
@@ -86,7 +88,11 @@ export const Standings = () => {
     setOneWeekOnly(!oneWeekOnly)
   }
 
-  const onlyBuddiesHandler = () => {
+  const showSearchHandler = () => {
+    setShowSearch(!showSearch)
+  }
+
+  const buddiesHandler = () => {
     const value = !onlyBuddies
     setOnlyBuddies(value)
     localStorage.setItem('packContestFavList', value.toString())
@@ -97,6 +103,11 @@ export const Standings = () => {
   return (
     <div className="container">
       <div className="standings-top-container">
+        <Switch onChange={showSearchHandler} checked={showSearch} messageOn={onlyWeekMsg} messageOff={allSeasonMsg} />
+        <Switch onChange={spanSelectHandler} checked={oneWeekOnly} messageOn={onlyWeekMsg} messageOff={allSeasonMsg} />
+        <Switch onChange={buddiesHandler} checked={onlyBuddies} messageOn={onlyBuddiesMsg} messageOff={allUsersMsg} />
+      </div>
+      {showSearch ? (
         <div className="standings-search">
           <Input onChange={onChangeHandler} value={searchString} type="text" />
           <div>
@@ -105,14 +116,9 @@ export const Standings = () => {
             </Button>
           </div>
         </div>
-        <Switch onChange={spanSelectHandler} checked={oneWeekOnly} messageOn={onlyWeekMsg} messageOff={allSeasonMsg} />
-        <Switch
-          onChange={onlyBuddiesHandler}
-          checked={onlyBuddies}
-          messageOn={onlyBuddiesMsg}
-          messageOff={allUsersMsg}
-        />
-      </div>
+      ) : (
+        ''
+      )}
       <div className="standings">
         <OtherUser />
         <div className="standings-header">

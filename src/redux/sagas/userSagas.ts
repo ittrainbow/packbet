@@ -45,7 +45,6 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
     const response: IUser = yield call(getDBDocument, 'users', uid)
     const data = { ...response, name, locale }
     yield call(writeDBDocument, 'users', uid, data)
-    // yield call(fetchStandingsSaga)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))

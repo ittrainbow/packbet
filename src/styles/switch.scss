@@ -4,9 +4,9 @@
 .switch-container-vertical {
   display: flex;
   align-items: center;
-  // justify-content: center;
   min-width: 75px;
-  // width: 100%;
+  justify-content: center;
+  width: 100%;
 }
 
 .switch-container-horizontal {
@@ -15,7 +15,7 @@
 }
 
 .switch-container-vertical {
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .greeting-container {
