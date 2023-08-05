@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
+import { BsGearFill } from 'react-icons/bs'
 
-import { selectStandings, selectUser } from '../redux/selectors'
+import { selectStandings, selectUser, selectWeeks } from '../redux/selectors'
 import { i18n } from '../locale'
 import { OtherUser, Switch } from '../UI'
 import { LocaleType } from '../types'
@@ -16,13 +17,14 @@ export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { season, week } = useSelector(selectStandings)
+  const weeks = useSelector(selectWeeks)
   const user = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
   const arrowsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
-  const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(false)
-  const [showSearch, setShowSearch] = useState<boolean>(false)
+  const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(localStorage.getItem('packContestOneWeek') === 'true')
+  const [showTools, setShowTools] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
   const { uid, buddies } = user
 
@@ -59,12 +61,13 @@ export const Standings = () => {
   const {
     tableNameMsg,
     tableCorrectMsg,
-    clearBtn,
+    tableClearBtn,
     tableTierline,
-    allUsersMsg,
-    onlyBuddiesMsg,
-    onlyWeekMsg,
-    allSeasonMsg
+    tableAllUsersMsg,
+    tableBuddiesMsg,
+    tableOnlyWeekMsg,
+    tableAllSeasonMsg,
+    tableHeaderhMsg
   } = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => {
@@ -85,11 +88,13 @@ export const Standings = () => {
   }
 
   const spanSelectHandler = () => {
-    setOneWeekOnly(!oneWeekOnly)
+    const value = !oneWeekOnly
+    localStorage.setItem('packContestOneWeek', value.toString())
+    setOneWeekOnly(value)
   }
 
-  const showSearchHandler = () => {
-    setShowSearch(!showSearch)
+  const showToolsHandler = () => {
+    setShowTools(!showTools)
   }
 
   const buddiesHandler = () => {
@@ -99,23 +104,44 @@ export const Standings = () => {
   }
 
   const getClass = (className: string, index: number) => `${className} + ${index % 2 === 0 ? ' dark' : ''}`
+  const getGearClass = `standings-top-container__${showTools ? 'green' : 'grey'}`
 
   return (
     <div className="container">
       <div className="standings-top-container">
-        <Switch onChange={showSearchHandler} checked={showSearch} messageOn={onlyWeekMsg} messageOff={allSeasonMsg} />
-        <Switch onChange={spanSelectHandler} checked={oneWeekOnly} messageOn={onlyWeekMsg} messageOff={allSeasonMsg} />
-        <Switch onChange={buddiesHandler} checked={onlyBuddies} messageOn={onlyBuddiesMsg} messageOff={allUsersMsg} />
-      </div>
-      {showSearch ? (
-        <div className="standings-search">
-          <Input onChange={onChangeHandler} value={searchString} type="text" />
-          <div>
-            <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
-              {clearBtn}
-            </Button>
-          </div>
+        <div className="standings-top-container__left">
+          {tableHeaderhMsg}
+          {Object.keys(weeks).length}
         </div>
+        <div className={getGearClass}>
+          <BsGearFill onClick={showToolsHandler} />
+        </div>
+      </div>
+      {showTools ? (
+        <>
+          <div className="standings-search">
+            <Input onChange={onChangeHandler} value={searchString} type="text" />
+            <div>
+              <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
+                {tableClearBtn}
+              </Button>
+            </div>
+          </div>
+          <div className="standings-tools">
+            <Switch
+              onChange={spanSelectHandler}
+              checked={oneWeekOnly}
+              messageOn={tableOnlyWeekMsg}
+              messageOff={tableAllSeasonMsg}
+            />
+            <Switch
+              onChange={buddiesHandler}
+              checked={onlyBuddies}
+              messageOn={tableBuddiesMsg}
+              messageOff={tableAllUsersMsg}
+            />
+          </div>
+        </>
       ) : (
         ''
       )}
@@ -130,7 +156,6 @@ export const Standings = () => {
           <div className="col-three">90%</div>
         </div>
         {Object.values(standings)
-          // .filter((el) => el.ansTotal > 0)
           .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
           .filter((el) => {
             return onlyBuddies ? buddies.includes(el.uid) : el
@@ -157,7 +182,7 @@ export const Standings = () => {
                 </div>
                 <div className={getClass('col-three', index)}>{answers}</div>
                 <div className={getClass('col-four', index)}>{correct}</div>
-                <div className={getClass('col-five', index)}>{ninety}</div>
+                <div className={getClass('col-five', index)}>{oneWeekOnly ? '-' : ninety}</div>
               </div>
             )
           })}

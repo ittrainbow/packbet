@@ -58,15 +58,16 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const tableNameMsg = locale === 'ru' ? 'Игрок' : `Гравець`
   const tableAllMsg = locale === 'ru' ? 'Всего' : 'Всього'
   const tableCorrectMsg = locale === 'ru' ? 'Верно' : 'Вiрно'
-  const onlyBuddiesMsg = locale === 'ru' ? 'Выбранные' : 'Обранi'
-  const allUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравци'
-  const onlyWeekMsg = locale === 'ru' ? 'Неделя' : 'Тиждень'
-  const allSeasonMsg = locale === 'ru' ? 'Cезон' : 'Cезон'
+  const tableBuddiesMsg = locale === 'ru' ? 'Избранное' : 'Обране'
+  const tableAllUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравци'
+  const tableOnlyWeekMsg = locale === 'ru' ? 'НЗа неделю' : 'За тиждень'
+  const tableAllSeasonMsg = locale === 'ru' ? 'За сезон' : 'За сезон'
   const tableTierline =
     locale === 'ru'
-      ? 'Таблица будет обновлена по итогам очередной недели.'
-      : 'Таблиця буде оновлена за підсумками чергового тижня.'
-  const clearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
+      ? 'Таблица будет обновлена после внесения результатов очередной недели.'
+      : 'Таблиця буде оновлена після внесення результатів чергового тижня.'
+  const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
+  const tableHeaderhMsg = locale === 'ru' ? 'Таблица по результатам недели #' : 'Таблиця за пидсумком тижня #'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -109,11 +110,12 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         tableAllMsg,
         tableCorrectMsg,
         tableTierline,
-        clearBtn,
-        onlyBuddiesMsg,
-        allUsersMsg,
-        onlyWeekMsg,
-        allSeasonMsg
+        tableClearBtn,
+        tableBuddiesMsg,
+        tableAllUsersMsg,
+        tableOnlyWeekMsg,
+        tableAllSeasonMsg,
+        tableHeaderhMsg
       }
 
     case 'ticks':

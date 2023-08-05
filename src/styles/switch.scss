@@ -1,36 +1,38 @@
 @import './vars';
 
-.switch-container-horizontal,
-.switch-container-vertical {
+.switch-container {
   display: flex;
-  align-items: center;
-  min-width: 75px;
-  justify-content: center;
-  width: 100%;
-}
-
-.switch-container-horizontal {
   flex-direction: row;
   gap: 5px;
+  padding: 5px 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  margin: 5px 0;
 }
 
-.switch-container-vertical {
-  flex-direction: row;
-}
-
-.greeting-container {
-  text-align: center;
-  padding: 0 2px 2px 0;
+.switch-inner-container {
+  text-align: right;
+  padding: 0 0 2px 0;
   white-space: nowrap;
+}
+
+.switch-desktop-left {
+  width: fit-content;
+}
+
+.switch-mobile-left {
+  width: 80px;
 }
 
 .switch {
   position: relative;
   display: inline-block;
   border: 1px solid $base-itemborder;
-  border-radius: 26px;
-  width: 54px;
-  height: 28px;
+  border-radius: 34px;
+  width: 60px;
+  height: 34px;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -55,10 +57,10 @@
 .slider:before {
   position: absolute;
   content: '';
-  height: 22px;
-  width: 22px;
-  left: 3px;
-  bottom: 3px;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
   -webkit-transition: 0.2s;
   transition: 0.2s;

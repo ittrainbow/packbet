@@ -115,7 +115,8 @@ export const Week = () => {
             checked={adminAsPlayer}
             messageOn={playerMsg}
             messageOff={adminMsg}
-            vertical={false}
+            width={'fit-content'}
+            bordered={false}
           />
         ) : null}
       </div>
