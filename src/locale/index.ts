@@ -67,6 +67,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
       ? 'Таблица будет обновлена после внесения результатов очередной недели.'
       : 'Таблиця буде оновлена після внесення результатів чергового тижня.'
   const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
+  const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
   const tableHeaderhMsg = locale === 'ru' ? 'Таблица по результатам недели #' : 'Таблиця за пидсумком тижня #'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
@@ -115,7 +116,8 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         tableAllUsersMsg,
         tableOnlyWeekMsg,
         tableAllSeasonMsg,
-        tableHeaderhMsg
+        tableHeaderhMsg,
+        tableSearchMsg
       }
 
     case 'ticks':

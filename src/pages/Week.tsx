@@ -93,8 +93,11 @@ export const Week = () => {
   const questionStyle = (id: number) => {
     const styles = ['question']
     const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
-    const styling = res && ans && adminAsPlayer && outdated()
-    styling && styles.push(res === ans ? 'question__green' : 'question__red')
+    const drawResult = res && adminAsPlayer && outdated()
+    if (drawResult) {
+      ans && styles.push(res === ans ? 'question__green' : 'question__red')
+      !ans && styles.push('question__grey')
+    }
     return styles.join(' ')
   }
 
@@ -141,6 +144,7 @@ export const Week = () => {
                     activity={activity(id)}
                     admin={admin && !adminAsPlayer}
                     onClick={onClickHandler}
+                    gotResult={outdated() && !!results[selectedWeek][id]}
                   />
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
@@ -11,6 +11,7 @@ export const About = () => {
   const about = useSelector(selectAbout)
   const { locale } = useSelector(selectUser)
   const [open, setOpen] = useState(false)
+  const aboutRef = useRef<HTMLDivElement>(null)
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
   const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
@@ -22,7 +23,17 @@ export const About = () => {
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
 
-  const openHandler = () => setOpen((prev) => !prev)
+  const openHandler = () => {
+    if (!open) {
+      setOpen(!open)
+      setTimeout(() => {
+        aboutRef.current?.classList.remove('animate-fade-out-down')
+      }, 20)
+    } else {
+      aboutRef.current?.classList.add('animate-fade-out-down')
+      setTimeout(() => setOpen(!open), 300)
+    }
+  }
 
   const description = Object.values(about[locale])
 
@@ -30,9 +41,9 @@ export const About = () => {
     <div className="container">
       <div className="about__paragraph">{description[0]}</div>
       <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
-      <div>
+      <>
         {open ? (
-          <>
+          <div ref={aboutRef} className="animate-fade-in-up">
             {description.map((el, index) => {
               const classes = `about__paragraph` + (index === 8 ? ' bold' : '')
 
@@ -54,9 +65,9 @@ export const About = () => {
             <div className="about__paragraph">
               {devMsg} <a href="https://t.me/packersnews">Green 19</a>
             </div>
-          </>
+          </div>
         ) : null}
-      </div>
+      </>
     </div>
   )
 }

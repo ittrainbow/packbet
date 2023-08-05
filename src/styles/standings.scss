@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
   gap: 5px;
-  min-height: 30px;
+  margin-bottom: 5px;
 
   &__left {
     display: flex;
@@ -22,6 +22,7 @@
     font-size: 24px;
     cursor: pointer;
     transition: 0.5s ease-in-out;
+    -webkit-tap-highlight-color: transparent;
   }
 
   &__grey {
@@ -56,7 +57,6 @@
 .standings-search {
   display: flex;
   flex-direction: row;
-  height: 46px;
   justify-content: center;
   align-items: center;
   gap: 5px;
@@ -77,12 +77,8 @@
 .col-five {
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
-  padding: 2px 2px 0.16rem;
+  padding: 5px 3px 4px;
   border-radius: 5px;
-
-  @media only screen and (max-width: $max-width) {
-    padding-bottom: 2px;
-  }
 }
 
 .dark {
@@ -110,6 +106,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .col-two {

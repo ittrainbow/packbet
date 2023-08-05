@@ -37,17 +37,17 @@
   }
 
   &__red {
-    background-color: $question-red;
-    border: 1px solid $question-red-border;
+    color: $question-red-answer;
+    // border: 1px solid $question-red-border;
   }
 
   &__grey {
-    background-color: $base-itembg;
+    color: black;
   }
 
   &__green {
-    background-color: $question-green;
-    border: 1px solid $question-green-border;
+    color: $question-green-answer;
+    // border: 1px solid $question-green-dark;
   }
 }
 

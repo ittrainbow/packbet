@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
@@ -21,7 +21,6 @@ export const Standings = () => {
   const user = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
   const arrowsRef = useRef<HTMLDivElement>(null)
-  const toolsRef = useRef<HTMLDivElement>(null)
   const standingsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
@@ -69,7 +68,8 @@ export const Standings = () => {
     tableBuddiesMsg,
     tableOnlyWeekMsg,
     tableAllSeasonMsg,
-    tableHeaderhMsg
+    tableHeaderhMsg,
+    tableSearchMsg
   } = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => {
@@ -86,7 +86,7 @@ export const Standings = () => {
   }
 
   const addRemoveBuddyHandler = (uid: string) => {
-    dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
+    user && dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
   }
 
   const spanSelectHandler = () => {
@@ -96,18 +96,12 @@ export const Standings = () => {
   }
 
   const showToolsHandler = () => {
-    toolsRef.current?.classList.remove('animate-fade-in')
-    toolsRef.current?.classList.add('animate-fade-out')
-    standingsRef.current?.classList.remove('animate-fade-in')
     standingsRef.current?.classList.add('animate-fade-out')
 
     setTimeout(() => {
       setShowTools(!showTools)
-      toolsRef.current?.classList.remove('animate-fade-out')
-      toolsRef.current?.classList.add('animate-fade-in')
       standingsRef.current?.classList.remove('animate-fade-out')
-      standingsRef.current?.classList.add('animate-fade-in')
-    }, 300)
+    }, 20)
   }
 
   const buddiesHandler = () => {
@@ -118,9 +112,9 @@ export const Standings = () => {
 
   const getClass = (className: string, index: number) => `${className} + ${index % 2 === 0 ? ' dark' : ''}`
   const getGearClass = `standings-top-container__${showTools ? 'green' : 'grey'}`
-  const getToolsClass = `tools-container__${showTools ? 'open' : 'close'}`
+  const getToolsClass = `tools-container__${showTools ? 'open' : 'close'} animate-fade-in-up`
 
-  const standingsRender = useMemo(() => {
+  const standingsRender = () => {
     return Object.values(standings)
       .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
       .filter((el) => {
@@ -152,7 +146,7 @@ export const Standings = () => {
           </div>
         )
       })
-  }, [onlyBuddies, oneWeekOnly])
+  }
 
   return (
     <div className="container">
@@ -166,9 +160,9 @@ export const Standings = () => {
         </div>
       </div>
       {showTools ? (
-        <div className={getToolsClass} ref={toolsRef}>
+        <div className={getToolsClass}>
           <div className="standings-search">
-            <Input onChange={onChangeHandler} value={searchString} type="text" />
+            <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
             <div>
               <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
                 {tableClearBtn}
@@ -193,7 +187,7 @@ export const Standings = () => {
       ) : (
         ''
       )}
-      <div className="standings" ref={standingsRef}>
+      <div className="standings animate-fade-in-up" ref={standingsRef}>
         <OtherUser />
         <div className="standings-header">
           <div className="col-zero">#</div>
@@ -203,7 +197,7 @@ export const Standings = () => {
           <div className="col-four">{tableCorrectMsg}</div>
           <div className="col-three">90%</div>
         </div>
-        {standingsRender}
+        {standingsRender()}
         <div className="arrows-container arrows-hide" ref={arrowsRef}>
           <FaArrowCircleUp onClick={() => scrollHandler('top')} />
           <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
