@@ -33,11 +33,7 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    padding: 0 0 3px 3px;
-
-    // @media only screen and (max-width: $max-width) {
-    //   padding-bottom: 1px;
-    // }
+    padding: 3px 5px;
   }
 
   &__buttons {
@@ -78,11 +74,7 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    padding: 0 4px 4px;
-
-    // @media only screen and (max-width: $max-width) {
-    //   padding-bottom: 1px;
-    // }
+    padding: 4px;
   }
 
   &__box {

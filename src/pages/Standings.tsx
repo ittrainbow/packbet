@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
 
-import { selectResults, selectStandings, selectUser } from '../redux/selectors'
+import { selectApp, selectResults, selectStandings, selectUser } from '../redux/selectors'
 import { i18n } from '../locale'
 import { OtherUser, Switch } from '../UI'
 import { LocaleType } from '../types'
@@ -16,10 +16,11 @@ import { tableHelper } from '../helpers'
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { mobile } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
   const results = useSelector(selectResults)
   const user = useSelector(selectUser)
-  const { locale } = useSelector(selectUser)
+  const { locale } = user
   const arrowsRef = useRef<HTMLDivElement>(null)
   const standingsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
@@ -113,7 +114,7 @@ export const Standings = () => {
 
   const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   const getGearClass = `standings-top-container__${showTools ? 'green' : 'grey'}`
-  const getToolsClass = `animate-fade-in-up`
+  const getToolsClass = `animate-fade-in-up standings__tools${mobile ? '-mobile' : ''}`
 
   const standingsRender = () => {
     return Object.values(standings)
@@ -170,18 +171,22 @@ export const Standings = () => {
               </Button>
             </div>
           </div>
-          <div className="standings__tools">
+          <div className="standings__switchers" style={{ flexDirection: mobile ? 'column' : 'row' }}>
             <Switch
               onChange={spanSelectHandler}
               checked={oneWeekOnly}
               messageOn={tableOnlyWeekMsg}
               messageOff={tableAllSeasonMsg}
+              fullWidth={true}
+              bordered={!mobile}
             />
             <Switch
               onChange={buddiesHandler}
               checked={onlyBuddies}
               messageOn={tableBuddiesMsg}
               messageOff={tableAllUsersMsg}
+              fullWidth={true}
+              bordered={!mobile}
             />
           </div>
         </div>

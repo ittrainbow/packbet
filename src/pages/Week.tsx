@@ -97,7 +97,6 @@ export const Week = () => {
     const drawResult = res && adminAsPlayer && outdated()
     if (drawResult) {
       ans && styles.push(res === ans ? 'question__green' : 'question__red')
-      // !ans && styles.push('question__grey')
     }
     return styles.join(' ')
   }
@@ -119,7 +118,6 @@ export const Week = () => {
             checked={adminAsPlayer}
             messageOn={playerMsg}
             messageOff={adminMsg}
-            width={'fit-content'}
             bordered={false}
           />
         ) : null}

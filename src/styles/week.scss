@@ -6,16 +6,12 @@
   gap: 10px;
   margin: 0 0 3px;
   min-height: 30px;
-  padding: 2px 5px;
+  padding: 3px 5px;
   border: 1px solid $base-itemborder;
   background-color: $base-itembg;
   border-radius: 5px;
   margin-bottom: 5px;
   box-sizing: border-box;
-
-  // @media only screen and (max-width: $max-width) {
-  //   padding: 3px 5px;
-  // }
 
   &__admplayer {
     display: flex;
@@ -44,7 +40,6 @@
 
   &__green {
     color: $question-green-answer;
-    // border: 1px solid $question-green-dark;
   }
 }
 

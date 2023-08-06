@@ -16,14 +16,12 @@ export const YesNoButtons = ({ total, id, activity, onClick, admin, gotResult }:
   return (
     <div className="yn__parent">
       <Button
-        // className={activity === 1 ? (admin || gotResult ? 'yn__dark' : 'yn__green') : 'yn__grey'}
         className={activity === 1 ? (admin || gotResult ? 'yn__dark' : 'yn__green') : 'yn__grey'}
         onClick={() => onClick({ value: 1, id, activity })}
       >
         {total === '1' ? <FaCheck /> : <FaArrowUp />}
       </Button>
       <Button
-        // className={activity === 2 ? (admin || gotResult ? 'yn__dark' : 'yn__red') : 'yn__grey'}
         className={activity === 2 ? (admin || gotResult ? 'yn__dark' : 'yn__red') : 'yn__grey'}
         onClick={() => onClick({ value: 2, id, activity })}
       >

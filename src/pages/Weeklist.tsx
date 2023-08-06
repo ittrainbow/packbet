@@ -23,7 +23,7 @@ export const Weeklist = () => {
   }
 
   return (
-    <div className="weeklist">
+    <>
       {!isItYou && !editor ? <OtherUser /> : null}
       {Object.keys(weeks)
         .map((el) => Number(el))
@@ -38,6 +38,6 @@ export const Weeklist = () => {
             </div>
           )
         })}
-    </div>
+    </>
   )
 }
