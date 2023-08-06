@@ -8,9 +8,9 @@ import {
   SUBMIT_ANSWERS,
   SET_BUDDIES
 } from '../storetypes'
-import {} from '../../helpers'
+import { getLocale } from '../../helpers'
 import { ActionType, IUser, AnswersType, IStore, BuddiesPayloadType } from '../../types'
-import { writeDBDocument, getDBDocument, updateDBDocument } from '../../db'
+import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { objectCompare } from '../../helpers'
 import { fetchStandingsSaga } from './initSagas'
@@ -64,7 +64,12 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
   const { uid, displayName, email } = action.payload
   try {
     const responseUser: IUser = yield call(getDBDocument, 'users', uid)
-    const user = responseUser || { name: displayName, email, admin: false }
+    const user = responseUser || {
+      name: displayName,
+      email,
+      admin: false,
+      locale: getLocale()
+    }
     yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
 
     const answers: AnswersType = yield call(getDBDocument, 'answers', uid)
@@ -80,10 +85,16 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
 
 function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
   const { results, selectedWeek, toaster } = action.payload
+  const data = results[selectedWeek]
   yield put(appActions.setLoading(true))
 
   try {
-    yield call(writeDBDocument, 'results', selectedWeek, results[selectedWeek])
+    if (data) {
+      yield call(writeDBDocument, 'results', selectedWeek, results[selectedWeek])
+    } else {
+      yield call(deleteDBDocument, 'results', selectedWeek)
+    }
+
     yield put(resultsActions.setResults(results))
 
     const response: AnswersType = yield call(getDBDocument, 'results', selectedWeek)

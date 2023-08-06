@@ -44,7 +44,7 @@ export const Week = () => {
       return !admin || adminAsPlayer ? userChanges : adminChanges
     }
     // eslint-disable-next-line
-  }, [adminAsPlayer, answers, results])
+  }, [adminAsPlayer, answers, results, selectedWeek])
 
   const outdated = () => new Date().getTime() > deadline
   const writeAllowed = () => adm || (!adm && !outdated())
@@ -144,7 +144,7 @@ export const Week = () => {
                     activity={activity(id)}
                     admin={admin && !adminAsPlayer}
                     onClick={onClickHandler}
-                    gotResult={outdated() && !!results[selectedWeek][id]}
+                    gotResult={outdated() && !!results[selectedWeek]}
                   />
                 </div>
               </div>

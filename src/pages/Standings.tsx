@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
 
-import { selectStandings, selectUser, selectWeeks } from '../redux/selectors'
+import { selectResults, selectStandings, selectUser } from '../redux/selectors'
 import { i18n } from '../locale'
 import { OtherUser, Switch } from '../UI'
 import { LocaleType } from '../types'
@@ -17,7 +17,7 @@ export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { season, week } = useSelector(selectStandings)
-  const weeks = useSelector(selectWeeks)
+  const results = useSelector(selectResults)
   const user = useSelector(selectUser)
   const { locale } = useSelector(selectUser)
   const arrowsRef = useRef<HTMLDivElement>(null)
@@ -153,7 +153,7 @@ export const Standings = () => {
       <div className="standings-top-container">
         <div className="standings-top-container__left">
           {tableHeaderhMsg}
-          {Object.keys(weeks).length}
+          {Object.keys(results).length}
         </div>
         <div className={getGearClass}>
           <BsGearFill onClick={showToolsHandler} />

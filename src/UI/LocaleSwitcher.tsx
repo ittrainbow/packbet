@@ -24,8 +24,6 @@ export const LocaleSwitcher = () => {
 
   const localeChangeHandler = () => {
     const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    localStorage.setItem('packContestLocale', newLocale)
-
     dispatch(userActions.setLocale(newLocale))
   }
 

@@ -25,7 +25,9 @@ export const userSlice = createSlice({
     },
 
     setLocale(state, action: PayloadAction<string>) {
-      state.locale = action.payload
+      const { payload } = action
+      localStorage.setItem('packContestLocale', payload)
+      state.locale = payload
     },
 
     setAdminAsPlayer(state, action: PayloadAction<boolean>) {
