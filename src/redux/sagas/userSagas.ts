@@ -70,10 +70,11 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
       admin: false,
       locale: getLocale()
     }
-    yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
-
+    
     const answers: AnswersType = yield call(getDBDocument, 'answers', uid)
     const results: AnswersType = yield select((store: IStore) => store.results)
+    
+    yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
     yield put(compareActions.setCompare({ answers, results }))
     yield put(answersActions.updateAnswers({ answers, uid }))
   } catch (error) {

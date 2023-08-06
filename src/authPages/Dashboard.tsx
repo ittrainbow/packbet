@@ -19,7 +19,6 @@ export const Dashboard = () => {
   const logoutHandler = () => {
     dispatch(userActions.clearUser())
     dispatch(answersActions.clearAnswers())
-    dispatch(resultsActions.clearResults())
     dispatch(compareActions.clearCompare())
     logout()
     navigate('/userpage')

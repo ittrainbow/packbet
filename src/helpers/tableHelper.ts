@@ -63,7 +63,7 @@ export const tableCreator = ({ answers, players, results, fullSeason }: TableCre
   //   if (i > 50) table.push(obj)
   //   else table.unshift(obj)
   // }
-  
+
   return table
 }
 

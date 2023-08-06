@@ -30,12 +30,14 @@
   border-radius: 5px;
 
   &__desc {
+    display: flex;
+    align-items: center;
     flex-grow: 1;
     padding: 0 0 3px 3px;
 
-    @media only screen and (max-width: $max-width) {
-      padding-bottom: 1px;
-    }
+    // @media only screen and (max-width: $max-width) {
+    //   padding-bottom: 1px;
+    // }
   }
 
   &__buttons {
@@ -73,12 +75,14 @@
   align-items: center;
 
   &__pad {
+    display: flex;
+    align-items: center;
     flex-grow: 1;
     padding: 0 4px 4px;
 
-    @media only screen and (max-width: $max-width) {
-      padding-bottom: 1px;
-    }
+    // @media only screen and (max-width: $max-width) {
+    //   padding-bottom: 1px;
+    // }
   }
 
   &__box {

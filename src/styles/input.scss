@@ -1,6 +1,7 @@
 @import './vars';
 
 input {
+  display: flex;
   width: 100%;
   height: $row-height;
   box-sizing: border-box;
@@ -12,10 +13,10 @@ input {
   border: 1px solid $base-border;
   margin: 3px 0 3px;
 
-  @media only screen and (max-width: $max-width) {
-    height: $row-height-mobile;
-    padding-bottom: 8px;
-  }
+  // @media only screen and (max-width: $max-width) {
+  //   height: $row-height-mobile;
+  //   padding-bottom: 8px;
+  // }
 }
 
 input::-webkit-outer-spin-button,

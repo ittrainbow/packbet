@@ -111,9 +111,9 @@ export const Standings = () => {
     localStorage.setItem('packContestFavList', value.toString())
   }
 
-  const getClass = (className: string, index: number) => `${className} + ${index % 2 === 0 ? ' dark' : ''}`
+  const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   const getGearClass = `standings-top-container__${showTools ? 'green' : 'grey'}`
-  const getToolsClass = `tools-container__${showTools ? 'open' : 'close'} animate-fade-in-up`
+  const getToolsClass = `animate-fade-in-up`
 
   const standingsRender = () => {
     return Object.values(standings)
@@ -125,7 +125,7 @@ export const Standings = () => {
         const { name, answers, correct, ninety, position, uid } = tableHelper(el)
         const buddy = buddies.includes(uid)
         return (
-          <div key={index} className="standings-header">
+          <div key={index} className="standings__header">
             <div className={getClass('col-zero', index)}>{position}</div>
             <div
               className={getClass('col-one', index)}
@@ -162,7 +162,7 @@ export const Standings = () => {
       </div>
       {showTools ? (
         <div className={getToolsClass}>
-          <div className="standings-search">
+          <div className="standings__search">
             <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
             <div>
               <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
@@ -170,7 +170,7 @@ export const Standings = () => {
               </Button>
             </div>
           </div>
-          <div className="standings-tools">
+          <div className="standings__tools">
             <Switch
               onChange={spanSelectHandler}
               checked={oneWeekOnly}
@@ -190,13 +190,13 @@ export const Standings = () => {
       )}
       <div className="standings animate-fade-in-up" ref={standingsRef}>
         <OtherUser />
-        <div className="standings-header">
+        <div className="standings__header">
           <div className="col-zero">#</div>
           <div className="col-one"></div>
           <div className="col-two">{tableNameMsg}</div>
           <div className="col-three">%</div>
           <div className="col-four">{tableCorrectMsg}</div>
-          <div className="col-three">90%</div>
+          <div className="col-five">90%</div>
         </div>
         <hr />
         {standingsRender()}

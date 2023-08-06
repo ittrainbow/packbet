@@ -1,29 +1,18 @@
 $base-bg: #d7d7d7;
 $base-green: #3d9f40;
 $base-green-active: #1a571c;
-$base-green-active-light: #3a773c;
 $base-red: #af4c4c;
-$base-red-active: #5f1313;
-$green: #439245;
-$base-dark: #333;
 $base-black: #111;
+$base-red-active: #5f1313;
+$base-dark: #333;
 $base-buttonbg: #d1d1d1;
 $base-border: #777;
 $base-itembg: #e7e7e7;
 $base-itemborder: #aaa;
-$base-buttonbg-active: #b1b1b1;
-$base-button-text-inactive: #999;
 $base-google: #4285f4;
-$question-red: #ffe7e7;
 $question-red-answer: #971515;
-$question-red-border: #ffaaaa;
-// $question-grey-answer: #999;
-$question-green-border: #aaffaa;
 $question-green-answer: #1e6b22;
-// $yesno-dark: #ffc47b;
 $yesno-light: white;
-$standings-grey: #ccc;
-$standings-red: #bc544b;
 
 $auth-width: 240px;
 $row-height: 38px;
@@ -31,8 +20,6 @@ $row-height-mobile: 45px;
 $max-width: 500px;
 $header-height: 92px;
 $header-height-mobile: 70px;
-$container-height-diff: calc($header-height + 30px);
-$container-height-diff-mobile: calc($header-height-mobile + 30px);
 
 $fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
   'Droid Sans', 'Helvetica Neue', sans-serif;

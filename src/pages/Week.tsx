@@ -38,7 +38,8 @@ export const Week = () => {
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
   const gotChanges = useMemo(() => {
-    if (answers[uid] && !!Object.keys(answers).length && !!Object.keys(results).length) {
+    const dataToCompare = admin && !adminAsPlayer ? results : answers
+    if (answers[uid] && !!Object.keys(dataToCompare).length) {
       const userChanges = !objectCompare(answers[uid], compare.answers)
       const adminChanges = admin ? !objectCompare(results, compare.results) : false
       return !admin || adminAsPlayer ? userChanges : adminChanges

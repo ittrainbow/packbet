@@ -15,10 +15,6 @@ export const resultsSlice = createSlice({
     updateResults(state, action: PayloadAction<ResultsUpdateType>) {
       const { results, selectedWeek } = action.payload
       state[selectedWeek] = results[selectedWeek]
-    },
-
-    clearResults() {
-      return initialState
     }
   }
 })
