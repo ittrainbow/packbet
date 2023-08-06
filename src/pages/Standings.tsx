@@ -69,7 +69,8 @@ export const Standings = () => {
     tableOnlyWeekMsg,
     tableAllSeasonMsg,
     tableHeaderhMsg,
-    tableSearchMsg
+    tableSearchMsg,
+    tableOtherUserTierline
   } = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => {
@@ -197,12 +198,14 @@ export const Standings = () => {
           <div className="col-four">{tableCorrectMsg}</div>
           <div className="col-three">90%</div>
         </div>
+        <hr />
         {standingsRender()}
         <div className="arrows-container arrows-hide" ref={arrowsRef}>
           <FaArrowCircleUp onClick={() => scrollHandler('top')} />
           <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
         </div>
         <div className="tierline">{tableTierline}</div>
+        <div className="tierline">{tableOtherUserTierline}</div>
       </div>
     </div>
   )
