@@ -25,6 +25,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const emailMsg = locale === 'ru' ? 'E-mail' : 'E-mail'
   const passwordMsg = locale === 'ru' ? 'Пароль' : 'Пароль'
   const emailExistsMsg = locale === 'ru' ? 'E-mail уже используется' : 'E-mail вже використовується'
+  const emailWrongMsg = locale === 'ru' ? 'Проверьте e-mail' : 'Перевірте e-mail'
+  const passwordWrongMsg =
+    locale === 'ru' ? 'Проверьте правильность ввода пароля' : 'Перевірте правильність введення пароля'
 
   const buttonChangesMsg = locale === 'ru' ? 'Изменений нет' : 'Немає змiн'
   const buttonCancelMsg = locale === 'ru' ? 'Отменить' : 'Скасувати'
@@ -158,7 +161,9 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         regPasswordAlert,
         emailMsg,
         passwordMsg,
-        emailExistsMsg
+        emailExistsMsg,
+        emailWrongMsg,
+        passwordWrongMsg
       }
 
     case 'buttons':

@@ -4,4 +4,4 @@
 
 Current version for 2023 season https://pack-contest.web.app/ 
 
-React 18.2, Firebase 9.16 with some Redux && MUI
+React, Typescript, Redux Toolkit, Redux Saga, Firebase SDK 10

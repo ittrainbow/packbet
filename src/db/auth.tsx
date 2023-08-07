@@ -51,7 +51,16 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
     appActions.setLoading(false)
     return { user, uid }
   } catch (error) {
-    if (error instanceof Error) console.error(error)
+    if (error instanceof Error) {
+      const locale = getLocale()
+      const { emailWrongMsg, passwordWrongMsg } = i18n(locale, 'auth') as LocaleType
+      if (error.message.includes('user-not-found')) {
+        alert(emailWrongMsg)
+      } else if (error.message.includes('wrong-password')) {
+        alert(passwordWrongMsg)
+      }
+      console.error(error.message)
+    }
   }
 }
 

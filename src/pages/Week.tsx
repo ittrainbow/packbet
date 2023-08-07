@@ -99,7 +99,7 @@ export const Week = () => {
   const questionStyle = (id: number) => {
     const styles = ['question']
     const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
-    const drawResult = res && adminAsPlayer && outdated()
+    const drawResult = res && (adminAsPlayer || !admin) && outdated()
     if (drawResult) {
       ans && styles.push(res === ans ? 'question__green' : 'question__red')
     }
