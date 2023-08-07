@@ -48,8 +48,8 @@ export const tableCreator = ({ answers, players, results, fullSeason }: TableCre
     const samePosition = index > 0 && table[index].correct === table[index - 1].correct
     table[index]['position'] = samePosition ? table[index - 1].position : index + 1
   })
-  
-  return table
+
+  return [...table, ...table, ...table]
 }
 
 export const tableHelper = (el: IUserStandings) => {

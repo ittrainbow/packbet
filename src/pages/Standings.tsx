@@ -113,7 +113,7 @@ export const Standings = () => {
   }
 
   const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
-  const getGearClass = `standings-top-container__${showTools ? 'green' : 'grey'}`
+  const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
   const getToolsClass = `animate-fade-in-up standings__tools${mobile ? '-mobile' : ''}`
 
   const standingsRender = () => {
@@ -153,7 +153,7 @@ export const Standings = () => {
   return (
     <div className="container">
       <div className="standings-top-container">
-        <div className="standings-top-container__left">
+        <div className="standings-top-container__title">
           {tableHeaderhMsg}
           {Object.keys(results).length}
         </div>
@@ -205,12 +205,12 @@ export const Standings = () => {
         </div>
         <hr />
         {standingsRender()}
+        <div className="tierline">{tableTierline}</div>
+        <div className="tierline">{tableOtherUserTierline}</div>
         <div className="arrows-container arrows-hide" ref={arrowsRef}>
           <FaArrowCircleUp onClick={() => scrollHandler('top')} />
           <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
         </div>
-        <div className="tierline">{tableTierline}</div>
-        <div className="tierline">{tableOtherUserTierline}</div>
       </div>
     </div>
   )

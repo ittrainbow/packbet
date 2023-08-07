@@ -6,7 +6,7 @@
   gap: 5px;
   margin-bottom: 5px;
 
-  &__left {
+  &__title {
     display: flex;
     font-size: 16px;
     font-weight: 600;
@@ -14,8 +14,8 @@
     align-items: center;
   }
 
-  &__grey,
-  &__green {
+  &__gear-on,
+  &__gear-off {
     display: flex;
     padding: 2px;
     border-radius: 50%;
@@ -25,7 +25,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  &__green {
+  &__gear-on {
     color: $base-green;
   }
 }
@@ -143,16 +143,16 @@
   cursor: pointer;
   width: 50px;
   bottom: 25px;
-  right: 50px;
-  height: 125px;
-  position: fixed;
-  z-index: 10;
+  left: 80%;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
+  z-index: 100;
 }
 
 .arrows-show {
+  position: sticky;
+  bottom: 25px;
   font-size: 50px;
   opacity: 0.4;
   transform: translateY(0);
