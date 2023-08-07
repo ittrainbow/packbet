@@ -25,48 +25,52 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  &__grey {
-    color: $base-black;
-  }
-
   &__green {
     color: $base-green;
   }
 }
 
-.tools-container {
-  &__closed {
-    opacity: 0;
-    transition: 0.22s ease-in-out;
+.standings {
+  &__tools,
+  &__tools-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
   }
 
-  &__open {
-    opacity: 1;
-    transition: 0.22s ease-in-out;
+  &__tools-mobile {
+    border: 1px solid $base-itemborder;
+    border-radius: 5px;
+    padding: 3px 5px;
+    margin-bottom: 5px;
   }
-}
 
-.standings-tools {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  justify-content: space-evenly;
-  border-radius: 5px;
-}
+  &__switchers {
+    display: flex;
+    gap: 5px;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    margin-bottom: 4px;
+  }
 
-.standings-search {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  flex-grow: 1;
-}
+  &__dark {
+    background-color: $base-bg !important;
+  }
 
-.standings-header {
-  display: flex;
-  gap: 2px;
-  margin: 2px 0;
+  &__search {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-grow: 1;
+  }
+
+  &__header {
+    display: flex;
+    gap: 2px;
+    margin: 2px 0;
+  }
 }
 
 .col-zero,
@@ -74,14 +78,12 @@
 .col-three,
 .col-four,
 .col-five {
+  display: flex;
+  align-items: center;
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
-  padding: 5px 3px 4px;
+  padding: 5px 3px;
   border-radius: 5px;
-}
-
-.dark {
-  background-color: $base-bg;
 }
 
 .col-zero,
@@ -96,8 +98,7 @@
 
 .col-zero,
 .col-one {
-  width: 6%;
-  min-width: 20px;
+  min-width: 27px;
 }
 
 .col-one {
@@ -105,7 +106,6 @@
   border: 1px solid $base-itemborder;
   border-radius: 5px;
   cursor: pointer;
-  padding: 0 3px;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -113,19 +113,21 @@
   width: 61%;
   cursor: pointer;
   padding-left: 5px;
-  transition: 0.22s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
 
   &__bold {
     font-weight: 600;
-    background-color: $standings-grey;
   }
 }
 
-.col-three,
+.col-three {
+  min-width: 41px;
+}
+
 .col-four,
 .col-five {
   width: 9%;
-  min-width: 40px;
+  min-width: 41px;
 }
 
 .col-four {
@@ -134,7 +136,7 @@
 
 .tierline {
   text-align: justify;
-  padding: 15px;
+  padding-top: 15px;
 }
 
 .arrows-container {
@@ -163,8 +165,6 @@
   transform: translateY(150px);
   transition: 0.5s ease-in-out;
 }
-
-//////////////////
 
 @keyframes showButton {
   0% {

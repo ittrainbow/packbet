@@ -10,6 +10,7 @@ import { LocaleType } from '../types'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/slices'
 import { selectUser } from '../redux/selectors'
+import { getLocale } from '../helpers'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -24,12 +25,8 @@ export const Login = () => {
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
-    const locale = localStorage.getItem('packContestLocale')
-    const noLocale = () => {
-      localStorage.setItem('packContestLocale', 'ru')
-      dispatch(userActions.setLocale('ru'))
-    }
-    locale ? dispatch(userActions.setLocale(locale)) : noLocale()
+    const locale = getLocale()
+    dispatch(userActions.setLocale(locale))
     // eslint-disable-next-line
   }, [])
 

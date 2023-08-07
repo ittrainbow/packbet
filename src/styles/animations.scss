@@ -49,3 +49,31 @@
   opacity: 1;
   animation: fade-out 0.02s ease-in-out forwards;
 }
+
+@keyframes showButton {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.animate-show-button {
+  opacity: 0;
+  animation: showButton 0.5s ease-in-out forwards;
+}
+
+@keyframes hideButton {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-hide-button {
+  opacity: 0.5;
+  animation: hideButton 0.5s ease-in-out forwards;
+}

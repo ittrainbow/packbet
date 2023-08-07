@@ -1,43 +1,34 @@
 import { useSelector } from 'react-redux'
 
-import { selectApp } from '../redux/selectors'
 import { Input } from './Input'
+import { selectApp } from '../redux/selectors'
 
 type SwitchPropsType = {
   onChange: () => void
   checked: boolean | undefined
   messageOn: string
   messageOff: string
-  width?: string
+  fullWidth?: boolean
   bordered?: boolean
 }
 
-export const Switch = ({
-  onChange,
-  checked,
-  messageOff,
-  messageOn,
-  width = '50%',
-  bordered = true
-}: SwitchPropsType) => {
+export const Switch = ({ onChange, checked, messageOff, messageOn, fullWidth, bordered = true }: SwitchPropsType) => {
   const { mobile } = useSelector(selectApp)
-
-  const mobileMessage = checked ? messageOn : messageOff
   const border = bordered ? '1px solid #aaa' : ''
-  const mobileStyle = `switch-inner-container switch-${mobile ? 'mobile' : 'desktop'}-left`
 
   return (
-    <div className="switch-container" style={{ width, border }}>
-      <div className={mobileStyle}>{mobile ? mobileMessage : messageOff}</div>
+    <div
+      className="switch-container"
+      style={{ width: fullWidth ? '100%' : '', border, padding: mobile ? '' : '5px 0' }}
+    >
+      <div className="switch-inner-container inner-left">{messageOff}</div>
       <label className="switch">
         <Input type="checkbox" checked={checked} onChange={onChange} />
         <span className="slider round"></span>
       </label>
-      {!mobile && (
-        <div className="switch-inner-container" style={{ textAlign: 'left' }}>
-          {messageOn}
-        </div>
-      )}
+      <div className="switch-inner-container" style={{ textAlign: 'left' }}>
+        {messageOn}
+      </div>
     </div>
   )
 }

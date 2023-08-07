@@ -13,6 +13,7 @@ import { db, auth } from './firebase'
 import { IUser, LocaleType } from '../types'
 import { i18n } from '../locale'
 import { appActions } from '../redux/slices'
+import { getLocale } from '../helpers'
 
 const googleProvider = new GoogleAuthProvider()
 
@@ -25,7 +26,7 @@ export const signInWithGoogle = async () => {
       const name = response.user.displayName || 'username'
       const docs = await getDoc(doc(db, 'users', uid))
       const googleAuth = async () => {
-        const locale = localStorage.getItem('packContestLocale') || 'ru'
+        const locale = getLocale()
         const user = { name, locale, admin: false, buddies: [uid] }
         await setDoc(doc(db, 'users', uid), user)
         await setDoc(doc(db, `answers`, uid), {})
@@ -55,7 +56,7 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
 }
 
 export const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
-  const locale = localStorage.getItem('packContestLocale') || 'ru'
+  const locale = getLocale()
   try {
     appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)

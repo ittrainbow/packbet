@@ -1,6 +1,8 @@
 @import './vars';
 
 input {
+  display: flex;
+  align-items: center;
   width: 100%;
   height: $row-height;
   box-sizing: border-box;
@@ -8,14 +10,9 @@ input {
   font-family: $fonts;
   font-size: 15px;
   border-radius: 5px;
-  padding: 7px 7px 10px 7px;
+  padding: 10px;
   border: 1px solid $base-border;
-  margin: 3px 0 3px;
-
-  @media only screen and (max-width: $max-width) {
-    height: $row-height-mobile;
-    padding-bottom: 8px;
-  }
+  margin: auto;
 }
 
 input::-webkit-outer-spin-button,
@@ -29,7 +26,6 @@ input::-webkit-inner-spin-button {
 }
 
 .timer {
-  // width: 200px;
   cursor: pointer;
 }
 

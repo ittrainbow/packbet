@@ -48,21 +48,6 @@ export const tableCreator = ({ answers, players, results, fullSeason }: TableCre
     const samePosition = index > 0 && table[index].correct === table[index - 1].correct
     table[index]['position'] = samePosition ? table[index - 1].position : index + 1
   })
-
-  // for (let i = 10; i < 100; i++) {
-  //   const obj = {
-  //     ansCorrect: 5,
-  //     ansTotal: 10,
-  //     resultsTotal: 12,
-  //     name: `Name ${i}`,
-  //     position: i.toString(),
-  //     correct: 0.5,
-  //     uid: Math.random().toString()
-  //   }
-
-  //   if (i > 50) table.push(obj)
-  //   else table.unshift(obj)
-  // }
   
   return table
 }

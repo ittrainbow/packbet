@@ -30,7 +30,7 @@ export const App = () => {
         payload: user
       })
 
-      const lastTab = Number(localStorage.getItem('packContextLastTab'))
+      const lastTab = Number(localStorage.getItem('packContestLastTab'))
       navigate(initialRedirects[lastTab])
       dispatch(appActions.setTabActive(lastTab))
       lastTab === 5 && dispatch(appActions.setEditor(true))

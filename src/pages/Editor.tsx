@@ -88,7 +88,6 @@ export const Editor = () => {
   const deleteWeekHandler = () => {
     confirmAlert({
       message: weekDeleteMsg,
-      // message: 'Are you sure to do this.',
       buttons: [
         {
           label: buttonDeleteYesMsg,
@@ -96,7 +95,6 @@ export const Editor = () => {
         },
         {
           label: buttonDeleteNoMsg
-          //onClick: () => alert('Click No')
         }
       ]
     })

@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { OtherUser } from '../UI'
-import { selectApp, selectWeeks } from '../redux/selectors'
+import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
 
 export const Weeklist = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { editor, isItYou } = useSelector(selectApp)
+  const { admin } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
 
   const clickHandler = (selectedWeek: number) => {
@@ -22,11 +23,11 @@ export const Weeklist = () => {
   }
 
   return (
-    <div className="weeklist">
+    <>
       {!isItYou && !editor ? <OtherUser /> : null}
       {Object.keys(weeks)
         .map((el) => Number(el))
-        .filter((el) => weeks[el].active || editor)
+        .filter((el) => weeks[el].active || editor || admin)
         .sort((a, b) => b - a)
         .map((el) => {
           const { name } = weeks[el]
@@ -37,6 +38,6 @@ export const Weeklist = () => {
             </div>
           )
         })}
-    </div>
+    </>
   )
 }

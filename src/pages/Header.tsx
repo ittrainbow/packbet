@@ -54,7 +54,7 @@ export const Header = () => {
       dispatch(editorActions.clearEditor())
     }
 
-    localStorage.setItem('packContextLastTab', id.toString())
+    localStorage.setItem('packContestLastTab', id.toString())
   }
 
   const getClass = (id: number) => {

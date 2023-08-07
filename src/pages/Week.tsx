@@ -38,16 +38,22 @@ export const Week = () => {
   }, [user, admin, isItYou, otherUserUID, adminAsPlayer])
 
   const gotChanges = useMemo(() => {
-    if (answers[uid] && !!Object.keys(answers).length && !!Object.keys(results).length) {
+    const dataToCompare = admin && !adminAsPlayer ? results : answers
+    if (answers[uid] && !!Object.keys(dataToCompare).length) {
       const userChanges = !objectCompare(answers[uid], compare.answers)
       const adminChanges = admin ? !objectCompare(results, compare.results) : false
       return !admin || adminAsPlayer ? userChanges : adminChanges
     }
     // eslint-disable-next-line
-  }, [adminAsPlayer, answers, results])
+  }, [adminAsPlayer, answers, results, selectedWeek])
 
   const outdated = () => new Date().getTime() > deadline
-  const writeAllowed = () => adm || (!adm && !outdated())
+
+  const writeAllowed = adm || (!adm && !outdated())
+
+  const saveButtonDisabled = useMemo(() => {
+    return !writeAllowed || !gotChanges || !isItYou
+  }, [writeAllowed, gotChanges, isItYou])
 
   const activity = (id: number) => {
     return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
@@ -58,7 +64,7 @@ export const Week = () => {
   const onClickHandler = (props: YesNoHandlerPropsType) => {
     const { value, id, activity } = props
 
-    if (user && writeAllowed() && isItYou) {
+    if (user && writeAllowed && isItYou) {
       const data = structuredClone(ansOrResData) || {}
 
       if (!data[selectedWeek]) data[selectedWeek] = {}
@@ -96,7 +102,6 @@ export const Week = () => {
     const drawResult = res && adminAsPlayer && outdated()
     if (drawResult) {
       ans && styles.push(res === ans ? 'question__green' : 'question__red')
-      !ans && styles.push('question__grey')
     }
     return styles.join(' ')
   }
@@ -118,7 +123,6 @@ export const Week = () => {
             checked={adminAsPlayer}
             messageOn={playerMsg}
             messageOff={adminMsg}
-            width={'fit-content'}
             bordered={false}
           />
         ) : null}
@@ -144,7 +148,7 @@ export const Week = () => {
                     activity={activity(id)}
                     admin={admin && !adminAsPlayer}
                     onClick={onClickHandler}
-                    gotResult={outdated() && !!results[selectedWeek][id]}
+                    gotResult={outdated() && !!results[selectedWeek]}
                   />
                 </div>
               </div>
@@ -153,7 +157,7 @@ export const Week = () => {
       </div>
       {isItYou ? (
         <>
-          <Button onClick={submitHandler} disabled={!writeAllowed() || !gotChanges || !isItYou}>
+          <Button onClick={submitHandler} disabled={saveButtonDisabled}>
             {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
           </Button>
           {!gotChanges ? null : <Button onClick={discardHandler}>{buttonCancelMsg}</Button>}

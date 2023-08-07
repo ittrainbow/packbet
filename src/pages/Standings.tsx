@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
 
-import { selectStandings, selectUser, selectWeeks } from '../redux/selectors'
+import { selectApp, selectResults, selectStandings, selectUser } from '../redux/selectors'
 import { i18n } from '../locale'
 import { OtherUser, Switch } from '../UI'
 import { LocaleType } from '../types'
@@ -16,10 +16,11 @@ import { tableHelper } from '../helpers'
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { mobile } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
-  const weeks = useSelector(selectWeeks)
+  const results = useSelector(selectResults)
   const user = useSelector(selectUser)
-  const { locale } = useSelector(selectUser)
+  const { locale } = user
   const arrowsRef = useRef<HTMLDivElement>(null)
   const standingsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
@@ -69,7 +70,8 @@ export const Standings = () => {
     tableOnlyWeekMsg,
     tableAllSeasonMsg,
     tableHeaderhMsg,
-    tableSearchMsg
+    tableSearchMsg,
+    tableOtherUserTierline
   } = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => {
@@ -110,9 +112,9 @@ export const Standings = () => {
     localStorage.setItem('packContestFavList', value.toString())
   }
 
-  const getClass = (className: string, index: number) => `${className} + ${index % 2 === 0 ? ' dark' : ''}`
+  const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   const getGearClass = `standings-top-container__${showTools ? 'green' : 'grey'}`
-  const getToolsClass = `tools-container__${showTools ? 'open' : 'close'} animate-fade-in-up`
+  const getToolsClass = `animate-fade-in-up standings__tools${mobile ? '-mobile' : ''}`
 
   const standingsRender = () => {
     return Object.values(standings)
@@ -124,7 +126,7 @@ export const Standings = () => {
         const { name, answers, correct, ninety, position, uid } = tableHelper(el)
         const buddy = buddies.includes(uid)
         return (
-          <div key={index} className="standings-header">
+          <div key={index} className="standings__header">
             <div className={getClass('col-zero', index)}>{position}</div>
             <div
               className={getClass('col-one', index)}
@@ -153,7 +155,7 @@ export const Standings = () => {
       <div className="standings-top-container">
         <div className="standings-top-container__left">
           {tableHeaderhMsg}
-          {Object.keys(weeks).length}
+          {Object.keys(results).length}
         </div>
         <div className={getGearClass}>
           <BsGearFill onClick={showToolsHandler} />
@@ -161,7 +163,7 @@ export const Standings = () => {
       </div>
       {showTools ? (
         <div className={getToolsClass}>
-          <div className="standings-search">
+          <div className="standings__search">
             <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
             <div>
               <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
@@ -169,18 +171,22 @@ export const Standings = () => {
               </Button>
             </div>
           </div>
-          <div className="standings-tools">
+          <div className="standings__switchers" style={{ flexDirection: mobile ? 'column' : 'row' }}>
             <Switch
               onChange={spanSelectHandler}
               checked={oneWeekOnly}
               messageOn={tableOnlyWeekMsg}
               messageOff={tableAllSeasonMsg}
+              fullWidth={true}
+              bordered={!mobile}
             />
             <Switch
               onChange={buddiesHandler}
               checked={onlyBuddies}
               messageOn={tableBuddiesMsg}
               messageOff={tableAllUsersMsg}
+              fullWidth={true}
+              bordered={!mobile}
             />
           </div>
         </div>
@@ -189,20 +195,22 @@ export const Standings = () => {
       )}
       <div className="standings animate-fade-in-up" ref={standingsRef}>
         <OtherUser />
-        <div className="standings-header">
+        <div className="standings__header">
           <div className="col-zero">#</div>
           <div className="col-one"></div>
           <div className="col-two">{tableNameMsg}</div>
           <div className="col-three">%</div>
           <div className="col-four">{tableCorrectMsg}</div>
-          <div className="col-three">90%</div>
+          <div className="col-five">90%</div>
         </div>
+        <hr />
         {standingsRender()}
         <div className="arrows-container arrows-hide" ref={arrowsRef}>
           <FaArrowCircleUp onClick={() => scrollHandler('top')} />
           <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
         </div>
         <div className="tierline">{tableTierline}</div>
+        <div className="tierline">{tableOtherUserTierline}</div>
       </div>
     </div>
   )

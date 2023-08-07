@@ -5,10 +5,6 @@
     display: grid;
     grid-gap: 5px;
     grid-template-columns: 1fr 1fr;
-
-    @media only screen and (max-width: $max-width) {
-      padding-right: 1px;
-    }
   }
 
   &__btn:active {
@@ -20,9 +16,9 @@
   &__red,
   &__green {
     height: 32px;
-    padding-top: 5px;
     font-size: 18px;
     width: 40px;
+    padding: 2px;
     transition: 0.22s ease-in-out;
   }
 
@@ -33,7 +29,7 @@
 
   &__dark {
     background-color: $base-dark;
-    color: $yesno-dark;
+    color: $base-itembg;
   }
 
   &__red {
