@@ -4,4 +4,4 @@
 
 Current version for 2023 season https://pack-contest.web.app/ 
 
-React, Typescript, Redux Toolkit, Redux Saga, Firebase SDK 10
+React, Typescript, Redux Toolkit, Redux Saga, Firebase
