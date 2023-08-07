@@ -6,6 +6,7 @@
   gap: 10px;
   z-index: 100;
   -webkit-tap-highlight-color: transparent;
+  transition: 0.01s;
 }
 
 .arrows-show,
@@ -15,12 +16,12 @@
 }
 
 .arrows-show {
-  position: sticky;
+  position: fixed;
   animation: arrows-fade-in-up 0.3s ease-in-out forwards;
 }
 
 .arrows-hide {
-  position: sticky;
+  position: fixed;
   animation: arrows-fade-out-down 0.3s ease-in-out forwards;
 }
 

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
 
-import { selectApp, selectResults, selectStandings, selectUser } from '../redux/selectors'
+import { selectApp, selectResults, selectStandings, selectUser, selectWeeks } from '../redux/selectors'
 import { i18n } from '../locale'
 import { OtherUser, Switch, Arrows } from '../UI'
 import { LocaleType } from '../types'
@@ -20,6 +20,7 @@ export const Standings = () => {
   const { season, week } = useSelector(selectStandings)
   const results = useSelector(selectResults)
   const user = useSelector(selectUser)
+  const weeks = useSelector(selectWeeks)
   const { locale } = user
   const standingsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
@@ -131,7 +132,7 @@ export const Standings = () => {
         <div className="standings-top-container">
           <div className="standings-top-container__title">
             {tableHeaderhMsg}
-            {Object.keys(results).length}
+            {weeks[Number(Object.keys(results).slice(-1)[0])].name.split('.')[1]}
           </div>
           <div className={getGearClass}>
             <BsGearFill onClick={showToolsHandler} />
@@ -171,7 +172,7 @@ export const Standings = () => {
         )}
         <div className="standings animate-fade-in-up" ref={standingsRef}>
           <OtherUser />
-          <div className="standings__header">
+          <div className="standings__header" style={{ fontWeight: 600 }}>
             <div className="col-zero">#</div>
             <div className="col-one"></div>
             <div className="col-two">{tableNameMsg}</div>
@@ -179,13 +180,11 @@ export const Standings = () => {
             <div className="col-four">{tableCorrectMsg}</div>
             <div className="col-five">90%</div>
           </div>
-          <hr />
           {standingsRender()}
           <div className="tierline">{tableTierline}</div>
           <div className="tierline">{tableOtherUserTierline}</div>
         </div>
       </div>
-
       <Arrows />
     </>
   )

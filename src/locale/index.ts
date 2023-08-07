@@ -72,7 +72,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
     locale === 'ru' ? 'Выберите игрока, чтобы увидеть его ответы.' : 'Виберіть гравця, щоб побачити його відповіді.'
   const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
   const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
-  const tableHeaderhMsg = locale === 'ru' ? 'Таблица по результатам недели #' : 'Таблиця за пiдсумком тижня #'
+  const tableHeaderhMsg = locale === 'ru' ? 'По итогам игры ' : 'За пiдсумками гри '
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'

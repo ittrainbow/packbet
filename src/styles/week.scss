@@ -12,6 +12,7 @@
   border-radius: 5px;
   margin-bottom: 5px;
   box-sizing: border-box;
+  transition: .22s;
 
   &__admplayer {
     display: flex;
@@ -33,10 +34,6 @@
   &__red {
     background-color: $base-question-red;
   }
-
-  // &__grey {
-  //   background-color: $base-question-grey
-  // }
 
   &__green {
     background-color: $base-question-green;

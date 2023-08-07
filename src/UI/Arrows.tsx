@@ -8,15 +8,15 @@ export const Arrows = () => {
 
   useEffect(() => {
     let listener = () => {
-      if (window.scrollY > 350 && !scrolled) {
+      if (window.scrollY > 250 && !scrolled) {
         setScrolled(true)
         arrowsRef.current?.classList.add('arrows-show')
         arrowsRef.current?.classList.remove('arrows-hide')
       }
-      if (window.scrollY < 350 && scrolled) {
+      if (window.scrollY < 250 && scrolled) {
         arrowsRef.current?.classList.remove('arrows-show')
         arrowsRef.current?.classList.add('arrows-hide')
-        setTimeout(() => setScrolled(false), 500)
+        setTimeout(() => setScrolled(false), 300)
       }
     }
 
@@ -32,7 +32,7 @@ export const Arrows = () => {
   }
 
   return (
-    <div className="arrows-container" ref={arrowsRef}>
+    <div className="arrows-container" ref={arrowsRef} style={{ opacity: scrolled ? 1 : 0 }}>
       <FaArrowCircleUp onClick={() => scrollHandler('top')} />
       <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
     </div>
