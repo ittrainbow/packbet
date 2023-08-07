@@ -3,15 +3,15 @@
   width: 50px;
   bottom: 25px;
   left: 80%;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   z-index: 100;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .arrows-show,
 .arrows-hide {
   font-size: 50px;
+  transition: 0.1s ease-in-out;
 }
 
 .arrows-show {
@@ -22,4 +22,8 @@
 .arrows-hide {
   position: sticky;
   animation: arrows-fade-out-down 0.3s ease-in-out forwards;
+}
+
+.arrows-green {
+  color: $base-green-active;
 }

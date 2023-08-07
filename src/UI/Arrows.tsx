@@ -26,7 +26,9 @@ export const Arrows = () => {
   }, [scrolled])
 
   const scrollHandler = (direction: string) => {
+    arrowsRef.current?.classList.add('arrows-green')
     window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' })
+    setTimeout(() => arrowsRef.current?.classList.remove('arrows-green'), 200)
   }
 
   return (
