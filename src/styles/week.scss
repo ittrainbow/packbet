@@ -31,15 +31,15 @@
   }
 
   &__red {
-    color: $question-red-answer;
+    background-color: $base-question-red;
   }
 
-  &__grey {
-    color: $base-border;
-  }
+  // &__grey {
+  //   background-color: $base-question-grey
+  // }
 
   &__green {
-    color: $question-green-answer;
+    background-color: $base-question-green;
   }
 }
 
