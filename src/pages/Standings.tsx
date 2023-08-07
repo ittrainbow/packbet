@@ -126,64 +126,67 @@ export const Standings = () => {
   }
 
   return (
-    <div className="container">
-      <div className="standings-top-container">
-        <div className="standings-top-container__title">
-          {tableHeaderhMsg}
-          {Object.keys(results).length}
+    <>
+      <div className="container">
+        <div className="standings-top-container">
+          <div className="standings-top-container__title">
+            {tableHeaderhMsg}
+            {Object.keys(results).length}
+          </div>
+          <div className={getGearClass}>
+            <BsGearFill onClick={showToolsHandler} />
+          </div>
         </div>
-        <div className={getGearClass}>
-          <BsGearFill onClick={showToolsHandler} />
-        </div>
-      </div>
-      {showTools ? (
-        <div className={getToolsClass}>
-          <div className="standings__search">
-            <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
-            <div>
-              <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
-                {tableClearBtn}
-              </Button>
+        {showTools ? (
+          <div className={getToolsClass}>
+            <div className="standings__search">
+              <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
+              <div>
+                <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
+                  {tableClearBtn}
+                </Button>
+              </div>
+            </div>
+            <div className="standings__switchers" style={{ flexDirection: mobile ? 'column' : 'row' }}>
+              <Switch
+                onChange={spanSelectHandler}
+                checked={oneWeekOnly}
+                messageOn={tableOnlyWeekMsg}
+                messageOff={tableAllSeasonMsg}
+                fullWidth={true}
+                bordered={!mobile}
+              />
+              <Switch
+                onChange={buddiesHandler}
+                checked={onlyBuddies}
+                messageOn={tableBuddiesMsg}
+                messageOff={tableAllUsersMsg}
+                fullWidth={true}
+                bordered={!mobile}
+              />
             </div>
           </div>
-          <div className="standings__switchers" style={{ flexDirection: mobile ? 'column' : 'row' }}>
-            <Switch
-              onChange={spanSelectHandler}
-              checked={oneWeekOnly}
-              messageOn={tableOnlyWeekMsg}
-              messageOff={tableAllSeasonMsg}
-              fullWidth={true}
-              bordered={!mobile}
-            />
-            <Switch
-              onChange={buddiesHandler}
-              checked={onlyBuddies}
-              messageOn={tableBuddiesMsg}
-              messageOff={tableAllUsersMsg}
-              fullWidth={true}
-              bordered={!mobile}
-            />
+        ) : (
+          ''
+        )}
+        <div className="standings animate-fade-in-up" ref={standingsRef}>
+          <OtherUser />
+          <div className="standings__header">
+            <div className="col-zero">#</div>
+            <div className="col-one"></div>
+            <div className="col-two">{tableNameMsg}</div>
+            <div className="col-three">%</div>
+            <div className="col-four">{tableCorrectMsg}</div>
+            <div className="col-five">90%</div>
           </div>
+          <hr />
+          {standingsRender()}
+          <div className="tierline">{tableTierline}</div>
+          <div className="tierline">{tableOtherUserTierline}</div>
         </div>
-      ) : (
-        ''
-      )}
-      <div className="standings animate-fade-in-up" ref={standingsRef}>
-        <OtherUser />
-        <div className="standings__header">
-          <div className="col-zero">#</div>
-          <div className="col-one"></div>
-          <div className="col-two">{tableNameMsg}</div>
-          <div className="col-three">%</div>
-          <div className="col-four">{tableCorrectMsg}</div>
-          <div className="col-five">90%</div>
-        </div>
-        <hr />
-        {standingsRender()}
-        <div className="tierline">{tableTierline}</div>
-        <div className="tierline">{tableOtherUserTierline}</div>
-        <Arrows />
       </div>
-    </div>
+
+      <Arrows />
+    </>
   )
 }

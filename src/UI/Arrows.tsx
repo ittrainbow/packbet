@@ -23,7 +23,7 @@ export const Arrows = () => {
     window.addEventListener('scroll', listener)
     return () => window.removeEventListener('scroll', listener)
     // eslint-disable-next-line
-  }, [window.onscroll, scrolled])
+  }, [scrolled])
 
   const scrollHandler = (direction: string) => {
     window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' })
