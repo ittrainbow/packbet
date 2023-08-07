@@ -16,8 +16,9 @@
   &__red,
   &__green {
     height: 32px;
-    font-size: 18px;
+    font-size: 18px !important;
     width: 40px;
+    padding: 2px;
     transition: 0.22s ease-in-out;
   }
 
