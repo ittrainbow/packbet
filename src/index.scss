@@ -1,5 +1,6 @@
 @import './styles/vars';
 @import './styles/animations';
+@import './styles/arrows';
 @import './styles/auth';
 @import './styles/switch';
 @import './styles/button';
@@ -158,10 +159,6 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-.animate-show-button {
-  opacity: 0;
 }
 
 .container {
