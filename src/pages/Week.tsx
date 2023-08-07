@@ -123,7 +123,6 @@ export const Week = () => {
             checked={adminAsPlayer}
             messageOn={playerMsg}
             messageOff={adminMsg}
-            bordered={false}
           />
         ) : null}
       </div>

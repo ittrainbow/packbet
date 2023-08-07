@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
+import { Input } from '@mui/material'
 
 import { selectApp, selectResults, selectStandings, selectUser, selectWeeks } from '../redux/selectors'
 import { i18n } from '../locale'
@@ -10,7 +11,7 @@ import { OtherUser, Switch, Arrows } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
-import { Button, Input } from '../UI'
+import { Button } from '../UI'
 import { tableHelper } from '../helpers'
 
 export const Standings = () => {
@@ -90,7 +91,6 @@ export const Standings = () => {
 
   const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-  const getToolsClass = `animate-fade-in-up standings__tools${mobile ? '-mobile' : ''}`
 
   const standingsRender = () => {
     return Object.values(standings)
@@ -139,9 +139,15 @@ export const Standings = () => {
           </div>
         </div>
         {showTools ? (
-          <div className={getToolsClass}>
+          <div className="animate-fade-in-up standings__tools">
             <div className="standings__search">
-              <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
+              <Input
+                onChange={onChangeHandler}
+                value={searchString}
+                type="text"
+                placeholder={tableSearchMsg}
+                sx={{ width: '100%' }}
+              />
               <div>
                 <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
                   {tableClearBtn}
@@ -155,7 +161,6 @@ export const Standings = () => {
                 messageOn={tableOnlyWeekMsg}
                 messageOff={tableAllSeasonMsg}
                 fullWidth={true}
-                bordered={!mobile}
               />
               <Switch
                 onChange={buddiesHandler}
@@ -163,7 +168,6 @@ export const Standings = () => {
                 messageOn={tableBuddiesMsg}
                 messageOff={tableAllUsersMsg}
                 fullWidth={true}
-                bordered={!mobile}
               />
             </div>
           </div>
