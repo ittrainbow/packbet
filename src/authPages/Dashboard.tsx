@@ -8,7 +8,7 @@ import { LocaleType } from '../types'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { selectUser } from '../redux/selectors'
-import { answersActions, compareActions, resultsActions, userActions } from '../redux/slices'
+import { answersActions, compareActions, userActions } from '../redux/slices'
 
 export const Dashboard = () => {
   const [user] = useAuthState(auth)

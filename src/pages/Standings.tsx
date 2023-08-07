@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { FaArrowCircleUp, FaArrowCircleDown, FaStar } from 'react-icons/fa'
+import { FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
 
 import { selectApp, selectResults, selectStandings, selectUser } from '../redux/selectors'
 import { i18n } from '../locale'
-import { OtherUser, Switch } from '../UI'
+import { OtherUser, Switch, Arrows } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
@@ -21,35 +21,14 @@ export const Standings = () => {
   const results = useSelector(selectResults)
   const user = useSelector(selectUser)
   const { locale } = user
-  const arrowsRef = useRef<HTMLDivElement>(null)
   const standingsRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
   const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(localStorage.getItem('packContestOneWeek') === 'true')
   const [showTools, setShowTools] = useState<boolean>(false)
-  const [scrolled, setScrolled] = useState<boolean>(false)
   const { uid, buddies } = user
 
   const standings = oneWeekOnly ? week : season
-
-  useEffect(() => {
-    let listener = () => {
-      if (window.scrollY > 350 && !scrolled) {
-        setScrolled(true)
-        arrowsRef.current?.classList.add('arrows-show')
-        arrowsRef.current?.classList.remove('arrows-hide')
-      }
-      if (window.scrollY < 350 && scrolled) {
-        setScrolled(false)
-        arrowsRef.current?.classList.remove('arrows-show')
-        arrowsRef.current?.classList.add('arrows-hide')
-      }
-    }
-
-    window.addEventListener('scroll', listener)
-    return () => window.removeEventListener('scroll', listener)
-    // eslint-disable-next-line
-  }, [window.onscroll, scrolled])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
@@ -81,10 +60,6 @@ export const Standings = () => {
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setSearchString(value)
-  }
-
-  const scrollHandler = (direction: string) => {
-    window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' })
   }
 
   const addRemoveBuddyHandler = (uid: string) => {
@@ -207,10 +182,7 @@ export const Standings = () => {
         {standingsRender()}
         <div className="tierline">{tableTierline}</div>
         <div className="tierline">{tableOtherUserTierline}</div>
-        <div className="arrows-container arrows-hide" ref={arrowsRef}>
-          <FaArrowCircleUp onClick={() => scrollHandler('top')} />
-          <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
-        </div>
+        <Arrows />
       </div>
     </div>
   )

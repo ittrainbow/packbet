@@ -150,20 +150,19 @@
   z-index: 100;
 }
 
+.arrows-show,
+.arrows-hide {
+  font-size: 50px;
+}
+
 .arrows-show {
   position: sticky;
-  bottom: 25px;
-  font-size: 50px;
-  opacity: 0.4;
-  transform: translateY(0);
-  transition: 0.5s ease-in-out;
+  animation: arrows-fade-in-up 0.3s ease-in-out forwards;
 }
 
 .arrows-hide {
-  font-size: 50px;
-  opacity: 0;
-  transform: translateY(150px);
-  transition: 0.5s ease-in-out;
+  position: sticky;
+  animation: arrows-fade-out-down 0.3s ease-in-out forwards;
 }
 
 @keyframes showButton {
