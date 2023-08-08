@@ -5,7 +5,7 @@ import { BsGearFill } from 'react-icons/bs'
 import { FaStar } from 'react-icons/fa'
 import { Input } from '@mui/material'
 
-import { fadeInOut, fadeInTools, fadeOutTools, tableHelper } from '../helpers'
+import { fadeOut, fadeInTools, fadeOutTools, tableHelper } from '../helpers'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
 import { selectApp, selectStandings } from '../redux/selectors'
 import { OtherUser, Switch, Arrows } from '../UI'
@@ -35,12 +35,12 @@ export const Standings = () => {
   const [showTools, setShowTools] = useState<boolean>(false)
 
   useEffect(() => {
-    tabActive !== 4 && fadeInOut(containerRef)
+    tabActive !== 4 && fadeOut(containerRef, 'standings')
   }, [tabActive])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
-      fadeInOut(containerRef)
+      fadeOut(containerRef, 'standings')
       setTimeout(() => {
         const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
         dispatch(appActions.setOtherUserFromStandings(otherUser))

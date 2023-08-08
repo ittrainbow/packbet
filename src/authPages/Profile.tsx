@@ -12,7 +12,7 @@ import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale'
 import { userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
-import { fadeInOut } from '../helpers'
+import { fadeOut } from '../helpers'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -32,7 +32,7 @@ export const Profile = () => {
   }, [])
 
   useEffect(() => {
-    tabActive !== 1 && fadeInOut(authRef)
+    tabActive !== 1 && fadeOut(authRef, 'profile')
   }, [tabActive])
 
   const submitHandler = async () => {
@@ -45,7 +45,7 @@ export const Profile = () => {
   }
 
   const noSaveHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'profile')
     setTimeout(() => {
       dispatch(userActions.setLocale(tempLocale))
       navigate(-1)

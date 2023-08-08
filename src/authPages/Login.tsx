@@ -10,7 +10,7 @@ import { LocaleType } from '../types'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
-import { fadeInOut, getLocale } from '../helpers'
+import { fadeOut, getLocale } from '../helpers'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ export const Login = () => {
   }, [email])
 
   useEffect(() => {
-    tabActive !== 1 && fadeInOut(authRef)
+    tabActive !== 1 && fadeOut(authRef, 'login')
   }, [tabActive])
 
   useEffect(() => {
@@ -69,12 +69,12 @@ export const Login = () => {
   }
 
   const toRegisterHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'login')
     setTimeout(() => navigate('/register'), 200)
   }
 
   const toResetHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'login')
     setTimeout(() => navigate('/reset'), 200)
   }
 

@@ -5,7 +5,7 @@ export const animateCancel = (
   setDrawCancelButton: (value: boolean) => void
 ) => {
   if (draw && !gotChanges) {
-    fadeInOut(ref)
+    fadeOut(ref, 'cancel')
     setTimeout(() => setDrawCancelButton(false), 200)
   } else if (!draw && gotChanges) {
     setDrawCancelButton(true)
@@ -22,7 +22,8 @@ export const fadeInTools = (ref: React.RefObject<HTMLDivElement>) => {
   ref.current?.classList.add('animate-fade-in-up')
 }
 
-export const fadeInOut = (ref: React.RefObject<HTMLDivElement>) => {
+export const fadeOut = (ref: React.RefObject<HTMLDivElement>, elem: string) => {
+  console.log(111, elem)
   const list = ref.current?.classList
 
   list?.remove('animate-fade-in-up')
@@ -34,14 +35,14 @@ export const fadeInOut = (ref: React.RefObject<HTMLDivElement>) => {
   }, 200)
 }
 
-export const fadeOutIn = (ref: React.RefObject<HTMLDivElement>) => {
+export const fadeIn = (ref: React.RefObject<HTMLDivElement>) => {
   const list = ref.current?.classList
 
-  list?.remove('animate-fade-out-down')
+  // list?.remove('animate-fade-out-down')
   list?.add('animate-fade-in-up')
 
-  setTimeout(() => {
-    list?.add('animate-fade-out-down')
-    list?.remove('animate-fade-in-up')
-  }, 200)
+  // setTimeout(() => {
+    // list?.add('animate-fade-out-down')
+    // list?.remove('animate-fade-in-up')
+  // }, 200)
 }

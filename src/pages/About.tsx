@@ -6,7 +6,7 @@ import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { LocaleType } from '../types'
-import { fadeInOut } from '../helpers'
+import { fadeOut } from '../helpers'
 
 export const About = () => {
   const about = useSelector(selectAbout)
@@ -26,7 +26,7 @@ export const About = () => {
   ]
 
   useEffect(() => {
-    tabActive !== 0 && fadeInOut(containerRef)
+    tabActive !== 0 && fadeOut(containerRef, 'about')
   }, [tabActive])
 
   const openHandler = () => {

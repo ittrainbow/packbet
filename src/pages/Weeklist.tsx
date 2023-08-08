@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { fadeInOut, fadeOutIn } from '../helpers'
+import { fadeOut, fadeIn } from '../helpers'
 import { OtherUser } from '../UI'
 
 export const WeekList = () => {
@@ -16,7 +16,7 @@ export const WeekList = () => {
   const weeks = useSelector(selectWeeks)
 
   const clickHandler = (selectedWeek: number) => {
-    fadeInOut(containerRef)
+    fadeOut(containerRef, 'weeklist')
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
@@ -27,12 +27,11 @@ export const WeekList = () => {
 
   useEffect(() => {
     if ((editor && tabActive !== 5) || (!editor && tabActive !== 3)) {
-      fadeInOut(containerRef)
+      fadeOut(containerRef, 'weeklist')
     }
-
     if ((editor && tabActive === 3) || (!editor && tabActive === 5)) {
-      fadeInOut(containerRef)
-      setTimeout(() => fadeOutIn(containerRef), 200)
+      fadeOut(containerRef, 'weeklist')
+      setTimeout(() => fadeIn(containerRef), 200)
     }
   }, [tabActive, editor])
 

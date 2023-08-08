@@ -11,7 +11,7 @@ import { i18n } from '../locale'
 import { IUser, LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions, userActions } from '../redux/slices'
-import { fadeInOut } from '../helpers'
+import { fadeOut } from '../helpers'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ export const Register = () => {
   }, [])
 
   useEffect(() => {
-    tabActive !== 1 && fadeInOut(authRef)
+    tabActive !== 1 && fadeOut(authRef, 'register')
   }, [tabActive])
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export const Register = () => {
     i18n(locale, 'auth') as LocaleType
 
   const toLoginHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'register')
     setTimeout(() => navigate('/reset'), 200)
   }
 

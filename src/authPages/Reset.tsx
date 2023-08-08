@@ -10,7 +10,7 @@ import { sendPasswordReset } from '../db/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
-import { fadeInOut } from '../helpers'
+import { fadeOut } from '../helpers'
 
 export const Reset = () => {
   const { tabActive } = useSelector(selectApp)
@@ -28,7 +28,7 @@ export const Reset = () => {
   }, [])
 
   useEffect(() => {
-    tabActive !== 1 && fadeInOut(authRef)
+    tabActive !== 1 && fadeOut(authRef, 'reset')
   }, [tabActive])
 
   useEffect(() => {
@@ -43,12 +43,12 @@ export const Reset = () => {
   }
 
   const toRegisterHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'reset')
     setTimeout(() => navigate('/register'), 200)
   }
 
   const toLoginHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'reset')
     setTimeout(() => navigate('/login'), 200)
   }
 

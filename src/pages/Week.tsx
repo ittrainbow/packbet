@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { YesNoButtons, OtherUser, Button, Kickoff, Switch } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
 import { AnswersType, IStore, LocaleType, YesNoHandlerPropsType } from '../types'
-import { ansHelper, fadeInOut, animateCancel, weekGotChanges } from '../helpers'
-import { selectApp, selectUser } from '../redux/selectors'
+import { ansHelper, fadeOut, animateCancel, weekGotChanges, fadeIn } from '../helpers'
+import { selectApp, selectRouter, selectUser } from '../redux/selectors'
 import * as TYPES from '../redux/storetypes'
 import { i18n } from '../locale'
 
@@ -16,6 +16,7 @@ export const Week = () => {
   const dispatch = useDispatch()
   const { selectedWeek, isItYou, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
+  const { location } = useSelector(selectRouter)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
@@ -26,7 +27,11 @@ export const Week = () => {
   const { name, questions, deadline } = weeks[selectedWeek]
 
   useEffect(() => {
-    tabActive !== 2 && fadeInOut(containerRef)
+    const { pathname } = location
+    const weekWithId = pathname.includes('week') && pathname.length > 6
+    if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {
+      fadeOut(containerRef, 'week')
+    }
   }, [tabActive])
 
   useEffect(() => {

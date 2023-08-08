@@ -7,7 +7,7 @@ import moment from 'moment/moment'
 
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
-import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, fadeInOut } from '../helpers'
+import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, fadeOut } from '../helpers'
 import { selectApp, selectEditor, selectUser, selectWeeks } from '../redux/selectors'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 import { appActions, editorActions, weeksActions } from '../redux/slices'
@@ -42,7 +42,7 @@ export const Editor = () => {
   const clearQuestion = () => setQuestionInWork(emptyQuestion)
 
   useEffect(() => {
-    tabActive !== 6 && fadeInOut(containerRef) // eslint-disable-next-line
+    tabActive !== 6 && fadeOut(containerRef, 'editor') // eslint-disable-next-line
   }, [tabActive])
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export const Editor = () => {
     const { questions } = editor
     const { id } = questionInWork
     if (question && total) {
-      fadeInOut(questionsRef)
+      fadeOut(questionsRef, 'editor')
       setTimeout(() => {
         const setId = id === null ? getNewQuestionId(questions) : (id as number)
         const obj = objectReplace(questions, setId, questionInWork)
@@ -76,7 +76,7 @@ export const Editor = () => {
   }
 
   const removeQuestionHandler = (id: number) => {
-    fadeInOut(questionsRef)
+    fadeOut(questionsRef, 'editor')
     setTimeout(() => {
       const obj: QuestionsType = objectTrim(questions, id)
       dispatch(editorActions.updateEditorQuestions(obj))

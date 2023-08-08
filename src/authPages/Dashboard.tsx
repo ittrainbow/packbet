@@ -10,7 +10,7 @@ import { Button } from '../UI'
 import { i18n } from '../locale'
 import { selectApp, selectUser } from '../redux/selectors'
 import { answersActions, compareActions, userActions } from '../redux/slices'
-import { fadeInOut } from '../helpers'
+import { fadeOut } from '../helpers'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()
@@ -21,7 +21,7 @@ export const Dashboard = () => {
   const { name, admin, locale } = useSelector(selectUser)
 
   useEffect(() => {
-    tabActive !== 1 && fadeInOut(authRef)
+    tabActive !== 1 && fadeOut(authRef, 'dashboard')
   }, [tabActive])
 
   const logoutHandler = () => {
@@ -33,7 +33,7 @@ export const Dashboard = () => {
   }
 
   const navigateHandler = () => {
-    fadeInOut(authRef)
+    fadeOut(authRef, 'dashboard')
     setTimeout(() => navigate('/profile'), 200)
   }
 
