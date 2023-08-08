@@ -10,4 +10,5 @@ export interface IStore {
   weeks: IWeeks
   compare: IAnswers
   editor: WeekType
+  router: any
 }

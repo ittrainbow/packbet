@@ -1,11 +1,13 @@
 import { ReactNode } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { HistoryRouter } from 'redux-first-history/rr6'
 
 import { About, Week, Editor, Standings, WeekList } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
 import { Loader } from '../UI'
 import { selectApp } from '../redux/selectors'
+import { history } from '../redux/store'
 
 type RouterProps = {
   children?: ReactNode
@@ -39,9 +41,9 @@ export const Router = ({ children }: RouterProps) => {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       {children}
       {loading ? <Loader /> : routes()}
-    </BrowserRouter>
+    </HistoryRouter>
   )
 }

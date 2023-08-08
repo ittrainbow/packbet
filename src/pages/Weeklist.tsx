@@ -20,7 +20,6 @@ export const WeekList = () => {
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
-
       navigate(`/editor/${selectedWeek}`)
     }
     setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), 200)

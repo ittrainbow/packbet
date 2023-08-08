@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -20,7 +20,7 @@ export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { mobile, tabActive, nextWeek, currentWeek, editor, emptyEditor, selectedWeek } = useSelector(selectApp)
-  const { admin, locale, name } = useSelector(selectUser)
+  const { admin, locale } = useSelector(selectUser)
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
