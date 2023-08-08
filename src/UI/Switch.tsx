@@ -1,7 +1,4 @@
-import { useSelector } from 'react-redux'
-
 import { Input } from './Input'
-import { selectApp } from '../redux/selectors'
 
 type SwitchPropsType = {
   onChange: () => void
@@ -12,8 +9,6 @@ type SwitchPropsType = {
 }
 
 export const Switch = ({ onChange, checked, messageOff, messageOn, fullWidth }: SwitchPropsType) => {
-  const { mobile } = useSelector(selectApp)
-
   return (
     <div className="switch-container" style={{ width: fullWidth ? '100%' : '' }}>
       <div className="switch-inner-container inner-left">{messageOff}</div>

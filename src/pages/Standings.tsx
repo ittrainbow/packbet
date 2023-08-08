@@ -146,7 +146,7 @@ export const Standings = () => {
                 value={searchString}
                 type="text"
                 placeholder={tableSearchMsg}
-                sx={{ width: '100%' }}
+                sx={{ width: '100%', padding: 0.25 }}
               />
               <div>
                 <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>

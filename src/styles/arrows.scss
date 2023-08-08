@@ -6,13 +6,12 @@
   gap: 10px;
   z-index: 100;
   -webkit-tap-highlight-color: transparent;
-  transition: 0.01s;
+  // transition: 0.2s;
 }
 
 .arrows-show,
 .arrows-hide {
   font-size: 50px;
-  transition: 0.1s ease-in-out;
 }
 
 .arrows-show {
@@ -27,4 +26,10 @@
 
 .arrows-green {
   color: $base-green-active;
+  transition: 0.2s ease-in-out;
+}
+
+.arrows-grey {
+  color: $base-grey;
+  transition: 0.2s ease-in-out;
 }
