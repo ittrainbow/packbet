@@ -12,18 +12,18 @@ import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
 import { Button } from '../UI'
-import { tableHelper } from '../helpers'
+import { fadeInOut, tableHelper } from '../helpers'
 
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { mobile, isItYou } = useSelector(selectApp)
+  const { mobile, tabActive } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
   const results = useSelector(selectResults)
   const user = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
   const { locale } = user
-  const standingsRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const toolsRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
@@ -35,16 +35,18 @@ export const Standings = () => {
   const standings = oneWeekOnly ? week : season
 
   useEffect(() => {
-    const list = standingsRef.current?.classList
-    list?.add('animate-fade-in-up')
-  }, [isItYou])
+    tabActive !== 4 && fadeInOut(containerRef)
+  }, [tabActive])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
-      const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
-      dispatch(appActions.setOtherUserFromStandings(otherUser))
-      dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
-      navigate('/season')
+      fadeInOut(containerRef)
+      setTimeout(() => {
+        const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
+        dispatch(appActions.setOtherUserFromStandings(otherUser))
+        dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
+        navigate('/season')
+      }, 200)
     }
   }
 
@@ -141,7 +143,7 @@ export const Standings = () => {
 
   return (
     <>
-      <div className="container" ref={standingsRef}>
+      <div className="container animate-fade-in-up" ref={containerRef}>
         <div className="standings-top-container">
           <div className="standings-top-container__title">{getLastWeekName()}</div>
           <div className={getGearClass}>

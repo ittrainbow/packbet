@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from '../db'
-import { objectCompare, ansHelper } from '../helpers'
+import { objectCompare, ansHelper, fadeInOut } from '../helpers'
 import { YesNoButtons, OtherUser, Button, Kickoff, Switch } from '../UI'
 import { i18n } from '../locale'
 import { SUBMIT_RESULTS, SUBMIT_ANSWERS } from '../redux/storetypes'
@@ -15,24 +15,21 @@ import { selectAnswers, selectApp, selectCompare, selectResults, selectUser, sel
 import { answersActions, resultsActions, userActions } from '../redux/slices'
 
 export const Week = () => {
+  const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
   const { selectedWeek, isItYou, otherUserUID, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale } = useSelector(selectUser)
   const answers = useSelector(selectAnswers)
   const results = useSelector(selectResults)
   const weeks = useSelector(selectWeeks)
   const compare = useSelector(selectCompare)
-  const weekRef = useRef<HTMLDivElement>(null)
-
-  const dispatch = useDispatch()
-  const [user] = useAuthState(auth)
+  const containerRef = useRef<HTMLDivElement>(null)
   const { name, questions, deadline } = weeks[selectedWeek]
   const [uid, setUid] = useState<string>('')
 
   useEffect(() => {
-    const list = weekRef.current?.classList
-    list?.add('animate-fade-in-up')
-    setTimeout(() => list?.remove('animate-fade-in-up'), 200)
-  }, [isItYou, tabActive])
+    tabActive !== 2 && fadeInOut(containerRef)
+  }, [tabActive])
 
   const adm = useMemo(() => {
     return admin && !adminAsPlayer
@@ -121,7 +118,7 @@ export const Week = () => {
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
   return (
-    <div className="container" ref={weekRef}>
+    <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
         {admin && isItYou ? (

@@ -78,12 +78,11 @@ export const appSlice = createSlice({
       state.tabActive = action.payload
     },
 
-    setHeader(state, action: PayloadAction<{ id: number; selectedWeek: number; emptyEditor: boolean }>) {
-      const { id, selectedWeek, emptyEditor } = action.payload
-      state.tabActive = id
-      state.selectedWeek = selectedWeek
-      state.emptyEditor = emptyEditor
-    },
+    // setHeader(state, action: PayloadAction<{ selectedWeek: number; emptyEditor: boolean }>) {
+    //   const { selectedWeek, emptyEditor } = action.payload
+    //   state.selectedWeek = selectedWeek
+    //   state.emptyEditor = emptyEditor
+    // },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {
       const { otherUserName, otherUserUID, isItYou, tabActive } = action.payload

@@ -1,7 +1,15 @@
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import * as ico from 'react-icons/fa'
+import {
+  FaInfoCircle,
+  FaUserAlt,
+  FaFootballBall,
+  FaCalendarAlt,
+  FaClipboardList,
+  FaChevronCircleRight,
+  FaPenNib
+} from 'react-icons/fa'
 
 import { i18n } from '../locale'
 import { selectApp, selectUser } from '../redux/selectors'
@@ -11,50 +19,51 @@ import { appActions, editorActions } from '../redux/slices'
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const app = useSelector(selectApp)
-  const user = useSelector(selectUser)
-  const { mobile, tabActive, nextWeek, currentWeek, editor } = app
-  const { admin, locale, name } = user
+  const { mobile, tabActive, nextWeek, currentWeek, editor, emptyEditor, selectedWeek } = useSelector(selectApp)
+  const { admin, locale, name } = useSelector(selectUser)
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
 
   const userMenu = [
-    { path: '/', name: tab0msg, icon: <ico.FaInfoCircle />, id: 0 },
-    { path: '/userpage', name: tab1msg, icon: <ico.FaUserAlt />, id: 1 },
-    { path: '/week', name: tab2msg, icon: <ico.FaFootballBall />, id: 2 },
-    { path: '/season', name: tab3msg, icon: <ico.FaCalendarAlt />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <ico.FaClipboardList />, id: 4 }
+    { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
+    { path: '/userpage', name: tab1msg, icon: <FaUserAlt />, id: 1 },
+    { path: '/week', name: tab2msg, icon: <FaFootballBall />, id: 2 },
+    { path: '/season', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
+    { path: '/standings', name: tab4msg, icon: <FaClipboardList />, id: 4 }
   ]
 
   const adminMenu = [
     {
       path: '/calendar',
       name: tab5msg,
-      icon: <ico.FaChevronCircleRight />,
+      icon: <FaChevronCircleRight />,
       id: 5
     },
-    { path: '/editor', name: tab6msg, icon: <ico.FaPenNib />, id: 6 }
+    { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
   ]
 
   const clickHandler = (id: number, path: string) => {
-    const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
-    const emptyEditor = id === 6 ? true : false
+    dispatch(appActions.setTabActive(id))
 
-    id > 4 && !editor && dispatch(appActions.setEditor(true))
-    id < 5 && editor && dispatch(appActions.setEditor(false))
+    setTimeout(() => {
+      if (id === 2 || id === 6)
+        dispatch(appActions.setSelectedWeek(id === 2 ? currentWeek : id === 6 ? nextWeek : selectedWeek))
 
-    if (id === 6) {
-      dispatch(appActions.setEmptyEditor(emptyEditor))
-      dispatch(editorActions.clearEditor())
-    }
+      if ((id === 6 && !emptyEditor) || (id !== 6 && emptyEditor)) dispatch(appActions.setEmptyEditor(!emptyEditor))
 
-    localStorage.setItem('packContestLastTab', id.toString())
+      id > 4 && !editor && dispatch(appActions.setEditor(true))
+      id < 5 && editor && dispatch(appActions.setEditor(false))
 
-    if (currentWeek || currentWeek === 0 || id !== 2) {
-      dispatch(appActions.setHeader({ id, selectedWeek, emptyEditor }))
+      if (id === 6) {
+        dispatch(appActions.setEmptyEditor(emptyEditor))
+        dispatch(editorActions.clearEditor())
+      }
+
+      localStorage.setItem('packContestLastTab', id.toString())
+
       navigate(path)
-    }
+    }, 200)
   }
 
   const getClass = (id: number) => {

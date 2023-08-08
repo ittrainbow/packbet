@@ -6,15 +6,15 @@ import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { LocaleType } from '../types'
+import { fadeInOut } from '../helpers'
 
 export const About = () => {
   const about = useSelector(selectAbout)
   const { locale } = useSelector(selectUser)
   const { tabActive } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [open, setOpen] = useState(false)
   const aboutRef = useRef<HTMLDivElement>(null)
-
+  const [open, setOpen] = useState(false)
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
   const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
 
@@ -26,9 +26,8 @@ export const About = () => {
   ]
 
   useEffect(() => {
-    const list = containerRef.current?.classList
-    list?.add('animate-fade-in-up')
-  }, [])
+    tabActive !== 0 && fadeInOut(containerRef)
+  }, [tabActive])
 
   const openHandler = () => {
     const list = aboutRef.current?.classList
@@ -44,7 +43,7 @@ export const About = () => {
   const description = Object.values(about[locale])
 
   return (
-    <div className="container" ref={containerRef}>
+    <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="about__paragraph">{description[0]}</div>
       <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
       {open ? (

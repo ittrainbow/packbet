@@ -15,9 +15,9 @@ import { appActions, userActions } from '../redux/slices'
 export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [user, loading] = useAuthState(auth)
   const { locale } = useSelector(selectUser)
   const inputRef = useRef<HTMLInputElement>()
-  const [user, loading] = useAuthState(auth)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -38,9 +38,10 @@ export const Register = () => {
     const setEmailReg = (value: boolean) => {
       dispatch(appActions.setEmailReg(value))
     }
-    
+
     setEmailReg(true)
     return () => setEmailReg(false)
+    // eslint-disable-next-line
   }, [])
 
   const register = async () => {

@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -9,16 +8,9 @@ import { appActions, editorActions } from '../redux/slices'
 export const Weeklist = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { editor, isItYou, tabActive } = useSelector(selectApp)
+  const { editor, isItYou } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
-
-  useEffect(() => {
-    const list = containerRef.current?.classList
-    list?.add('animate-fade-in-up')
-    setTimeout(() => list?.remove('animate-fade-in-up'), 200)
-  }, [isItYou, tabActive])
 
   const clickHandler = (selectedWeek: number) => {
     dispatch(appActions.setSelectedWeek(selectedWeek))
@@ -31,7 +23,7 @@ export const Weeklist = () => {
   }
 
   return (
-    <div className="container" ref={containerRef}>
+    <>
       {!isItYou && !editor ? <OtherUser /> : null}
       {Object.keys(weeks)
         .map((el) => Number(el))
@@ -46,6 +38,6 @@ export const Weeklist = () => {
             </div>
           )
         })}
-    </div>
+    </>
   )
 }

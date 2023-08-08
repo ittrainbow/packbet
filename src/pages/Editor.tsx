@@ -6,7 +6,15 @@ import moment from 'moment/moment'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
-import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, emptyQuestion } from '../helpers'
+import {
+  objectCompare,
+  objectTrim,
+  objectReplace,
+  getWeeksIDs,
+  getNewQuestionId,
+  emptyQuestion,
+  fadeInOut
+} from '../helpers'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale'
 import { DELETE_WEEK, SUBMIT_WEEK } from '../redux/storetypes'
@@ -15,20 +23,28 @@ import { selectApp, selectEditor, selectUser, selectWeeks } from '../redux/selec
 import { appActions, editorActions, weeksActions } from '../redux/slices'
 
 export const Editor = () => {
-  const { selectedWeek, emptyEditor } = useSelector(selectApp)
-  const weeks = useSelector(selectWeeks)
-  const editor = useSelector(selectEditor)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const weeks = useSelector(selectWeeks)
+  const editor = useSelector(selectEditor)
+  const { selectedWeek, emptyEditor } = useSelector(selectApp)
+  const { locale } = useSelector(selectUser)
+  const { tabActive } = useSelector(selectApp)
+  const { questions, name, active, deadline } = editor
+
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
-  const { locale } = useSelector(selectUser)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [questionInWork, setQuestionInWork] = useState(emptyQuestion as QuestionType)
   const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
-  const { questions, name, active, deadline } = editor
   const { question, total, id } = questionInWork
+
   const loadedWeek = weeks[selectedWeek]
+
+  useEffect(() => {
+    tabActive !== 6 && fadeInOut(containerRef)
+  }, [tabActive])
 
   useEffect(() => {
     !questions && navigate('/calendar')
@@ -157,7 +173,7 @@ export const Editor = () => {
   const totalBtnDisabled = !question || !total || questionButtonDisabled
 
   return (
-    <div className="container animate-fade-in-up">
+    <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="editor-input">
         <Input inputRef={nameRef} onChange={changeNameHandler} placeholder={weekNameMsg} value={name} />
         <div className="editor-form">
