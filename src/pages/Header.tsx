@@ -44,17 +44,17 @@ export const Header = () => {
     id > 4 && !editor && dispatch(appActions.setEditor(true))
     id < 5 && editor && dispatch(appActions.setEditor(false))
 
-    if (currentWeek || currentWeek === 0 || id !== 2) {
-      dispatch(appActions.setHeader({ id, selectedWeek, emptyEditor }))
-      navigate(path)
-    }
-
     if (id === 6) {
       dispatch(appActions.setEmptyEditor(emptyEditor))
       dispatch(editorActions.clearEditor())
     }
 
     localStorage.setItem('packContestLastTab', id.toString())
+
+    if (currentWeek || currentWeek === 0 || id !== 2) {
+      dispatch(appActions.setHeader({ id, selectedWeek, emptyEditor }))
+      navigate(path)
+    }
   }
 
   const getClass = (id: number) => {

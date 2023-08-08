@@ -9,11 +9,11 @@ import {
   SET_BUDDIES
 } from '../storetypes'
 import { getLocale } from '../../helpers'
-import { ActionType, IUser, AnswersType, IStore, BuddiesPayloadType } from '../../types'
-import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument } from '../../db'
+import { ActionType, IUser, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
+import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, getDBCollection } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { objectCompare } from '../../helpers'
-import { fetchStandingsSaga } from './initSagas'
+import { fetchStandingsSaga, createStandingsSaga } from '.'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -55,26 +55,40 @@ function* updateProfileSaga(action: ActionType<UserUpdateType>) {
 }
 
 type UserLoginType = {
-  uid: string
-  displayName: string
-  email: string
+  user: {
+    uid: string
+    displayName: string
+  }
+  emailReg: boolean
 }
 
 function* userLoginSaga(action: ActionType<UserLoginType>) {
-  const { uid, displayName, email } = action.payload
+  const { user, emailReg } = action.payload
+  const { uid, displayName } = user
   try {
-    const responseUser: IUser = yield call(getDBDocument, 'users', uid)
-    const user = responseUser || {
+    const responseUser: IUser | undefined = yield call(getDBDocument, 'users', uid)
+    const user: IUser = responseUser || {
       name: displayName,
-      email,
       admin: false,
-      locale: getLocale()
+      locale: getLocale(),
+      buddies: [uid]
     }
-    
+
     const answers: AnswersType = yield call(getDBDocument, 'answers', uid)
     const results: AnswersType = yield select((store: IStore) => store.results)
-    
-    yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
+
+    if (!responseUser || emailReg) {
+      const players: IPlayers = yield call(getDBCollection, 'users')
+      players[uid] = user
+      yield call(createStandingsSaga, players)
+    }
+
+    const gotOnRegister: string = yield select((store) => store.user.name)
+
+    if (!gotOnRegister) {
+      yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
+    }
+
     yield put(compareActions.setCompare({ answers, results }))
     yield put(answersActions.updateAnswers({ answers, uid }))
   } catch (error) {

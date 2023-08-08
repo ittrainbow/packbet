@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
-import { selectAbout, selectUser } from '../redux/selectors'
+import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { LocaleType } from '../types'
@@ -10,6 +10,8 @@ import { LocaleType } from '../types'
 export const About = () => {
   const about = useSelector(selectAbout)
   const { locale } = useSelector(selectUser)
+  const { tabActive } = useSelector(selectApp)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
   const aboutRef = useRef<HTMLDivElement>(null)
 
@@ -23,6 +25,11 @@ export const About = () => {
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
 
+  useEffect(() => {
+    const list = containerRef.current?.classList
+    list?.add('animate-fade-in-up')
+  }, [])
+
   const openHandler = () => {
     const list = aboutRef.current?.classList
     if (!open) {
@@ -30,14 +37,14 @@ export const About = () => {
       setTimeout(() => list?.remove('animate-fade-out-down'), 20)
     } else {
       list?.add('animate-fade-out-down')
-      setTimeout(() => setOpen(!open), 300)
+      setTimeout(() => setOpen(!open), 200)
     }
   }
 
   const description = Object.values(about[locale])
 
   return (
-    <div className="container animate-fade-in-up">
+    <div className="container" ref={containerRef}>
       <div className="about__paragraph">{description[0]}</div>
       <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
       {open ? (

@@ -13,6 +13,7 @@ export interface IApp {
   otherUserUID: string
   selectedWeek: number
   tabActive: number
+  emailReg: boolean
 }
 
 export interface IUser {
@@ -25,10 +26,6 @@ export interface IUser {
 
 export interface IUserStore extends IUser {
   uid: string
-}
-
-export interface RawUser extends IUser {
-  email: string
 }
 
 export interface IAbout {
@@ -61,4 +58,8 @@ export interface IUserStandings {
   position: number | string
   correct: number
   uid: string
+}
+
+export interface IStandings {
+  [key: string]: IUserStandings[]
 }

@@ -19,7 +19,7 @@ export const Arrows = () => {
       if (window.scrollY < 250 && scrolled) {
         list?.remove('arrows-show')
         list?.add('arrows-hide')
-        setTimeout(() => setScrolled(false), 300)
+        setTimeout(() => setScrolled(false), 200)
       }
     }
 

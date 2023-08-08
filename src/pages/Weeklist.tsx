@@ -17,7 +17,7 @@ export const Weeklist = () => {
   useEffect(() => {
     const list = containerRef.current?.classList
     list?.add('animate-fade-in-up')
-    setTimeout(() => list?.remove('animate-fade-in-up'), 300)
+    setTimeout(() => list?.remove('animate-fade-in-up'), 200)
   }, [isItYou, tabActive])
 
   const clickHandler = (selectedWeek: number) => {

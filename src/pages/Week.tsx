@@ -15,7 +15,7 @@ import { selectAnswers, selectApp, selectCompare, selectResults, selectUser, sel
 import { answersActions, resultsActions, userActions } from '../redux/slices'
 
 export const Week = () => {
-  const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
+  const { selectedWeek, isItYou, otherUserUID, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale } = useSelector(selectUser)
   const answers = useSelector(selectAnswers)
   const results = useSelector(selectResults)
@@ -31,8 +31,8 @@ export const Week = () => {
   useEffect(() => {
     const list = weekRef.current?.classList
     list?.add('animate-fade-in-up')
-    setTimeout(() => list?.remove('animate-fade-in-up'), 300)
-  }, [isItYou])
+    setTimeout(() => list?.remove('animate-fade-in-up'), 200)
+  }, [isItYou, tabActive])
 
   const adm = useMemo(() => {
     return admin && !adminAsPlayer
@@ -46,13 +46,13 @@ export const Week = () => {
 
   const gotChanges = useMemo(() => {
     const dataToCompare = admin && !adminAsPlayer ? results : answers
-    if (answers[uid] && !!Object.keys(dataToCompare).length) {
+    if (!!Object.keys(dataToCompare).length) {
       const userChanges = !objectCompare(answers[uid], compare.answers)
       const adminChanges = admin ? !objectCompare(results, compare.results) : false
       return !admin || adminAsPlayer ? userChanges : adminChanges
     }
     // eslint-disable-next-line
-  }, [adminAsPlayer, answers, results, selectedWeek])
+  }, [adminAsPlayer, uid, answers, results, selectedWeek])
 
   const outdated = () => new Date().getTime() > deadline
 

@@ -1,9 +1,9 @@
-import { IAbout, IUserStandings, IApp, IUserStore, IAnswers, AnswersType, IWeeks, WeekType } from '.'
+import { IAbout, IUserStandings, IApp, IUserStore, IAnswers, AnswersType, IWeeks, WeekType, IStandings } from '.'
 
 export interface IStore {
   app: IApp
   about: IAbout
-  standings: { [key: string]: IUserStandings[] }
+  standings: IStandings
   user: IUserStore
   answers: IAnswers
   results: AnswersType

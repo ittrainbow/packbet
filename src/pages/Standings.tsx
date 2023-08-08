@@ -24,6 +24,8 @@ export const Standings = () => {
   const weeks = useSelector(selectWeeks)
   const { locale } = user
   const standingsRef = useRef<HTMLDivElement>(null)
+  const toolsRef = useRef<HTMLDivElement>(null)
+  const tableRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
   const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
   const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(localStorage.getItem('packContestOneWeek') === 'true')
@@ -34,12 +36,7 @@ export const Standings = () => {
 
   useEffect(() => {
     const list = standingsRef.current?.classList
-    list?.remove('animate-fade-in-up')
     list?.add('animate-fade-in-up')
-    setTimeout(() => {
-      list?.remove('animate-fade-in-up')
-      list?.add('animate-fade-in-up')
-    }, 300)
   }, [isItYou])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
@@ -62,7 +59,8 @@ export const Standings = () => {
     tableAllSeasonMsg,
     tableHeaderhMsg,
     tableSearchMsg,
-    tableOtherUserTierline
+    tableOtherUserTierline,
+    tableNoGamesMsg
   } = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => setSearchString('')
@@ -79,14 +77,16 @@ export const Standings = () => {
   }
 
   const showToolsHandler = () => {
-    const list = standingsRef.current?.classList
-    list?.add('animate-fade-out')
+    const tableList = tableRef.current?.classList
+    const toolsList = toolsRef.current?.classList
 
+    tableList?.add('animate-fade-out-down')
+    toolsList?.add('animate-fade-out-down')
     setTimeout(() => {
       setShowTools(!showTools)
-      list?.remove('animate-fade-out')
-      list?.add('animate-fade-in-up')
-    }, 20)
+      tableList?.remove('animate-fade-out-down')
+      tableList?.add('animate-fade-in-up')
+    }, 200)
   }
 
   const buddiesHandler = () => {
@@ -106,7 +106,7 @@ export const Standings = () => {
       })
       .map((el, index) => {
         const { name, answers, correct, ninety, position, uid } = tableHelper(el)
-        const buddy = buddies.includes(uid)
+        const buddy = buddies?.includes(uid)
         return (
           <div key={index} className="standings__header">
             <div className={getClass('col-zero', index)}>{position}</div>
@@ -132,20 +132,24 @@ export const Standings = () => {
       })
   }
 
+  const getLastWeekName = () => {
+    const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
+    const lastWeekName = !isNaN(lastWeekNumber) && weeks[lastWeekNumber].name.split('.')[1]
+
+    return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
+  }
+
   return (
     <>
       <div className="container" ref={standingsRef}>
         <div className="standings-top-container">
-          <div className="standings-top-container__title">
-            {tableHeaderhMsg}
-            {weeks[Number(Object.keys(results).slice(-1)[0])].name.split('.')[1]}
-          </div>
+          <div className="standings-top-container__title">{getLastWeekName()}</div>
           <div className={getGearClass}>
             <BsGearFill onClick={showToolsHandler} />
           </div>
         </div>
         {showTools ? (
-          <div className="standings__tools">
+          <div className="standings__tools animate-fade-in-up" ref={toolsRef}>
             <div className="standings__search">
               <Input
                 onChange={onChangeHandler}
@@ -180,7 +184,7 @@ export const Standings = () => {
         ) : (
           ''
         )}
-        <div className="standings">
+        <div className="standings" ref={tableRef}>
           <OtherUser />
           <div className="standings__header" style={{ fontWeight: 600 }}>
             <div className="col-zero">#</div>

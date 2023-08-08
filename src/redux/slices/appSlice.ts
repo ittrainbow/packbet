@@ -21,7 +21,8 @@ const initialState: IApp = {
   otherUserName: '',
   otherUserUID: '',
   selectedWeek: 0,
-  tabActive: 1
+  tabActive: 1,
+  emailReg: false
 }
 
 export const appSlice = createSlice({
@@ -42,6 +43,10 @@ export const appSlice = createSlice({
 
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload
+    },
+
+    setEmailReg(state, action: PayloadAction<boolean>) {
+      state.emailReg = action.payload
     },
 
     setEmptyEditor(state, action: PayloadAction<boolean>) {

@@ -10,7 +10,7 @@ import { Input } from '@mui/material'
 import { i18n } from '../locale'
 import { IUser, LocaleType } from '../types'
 import { selectUser } from '../redux/selectors'
-import { userActions } from '../redux/slices'
+import { appActions, userActions } from '../redux/slices'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -32,6 +32,15 @@ export const Register = () => {
 
   useEffect(() => {
     inputRef.current?.focus()
+  }, [])
+
+  useEffect(() => {
+    const setEmailReg = (value: boolean) => {
+      dispatch(appActions.setEmailReg(value))
+    }
+    
+    setEmailReg(true)
+    return () => setEmailReg(false)
   }, [])
 
   const register = async () => {
