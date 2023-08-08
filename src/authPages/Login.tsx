@@ -8,7 +8,7 @@ import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../redux/slices'
+import { appActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
 import { fadeInOut, getLocale } from '../helpers'
 
@@ -25,6 +25,10 @@ export const Login = () => {
 
   const loginButtonActive = emailValid && password.length > 2
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
+
+  useEffect(() => {
+    dispatch(appActions.setRef(authRef))
+  }, [])
 
   useEffect(() => {
     const locale = getLocale()

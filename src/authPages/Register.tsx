@@ -28,6 +28,10 @@ export const Register = () => {
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
+    dispatch(appActions.setRef(authRef))
+  }, [])
+
+  useEffect(() => {
     if (loading) return
     user && navigate('/dashboard')
     // eslint-disable-next-line

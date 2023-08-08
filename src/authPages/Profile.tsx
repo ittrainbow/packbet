@@ -10,7 +10,7 @@ import { auth } from '../db'
 import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale'
-import { userActions } from '../redux/slices'
+import { appActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
 import { fadeInOut } from '../helpers'
 
@@ -24,6 +24,10 @@ export const Profile = () => {
   const { tabActive } = useSelector(selectApp)
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
+
+  useEffect(() => {
+    dispatch(appActions.setRef(authRef))
+  }, [])
 
   useEffect(() => {
     inputRef.current?.focus()
