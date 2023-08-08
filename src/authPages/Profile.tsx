@@ -11,14 +11,17 @@ import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
 import { i18n } from '../locale'
 import { userActions } from '../redux/slices'
-import { selectUser } from '../redux/selectors'
+import { selectApp, selectUser } from '../redux/selectors'
+import { fadeInOut } from '../helpers'
 
 export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
+  const authRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const { name, locale } = useSelector(selectUser)
+  const { tabActive } = useSelector(selectApp)
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
 
@@ -27,6 +30,10 @@ export const Profile = () => {
     setTempLocale(locale)
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    tabActive !== 1 && fadeInOut(authRef)
+  }, [tabActive])
 
   const submitHandler = async () => {
     const { uid } = user as User
@@ -39,7 +46,8 @@ export const Profile = () => {
 
   const noSaveHandler = () => {
     dispatch(userActions.setLocale(tempLocale))
-    navigate(-1)
+    fadeInOut(authRef)
+    setTimeout(() => navigate(-1), 200)
   }
 
   const noChanges = name === tempName && locale === tempLocale
@@ -48,7 +56,7 @@ export const Profile = () => {
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
-    <div className="auth">
+    <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">
         <div className="auth__data">
           <div className="text-container bold">{profileHeaderMsg}</div>

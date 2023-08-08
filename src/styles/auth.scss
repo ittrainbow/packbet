@@ -23,6 +23,16 @@
 
 .link-container {
   padding: 5px 0 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: center;;
+
+  &__inner {
+    text-decoration: underline;
+    color: $base-darkblue;
+    cursor: pointer;
+  }
 }
 
 .text-container {

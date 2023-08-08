@@ -9,15 +9,18 @@ import { Button, LocaleSwitcher } from '../UI'
 import { Input } from '@mui/material'
 import { i18n } from '../locale'
 import { IUser, LocaleType } from '../types'
-import { selectUser } from '../redux/selectors'
+import { selectApp, selectUser } from '../redux/selectors'
 import { appActions, userActions } from '../redux/slices'
+import { fadeInOut } from '../helpers'
 
 export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { tabActive } = useSelector(selectApp)
   const [user, loading] = useAuthState(auth)
-  const { locale } = useSelector(selectUser)
+  const authRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
+  const { locale } = useSelector(selectUser)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -33,6 +36,10 @@ export const Register = () => {
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
+
+  useEffect(() => {
+    tabActive !== 1 && fadeInOut(authRef)
+  }, [tabActive])
 
   useEffect(() => {
     const setEmailReg = (value: boolean) => {
@@ -78,8 +85,13 @@ export const Register = () => {
   const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
     i18n(locale, 'auth') as LocaleType
 
+  const toLoginHandler = () => {
+    fadeInOut(authRef)
+    setTimeout(() => navigate('/reset'), 200)
+  }
+
   return (
-    <div className="auth">
+    <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">
         <div className="auth__data">
           <Input type="text" value={name} ref={inputRef} onChange={nameInputHandler} placeholder={regNameMsg} />
@@ -91,8 +103,8 @@ export const Register = () => {
           <Button className="google" onClick={googleClickHandler}>
             {buttonRegisterGoogleMsg}
           </Button>
-          <div className="link-container">
-            {loginIntro} <Link to="/login">{loginMsg}</Link>
+          <div className="link-container" onClick={toLoginHandler}>
+            {loginIntro} <div className="link-container__inner">{loginMsg}</div>
           </div>
         </div>
         <div className="locale-div">
