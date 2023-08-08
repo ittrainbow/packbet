@@ -10,14 +10,15 @@ export const Arrows = () => {
 
   useEffect(() => {
     let listener = () => {
+      const list = arrowsRef.current?.classList
       if (window.scrollY > 250 && !scrolled) {
         setScrolled(true)
-        arrowsRef.current?.classList.add('arrows-show')
-        arrowsRef.current?.classList.remove('arrows-hide')
+        list?.add('arrows-show')
+        list?.remove('arrows-hide')
       }
       if (window.scrollY < 250 && scrolled) {
-        arrowsRef.current?.classList.remove('arrows-show')
-        arrowsRef.current?.classList.add('arrows-hide')
+        list?.remove('arrows-show')
+        list?.add('arrows-hide')
         setTimeout(() => setScrolled(false), 300)
       }
     }
@@ -29,18 +30,20 @@ export const Arrows = () => {
 
   const scrollHandler = (direction: string) => {
     const classHandler = (ref: React.RefObject<HTMLDivElement>) => {
-      ref.current?.classList.add('arrows-green')
-      ref.current?.classList.remove('arrows-grey')
+      const list = ref.current?.classList
+      list?.add('arrows-green')
+      list?.remove('arrows-grey')
       setTimeout(() => {
-        ref.current?.classList.remove('arrows-green')
-        ref.current?.classList.add('arrows-grey')
+        list?.remove('arrows-green')
+        list?.add('arrows-grey')
       }, 200)
     }
 
     direction === 'top' ? classHandler(arrowTopRef) : classHandler(arrowBottomRef)
 
     setTimeout(() => {
-      window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' })
+      const height = document.body.scrollHeight
+      window.scrollTo({ top: direction === 'top' ? 0 : height, behavior: 'smooth' })
     }, 50)
   }
 

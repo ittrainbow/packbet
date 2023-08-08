@@ -15,10 +15,9 @@ export const Weeklist = () => {
   const weeks = useSelector(selectWeeks)
 
   useEffect(() => {
-    containerRef.current?.classList.add('animate-fade-in-up')
-    setTimeout(() => {
-      containerRef.current?.classList.remove('animate-fade-in-up')
-    }, 300)
+    const list = containerRef.current?.classList
+    list?.add('animate-fade-in-up')
+    setTimeout(() => list?.remove('animate-fade-in-up'), 300)
   }, [isItYou, tabActive])
 
   const clickHandler = (selectedWeek: number) => {
