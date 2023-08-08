@@ -157,7 +157,7 @@ export const Editor = () => {
   const totalBtnDisabled = !question || !total || questionButtonDisabled
 
   return (
-    <div className="container">
+    <div className="container animate-fade-in-up">
       <div className="editor-input">
         <Input inputRef={nameRef} onChange={changeNameHandler} placeholder={weekNameMsg} value={name} />
         <div className="editor-form">

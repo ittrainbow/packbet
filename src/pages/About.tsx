@@ -24,13 +24,12 @@ export const About = () => {
   ]
 
   const openHandler = () => {
+    const list = aboutRef.current?.classList
     if (!open) {
       setOpen(!open)
-      setTimeout(() => {
-        aboutRef.current?.classList.remove('animate-fade-out-down')
-      }, 20)
+      setTimeout(() => list?.remove('animate-fade-out-down'), 20)
     } else {
-      aboutRef.current?.classList.add('animate-fade-out-down')
+      list?.add('animate-fade-out-down')
       setTimeout(() => setOpen(!open), 300)
     }
   }
@@ -38,7 +37,7 @@ export const About = () => {
   const description = Object.values(about[locale])
 
   return (
-    <div className="container">
+    <div className="container animate-fade-in-up">
       <div className="about__paragraph">{description[0]}</div>
       <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
       {open ? (

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
@@ -21,11 +21,18 @@ export const Week = () => {
   const results = useSelector(selectResults)
   const weeks = useSelector(selectWeeks)
   const compare = useSelector(selectCompare)
+  const weekRef = useRef<HTMLDivElement>(null)
 
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { name, questions, deadline } = weeks[selectedWeek]
   const [uid, setUid] = useState<string>('')
+
+  useEffect(() => {
+    const list = weekRef.current?.classList
+    list?.add('animate-fade-in-up')
+    setTimeout(() => list?.remove('animate-fade-in-up'), 300)
+  }, [isItYou])
 
   const adm = useMemo(() => {
     return admin && !adminAsPlayer
@@ -114,17 +121,11 @@ export const Week = () => {
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
   return (
-    <div className="container">
+    <div className="container" ref={weekRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
         {admin && isItYou ? (
-          <Switch
-            onChange={adminPlayerHandler}
-            checked={adminAsPlayer}
-            messageOn={playerMsg}
-            messageOff={adminMsg}
-            bordered={false}
-          />
+          <Switch onChange={adminPlayerHandler} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
         ) : null}
       </div>
       <OtherUser />

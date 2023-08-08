@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect, ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaStar } from 'react-icons/fa'
 import { BsGearFill } from 'react-icons/bs'
+import { Input } from '@mui/material'
 
 import { selectApp, selectResults, selectStandings, selectUser, selectWeeks } from '../redux/selectors'
 import { i18n } from '../locale'
@@ -10,13 +11,13 @@ import { OtherUser, Switch, Arrows } from '../UI'
 import { LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
-import { Button, Input } from '../UI'
+import { Button } from '../UI'
 import { tableHelper } from '../helpers'
 
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { mobile } = useSelector(selectApp)
+  const { mobile, isItYou } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
   const results = useSelector(selectResults)
   const user = useSelector(selectUser)
@@ -30,6 +31,16 @@ export const Standings = () => {
   const { uid, buddies } = user
 
   const standings = oneWeekOnly ? week : season
+
+  useEffect(() => {
+    const list = standingsRef.current?.classList
+    list?.remove('animate-fade-in-up')
+    list?.add('animate-fade-in-up')
+    setTimeout(() => {
+      list?.remove('animate-fade-in-up')
+      list?.add('animate-fade-in-up')
+    }, 300)
+  }, [isItYou])
 
   const clickHandler = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
@@ -54,18 +65,12 @@ export const Standings = () => {
     tableOtherUserTierline
   } = i18n(locale, 'standings') as LocaleType
 
-  const clearHandler = () => {
-    setSearchString('')
-  }
+  const clearHandler = () => setSearchString('')
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    setSearchString(value)
-  }
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)
 
-  const addRemoveBuddyHandler = (uid: string) => {
+  const addRemoveBuddyHandler = (uid: string) =>
     user && dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
-  }
 
   const spanSelectHandler = () => {
     const value = !oneWeekOnly
@@ -74,11 +79,13 @@ export const Standings = () => {
   }
 
   const showToolsHandler = () => {
-    standingsRef.current?.classList.add('animate-fade-out')
+    const list = standingsRef.current?.classList
+    list?.add('animate-fade-out')
 
     setTimeout(() => {
       setShowTools(!showTools)
-      standingsRef.current?.classList.remove('animate-fade-out')
+      list?.remove('animate-fade-out')
+      list?.add('animate-fade-in-up')
     }, 20)
   }
 
@@ -90,7 +97,6 @@ export const Standings = () => {
 
   const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-  const getToolsClass = `animate-fade-in-up standings__tools${mobile ? '-mobile' : ''}`
 
   const standingsRender = () => {
     return Object.values(standings)
@@ -128,7 +134,7 @@ export const Standings = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container" ref={standingsRef}>
         <div className="standings-top-container">
           <div className="standings-top-container__title">
             {tableHeaderhMsg}
@@ -139,9 +145,15 @@ export const Standings = () => {
           </div>
         </div>
         {showTools ? (
-          <div className={getToolsClass}>
+          <div className="standings__tools">
             <div className="standings__search">
-              <Input onChange={onChangeHandler} value={searchString} type="text" placeholder={tableSearchMsg} />
+              <Input
+                onChange={onChangeHandler}
+                value={searchString}
+                type="text"
+                placeholder={tableSearchMsg}
+                sx={{ width: '100%', padding: 0.25 }}
+              />
               <div>
                 <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
                   {tableClearBtn}
@@ -155,7 +167,6 @@ export const Standings = () => {
                 messageOn={tableOnlyWeekMsg}
                 messageOff={tableAllSeasonMsg}
                 fullWidth={true}
-                bordered={!mobile}
               />
               <Switch
                 onChange={buddiesHandler}
@@ -163,14 +174,13 @@ export const Standings = () => {
                 messageOn={tableBuddiesMsg}
                 messageOff={tableAllUsersMsg}
                 fullWidth={true}
-                bordered={!mobile}
               />
             </div>
           </div>
         ) : (
           ''
         )}
-        <div className="standings animate-fade-in-up" ref={standingsRef}>
+        <div className="standings">
           <OtherUser />
           <div className="standings__header" style={{ fontWeight: 600 }}>
             <div className="col-zero">#</div>
