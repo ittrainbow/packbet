@@ -21,6 +21,8 @@ export const App = () => {
   useEffect(() => {
     dispatch({ type: INIT_APP })
     dispatch(setMobile(isMobile))
+    dispatch(appActions.setTabActive(1))
+    navigate('/login')
     // eslint-disable-next-line
   }, [])
 

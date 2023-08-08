@@ -34,12 +34,7 @@ export const Header = () => {
   ]
 
   const adminMenu = [
-    {
-      path: '/calendar',
-      name: tab5msg,
-      icon: <FaChevronCircleRight />,
-      id: 5
-    },
+    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight />, id: 5 },
     { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
   ]
 
@@ -47,8 +42,9 @@ export const Header = () => {
     dispatch(appActions.setTabActive(id))
 
     setTimeout(() => {
-      if (id === 2 || id === 6)
+      if (id === 2 || id === 6) {
         dispatch(appActions.setSelectedWeek(id === 2 ? currentWeek : id === 6 ? nextWeek : selectedWeek))
+      }
 
       if ((id === 6 && !emptyEditor) || (id !== 6 && emptyEditor)) dispatch(appActions.setEmptyEditor(!emptyEditor))
 
@@ -67,7 +63,7 @@ export const Header = () => {
   }
 
   const getClass = (id: number) => {
-    return id === 1 && !name ? 'header__no-login' : id === tabActive ? 'header__tab-active' : 'header__tab'
+    return id === tabActive ? 'header__tab-active' : 'header__tab'
   }
 
   const bar = admin ? [...userMenu, ...adminMenu] : userMenu

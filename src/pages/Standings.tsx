@@ -1,38 +1,38 @@
-import { useNavigate } from 'react-router-dom'
 import { useRef, useState, useEffect, ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { FaStar } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { BsGearFill } from 'react-icons/bs'
+import { FaStar } from 'react-icons/fa'
 import { Input } from '@mui/material'
 
-import { selectApp, selectResults, selectStandings, selectUser, selectWeeks } from '../redux/selectors'
-import { i18n } from '../locale'
-import { OtherUser, Switch, Arrows } from '../UI'
-import { LocaleType } from '../types'
-import { appActions } from '../redux/slices'
+import { fadeInOut, fadeInTools, fadeOutTools, tableHelper } from '../helpers'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
+import { selectApp, selectStandings } from '../redux/selectors'
+import { OtherUser, Switch, Arrows } from '../UI'
+import { IStore, LocaleType } from '../types'
+import { appActions } from '../redux/slices'
 import { Button } from '../UI'
-import { fadeInOut, tableHelper } from '../helpers'
+import { i18n } from '../locale'
+
+const initialBuddies = localStorage.getItem('packContestFavList') === 'true'
+const initialTimeSpan = localStorage.getItem('packContestOneWeek') === 'true'
 
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { mobile, tabActive } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
-  const results = useSelector(selectResults)
-  const user = useSelector(selectUser)
-  const weeks = useSelector(selectWeeks)
-  const { locale } = user
+  const results = useSelector((store: IStore) => store.results)
+  const user = useSelector((store: IStore) => store.user)
+  const weeks = useSelector((store: IStore) => store.weeks)
+  const { locale, uid, buddies } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const toolsRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [searchString, setSearchString] = useState<string>('')
-  const [onlyBuddies, setOnlyBuddies] = useState<boolean>(localStorage.getItem('packContestFavList') === 'true')
-  const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(localStorage.getItem('packContestOneWeek') === 'true')
+  const [onlyBuddies, setOnlyBuddies] = useState<boolean>(initialBuddies)
+  const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(initialTimeSpan)
   const [showTools, setShowTools] = useState<boolean>(false)
-  const { uid, buddies } = user
-
-  const standings = oneWeekOnly ? week : season
 
   useEffect(() => {
     tabActive !== 4 && fadeInOut(containerRef)
@@ -50,27 +50,14 @@ export const Standings = () => {
     }
   }
 
-  const {
-    tableNameMsg,
-    tableCorrectMsg,
-    tableClearBtn,
-    tableTierline,
-    tableAllUsersMsg,
-    tableBuddiesMsg,
-    tableOnlyWeekMsg,
-    tableAllSeasonMsg,
-    tableHeaderhMsg,
-    tableSearchMsg,
-    tableOtherUserTierline,
-    tableNoGamesMsg
-  } = i18n(locale, 'standings') as LocaleType
+  const msg = i18n(locale, 'standings') as LocaleType
 
   const clearHandler = () => setSearchString('')
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)
 
   const addRemoveBuddyHandler = (uid: string) =>
-    user && dispatch({ type: SET_BUDDIES, payload: { user, buddyUid: uid, buddies } })
+    !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
 
   const spanSelectHandler = () => {
     const value = !oneWeekOnly
@@ -79,15 +66,10 @@ export const Standings = () => {
   }
 
   const showToolsHandler = () => {
-    const tableList = tableRef.current?.classList
-    const toolsList = toolsRef.current?.classList
-
-    tableList?.add('animate-fade-out-down')
-    toolsList?.add('animate-fade-out-down')
+    fadeOutTools(tableRef, toolsRef)
     setTimeout(() => {
       setShowTools(!showTools)
-      tableList?.remove('animate-fade-out-down')
-      tableList?.add('animate-fade-in-up')
+      fadeInTools(tableRef)
     }, 200)
   }
 
@@ -97,48 +79,16 @@ export const Standings = () => {
     localStorage.setItem('packContestFavList', value.toString())
   }
 
-  const getClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
-  const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-
-  const standingsRender = () => {
-    return Object.values(standings)
-      .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
-      .filter((el) => {
-        return onlyBuddies ? buddies.includes(el.uid) : el
-      })
-      .map((el, index) => {
-        const { name, answers, correct, ninety, position, uid } = tableHelper(el)
-        const buddy = buddies?.includes(uid)
-        return (
-          <div key={index} className="standings__header">
-            <div className={getClass('col-zero', index)}>{position}</div>
-            <div
-              className={getClass('col-one', index)}
-              style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
-              onClick={() => addRemoveBuddyHandler(uid)}
-            >
-              <FaStar />
-            </div>
-            <div
-              className={getClass('col-two', index)}
-              onClick={() => clickHandler(name, el.uid)}
-              style={{ fontWeight: user.uid === uid ? 600 : '' }}
-            >
-              {user.uid === uid ? user.name : name}
-            </div>
-            <div className={getClass('col-three', index)}>{answers}</div>
-            <div className={getClass('col-four', index)}>{correct}</div>
-            <div className={getClass('col-five', index)}>{oneWeekOnly ? '-' : ninety}</div>
-          </div>
-        )
-      })
-  }
-
   const getLastWeekName = () => {
     const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
     const lastWeekName = !isNaN(lastWeekNumber) && weeks[lastWeekNumber].name.split('.')[1]
+    return lastWeekName ? msg.tableHeaderhMsg + lastWeekName : msg.tableNoGamesMsg
+  }
 
-    return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
+  const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
+
+  const getCellClass = (className: string, index: number) => {
+    return `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   }
 
   return (
@@ -157,12 +107,12 @@ export const Standings = () => {
                 onChange={onChangeHandler}
                 value={searchString}
                 type="text"
-                placeholder={tableSearchMsg}
+                placeholder={msg.tableSearchMsg}
                 sx={{ width: '100%', padding: 0.25 }}
               />
               <div>
                 <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
-                  {tableClearBtn}
+                  {msg.tableClearBtn}
                 </Button>
               </div>
             </div>
@@ -170,15 +120,15 @@ export const Standings = () => {
               <Switch
                 onChange={spanSelectHandler}
                 checked={oneWeekOnly}
-                messageOn={tableOnlyWeekMsg}
-                messageOff={tableAllSeasonMsg}
+                messageOn={msg.tableOnlyWeekMsg}
+                messageOff={msg.tableAllSeasonMsg}
                 fullWidth={true}
               />
               <Switch
                 onChange={buddiesHandler}
                 checked={onlyBuddies}
-                messageOn={tableBuddiesMsg}
-                messageOff={tableAllUsersMsg}
+                messageOn={msg.tableBuddiesMsg}
+                messageOff={msg.tableAllUsersMsg}
                 fullWidth={true}
               />
             </div>
@@ -188,17 +138,47 @@ export const Standings = () => {
         )}
         <div className="standings" ref={tableRef}>
           <OtherUser />
-          <div className="standings__header" style={{ fontWeight: 600 }}>
+          <div className="standings__header">
             <div className="col-zero">#</div>
             <div className="col-one"></div>
-            <div className="col-two">{tableNameMsg}</div>
+            <div className="col-two">{msg.tableNameMsg}</div>
             <div className="col-three">%</div>
-            <div className="col-four">{tableCorrectMsg}</div>
+            <div className="col-four">{msg.tableCorrectMsg}</div>
             <div className="col-five">90%</div>
           </div>
-          {standingsRender()}
-          <div className="tierline">{tableTierline}</div>
-          <div className="tierline">{tableOtherUserTierline}</div>
+          {Object.values(oneWeekOnly ? week : season)
+            .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
+            .filter((el) => {
+              return onlyBuddies ? buddies.includes(el.uid) : el
+            })
+            .map((el, index) => {
+              const { name, answers, correct, ninety, position, uid } = tableHelper(el)
+              const buddy = buddies?.includes(uid)
+              return (
+                <div key={index} className="standings__header">
+                  <div className={getCellClass('col-zero', index)}>{position}</div>
+                  <div
+                    className={getCellClass('col-one', index)}
+                    style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
+                    onClick={() => addRemoveBuddyHandler(uid)}
+                  >
+                    <FaStar />
+                  </div>
+                  <div
+                    className={getCellClass('col-two', index)}
+                    onClick={() => clickHandler(name, el.uid)}
+                    style={{ fontWeight: user.uid === uid ? 600 : '' }}
+                  >
+                    {user.uid === uid ? user.name : name}
+                  </div>
+                  <div className={getCellClass('col-three', index)}>{answers}</div>
+                  <div className={getCellClass('col-four', index)}>{correct}</div>
+                  <div className={getCellClass('col-five', index)}>{oneWeekOnly ? '-' : ninety}</div>
+                </div>
+              )
+            })}
+          <div className="tierline">{msg.tableTierline}</div>
+          <div className="tierline">{msg.tableOtherUserTierline}</div>
         </div>
       </div>
       <Arrows />

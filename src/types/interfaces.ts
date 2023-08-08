@@ -14,7 +14,6 @@ export interface IApp {
   selectedWeek: number
   tabActive: number
   emailReg: boolean
-  ref: any
 }
 
 export interface IUser {

@@ -1,4 +1,4 @@
-import { IUserStore } from '../types'
+import { IUserStore, WeekType, QuestionType } from '../types'
 
 export const initialUser: IUserStore = {
   name: '',
@@ -9,3 +9,16 @@ export const initialUser: IUserStore = {
 }
 
 export const initialRedirects = ['/', '/userpage', '/week', 'season', '/standings', '/calendar', '/editor']
+
+export const emptyWeek: WeekType = {
+  questions: {},
+  name: '',
+  active: false,
+  deadline: new Date().getTime()
+}
+
+export const emptyQuestion: QuestionType = {
+  question: '',
+  total: '',
+  id: null
+}

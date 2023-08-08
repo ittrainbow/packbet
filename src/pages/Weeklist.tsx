@@ -1,11 +1,11 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { OtherUser } from '../UI'
-import { fadeInOut, fadeOutIn } from '../helpers'
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
+import { fadeInOut, fadeOutIn } from '../helpers'
+import { OtherUser } from '../UI'
 
 export const WeekList = () => {
   const navigate = useNavigate()
@@ -35,7 +35,7 @@ export const WeekList = () => {
       fadeInOut(containerRef)
       setTimeout(() => fadeOutIn(containerRef), 200)
     }
-  }, [tabActive])
+  }, [tabActive, editor])
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>

@@ -10,7 +10,6 @@ export type QuestionType = {
 export type QuestionsType = { [key: number]: QuestionType }
 
 export type BuddiesPayloadType = {
-  user: IUserStore
   buddies: string[]
   buddyUid: string
 }

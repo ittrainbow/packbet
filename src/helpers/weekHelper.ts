@@ -1,4 +1,4 @@
-import { WeeksType, WeekType, QuestionType, IAnswers, AnswersType } from '../types'
+import { WeeksType, IAnswers, AnswersType } from '../types'
 
 export const getWeeksIDs = (weeks: WeeksType) => {
   const arr = Object.keys(weeks).map((el) => Number(el))
@@ -15,17 +15,4 @@ export const ansHelper = (answers: IAnswers, results: AnswersType, selectedWeek:
   const res = results[selectedWeek] ? results[selectedWeek][id] : 0
   const ans = answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
   return { ans, res }
-}
-
-export const emptyWeek: WeekType = {
-  questions: {},
-  name: '',
-  active: false,
-  deadline: new Date().getTime()
-}
-
-export const emptyQuestion: QuestionType = {
-  question: '',
-  total: '',
-  id: null
 }

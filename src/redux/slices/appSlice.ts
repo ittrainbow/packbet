@@ -22,8 +22,7 @@ const initialState: IApp = {
   otherUserUID: '',
   selectedWeek: 0,
   tabActive: 1,
-  emailReg: false,
-  ref: null
+  emailReg: false
 }
 
 export const appSlice = createSlice({
@@ -77,10 +76,6 @@ export const appSlice = createSlice({
 
     setTabActive(state, action: PayloadAction<number>) {
       state.tabActive = action.payload
-    },
-
-    setRef(state, action: PayloadAction<React.RefObject<HTMLDivElement>>) {
-      state.ref = action.payload
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {

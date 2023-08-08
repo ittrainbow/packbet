@@ -1,17 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { fadeInOut } from '../helpers'
-import { appActions } from '../redux/slices'
 
 export const About = () => {
   const about = useSelector(selectAbout)
-  const dispatch = useDispatch()
   const { locale } = useSelector(selectUser)
   const { tabActive } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -26,10 +24,6 @@ export const About = () => {
     { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
     { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
   ]
-
-  useEffect(() => {
-    dispatch(appActions.setRef(containerRef))
-  }, [])
 
   useEffect(() => {
     tabActive !== 0 && fadeInOut(containerRef)

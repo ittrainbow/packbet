@@ -9,7 +9,7 @@ import { LocaleType } from '../types'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 import { selectApp, selectUser } from '../redux/selectors'
-import { answersActions, appActions, compareActions, userActions } from '../redux/slices'
+import { answersActions, compareActions, userActions } from '../redux/slices'
 import { fadeInOut } from '../helpers'
 
 export const Dashboard = () => {
@@ -19,10 +19,6 @@ export const Dashboard = () => {
   const { tabActive } = useSelector(selectApp)
   const authRef = useRef<HTMLDivElement>(null)
   const { name, admin, locale } = useSelector(selectUser)
-
-  useEffect(() => {
-    dispatch(appActions.setRef(authRef))
-  }, [])
 
   useEffect(() => {
     tabActive !== 1 && fadeInOut(authRef)

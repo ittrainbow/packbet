@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, ChangeEvent } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { auth } from '../db/firebase'
@@ -26,10 +26,6 @@ export const Register = () => {
   const [name, setName] = useState<string>('')
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
-
-  useEffect(() => {
-    dispatch(appActions.setRef(authRef))
-  }, [])
 
   useEffect(() => {
     if (loading) return

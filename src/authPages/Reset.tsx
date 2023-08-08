@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, ChangeEvent } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { auth } from '../db/firebase'
 import { i18n } from '../locale'
@@ -11,10 +11,8 @@ import { Button, LocaleSwitcher } from '../UI'
 import { LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { fadeInOut } from '../helpers'
-import { appActions } from '../redux/slices'
 
 export const Reset = () => {
-  const dispatch = useDispatch()
   const { tabActive } = useSelector(selectApp)
   const [user, loading] = useAuthState(auth)
   const [email, setEmail] = useState('')
@@ -32,10 +30,6 @@ export const Reset = () => {
   useEffect(() => {
     tabActive !== 1 && fadeInOut(authRef)
   }, [tabActive])
-
-  useEffect(() => {
-    dispatch(appActions.setRef(authRef))
-  }, [])
 
   useEffect(() => {
     if (loading) return

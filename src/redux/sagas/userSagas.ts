@@ -9,7 +9,7 @@ import {
   SET_BUDDIES
 } from '../storetypes'
 import { getLocale } from '../../helpers'
-import { ActionType, IUser, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
+import { ActionType, IUser, IUserStore, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
 import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, getDBCollection } from '../../db'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { objectCompare } from '../../helpers'
@@ -165,7 +165,8 @@ function* fetchOtherUserSaga(action: ActionType<string>) {
 }
 
 function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
-  const { user, buddyUid, buddies } = action.payload
+  const user: IUserStore = yield select((store) => store.user)
+  const { buddyUid, buddies } = action.payload
   const { uid, adminAsPlayer, ...newUser } = user
   const newBuddies = buddies.includes(buddyUid) ? buddies.filter((el) => el !== buddyUid) : [...buddies, buddyUid]
   newUser.buddies = newBuddies
