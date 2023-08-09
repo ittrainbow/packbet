@@ -44,6 +44,14 @@ export const editorSlice = createSlice({
       state.questionInWork = action.payload
     },
 
+    setQuestionCompare(state, action: PayloadAction<QuestionType>) {
+      state.questionCompare = action.payload
+    },
+
+    clearQuestionInWork(state) {
+      state.questionInWork = emptyQuestion
+    },
+
     clearEditor() {
       return initialState
     }

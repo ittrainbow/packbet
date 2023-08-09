@@ -1,6 +1,6 @@
+import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { FaEdit, FaTrashAlt, FaCheck, FaPlus, FaBan } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert'
 import moment from 'moment/moment'
@@ -9,9 +9,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, fadeOut } from '../helpers'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
-import { LocaleType, QuestionType, QuestionsType } from '../types'
 import { appActions, editorActions, weeksActions } from '../redux/slices'
-import { emptyQuestion } from '../helpers/initials'
+import { LocaleType, QuestionsType } from '../types'
 import * as TYPES from '../redux/storetypes'
 import { Button, Input } from '../UI'
 import { i18n } from '../locale'
@@ -25,16 +24,14 @@ export const Editor = () => {
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
   const { tabActive } = useSelector(selectApp)
-  const { questions, name, active, deadline } = editor
+  const { questions, name, active, deadline, questionInWork, questionCompare } = editor
+  const { question, total, id } = questionInWork
 
   const inputRef = useRef<HTMLInputElement>()
   const nameRef = useRef<HTMLInputElement>()
   const questionsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [questionInWork, setQuestionInWork] = useState(emptyQuestion)
-  const [compareQuestion, setCompareQuestion] = useState({} as QuestionType)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
-  const { question, total, id } = questionInWork
 
   useEffect(() => {
     tabActive === 6 && !questions && navigate('/calendar') // eslint-disable-next-line
@@ -42,9 +39,7 @@ export const Editor = () => {
 
   useEffect(() => {
     if (tabActive === 6) {
-      setQuestionInWork(emptyQuestion)
-      dispatch(editorActions.setQuestionInWork(emptyQuestion))
-
+      dispatch(editorActions.clearQuestionInWork())
       setTimeout(() => dispatch(editorActions.clearEditor()), 200)
     } // eslint-disable-next-line
   }, [tabActive])
@@ -55,7 +50,9 @@ export const Editor = () => {
     }
   }, [pathname, tabActive])
 
-  const clearQuestion = () => setQuestionInWork(emptyQuestion)
+  const clearQuestion = () => {
+    dispatch(editorActions.clearQuestionInWork())
+  }
 
   useEffect(() => {
     tabActive < 5 && fadeOut(containerRef) // eslint-disable-next-line
@@ -75,7 +72,7 @@ export const Editor = () => {
   const msgEditor = i18n(locale, 'editor') as LocaleType
   const msgButtons = i18n(locale, 'buttons') as LocaleType
 
-  const questionButtonDisabled = objectCompare(questionInWork, compareQuestion)
+  const questionButtonDisabled = objectCompare(questionInWork, questionCompare)
 
   const addQuestionHandler = () => {
     const { question, total } = questionInWork
@@ -136,8 +133,8 @@ export const Editor = () => {
   const editButtonHandler = (id: number) => {
     inputRef.current?.focus()
     const { question, total } = questions[id]
-    setQuestionInWork({ question, total, id })
-    setCompareQuestion({ question, total, id })
+    dispatch(editorActions.setQuestionInWork({ question, total, id }))
+    dispatch(editorActions.setQuestionCompare({ question, total, id }))
   }
 
   const cancelEditHandler = () => {
@@ -157,12 +154,18 @@ export const Editor = () => {
   }
 
   const questionHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuestionInWork({ ...questionInWork, question: e.target.value.substring(0, 120) })
+    const { value } = e.target
+    const question = value.substring(0, 120)
+    const data = { ...questionInWork, question }
+
+    dispatch(editorActions.setQuestionInWork(data))
   }
 
   const changeTotalHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setQuestionInWork({ ...questionInWork, total: value })
+    const data = { ...questionInWork, total: value }
+
+    dispatch(editorActions.setQuestionInWork(data))
   }
 
   const changeDateHandler = (e: ChangeEvent<HTMLInputElement>) => {
