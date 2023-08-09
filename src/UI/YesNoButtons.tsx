@@ -1,7 +1,7 @@
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
-import { Button } from './Button'
 import { YesNoHandlePropsType } from '../types'
+import { Button } from './Button'
 
 type YesNoButtonsProps = {
   total: string

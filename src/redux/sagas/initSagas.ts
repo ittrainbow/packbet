@@ -1,11 +1,12 @@
 import { take, all, call, put } from 'redux-saga/effects'
 
-import { getWeeksIDs } from '../../helpers'
-import { getDBCollection } from '../../db'
-import { INIT_APP } from '../storetypes'
-import { IAbout, IWeeks, AnswersType, IPlayers } from '../../types'
 import { appActions, aboutActions, weeksActions, resultsActions } from '../slices'
+import { IAbout, IWeeks, AnswersType, IPlayers } from '../../types'
 import { createStandingsSaga } from '.'
+import { getDBCollection } from '../../db'
+import { getWeeksIDs } from '../../helpers'
+import { INIT_APP } from '../storetypes'
+
 function* fetchAboutSaga() {
   try {
     const about: IAbout = yield call(getDBCollection, 'about')

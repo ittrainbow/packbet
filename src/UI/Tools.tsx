@@ -1,12 +1,12 @@
 import { useRef, useEffect, ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Input, Button, Switch } from '.'
 import { selectApp, selectTools, selectUser } from '../redux/selectors'
+import { Input, Button, Switch } from '.'
 import { toolsActions } from '../redux/slices'
+import { LocaleType } from '../types'
 import { fadeOut } from '../helpers'
 import { i18n } from '../locale'
-import { LocaleType } from '../types'
 
 type ToolsPropsType = {
   fadeOutTools: boolean

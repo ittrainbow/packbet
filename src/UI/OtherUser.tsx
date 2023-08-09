@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-import { i18n } from '../locale'
 import { FadeRefType, LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
 import { fadeOut } from '../helpers'
+import { i18n } from '../locale'
 
 type OtherUserPropsType = {
   containerRef: FadeRefType
@@ -16,7 +16,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const { locale } = useSelector(selectUser)
 
   // click action handlers
-  
+
   const handleDiscard = () => {
     fadeOut(containerRef, 'otheruser')
     setTimeout(() => {

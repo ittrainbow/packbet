@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { AnswersType, IStore, LocaleType, YesNoHandlePropsType } from '../types'
 import { ansHelper, animateCancel, weekGotChanges, weekAnimate } from '../helpers'
-import { YesNoButtons, OtherUser, Button, Kickoff, Switch } from '../UI'
+import { YesNoButtons, OtherUser, Button, Kickoff, Switch, WeekRow } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
 import * as TYPES from '../redux/storetypes'
@@ -131,19 +131,22 @@ export const Week = () => {
         .map((id, index) => {
           const { question, total } = questions[id]
           return (
-            <div key={index} className={getQuestionStyle(id)}>
-              <div className="question__desc">
-                {question} {total !== '1' ? `: ${total}` : null}
-              </div>
-              <div className="question__actions">
-                <YesNoButtons
-                  total={total}
-                  id={id}
-                  activity={getActivity(id)}
-                  admin={admin && !adminAsPlayer}
-                  onClick={handleClick}
-                  gotResult={outdated() && !!results[selectedWeek]}
-                />
+            <div key={index}>
+              <WeekRow id={id} />
+              <div className={getQuestionStyle(id)}>
+                <div className="question__desc">
+                  {question} {total !== '1' ? `: ${total}` : null}
+                </div>
+                <div className="question__actions">
+                  <YesNoButtons
+                    total={total}
+                    id={id}
+                    activity={getActivity(id)}
+                    admin={admin && !adminAsPlayer}
+                    onClick={handleClick}
+                    gotResult={outdated() && !!results[selectedWeek]}
+                  />
+                </div>
               </div>
             </div>
           )

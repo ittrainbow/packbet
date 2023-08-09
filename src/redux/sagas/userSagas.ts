@@ -1,19 +1,12 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
 
-import {
-  UPDATE_PROFILE,
-  USER_LOGIN,
-  FETCH_OTHER_USER,
-  SUBMIT_RESULTS,
-  SUBMIT_ANSWERS,
-  SET_BUDDIES
-} from '../storetypes'
-import { getLocale } from '../../helpers'
-import { ActionType, IUser, IUserStore, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
 import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, getDBCollection } from '../../db'
+import { ActionType, IUser, IUserStore, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
-import { objectCompare } from '../../helpers'
 import { fetchStandingsSaga, createStandingsSaga } from '.'
+import { objectCompare } from '../../helpers'
+import { getLocale } from '../../helpers'
+import * as TYPES from '../storetypes'
 
 type UserUpdateType = {
   locale: 'ua' | 'ru'
@@ -182,10 +175,10 @@ function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
 }
 
 export function* userSaga() {
-  yield takeEvery(UPDATE_PROFILE, updateProfileSaga)
-  yield takeEvery(USER_LOGIN, userLoginSaga)
-  yield takeEvery(SUBMIT_RESULTS, submitResultsSaga)
-  yield takeEvery(SUBMIT_ANSWERS, submitAnswersSaga)
-  yield takeEvery(FETCH_OTHER_USER, fetchOtherUserSaga)
-  yield takeEvery(SET_BUDDIES, setBuddiesSaga)
+  yield takeEvery(TYPES.UPDATE_PROFILE, updateProfileSaga)
+  yield takeEvery(TYPES.USER_LOGIN, userLoginSaga)
+  yield takeEvery(TYPES.SUBMIT_RESULTS, submitResultsSaga)
+  yield takeEvery(TYPES.SUBMIT_ANSWERS, submitAnswersSaga)
+  yield takeEvery(TYPES.FETCH_OTHER_USER, fetchOtherUserSaga)
+  yield takeEvery(TYPES.SET_BUDDIES, setBuddiesSaga)
 }
