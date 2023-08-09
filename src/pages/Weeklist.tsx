@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
+import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { fadeOut, fadeIn } from '../helpers'
+import { fadeOut, weekListSwitchAnimate } from '../helpers'
 import { OtherUser } from '../UI'
 
 export const WeekList = () => {
@@ -26,18 +26,12 @@ export const WeekList = () => {
   }
 
   useEffect(() => {
-    if ((editor && tabActive !== 5) || (!editor && tabActive !== 3)) {
-      fadeOut(containerRef, 'weeklist')
-    }
-    if ((editor && tabActive === 3) || (!editor && tabActive === 5)) {
-      fadeOut(containerRef, 'weeklist')
-      setTimeout(() => fadeIn(containerRef), 200)
-    }
+    weekListSwitchAnimate(containerRef)
   }, [tabActive, editor])
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
-      {!isItYou && !editor ? <OtherUser /> : null}
+      {!isItYou && !editor ? <OtherUser containerRef={containerRef} /> : null}
       {Object.keys(weeks)
         .map((el) => Number(el))
         .filter((el) => weeks[el].active || editor || admin)

@@ -44,7 +44,7 @@ export const Dashboard = () => {
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">
         <div className="auth__data">
-          <div className="bold">{dashboardEnterMsg}</div>
+          <div className="text-container bold">{dashboardEnterMsg}</div>
           <div>{name ? name : '...loading'}</div>
           <div>{user ? user.email : '...loading'}</div>
           <div>{admin ? <div>{dashboardAdminMsg}</div> : null}</div>

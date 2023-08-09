@@ -6,9 +6,9 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { YesNoButtons, OtherUser, Button, Kickoff, Switch } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
-import { AnswersType, IStore, LocaleType, YesNoHandlerPropsType } from '../types'
-import { ansHelper, fadeOut, animateCancel, weekGotChanges, fadeIn } from '../helpers'
-import { selectApp, selectRouter, selectUser } from '../redux/selectors'
+import { AnswersType, IStore, LocaleType, WeekType, YesNoHandlerPropsType } from '../types'
+import { ansHelper, fadeOut, animateCancel, weekGotChanges, emptyWeek } from '../helpers'
+import { selectApp, selectLocation, selectUser } from '../redux/selectors'
 import * as TYPES from '../redux/storetypes'
 import { i18n } from '../locale'
 
@@ -16,7 +16,7 @@ export const Week = () => {
   const dispatch = useDispatch()
   const { selectedWeek, isItYou, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
-  const { location } = useSelector(selectRouter)
+  const { pathname } = useSelector(selectLocation)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
@@ -27,9 +27,10 @@ export const Week = () => {
   const { name, questions, deadline } = weeks[selectedWeek]
 
   useEffect(() => {
-    const { pathname } = location
     const weekWithId = pathname.includes('week') && pathname.length > 6
     if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {
+      fadeOut(containerRef, 'week')
+    } else if ([0, 1, 4, 5, 6].indexOf(tabActive) > -1) {
       fadeOut(containerRef, 'week')
     }
   }, [tabActive])
@@ -111,7 +112,7 @@ export const Week = () => {
           <Switch onChange={adminPlayerHandler} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
         ) : null}
       </div>
-      <OtherUser />
+      <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
       <Kickoff />
       {Object.keys(questions)

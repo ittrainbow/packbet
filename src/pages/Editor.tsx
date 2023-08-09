@@ -8,7 +8,7 @@ import moment from 'moment/moment'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { objectCompare, objectTrim, objectReplace, getWeeksIDs, getNewQuestionId, fadeOut } from '../helpers'
-import { selectApp, selectEditor, selectUser, selectWeeks } from '../redux/selectors'
+import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { LocaleType, QuestionType, QuestionsType } from '../types'
 import { appActions, editorActions, weeksActions } from '../redux/slices'
 import { emptyQuestion } from '../helpers/initials'
@@ -22,6 +22,7 @@ export const Editor = () => {
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
   const { selectedWeek, emptyEditor } = useSelector(selectApp)
+  const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
   const { tabActive } = useSelector(selectApp)
   const { questions, name, active, deadline } = editor
@@ -36,13 +37,26 @@ export const Editor = () => {
   const { question, total, id } = questionInWork
 
   useEffect(() => {
-    !questions && navigate('/calendar') // eslint-disable-next-line
+    tabActive === 6 && !questions && navigate('/calendar') // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    if (tabActive === 6) {
+      setQuestionInWork(emptyQuestion)
+      setTimeout(() => dispatch(dispatch(editorActions.clearEditor())), 200)
+    }
+  }, [tabActive])
+
+  useEffect(() => {
+    if ((pathname.length > 7 && tabActive === 6) || (pathname.length < 8 && tabActive === 5)) {
+      fadeOut(containerRef, 'editor')
+    }
+  }, [pathname, tabActive])
 
   const clearQuestion = () => setQuestionInWork(emptyQuestion)
 
   useEffect(() => {
-    tabActive !== 6 && fadeOut(containerRef, 'editor') // eslint-disable-next-line
+    tabActive < 5 && fadeOut(containerRef, 'editor') // eslint-disable-next-line
   }, [tabActive])
 
   useEffect(() => {
@@ -123,10 +137,15 @@ export const Editor = () => {
     setCompareQuestion({ question, total, id })
   }
 
-  const goBackHandler = () => {
+  const cancelEditHandler = () => {
     dispatch(appActions.setEmptyEditor(false))
     dispatch(appActions.setTabActive(5))
-    navigate('/calendar')
+
+    fadeOut(containerRef, 'editor')
+    setTimeout(() => {
+      dispatch(editorActions.clearEditor())
+      navigate('/calendar')
+    }, 200)
   }
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -155,6 +174,7 @@ export const Editor = () => {
   }
 
   const totalBtnDisabled = !question || !total || questionButtonDisabled
+  const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
@@ -206,10 +226,10 @@ export const Editor = () => {
           <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={changeDateHandler} />
         </div>
         <div className="editor-form">
-          <Button disabled={!anyChanges} onClick={submitHandler}>
+          <Button disabled={saveBtnDisabled} onClick={submitHandler}>
             {msgButtons.buttonSaveMsg}
           </Button>
-          <Button onClick={goBackHandler}>{msgButtons.buttonCancelMsg}</Button>
+          <Button onClick={cancelEditHandler}>{msgButtons.buttonCancelMsg}</Button>
           {!emptyEditor ? <Button onClick={deleteWeekHandler}>{msgButtons.buttonDeleteWeekMsg}</Button> : null}
         </div>
       </div>

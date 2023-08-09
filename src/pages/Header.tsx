@@ -12,15 +12,17 @@ import {
 } from 'react-icons/fa'
 
 import { i18n } from '../locale'
-import { selectApp, selectUser } from '../redux/selectors'
+import { selectApp, selectUser, selectLocation } from '../redux/selectors'
 import { LocaleType } from '../types'
 import { appActions, editorActions } from '../redux/slices'
+import { fadeOut } from '../helpers'
 
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { mobile, tabActive, nextWeek, currentWeek, editor, emptyEditor, selectedWeek } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
+  const { pathname } = useSelector(selectLocation)
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
@@ -39,27 +41,25 @@ export const Header = () => {
   ]
 
   const clickHandler = (id: number, path: string) => {
-    dispatch(appActions.setTabActive(id))
+    id !== tabActive && dispatch(appActions.setTabActive(id))
+
+    if (id === 3 || id === 5) {
+      const backToWeeklist = pathname.includes('week') || pathname.includes('editor')
+      const container = document.querySelector('.container')
+      backToWeeklist && container?.classList.add('animate-fade-out-down')
+    }
 
     setTimeout(() => {
-      if (id === 2 || id === 6) {
-        dispatch(appActions.setSelectedWeek(id === 2 ? currentWeek : id === 6 ? nextWeek : selectedWeek))
-      }
-
-      if ((id === 6 && !emptyEditor) || (id !== 6 && emptyEditor)) dispatch(appActions.setEmptyEditor(!emptyEditor))
-
-      id > 4 && !editor && dispatch(appActions.setEditor(true))
+      id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
+      id > 4 && !editor && dispatch(appActions.setEditor(id > 4))
       id < 5 && editor && dispatch(appActions.setEditor(false))
-
-      if (id === 6) {
-        dispatch(appActions.setEmptyEditor(emptyEditor))
-        dispatch(editorActions.clearEditor())
-      }
-
-      localStorage.setItem('packContestLastTab', id.toString())
+      id === 5 && dispatch(editorActions.clearEditor())
+      id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
 
       navigate(path)
     }, 200)
+
+    localStorage.setItem('packContestLastTab', id.toString())
   }
 
   const getClass = (id: number) => {

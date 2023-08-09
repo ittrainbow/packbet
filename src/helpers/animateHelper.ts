@@ -1,3 +1,5 @@
+import { store } from '../redux/store'
+
 export const animateCancel = (
   draw: boolean,
   gotChanges: boolean | undefined,
@@ -23,7 +25,7 @@ export const fadeInTools = (ref: React.RefObject<HTMLDivElement>) => {
 }
 
 export const fadeOut = (ref: React.RefObject<HTMLDivElement>, elem: string) => {
-  console.log(111, elem)
+  // console.log(111, elem)
   const list = ref.current?.classList
 
   list?.remove('animate-fade-in-up')
@@ -36,13 +38,21 @@ export const fadeOut = (ref: React.RefObject<HTMLDivElement>, elem: string) => {
 }
 
 export const fadeIn = (ref: React.RefObject<HTMLDivElement>) => {
-  const list = ref.current?.classList
+  ref.current?.classList.add('animate-fade-in-up')
+}
 
-  // list?.remove('animate-fade-out-down')
-  list?.add('animate-fade-in-up')
-
-  // setTimeout(() => {
-    // list?.add('animate-fade-out-down')
-    // list?.remove('animate-fade-in-up')
-  // }, 200)
+export const weekListSwitchAnimate = (ref: React.RefObject<HTMLDivElement>) => {
+  const { editor, tabActive } = store.getState().app
+  const { pathname } = store.getState().router.location
+  
+  if (
+    (editor && tabActive !== 5) ||
+    (!editor && tabActive !== 3) ||
+    (editor && tabActive === 3) ||
+    (!editor && tabActive === 5) ||
+    (tabActive === 3 && pathname.includes('calendar')) ||
+    (tabActive === 5 && pathname.includes('season'))
+  ) {
+    fadeOut(ref, 'weeklist')
+  }
 }

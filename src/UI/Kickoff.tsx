@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { i18n } from '../locale'
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { LocaleType } from '../types'
+import { emptyWeek } from '../helpers'
 
 export const Kickoff = () => {
   const { selectedWeek } = useSelector(selectApp)

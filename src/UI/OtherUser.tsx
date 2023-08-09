@@ -4,16 +4,24 @@ import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
+import { fadeOut } from '../helpers'
 
-export const OtherUser = () => {
+type OtherUserPropsType = {
+  containerRef: React.RefObject<HTMLDivElement>
+}
+
+export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const dispatch = useDispatch()
   const { otherUserName, isItYou } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
   const switchHandler = () => {
-    dispatch(appActions.setIsItYou(true))
-    dispatch(appActions.setOtherUserName(''))
-    dispatch(appActions.setOtherUserUID(''))
+    fadeOut(containerRef, 'otheruser')
+    setTimeout(() => {
+      dispatch(appActions.setIsItYou(true))
+      dispatch(appActions.setOtherUserName(''))
+      dispatch(appActions.setOtherUserUID(''))
+    }, 200)
   }
 
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as LocaleType

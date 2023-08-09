@@ -137,7 +137,7 @@ export const Standings = () => {
           ''
         )}
         <div className="standings" ref={tableRef}>
-          <OtherUser />
+          <OtherUser containerRef={containerRef} />
           <div className="standings__header">
             <div className="col-zero">#</div>
             <div className="col-one"></div>

@@ -42,7 +42,9 @@
 
 .editor-small {
   width: 64px;
-  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  color: $base-black;
 }
 
 .auth-width {
