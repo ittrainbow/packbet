@@ -18,7 +18,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   // action handlers
 
   const handleDiscard = () => {
-    fadeOut(containerRef, 'otheruser')
+    fadeOut(containerRef)
     setTimeout(() => {
       dispatch(appActions.setIsItYou(true))
       dispatch(appActions.setOtherUserName(''))

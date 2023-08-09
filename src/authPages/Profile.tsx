@@ -28,7 +28,7 @@ export const Profile = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef, 'profile')
+    tabActive !== 1 && fadeOut(authRef)
   }, [tabActive])
 
   // helpers
@@ -53,7 +53,7 @@ export const Profile = () => {
   }
 
   const handleDiscard = () => {
-    fadeOut(authRef, 'profile')
+    fadeOut(authRef)
     setTimeout(() => {
       dispatch(userActions.setLocale(tempLocale))
       navigate(-1)

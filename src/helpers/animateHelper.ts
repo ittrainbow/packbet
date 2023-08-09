@@ -8,25 +8,14 @@ export const animateCancel = (
   setDrawCancelButton: (value: boolean) => void
 ) => {
   if (draw && !gotChanges) {
-    fadeOut(ref, 'cancel')
+    fadeOut(ref)
     setTimeout(() => setDrawCancelButton(false), 200)
   } else if (!draw && gotChanges) {
     setDrawCancelButton(true)
   }
 }
 
-export const fadeOutTools = (ref1: FadeRefType, ref2: FadeRefType) => {
-  ref1.current?.classList.add('animate-fade-out-down')
-  ref2.current?.classList.add('animate-fade-out-down')
-}
-
-export const fadeInTools = (ref: FadeRefType) => {
-  ref.current?.classList.remove('animate-fade-out-down')
-  ref.current?.classList.add('animate-fade-in-up')
-}
-
-export const fadeOut = (ref: FadeRefType, elem: string) => {
-  // console.log(111, elem)
+export const fadeOut = (ref: FadeRefType) => {
   const list = ref.current?.classList
 
   list?.remove('animate-fade-in-up')
@@ -36,10 +25,6 @@ export const fadeOut = (ref: FadeRefType, elem: string) => {
     list?.remove('animate-fade-out-down')
     list?.add('animate-fade-in-up')
   }, 200)
-}
-
-export const fadeIn = (ref: FadeRefType) => {
-  ref.current?.classList.add('animate-fade-in-up')
 }
 
 export const weekListSwitchAnimate = (ref: FadeRefType) => {
@@ -54,7 +39,7 @@ export const weekListSwitchAnimate = (ref: FadeRefType) => {
     (tabActive === 3 && pathname.includes('calendar')) ||
     (tabActive === 5 && pathname.includes('season'))
   ) {
-    fadeOut(ref, 'weeklist')
+    fadeOut(ref)
   }
 }
 
@@ -64,8 +49,8 @@ export const weekAnimate = (ref: FadeRefType) => {
 
   const weekWithId = pathname.includes('week') && pathname.length > 6
   if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {
-    fadeOut(ref, 'week')
+    fadeOut(ref)
   } else if ([0, 1, 4, 5, 6].indexOf(tabActive) > -1) {
-    fadeOut(ref, 'week')
+    fadeOut(ref)
   }
 }

@@ -23,7 +23,7 @@ export const Dashboard = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef, 'dashboard')
+    tabActive !== 1 && fadeOut(authRef)
   }, [tabActive])
 
   // action handlers
@@ -37,7 +37,7 @@ export const Dashboard = () => {
   }
 
   const handleNavigate = () => {
-    fadeOut(authRef, 'dashboard')
+    fadeOut(authRef)
     setTimeout(() => navigate('/profile'), 200)
   }
 

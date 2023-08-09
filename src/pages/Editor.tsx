@@ -49,14 +49,14 @@ export const Editor = () => {
 
   useEffect(() => {
     if ((pathname.length > 7 && tabActive === 6) || (pathname.length < 8 && tabActive === 5)) {
-      fadeOut(containerRef, 'editor')
+      fadeOut(containerRef)
     }
   }, [pathname, tabActive])
 
   const clearQuestion = () => setQuestionInWork(emptyQuestion)
 
   useEffect(() => {
-    tabActive < 5 && fadeOut(containerRef, 'editor') // eslint-disable-next-line
+    tabActive < 5 && fadeOut(containerRef) // eslint-disable-next-line
   }, [tabActive])
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export const Editor = () => {
     const { questions } = editor
     const { id } = questionInWork
     if (question && total) {
-      fadeOut(questionsRef, 'editor')
+      fadeOut(questionsRef)
       setTimeout(() => {
         const setId = id === null ? getNewQuestionId(questions) : (id as number)
         const obj = objectReplace(questions, setId, questionInWork)
@@ -90,7 +90,7 @@ export const Editor = () => {
   }
 
   const removeQuestionHandler = (id: number) => {
-    fadeOut(questionsRef, 'editor')
+    fadeOut(questionsRef)
     setTimeout(() => {
       const obj: QuestionsType = objectTrim(questions, id)
       dispatch(editorActions.updateEditorQuestions(obj))
@@ -141,7 +141,7 @@ export const Editor = () => {
     dispatch(appActions.setEmptyEditor(false))
     dispatch(appActions.setTabActive(5))
 
-    fadeOut(containerRef, 'editor')
+    fadeOut(containerRef)
     setTimeout(() => {
       dispatch(editorActions.clearEditor())
       navigate('/calendar')

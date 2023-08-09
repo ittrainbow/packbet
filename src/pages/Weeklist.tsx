@@ -24,7 +24,7 @@ export const WeekList = () => {
   // action handlers
 
   const handleClick = (selectedWeek: number) => {
-    fadeOut(containerRef, 'weeklist')
+    fadeOut(containerRef)
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))

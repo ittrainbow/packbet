@@ -29,20 +29,20 @@ export const Standings = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 4 && fadeOut(containerRef, 'standings')
+    tabActive !== 4 && fadeOut(containerRef)
   }, [tabActive])
 
   // action handlers
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
-    fadeOut(tableRef, 'standings')
+    fadeOut(tableRef)
     setTimeout(() => dispatch(toolsActions.switchShowTools()), 200)
   }
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
-      fadeOut(containerRef, 'standings')
+      fadeOut(containerRef)
       setTimeout(() => {
         const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
         dispatch(appActions.setOtherUserFromStandings(otherUser))
@@ -78,7 +78,7 @@ export const Standings = () => {
           <div className="standings-top-container__title">{getLastWeekName()}</div>
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
-        {showTools ? <Tools fadeOutTools={fadeOutTools} /> : null}
+        {showTools ? <Tools fadeOutTools={fadeOutTools} tableRef={tableRef} /> : null}
         <div className="standings" ref={tableRef}>
           <OtherUser containerRef={containerRef} />
           <StandingsHeader />

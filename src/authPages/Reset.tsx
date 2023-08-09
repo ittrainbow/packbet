@@ -24,7 +24,7 @@ export const Reset = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef, 'reset')
+    tabActive !== 1 && fadeOut(authRef)
   }, [tabActive])
 
   // helpers
@@ -49,12 +49,12 @@ export const Reset = () => {
   }
 
   const handleToRegister = () => {
-    fadeOut(authRef, 'reset')
+    fadeOut(authRef)
     setTimeout(() => navigate('/register'), 200)
   }
 
   const handleToLogin = () => {
-    fadeOut(authRef, 'reset')
+    fadeOut(authRef)
     setTimeout(() => navigate('/login'), 200)
   }
 

@@ -19,7 +19,7 @@ export const About = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 0 && fadeOut(containerRef, 'about')
+    tabActive !== 0 && fadeOut(containerRef)
   }, [tabActive])
 
   // action handlers

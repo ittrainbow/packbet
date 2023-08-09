@@ -28,7 +28,7 @@ export const Register = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef, 'register')
+    tabActive !== 1 && fadeOut(authRef)
   }, [tabActive])
 
   // helpers
@@ -94,7 +94,7 @@ export const Register = () => {
     i18n(locale, 'auth') as LocaleType
 
   const handleToLogin = () => {
-    fadeOut(authRef, 'register')
+    fadeOut(authRef)
     setTimeout(() => navigate('/reset'), 200)
   }
 
