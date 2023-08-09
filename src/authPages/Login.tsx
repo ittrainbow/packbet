@@ -52,7 +52,7 @@ export const Login = () => {
     // eslint-disable-next-line
   }, [user, loading, error])
 
-  // click action handlers
+  // action handlers
 
   const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target

@@ -22,7 +22,7 @@ export const LocaleSwitcher = () => {
     />
   )
 
-  // click action handlers
+  // action handlers
 
   const handleLocaleChange = () => {
     const newLocale = locale === 'ru' ? 'ua' : 'ru'

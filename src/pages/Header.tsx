@@ -24,7 +24,7 @@ export const Header = () => {
     backToWeeklist && container?.classList.add('animate-fade-out-down')
   }
 
-  // click action handlers
+  // action handlers
 
   const handleClick = (id: number, path: string) => {
     id !== tabActive && dispatch(appActions.setTabActive(id))

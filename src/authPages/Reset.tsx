@@ -41,7 +41,7 @@ export const Reset = () => {
     // eslint-disable-next-line
   }, [user, loading])
 
-  // click action handlers
+  // action handlers
 
   const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target

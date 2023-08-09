@@ -22,7 +22,7 @@ export const About = () => {
     tabActive !== 0 && fadeOut(containerRef, 'about')
   }, [tabActive])
 
-  // click action handlers
+  // action handlers
 
   const handleOpen = () => {
     const list = aboutRef.current?.classList

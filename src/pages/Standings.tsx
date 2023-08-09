@@ -7,7 +7,7 @@ import { FaStar } from 'react-icons/fa'
 import { selectApp, selectStandings, selectTools } from '../redux/selectors'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
 import { OtherUser, Arrows, Tools } from '../UI'
-import { appActions, toolsActions } from '../redux/slices'
+import { appActions, toolsActions, userActions } from '../redux/slices'
 import { fadeOut, tableHelper } from '../helpers'
 import { IStore, LocaleType } from '../types'
 import { i18n } from '../locale'
@@ -22,7 +22,7 @@ export const Standings = () => {
   const results = useSelector((store: IStore) => store.results)
   const user = useSelector((store: IStore) => store.user)
   const weeks = useSelector((store: IStore) => store.weeks)
-  const { locale, uid, buddies } = user
+  const { locale, uid, buddies, admin } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
 
@@ -32,7 +32,7 @@ export const Standings = () => {
     tabActive !== 4 && fadeOut(containerRef, 'standings')
   }, [tabActive])
 
-  // click action handlers
+  // action handlers
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
@@ -46,6 +46,7 @@ export const Standings = () => {
       setTimeout(() => {
         const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
         dispatch(appActions.setOtherUserFromStandings(otherUser))
+        admin && dispatch(userActions.setAdminAsPlayer(true))
         dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
         navigate('/season')
       }, 200)

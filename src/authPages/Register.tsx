@@ -68,7 +68,7 @@ export const Register = () => {
     }
   }
 
-  // click action handlers
+  // action handlers
 
   const handleNameInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target

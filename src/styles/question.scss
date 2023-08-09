@@ -5,7 +5,7 @@
   align-items: center;
   gap: 10px;
   margin: 0 0 3px;
-  min-height: 30px;
+  height: 43px;
   padding: 3px 5px;
   border: 1px solid $base-itemborder;
   background-color: $base-itembg;
@@ -44,4 +44,46 @@
   &__grey {
     border-left-width: 0.32rem;
   }
+}
+
+.yn {
+  height: 32px;
+  font-size: 20px;
+  width: 40px;
+  padding: 2px;
+  transition: 0.22s ease-in-out;
+  background-color: $base-itembg;
+  border: none;
+
+  &__container {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &__btn:active {
+    transition: 0.22s ease-in-out;
+  }
+}
+
+.yn-wrong {
+  color: $base-question-red;
+}
+
+.yn-grey {
+  color: $base-question-grey;
+}
+
+.yn-correct {
+  color: $base-question-green;
+}
+
+.yn-admin,
+.yn-black {
+  color: $base-black;
+  background-color: $base-itembg-slight;
+}
+
+.yn-admin {
+  border: 1px solid $base-border-light;
 }

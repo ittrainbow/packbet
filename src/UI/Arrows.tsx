@@ -31,7 +31,7 @@ export const Arrows = () => {
     // eslint-disable-next-line
   }, [scrolled])
 
-  // click action handlers
+  // action handlers
 
   const handleScroll = (direction: string) => {
     const handleClass = (ref: FadeRefType) => {

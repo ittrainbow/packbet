@@ -26,7 +26,7 @@ export const Dashboard = () => {
     tabActive !== 1 && fadeOut(authRef, 'dashboard')
   }, [tabActive])
 
-  // click action handlers
+  // action handlers
 
   const handleLogout = () => {
     dispatch(userActions.clearUser())
@@ -53,7 +53,7 @@ export const Dashboard = () => {
           <div className="text-container bold">{dashboardEnterMsg}</div>
           <div>{name ? name : '...loading'}</div>
           <div>{user ? user.email : '...loading'}</div>
-          <div>{admin ? <div>{dashboardAdminMsg}</div> : null}</div>
+          {admin ? <div className='text-container'>{dashboardAdminMsg}</div> : null}
         </div>
         <Button onClick={handleNavigate}>{buttonProfileMsg}</Button>
         <Button onClick={handleLogout}>{buttonLogoutMsg}</Button>

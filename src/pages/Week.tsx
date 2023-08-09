@@ -40,22 +40,23 @@ export const Week = () => {
 
   // helpers
 
+  const adm = admin && !adminAsPlayer
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newOutdated = new Date().getTime() > deadline
       newOutdated !== outdated && setOutdated(newOutdated)
     }, 1000)
-    return () => clearInterval(interval)
+    return () => clearInterval(interval) // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    outdated && handleDiscard()
+    outdated && handleDiscard() // eslint-disable-next-line
   }, [outdated])
 
-  // click action handlers
+  // action handlers
 
   const handleSubmit = async () => {
-    const adm = admin && !adminAsPlayer
     const firstData = !!Object.keys(answers[uid]).length
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
@@ -99,16 +100,16 @@ export const Week = () => {
             <Question id={id} />
           </div>
         ))}
-      <>
-        <Button onClick={handleSubmit} disabled={!weekGotChanges() || outdated}>
-          {!weekGotChanges() ? buttonChangesMsg : buttonSaveMsg}
-        </Button>
-        {drawCancel ? (
-          <div className="animate-fade-in-up" ref={cancelRef}>
-            <Button onClick={handleDiscard}>{buttonCancelMsg}</Button>
-          </div>
-        ) : null}
-      </>
+      <Button onClick={handleSubmit} disabled={!weekGotChanges() || (outdated && !adm)} className="week-button">
+        {!weekGotChanges() ? buttonChangesMsg : buttonSaveMsg}
+      </Button>
+      {drawCancel ? (
+        <div className="animate-fade-in-up" ref={cancelRef}>
+          <Button onClick={handleDiscard} className="week-button">
+            {buttonCancelMsg}
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }

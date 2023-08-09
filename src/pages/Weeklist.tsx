@@ -21,7 +21,7 @@ export const WeekList = () => {
     weekListSwitchAnimate(containerRef)
   }, [tabActive, editor])
 
-  // click action handlers
+  // action handlers
 
   const handleClick = (selectedWeek: number) => {
     fadeOut(containerRef, 'weeklist')

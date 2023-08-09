@@ -15,7 +15,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const { otherUserName, isItYou } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
-  // click action handlers
+  // action handlers
 
   const handleDiscard = () => {
     fadeOut(containerRef, 'otheruser')

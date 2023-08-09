@@ -41,7 +41,7 @@ export const Profile = () => {
 
   const noChanges = name === tempName && locale === tempLocale
 
-  // click action handlers
+  // action handlers
 
   const handleSubmit = async () => {
     const { uid } = user as User

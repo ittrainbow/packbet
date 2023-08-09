@@ -2,11 +2,13 @@ import { useRef, useEffect, ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { selectApp, selectTools, selectUser } from '../redux/selectors'
-import { Input, Button, Switch } from '.'
+import { Button, Switch } from '.'
 import { toolsActions } from '../redux/slices'
 import { LocaleType } from '../types'
 import { fadeOut } from '../helpers'
 import { i18n } from '../locale'
+
+import { Input } from '@mui/material'
 
 type ToolsPropsType = {
   fadeOutTools: boolean
@@ -25,7 +27,7 @@ export const Tools = ({ fadeOutTools }: ToolsPropsType) => {
     !fadeOutTools && fadeOut(toolsRef, 'tools')
   }, [fadeOutTools])
 
-  // click action handlers
+  // action handlers
 
   const handleSwitchShowOneWeek = () => {
     const value = !showOneWeek
@@ -48,6 +50,8 @@ export const Tools = ({ fadeOutTools }: ToolsPropsType) => {
     localStorage.setItem('packContestFavList', value.toString())
   }
 
+  // render styles and locales
+
   const msg = i18n(locale, 'standings') as LocaleType
 
   return (
@@ -58,7 +62,7 @@ export const Tools = ({ fadeOutTools }: ToolsPropsType) => {
           value={standingsSearch}
           type="text"
           placeholder={msg.tableSearchMsg}
-          sx={{ width: '100%', padding: '0.25rem' }}
+          sx={{ width: '100%', height: '43px' }}
         />
         <div>
           <Button onClick={handleClearSearch} minWidth={80} disabled={!standingsSearch}>

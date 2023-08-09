@@ -1,41 +1,28 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
-import { IStore, YesNoHandlePropsType, AnswersType } from '../types'
+import { IStore, YesNoHandlePropsType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
-import { YesNoButtons } from './YesNoButtons'
 import { ansHelper } from '../helpers'
 import { resultsActions, answersActions } from '../redux/slices'
 import { Button } from './Button'
 
-type WeekRowProps = {
-  id: number
-}
-
-export const Question = ({ id }: WeekRowProps) => {
+export const Question = ({ id }: { id: number }) => {
   const dispatch = useDispatch()
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
-  const { selectedWeek, isItYou } = useSelector(selectApp)
+  const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const { questions, deadline } = weeks[selectedWeek]
+  const { question, total } = questions[id]
+
+  // helpers
 
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
-  const buttonData = adm ? results : answers[uid]
+  const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
   const writeAllowed = adm || (!adm && !outdated)
-
-  const getQuestionStyle = (id: number) => {
-    const week = answers[uid][selectedWeek]
-    const styles = ['question']
-    const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
-    const drawResult = res && (adminAsPlayer || !admin) && outdated
-    drawResult && ans && styles.push(res === ans ? 'question__green' : 'question__red')
-    !outdated && !adm && week && week[id] > 0 && styles.push('question__grey')
-
-    return styles.join(' ')
-  }
 
   const getActivity = (id: number) => {
     return ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek]
@@ -43,15 +30,7 @@ export const Question = ({ id }: WeekRowProps) => {
       : 0
   }
 
-  const { question, total } = questions[id]
-
-  const handleClickAdmin = (data: AnswersType) => {
-    dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
-  }
-
-  const handleClickUser = (data: AnswersType) => {
-    dispatch(answersActions.updateAnswers({ answers: data, uid }))
-  }
+  // action handlers
 
   const handleClick = (props: YesNoHandlePropsType) => {
     if (writeAllowed && isItYou) {
@@ -68,9 +47,13 @@ export const Question = ({ id }: WeekRowProps) => {
         data[selectedWeek][id] = value
       }
 
-      adm ? handleClickAdmin(data) : handleClickUser(data)
+      adm
+        ? dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
+        : dispatch(answersActions.updateAnswers({ answers: data, uid }))
     }
   }
+
+  // render styles and locales
 
   const getButtonClass = (id: number, buttonNumber: number) => {
     const activity = getActivity(id)
@@ -78,18 +61,31 @@ export const Question = ({ id }: WeekRowProps) => {
 
     const thisButton = activity === buttonNumber
     const correct = result && activity === result
+    const wrong = result && activity !== result
 
     if (thisButton) {
       if (outdated && !adm && correct) return 'yn yn-correct'
-      if (outdated && !adm && !correct) return 'yn yn-wrong'
+      if (outdated && !adm && wrong) return 'yn yn-wrong'
       if (!outdated && !adm) return 'yn yn-black'
       if (adm) return 'yn yn-admin'
     }
     return 'yn yn-grey'
   }
 
+  const getQuestionClass = (id: number) => {
+    const getUid = isItYou ? uid : otherUserUID
+    const week = answers[getUid] && answers[getUid][selectedWeek]
+    const styles = ['question']
+    const { ans, res } = ansHelper(answers, results, selectedWeek, getUid, id)
+    const drawResult = res && (adminAsPlayer || !admin) && outdated
+    drawResult && ans && styles.push(res === ans ? 'question__green' : 'question__red')
+    !outdated && !adm && week && week[id] > 0 && styles.push('question__grey')
+
+    return styles.join(' ')
+  }
+
   return (
-    <div className={getQuestionStyle(id)}>
+    <div className={getQuestionClass(id)}>
       <div className="question__desc">
         {question} {total !== '1' ? `: ${total}` : null}
       </div>
