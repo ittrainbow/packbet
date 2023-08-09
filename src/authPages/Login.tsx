@@ -37,7 +37,7 @@ export const Login = () => {
   useEffect(() => {
     const { setLocale } = userActions
     const locale = getLocale()
-    dispatch(setLocale(locale))
+    dispatch(setLocale(locale)) // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

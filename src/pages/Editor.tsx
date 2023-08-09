@@ -44,7 +44,7 @@ export const Editor = () => {
     if (tabActive === 6) {
       setQuestionInWork(emptyQuestion)
       setTimeout(() => dispatch(dispatch(editorActions.clearEditor())), 200)
-    }
+    } // eslint-disable-next-line
   }, [tabActive])
 
   useEffect(() => {

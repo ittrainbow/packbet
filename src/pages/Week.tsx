@@ -4,9 +4,9 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { AnswersType, IStore, LocaleType, YesNoHandlePropsType } from '../types'
-import { ansHelper, animateCancel, weekGotChanges, weekAnimate } from '../helpers'
-import { YesNoButtons, OtherUser, Button, Kickoff, Switch, WeekRow } from '../UI'
+import { IStore, LocaleType } from '../types'
+import { animateCancel, weekGotChanges, weekAnimate } from '../helpers'
+import { OtherUser, Button, Kickoff, Switch, WeekRow } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
 import * as TYPES from '../redux/storetypes'
@@ -23,7 +23,7 @@ export const Week = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const cancelRef = useRef<HTMLDivElement>(null)
   const [drawCancel, setDrawCancel] = useState<boolean>(false)
-  const { name, questions, deadline } = weeks[selectedWeek]
+  const { name, questions } = weeks[selectedWeek]
 
   // container fade animations
 
@@ -40,38 +40,8 @@ export const Week = () => {
   // helpers
 
   const adm = useMemo(() => admin && !adminAsPlayer, [admin, adminAsPlayer])
-  const outdated = () => new Date().getTime() > deadline
-  const writeAllowed = adm || (!adm && !outdated())
-  const ansOrResData = adm ? results : answers[uid]
 
   // click action handlers
-
-  const handleClickAdmin = (data: AnswersType) => {
-    dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
-  }
-
-  const handleClickUser = (data: AnswersType) => {
-    dispatch(answersActions.updateAnswers({ answers: data, uid }))
-  }
-
-  const handleClick = (props: YesNoHandlePropsType) => {
-    if (writeAllowed && isItYou) {
-      const { value, id, activity } = props
-      const data = structuredClone(ansOrResData) || {}
-      if (!data[selectedWeek]) data[selectedWeek] = {}
-      if (value === activity) {
-        if (Object.keys(data[selectedWeek]).length === 1) {
-          delete data[selectedWeek]
-        } else {
-          delete data[selectedWeek][id]
-        }
-      } else {
-        data[selectedWeek][id] = value
-      }
-
-      adm ? handleClickAdmin(data) : handleClickUser(data)
-    }
-  }
 
   const handleSubmit = async () => {
     const firstData = !!Object.keys(answers[uid]).length
@@ -95,21 +65,6 @@ export const Week = () => {
 
   // render styles and locales
 
-  const getQuestionStyle = (id: number) => {
-    const styles = ['question']
-    const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
-    const drawResult = res && (adminAsPlayer || !admin) && outdated()
-    drawResult && ans && styles.push(res === ans ? 'question__green' : 'question__red')
-
-    return styles.join(' ')
-  }
-
-  const getActivity = (id: number) => {
-    return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
-      ? ansOrResData[selectedWeek][id]
-      : 0
-  }
-
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
@@ -129,25 +84,9 @@ export const Week = () => {
       {Object.keys(questions)
         .map((el) => Number(el))
         .map((id, index) => {
-          const { question, total } = questions[id]
           return (
             <div key={index}>
               <WeekRow id={id} />
-              <div className={getQuestionStyle(id)}>
-                <div className="question__desc">
-                  {question} {total !== '1' ? `: ${total}` : null}
-                </div>
-                <div className="question__actions">
-                  <YesNoButtons
-                    total={total}
-                    id={id}
-                    activity={getActivity(id)}
-                    admin={admin && !adminAsPlayer}
-                    onClick={handleClick}
-                    gotResult={outdated() && !!results[selectedWeek]}
-                  />
-                </div>
-              </div>
             </div>
           )
         })}
