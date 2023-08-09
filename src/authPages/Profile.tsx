@@ -1,18 +1,18 @@
 import { useRef, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
-import { User } from 'firebase/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
+import { User } from 'firebase/auth'
 
-import { UPDATE_PROFILE } from '../redux/storetypes'
-import { auth } from '../db'
-import { LocaleType } from '../types'
 import { Button, LocaleSwitcher } from '../UI'
-import { i18n } from '../locale'
-import { userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
+import { UPDATE_PROFILE } from '../redux/storetypes'
+import { userActions } from '../redux/slices'
+import { LocaleType } from '../types'
 import { fadeOut } from '../helpers'
+import { auth } from '../db'
+import { i18n } from '../locale'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -25,17 +25,25 @@ export const Profile = () => {
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
 
+  // container fade animations
+
+  useEffect(() => {
+    tabActive !== 1 && fadeOut(authRef, 'profile')
+  }, [tabActive])
+
+  // helpers
+
   useEffect(() => {
     inputRef.current?.focus()
     setTempLocale(locale)
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef, 'profile')
-  }, [tabActive])
+  const noChanges = name === tempName && locale === tempLocale
 
-  const submitHandler = async () => {
+  // click action handlers
+
+  const handleSubmit = async () => {
     const { uid } = user as User
     const payload = { uid, name: tempName, locale }
 
@@ -44,7 +52,7 @@ export const Profile = () => {
     navigate(-1)
   }
 
-  const noSaveHandler = () => {
+  const handleDiscard = () => {
     fadeOut(authRef, 'profile')
     setTimeout(() => {
       dispatch(userActions.setLocale(tempLocale))
@@ -52,10 +60,12 @@ export const Profile = () => {
     }, 200)
   }
 
-  const noChanges = name === tempName && locale === tempLocale
+  // render styles and locales
 
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
+
+  // render
 
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
@@ -66,10 +76,10 @@ export const Profile = () => {
           <LocaleSwitcher />
           <div className="text-container">{profileNameMsg}</div>
           <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
-          <Button disabled={noChanges} onClick={submitHandler}>
+          <Button disabled={noChanges} onClick={handleSubmit}>
             {noChanges ? buttonChangesMsg : buttonSaveMsg}
           </Button>
-          <Button onClick={noSaveHandler}>{buttonCancelMsg}</Button>
+          <Button onClick={handleDiscard}>{buttonCancelMsg}</Button>
         </div>
       </div>
     </div>

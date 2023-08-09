@@ -1,28 +1,54 @@
-import { memo, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FaInfoCircle, FaUserAlt, FaFootballBall, FaCalendarAlt } from 'react-icons/fa'
+import { FaClipboardList, FaChevronCircleRight, FaPenNib } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  FaInfoCircle,
-  FaUserAlt,
-  FaFootballBall,
-  FaCalendarAlt,
-  FaClipboardList,
-  FaChevronCircleRight,
-  FaPenNib
-} from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+import { memo } from 'react'
 
-import { i18n } from '../locale'
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
-import { LocaleType } from '../types'
 import { appActions, editorActions } from '../redux/slices'
-import { fadeOut } from '../helpers'
+import { LocaleType } from '../types'
+import { i18n } from '../locale'
 
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { mobile, tabActive, nextWeek, currentWeek, editor, emptyEditor, selectedWeek } = useSelector(selectApp)
+  const { mobile, tabActive, nextWeek, currentWeek, editor } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
+
+  // container fade animations
+
+  const animateBackToWeeklist = () => {
+    const backToWeeklist = pathname.includes('week') || pathname.includes('editor')
+    const container = document.querySelector('.container')
+    backToWeeklist && container?.classList.add('animate-fade-out-down')
+  }
+
+  // click action handlers
+
+  const handleClick = (id: number, path: string) => {
+    id !== tabActive && dispatch(appActions.setTabActive(id))
+
+    if (id === 3 || id === 5) animateBackToWeeklist()
+
+    setTimeout(() => {
+      id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
+      id > 4 && !editor && dispatch(appActions.setEditor(id > 4))
+      id < 5 && editor && dispatch(appActions.setEditor(false))
+      id === 5 && dispatch(editorActions.clearEditor())
+      id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
+
+      navigate(path)
+    }, 200)
+
+    localStorage.setItem('packContestLastTab', id.toString())
+  }
+
+  // render styles and locales
+
+  const getClass = (id: number) => {
+    return id === tabActive ? 'header__tab-active' : 'header__tab'
+  }
 
   const headerLocale = i18n(locale, 'header') as LocaleType
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
@@ -40,33 +66,9 @@ export const Header = () => {
     { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
   ]
 
-  const clickHandler = (id: number, path: string) => {
-    id !== tabActive && dispatch(appActions.setTabActive(id))
-
-    if (id === 3 || id === 5) {
-      const backToWeeklist = pathname.includes('week') || pathname.includes('editor')
-      const container = document.querySelector('.container')
-      backToWeeklist && container?.classList.add('animate-fade-out-down')
-    }
-
-    setTimeout(() => {
-      id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
-      id > 4 && !editor && dispatch(appActions.setEditor(id > 4))
-      id < 5 && editor && dispatch(appActions.setEditor(false))
-      id === 5 && dispatch(editorActions.clearEditor())
-      id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
-
-      navigate(path)
-    }, 200)
-
-    localStorage.setItem('packContestLastTab', id.toString())
-  }
-
-  const getClass = (id: number) => {
-    return id === tabActive ? 'header__tab-active' : 'header__tab'
-  }
-
   const bar = admin ? [...userMenu, ...adminMenu] : userMenu
+
+  // render
 
   return (
     <div className="header">
@@ -74,7 +76,7 @@ export const Header = () => {
         {bar.map((el) => {
           const { id, path, icon, name } = el
           return (
-            <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
+            <div key={id} className={getClass(id)} onClick={() => handleClick(id, path)}>
               <div className="header__icon-padding">{icon}</div>
               <div className="header__message">{mobile ? null : name}</div>
             </div>

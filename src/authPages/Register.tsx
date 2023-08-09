@@ -1,17 +1,17 @@
 import { useEffect, useState, useRef, ChangeEvent } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { auth } from '../db/firebase'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
-import { Button, LocaleSwitcher } from '../UI'
-import { Input } from '@mui/material'
-import { i18n } from '../locale'
-import { IUser, LocaleType } from '../types'
-import { selectApp, selectUser } from '../redux/selectors'
 import { appActions, userActions } from '../redux/slices'
+import { Button, LocaleSwitcher } from '../UI'
+import { selectApp, selectUser } from '../redux/selectors'
+import { IUser, LocaleType } from '../types'
 import { fadeOut } from '../helpers'
+import { Input } from '@mui/material'
+import { auth } from '../db/firebase'
+import { i18n } from '../locale'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -25,6 +25,14 @@ export const Register = () => {
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
 
+  // container fade animations
+
+  useEffect(() => {
+    tabActive !== 1 && fadeOut(authRef, 'register')
+  }, [tabActive])
+
+  // helpers
+
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
   useEffect(() => {
@@ -36,10 +44,6 @@ export const Register = () => {
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
-
-  useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef, 'register')
-  }, [tabActive])
 
   useEffect(() => {
     const setEmailReg = (value: boolean) => {
@@ -64,46 +68,52 @@ export const Register = () => {
     }
   }
 
-  const nameInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  // click action handlers
+
+  const handleNameInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setName(value)
   }
 
-  const emailInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
-  const passwordInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }
 
-  const googleClickHandler = async () => await signInWithGoogle()
+  const handleGoogleClick = async () => await signInWithGoogle()
+
+  // render styles and locales
 
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
   const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
     i18n(locale, 'auth') as LocaleType
 
-  const toLoginHandler = () => {
+  const handleToLogin = () => {
     fadeOut(authRef, 'register')
     setTimeout(() => navigate('/reset'), 200)
   }
+
+  // render
 
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">
         <div className="auth__data">
-          <Input type="text" value={name} ref={inputRef} onChange={nameInputHandler} placeholder={regNameMsg} />
-          <Input type="email" value={email} onChange={emailInputHandler} placeholder={emailMsg} />
-          <Input type="password" value={password} onChange={passwordInputHandler} placeholder={passwordMsg} />
+          <Input type="text" value={name} ref={inputRef} onChange={handleNameInput} placeholder={regNameMsg} />
+          <Input type="email" value={email} onChange={handleEmailInput} placeholder={emailMsg} />
+          <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
           <Button className="login" onClick={register}>
             {buttonRegisterMsg}
           </Button>
-          <Button className="google" onClick={googleClickHandler}>
+          <Button className="google" onClick={handleGoogleClick}>
             {buttonRegisterGoogleMsg}
           </Button>
-          <div className="link-container" onClick={toLoginHandler}>
+          <div className="link-container" onClick={handleToLogin}>
             {loginIntro} <div className="link-container__inner">{loginMsg}</div>
           </div>
         </div>

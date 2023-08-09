@@ -1,12 +1,15 @@
 import { useRef, useEffect, useState } from 'react'
 
 import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
+import { FadeRefType } from '../types'
 
 export const Arrows = () => {
   const arrowsRef = useRef<HTMLDivElement>(null)
   const arrowTopRef = useRef<HTMLDivElement>(null)
   const arrowBottomRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState<boolean>(false)
+
+  // animate
 
   useEffect(() => {
     let listener = () => {
@@ -28,8 +31,10 @@ export const Arrows = () => {
     // eslint-disable-next-line
   }, [scrolled])
 
-  const scrollHandler = (direction: string) => {
-    const classHandler = (ref: React.RefObject<HTMLDivElement>) => {
+  // click action handlers
+
+  const handleScroll = (direction: string) => {
+    const handleClass = (ref: FadeRefType) => {
       const list = ref.current?.classList
       list?.add('arrows-green')
       list?.remove('arrows-grey')
@@ -39,7 +44,7 @@ export const Arrows = () => {
       }, 200)
     }
 
-    direction === 'top' ? classHandler(arrowTopRef) : classHandler(arrowBottomRef)
+    direction === 'top' ? handleClass(arrowTopRef) : handleClass(arrowBottomRef)
 
     setTimeout(() => {
       const height = document.body.scrollHeight
@@ -50,10 +55,10 @@ export const Arrows = () => {
   return (
     <div className="arrows-container" ref={arrowsRef} style={{ opacity: scrolled ? 1 : 0 }}>
       <div ref={arrowTopRef}>
-        <FaArrowCircleUp onClick={() => scrollHandler('top')} />
+        <FaArrowCircleUp onClick={() => handleScroll('top')} />
       </div>
       <div ref={arrowBottomRef}>
-        <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
+        <FaArrowCircleDown onClick={() => handleScroll('bottom')} />
       </div>
     </div>
   )

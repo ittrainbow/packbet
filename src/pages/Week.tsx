@@ -4,11 +4,11 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { AnswersType, IStore, LocaleType, YesNoHandlePropsType } from '../types'
+import { ansHelper, animateCancel, weekGotChanges, weekAnimate } from '../helpers'
 import { YesNoButtons, OtherUser, Button, Kickoff, Switch } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
-import { AnswersType, IStore, LocaleType, WeekType, YesNoHandlerPropsType } from '../types'
-import { ansHelper, fadeOut, animateCancel, weekGotChanges, emptyWeek } from '../helpers'
-import { selectApp, selectLocation, selectUser } from '../redux/selectors'
+import { selectApp, selectUser } from '../redux/selectors'
 import * as TYPES from '../redux/storetypes'
 import { i18n } from '../locale'
 
@@ -16,7 +16,6 @@ export const Week = () => {
   const dispatch = useDispatch()
   const { selectedWeek, isItYou, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
-  const { pathname } = useSelector(selectLocation)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
@@ -26,49 +25,55 @@ export const Week = () => {
   const [drawCancel, setDrawCancel] = useState<boolean>(false)
   const { name, questions, deadline } = weeks[selectedWeek]
 
+  // container fade animations
+
+  const gotChanges = weekGotChanges()
+
   useEffect(() => {
-    const weekWithId = pathname.includes('week') && pathname.length > 6
-    if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {
-      fadeOut(containerRef, 'week')
-    } else if ([0, 1, 4, 5, 6].indexOf(tabActive) > -1) {
-      fadeOut(containerRef, 'week')
-    }
+    weekAnimate(containerRef)
   }, [tabActive])
 
   useEffect(() => {
-    animateCancel(drawCancel, weekGotChanges(), cancelRef, setDrawCancel) // eslint-disable-next-line
-  }, [weekGotChanges()])
+    animateCancel(drawCancel, weekGotChanges(), cancelRef, setDrawCancel)
+  }, [gotChanges, drawCancel])
 
-  const adm = useMemo(() => {
-    return admin && !adminAsPlayer
-  }, [admin, adminAsPlayer])
+  // helpers
 
+  const adm = useMemo(() => admin && !adminAsPlayer, [admin, adminAsPlayer])
   const outdated = () => new Date().getTime() > deadline
   const writeAllowed = adm || (!adm && !outdated())
   const ansOrResData = adm ? results : answers[uid]
 
-  const adminClickHandler = (data: AnswersType) => {
+  // click action handlers
+
+  const handleClickAdmin = (data: AnswersType) => {
     dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
   }
 
-  const userClickHandler = (data: AnswersType) => {
+  const handleClickUser = (data: AnswersType) => {
     dispatch(answersActions.updateAnswers({ answers: data, uid }))
   }
 
-  const onClickHandler = (props: YesNoHandlerPropsType) => {
+  const handleClick = (props: YesNoHandlePropsType) => {
     if (writeAllowed && isItYou) {
       const { value, id, activity } = props
       const data = structuredClone(ansOrResData) || {}
       if (!data[selectedWeek]) data[selectedWeek] = {}
-      const thisWeek = data[selectedWeek]
-      if (!Object.keys(thisWeek).some((el) => el)) delete data[selectedWeek]
-      value === activity ? delete thisWeek[id] : (thisWeek[id] = value)
+      if (value === activity) {
+        if (Object.keys(data[selectedWeek]).length === 1) {
+          delete data[selectedWeek]
+        } else {
+          delete data[selectedWeek][id]
+        }
+      } else {
+        data[selectedWeek][id] = value
+      }
 
-      adm ? adminClickHandler(data) : userClickHandler(data)
+      adm ? handleClickAdmin(data) : handleClickUser(data)
     }
   }
 
-  const submitHandler = async () => {
+  const handleSubmit = async () => {
     const firstData = !!Object.keys(answers[uid]).length
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
@@ -79,14 +84,18 @@ export const Week = () => {
     dispatch({ type, payload })
   }
 
-  const discardHandler = () => {
+  const handleDiscard = () => {
     dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
     admin && dispatch(resultsActions.updateResults({ results: compare.results, selectedWeek }))
   }
 
-  const adminPlayerHandler = () => dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
+  const handleAdminAsPlayer = () => {
+    dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
+  }
 
-  const questionStyle = (id: number) => {
+  // render styles and locales
+
+  const getQuestionStyle = (id: number) => {
     const styles = ['question']
     const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
     const drawResult = res && (adminAsPlayer || !admin) && outdated()
@@ -95,7 +104,7 @@ export const Week = () => {
     return styles.join(' ')
   }
 
-  const activity = (id: number) => {
+  const getActivity = (id: number) => {
     return ((!isItYou && outdated()) || isItYou) && ansOrResData && ansOrResData[selectedWeek]
       ? ansOrResData[selectedWeek][id]
       : 0
@@ -104,12 +113,14 @@ export const Week = () => {
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
+  // render
+
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
         {admin && isItYou ? (
-          <Switch onChange={adminPlayerHandler} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
+          <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
         ) : null}
       </div>
       <OtherUser containerRef={containerRef} />
@@ -120,7 +131,7 @@ export const Week = () => {
         .map((id, index) => {
           const { question, total } = questions[id]
           return (
-            <div key={index} className={questionStyle(id)}>
+            <div key={index} className={getQuestionStyle(id)}>
               <div className="question__desc">
                 {question} {total !== '1' ? `: ${total}` : null}
               </div>
@@ -128,9 +139,9 @@ export const Week = () => {
                 <YesNoButtons
                   total={total}
                   id={id}
-                  activity={activity(id)}
+                  activity={getActivity(id)}
                   admin={admin && !adminAsPlayer}
-                  onClick={onClickHandler}
+                  onClick={handleClick}
                   gotResult={outdated() && !!results[selectedWeek]}
                 />
               </div>
@@ -138,12 +149,12 @@ export const Week = () => {
           )
         })}
       <>
-        <Button onClick={submitHandler} disabled={!weekGotChanges()}>
+        <Button onClick={handleSubmit} disabled={!weekGotChanges()}>
           {!weekGotChanges() ? buttonChangesMsg : buttonSaveMsg}
         </Button>
         {drawCancel ? (
           <div className="animate-fade-in-up" ref={cancelRef}>
-            <Button onClick={discardHandler}>{buttonCancelMsg}</Button>
+            <Button onClick={handleDiscard}>{buttonCancelMsg}</Button>
           </div>
         ) : null}
       </>

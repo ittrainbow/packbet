@@ -1,44 +1,46 @@
-import { useRef, useState, useEffect, ChangeEvent } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { BsGearFill } from 'react-icons/bs'
 import { FaStar } from 'react-icons/fa'
-import { Input } from '@mui/material'
 
-import { fadeOut, fadeInTools, fadeOutTools, tableHelper } from '../helpers'
+import { selectApp, selectStandings, selectTools } from '../redux/selectors'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
-import { selectApp, selectStandings } from '../redux/selectors'
-import { OtherUser, Switch, Arrows } from '../UI'
+import { OtherUser, Arrows, Tools } from '../UI'
+import { appActions, toolsActions } from '../redux/slices'
+import { fadeOut, tableHelper } from '../helpers'
 import { IStore, LocaleType } from '../types'
-import { appActions } from '../redux/slices'
-import { Button } from '../UI'
 import { i18n } from '../locale'
-
-const initialBuddies = localStorage.getItem('packContestFavList') === 'true'
-const initialTimeSpan = localStorage.getItem('packContestOneWeek') === 'true'
 
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { mobile, tabActive } = useSelector(selectApp)
+  const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
+  const { tabActive } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
+  const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const results = useSelector((store: IStore) => store.results)
   const user = useSelector((store: IStore) => store.user)
   const weeks = useSelector((store: IStore) => store.weeks)
   const { locale, uid, buddies } = user
   const containerRef = useRef<HTMLDivElement>(null)
-  const toolsRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
-  const [searchString, setSearchString] = useState<string>('')
-  const [onlyBuddies, setOnlyBuddies] = useState<boolean>(initialBuddies)
-  const [oneWeekOnly, setOneWeekOnly] = useState<boolean>(initialTimeSpan)
-  const [showTools, setShowTools] = useState<boolean>(false)
+
+  // container fade animations
 
   useEffect(() => {
     tabActive !== 4 && fadeOut(containerRef, 'standings')
   }, [tabActive])
 
-  const clickHandler = (otherUserName: string, otherUserUID: string) => {
+  // click action handlers
+
+  const handleSwitchTools = () => {
+    setFadeOutTools(!fadeOutTools)
+    fadeOut(tableRef, 'standings')
+    setTimeout(() => dispatch(toolsActions.switchShowTools()), 200)
+  }
+
+  const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
       fadeOut(containerRef, 'standings')
       setTimeout(() => {
@@ -50,46 +52,26 @@ export const Standings = () => {
     }
   }
 
-  const msg = i18n(locale, 'standings') as LocaleType
-
-  const clearHandler = () => setSearchString('')
-
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)
-
-  const addRemoveBuddyHandler = (uid: string) =>
+  const handleAddRemoveBuddy = (uid: string) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
-
-  const spanSelectHandler = () => {
-    const value = !oneWeekOnly
-    localStorage.setItem('packContestOneWeek', value.toString())
-    setOneWeekOnly(value)
   }
 
-  const showToolsHandler = () => {
-    fadeOutTools(tableRef, toolsRef)
-    setTimeout(() => {
-      setShowTools(!showTools)
-      fadeInTools(tableRef)
-    }, 200)
-  }
+  // render styles and locales
 
-  const buddiesHandler = () => {
-    const value = !onlyBuddies
-    setOnlyBuddies(value)
-    localStorage.setItem('packContestFavList', value.toString())
-  }
+  const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
+
+  const getCellClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
+
+  const { tableNameMsg, tableCorrectMsg, tableTierline, tableOtherUserTierline, tableHeaderhMsg, tableNoGamesMsg } =
+    i18n(locale, 'standings') as LocaleType
 
   const getLastWeekName = () => {
     const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
     const lastWeekName = !isNaN(lastWeekNumber) && weeks[lastWeekNumber].name.split('.')[1]
-    return lastWeekName ? msg.tableHeaderhMsg + lastWeekName : msg.tableNoGamesMsg
+    return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
   }
 
-  const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-
-  const getCellClass = (className: string, index: number) => {
-    return `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
-  }
+  // render
 
   return (
     <>
@@ -97,59 +79,24 @@ export const Standings = () => {
         <div className="standings-top-container">
           <div className="standings-top-container__title">{getLastWeekName()}</div>
           <div className={getGearClass}>
-            <BsGearFill onClick={showToolsHandler} />
+            <BsGearFill onClick={handleSwitchTools} />
           </div>
         </div>
-        {showTools ? (
-          <div className="standings__tools animate-fade-in-up" ref={toolsRef}>
-            <div className="standings__search">
-              <Input
-                onChange={onChangeHandler}
-                value={searchString}
-                type="text"
-                placeholder={msg.tableSearchMsg}
-                sx={{ width: '100%', padding: 0.25 }}
-              />
-              <div>
-                <Button onClick={clearHandler} minWidth={80} disabled={!searchString}>
-                  {msg.tableClearBtn}
-                </Button>
-              </div>
-            </div>
-            <div className="standings__switchers" style={{ flexDirection: mobile ? 'column' : 'row' }}>
-              <Switch
-                onChange={spanSelectHandler}
-                checked={oneWeekOnly}
-                messageOn={msg.tableOnlyWeekMsg}
-                messageOff={msg.tableAllSeasonMsg}
-                fullWidth={true}
-              />
-              <Switch
-                onChange={buddiesHandler}
-                checked={onlyBuddies}
-                messageOn={msg.tableBuddiesMsg}
-                messageOff={msg.tableAllUsersMsg}
-                fullWidth={true}
-              />
-            </div>
-          </div>
-        ) : (
-          ''
-        )}
+        {showTools ? <Tools fadeOutTools={fadeOutTools} /> : null}
         <div className="standings" ref={tableRef}>
           <OtherUser containerRef={containerRef} />
           <div className="standings__header">
             <div className="col-zero">#</div>
             <div className="col-one"></div>
-            <div className="col-two">{msg.tableNameMsg}</div>
+            <div className="col-two">{tableNameMsg}</div>
             <div className="col-three">%</div>
-            <div className="col-four">{msg.tableCorrectMsg}</div>
+            <div className="col-four">{tableCorrectMsg}</div>
             <div className="col-five">90%</div>
           </div>
-          {Object.values(oneWeekOnly ? week : season)
-            .filter((el) => el.name.toLowerCase().includes(searchString.toLowerCase()))
+          {Object.values(showOneWeek ? week : season)
+            .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
             .filter((el) => {
-              return onlyBuddies ? buddies.includes(el.uid) : el
+              return showBuddies ? buddies.includes(el.uid) : el
             })
             .map((el, index) => {
               const { name, answers, correct, ninety, position, uid } = tableHelper(el)
@@ -160,25 +107,25 @@ export const Standings = () => {
                   <div
                     className={getCellClass('col-one', index)}
                     style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
-                    onClick={() => addRemoveBuddyHandler(uid)}
+                    onClick={() => handleAddRemoveBuddy(uid)}
                   >
                     <FaStar />
                   </div>
                   <div
                     className={getCellClass('col-two', index)}
-                    onClick={() => clickHandler(name, el.uid)}
+                    onClick={() => handleClickOnUser(name, el.uid)}
                     style={{ fontWeight: user.uid === uid ? 600 : '' }}
                   >
                     {user.uid === uid ? user.name : name}
                   </div>
                   <div className={getCellClass('col-three', index)}>{answers}</div>
                   <div className={getCellClass('col-four', index)}>{correct}</div>
-                  <div className={getCellClass('col-five', index)}>{oneWeekOnly ? '-' : ninety}</div>
+                  <div className={getCellClass('col-five', index)}>{showOneWeek ? '-' : ninety}</div>
                 </div>
               )
             })}
-          <div className="tierline">{msg.tableTierline}</div>
-          <div className="tierline">{msg.tableOtherUserTierline}</div>
+          <div className="tierline">{tableTierline}</div>
+          <div className="tierline">{tableOtherUserTierline}</div>
         </div>
       </div>
       <Arrows />

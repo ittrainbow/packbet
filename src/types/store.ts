@@ -1,4 +1,4 @@
-import { IAbout, IUserStandings, IApp, IUserStore, IAnswers, AnswersType, IWeeks, WeekType, IStandings } from '.'
+import { IAbout, IUserStandings, IApp, IUserStore, IAnswers, AnswersType, IWeeks, WeekType, IStandings, ITools } from '.'
 
 export interface IStore {
   app: IApp
@@ -11,4 +11,5 @@ export interface IStore {
   compare: IAnswers
   editor: WeekType
   router: any
+  tools: ITools
 }

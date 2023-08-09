@@ -16,6 +16,13 @@ export interface IApp {
   emailReg: boolean
 }
 
+export interface ITools {
+  showTools: boolean
+  showBuddies: boolean
+  showOneWeek: boolean
+  standingsSearch: string
+}
+
 export interface IUser {
   admin: boolean
   locale: string

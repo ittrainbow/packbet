@@ -22,7 +22,9 @@ export const LocaleSwitcher = () => {
     />
   )
 
-  const localeChangeHandler = () => {
+  // click action handlers
+
+  const handleLocaleChange = () => {
     const newLocale = locale === 'ru' ? 'ua' : 'ru'
     dispatch(userActions.setLocale(newLocale))
   }
@@ -31,7 +33,7 @@ export const LocaleSwitcher = () => {
     <div className="locale-switcher">
       <div className="locale-flag">{flag('RU')}</div>
       <label className="locale-switch">
-        <Input type="checkbox" onChange={localeChangeHandler} checked={locale === 'ua'} />
+        <Input type="checkbox" onChange={handleLocaleChange} checked={locale === 'ua'} />
         <span className="locale round"></span>
       </label>
       <div className="locale-flag">{flag('UA')}</div>

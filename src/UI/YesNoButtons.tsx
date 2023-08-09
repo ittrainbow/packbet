@@ -1,13 +1,13 @@
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import { Button } from './Button'
-import { YesNoHandlerPropsType } from '../types'
+import { YesNoHandlePropsType } from '../types'
 
 type YesNoButtonsProps = {
   total: string
   id: number
   activity: number
-  onClick: (props: YesNoHandlerPropsType) => void
+  onClick: (props: YesNoHandlePropsType) => void
   admin: boolean
   gotResult: boolean
 }

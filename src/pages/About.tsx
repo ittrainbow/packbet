@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
-import { Button } from '../UI'
-import { i18n } from '../locale'
 import { LocaleType } from '../types'
 import { fadeOut } from '../helpers'
+import { Button } from '../UI'
+import { i18n } from '../locale'
 
 export const About = () => {
   const about = useSelector(selectAbout)
@@ -15,21 +15,16 @@ export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const aboutRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
-  const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
 
-  const legend = [
-    { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
-    { icon: <FaBan className="FaBan" />, text: aboutNoMsg },
-    { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
-    { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
-  ]
+  // container fade animations
 
   useEffect(() => {
     tabActive !== 0 && fadeOut(containerRef, 'about')
   }, [tabActive])
 
-  const openHandler = () => {
+  // click action handlers
+
+  const handleOpen = () => {
     const list = aboutRef.current?.classList
     if (!open) {
       setOpen(!open)
@@ -40,12 +35,26 @@ export const About = () => {
     }
   }
 
+  // render styles and locales
+
+  const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
+
+  const legend = [
+    { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
+    { icon: <FaBan className="FaBan" />, text: aboutNoMsg },
+    { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
+    { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
+  ]
+
   const description = Object.values(about[locale])
+
+  // render
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="about__paragraph">{description[0]}</div>
-      <Button onClick={openHandler}>{buttonDetailsMsg}</Button>
+      <Button onClick={handleOpen}>{buttonDetailsMsg}</Button>
       {open ? (
         <div ref={aboutRef} className="animate-fade-in-up">
           {description.map((el, index) => {

@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
 
 import { i18n } from '../locale'
-import { LocaleType } from '../types'
+import { FadeRefType, LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
 import { fadeOut } from '../helpers'
 
 type OtherUserPropsType = {
-  containerRef: React.RefObject<HTMLDivElement>
+  containerRef: FadeRefType
 }
 
 export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
@@ -15,7 +15,9 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const { otherUserName, isItYou } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
-  const switchHandler = () => {
+  // click action handlers
+  
+  const handleDiscard = () => {
     fadeOut(containerRef, 'otheruser')
     setTimeout(() => {
       dispatch(appActions.setIsItYou(true))
@@ -28,7 +30,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
 
   return isItYou ? null : (
     <div>
-      <button className="otheruser" onClick={switchHandler}>
+      <button className="otheruser" onClick={handleDiscard}>
         <div className="otheruser__text">{otherUser1msg}</div>
         <div className="otheruser__text">
           {otherUser2msg}

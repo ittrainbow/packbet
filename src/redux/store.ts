@@ -13,7 +13,8 @@ import {
   resultsSlice,
   compareSlice,
   weeksSlice,
-  editorSlice
+  editorSlice,
+  toolsSlice
 } from './slices'
 import { rootSaga } from './sagas/rootSaga'
 
@@ -38,7 +39,8 @@ export const store: ToolkitStore = configureStore({
     results: resultsSlice.reducer,
     weeks: weeksSlice.reducer,
     compare: compareSlice.reducer,
-    editor: editorSlice.reducer
+    editor: editorSlice.reducer,
+    tools: toolsSlice.reducer
   }),
   middleware: [routerMiddleware, sagaMiddleware],
   devTools: process.env.NODE_ENV === 'development'

@@ -10,3 +10,4 @@ export const selectWeeks = (store: IStore) => store.weeks
 export const selectCompare = (store: IStore) => store.compare
 export const selectEditor = (store: IStore) => store.editor
 export const selectLocation = (store: IStore) => store.router.location
+export const selectTools = (store: IStore) => store.tools

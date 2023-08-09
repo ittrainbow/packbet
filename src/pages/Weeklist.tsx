@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
+import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
 import { fadeOut, weekListSwitchAnimate } from '../helpers'
 import { OtherUser } from '../UI'
@@ -15,7 +15,15 @@ export const WeekList = () => {
   const { admin } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
 
-  const clickHandler = (selectedWeek: number) => {
+  // container fade animations
+
+  useEffect(() => {
+    weekListSwitchAnimate(containerRef)
+  }, [tabActive, editor])
+
+  // click action handlers
+
+  const handleClick = (selectedWeek: number) => {
     fadeOut(containerRef, 'weeklist')
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
@@ -25,9 +33,7 @@ export const WeekList = () => {
     setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), 200)
   }
 
-  useEffect(() => {
-    weekListSwitchAnimate(containerRef)
-  }, [tabActive, editor])
+  // render
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
@@ -40,7 +46,7 @@ export const WeekList = () => {
           const { name } = weeks[el]
           const selectedWeek = Number(el)
           return (
-            <div key={selectedWeek} className="week" onClick={() => clickHandler(selectedWeek)}>
+            <div key={selectedWeek} className="week" onClick={() => handleClick(selectedWeek)}>
               <div className="week__desc">{name}</div>
             </div>
           )

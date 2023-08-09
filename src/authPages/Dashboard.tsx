@@ -1,16 +1,16 @@
-import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useRef, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from 'react-router-dom'
 
+import { answersActions, compareActions, userActions } from '../redux/slices'
+import { selectApp, selectUser } from '../redux/selectors'
+import { LocaleType } from '../types'
+import { fadeOut } from '../helpers'
+import { Button } from '../UI'
 import { logout } from '../db/auth'
 import { auth } from '../db'
-import { LocaleType } from '../types'
-import { Button } from '../UI'
 import { i18n } from '../locale'
-import { selectApp, selectUser } from '../redux/selectors'
-import { answersActions, compareActions, userActions } from '../redux/slices'
-import { fadeOut } from '../helpers'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()
@@ -20,11 +20,15 @@ export const Dashboard = () => {
   const authRef = useRef<HTMLDivElement>(null)
   const { name, admin, locale } = useSelector(selectUser)
 
+  // container fade animations
+
   useEffect(() => {
     tabActive !== 1 && fadeOut(authRef, 'dashboard')
   }, [tabActive])
 
-  const logoutHandler = () => {
+  // click action handlers
+
+  const handleLogout = () => {
     dispatch(userActions.clearUser())
     dispatch(answersActions.clearAnswers())
     dispatch(compareActions.clearCompare())
@@ -32,13 +36,17 @@ export const Dashboard = () => {
     navigate('/userpage')
   }
 
-  const navigateHandler = () => {
+  const handleNavigate = () => {
     fadeOut(authRef, 'dashboard')
     setTimeout(() => navigate('/profile'), 200)
   }
 
+  // render styles and locales
+
   const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
+
+  // render
 
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
@@ -49,8 +57,8 @@ export const Dashboard = () => {
           <div>{user ? user.email : '...loading'}</div>
           <div>{admin ? <div>{dashboardAdminMsg}</div> : null}</div>
         </div>
-        <Button onClick={navigateHandler}>{buttonProfileMsg}</Button>
-        <Button onClick={logoutHandler}>{buttonLogoutMsg}</Button>
+        <Button onClick={handleNavigate}>{buttonProfileMsg}</Button>
+        <Button onClick={handleLogout}>{buttonLogoutMsg}</Button>
       </div>
     </div>
   )
