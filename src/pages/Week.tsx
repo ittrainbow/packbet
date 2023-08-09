@@ -8,7 +8,7 @@ import { OtherUser, Button, Kickoff, Switch, Question } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
 import { animateCancel, weekGotChanges, weekAnimate } from '../helpers'
 import { selectApp, selectUser } from '../redux/selectors'
-import { IStore, LocaleType } from '../types'
+import { IStore, LocaleType, WeekType } from '../types'
 import * as TYPES from '../redux/storetypes'
 import { i18n } from '../locale'
 
@@ -23,7 +23,7 @@ export const Week = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const cancelRef = useRef<HTMLDivElement>(null)
   const [drawCancel, setDrawCancel] = useState<boolean>(false)
-  const { name, questions, deadline } = weeks[selectedWeek]
+  const { name, questions, deadline } = weeks[selectedWeek] || ({} as WeekType)
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
   // container fade animations
@@ -93,13 +93,14 @@ export const Week = () => {
       <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
       <Kickoff />
-      {Object.keys(questions)
-        .map((el) => Number(el))
-        .map((id, index) => (
-          <div key={index}>
-            <Question id={id} />
-          </div>
-        ))}
+      {questions &&
+        Object.keys(questions)
+          .map((el) => Number(el))
+          .map((id, index) => (
+            <div key={index}>
+              <Question id={id} />
+            </div>
+          ))}
       <Button onClick={handleSubmit} disabled={!weekGotChanges() || (outdated && !adm)} className="week-button">
         {!weekGotChanges() ? buttonChangesMsg : buttonSaveMsg}
       </Button>

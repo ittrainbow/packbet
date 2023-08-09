@@ -9,7 +9,7 @@ export const Kickoff = () => {
   const { selectedWeek } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
-  const { deadline } = weeks[selectedWeek]
+  const { deadline } = weeks[selectedWeek] || new Date().getTime()
 
   const {
     countdownMsg,

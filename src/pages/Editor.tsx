@@ -43,7 +43,9 @@ export const Editor = () => {
   useEffect(() => {
     if (tabActive === 6) {
       setQuestionInWork(emptyQuestion)
-      setTimeout(() => dispatch(dispatch(editorActions.clearEditor())), 200)
+      dispatch(editorActions.setQuestionInWork(emptyQuestion))
+
+      setTimeout(() => dispatch(editorActions.clearEditor()), 200)
     } // eslint-disable-next-line
   }, [tabActive])
 
@@ -61,7 +63,8 @@ export const Editor = () => {
 
   useEffect(() => {
     nameRef.current?.focus()
-    emptyEditor && dispatch(editorActions.clearEditor()) // eslint-disable-next-line
+    emptyEditor && dispatch(editorActions.clearEditor())
+    // eslint-disable-next-line
   }, [selectedWeek])
 
   useEffect(() => {
