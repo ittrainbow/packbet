@@ -46,8 +46,6 @@ export const Dashboard = () => {
   const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
 
-  // render
-
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">

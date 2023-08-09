@@ -63,8 +63,6 @@ export const Reset = () => {
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
   const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
 
-  // render
-
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">

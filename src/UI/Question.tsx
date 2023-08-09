@@ -1,16 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
 import { IStore, YesNoHandlePropsType, AnswersType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
 import { YesNoButtons } from './YesNoButtons'
 import { ansHelper } from '../helpers'
 import { resultsActions, answersActions } from '../redux/slices'
+import { Button } from './Button'
 
 type WeekRowProps = {
   id: number
 }
 
-export const WeekRow = ({ id }: WeekRowProps) => {
+export const Question = ({ id }: WeekRowProps) => {
   const dispatch = useDispatch()
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
@@ -25,10 +27,12 @@ export const WeekRow = ({ id }: WeekRowProps) => {
   const writeAllowed = adm || (!adm && !outdated)
 
   const getQuestionStyle = (id: number) => {
+    const week = answers[uid][selectedWeek]
     const styles = ['question']
     const { ans, res } = ansHelper(answers, results, selectedWeek, uid, id)
     const drawResult = res && (adminAsPlayer || !admin) && outdated
     drawResult && ans && styles.push(res === ans ? 'question__green' : 'question__red')
+    !outdated && !adm && week && week[id] > 0 && styles.push('question__grey')
 
     return styles.join(' ')
   }
@@ -68,20 +72,42 @@ export const WeekRow = ({ id }: WeekRowProps) => {
     }
   }
 
+  const getButtonClass = (id: number, buttonNumber: number) => {
+    const activity = getActivity(id)
+    const result = results[selectedWeek] && results[selectedWeek][id]
+
+    const thisButton = activity === buttonNumber
+    const correct = result && activity === result
+
+    if (thisButton) {
+      if (outdated && !adm && correct) return 'yn yn-correct'
+      if (outdated && !adm && !correct) return 'yn yn-wrong'
+      if (!outdated && !adm) return 'yn yn-black'
+      if (adm) return 'yn yn-admin'
+    }
+    return 'yn yn-grey'
+  }
+
   return (
     <div className={getQuestionStyle(id)}>
       <div className="question__desc">
         {question} {total !== '1' ? `: ${total}` : null}
       </div>
       <div className="question__actions">
-        <YesNoButtons
-          total={total}
-          id={id}
-          activity={getActivity(id)}
-          admin={admin && !adminAsPlayer}
-          onClick={handleClick}
-          gotResult={outdated && !!results[selectedWeek]}
-        />
+        <div className="yn__container">
+          <Button
+            className={getButtonClass(id, 1)}
+            onClick={() => handleClick({ value: 1, id, activity: getActivity(id) })}
+          >
+            {total === '1' ? <FaCheck /> : <FaArrowUp />}
+          </Button>
+          <Button
+            className={getButtonClass(id, 2)}
+            onClick={() => handleClick({ value: 2, id, activity: getActivity(id) })}
+          >
+            {total === '1' ? <FaBan /> : <FaArrowDown />}
+          </Button>
+        </div>
       </div>
     </div>
   )

@@ -68,8 +68,6 @@ export const Header = () => {
 
   const bar = admin ? [...userMenu, ...adminMenu] : userMenu
 
-  // render
-
   return (
     <div className="header">
       <div className="header__icons">

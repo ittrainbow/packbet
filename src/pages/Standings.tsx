@@ -71,8 +71,6 @@ export const Standings = () => {
     return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
   }
 
-  // render
-
   return (
     <>
       <div className="container animate-fade-in-up" ref={containerRef}>

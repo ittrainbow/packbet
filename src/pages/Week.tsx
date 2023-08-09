@@ -1,14 +1,14 @@
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { IStore, LocaleType } from '../types'
-import { animateCancel, weekGotChanges, weekAnimate } from '../helpers'
-import { OtherUser, Button, Kickoff, Switch, WeekRow } from '../UI'
+import { OtherUser, Button, Kickoff, Switch, Question } from '../UI'
 import { answersActions, resultsActions, userActions } from '../redux/slices'
+import { animateCancel, weekGotChanges, weekAnimate } from '../helpers'
 import { selectApp, selectUser } from '../redux/selectors'
+import { IStore, LocaleType } from '../types'
 import * as TYPES from '../redux/storetypes'
 import { i18n } from '../locale'
 
@@ -23,7 +23,8 @@ export const Week = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const cancelRef = useRef<HTMLDivElement>(null)
   const [drawCancel, setDrawCancel] = useState<boolean>(false)
-  const { name, questions } = weeks[selectedWeek]
+  const { name, questions, deadline } = weeks[selectedWeek]
+  const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
   // container fade animations
 
@@ -39,15 +40,27 @@ export const Week = () => {
 
   // helpers
 
-  const adm = useMemo(() => admin && !adminAsPlayer, [admin, adminAsPlayer])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newOutdated = new Date().getTime() > deadline
+      newOutdated !== outdated && setOutdated(newOutdated)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    outdated && handleDiscard()
+  }, [outdated])
 
   // click action handlers
 
   const handleSubmit = async () => {
+    const adm = admin && !adminAsPlayer
     const firstData = !!Object.keys(answers[uid]).length
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+
     const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
     const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
@@ -68,8 +81,6 @@ export const Week = () => {
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
-  // render
-
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
@@ -83,15 +94,13 @@ export const Week = () => {
       <Kickoff />
       {Object.keys(questions)
         .map((el) => Number(el))
-        .map((id, index) => {
-          return (
-            <div key={index}>
-              <WeekRow id={id} />
-            </div>
-          )
-        })}
+        .map((id, index) => (
+          <div key={index}>
+            <Question id={id} />
+          </div>
+        ))}
       <>
-        <Button onClick={handleSubmit} disabled={!weekGotChanges()}>
+        <Button onClick={handleSubmit} disabled={!weekGotChanges() || outdated}>
           {!weekGotChanges() ? buttonChangesMsg : buttonSaveMsg}
         </Button>
         {drawCancel ? (

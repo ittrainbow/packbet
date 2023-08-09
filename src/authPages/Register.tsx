@@ -98,8 +98,6 @@ export const Register = () => {
     setTimeout(() => navigate('/reset'), 200)
   }
 
-  // render
-
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">

@@ -33,8 +33,6 @@ export const WeekList = () => {
     setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), 200)
   }
 
-  // render
-
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
       {!isItYou && !editor ? <OtherUser containerRef={containerRef} /> : null}

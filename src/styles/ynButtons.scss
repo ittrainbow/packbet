@@ -1,7 +1,15 @@
 @import './vars';
 
 .yn {
-  &__parent {
+  height: 32px;
+  font-size: 20px;
+  width: 40px;
+  padding: 2px;
+  transition: 0.22s ease-in-out;
+  background-color: $base-itembg;
+  border: none;
+
+  &__container {
     display: grid;
     grid-gap: 5px;
     grid-template-columns: 1fr 1fr;
@@ -10,30 +18,26 @@
   &__btn:active {
     transition: 0.22s ease-in-out;
   }
+}
 
-  &__dark,
-  &__grey,
-  &__red,
-  &__green {
-    height: 32px;
-    font-size: 18px;
-    width: 40px;
-    padding: 2px;
-    transition: 0.22s ease-in-out;
-  }
+.yn-wrong {
+  color: $base-question-red;
+}
 
-  &__green {
-    background-color: $base-green;
-    color: $yesno-light;
-  }
+.yn-grey {
+  color: $base-question-grey;
+}
 
-  &__dark {
-    background-color: $base-dark;
-    color: $base-itembg;
-  }
+.yn-correct {
+  color: $base-question-green;
+}
 
-  &__red {
-    background-color: $base-red;
-    color: $yesno-light;
-  }
+.yn-admin,
+.yn-black {
+  color: $base-black;
+  background-color: $base-itembg-slight;
+}
+
+.yn-admin {
+  border: 1px solid $base-border-light;
 }

@@ -57,7 +57,7 @@ export const tableHelper = (el: IUserStandings) => {
   const answers = ansCorrect + '/' + ansTotal
   const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
   const isNinety = (ansTotal * 100) / resultsTotal
-  const ninety = !isNaN(isNinety) ? isNinety + '%' : '-'
+  const ninety = !isNaN(isNinety) ? isNinety.toFixed(0) + '%' : '-'
 
   return { name, answers, correct, ninety, position, uid }
 }

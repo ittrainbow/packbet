@@ -89,8 +89,6 @@ export const Login = () => {
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType
   const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as LocaleType
 
-  // render
-
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">

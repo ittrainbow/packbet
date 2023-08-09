@@ -49,8 +49,6 @@ export const About = () => {
 
   const description = Object.values(about[locale])
 
-  // render
-
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="about__paragraph">{description[0]}</div>

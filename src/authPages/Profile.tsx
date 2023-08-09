@@ -65,8 +65,6 @@ export const Profile = () => {
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
 
-  // render
-
   return (
     <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">
