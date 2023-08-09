@@ -62,6 +62,10 @@
     flex-grow: 1;
   }
 
+  &__button {
+    height: 36px;
+  }
+
   &__header {
     display: flex;
     gap: 2px;

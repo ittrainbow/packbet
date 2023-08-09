@@ -62,10 +62,10 @@ export const Tools = ({ fadeOutTools }: ToolsPropsType) => {
           value={standingsSearch}
           type="text"
           placeholder={msg.tableSearchMsg}
-          sx={{ width: '100%', height: '43px' }}
+          sx={{ width: '100%', height: '36px' }}
         />
         <div>
-          <Button onClick={handleClearSearch} minWidth={80} disabled={!standingsSearch}>
+          <Button onClick={handleClearSearch} disabled={!standingsSearch} className={'standings__button'}>
             {msg.tableClearBtn}
           </Button>
         </div>
