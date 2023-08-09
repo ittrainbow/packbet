@@ -67,11 +67,11 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const tableAllUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравцi'
   const tableOnlyWeekMsg = locale === 'ru' ? 'За неделю' : 'За тиждень'
   const tableAllSeasonMsg = locale === 'ru' ? 'За сезон' : 'За сезон'
-  const tableTierline =
+  const tablePSOne =
     locale === 'ru'
       ? 'Таблица будет обновлена после внесения результатов очередной недели. Ранжирование по 90% ответов будет применено ближе к завершению сезона.'
       : 'Таблиця буде оновлена після внесення результатів чергового тижня. Ранжування по 90% відповідей буде застосовано ближче до завершення сезону.'
-  const tableOtherUserTierline =
+  const tablePSTwo =
     locale === 'ru' ? 'Выберите игрока, чтобы увидеть его ответы.' : 'Виберіть гравця, щоб побачити його відповіді.'
   const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
   const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
@@ -119,7 +119,8 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         tableNameMsg,
         tableAllMsg,
         tableCorrectMsg,
-        tableTierline,
+        tablePSOne,
+        tablePSTwo,
         tableClearBtn,
         tableBuddiesMsg,
         tableAllUsersMsg,
@@ -127,7 +128,6 @@ export const i18n = (locale: string, component: string): { [key: string]: string
         tableAllSeasonMsg,
         tableHeaderhMsg,
         tableSearchMsg,
-        tableOtherUserTierline,
         tableNoGamesMsg
       }
 

@@ -6,7 +6,7 @@ import { FaStar } from 'react-icons/fa'
 
 import { selectApp, selectStandings, selectTools } from '../redux/selectors'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
-import { OtherUser, Arrows, Tools } from '../UI'
+import { OtherUser, Arrows, Tools, StandingsHeader } from '../UI'
 import { appActions, toolsActions, userActions } from '../redux/slices'
 import { fadeOut, tableHelper } from '../helpers'
 import { IStore, LocaleType } from '../types'
@@ -63,8 +63,7 @@ export const Standings = () => {
 
   const getCellClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
 
-  const { tableNameMsg, tableCorrectMsg, tableTierline, tableOtherUserTierline, tableHeaderhMsg, tableNoGamesMsg } =
-    i18n(locale, 'standings') as LocaleType
+  const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n(locale, 'standings') as LocaleType
 
   const getLastWeekName = () => {
     const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
@@ -77,21 +76,12 @@ export const Standings = () => {
       <div className="container animate-fade-in-up" ref={containerRef}>
         <div className="standings-top-container">
           <div className="standings-top-container__title">{getLastWeekName()}</div>
-          <div className={getGearClass}>
-            <BsGearFill onClick={handleSwitchTools} />
-          </div>
+          <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
         {showTools ? <Tools fadeOutTools={fadeOutTools} /> : null}
         <div className="standings" ref={tableRef}>
           <OtherUser containerRef={containerRef} />
-          <div className="standings__header">
-            <div className="col-zero">#</div>
-            <div className="col-one"></div>
-            <div className="col-two">{tableNameMsg}</div>
-            <div className="col-three">%</div>
-            <div className="col-four">{tableCorrectMsg}</div>
-            <div className="col-five">90%</div>
-          </div>
+          <StandingsHeader />
           {Object.values(showOneWeek ? week : season)
             .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
             .filter((el) => {
@@ -105,8 +95,8 @@ export const Standings = () => {
                   <div className={getCellClass('col-zero', index)}>{position}</div>
                   <div
                     className={getCellClass('col-one', index)}
-                    style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
                     onClick={() => handleAddRemoveBuddy(uid)}
+                    style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
                   >
                     <FaStar />
                   </div>
@@ -123,8 +113,8 @@ export const Standings = () => {
                 </div>
               )
             })}
-          <div className="tierline">{tableTierline}</div>
-          <div className="tierline">{tableOtherUserTierline}</div>
+          <div className="tierline">{tablePSOne}</div>
+          <div className="tierline">{tablePSTwo}</div>
         </div>
       </div>
       <Arrows />
