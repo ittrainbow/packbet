@@ -23,9 +23,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   // helpers
 
   useEffect(() => {
-    const newWeek = tabActive === 6
-    const existingWeek = tabActive === 5 && pathname.includes('editor')
-    newWeek || existingWeek ? nameRef.current?.focus() : nameRef.current?.blur()
+    pathname.includes('/editor/') && tabActive === 5 && nameRef.current?.focus()
     // eslint-disable-next-line
   }, [pathname])
 

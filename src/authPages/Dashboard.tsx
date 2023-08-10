@@ -18,12 +18,12 @@ export const Dashboard = () => {
   const [user] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
   const { name, admin, locale } = useSelector(selectUser)
-  const authRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && animateFadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(containerRef)
   }, [tabActive])
 
   // action handlers
@@ -37,7 +37,7 @@ export const Dashboard = () => {
   }
 
   const handleNavigate = () => {
-    animateFadeOut(authRef)
+    animateFadeOut(containerRef)
     setTimeout(() => navigate('/profile'), duration)
   }
 
@@ -47,14 +47,12 @@ export const Dashboard = () => {
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
-    <div className="auth animate-fade-in-up" ref={authRef}>
-      <div className="auth__container">
-        <div className="auth__data">
-          <div className="text-container bold">{dashboardEnterMsg}</div>
-          <div>{name ? name : '...loading'}</div>
-          <div>{user ? user.email : '...loading'}</div>
-          {admin ? <div className='text-container'>{dashboardAdminMsg}</div> : null}
-        </div>
+    <div className="container auth animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data">
+        <div className="text-container bold">{dashboardEnterMsg}</div>
+        <div>{name ? name : '...loading'}</div>
+        <div>{user ? user.email : '...loading'}</div>
+        {admin ? <div className="text-container">{dashboardAdminMsg}</div> : null}
         <Button onClick={handleNavigate}>{buttonProfileMsg}</Button>
         <Button onClick={handleLogout}>{buttonLogoutMsg}</Button>
       </div>

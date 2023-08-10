@@ -76,7 +76,9 @@ export const appSlice = createSlice({
     },
 
     setTabActive(state, action: PayloadAction<number>) {
-      state.tabActive = action.payload
+      const id = action.payload
+      localStorage.setItem('packContestLastTab', id.toString())
+      state.tabActive = id
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {

@@ -109,6 +109,7 @@ export const Editor = () => {
         {Object.keys(questions).map((el) => (
           <EditorQuestion key={el} id={Number(el)} questionsRef={questionsRef} />
         ))}
+        <hr />
         <EditorActivities />
         <div className="editor-form">
           <Button disabled={saveBtnDisabled} onClick={handleSubmit}>

@@ -18,7 +18,7 @@ export const Input = (props: InputProps) => {
 
   return (
     <input
-      style={{ width: num ? 60 : '', textAlign: num ? 'center' : 'left' }}
+      style={{ width: num ? 66 : '', textAlign: num ? 'center' : 'left' }}
       ref={inputRef}
       type={type}
       value={value}

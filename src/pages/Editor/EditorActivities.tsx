@@ -32,14 +32,14 @@ export const EditorActivities = () => {
   const { weekActivityMsg } = i18n(locale, 'editor') as LocaleType
 
   return (
-    <>
-      <div className="editor-checkbox">
-        <div className="editor-checkbox__pad">{weekActivityMsg}</div>
-        <Input type="checkbox" checked={active} className={'checkbox'} onChange={handleChangeActivity} />
-      </div>
-      <div className="editor-datetime__container">
+    <div className="editor-activities-container">
+      <div className="editor-datetime">
         <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={handleChangeDate} />
       </div>
-    </>
+      <div className="editor-checkbox">
+        <div className="editor-checkbox__pad">{weekActivityMsg}</div>
+        <Input type="checkbox" checked={active} className={'editor-checkbox__box'} onChange={handleChangeActivity} />
+      </div>
+    </div>
   )
 }

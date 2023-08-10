@@ -65,10 +65,24 @@
   color: $base-red;
 }
 
+.editor-activities-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  max-height: $row-height;
+}
+
+.editor-datetime {
+  flex-grow: 1;
+}
+
 .editor-checkbox {
   display: flex;
   width: 110px;
   align-items: center;
+  border: 1px solid $base-border;
+  border-radius: 5px;
+  padding: 0 5px;
 
   &__pad {
     display: flex;
@@ -78,13 +92,9 @@
   }
 
   &__box {
+    height: 18px;
     cursor: pointer;
-  }
-}
-
-.editor-datetime {
-  &__container {
-    margin: 5px 0 5px;
+    padding: 5px;
   }
 }
 

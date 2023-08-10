@@ -20,7 +20,7 @@ export const Profile = () => {
   const [user] = useAuthState(auth)
   const { name, locale } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
-  const authRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
@@ -28,7 +28,7 @@ export const Profile = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && animateFadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(containerRef)
   }, [tabActive])
 
   // helpers
@@ -53,7 +53,7 @@ export const Profile = () => {
   }
 
   const handleDiscard = () => {
-    animateFadeOut(authRef)
+    animateFadeOut(containerRef)
     setTimeout(() => {
       dispatch(userActions.setLocale(tempLocale))
       navigate(-1)
@@ -66,19 +66,17 @@ export const Profile = () => {
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
-    <div className="auth animate-fade-in-up" ref={authRef}>
-      <div className="auth__container">
-        <div className="auth__data">
-          <div className="text-container bold">{profileHeaderMsg}</div>
-          <div className="text-container">{profileLangMsg}</div>
-          <LocaleSwitcher />
-          <div className="text-container">{profileNameMsg}</div>
-          <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
-          <Button disabled={noChanges} onClick={handleSubmit}>
-            {noChanges ? buttonChangesMsg : buttonSaveMsg}
-          </Button>
-          <Button onClick={handleDiscard}>{buttonCancelMsg}</Button>
-        </div>
+    <div className="container auth animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data">
+        <div className="text-container bold">{profileHeaderMsg}</div>
+        <div className="text-container">{profileLangMsg}</div>
+        <LocaleSwitcher />
+        <div className="text-container">{profileNameMsg}</div>
+        <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
+        <Button disabled={noChanges} onClick={handleSubmit}>
+          {noChanges ? buttonChangesMsg : buttonSaveMsg}
+        </Button>
+        <Button onClick={handleDiscard}>{buttonCancelMsg}</Button>
       </div>
     </div>
   )

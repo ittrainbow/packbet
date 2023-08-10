@@ -19,7 +19,7 @@ export const Register = () => {
   const [user, loading] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
-  const authRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -28,7 +28,7 @@ export const Register = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && animateFadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(containerRef)
   }, [tabActive])
 
   // helpers
@@ -94,30 +94,28 @@ export const Register = () => {
     i18n(locale, 'auth') as LocaleType
 
   const handleToLogin = () => {
-    animateFadeOut(authRef)
+    animateFadeOut(containerRef)
     setTimeout(() => navigate('/reset'), duration)
   }
 
   return (
-    <div className="auth animate-fade-in-up" ref={authRef}>
-      <div className="auth__container">
-        <div className="auth__data">
-          <Input type="text" value={name} ref={inputRef} onChange={handleNameInput} placeholder={regNameMsg} />
-          <Input type="email" value={email} onChange={handleEmailInput} placeholder={emailMsg} />
-          <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
-          <Button className="login" onClick={register}>
-            {buttonRegisterMsg}
-          </Button>
-          <Button className="google" onClick={handleGoogleClick}>
-            {buttonRegisterGoogleMsg}
-          </Button>
-          <div className="link-container" onClick={handleToLogin}>
-            {loginIntro} <div className="link-container__inner">{loginMsg}</div>
-          </div>
+    <div className="container auth animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data">
+        <Input type="text" value={name} ref={inputRef} onChange={handleNameInput} placeholder={regNameMsg} />
+        <Input type="email" value={email} onChange={handleEmailInput} placeholder={emailMsg} />
+        <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
+        <Button className="login" onClick={register}>
+          {buttonRegisterMsg}
+        </Button>
+        <Button className="google" onClick={handleGoogleClick}>
+          {buttonRegisterGoogleMsg}
+        </Button>
+        <div className="link-container" onClick={handleToLogin}>
+          {loginIntro} <div className="link-container__inner">{loginMsg}</div>
         </div>
-        <div className="locale-div">
-          <LocaleSwitcher />
-        </div>
+      </div>
+      <div className="locale-div">
+        <LocaleSwitcher />
       </div>
     </div>
   )

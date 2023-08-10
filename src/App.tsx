@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect'
 
 import { appActions, userActions } from './redux/slices'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
-import { animateFadeOut, initialRedirects } from './helpers'
+import { initialRedirects } from './helpers'
 import { selectApp, selectUser } from './redux/selectors'
 import { Header } from './pages'
 import { auth } from './db'
@@ -15,7 +15,7 @@ import { getMenu } from './helpers/links'
 export const App = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { emailReg, tabActive, duration } = useSelector(selectApp)
+  const { emailReg, tabActive, duration, nextWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const [user] = useAuthState(auth)
 
@@ -37,11 +37,10 @@ export const App = () => {
       const moveX = endX - startX
       const moveY = Math.abs(endY - startY)
 
-      const isSwipe = Math.abs(moveX) > 100 && moveY < 45
+      const isSwipe = Math.abs(moveX) > 90 && moveY < 45
 
       if (isSwipe) {
         const limit = admin ? 6 : 4
-        const menu = getMenu(admin)
         const canSwipeLeft = tabActive > 0
         const canSwipeRight = tabActive < limit
         const newTabActive =
@@ -51,7 +50,9 @@ export const App = () => {
         moveX > 0 && canSwipeLeft && container?.classList.add('animate-fade-out-right')
         moveX < 0 && canSwipeRight && container?.classList.add('animate-fade-out-left')
 
+        const menu = getMenu(admin)
         dispatch(appActions.setTabActive(newTabActive))
+        newTabActive === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
         setTimeout(() => navigate(menu[newTabActive].path), duration)
       }
     }
@@ -62,13 +63,14 @@ export const App = () => {
     return () => {
       document.removeEventListener('touchstart', listenerStart)
       document.removeEventListener('touchend', listenerEnd)
-    }
-  }, [tabActive])
+    } // eslint-disable-next-line
+  }, [tabActive, admin])
 
   useEffect(() => {
+    const lastTab = Number(localStorage.getItem('packContestLastTab') || 1)
     dispatch({ type: INIT_APP })
     dispatch(appActions.setMobile(isMobile))
-    dispatch(appActions.setTabActive(1))
+    dispatch(appActions.setTabActive(lastTab))
     navigate('/login')
     // eslint-disable-next-line
   }, [])

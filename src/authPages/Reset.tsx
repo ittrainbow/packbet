@@ -17,14 +17,14 @@ export const Reset = () => {
   const [user, loading] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
-  const authRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState('')
 
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && animateFadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(containerRef)
   }, [tabActive])
 
   // helpers
@@ -49,12 +49,12 @@ export const Reset = () => {
   }
 
   const handleToRegister = () => {
-    animateFadeOut(authRef)
+    animateFadeOut(containerRef)
     setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToLogin = () => {
-    animateFadeOut(authRef)
+    animateFadeOut(containerRef)
     setTimeout(() => navigate('/login'), duration)
   }
 
@@ -64,23 +64,21 @@ export const Reset = () => {
   const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
 
   return (
-    <div className="auth animate-fade-in-up" ref={authRef}>
-      <div className="auth__container">
-        <div className="auth__data">
-          <Input type="text" value={email} ref={inputRef} onChange={handleEmailInput} placeholder={'E-mail'} />
-          <Button className="login" onClick={() => sendPasswordReset(email)}>
-            {buttonRecoverMsg}
-          </Button>
-          <div className="link-container" onClick={handleToRegister}>
-            {regIntro} <div className="link-container__inner">{regMsg}</div>
-          </div>
-          <div className="link-container" onClick={handleToLogin}>
-            {loginIntro} <div className="link-container__inner">{loginMsg}</div>
-          </div>
+    <div className="container auth animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data">
+        <Input type="text" value={email} ref={inputRef} onChange={handleEmailInput} placeholder={'E-mail'} />
+        <Button className="login" onClick={() => sendPasswordReset(email)}>
+          {buttonRecoverMsg}
+        </Button>
+        <div className="link-container" onClick={handleToRegister}>
+          {regIntro} <div className="link-container__inner">{regMsg}</div>
         </div>
-        <div className="locale-div">
-          <LocaleSwitcher />
+        <div className="link-container" onClick={handleToLogin}>
+          {loginIntro} <div className="link-container__inner">{loginMsg}</div>
         </div>
+      </div>
+      <div className="locale-div">
+        <LocaleSwitcher />
       </div>
     </div>
   )

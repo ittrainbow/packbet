@@ -33,6 +33,12 @@ export const Standings = () => {
     tabActive !== 4 && animateFadeOut(containerRef)
   }, [tabActive])
 
+  // helpers
+
+  useEffect(() => {
+    dispatch(toolsActions.setShowTools(false)) // eslint-disable-next-line
+  }, [])
+
   // action handlers
 
   const handleSwitchTools = () => {
