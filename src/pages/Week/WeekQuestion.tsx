@@ -76,9 +76,17 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const week = answers[getUid] && answers[getUid][selectedWeek]
     const styles = ['question']
     const { ans, res } = getAnswersResults(answers, results, selectedWeek, getUid, id)
-    const drawResult = res && (adminAsPlayer || !admin) && outdated
-    drawResult && ans && styles.push(res === ans ? 'question__green' : 'question__red')
-    !outdated && !adm && week && week[id] > 0 && styles.push('question__grey')
+
+    const drawPlayerStyles = adminAsPlayer || !admin
+    if (drawPlayerStyles && outdated && res && ans) {
+      const style = res === ans ? 'question__green' : 'question__red'
+      styles.push(style)
+    }
+
+    const allowedStyles = (!isItYou && outdated) || isItYou
+    if (!outdated && allowedStyles && !adm && week && week[id] > 0) {
+      styles.push('question__grey')
+    }
 
     return styles.join(' ')
   }

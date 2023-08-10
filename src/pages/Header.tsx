@@ -1,18 +1,15 @@
-import { FaInfoCircle, FaUserAlt, FaFootballBall, FaCalendarAlt } from 'react-icons/fa'
-import { FaClipboardList, FaChevronCircleRight, FaPenNib } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
-import { LocaleType } from '../types'
-import { i18n } from '../locale'
+import { getMenu } from '../helpers/links'
 
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { mobile, tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
-  const { admin, locale } = useSelector(selectUser)
+  const { admin } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
 
   // container fade animations
@@ -50,27 +47,12 @@ export const Header = () => {
     return id === tabActive ? 'header__tab-active' : 'header__tab'
   }
 
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header') as LocaleType
-
-  const userMenu = [
-    { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
-    { path: '/userpage', name: tab1msg, icon: <FaUserAlt />, id: 1 },
-    { path: '/week', name: tab2msg, icon: <FaFootballBall />, id: 2 },
-    { path: '/season', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <FaClipboardList />, id: 4 }
-  ]
-
-  const adminMenu = [
-    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight />, id: 5 },
-    { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
-  ]
-
-  const bar = admin ? [...userMenu, ...adminMenu] : userMenu
+  const menu = getMenu(admin)
 
   return (
     <div className="header">
       <div className="header__icons">
-        {bar.map((el) => {
+        {menu.map((el) => {
           const { id, path, icon, name } = el
           return (
             <div key={id} className={getClass(id)} onClick={() => handleClick(id, path)}>
