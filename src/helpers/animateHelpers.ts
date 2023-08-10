@@ -25,8 +25,10 @@ export const animateFadeOut = (ref: FadeRefType) => {
 
   setTimeout(() => {
     list?.remove('animate-fade-out-down')
+    list?.remove('animate-fade-out-right')
+    list?.remove('animate-fade-out-left')
     list?.add('animate-fade-in-up')
-  }, duration)
+  }, duration + 10)
 }
 
 export const animateSwitchWeekList = (ref: FadeRefType) => {

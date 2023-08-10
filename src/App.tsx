@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect'
 
 import { appActions, userActions } from './redux/slices'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
-import { initialRedirects } from './helpers'
+import { initialRedirects, swipeHelper } from './helpers'
 import { selectApp, selectUser } from './redux/selectors'
 import { Header } from './pages'
 import { auth } from './db'
@@ -15,7 +15,7 @@ import { getMenu } from './helpers/links'
 export const App = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { emailReg, tabActive, duration, nextWeek } = useSelector(selectApp)
+  const { emailReg, tabActive, duration, editor } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const [user] = useAuthState(auth)
 
@@ -33,11 +33,8 @@ export const App = () => {
     const listenerEnd = (e: TouchEvent) => {
       const endX = Math.round(e.changedTouches[0].clientX)
       const endY = Math.round(e.changedTouches[0].clientY)
-
       const moveX = endX - startX
-      const moveY = Math.abs(endY - startY)
-
-      const isSwipe = Math.abs(moveX) > 90 && moveY < 45
+      const isSwipe = Math.abs(moveX) > 90 && Math.abs(endY - startY) < 45
 
       if (isSwipe) {
         const limit = admin ? 6 : 4
@@ -46,13 +43,12 @@ export const App = () => {
         const newTabActive =
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
-        const container = document.querySelector(tabActive === 1 ? '.auth' : '.container')
-        moveX > 0 && canSwipeLeft && container?.classList.add('animate-fade-out-right')
-        moveX < 0 && canSwipeRight && container?.classList.add('animate-fade-out-left')
+        swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
 
         const menu = getMenu(admin)
+        newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
+        newTabActive === 4 && editor && dispatch(appActions.setEditor(false))
         dispatch(appActions.setTabActive(newTabActive))
-        newTabActive === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
         setTimeout(() => navigate(menu[newTabActive].path), duration)
       }
     }
