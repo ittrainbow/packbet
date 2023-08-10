@@ -57,7 +57,7 @@ export const Editor = () => {
 
   // action handlers
 
-  const submitHandler = async () => {
+  const handleSubmit = async () => {
     const id = selectedWeek
     dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: editor } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
@@ -66,7 +66,7 @@ export const Editor = () => {
     navigate('/calendar')
   }
 
-  const deleteWeekHandler = () => {
+  const handleDeleteWeek = () => {
     const deleter = async () => {
       const newWeeks = structuredClone(weeks)
       delete newWeeks[selectedWeek]
@@ -82,7 +82,7 @@ export const Editor = () => {
     })
   }
 
-  const cancelEditHandler = () => {
+  const handleCancelEditor = () => {
     dispatch(appActions.setEmptyEditor(false))
     dispatch(appActions.setTabActive(5))
 
@@ -111,11 +111,11 @@ export const Editor = () => {
         ))}
         <EditorActivities />
         <div className="editor-form">
-          <Button disabled={saveBtnDisabled} onClick={submitHandler}>
+          <Button disabled={saveBtnDisabled} onClick={handleSubmit}>
             {buttonSaveMsg}
           </Button>
-          <Button onClick={cancelEditHandler}>{buttonCancelMsg}</Button>
-          {!emptyEditor ? <Button onClick={deleteWeekHandler}>{buttonDeleteWeekMsg}</Button> : null}
+          <Button onClick={handleCancelEditor}>{buttonCancelMsg}</Button>
+          {!emptyEditor ? <Button onClick={handleDeleteWeek}>{buttonDeleteWeekMsg}</Button> : null}
         </div>
       </div>
     </div>

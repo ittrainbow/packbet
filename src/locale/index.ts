@@ -90,8 +90,6 @@ export const i18n = (locale: string, component: string): { [key: string]: string
   const otherUser3msg =
     locale === 'ru' ? ', прогнозы не начавшихся игр скрыты.' : ', прогнози ігор, що не почалися, приховані.'
 
-  const devMsg = locale === 'ru' ? 'Разработка:' : 'Розробка:'
-
   const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
   const aboutOverMsg = locale === 'ru' ? `Ответ "Больше"` : `Відповідь "Більше"`
@@ -99,7 +97,7 @@ export const i18n = (locale: string, component: string): { [key: string]: string
 
   switch (component) {
     case 'about':
-      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg }
+      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }

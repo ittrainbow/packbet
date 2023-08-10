@@ -38,7 +38,7 @@ export const About = () => {
   // render styles and locales
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, devMsg } = i18n(locale, 'about') as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n(locale, 'about') as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -49,7 +49,6 @@ export const About = () => {
 
   const description = Object.values(about[locale])
 
-  const year = new Date().getFullYear()
   const copyright = ` ${String.fromCodePoint(0x00a9)} ${new Date().getFullYear()}`
 
   return (

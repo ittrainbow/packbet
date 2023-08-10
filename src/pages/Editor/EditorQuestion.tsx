@@ -22,7 +22,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
     dispatch(editorActions.setQuestionCompare({ question, total, id }))
   }
 
-  const handleRemoveQuestion = (id: number) => {
+  const handleDeleteQuestion = (id: number) => {
     animateFadeOut(questionsRef)
     setTimeout(() => {
       const obj: QuestionsType = structuredClone(questions)
@@ -46,7 +46,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
         ) : (
           <FaEdit className="editor-question__edit editor-btn__green" onClick={() => handleEditQuestion(id)} />
         )}
-        <FaTrashAlt className="editor-question__trash editor-btn__red" onClick={() => handleRemoveQuestion(id)} />
+        <FaTrashAlt className="editor-question__trash editor-btn__red" onClick={() => handleDeleteQuestion(id)} />
       </div>
     </div>
   )

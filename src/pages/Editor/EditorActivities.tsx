@@ -12,13 +12,13 @@ export const EditorActivities = () => {
   const { active, deadline } = useSelector(selectEditor)
   const { locale } = useSelector(selectUser)
 
-  const changeDateHandler = (e: ChangeInputType) => {
+  const handleChangeDate = (e: ChangeInputType) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
     dispatch(editorActions.updateEditorDeadline(deadline))
   }
 
-  const changeActivityHandler = (e: ChangeInputType) => {
+  const handleChangeActivity = (e: ChangeInputType) => {
     const { checked } = e.target
     dispatch(editorActions.updateEditorActive(checked))
   }
@@ -35,10 +35,10 @@ export const EditorActivities = () => {
     <>
       <div className="editor-checkbox">
         <div className="editor-checkbox__pad">{weekActivityMsg}</div>
-        <Input type="checkbox" checked={active} className={'checkbox'} onChange={changeActivityHandler} />
+        <Input type="checkbox" checked={active} className={'checkbox'} onChange={handleChangeActivity} />
       </div>
       <div className="editor-datetime__container">
-        <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={changeDateHandler} />
+        <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={handleChangeDate} />
       </div>
     </>
   )
