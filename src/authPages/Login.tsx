@@ -4,19 +4,19 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
+import { ChangeInputType, LocaleType } from '../types'
+import { animateFadeOut, getLocale } from '../helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, LocaleSwitcher } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
-import { animateFadeOut, getLocale } from '../helpers'
 import { userActions } from '../redux/slices'
-import { ChangeInputType, LocaleType } from '../types'
 import { i18n } from '../locale'
 
 export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const authRef = useRef<HTMLDivElement>(null)
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
   const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
   const [emailValid, setEmailValid] = useState<boolean>(false)
@@ -76,12 +76,12 @@ export const Login = () => {
 
   const handleToRegister = () => {
     animateFadeOut(authRef)
-    setTimeout(() => navigate('/register'), 200)
+    setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToReset = () => {
     animateFadeOut(authRef)
-    setTimeout(() => navigate('/reset'), 200)
+    setTimeout(() => navigate('/reset'), duration)
   }
 
   // render styles and locales

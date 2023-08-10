@@ -4,18 +4,18 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { OtherUser, Button, Switch } from '../../UI'
-import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { animateWeekCancel, getWeekChangesStatus, animateWeekFadeOut } from '../../helpers'
-import { selectApp, selectUser } from '../../redux/selectors'
+import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { IStore, LocaleType, WeekType } from '../../types'
+import { WeekQuestion, WeekCountdown } from '.'
+import { OtherUser, Button, Switch } from '../../UI'
+import { selectApp, selectUser } from '../../redux/selectors'
 import * as TYPES from '../../redux/storetypes'
 import { i18n } from '../../locale'
-import { WeekQuestion, WeekCountdown } from '.'
 
 export const Week = () => {
   const dispatch = useDispatch()
-  const { selectedWeek, isItYou, tabActive } = useSelector(selectApp)
+  const { selectedWeek, isItYou, tabActive, duration } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
@@ -92,7 +92,7 @@ export const Week = () => {
         ) : null}
       </div>
       <OtherUser containerRef={containerRef} />
-      <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
+      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
       <WeekCountdown />
       {questions &&
         Object.keys(questions)

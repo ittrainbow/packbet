@@ -1,8 +1,8 @@
+import { memo } from 'react'
 import { FaInfoCircle, FaUserAlt, FaFootballBall, FaCalendarAlt } from 'react-icons/fa'
 import { FaClipboardList, FaChevronCircleRight, FaPenNib } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { memo } from 'react'
 
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
@@ -12,7 +12,7 @@ import { i18n } from '../locale'
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { mobile, tabActive, nextWeek, currentWeek, editor } = useSelector(selectApp)
+  const { mobile, tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
 
@@ -39,7 +39,7 @@ export const Header = () => {
       id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
 
       navigate(path)
-    }, 200)
+    }, duration)
 
     localStorage.setItem('packContestLastTab', id.toString())
   }

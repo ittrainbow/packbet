@@ -1,12 +1,15 @@
 import { useRef, useEffect, useState } from 'react'
-
 import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+
+import { selectApp } from '../../redux/selectors'
 import { FadeRefType } from '../../types'
 
 export const StandingsArrows = () => {
   const arrowsRef = useRef<HTMLDivElement>(null)
   const arrowTopRef = useRef<HTMLDivElement>(null)
   const arrowBottomRef = useRef<HTMLDivElement>(null)
+  const { duration } = useSelector(selectApp)
   const [scrolled, setScrolled] = useState<boolean>(false)
 
   // animate
@@ -22,7 +25,7 @@ export const StandingsArrows = () => {
       if (window.scrollY < 250 && scrolled) {
         list?.remove('arrows-show')
         list?.add('arrows-hide')
-        setTimeout(() => setScrolled(false), 200)
+        setTimeout(() => setScrolled(false), duration)
       }
     }
 
@@ -41,7 +44,7 @@ export const StandingsArrows = () => {
       setTimeout(() => {
         list?.remove('arrows-green')
         list?.add('arrows-grey')
-      }, 200)
+      }, duration)
     }
 
     direction === 'top' ? handleClass(arrowTopRef) : handleClass(arrowBottomRef)

@@ -12,10 +12,8 @@ type OtherUserPropsType = {
 
 export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const dispatch = useDispatch()
-  const { otherUserName, isItYou } = useSelector(selectApp)
+  const { otherUserName, isItYou, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
-
-  // action handlers
 
   const handleDiscard = () => {
     animateFadeOut(containerRef)
@@ -23,7 +21,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
       dispatch(appActions.setIsItYou(true))
       dispatch(appActions.setOtherUserName(''))
       dispatch(appActions.setOtherUserUID(''))
-    }, 200)
+    }, duration)
   }
 
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as LocaleType

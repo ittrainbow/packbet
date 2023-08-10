@@ -22,7 +22,8 @@ const initialState: IApp = {
   otherUserUID: '',
   selectedWeek: 0,
   tabActive: 1,
-  emailReg: false
+  emailReg: false,
+  duration: 200
 }
 
 export const appSlice = createSlice({

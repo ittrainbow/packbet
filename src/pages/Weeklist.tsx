@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
@@ -11,7 +11,7 @@ export const WeekList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const containerRef = useRef<HTMLDivElement>(null)
-  const { editor, isItYou, tabActive } = useSelector(selectApp)
+  const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
 
@@ -30,7 +30,7 @@ export const WeekList = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
       navigate(`/editor/${selectedWeek}`)
     }
-    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), 200)
+    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), duration)
   }
 
   return (

@@ -7,15 +7,17 @@ export const animateWeekCancel = (
   ref: FadeRefType,
   setDrawCancelButton: (value: boolean) => void
 ) => {
+  const { duration } = store.getState().app
   if (draw && !gotChanges) {
     animateFadeOut(ref)
-    setTimeout(() => setDrawCancelButton(false), 200)
+    setTimeout(() => setDrawCancelButton(false), duration)
   } else if (!draw && gotChanges) {
     setDrawCancelButton(true)
   }
 }
 
 export const animateFadeOut = (ref: FadeRefType) => {
+  const { duration } = store.getState().app
   const list = ref.current?.classList
 
   list?.remove('animate-fade-in-up')
@@ -24,13 +26,13 @@ export const animateFadeOut = (ref: FadeRefType) => {
   setTimeout(() => {
     list?.remove('animate-fade-out-down')
     list?.add('animate-fade-in-up')
-  }, 200)
+  }, duration)
 }
 
 export const animateSwitchWeekList = (ref: FadeRefType) => {
   const { editor, tabActive } = store.getState().app
   const { pathname } = store.getState().router.location
-  
+
   if (
     (editor && tabActive !== 5) ||
     (!editor && tabActive !== 3) ||
@@ -45,7 +47,7 @@ export const animateSwitchWeekList = (ref: FadeRefType) => {
 
 export const animateWeekFadeOut = (ref: FadeRefType) => {
   const { pathname } = store.getState().router.location
-  const { tabActive} = store.getState().app
+  const { tabActive } = store.getState().app
 
   const weekWithId = pathname.includes('week') && pathname.length > 6
   if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {

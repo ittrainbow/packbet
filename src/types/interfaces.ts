@@ -14,6 +14,7 @@ export interface IApp {
   selectedWeek: number
   tabActive: number
   emailReg: boolean
+  duration: number
 }
 
 export interface ITools {

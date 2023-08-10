@@ -13,7 +13,7 @@ import { auth } from '../db/firebase'
 import { i18n } from '../locale'
 
 export const Reset = () => {
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const [user, loading] = useAuthState(auth)
   const [email, setEmail] = useState('')
   const authRef = useRef<HTMLDivElement>(null)
@@ -50,12 +50,12 @@ export const Reset = () => {
 
   const handleToRegister = () => {
     animateFadeOut(authRef)
-    setTimeout(() => navigate('/register'), 200)
+    setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToLogin = () => {
     animateFadeOut(authRef)
-    setTimeout(() => navigate('/login'), 200)
+    setTimeout(() => navigate('/login'), duration)
   }
 
   // render styles and locales

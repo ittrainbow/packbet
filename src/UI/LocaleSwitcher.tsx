@@ -22,8 +22,6 @@ export const LocaleSwitcher = () => {
     />
   )
 
-  // action handlers
-
   const handleLocaleChange = () => {
     const newLocale = locale === 'ru' ? 'ua' : 'ru'
     dispatch(userActions.setLocale(newLocale))

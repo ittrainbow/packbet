@@ -1,5 +1,5 @@
-import { useSelector, useDispatch } from 'react-redux'
 import { useRef, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const authRef = useRef<HTMLDivElement>(null)
   const { name, admin, locale } = useSelector(selectUser)
 
@@ -38,7 +38,7 @@ export const Dashboard = () => {
 
   const handleNavigate = () => {
     animateFadeOut(authRef)
-    setTimeout(() => navigate('/profile'), 200)
+    setTimeout(() => navigate('/profile'), duration)
   }
 
   // render styles and locales

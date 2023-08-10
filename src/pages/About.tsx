@@ -1,17 +1,17 @@
-import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useState, useRef, useEffect } from 'react'
+import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
-import { LocaleType } from '../types'
 import { animateFadeOut } from '../helpers'
+import { LocaleType } from '../types'
 import { Button } from '../UI'
 import { i18n } from '../locale'
 
 export const About = () => {
   const about = useSelector(selectAbout)
   const { locale } = useSelector(selectUser)
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
   const aboutRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
@@ -28,10 +28,10 @@ export const About = () => {
     const list = aboutRef.current?.classList
     if (!open) {
       setOpen(!open)
-      setTimeout(() => list?.remove('animate-fade-out-down'), 20)
+      setTimeout(() => list?.remove('animate-fade-out-down'), duration / 10)
     } else {
       list?.add('animate-fade-out-down')
-      setTimeout(() => setOpen(!open), 200)
+      setTimeout(() => setOpen(!open), duration)
     }
   }
 

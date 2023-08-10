@@ -1,10 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
 
+import { resultsActions, answersActions } from '../../redux/slices'
 import { IStore, YesNoHandlePropsType } from '../../types'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { getAnswersResults } from '../../helpers'
-import { resultsActions, answersActions } from '../../redux/slices'
 import { Button } from '../../UI'
 
 export const WeekQuestion = ({ id }: { id: number }) => {

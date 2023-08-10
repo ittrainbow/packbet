@@ -8,9 +8,9 @@ import { User } from 'firebase/auth'
 import { Button, LocaleSwitcher } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
 import { UPDATE_PROFILE } from '../redux/storetypes'
+import { animateFadeOut } from '../helpers'
 import { userActions } from '../redux/slices'
 import { LocaleType } from '../types'
-import { animateFadeOut } from '../helpers'
 import { auth } from '../db'
 import { i18n } from '../locale'
 
@@ -21,7 +21,7 @@ export const Profile = () => {
   const authRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const { name, locale } = useSelector(selectUser)
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
 
@@ -57,7 +57,7 @@ export const Profile = () => {
     setTimeout(() => {
       dispatch(userActions.setLocale(tempLocale))
       navigate(-1)
-    }, 200)
+    }, duration)
   }
 
   // render styles and locales

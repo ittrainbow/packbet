@@ -16,7 +16,7 @@ import { i18n } from '../locale'
 export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const [user, loading] = useAuthState(auth)
   const authRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
@@ -95,7 +95,7 @@ export const Register = () => {
 
   const handleToLogin = () => {
     animateFadeOut(authRef)
-    setTimeout(() => navigate('/reset'), 200)
+    setTimeout(() => navigate('/reset'), duration)
   }
 
   return (

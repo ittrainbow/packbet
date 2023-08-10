@@ -1,10 +1,11 @@
-import { Input } from '../../UI'
 import { useSelector, useDispatch } from 'react-redux'
-import { editorActions } from '../../redux/slices'
-import { selectEditor, selectUser } from '../../redux/selectors'
 import moment from 'moment/moment'
-import { i18n } from '../../locale'
+
 import { ChangeInputType, LocaleType } from '../../types'
+import { selectEditor, selectUser } from '../../redux/selectors'
+import { editorActions } from '../../redux/slices'
+import { Input } from '../../UI'
+import { i18n } from '../../locale'
 
 export const EditorActivities = () => {
   const dispatch = useDispatch()

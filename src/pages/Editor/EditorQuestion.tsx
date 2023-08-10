@@ -1,17 +1,17 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { FaEdit, FaTrashAlt, FaBan } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { selectEditor } from '../../redux/selectors'
+import { FadeRefType, QuestionsType } from '../../types'
+import { selectApp, selectEditor } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
 import { animateFadeOut } from '../../helpers'
-import { FadeRefType, QuestionsType } from '../../types'
 
 type QuestionPropsType = { id: number; questionsRef: FadeRefType }
 
 export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
+  const { duration } = useSelector(selectApp)
   const { question, total } = questions[id]
 
   const handleEditQuestion = (id: number) => {
@@ -27,7 +27,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
       const obj: QuestionsType = structuredClone(questions)
       delete obj[id]
       dispatch(editorActions.updateEditorQuestions(obj))
-    }, 200)
+    }, duration)
   }
 
   const handleClearQuestion = () => {

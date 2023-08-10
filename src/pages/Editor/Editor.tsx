@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
-import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import { getObjectsEquality, getWeeksIDs, animateFadeOut } from '../../helpers'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
+import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { LocaleType } from '../../types'
 import { i18n } from '../../locale'
@@ -22,22 +22,13 @@ export const Editor = () => {
   const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const { questions, name, active, deadline } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
 
-  // fade animations
-
-  useEffect(() => {
-    if (tabActive === 6) {
-      dispatch(editorActions.clearQuestionInWork())
-      setTimeout(() => dispatch(editorActions.clearEditor()), 200)
-    } else if (tabActive < 5) {
-      animateFadeOut(containerRef)
-    } // eslint-disable-next-line
-  }, [tabActive])
+  // container fade animations
 
   useEffect(() => {
     const fromEditListToEmpty = pathname.length > 7 && tabActive === 6
@@ -52,6 +43,15 @@ export const Editor = () => {
     const changes = emptyEditor ? !!Object.keys(questions).length : !getObjectsEquality(editor, weeks[selectedWeek])
     setAnyChanges(changes) // eslint-disable-next-line
   }, [questions, name, active, deadline])
+
+  useEffect(() => {
+    if (tabActive === 6) {
+      dispatch(editorActions.clearQuestionInWork())
+      setTimeout(() => dispatch(editorActions.clearEditor()), duration)
+    } else if (tabActive < 5) {
+      animateFadeOut(containerRef)
+    } // eslint-disable-next-line
+  }, [tabActive])
 
   const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length
 
@@ -89,7 +89,7 @@ export const Editor = () => {
     setTimeout(() => {
       dispatch(editorActions.clearEditor())
       navigate('/calendar')
-    }, 200)
+    }, duration)
   }
 
   // render styles and locales

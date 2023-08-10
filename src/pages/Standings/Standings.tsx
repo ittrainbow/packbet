@@ -6,18 +6,18 @@ import { FaStar } from 'react-icons/fa'
 
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
-import { OtherUser } from '../../UI'
+import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
 import { appActions, toolsActions, userActions } from '../../redux/slices'
 import { animateFadeOut, getTableRowParams } from '../../helpers'
 import { IStore, LocaleType } from '../../types'
+import { OtherUser } from '../../UI'
 import { i18n } from '../../locale'
-import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
 
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
-  const { tabActive } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
   const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const results = useSelector((store: IStore) => store.results)
@@ -38,7 +38,7 @@ export const Standings = () => {
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
     animateFadeOut(tableRef)
-    setTimeout(() => dispatch(toolsActions.switchShowTools()), 200)
+    setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
@@ -50,7 +50,7 @@ export const Standings = () => {
         admin && dispatch(userActions.setAdminAsPlayer(true))
         dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
         navigate('/season')
-      }, 200)
+      }, duration)
     }
   }
 
