@@ -1,8 +1,8 @@
-import { ChangeEvent } from 'react'
+import { ChangeInputType } from '../types'
 
 type InputProps = {
   type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: ChangeInputType) => void
   id?: string
   className?: string
   placeholder?: string
@@ -15,6 +15,7 @@ type InputProps = {
 export const Input = (props: InputProps) => {
   const { type = 'text', value, onChange, placeholder, id, className, inputRef, checked } = props
   const num = type === 'number'
+
   return (
     <input
       style={{ width: num ? 60 : '', textAlign: num ? 'center' : 'left' }}

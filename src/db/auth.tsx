@@ -29,7 +29,6 @@ export const signInWithGoogle = async () => {
         const locale = getLocale()
         const user = { name, locale, admin: false, buddies: [uid] }
         await setDoc(doc(db, 'users', uid), user)
-        await setDoc(doc(db, `answers`, uid), {})
       }
       docs.data() === undefined && googleAuth()
       const user = docs.data() as IUser

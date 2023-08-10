@@ -1,8 +1,8 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector } from 'react-redux'
 
-import { selectApp } from '../redux/selectors'
 import { Login, Dashboard } from '.'
+import { selectApp } from '../redux/selectors'
 import { Loader } from '../UI'
 import { auth } from '../db/firebase'
 

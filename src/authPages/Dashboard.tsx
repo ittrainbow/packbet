@@ -1,22 +1,34 @@
-import { useNavigate } from 'react-router-dom'
+import { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from 'react-router-dom'
 
+import { answersActions, compareActions, userActions } from '../redux/slices'
+import { selectApp, selectUser } from '../redux/selectors'
+import { LocaleType } from '../types'
+import { animateFadeOut } from '../helpers'
+import { Button } from '../UI'
 import { logout } from '../db/auth'
 import { auth } from '../db'
-import { LocaleType } from '../types'
-import { Button } from '../UI'
 import { i18n } from '../locale'
-import { selectUser } from '../redux/selectors'
-import { answersActions, compareActions, userActions } from '../redux/slices'
 
 export const Dashboard = () => {
-  const [user] = useAuthState(auth)
   const dispatch = useDispatch()
-  const { name, admin, locale } = useSelector(selectUser)
   const navigate = useNavigate()
+  const [user] = useAuthState(auth)
+  const { tabActive, duration } = useSelector(selectApp)
+  const { name, admin, locale } = useSelector(selectUser)
+  const authRef = useRef<HTMLDivElement>(null)
 
-  const logoutHandler = () => {
+  // container fade animations
+
+  useEffect(() => {
+    tabActive !== 1 && animateFadeOut(authRef)
+  }, [tabActive])
+
+  // action handlers
+
+  const handleLogout = () => {
     dispatch(userActions.clearUser())
     dispatch(answersActions.clearAnswers())
     dispatch(compareActions.clearCompare())
@@ -24,24 +36,27 @@ export const Dashboard = () => {
     navigate('/userpage')
   }
 
-  const navigateHandler = () => {
-    navigate('/profile')
+  const handleNavigate = () => {
+    animateFadeOut(authRef)
+    setTimeout(() => navigate('/profile'), duration)
   }
+
+  // render styles and locales
 
   const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
-    <div className="auth">
+    <div className="auth animate-fade-in-up" ref={authRef}>
       <div className="auth__container">
         <div className="auth__data">
-          <div className="bold">{dashboardEnterMsg}</div>
+          <div className="text-container bold">{dashboardEnterMsg}</div>
           <div>{name ? name : '...loading'}</div>
           <div>{user ? user.email : '...loading'}</div>
-          <div>{admin ? <div>{dashboardAdminMsg}</div> : null}</div>
+          {admin ? <div className='text-container'>{dashboardAdminMsg}</div> : null}
         </div>
-        <Button onClick={navigateHandler}>{buttonProfileMsg}</Button>
-        <Button onClick={logoutHandler}>{buttonLogoutMsg}</Button>
+        <Button onClick={handleNavigate}>{buttonProfileMsg}</Button>
+        <Button onClick={handleLogout}>{buttonLogoutMsg}</Button>
       </div>
     </div>
   )

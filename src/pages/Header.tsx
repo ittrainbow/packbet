@@ -1,65 +1,69 @@
-import { memo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FaInfoCircle, FaUserAlt, FaFootballBall, FaCalendarAlt } from 'react-icons/fa'
+import { FaClipboardList, FaChevronCircleRight, FaPenNib } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import * as ico from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
-import { i18n } from '../locale'
-import { selectApp, selectUser } from '../redux/selectors'
+import { selectApp, selectUser, selectLocation } from '../redux/selectors'
+import { appActions, editorActions, toolsActions } from '../redux/slices'
 import { LocaleType } from '../types'
-import { appActions, editorActions } from '../redux/slices'
+import { i18n } from '../locale'
 
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const app = useSelector(selectApp)
-  const user = useSelector(selectUser)
-  const { mobile, tabActive, nextWeek, currentWeek, editor } = app
-  const { admin, locale, name } = user
+  const { mobile, tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
+  const { admin, locale } = useSelector(selectUser)
+  const { pathname } = useSelector(selectLocation)
 
-  const headerLocale = i18n(locale, 'header') as LocaleType
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
+  // container fade animations
 
-  const userMenu = [
-    { path: '/', name: tab0msg, icon: <ico.FaInfoCircle />, id: 0 },
-    { path: '/userpage', name: tab1msg, icon: <ico.FaUserAlt />, id: 1 },
-    { path: '/week', name: tab2msg, icon: <ico.FaFootballBall />, id: 2 },
-    { path: '/season', name: tab3msg, icon: <ico.FaCalendarAlt />, id: 3 },
-    { path: '/standings', name: tab4msg, icon: <ico.FaClipboardList />, id: 4 }
-  ]
+  const animateBackToWeeklist = () => {
+    const backToWeeklist = pathname.includes('week') || pathname.includes('editor')
+    const container = document.querySelector('.container')
+    backToWeeklist && container?.classList.add('animate-fade-out-down')
+  }
 
-  const adminMenu = [
-    {
-      path: '/calendar',
-      name: tab5msg,
-      icon: <ico.FaChevronCircleRight />,
-      id: 5
-    },
-    { path: '/editor', name: tab6msg, icon: <ico.FaPenNib />, id: 6 }
-  ]
+  // action handlers
 
-  const clickHandler = (id: number, path: string) => {
-    const selectedWeek = id === 2 ? currentWeek : id === 6 ? nextWeek : app.selectedWeek
-    const emptyEditor = id === 6 ? true : false
+  const handleClick = (id: number, path: string) => {
+    id !== tabActive && dispatch(appActions.setTabActive(id))
 
-    id > 4 && !editor && dispatch(appActions.setEditor(true))
-    id < 5 && editor && dispatch(appActions.setEditor(false))
+    if (id === 3 || id === 5) animateBackToWeeklist()
 
-    if (currentWeek || currentWeek === 0 || id !== 2) {
-      dispatch(appActions.setHeader({ id, selectedWeek, emptyEditor }))
+    setTimeout(() => {
+      id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
+      id > 4 && !editor && dispatch(appActions.setEditor(id > 4))
+      id < 5 && editor && dispatch(appActions.setEditor(false))
+      id === 4 && tabActive !== 4 && dispatch(toolsActions.setShowTools(false))
+      id === 5 && dispatch(editorActions.clearEditor())
+      id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
+
       navigate(path)
-    }
-
-    if (id === 6) {
-      dispatch(appActions.setEmptyEditor(emptyEditor))
-      dispatch(editorActions.clearEditor())
-    }
+    }, duration)
 
     localStorage.setItem('packContestLastTab', id.toString())
   }
 
+  // render styles and locales
+
   const getClass = (id: number) => {
-    return id === 1 && !name ? 'header__no-login' : id === tabActive ? 'header__tab-active' : 'header__tab'
+    return id === tabActive ? 'header__tab-active' : 'header__tab'
   }
+
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header') as LocaleType
+
+  const userMenu = [
+    { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
+    { path: '/userpage', name: tab1msg, icon: <FaUserAlt />, id: 1 },
+    { path: '/week', name: tab2msg, icon: <FaFootballBall />, id: 2 },
+    { path: '/season', name: tab3msg, icon: <FaCalendarAlt />, id: 3 },
+    { path: '/standings', name: tab4msg, icon: <FaClipboardList />, id: 4 }
+  ]
+
+  const adminMenu = [
+    { path: '/calendar', name: tab5msg, icon: <FaChevronCircleRight />, id: 5 },
+    { path: '/editor', name: tab6msg, icon: <FaPenNib />, id: 6 }
+  ]
 
   const bar = admin ? [...userMenu, ...adminMenu] : userMenu
 
@@ -69,7 +73,7 @@ export const Header = () => {
         {bar.map((el) => {
           const { id, path, icon, name } = el
           return (
-            <div key={id} className={getClass(id)} onClick={() => clickHandler(id, path)}>
+            <div key={id} className={getClass(id)} onClick={() => handleClick(id, path)}>
               <div className="header__icon-padding">{icon}</div>
               <div className="header__message">{mobile ? null : name}</div>
             </div>
@@ -79,5 +83,3 @@ export const Header = () => {
     </div>
   )
 }
-
-export const MemoHeader = memo(Header)

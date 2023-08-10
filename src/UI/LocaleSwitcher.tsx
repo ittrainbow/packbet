@@ -1,9 +1,9 @@
-import ReactCountryFlag from 'react-country-flag'
 import { useSelector, useDispatch } from 'react-redux'
+import ReactCountryFlag from 'react-country-flag'
 
-import { Input } from './Input'
 import { userActions } from '../redux/slices'
 import { selectUser } from '../redux/selectors'
+import { Input } from './Input'
 
 export const LocaleSwitcher = () => {
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ export const LocaleSwitcher = () => {
     />
   )
 
-  const localeChangeHandler = () => {
+  const handleLocaleChange = () => {
     const newLocale = locale === 'ru' ? 'ua' : 'ru'
     dispatch(userActions.setLocale(newLocale))
   }
@@ -31,7 +31,7 @@ export const LocaleSwitcher = () => {
     <div className="locale-switcher">
       <div className="locale-flag">{flag('RU')}</div>
       <label className="locale-switch">
-        <Input type="checkbox" onChange={localeChangeHandler} checked={locale === 'ua'} />
+        <Input type="checkbox" onChange={handleLocaleChange} checked={locale === 'ua'} />
         <span className="locale round"></span>
       </label>
       <div className="locale-flag">{flag('UA')}</div>

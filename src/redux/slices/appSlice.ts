@@ -21,7 +21,9 @@ const initialState: IApp = {
   otherUserName: '',
   otherUserUID: '',
   selectedWeek: 0,
-  tabActive: 1
+  tabActive: 1,
+  emailReg: false,
+  duration: 200
 }
 
 export const appSlice = createSlice({
@@ -42,6 +44,10 @@ export const appSlice = createSlice({
 
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload
+    },
+
+    setEmailReg(state, action: PayloadAction<boolean>) {
+      state.emailReg = action.payload
     },
 
     setEmptyEditor(state, action: PayloadAction<boolean>) {
@@ -71,13 +77,6 @@ export const appSlice = createSlice({
 
     setTabActive(state, action: PayloadAction<number>) {
       state.tabActive = action.payload
-    },
-
-    setHeader(state, action: PayloadAction<{ id: number; selectedWeek: number; emptyEditor: boolean }>) {
-      const { id, selectedWeek, emptyEditor } = action.payload
-      state.tabActive = id
-      state.selectedWeek = selectedWeek
-      state.emptyEditor = emptyEditor
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {

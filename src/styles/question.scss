@@ -1,0 +1,85 @@
+@import './vars';
+
+.question {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 3px;
+  height: 43px;
+  padding: 3px 5px;
+  border: 1px solid $base-itemborder;
+  background-color: $base-itembg;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  transition: 0.22s ease-in-out;
+
+  &__admplayer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__desc {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+  }
+
+  &__actions {
+    display: flex;
+  }
+
+  &__red {
+    border: 1px solid $base-question-red;
+    border-left-width: 0.32rem;
+  }
+
+  &__green {
+    border: 1px solid $base-question-green;
+    border-left-width: 0.32rem;
+  }
+
+  &__grey {
+    border-left-width: 0.32rem;
+  }
+}
+
+.yn {
+  height: 32px;
+  font-size: 20px;
+  width: 40px;
+  padding: 2px;
+  transition: 0.22s ease-in-out;
+  background-color: $base-itembg;
+  border: none;
+
+  &__container {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &__btn:active {
+    transition: 0.22s ease-in-out;
+  }
+}
+
+.yn-correct {
+  color: $base-question-green;
+}
+
+.yn-wrong {
+  color: $base-question-red;
+}
+
+.yn-black {
+  color: $base-black;
+  background-color: $base-itembg-slight;
+  border: 1px solid $base-border-light;
+}
+
+.yn-grey {
+  color: $base-question-grey;
+}

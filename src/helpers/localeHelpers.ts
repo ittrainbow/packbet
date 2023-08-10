@@ -1,1 +1,3 @@
-export const getLocale = () => localStorage.getItem('packContestLocale') || 'ru'
+export const getLocale = () => {
+  return localStorage.getItem('packContestLocale') || 'ru'
+}

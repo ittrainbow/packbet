@@ -1,6 +1,8 @@
-import { IUserStore, IAnswers, IPlayers } from '.'
+import { IAnswers, IPlayers } from '.'
 
 export type LocaleType = { [key: string]: string }
+
+export type FadeRefType = React.RefObject<HTMLDivElement>
 
 export type QuestionType = {
   question: string
@@ -10,7 +12,6 @@ export type QuestionType = {
 export type QuestionsType = { [key: number]: QuestionType }
 
 export type BuddiesPayloadType = {
-  user: IUserStore
   buddies: string[]
   buddyUid: string
 }
@@ -59,8 +60,12 @@ export type ActionType<T> = {
   payload: T
 }
 
-export type YesNoHandlerPropsType = {
+export type YesNoHandlePropsType = {
   value: number
   id: number
   activity: number
 }
+
+export type ChangeInputType = React.ChangeEvent<HTMLInputElement>
+
+export type InputRefType = HTMLInputElement

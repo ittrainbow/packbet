@@ -1,24 +1,28 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { isMobile } from 'react-device-detect'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { Header } from './pages'
-import { INIT_APP, USER_LOGIN } from './redux/storetypes'
-import { auth } from './db'
 import { appActions, userActions } from './redux/slices'
+import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { initialRedirects } from './helpers'
+import { selectApp } from './redux/selectors'
+import { Header } from './pages'
+import { auth } from './db'
 
 export const App = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { emailReg } = useSelector(selectApp)
   const { setMobile } = appActions
   const [user] = useAuthState(auth)
 
   useEffect(() => {
     dispatch({ type: INIT_APP })
     dispatch(setMobile(isMobile))
+    dispatch(appActions.setTabActive(1))
+    navigate('/login')
     // eslint-disable-next-line
   }, [])
 
@@ -27,7 +31,7 @@ export const App = () => {
       dispatch(userActions.setUid(user.uid))
       dispatch({
         type: USER_LOGIN,
-        payload: user
+        payload: { user, emailReg }
       })
 
       const lastTab = Number(localStorage.getItem('packContestLastTab'))

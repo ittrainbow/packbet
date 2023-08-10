@@ -1,12 +1,18 @@
 import { useRef, useEffect, useState } from 'react'
-
 import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 
-export const Arrows = () => {
-  const arrowsRef = useRef<HTMLDivElement>(null)
-  const arrowTopRef = useRef<HTMLDivElement>(null)
+import { selectApp } from '../../redux/selectors'
+import { FadeRefType } from '../../types'
+
+export const StandingsArrows = () => {
+  const { duration } = useSelector(selectApp)
   const arrowBottomRef = useRef<HTMLDivElement>(null)
+  const arrowTopRef = useRef<HTMLDivElement>(null)
+  const arrowsRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState<boolean>(false)
+
+  // animate
 
   useEffect(() => {
     let listener = () => {
@@ -19,7 +25,7 @@ export const Arrows = () => {
       if (window.scrollY < 250 && scrolled) {
         list?.remove('arrows-show')
         list?.add('arrows-hide')
-        setTimeout(() => setScrolled(false), 300)
+        setTimeout(() => setScrolled(false), duration)
       }
     }
 
@@ -28,18 +34,20 @@ export const Arrows = () => {
     // eslint-disable-next-line
   }, [scrolled])
 
-  const scrollHandler = (direction: string) => {
-    const classHandler = (ref: React.RefObject<HTMLDivElement>) => {
+  // action handlers
+
+  const handleScroll = (direction: string) => {
+    const handleClass = (ref: FadeRefType) => {
       const list = ref.current?.classList
       list?.add('arrows-green')
       list?.remove('arrows-grey')
       setTimeout(() => {
         list?.remove('arrows-green')
         list?.add('arrows-grey')
-      }, 200)
+      }, duration)
     }
 
-    direction === 'top' ? classHandler(arrowTopRef) : classHandler(arrowBottomRef)
+    direction === 'top' ? handleClass(arrowTopRef) : handleClass(arrowBottomRef)
 
     setTimeout(() => {
       const height = document.body.scrollHeight
@@ -50,10 +58,10 @@ export const Arrows = () => {
   return (
     <div className="arrows-container" ref={arrowsRef} style={{ opacity: scrolled ? 1 : 0 }}>
       <div ref={arrowTopRef}>
-        <FaArrowCircleUp onClick={() => scrollHandler('top')} />
+        <FaArrowCircleUp onClick={() => handleScroll('top')} />
       </div>
       <div ref={arrowBottomRef}>
-        <FaArrowCircleDown onClick={() => scrollHandler('bottom')} />
+        <FaArrowCircleDown onClick={() => handleScroll('bottom')} />
       </div>
     </div>
   )

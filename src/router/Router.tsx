@@ -1,11 +1,13 @@
-import { ReactNode } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+import { HistoryRouter } from 'redux-first-history/rr6'
 import { useSelector } from 'react-redux'
+import { ReactNode } from 'react'
 
-import { About, Week, Calendar, Season, Editor, Standings, Weeklist } from '../pages'
 import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
-import { Loader } from '../UI'
+import { About, Week, Editor, Standings, WeekList } from '../pages'
 import { selectApp } from '../redux/selectors'
+import { history } from '../redux/store'
+import { Loader } from '../UI'
 
 type RouterProps = {
   children?: ReactNode
@@ -20,8 +22,8 @@ export const Router = ({ children }: RouterProps) => {
         <Route path="/" element={<About />} />
         <Route path="/userpage" element={<UserPage />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/season" element={<Weeklist />} />
-        <Route path="/calendar" element={<Weeklist />} />
+        <Route path="/season" element={<WeekList />} />
+        <Route path="/calendar" element={<WeekList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -39,9 +41,9 @@ export const Router = ({ children }: RouterProps) => {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       {children}
       {loading ? <Loader /> : routes()}
-    </BrowserRouter>
+    </HistoryRouter>
   )
 }

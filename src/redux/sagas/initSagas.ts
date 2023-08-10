@@ -1,10 +1,12 @@
-import { take, all, call, put, select } from 'redux-saga/effects'
+import { take, all, call, put } from 'redux-saga/effects'
 
-import { getWeeksIDs, tableCreator } from '../../helpers'
+import { appActions, aboutActions, weeksActions, resultsActions } from '../slices'
+import { IAbout, IWeeks, AnswersType, IPlayers } from '../../types'
+import { createStandingsSaga } from '.'
 import { getDBCollection } from '../../db'
+import { getWeeksIDs } from '../../helpers'
 import { INIT_APP } from '../storetypes'
-import { IAbout, IUserStandings, IWeeks, AnswersType, IAnswers, RawUser, IStore } from '../../types'
-import { appActions, aboutActions, standingsActions, weeksActions, resultsActions } from '../slices'
+
 function* fetchAboutSaga() {
   try {
     const about: IAbout = yield call(getDBCollection, 'about')
@@ -43,15 +45,8 @@ function* fetchWeeksSaga() {
 
 export function* fetchStandingsSaga() {
   try {
-    const results: AnswersType = yield select((store: IStore) => store.results)
-    const answers: IAnswers = yield call(getDBCollection, 'answers')
-    const players: { [key: string]: RawUser } = yield call(getDBCollection, 'users')
-    const seasonArray: IUserStandings[] = tableCreator({ answers, players, results, fullSeason: true })
-    const weekArray: IUserStandings[] = tableCreator({ answers, players, results, fullSeason: false })
-    const season = Object.assign({}, seasonArray)
-    const week = Object.assign({}, weekArray)
-
-    yield put(standingsActions.setStandings({ season, week }))
+    const players: IPlayers = yield call(getDBCollection, 'users')
+    yield call(createStandingsSaga, players)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))

@@ -1,38 +1,41 @@
-import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-import { OtherUser } from '../UI'
+import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
+import { OtherUser } from '../UI'
 
-export const Weeklist = () => {
+export const WeekList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { editor, isItYou, tabActive } = useSelector(selectApp)
+  const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // container fade animations
 
   useEffect(() => {
-    const list = containerRef.current?.classList
-    list?.add('animate-fade-in-up')
-    setTimeout(() => list?.remove('animate-fade-in-up'), 300)
-  }, [isItYou, tabActive])
+    animateSwitchWeekList(containerRef)
+  }, [tabActive, editor])
 
-  const clickHandler = (selectedWeek: number) => {
+  // action handlers
+
+  const handleClick = (selectedWeek: number) => {
+    animateFadeOut(containerRef)
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
-
       navigate(`/editor/${selectedWeek}`)
     }
-    editor ? setEditor() : navigate(`/week/${selectedWeek}`)
+    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), duration)
   }
 
   return (
-    <div className="container" ref={containerRef}>
-      {!isItYou && !editor ? <OtherUser /> : null}
+    <div className="container animate-fade-in-up" ref={containerRef}>
+      {!isItYou && !editor ? <OtherUser containerRef={containerRef} /> : null}
       {Object.keys(weeks)
         .map((el) => Number(el))
         .filter((el) => weeks[el].active || editor || admin)
@@ -41,7 +44,7 @@ export const Weeklist = () => {
           const { name } = weeks[el]
           const selectedWeek = Number(el)
           return (
-            <div key={selectedWeek} className="week" onClick={() => clickHandler(selectedWeek)}>
+            <div key={selectedWeek} className="week" onClick={() => handleClick(selectedWeek)}>
               <div className="week__desc">{name}</div>
             </div>
           )

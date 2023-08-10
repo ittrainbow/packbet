@@ -1,12 +1,12 @@
 import { IFetchObject, IUserStandings, TableCreatorType } from '../types'
 
-export const tableObjectCreator = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
+export const getTableObject = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
   const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
   const correct = ansTotal ? ansCorrect / ansTotal : 0
   return { total, correct }
 }
 
-export const tableCreator = ({ answers, players, results, fullSeason }: TableCreatorType) => {
+export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
   const userList = Object.keys(players)
   const object: IFetchObject<IUserStandings> = {}
   userList.forEach((el) => {
@@ -34,7 +34,7 @@ export const tableCreator = ({ answers, players, results, fullSeason }: TableCre
             })
       })
 
-    const { correct } = tableObjectCreator(ansTotal, ansCorrect, resultsTotal)
+    const { correct } = getTableObject(ansTotal, ansCorrect, resultsTotal)
     object[el] = { name, uid, ansTotal, ansCorrect, resultsTotal, correct, position: '' }
   })
 
@@ -52,11 +52,12 @@ export const tableCreator = ({ answers, players, results, fullSeason }: TableCre
   return table
 }
 
-export const tableHelper = (el: IUserStandings) => {
+export const getTableRowParams = (el: IUserStandings) => {
   const { name, ansCorrect, ansTotal, position, resultsTotal, uid } = el
   const answers = ansCorrect + '/' + ansTotal
   const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
-  const ninety = ((ansTotal * 100) / resultsTotal).toFixed(0) + '%'
+  const isNinety = (ansTotal * 100) / resultsTotal
+  const ninety = !isNaN(isNinety) ? isNinety.toFixed(0) + '%' : '-'
 
   return { name, answers, correct, ninety, position, uid }
 }

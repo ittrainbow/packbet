@@ -1,4 +1,4 @@
-import { WeekType, AnswersType } from './types'
+import { WeekType, AnswersType, QuestionType } from './types'
 
 export interface IApp {
   mobile: boolean
@@ -13,6 +13,26 @@ export interface IApp {
   otherUserUID: string
   selectedWeek: number
   tabActive: number
+  emailReg: boolean
+  duration: number
+}
+
+export interface IRouter {
+  location: {
+    pathname: string
+    search: string
+    hash: string
+    state: string | null
+    key: string
+  }
+  action: 'PUSH' | 'PULL'
+}
+
+export interface ITools {
+  showTools: boolean
+  showBuddies: boolean
+  showOneWeek: boolean
+  standingsSearch: string
 }
 
 export interface IUser {
@@ -25,10 +45,6 @@ export interface IUser {
 
 export interface IUserStore extends IUser {
   uid: string
-}
-
-export interface RawUser extends IUser {
-  email: string
 }
 
 export interface IAbout {
@@ -61,4 +77,13 @@ export interface IUserStandings {
   position: number | string
   correct: number
   uid: string
+}
+
+export interface IStandings {
+  [key: string]: IUserStandings[]
+}
+
+export interface IEditor extends WeekType {
+  questionInWork: QuestionType
+  questionCompare: QuestionType
 }

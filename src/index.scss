@@ -9,13 +9,13 @@
 @import './styles/localeSwitcher';
 @import './styles/confirm';
 @import './styles/otherUser';
-@import './styles/ynButtons';
 @import './styles/header';
 @import './styles/weeklist';
 @import './styles/about';
 @import './styles/editor';
 @import './styles/week';
 @import './styles/standings';
+@import './styles/question';
 
 body {
   margin: 0;
@@ -24,6 +24,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $base-bg;
+  line-height: normal;
 }
 
 code {
@@ -166,6 +167,10 @@ table {
   background-color: $base-bg;
   max-width: $max-width;
   font-size: 15px;
+}
+
+.opacity-0 {
+  opacity: 0;
 }
 
 html,
