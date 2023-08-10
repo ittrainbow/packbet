@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { answersActions, compareActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
 import { LocaleType } from '../types'
-import { fadeOut } from '../helpers'
+import { animateFadeOut } from '../helpers'
 import { Button } from '../UI'
 import { logout } from '../db/auth'
 import { auth } from '../db'
@@ -23,7 +23,7 @@ export const Dashboard = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(authRef)
   }, [tabActive])
 
   // action handlers
@@ -37,7 +37,7 @@ export const Dashboard = () => {
   }
 
   const handleNavigate = () => {
-    fadeOut(authRef)
+    animateFadeOut(authRef)
     setTimeout(() => navigate('/profile'), 200)
   }
 

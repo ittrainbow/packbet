@@ -1,21 +1,21 @@
 import { store } from '../redux/store'
 import { FadeRefType } from '../types'
 
-export const animateCancel = (
+export const animateWeekCancel = (
   draw: boolean,
   gotChanges: boolean | undefined,
   ref: FadeRefType,
   setDrawCancelButton: (value: boolean) => void
 ) => {
   if (draw && !gotChanges) {
-    fadeOut(ref)
+    animateFadeOut(ref)
     setTimeout(() => setDrawCancelButton(false), 200)
   } else if (!draw && gotChanges) {
     setDrawCancelButton(true)
   }
 }
 
-export const fadeOut = (ref: FadeRefType) => {
+export const animateFadeOut = (ref: FadeRefType) => {
   const list = ref.current?.classList
 
   list?.remove('animate-fade-in-up')
@@ -27,7 +27,7 @@ export const fadeOut = (ref: FadeRefType) => {
   }, 200)
 }
 
-export const weekListSwitchAnimate = (ref: FadeRefType) => {
+export const animateSwitchWeekList = (ref: FadeRefType) => {
   const { editor, tabActive } = store.getState().app
   const { pathname } = store.getState().router.location
   
@@ -39,18 +39,18 @@ export const weekListSwitchAnimate = (ref: FadeRefType) => {
     (tabActive === 3 && pathname.includes('calendar')) ||
     (tabActive === 5 && pathname.includes('season'))
   ) {
-    fadeOut(ref)
+    animateFadeOut(ref)
   }
 }
 
-export const weekAnimate = (ref: FadeRefType) => {
+export const animateWeekFadeOut = (ref: FadeRefType) => {
   const { pathname } = store.getState().router.location
   const { tabActive} = store.getState().app
 
   const weekWithId = pathname.includes('week') && pathname.length > 6
   if ((tabActive === 3 && !weekWithId) || (tabActive === 2 && weekWithId)) {
-    fadeOut(ref)
+    animateFadeOut(ref)
   } else if ([0, 1, 4, 5, 6].indexOf(tabActive) > -1) {
-    fadeOut(ref)
+    animateFadeOut(ref)
   }
 }

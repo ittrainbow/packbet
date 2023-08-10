@@ -4,7 +4,7 @@ import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, get
 import { ActionType, IUser, IUserStore, AnswersType, IStore, BuddiesPayloadType, IPlayers } from '../../types'
 import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
 import { fetchStandingsSaga, createStandingsSaga } from '.'
-import { objectCompare } from '../../helpers'
+import { getObjectsEquality } from '../../helpers'
 import { getLocale } from '../../helpers'
 import * as TYPES from '../storetypes'
 
@@ -106,7 +106,7 @@ function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
     yield put(resultsActions.setResults(results))
 
     const response: AnswersType = yield call(getDBDocument, 'results', selectedWeek)
-    const saveSuccess: boolean = yield call(objectCompare, response, results[selectedWeek])
+    const saveSuccess: boolean = yield call(getObjectsEquality, response, results[selectedWeek])
     yield put(compareActions.updateCompare({ data: response, id: 'results' }))
     yield call(fetchStandingsSaga)
     yield call(toaster, saveSuccess)
@@ -134,7 +134,7 @@ function* submitAnswersSaga(action: ActionType<SubmitAnswersType>) {
     const response: AnswersType = yield call(getDBDocument, 'answers', uid)
     yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
 
-    const saveSuccess: boolean = yield call(objectCompare, response, answers[uid])
+    const saveSuccess: boolean = yield call(getObjectsEquality, response, answers[uid])
     yield call(toaster, saveSuccess)
   } catch (error) {
     yield toaster(false)

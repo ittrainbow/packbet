@@ -65,3 +65,5 @@ export type YesNoHandlePropsType = {
   id: number
   activity: number
 }
+
+export type ChangeInputType = React.ChangeEvent<HTMLInputElement>

@@ -1,18 +1,8 @@
-import {
-  setDoc,
-  doc,
-  getDoc,
-  getDocs,
-  deleteDoc,
-  collection,
-  QuerySnapshot,
-  DocumentData,
-  updateDoc
-} from 'firebase/firestore'
+import { doc, setDoc, getDoc, getDocs, deleteDoc, collection, updateDoc } from 'firebase/firestore'
+import { QuerySnapshot, DocumentData } from 'firebase/firestore'
 
 import { db } from './firebase'
-import { objectCompose } from '../helpers'
-import { AnswersType } from '../types'
+import { AnswersType, IAbout, IAnswers, IPlayers } from '../types'
 
 export const getDBDocument = async (collection: string, document: string | number) => {
   try {
@@ -61,7 +51,11 @@ export const deleteDBDocument = async (collection: string, document: string | nu
 export const getDBCollection = async (link: string) => {
   try {
     const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, link))
-    return objectCompose(response)
+    const obj: IAbout | IPlayers | IAnswers = {}
+    response.forEach((el) => {
+      obj[el.id] = el.data()
+    })
+    return obj
   } catch (error) {
     if (error instanceof Error) console.error(error.message)
   }

@@ -10,7 +10,7 @@ import { selectApp, selectUser } from '../redux/selectors'
 import { UPDATE_PROFILE } from '../redux/storetypes'
 import { userActions } from '../redux/slices'
 import { LocaleType } from '../types'
-import { fadeOut } from '../helpers'
+import { animateFadeOut } from '../helpers'
 import { auth } from '../db'
 import { i18n } from '../locale'
 
@@ -28,7 +28,7 @@ export const Profile = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(authRef)
   }, [tabActive])
 
   // helpers
@@ -53,7 +53,7 @@ export const Profile = () => {
   }
 
   const handleDiscard = () => {
-    fadeOut(authRef)
+    animateFadeOut(authRef)
     setTimeout(() => {
       dispatch(userActions.setLocale(tempLocale))
       navigate(-1)

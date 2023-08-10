@@ -4,13 +4,14 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { OtherUser, Button, Kickoff, Switch, Question } from '../UI'
-import { answersActions, resultsActions, userActions } from '../redux/slices'
-import { animateCancel, weekGotChanges, weekAnimate } from '../helpers'
-import { selectApp, selectUser } from '../redux/selectors'
-import { IStore, LocaleType, WeekType } from '../types'
-import * as TYPES from '../redux/storetypes'
-import { i18n } from '../locale'
+import { OtherUser, Button, Switch } from '../../UI'
+import { answersActions, resultsActions, userActions } from '../../redux/slices'
+import { animateWeekCancel, getWeekChangesStatus, animateWeekFadeOut } from '../../helpers'
+import { selectApp, selectUser } from '../../redux/selectors'
+import { IStore, LocaleType, WeekType } from '../../types'
+import * as TYPES from '../../redux/storetypes'
+import { i18n } from '../../locale'
+import { WeekQuestion, WeekCountdown } from '.'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -28,14 +29,14 @@ export const Week = () => {
 
   // container fade animations
 
-  const gotChanges = weekGotChanges()
+  const gotChanges = getWeekChangesStatus()
 
   useEffect(() => {
-    weekAnimate(containerRef)
+    animateWeekFadeOut(containerRef)
   }, [tabActive])
 
   useEffect(() => {
-    animateCancel(drawCancel, weekGotChanges(), cancelRef, setDrawCancel)
+    animateWeekCancel(drawCancel, getWeekChangesStatus(), cancelRef, setDrawCancel)
   }, [gotChanges, drawCancel])
 
   // helpers
@@ -92,17 +93,17 @@ export const Week = () => {
       </div>
       <OtherUser containerRef={containerRef} />
       <ToastContainer position="top-center" autoClose={2000} theme="colored" pauseOnHover={false} />
-      <Kickoff />
+      <WeekCountdown />
       {questions &&
         Object.keys(questions)
           .map((el) => Number(el))
           .map((id, index) => (
             <div key={index}>
-              <Question id={id} />
+              <WeekQuestion id={id} />
             </div>
           ))}
-      <Button onClick={handleSubmit} disabled={!weekGotChanges() || (outdated && !adm)} className="week-button">
-        {!weekGotChanges() ? buttonChangesMsg : buttonSaveMsg}
+      <Button onClick={handleSubmit} disabled={!getWeekChangesStatus() || (outdated && !adm)} className="week-button">
+        {!getWeekChangesStatus() ? buttonChangesMsg : buttonSaveMsg}
       </Button>
       {drawCancel ? (
         <div className="animate-fade-in-up" ref={cancelRef}>

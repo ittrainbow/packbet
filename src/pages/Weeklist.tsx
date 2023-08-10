@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { fadeOut, weekListSwitchAnimate } from '../helpers'
+import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { OtherUser } from '../UI'
 
 export const WeekList = () => {
@@ -18,13 +18,13 @@ export const WeekList = () => {
   // container fade animations
 
   useEffect(() => {
-    weekListSwitchAnimate(containerRef)
+    animateSwitchWeekList(containerRef)
   }, [tabActive, editor])
 
   // action handlers
 
   const handleClick = (selectedWeek: number) => {
-    fadeOut(containerRef)
+    animateFadeOut(containerRef)
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))

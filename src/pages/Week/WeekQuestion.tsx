@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 
-import { IStore, YesNoHandlePropsType } from '../types'
-import { selectApp, selectUser } from '../redux/selectors'
-import { ansHelper } from '../helpers'
-import { resultsActions, answersActions } from '../redux/slices'
-import { Button } from './Button'
+import { IStore, YesNoHandlePropsType } from '../../types'
+import { selectApp, selectUser } from '../../redux/selectors'
+import { getAnswersResults } from '../../helpers'
+import { resultsActions, answersActions } from '../../redux/slices'
+import { Button } from '../../UI'
 
-export const Question = ({ id }: { id: number }) => {
+export const WeekQuestion = ({ id }: { id: number }) => {
   const dispatch = useDispatch()
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
@@ -76,7 +76,7 @@ export const Question = ({ id }: { id: number }) => {
     const getUid = isItYou ? uid : otherUserUID
     const week = answers[getUid] && answers[getUid][selectedWeek]
     const styles = ['question']
-    const { ans, res } = ansHelper(answers, results, selectedWeek, getUid, id)
+    const { ans, res } = getAnswersResults(answers, results, selectedWeek, getUid, id)
     const drawResult = res && (adminAsPlayer || !admin) && outdated
     drawResult && ans && styles.push(res === ans ? 'question__green' : 'question__red')
     !outdated && !adm && week && week[id] > 0 && styles.push('question__grey')

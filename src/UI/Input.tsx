@@ -1,8 +1,8 @@
-import { ChangeEvent } from 'react'
+import { ChangeInputType } from '../types'
 
 type InputProps = {
   type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (e: ChangeInputType) => void
   id?: string
   className?: string
   placeholder?: string

@@ -11,7 +11,7 @@ export const getWeeksIDs = (weeks: WeeksType) => {
   return { currentWeek, nextWeek }
 }
 
-export const ansHelper = (answers: IAnswers, results: AnswersType, selectedWeek: number, uid: string, id: number) => {
+export const getAnswersResults = (answers: IAnswers, results: AnswersType, selectedWeek: number, uid: string, id: number) => {
   const res = results[selectedWeek] ? results[selectedWeek][id] : 0
   const ans = answers[uid] && answers[uid][selectedWeek] ? answers[uid][selectedWeek][id] : 0
   return { ans, res }

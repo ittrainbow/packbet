@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
@@ -7,8 +7,8 @@ import { registerWithEmailAndPassword, signInWithGoogle } from '../db/auth'
 import { appActions, userActions } from '../redux/slices'
 import { Button, LocaleSwitcher } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
-import { IUser, LocaleType } from '../types'
-import { fadeOut } from '../helpers'
+import { ChangeInputType, IUser, LocaleType } from '../types'
+import { animateFadeOut } from '../helpers'
 import { Input } from '@mui/material'
 import { auth } from '../db/firebase'
 import { i18n } from '../locale'
@@ -28,7 +28,7 @@ export const Register = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(authRef)
   }, [tabActive])
 
   // helpers
@@ -70,17 +70,17 @@ export const Register = () => {
 
   // action handlers
 
-  const handleNameInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNameInput = (e: ChangeInputType) => {
     const { value } = e.target
     setName(value)
   }
 
-  const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailInput = (e: ChangeInputType) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
-  const handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordInput = (e: ChangeInputType) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }
@@ -94,7 +94,7 @@ export const Register = () => {
     i18n(locale, 'auth') as LocaleType
 
   const handleToLogin = () => {
-    fadeOut(authRef)
+    animateFadeOut(authRef)
     setTimeout(() => navigate('/reset'), 200)
   }
 

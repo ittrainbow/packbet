@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -7,8 +7,8 @@ import { Input } from '@mui/material'
 import { Button, LocaleSwitcher } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
 import { sendPasswordReset } from '../db/auth'
-import { LocaleType } from '../types'
-import { fadeOut } from '../helpers'
+import { ChangeInputType, LocaleType } from '../types'
+import { animateFadeOut } from '../helpers'
 import { auth } from '../db/firebase'
 import { i18n } from '../locale'
 
@@ -24,7 +24,7 @@ export const Reset = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 1 && fadeOut(authRef)
+    tabActive !== 1 && animateFadeOut(authRef)
   }, [tabActive])
 
   // helpers
@@ -43,18 +43,18 @@ export const Reset = () => {
 
   // action handlers
 
-  const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailInput = (e: ChangeInputType) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
   const handleToRegister = () => {
-    fadeOut(authRef)
+    animateFadeOut(authRef)
     setTimeout(() => navigate('/register'), 200)
   }
 
   const handleToLogin = () => {
-    fadeOut(authRef)
+    animateFadeOut(authRef)
     setTimeout(() => navigate('/login'), 200)
   }
 

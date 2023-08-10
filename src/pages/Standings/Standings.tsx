@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import { BsGearFill } from 'react-icons/bs'
 import { FaStar } from 'react-icons/fa'
 
-import { selectApp, selectStandings, selectTools } from '../redux/selectors'
-import { FETCH_OTHER_USER, SET_BUDDIES } from '../redux/storetypes'
-import { OtherUser, Arrows, Tools, StandingsHeader } from '../UI'
-import { appActions, toolsActions, userActions } from '../redux/slices'
-import { fadeOut, tableHelper } from '../helpers'
-import { IStore, LocaleType } from '../types'
-import { i18n } from '../locale'
+import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
+import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
+import { OtherUser } from '../../UI'
+import { appActions, toolsActions, userActions } from '../../redux/slices'
+import { animateFadeOut, getTableRowParams } from '../../helpers'
+import { IStore, LocaleType } from '../../types'
+import { i18n } from '../../locale'
+import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
 
 export const Standings = () => {
   const navigate = useNavigate()
@@ -29,20 +30,20 @@ export const Standings = () => {
   // container fade animations
 
   useEffect(() => {
-    tabActive !== 4 && fadeOut(containerRef)
+    tabActive !== 4 && animateFadeOut(containerRef)
   }, [tabActive])
 
   // action handlers
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
-    fadeOut(tableRef)
+    animateFadeOut(tableRef)
     setTimeout(() => dispatch(toolsActions.switchShowTools()), 200)
   }
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
-      fadeOut(containerRef)
+      animateFadeOut(containerRef)
       setTimeout(() => {
         const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
         dispatch(appActions.setOtherUserFromStandings(otherUser))
@@ -78,7 +79,7 @@ export const Standings = () => {
           <div className="standings-top-container__title">{getLastWeekName()}</div>
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
-        {showTools ? <Tools fadeOutTools={fadeOutTools} tableRef={tableRef} /> : null}
+        {showTools ? <StandingsTools fadeOutTools={fadeOutTools} tableRef={tableRef} /> : null}
         <div className="standings" ref={tableRef}>
           <OtherUser containerRef={containerRef} />
           <StandingsHeader />
@@ -88,7 +89,7 @@ export const Standings = () => {
               return showBuddies ? buddies.includes(el.uid) : el
             })
             .map((el, index) => {
-              const { name, answers, correct, ninety, position, uid } = tableHelper(el)
+              const { name, answers, correct, ninety, position, uid } = getTableRowParams(el)
               const buddy = buddies?.includes(uid)
               return (
                 <div key={index} className="standings__header">
@@ -117,7 +118,7 @@ export const Standings = () => {
           <div className="tierline">{tablePSTwo}</div>
         </div>
       </div>
-      <Arrows />
+      <StandingsArrows />
     </>
   )
 }

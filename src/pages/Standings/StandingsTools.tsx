@@ -1,12 +1,12 @@
-import { useRef, useEffect, ChangeEvent } from 'react'
+import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { selectApp, selectTools, selectUser } from '../redux/selectors'
-import { FadeRefType, LocaleType } from '../types'
-import { Button, Switch } from '.'
-import { toolsActions } from '../redux/slices'
-import { fadeOut } from '../helpers'
-import { i18n } from '../locale'
+import { selectApp, selectTools, selectUser } from '../../redux/selectors'
+import { ChangeInputType, FadeRefType, LocaleType } from '../../types'
+import { Button, Switch } from '../../UI'
+import { toolsActions } from '../../redux/slices'
+import { animateFadeOut } from '../../helpers'
+import { i18n } from '../../locale'
 
 import { Input } from '@mui/material'
 
@@ -15,7 +15,7 @@ type ToolsPropsType = {
   tableRef: FadeRefType
 }
 
-export const Tools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
+export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
   const dispatch = useDispatch()
   const { showOneWeek, showBuddies, standingsSearch, showTools } = useSelector(selectTools)
   const { mobile } = useSelector(selectApp)
@@ -25,7 +25,7 @@ export const Tools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
   // animate tools
 
   useEffect(() => {
-    !fadeOutTools && fadeOut(toolsRef)
+    !fadeOutTools && animateFadeOut(toolsRef)
   }, [fadeOutTools])
 
   // action handlers
@@ -40,14 +40,14 @@ export const Tools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
     dispatch(toolsActions.clearSearch())
   }
 
-  const hancleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+  const hancleChangeSearch = (e: ChangeInputType) => {
     const { value } = e.target
     dispatch(toolsActions.setSearch(value))
   }
 
   const handleSwitchBuddies = () => {
     const value = !showBuddies
-    showTools && fadeOut(tableRef)
+    showTools && animateFadeOut(tableRef)
     setTimeout(() => dispatch(toolsActions.switchShowBuddies()), 200)
     localStorage.setItem('packContestFavList', value.toString())
   }

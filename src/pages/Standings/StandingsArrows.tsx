@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from 'react'
 
 import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
-import { FadeRefType } from '../types'
+import { FadeRefType } from '../../types'
 
-export const Arrows = () => {
+export const StandingsArrows = () => {
   const arrowsRef = useRef<HTMLDivElement>(null)
   const arrowTopRef = useRef<HTMLDivElement>(null)
   const arrowBottomRef = useRef<HTMLDivElement>(null)
