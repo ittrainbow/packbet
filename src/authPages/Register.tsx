@@ -16,11 +16,11 @@ import { i18n } from '../locale'
 export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { tabActive, duration } = useSelector(selectApp)
   const [user, loading] = useAuthState(auth)
+  const { tabActive, duration } = useSelector(selectApp)
+  const { locale } = useSelector(selectUser)
   const authRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
-  const { locale } = useSelector(selectUser)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')

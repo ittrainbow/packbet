@@ -67,3 +67,5 @@ export type YesNoHandlePropsType = {
 }
 
 export type ChangeInputType = React.ChangeEvent<HTMLInputElement>
+
+export type InputRefType = HTMLInputElement

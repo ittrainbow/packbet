@@ -15,7 +15,7 @@ type InputProps = {
 export const Input = (props: InputProps) => {
   const { type = 'text', value, onChange, placeholder, id, className, inputRef, checked } = props
   const num = type === 'number'
-  
+
   return (
     <input
       style={{ width: num ? 60 : '', textAlign: num ? 'center' : 'left' }}

@@ -14,8 +14,9 @@ export const aboutSlice = createSlice({
   initialState,
   reducers: {
     setAbout(state, action: PayloadAction<IAbout>) {
-      state.ru = action.payload.ru
-      state.ua = action.payload.ua
+      const { ru, ua } = action.payload
+      state.ru = ru
+      state.ua = ua
     }
   }
 })

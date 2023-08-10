@@ -18,10 +18,10 @@ export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const authRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>()
   const { name, locale } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
+  const authRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
 

@@ -6,10 +6,10 @@ import { selectApp } from '../../redux/selectors'
 import { FadeRefType } from '../../types'
 
 export const StandingsArrows = () => {
-  const arrowsRef = useRef<HTMLDivElement>(null)
-  const arrowTopRef = useRef<HTMLDivElement>(null)
-  const arrowBottomRef = useRef<HTMLDivElement>(null)
   const { duration } = useSelector(selectApp)
+  const arrowBottomRef = useRef<HTMLDivElement>(null)
+  const arrowTopRef = useRef<HTMLDivElement>(null)
+  const arrowsRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState<boolean>(false)
 
   // animate

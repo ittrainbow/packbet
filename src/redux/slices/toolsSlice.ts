@@ -18,6 +18,10 @@ export const toolsSlice = createSlice({
       state.showTools = newTools
     },
 
+    setShowTools(state, action: PayloadAction<boolean>) {
+      state.showTools = action.payload
+    },
+
     switchShowBuddies(state) {
       state.showBuddies = !state.showBuddies
     },

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { selectApp, selectTools, selectUser } from '../../redux/selectors'
@@ -21,6 +21,7 @@ export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
   const { mobile, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const toolsRef = useRef<HTMLDivElement>(null)
+  const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
 
   // animate tools
 
@@ -48,13 +49,15 @@ export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
   const handleSwitchBuddies = () => {
     const value = !showBuddies
     showTools && animateFadeOut(tableRef)
+    setShowBuddiesLocal(value)
     setTimeout(() => dispatch(toolsActions.switchShowBuddies()), duration)
     localStorage.setItem('packContestFavList', value.toString())
   }
 
   // render styles and locales
 
-  const msg = i18n(locale, 'standings') as LocaleType
+  const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
+    i18n(locale, 'standings') as LocaleType
 
   return (
     <div className="standings__tools animate-fade-in-up" ref={toolsRef}>
@@ -63,12 +66,12 @@ export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
           onChange={hancleChangeSearch}
           value={standingsSearch}
           type="text"
-          placeholder={msg.tableSearchMsg}
+          placeholder={tableSearchMsg}
           sx={{ width: '100%', height: '36px' }}
         />
         <div>
           <Button onClick={handleClearSearch} disabled={!standingsSearch} className={'standings__button'}>
-            {msg.tableClearBtn}
+            {tableClearBtn}
           </Button>
         </div>
       </div>
@@ -76,15 +79,15 @@ export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
         <Switch
           onChange={handleSwitchShowOneWeek}
           checked={showOneWeek}
-          messageOn={msg.tableOnlyWeekMsg}
-          messageOff={msg.tableAllSeasonMsg}
+          messageOn={tableOnlyWeekMsg}
+          messageOff={tableAllSeasonMsg}
           fullWidth={true}
         />
         <Switch
           onChange={handleSwitchBuddies}
-          checked={showBuddies}
-          messageOn={msg.tableBuddiesMsg}
-          messageOff={msg.tableAllUsersMsg}
+          checked={showBuddiesLocal}
+          messageOn={tableBuddiesMsg}
+          messageOff={tableAllUsersMsg}
           fullWidth={true}
         />
       </div>

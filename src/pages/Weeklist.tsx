@@ -2,18 +2,18 @@ import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { selectApp, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { OtherUser } from '../UI'
 
 export const WeekList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const containerRef = useRef<HTMLDivElement>(null)
   const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   // container fade animations
 

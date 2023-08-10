@@ -66,8 +66,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     if (thisButton) {
       if (outdated && !adm && correct) return 'yn yn-correct'
       if (outdated && !adm && wrong) return 'yn yn-wrong'
-      if (!outdated && !adm) return 'yn yn-black'
-      if (adm) return 'yn yn-admin'
+      if (!outdated) return 'yn yn-black'
     }
     return 'yn yn-grey'
   }

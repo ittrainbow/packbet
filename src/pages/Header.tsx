@@ -1,11 +1,10 @@
-import { memo } from 'react'
 import { FaInfoCircle, FaUserAlt, FaFootballBall, FaCalendarAlt } from 'react-icons/fa'
 import { FaClipboardList, FaChevronCircleRight, FaPenNib } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
-import { appActions, editorActions } from '../redux/slices'
+import { appActions, editorActions, toolsActions } from '../redux/slices'
 import { LocaleType } from '../types'
 import { i18n } from '../locale'
 
@@ -35,6 +34,7 @@ export const Header = () => {
       id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
       id > 4 && !editor && dispatch(appActions.setEditor(id > 4))
       id < 5 && editor && dispatch(appActions.setEditor(false))
+      id === 4 && tabActive !== 4 && dispatch(toolsActions.setShowTools(false))
       id === 5 && dispatch(editorActions.clearEditor())
       id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
 
@@ -50,8 +50,7 @@ export const Header = () => {
     return id === tabActive ? 'header__tab-active' : 'header__tab'
   }
 
-  const headerLocale = i18n(locale, 'header') as LocaleType
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = headerLocale
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header') as LocaleType
 
   const userMenu = [
     { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },
@@ -84,5 +83,3 @@ export const Header = () => {
     </div>
   )
 }
-
-export const MemoHeader = memo(Header)

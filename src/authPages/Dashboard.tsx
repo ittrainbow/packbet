@@ -17,8 +17,8 @@ export const Dashboard = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
-  const authRef = useRef<HTMLDivElement>(null)
   const { name, admin, locale } = useSelector(selectUser)
+  const authRef = useRef<HTMLDivElement>(null)
 
   // container fade animations
 

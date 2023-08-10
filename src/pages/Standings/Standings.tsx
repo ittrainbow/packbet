@@ -16,16 +16,16 @@ import { i18n } from '../../locale'
 export const Standings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
-  const { tabActive, duration } = useSelector(selectApp)
-  const { season, week } = useSelector(selectStandings)
   const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const results = useSelector((store: IStore) => store.results)
-  const user = useSelector((store: IStore) => store.user)
   const weeks = useSelector((store: IStore) => store.weeks)
+  const user = useSelector((store: IStore) => store.user)
+  const { tabActive, duration } = useSelector(selectApp)
+  const { season, week } = useSelector(selectStandings)
   const { locale, uid, buddies, admin } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
+  const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
 
   // container fade animations
 

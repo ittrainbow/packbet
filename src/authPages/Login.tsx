@@ -15,13 +15,13 @@ import { i18n } from '../locale'
 export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const authRef = useRef<HTMLDivElement>(null)
-  const { tabActive, duration } = useSelector(selectApp)
-  const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
-  const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
-  const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
+  const { tabActive, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
+  const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
+  const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
+  const [emailValid, setEmailValid] = useState<boolean>(false)
+  const authRef = useRef<HTMLDivElement>(null)
 
   // container fade animations
 

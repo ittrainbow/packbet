@@ -17,6 +17,17 @@ export interface IApp {
   duration: number
 }
 
+export interface IRouter {
+  location: {
+    pathname: string
+    search: string
+    hash: string
+    state: string | null
+    key: string
+  }
+  action: 'PUSH' | 'PULL'
+}
+
 export interface ITools {
   showTools: boolean
   showBuddies: boolean

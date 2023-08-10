@@ -13,13 +13,13 @@ import { auth } from '../db/firebase'
 import { i18n } from '../locale'
 
 export const Reset = () => {
-  const { tabActive, duration } = useSelector(selectApp)
+  const navigate = useNavigate()
   const [user, loading] = useAuthState(auth)
-  const [email, setEmail] = useState('')
+  const { tabActive, duration } = useSelector(selectApp)
+  const { locale } = useSelector(selectUser)
   const authRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
-  const { locale } = useSelector(selectUser)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
 
   // container fade animations
 

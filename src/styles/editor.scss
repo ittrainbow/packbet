@@ -55,14 +55,14 @@
 
   &__red:hover,
   &__red:active {
-    color: $base-red-active;
+    color: $base-red;
     transition: 0.22s ease-in-out;
   }
 }
 
 .faBan {
   padding-right: 5px;
-  color: $base-red-active;
+  color: $base-red;
 }
 
 .editor-checkbox {

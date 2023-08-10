@@ -14,8 +14,9 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const { duration } = useSelector(selectApp)
   const { question, total } = questions[id]
 
+  // action handlers
+
   const handleEditQuestion = (id: number) => {
-    // inputRef.current?.focus()
     const { question, total } = questions[id]
     dispatch(editorActions.setQuestionInWork({ question, total, id }))
     dispatch(editorActions.setQuestionCompare({ question, total, id }))

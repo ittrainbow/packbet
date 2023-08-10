@@ -66,24 +66,20 @@
   }
 }
 
-.yn-wrong {
-  color: $base-question-red;
-}
-
-.yn-grey {
-  color: $base-question-grey;
-}
-
 .yn-correct {
   color: $base-question-green;
 }
 
-.yn-admin,
+.yn-wrong {
+  color: $base-question-red;
+}
+
 .yn-black {
   color: $base-black;
   background-color: $base-itembg-slight;
+  border: 1px solid $base-border-light;
 }
 
-.yn-admin {
-  border: 1px solid $base-border-light;
+.yn-grey {
+  color: $base-question-grey;
 }

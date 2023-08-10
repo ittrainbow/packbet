@@ -9,9 +9,9 @@ import { Button } from '../UI'
 import { i18n } from '../locale'
 
 export const About = () => {
-  const about = useSelector(selectAbout)
-  const { locale } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
+  const { locale } = useSelector(selectUser)
+  const about = useSelector(selectAbout)
   const containerRef = useRef<HTMLDivElement>(null)
   const aboutRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
