@@ -86,7 +86,8 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   return (
     <div className={getQuestionClass(id)}>
       <div className="question__desc">
-        {question} {total !== '1' ? `: ${total}` : null}
+        {question.trim()}
+        {total !== '1' ? `: ${total}` : null}
       </div>
       <div className="question__actions">
         <div className="yn__container">

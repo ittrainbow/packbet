@@ -49,6 +49,9 @@ export const About = () => {
 
   const description = Object.values(about[locale])
 
+  const year = new Date().getFullYear()
+  const copyright = ` ${String.fromCodePoint(0x00a9)} ${new Date().getFullYear()}`
+
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="about__paragraph">{description[0]}</div>
@@ -73,8 +76,9 @@ export const About = () => {
             <div>{description[9]}</div>
           </div>
           <hr />
-          <div className="about__paragraph">
-            {devMsg} <a href="https://t.me/packersnews">Green 19</a>
+          <div className="about__paragraph copyright">
+            <a href="https://t.me/packersnews">Green 19</a>
+            {copyright}
           </div>
         </div>
       ) : null}

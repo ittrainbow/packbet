@@ -15,7 +15,7 @@ import { i18n } from '../../locale'
 
 export const Week = () => {
   const dispatch = useDispatch()
-  const { selectedWeek, isItYou, tabActive, duration } = useSelector(selectApp)
+  const { selectedWeek, currentWeek, isItYou, tabActive, duration } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
@@ -83,7 +83,7 @@ export const Week = () => {
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
-  return (
+  return currentWeek > -1 ? (
     <div className="container animate-fade-in-up" ref={containerRef}>
       <div className="week-header">
         <div className="week-header__name bold">{name}</div>
@@ -113,5 +113,5 @@ export const Week = () => {
         </div>
       ) : null}
     </div>
-  )
+  ) : null
 }

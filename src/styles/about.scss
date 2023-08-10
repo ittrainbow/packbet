@@ -13,12 +13,16 @@
 
 .legend {
   display: flex;
-  padding: 5px 0 5px;
+  padding: 0 0 8px;
 
   &__icon {
     display: flex;
     align-items: center;
   }
+}
+
+.copyright {
+  text-align: center;
 }
 
 .FaArrowDown,

@@ -62,6 +62,7 @@ export const Editor = () => {
     dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: editor } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
+    dispatch(appActions.setSelectedWeek(selectedWeek ? selectedWeek + 1 : 0))
     navigate('/calendar')
   }
 
