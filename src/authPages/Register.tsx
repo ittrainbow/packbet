@@ -12,7 +12,7 @@ import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
 import { Input } from '@mui/material'
 import { auth } from '../db/firebase'
-import { useFadeOut } from '../hooks/useFadeOut'
+import { useFade } from '../hooks/useFade'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ export const Register = () => {
 
   // container fade animations
 
-  useFadeOut({ ref: containerRef, condition: tabActive !== 1})
+  useFade({ ref: containerRef, condition: tabActive !== 1})
 
   // helpers
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
 import { Button } from '../UI'
-import { useFadeOut } from '../hooks/useFadeOut'
+import { useFade } from '../hooks/useFade'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)
@@ -17,7 +17,7 @@ export const About = () => {
 
   // container fade animations
 
-  useFadeOut({ ref: containerRef, condition: tabActive !== 0})
+  useFade({ ref: containerRef, condition: tabActive !== 0})
 
   // action handlers
 

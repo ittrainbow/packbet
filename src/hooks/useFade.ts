@@ -3,12 +3,12 @@ import { FadeRefType } from '../types'
 import { selectApp } from '../redux/selectors'
 import { useEffect } from 'react'
 
-type UseFadeOutTypeProps = {
+type UseFadeTypeProps = {
   ref: FadeRefType
   condition?: boolean
 }
 
-export const useFadeOut = ({ ref, condition = true }: UseFadeOutTypeProps) => {
+export const useFade = ({ ref, condition = true }: UseFadeTypeProps) => {
   const { duration, tabActive } = useSelector(selectApp)
 
   useEffect(() => {

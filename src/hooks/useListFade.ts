@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { selectApp, selectLocation } from '../redux/selectors'
 import { FadeRefType } from '../types'
-import { useFadeOut } from './useFadeOut'
+import { useFade } from './useFade'
 
 type UseListFadePropsType = {
   ref: FadeRefType
@@ -19,5 +19,5 @@ export const useListFade = ({ ref, drawAnimation }: UseListFadePropsType) => {
     (tabActive === 3 && pathname.includes('calendar')) ||
     (tabActive === 5 && pathname.includes('season'))
 
-  useFadeOut({ ref, condition: fadeOutCondition && drawAnimation })
+  useFade({ ref, condition: fadeOutCondition && drawAnimation })
 }

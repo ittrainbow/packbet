@@ -16,22 +16,6 @@ export const animateFadeOut = (ref: FadeRefType) => {
   }, duration + 10)
 }
 
-export const animateSwitchWeekList = (ref: FadeRefType) => {
-  const { editor, tabActive } = store.getState().app
-  const { pathname } = store.getState().router.location
-
-  if (
-    (editor && tabActive !== 5) ||
-    (!editor && tabActive !== 3) ||
-    (editor && tabActive === 3) ||
-    (!editor && tabActive === 5) ||
-    (tabActive === 3 && pathname.includes('calendar')) ||
-    (tabActive === 5 && pathname.includes('season'))
-  ) {
-    animateFadeOut(ref)
-  }
-}
-
 export const animateWeekFadeOut = (ref: FadeRefType) => {
   const { pathname } = store.getState().router.location
   const { tabActive } = store.getState().app

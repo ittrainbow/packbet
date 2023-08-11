@@ -12,7 +12,7 @@ import { animateFadeOut, getTableRowParams } from '../../helpers'
 import { i18n, LocaleType } from '../../locale'
 import { OtherUser } from '../../UI'
 import { IStore } from '../../types'
-import { useFadeOut } from '../../hooks/useFadeOut'
+import { useFade } from '../../hooks/useFade'
 
 export const Standings = () => {
   const navigate = useNavigate()
@@ -30,7 +30,7 @@ export const Standings = () => {
 
   // container fade animations
 
-  useFadeOut({ ref: containerRef, condition: tabActive !== 4})
+  useFade({ ref: containerRef, condition: tabActive !== 4})
 
   // helpers
 
