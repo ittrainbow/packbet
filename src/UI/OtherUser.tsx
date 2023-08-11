@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
 import { FadeRefType } from '../types'
+import { useFade } from '../hooks'
 
 type OtherUserPropsType = {
   containerRef: FadeRefType
@@ -15,8 +15,10 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const { otherUserName, isItYou, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
+  const { triggerFade } = useFade({ ref: containerRef })
+
   const handleDiscard = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => {
       dispatch(appActions.setIsItYou(true))
       dispatch(appActions.setOtherUserName(''))

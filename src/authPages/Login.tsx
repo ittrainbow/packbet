@@ -5,13 +5,13 @@ import { Input } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
 import { selectApp, selectUser } from '../redux/selectors'
-import { animateFadeOut, getLocale } from '../helpers'
+import { getLocale } from '../helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, LocaleSwitcher } from '../UI'
 import { userActions } from '../redux/slices'
 import { i18n, LocaleType } from '../locale'
 import { ChangeInputType } from '../types'
-import { useFade } from '../hooks/useFade'
+import { useFade } from '../hooks'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -26,7 +26,11 @@ export const Login = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1})
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // helpers
 
@@ -75,12 +79,12 @@ export const Login = () => {
   }
 
   const handleToRegister = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToReset = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/reset'), duration)
   }
 

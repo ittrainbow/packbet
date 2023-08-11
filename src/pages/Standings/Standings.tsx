@@ -8,11 +8,11 @@ import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { appActions, toolsActions, userActions } from '../../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
-import { animateFadeOut, getTableRowParams } from '../../helpers'
+import { getTableRowParams } from '../../helpers'
 import { i18n, LocaleType } from '../../locale'
+import { useFade } from '../../hooks'
 import { OtherUser } from '../../UI'
 import { IStore } from '../../types'
-import { useFade } from '../../hooks/useFade'
 
 export const Standings = () => {
   const navigate = useNavigate()
@@ -31,7 +31,12 @@ export const Standings = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 4 })
+  const containerFade = useFade({ ref: containerRef })
+  const bodyFade = useFade({ ref: bodyRef })
+
+  useEffect(() => {
+    tabActive !== 4 && containerFade.triggerFade()
+  }, [tabActive, containerFade])
 
   // helpers
 
@@ -44,13 +49,13 @@ export const Standings = () => {
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
-    animateFadeOut(bodyRef)
+    bodyFade.triggerFade()
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     if (uid && otherUserUID !== uid) {
-      animateFadeOut(containerRef)
+      containerFade.triggerFade()
       setTimeout(() => {
         const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
         dispatch(appActions.setOtherUserFromStandings(otherUser))

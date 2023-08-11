@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
 
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
-import { initialRedirects } from './helpers'
-import { selectApp } from './redux/selectors'
 import { appActions, userActions } from './redux/slices'
+import { selectApp } from './redux/selectors'
+import { initialRedirects } from './helpers'
+import { useSwipe } from './hooks'
 import { Header } from './pages'
 import { auth } from './db'
-import { useSwipe } from './hooks/useSwipe'
 
 export const App = () => {
   const dispatch = useDispatch()

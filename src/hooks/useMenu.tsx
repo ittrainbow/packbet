@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import {
   FaInfoCircle,
   FaUserAlt,
@@ -8,9 +9,11 @@ import {
   FaPenNib
 } from 'react-icons/fa'
 
+import { selectUser } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
 
-export const getMenu = (admin: boolean, locale = 'ru') => {
+export const useMenu = () => {
+  const { locale, admin } = useSelector(selectUser)
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header') as LocaleType
 
   const userMenu = [

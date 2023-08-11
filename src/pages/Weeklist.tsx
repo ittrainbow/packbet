@@ -1,13 +1,11 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
-import { animateFadeOut } from '../helpers'
 import { appActions, editorActions } from '../redux/slices'
+import { useFade } from '../hooks'
 import { OtherUser } from '../UI'
-import { useFade } from '../hooks/useFade'
-import { useListFade } from '../hooks/useListFade'
 
 export const WeekList = () => {
   const navigate = useNavigate()
@@ -20,17 +18,19 @@ export const WeekList = () => {
 
   // container fade animations
 
-  const thirdToFifth = tabActive === 5 && pathname.includes('season')
-  const fifthToThird = tabActive === 3 && pathname.includes('calendar')
-  const drawAnimation = thirdToFifth || fifthToThird
+  const { triggerFade } = useFade({ ref: containerRef })
 
-  useListFade({ ref: containerRef, drawAnimation })
-  useFade({ ref: containerRef, condition: tabActive > 0 && tabActive % 2 === 0 })
+  useEffect(() => {
+    const fromSeasonList = pathname.includes('season') && tabActive !== 3
+    const fromEditorList = pathname.includes('calendar') && tabActive !== 5
+    if (fromSeasonList || fromEditorList) triggerFade()
+    // eslint-disable-next-line
+  }, [tabActive])
 
   // action handlers
 
   const handleClick = (selectedWeek: number) => {
-    animateFadeOut(containerRef)
+    triggerFade()
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))

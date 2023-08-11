@@ -10,9 +10,8 @@ import { UPDATE_PROFILE } from '../redux/storetypes'
 import { Button, LocaleSwitcher } from '../UI'
 import { userActions } from '../redux/slices'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
+import { useFade } from '../hooks'
 import { auth } from '../db'
-import { useFade } from '../hooks/useFade'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -27,7 +26,11 @@ export const Profile = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1})
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // helpers
 
@@ -51,7 +54,7 @@ export const Profile = () => {
   }
 
   const handleDiscard = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => {
       locale !== tempLocale && dispatch(userActions.setLocale(tempLocale))
       navigate(-1)

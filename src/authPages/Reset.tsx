@@ -8,10 +8,9 @@ import { selectApp, selectUser } from '../redux/selectors'
 import { Button, LocaleSwitcher } from '../UI'
 import { sendPasswordReset } from '../db/auth'
 import { i18n, LocaleType } from '../locale'
-import { animateFadeOut } from '../helpers'
 import { ChangeInputType } from '../types'
 import { auth } from '../db/firebase'
-import { useFade } from '../hooks/useFade'
+import { useFade } from '../hooks'
 
 export const Reset = () => {
   const navigate = useNavigate()
@@ -24,7 +23,11 @@ export const Reset = () => {
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 1})
+  const { triggerFade } = useFade({ ref: containerRef })
+
+  useEffect(() => {
+    tabActive !== 1 && triggerFade()
+  }, [tabActive, triggerFade])
 
   // helpers
 
@@ -48,12 +51,12 @@ export const Reset = () => {
   }
 
   const handleToRegister = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToLogin = () => {
-    animateFadeOut(containerRef)
+    triggerFade()
     setTimeout(() => navigate('/login'), duration)
   }
 

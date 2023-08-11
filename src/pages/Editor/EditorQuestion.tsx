@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectApp, selectEditor } from '../../redux/selectors'
 import { FadeRefType, QuestionsType } from '../../types'
 import { editorActions } from '../../redux/slices'
-import { animateFadeOut } from '../../helpers'
+import { useFade } from '../../hooks'
 
 type QuestionPropsType = { id: number; questionsRef: FadeRefType }
 
@@ -13,6 +13,10 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const { questions, questionInWork } = useSelector(selectEditor)
   const { duration } = useSelector(selectApp)
   const { question, total } = questions[id]
+
+  // animate
+
+  const { triggerFade } = useFade({ ref: questionsRef })
 
   // action handlers
 
@@ -23,7 +27,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   }
 
   const handleDeleteQuestion = (id: number) => {
-    animateFadeOut(questionsRef)
+    triggerFade()
     setTimeout(() => {
       const obj: QuestionsType = structuredClone(questions)
       delete obj[id]

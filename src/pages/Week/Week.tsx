@@ -5,20 +5,19 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
-import { selectApp, selectUser } from '../../redux/selectors'
+import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { OtherUser, Button, Switch } from '../../UI'
+import { useChanges, useFade } from '../../hooks'
 import { i18n, LocaleType } from '../../locale'
 import { WeekQuestion, WeekCountdown } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { IStore, WeekType } from '../../types'
-import { useCancelFade } from '../../hooks/useCancelFade'
-import { useChanges } from '../../hooks/useChanges'
-import { useWeekFade } from '../../hooks/useWeekFade'
 
 export const Week = () => {
   const dispatch = useDispatch()
-  const { selectedWeek, currentWeek, isItYou, duration } = useSelector(selectApp)
+  const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
+  const { pathname } = useSelector(selectLocation)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
@@ -33,8 +32,19 @@ export const Week = () => {
 
   // container fade animations
 
-  useWeekFade({ ref: containerRef })
-  useCancelFade({ ref: cancelRef })
+  const containerFade = useFade({ ref: containerRef })
+  const cancelFade = useFade({ ref: cancelRef })
+
+  useEffect(() => {
+    cancelFade.triggerFade()
+  }, [gotChanges, cancelFade])
+
+  useEffect(() => {
+    const fromSeasonList = pathname.includes('week/') && tabActive !== 3
+    const fromCurrentWeek = !pathname.includes('week/') && tabActive !== 2
+    if (fromSeasonList || fromCurrentWeek) containerFade.triggerFade()
+    // eslint-disable-next-line
+  }, [tabActive, containerFade])
 
   // helpers
 

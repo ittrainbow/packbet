@@ -1,29 +1,24 @@
 import { useSelector } from 'react-redux'
-import { FadeRefType } from '../types'
+
 import { selectApp } from '../redux/selectors'
-import { useEffect } from 'react'
+import { FadeRefType } from '../types'
 
-type UseFadeTypeProps = {
-  ref: FadeRefType
-  condition?: boolean
-}
+export const useFade = ({ ref }: { ref: FadeRefType }) => {
+  const { duration } = useSelector(selectApp)
 
-export const useFade = ({ ref, condition = true }: UseFadeTypeProps) => {
-  const { duration, tabActive } = useSelector(selectApp)
+  const triggerFade = () => {
+    const list = ref.current?.classList
 
-  useEffect(() => {
-    if (condition) {
-      const list = ref.current?.classList
+    list?.remove('animate-fade-in-up')
+    list?.add('animate-fade-out-down')
 
-      list?.remove('animate-fade-in-up')
-      list?.add('animate-fade-out-down')
+    setTimeout(() => {
+      list?.remove('animate-fade-out-down')
+      list?.remove('animate-fade-out-right')
+      list?.remove('animate-fade-out-left')
+      list?.add('animate-fade-in-up')
+    }, duration)
+  }
 
-      setTimeout(() => {
-        list?.remove('animate-fade-out-down')
-        list?.remove('animate-fade-out-right')
-        list?.remove('animate-fade-out-left')
-        list?.add('animate-fade-in-up')
-      }, duration + 10)
-    }
-  }, [tabActive])
+  return { triggerFade }
 }
