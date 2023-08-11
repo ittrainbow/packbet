@@ -69,7 +69,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     if (thisButton) {
       if (outdated && !adm && correct) return 'yn yn-correct'
       if (outdated && !adm && wrong) return 'yn yn-wrong'
-      if (!outdated) return 'yn yn-black'
+      if (outdated || (!outdated && isItYou)) return 'yn yn-black'
     }
     return 'yn yn-grey'
   }
@@ -81,13 +81,14 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const { ans, res } = getAnswersResults(answers, results, selectedWeek, getUid, id)
 
     const drawPlayerStyles = adminAsPlayer || !admin
+    const allowedStyles = (!isItYou && outdated) || isItYou
+
     if (drawPlayerStyles && outdated && res && ans) {
       const style = res === ans ? 'question__green' : 'question__red'
       styles.push(style)
     }
 
-    const allowedStyles = (!isItYou && outdated) || isItYou
-    if (!outdated && allowedStyles && !adm && week && week[id] > 0) {
+    if (allowedStyles && !adm && week && week[id] > 0) {
       styles.push('question__grey')
     }
 
