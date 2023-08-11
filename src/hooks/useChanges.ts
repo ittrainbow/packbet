@@ -17,4 +17,6 @@ export const useChanges = () => {
     const result = isAdmin ? adminChanges : userChanges
     return result
   }
+
+  return false
 }

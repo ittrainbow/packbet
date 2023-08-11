@@ -57,16 +57,14 @@ export const Week = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const newOutdated = new Date().getTime() > deadline
-      newOutdated !== outdated && setOutdated(newOutdated)
+      if (newOutdated && !outdated) {
+        setOutdated(newOutdated)
+        handleDiscard()
+      }
     }, 1000)
     return () => clearInterval(interval)
     // eslint-disable-next-line
   }, [])
-
-  useEffect(() => {
-    outdated && handleDiscard()
-    // eslint-disable-next-line
-  }, [outdated])
 
   // action handlers
 

@@ -74,8 +74,12 @@
   color: $base-question-red;
 }
 
-.yn-black {
+.yn-black,
+.yn-dark {
   color: $base-black;
+}
+
+.yn-black {
   background-color: $base-itembg-slight;
   border: 1px solid $base-border-light;
 }

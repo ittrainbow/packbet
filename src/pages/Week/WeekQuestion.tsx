@@ -67,9 +67,11 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     const wrong = result && activity !== result
 
     if (thisButton) {
+      if (adm) return 'yn yn-black'
+      if (!outdated && isItYou) return 'yn yn-black'
       if (outdated && !adm && correct) return 'yn yn-correct'
       if (outdated && !adm && wrong) return 'yn yn-wrong'
-      if (outdated || (!outdated && isItYou)) return 'yn yn-black'
+      if (outdated) return 'yn yn-dark'
     }
     return 'yn yn-grey'
   }
