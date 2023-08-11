@@ -12,6 +12,7 @@ import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { i18n, LocaleType } from '../../locale'
 import * as TYPES from '../../redux/storetypes'
 import { Button } from '../../UI'
+import { useFadeOut } from '../../hooks/useFadeOut'
 
 export const Editor = () => {
   const dispatch = useDispatch()
@@ -29,12 +30,10 @@ export const Editor = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    const fromEditListToEmpty = pathname.length > 7 && tabActive === 6
-    const fromEmptyToEditList = pathname.length < 8 && tabActive === 5
-    const editorInnerSwitch = fromEditListToEmpty || fromEmptyToEditList
-    editorInnerSwitch && animateFadeOut(containerRef)
-  }, [pathname, tabActive])
+  useFadeOut({
+    ref: containerRef,
+    condition: (pathname.length > 7 && tabActive === 6) || (pathname.length < 8 && tabActive === 5)
+  })
 
   // helpers
 
@@ -48,10 +47,10 @@ export const Editor = () => {
     if (tabActive === 6) {
       dispatch(editorActions.clearQuestionInWork())
       setTimeout(() => dispatch(editorActions.clearEditor()), duration)
-    } else if (tabActive < 5) {
-      animateFadeOut(containerRef)
     } // eslint-disable-next-line
   }, [tabActive])
+
+  useFadeOut({ ref: containerRef, condition: tabActive < 5 })
 
   const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length
 

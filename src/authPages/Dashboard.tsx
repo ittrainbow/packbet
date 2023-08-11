@@ -4,12 +4,13 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 
 import { answersActions, compareActions, userActions } from '../redux/slices'
-import { selectApp, selectUser } from '../redux/selectors'
+import { selectApp, selectLocation, selectUser } from '../redux/selectors'
 import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
 import { logout } from '../db/auth'
 import { Button } from '../UI'
 import { auth } from '../db'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()
@@ -17,13 +18,12 @@ export const Dashboard = () => {
   const [user] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
   const { name, admin, locale } = useSelector(selectUser)
+  const { pathname } = useSelector(selectLocation)
   const containerRef = useRef<HTMLDivElement>(null)
 
   // container fade animations
 
-  useEffect(() => {
-    tabActive !== 1 && animateFadeOut(containerRef)
-  }, [tabActive])
+  useFadeOut({ ref: containerRef, condition: tabActive !== 1 })
 
   // action handlers
 

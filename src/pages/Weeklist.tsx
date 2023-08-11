@@ -6,6 +6,7 @@ import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/sel
 import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { appActions, editorActions } from '../redux/slices'
 import { OtherUser } from '../UI'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 export const WeekList = () => {
   const navigate = useNavigate()
@@ -26,10 +27,7 @@ export const WeekList = () => {
     // eslint-disable-next-line
   }, [tabActive, editor])
 
-  useEffect(() => {
-    const drawAnimation = tabActive > 0 && tabActive % 2 === 0
-    drawAnimation && animateFadeOut(containerRef)
-  }, [tabActive])
+  useFadeOut({ ref: containerRef, condition: tabActive > 0 && tabActive % 2 === 0})
 
   // action handlers
 

@@ -9,6 +9,7 @@ import { animateFadeOut } from '../../helpers'
 import { Button, Switch } from '../../UI'
 
 import { Input } from '@mui/material'
+import { useFadeOut } from '../../hooks/useFadeOut'
 
 type ToolsPropsType = {
   fadeOutTools: boolean
@@ -28,6 +29,8 @@ export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
   useEffect(() => {
     !fadeOutTools && animateFadeOut(toolsRef)
   }, [fadeOutTools])
+
+  // useFadeOut({ ref: toolsRef, condition: !fadeOutTools })
 
   // action handlers
 

@@ -11,6 +11,7 @@ import { Button, LocaleSwitcher } from '../UI'
 import { userActions } from '../redux/slices'
 import { i18n, LocaleType } from '../locale'
 import { ChangeInputType } from '../types'
+import { useFadeOut } from '../hooks/useFadeOut'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -25,9 +26,7 @@ export const Login = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    tabActive !== 1 && animateFadeOut(containerRef)
-  }, [tabActive])
+  useFadeOut({ ref: containerRef, condition: tabActive !== 1})
 
   // helpers
 
