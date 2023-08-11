@@ -9,13 +9,9 @@ import {
 } from 'react-icons/fa'
 
 import { i18n, LocaleType } from '../locale'
-import { store } from '../redux/store'
 
-export const getMenu = (admin: boolean) => {
-  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(
-    store.getState().user.locale,
-    'header'
-  ) as LocaleType
+export const getMenu = (admin: boolean, locale = 'ru') => {
+  const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header') as LocaleType
 
   const userMenu = [
     { path: '/', name: tab0msg, icon: <FaInfoCircle />, id: 0 },

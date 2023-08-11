@@ -1,21 +1,6 @@
 import { store } from '../redux/store'
 import { FadeRefType } from '../types'
 
-export const animateWeekCancel = (
-  draw: boolean,
-  gotChanges: boolean | undefined,
-  ref: FadeRefType,
-  setDrawCancelButton: (value: boolean) => void
-) => {
-  const { duration } = store.getState().app
-  if (draw && !gotChanges) {
-    animateFadeOut(ref)
-    setTimeout(() => setDrawCancelButton(false), duration)
-  } else if (!draw && gotChanges) {
-    setDrawCancelButton(true)
-  }
-}
-
 export const animateFadeOut = (ref: FadeRefType) => {
   const { duration } = store.getState().app
   const list = ref.current?.classList

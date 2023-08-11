@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { animateWeekCancel, getWeekChangesStatus, animateWeekFadeOut } from '../../helpers'
+import { animateWeekFadeOut } from '../../helpers'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { OtherUser, Button, Switch } from '../../UI'
@@ -12,6 +12,8 @@ import { i18n, LocaleType } from '../../locale'
 import { WeekQuestion, WeekCountdown } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { IStore, WeekType } from '../../types'
+import { useCancelFade } from '../../hooks/useCancelFade'
+import { useChanges } from '../../hooks/useChanges'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -29,15 +31,11 @@ export const Week = () => {
 
   // container fade animations
 
-  const gotChanges = getWeekChangesStatus()
-
   useEffect(() => {
     animateWeekFadeOut(containerRef)
   }, [tabActive])
 
-  useEffect(() => {
-    animateWeekCancel(drawCancel, getWeekChangesStatus(), cancelRef, setDrawCancel)
-  }, [gotChanges, drawCancel])
+  useCancelFade(drawCancel, cancelRef, setDrawCancel)
 
   // helpers
 
@@ -82,6 +80,8 @@ export const Week = () => {
 
   // render styles and locales
 
+  const gotChanges = useChanges()
+
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
 
@@ -104,8 +104,8 @@ export const Week = () => {
               <WeekQuestion id={id} />
             </div>
           ))}
-      <Button onClick={handleSubmit} disabled={!getWeekChangesStatus() || (outdated && !adm)} className="week-button">
-        {!getWeekChangesStatus() ? buttonChangesMsg : buttonSaveMsg}
+      <Button onClick={handleSubmit} disabled={!gotChanges || (outdated && !adm)} className="week-button">
+        {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
       </Button>
       {drawCancel ? (
         <div className="animate-fade-in-up" ref={cancelRef}>

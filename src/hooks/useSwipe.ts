@@ -10,7 +10,7 @@ export const useSwipe = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { tabActive, duration, editor } = useSelector(selectApp)
-  const { admin } = useSelector(selectUser)
+  const { admin, locale } = useSelector(selectUser)
 
   useEffect(() => {
     let startX: number
@@ -25,7 +25,7 @@ export const useSwipe = () => {
       const endX = Math.round(e.changedTouches[0].clientX)
       const endY = Math.round(e.changedTouches[0].clientY)
       const moveX = endX - startX
-      const isSwipe = Math.abs(moveX) > 90 && Math.abs(endY - startY) < 45
+      const isSwipe = Math.abs(moveX) > 70 && Math.abs(endY - startY) < 45
 
       if (isSwipe) {
         const limit = admin ? 6 : 4
@@ -36,7 +36,7 @@ export const useSwipe = () => {
 
         swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
 
-        const menu = getMenu(admin)
+        const menu = getMenu(admin, locale)
         newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
         newTabActive === 4 && editor && dispatch(appActions.setEditor(false))
         dispatch(appActions.setTabActive(newTabActive))

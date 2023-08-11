@@ -1,5 +1,3 @@
-import { store } from '../redux/store'
-
 type SwipeHelperProps = {
   moveX: number
   canSwipeLeft: boolean

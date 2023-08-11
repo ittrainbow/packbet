@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectUser, selectLocation } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
-import { getMenu } from '../helpers/links'
+import { getMenu } from '../helpers'
 
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { mobile, tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
-  const { admin } = useSelector(selectUser)
+  const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
 
   // container fade animations
@@ -45,7 +45,7 @@ export const Header = () => {
     return id === tabActive ? 'header__tab-active' : 'header__tab'
   }
 
-  const menu = getMenu(admin)
+  const menu = getMenu(admin, locale)
 
   return (
     <div className="header">
