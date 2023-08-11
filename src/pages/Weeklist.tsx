@@ -7,6 +7,7 @@ import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { appActions, editorActions } from '../redux/slices'
 import { OtherUser } from '../UI'
 import { useFadeOut } from '../hooks/useFadeOut'
+import { useListFade } from '../hooks/useListFade'
 
 export const WeekList = () => {
   const navigate = useNavigate()
@@ -19,15 +20,12 @@ export const WeekList = () => {
 
   // container fade animations
 
-  useEffect(() => {
-    const thirdToFifth = tabActive === 5 && pathname.includes('season')
-    const fifthToThird = tabActive === 3 && pathname.includes('calendar')
-    const drawAnimation = thirdToFifth || fifthToThird
-    drawAnimation && animateSwitchWeekList(containerRef)
-    // eslint-disable-next-line
-  }, [tabActive, editor])
-
-  useFadeOut({ ref: containerRef, condition: tabActive > 0 && tabActive % 2 === 0})
+  const thirdToFifth = tabActive === 5 && pathname.includes('season')
+  const fifthToThird = tabActive === 3 && pathname.includes('calendar')
+  const drawAnimation = thirdToFifth || fifthToThird
+  
+  useListFade({ ref: containerRef, drawAnimation })
+  useFadeOut({ ref: containerRef, condition: tabActive > 0 && tabActive % 2 === 0 })
 
   // action handlers
 
