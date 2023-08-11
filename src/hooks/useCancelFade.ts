@@ -1,21 +1,26 @@
 import { useSelector } from 'react-redux'
 import { FadeRefType } from '../types'
 import { selectApp } from '../redux/selectors'
-import { animateFadeOut } from '../helpers'
-import { useChanges } from './useChanges'
 
-export const useCancelFade = (
-  drawCancel: boolean,
-  ref: FadeRefType,
-  setDrawCancelButton: (value: boolean) => void
-) => {
+type UseFadeTypeProps = {
+  ref: FadeRefType
+  condition?: boolean
+}
+
+export const useCancelFade = ({ ref, condition = true }: UseFadeTypeProps) => {
   const { duration } = useSelector(selectApp)
-  const gotChanges = useChanges()
 
-  if (drawCancel && !gotChanges) {
-    animateFadeOut(ref)
-    setTimeout(() => setDrawCancelButton(false), duration)
-  } else if (!drawCancel && gotChanges) {
-    setDrawCancelButton(true)
+  if (condition) {
+    const list = ref.current?.classList
+
+    list?.remove('animate-fade-in-up')
+    list?.add('animate-fade-out-down')
+
+    setTimeout(() => {
+      list?.remove('animate-fade-out-down')
+      list?.remove('animate-fade-out-right')
+      list?.remove('animate-fade-out-left')
+      list?.add('animate-fade-in-up')
+    }, duration + 10)
   }
 }

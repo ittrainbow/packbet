@@ -29,14 +29,20 @@ export const Week = () => {
   const { name, questions, deadline } = weeks[selectedWeek] || ({} as WeekType)
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
+  const gotChanges = useChanges()
+
   // container fade animations
 
   useWeekFade({ ref: containerRef })
-  useCancelFade(drawCancel, cancelRef, setDrawCancel)
+  useCancelFade({ ref: cancelRef })
 
   // helpers
 
   const adm = admin && !adminAsPlayer
+
+  useEffect(() => {
+    setTimeout(() => setDrawCancel(!!gotChanges), duration)
+  }, [gotChanges, duration])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -76,8 +82,6 @@ export const Week = () => {
   }
 
   // render styles and locales
-
-  const gotChanges = useChanges()
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
