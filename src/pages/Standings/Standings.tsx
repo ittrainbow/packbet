@@ -25,17 +25,18 @@ export const Standings = () => {
   const { season, week } = useSelector(selectStandings)
   const { locale, uid, buddies, admin } = user
   const containerRef = useRef<HTMLDivElement>(null)
+  const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
 
   // container fade animations
 
-  useFade({ ref: containerRef, condition: tabActive !== 4})
+  useFade({ ref: containerRef, condition: tabActive !== 4 })
 
   // helpers
 
   useEffect(() => {
-    dispatch(toolsActions.setShowTools(false)) 
+    showTools && dispatch(toolsActions.setShowTools(false))
     // eslint-disable-next-line
   }, [])
 
@@ -43,7 +44,7 @@ export const Standings = () => {
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
-    animateFadeOut(tableRef)
+    animateFadeOut(bodyRef)
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
@@ -85,43 +86,45 @@ export const Standings = () => {
           <div className="standings-top-container__title">{getLastWeekName()}</div>
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
-        {showTools ? <StandingsTools fadeOutTools={fadeOutTools} tableRef={tableRef} /> : null}
-        <div className="standings" ref={tableRef}>
-          <OtherUser containerRef={containerRef} />
-          <StandingsHeader />
-          {Object.values(showOneWeek ? week : season)
-            .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
-            .filter((el) => {
-              return showBuddies ? buddies.includes(el.uid) : el
-            })
-            .map((el, index) => {
-              const { name, answers, correct, ninety, position, uid } = getTableRowParams(el)
-              const buddy = buddies?.includes(uid)
-              return (
-                <div key={index} className="standings__header">
-                  <div className={getCellClass('col-zero', index)}>{position}</div>
-                  <div
-                    className={getCellClass('col-one', index)}
-                    onClick={() => handleAddRemoveBuddy(uid)}
-                    style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
-                  >
-                    <FaStar />
+        <div ref={bodyRef}>
+          {showTools ? <StandingsTools tableRef={tableRef} /> : null}
+          <div className="standings" ref={tableRef}>
+            <OtherUser containerRef={containerRef} />
+            <StandingsHeader />
+            {Object.values(showOneWeek ? week : season)
+              .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
+              .filter((el) => {
+                return showBuddies ? buddies.includes(el.uid) : el
+              })
+              .map((el, index) => {
+                const { name, answers, correct, ninety, position, uid } = getTableRowParams(el)
+                const buddy = buddies?.includes(uid)
+                return (
+                  <div key={index} className="standings__header">
+                    <div className={getCellClass('col-zero', index)}>{position}</div>
+                    <div
+                      className={getCellClass('col-one', index)}
+                      onClick={() => handleAddRemoveBuddy(uid)}
+                      style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
+                    >
+                      <FaStar />
+                    </div>
+                    <div
+                      className={getCellClass('col-two', index)}
+                      onClick={() => handleClickOnUser(name, el.uid)}
+                      style={{ fontWeight: user.uid === uid ? 600 : '' }}
+                    >
+                      {user.uid === uid ? user.name : name}
+                    </div>
+                    <div className={getCellClass('col-three', index)}>{answers}</div>
+                    <div className={getCellClass('col-four', index)}>{correct}</div>
+                    <div className={getCellClass('col-five', index)}>{showOneWeek ? '-' : ninety}</div>
                   </div>
-                  <div
-                    className={getCellClass('col-two', index)}
-                    onClick={() => handleClickOnUser(name, el.uid)}
-                    style={{ fontWeight: user.uid === uid ? 600 : '' }}
-                  >
-                    {user.uid === uid ? user.name : name}
-                  </div>
-                  <div className={getCellClass('col-three', index)}>{answers}</div>
-                  <div className={getCellClass('col-four', index)}>{correct}</div>
-                  <div className={getCellClass('col-five', index)}>{showOneWeek ? '-' : ninety}</div>
-                </div>
-              )
-            })}
-          <div className="tierline">{tablePSOne}</div>
-          <div className="tierline">{tablePSTwo}</div>
+                )
+              })}
+            <div className="tierline">{tablePSOne}</div>
+            <div className="tierline">{tablePSTwo}</div>
+          </div>
         </div>
       </div>
       <StandingsArrows />

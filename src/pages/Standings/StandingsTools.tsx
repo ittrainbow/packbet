@@ -11,23 +11,15 @@ import { Button, Switch } from '../../UI'
 import { Input } from '@mui/material'
 
 type ToolsPropsType = {
-  fadeOutTools: boolean
   tableRef: FadeRefType
 }
 
-export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
+export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
   const dispatch = useDispatch()
   const { showOneWeek, showBuddies, standingsSearch, showTools } = useSelector(selectTools)
   const { mobile, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
-  const toolsRef = useRef<HTMLDivElement>(null)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
-
-  // animate tools
-
-  useEffect(() => {
-    !fadeOutTools && animateFadeOut(toolsRef)
-  }, [fadeOutTools])
 
   // action handlers
 
@@ -60,7 +52,7 @@ export const StandingsTools = ({ fadeOutTools, tableRef }: ToolsPropsType) => {
     i18n(locale, 'standings') as LocaleType
 
   return (
-    <div className="standings__tools animate-fade-in-up" ref={toolsRef}>
+    <div className="standings__tools animate-fade-in-up">
       <div className="standings__search">
         <Input
           onChange={hancleChangeSearch}
