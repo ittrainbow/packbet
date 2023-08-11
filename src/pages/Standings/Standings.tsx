@@ -5,9 +5,9 @@ import { BsGearFill } from 'react-icons/bs'
 import { FaStar } from 'react-icons/fa'
 
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
+import { appActions, toolsActions, userActions } from '../../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
-import { appActions, toolsActions, userActions } from '../../redux/slices'
 import { animateFadeOut, getTableRowParams } from '../../helpers'
 import { IStore, LocaleType } from '../../types'
 import { OtherUser } from '../../UI'
@@ -36,7 +36,8 @@ export const Standings = () => {
   // helpers
 
   useEffect(() => {
-    dispatch(toolsActions.setShowTools(false)) // eslint-disable-next-line
+    dispatch(toolsActions.setShowTools(false)) 
+    // eslint-disable-next-line
   }, [])
 
   // action handlers

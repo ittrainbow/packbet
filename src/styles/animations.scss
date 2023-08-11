@@ -66,20 +66,20 @@
 
 .animate-fade-in-up {
   opacity: 0;
-  animation: fade-in-up 0.2s ease-in-out forwards;
+  animation: fade-in-up $base-duration ease-in-out forwards;
 }
 
 .animate-fade-out-down {
   opacity: 1;
-  animation: fade-out-down 0.2s ease-in-out forwards;
+  animation: fade-out-down $base-duration ease-in-out forwards;
 }
 
 .animate-fade-out-left {
   opacity: 1;
-  animation: fade-out-left 0.2s ease-in-out forwards;
+  animation: fade-out-left $base-duration ease-in-out forwards;
 }
 
 .animate-fade-out-right {
   opacity: 1;
-  animation: fade-out-right 0.2s ease-in-out forwards;
+  animation: fade-out-right $base-duration ease-in-out forwards;
 }

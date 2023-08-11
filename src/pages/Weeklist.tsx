@@ -2,8 +2,8 @@ import { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
+import { animateFadeOut, animateSwitchWeekList } from '../helpers'
 import { appActions, editorActions } from '../redux/slices'
 import { OtherUser } from '../UI'
 

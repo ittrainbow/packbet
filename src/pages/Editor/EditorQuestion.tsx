@@ -1,8 +1,8 @@
 import { FaEdit, FaTrashAlt, FaBan } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { FadeRefType, QuestionsType } from '../../types'
 import { selectApp, selectEditor } from '../../redux/selectors'
+import { FadeRefType, QuestionsType } from '../../types'
 import { editorActions } from '../../redux/slices'
 import { animateFadeOut } from '../../helpers'
 

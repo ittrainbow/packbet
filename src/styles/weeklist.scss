@@ -8,11 +8,17 @@
   background-color: $base-itembg;
   border-radius: 5px;
   margin-bottom: 5px;
+  -webkit-tap-highlight-color: transparent;
 
   &__desc {
     flex-grow: 1;
     display: flex;
     align-items: center;
     padding: 7px;
+  }
+
+  :active {
+    background-color: $base-itembg-active;
+    transition: $base-duration;
   }
 }

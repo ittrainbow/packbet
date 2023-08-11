@@ -2,10 +2,10 @@ import { take, all, call, put } from 'redux-saga/effects'
 
 import { appActions, aboutActions, weeksActions, resultsActions } from '../slices'
 import { IAbout, IWeeks, AnswersType, IPlayers } from '../../types'
-import { createStandingsSaga } from '.'
-import { getDBCollection } from '../../db'
 import { getWeeksIDs } from '../../helpers'
+import { getDBCollection } from '../../db'
 import { INIT_APP } from '../storetypes'
+import { createStandingsSaga } from '.'
 
 function* fetchAboutSaga() {
   try {

@@ -7,8 +7,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { getObjectsEquality, getWeeksIDs, animateFadeOut } from '../../helpers'
-import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
+import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import * as TYPES from '../../redux/storetypes'
 import { LocaleType } from '../../types'
 import { i18n } from '../../locale'
@@ -41,7 +41,8 @@ export const Editor = () => {
 
   useEffect(() => {
     const changes = emptyEditor ? !!Object.keys(questions).length : !getObjectsEquality(editor, weeks[selectedWeek])
-    setAnyChanges(changes) // eslint-disable-next-line
+    setAnyChanges(changes)
+    // eslint-disable-next-line
   }, [questions, name, active, deadline])
 
   useEffect(() => {
@@ -116,7 +117,7 @@ export const Editor = () => {
             {buttonSaveMsg}
           </Button>
           <Button onClick={handleCancelEditor}>{buttonCancelMsg}</Button>
-          {!emptyEditor ? <Button onClick={handleDeleteWeek}>{buttonDeleteWeekMsg}</Button> : null}
+          {pathname.includes('editor/') && <Button onClick={handleDeleteWeek}>{buttonDeleteWeekMsg}</Button>}
         </div>
       </div>
     </div>

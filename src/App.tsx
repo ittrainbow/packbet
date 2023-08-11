@@ -4,13 +4,13 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
 
-import { appActions, userActions } from './redux/slices'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 import { initialRedirects, swipeHelper } from './helpers'
 import { selectApp, selectUser } from './redux/selectors'
+import { appActions, userActions } from './redux/slices'
+import { getMenu } from './helpers/links'
 import { Header } from './pages'
 import { auth } from './db'
-import { getMenu } from './helpers/links'
 
 export const App = () => {
   const dispatch = useDispatch()

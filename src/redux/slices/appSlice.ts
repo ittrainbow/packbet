@@ -23,7 +23,7 @@ const initialState: IApp = {
   selectedWeek: 0,
   tabActive: 1,
   emailReg: false,
-  duration: 200
+  duration: 150
 }
 
 export const appSlice = createSlice({

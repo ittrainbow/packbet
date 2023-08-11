@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux'
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { animateFadeOut } from '../helpers'
 import { LocaleType } from '../types'
-import { Button } from '../UI'
 import { i18n } from '../locale'
+import { Button } from '../UI'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)

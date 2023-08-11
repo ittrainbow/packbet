@@ -1,8 +1,8 @@
 import { Input } from './Input'
 
 type SwitchPropsType = {
-  onChange: () => void
   checked: boolean | undefined
+  onChange: () => void
   messageOn: string
   messageOff: string
   fullWidth?: boolean

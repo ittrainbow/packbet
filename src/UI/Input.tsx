@@ -3,13 +3,13 @@ import { ChangeInputType } from '../types'
 type InputProps = {
   type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
   onChange: (e: ChangeInputType) => void
-  id?: string
-  className?: string
-  placeholder?: string
-  inputRef?: any
-  value?: string | undefined
-  checked?: boolean
   sx?: { [key: string]: string }
+  value?: string | undefined
+  placeholder?: string
+  className?: string
+  checked?: boolean
+  inputRef?: any
+  id?: string
 }
 
 export const Input = (props: InputProps) => {

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { selectApp, selectTools, selectUser } from '../../redux/selectors'
 import { ChangeInputType, FadeRefType, LocaleType } from '../../types'
-import { Button, Switch } from '../../UI'
-import { animateFadeOut } from '../../helpers'
 import { toolsActions } from '../../redux/slices'
+import { animateFadeOut } from '../../helpers'
+import { Button, Switch } from '../../UI'
 import { i18n } from '../../locale'
 
 import { Input } from '@mui/material'

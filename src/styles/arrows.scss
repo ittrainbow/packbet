@@ -6,7 +6,6 @@
   gap: 10px;
   z-index: 100;
   -webkit-tap-highlight-color: transparent;
-  // transition: 0.2s;
 }
 
 .arrows-show,
@@ -26,10 +25,10 @@
 
 .arrows-green {
   color: $base-green-active;
-  transition: 0.2s ease-in-out;
+  transition: $base-duration ease-in-out;
 }
 
 .arrows-grey {
   color: $base-grey;
-  transition: 0.2s ease-in-out;
+  transition: $base-duration ease-in-out;
 }

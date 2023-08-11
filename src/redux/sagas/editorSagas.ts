@@ -2,8 +2,8 @@ import { call, put, takeEvery, select } from 'redux-saga/effects'
 
 import { ActionType, IWeeks, WeekUpdateType } from '../../types'
 import { writeDBDocument, deleteDBDocument } from '../../db'
-import { appActions, editorActions } from '../slices'
 import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
+import { appActions, editorActions } from '../slices'
 import { getWeeksIDs } from '../../helpers'
 
 function* setNextAndCurrentWeeksSaga() {

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-import { FadeRefType, LocaleType } from '../types'
 import { selectApp, selectUser } from '../redux/selectors'
+import { FadeRefType, LocaleType } from '../types'
 import { appActions } from '../redux/slices'
 import { animateFadeOut } from '../helpers'
 import { i18n } from '../locale'
