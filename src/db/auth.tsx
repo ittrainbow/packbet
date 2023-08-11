@@ -10,8 +10,8 @@ import {
 } from 'firebase/auth'
 
 import { db, auth } from './firebase'
-import { IUser, LocaleType } from '../types'
-import { i18n } from '../locale'
+import { IUser } from '../types'
+import { i18n, LocaleType } from '../locale'
 import { appActions } from '../redux/slices'
 import { getLocale } from '../helpers'
 

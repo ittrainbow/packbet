@@ -3,9 +3,8 @@ import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
+import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
-import { LocaleType } from '../types'
-import { i18n } from '../locale'
 import { Button } from '../UI'
 
 export const About = () => {

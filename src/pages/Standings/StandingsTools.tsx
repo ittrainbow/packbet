@@ -2,11 +2,11 @@ import { useRef, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { selectApp, selectTools, selectUser } from '../../redux/selectors'
-import { ChangeInputType, FadeRefType, LocaleType } from '../../types'
+import { ChangeInputType, FadeRefType } from '../../types'
 import { toolsActions } from '../../redux/slices'
+import { i18n, LocaleType } from '../../locale'
 import { animateFadeOut } from '../../helpers'
 import { Button, Switch } from '../../UI'
-import { i18n } from '../../locale'
 
 import { Input } from '@mui/material'
 

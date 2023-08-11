@@ -9,9 +9,8 @@ import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from
 import { getObjectsEquality, getWeeksIDs, animateFadeOut } from '../../helpers'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
+import { i18n, LocaleType } from '../../locale'
 import * as TYPES from '../../redux/storetypes'
-import { LocaleType } from '../../types'
-import { i18n } from '../../locale'
 import { Button } from '../../UI'
 
 export const Editor = () => {

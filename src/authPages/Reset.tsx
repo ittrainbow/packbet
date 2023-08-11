@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Input } from '@mui/material'
 
-import { ChangeInputType, LocaleType } from '../types'
-import { Button, LocaleSwitcher } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
+import { Button, LocaleSwitcher } from '../UI'
 import { sendPasswordReset } from '../db/auth'
+import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
+import { ChangeInputType } from '../types'
 import { auth } from '../db/firebase'
-import { i18n } from '../locale'
 
 export const Reset = () => {
   const navigate = useNavigate()

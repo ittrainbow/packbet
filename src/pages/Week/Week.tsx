@@ -7,11 +7,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { animateWeekCancel, getWeekChangesStatus, animateWeekFadeOut } from '../../helpers'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { IStore, LocaleType, WeekType } from '../../types'
 import { OtherUser, Button, Switch } from '../../UI'
+import { i18n, LocaleType } from '../../locale'
 import { WeekQuestion, WeekCountdown } from '.'
 import * as TYPES from '../../redux/storetypes'
-import { i18n } from '../../locale'
+import { IStore, WeekType } from '../../types'
 
 export const Week = () => {
   const dispatch = useDispatch()
@@ -48,12 +48,12 @@ export const Week = () => {
       const newOutdated = new Date().getTime() > deadline
       newOutdated !== outdated && setOutdated(newOutdated)
     }, 1000)
-    return () => clearInterval(interval) 
+    return () => clearInterval(interval)
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    outdated && handleDiscard() 
+    outdated && handleDiscard()
     // eslint-disable-next-line
   }, [outdated])
 

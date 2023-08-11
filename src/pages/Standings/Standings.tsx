@@ -9,9 +9,9 @@ import { appActions, toolsActions, userActions } from '../../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
 import { animateFadeOut, getTableRowParams } from '../../helpers'
-import { IStore, LocaleType } from '../../types'
+import { i18n, LocaleType } from '../../locale'
 import { OtherUser } from '../../UI'
-import { i18n } from '../../locale'
+import { IStore } from '../../types'
 
 export const Standings = () => {
   const navigate = useNavigate()

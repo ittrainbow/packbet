@@ -1,7 +1,5 @@
 import { IAnswers, IPlayers } from '.'
 
-export type LocaleType = { [key: string]: string }
-
 export type FadeRefType = React.RefObject<HTMLDivElement>
 
 export type QuestionType = {

@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux'
 
 import { selectApp, selectUser } from '../redux/selectors'
-import { FadeRefType, LocaleType } from '../types'
 import { appActions } from '../redux/slices'
+import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
-import { i18n } from '../locale'
+import { FadeRefType } from '../types'
 
 type OtherUserPropsType = {
   containerRef: FadeRefType

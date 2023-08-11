@@ -1,4 +1,6 @@
-export const i18n = (locale: string, component: string): { [key: string]: string } | undefined => {
+export type LocaleType = { [key: string]: string }
+
+export const i18n = (locale: string, component: string): LocaleType | undefined => {
   const tab0msg = locale === 'ru' ? 'Инфо' : 'Iнфо'
   const tab1msg = locale === 'ru' ? 'Профиль' : 'Профiль'
   const tab2msg = locale === 'ru' ? 'Неделя' : 'Тиждень'

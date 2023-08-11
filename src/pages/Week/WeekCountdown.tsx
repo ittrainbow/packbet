@@ -2,8 +2,7 @@ import { useSelector } from 'react-redux'
 import Countdown from 'react-countdown'
 
 import { selectApp, selectUser, selectWeeks } from '../../redux/selectors'
-import { LocaleType } from '../../types'
-import { i18n } from '../../locale'
+import { i18n, LocaleType } from '../../locale'
 
 export const WeekCountdown = () => {
   const { selectedWeek } = useSelector(selectApp)

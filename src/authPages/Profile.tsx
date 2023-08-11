@@ -5,14 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
 import { User } from 'firebase/auth'
 
-import { Button, LocaleSwitcher } from '../UI'
 import { selectApp, selectUser } from '../redux/selectors'
 import { UPDATE_PROFILE } from '../redux/storetypes'
-import { animateFadeOut } from '../helpers'
+import { Button, LocaleSwitcher } from '../UI'
 import { userActions } from '../redux/slices'
-import { LocaleType } from '../types'
+import { i18n, LocaleType } from '../locale'
+import { animateFadeOut } from '../helpers'
 import { auth } from '../db'
-import { i18n } from '../locale'
 
 export const Profile = () => {
   const navigate = useNavigate()

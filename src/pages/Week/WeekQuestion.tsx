@@ -1,4 +1,5 @@
 import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { resultsActions, answersActions } from '../../redux/slices'
@@ -6,9 +7,11 @@ import { selectApp, selectUser } from '../../redux/selectors'
 import { IStore, YesNoHandlePropsType } from '../../types'
 import { getAnswersResults } from '../../helpers'
 import { Button } from '../../UI'
+import { auth } from '../../db'
 
 export const WeekQuestion = ({ id }: { id: number }) => {
   const dispatch = useDispatch()
+  const [user] = useAuthState(auth)
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
@@ -22,7 +25,7 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
   const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
-  const writeAllowed = adm || (!adm && !outdated)
+  const writeAllowed = user && (adm || (!adm && !outdated))
 
   const getActivity = (id: number) => {
     return ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek]

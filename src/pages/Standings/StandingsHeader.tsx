@@ -1,8 +1,7 @@
 import { useSelector } from 'react-redux'
 
 import { selectUser } from '../../redux/selectors'
-import { LocaleType } from '../../types'
-import { i18n } from '../../locale'
+import { i18n, LocaleType } from '../../locale'
 
 export const StandingsHeader = () => {
   const { locale } = useSelector(selectUser)

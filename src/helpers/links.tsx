@@ -8,9 +8,8 @@ import {
   FaPenNib
 } from 'react-icons/fa'
 
+import { i18n, LocaleType } from '../locale'
 import { store } from '../redux/store'
-import { LocaleType } from '../types'
-import { i18n } from '../locale'
 
 export const getMenu = (admin: boolean) => {
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(

@@ -5,12 +5,11 @@ import { useNavigate } from 'react-router-dom'
 
 import { answersActions, compareActions, userActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
+import { i18n, LocaleType } from '../locale'
 import { animateFadeOut } from '../helpers'
-import { LocaleType } from '../types'
-import { Button } from '../UI'
 import { logout } from '../db/auth'
+import { Button } from '../UI'
 import { auth } from '../db'
-import { i18n } from '../locale'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()

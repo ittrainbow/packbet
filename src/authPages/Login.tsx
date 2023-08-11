@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@mui/material'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
-import { ChangeInputType, LocaleType } from '../types'
+import { selectApp, selectUser } from '../redux/selectors'
 import { animateFadeOut, getLocale } from '../helpers'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, LocaleSwitcher } from '../UI'
-import { selectApp, selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices'
-import { i18n } from '../locale'
+import { i18n, LocaleType } from '../locale'
+import { ChangeInputType } from '../types'
 
 export const Login = () => {
   const navigate = useNavigate()
