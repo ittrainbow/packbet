@@ -92,10 +92,10 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const otherUser3msg =
     locale === 'ru' ? ', прогнозы не начавшихся игр скрыты.' : ', прогнози ігор, що не почалися, приховані.'
 
-  const aboutYesMsg = locale === 'ru' ? `Ответ "Да"` : `Відповідь "Так"`
-  const aboutNoMsg = locale === 'ru' ? `Ответ "Нет"` : `Відповідь "Ні"`
-  const aboutOverMsg = locale === 'ru' ? `Ответ "Больше"` : `Відповідь "Більше"`
-  const aboutUnderMsg = locale === 'ru' ? `Ответ "Меньше"` : `Відповідь "Менше"`
+  const aboutYesMsg = locale === 'ru' ? `- ответ "Да"` : `- відповідь "Так"`
+  const aboutNoMsg = locale === 'ru' ? `- ответ "Нет"` : `- відповідь "Ні"`
+  const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
+  const aboutUnderMsg = locale === 'ru' ? `- ответ "Меньше"` : `- відповідь "Менше"`
 
   switch (component) {
     case 'about':

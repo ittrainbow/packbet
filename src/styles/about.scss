@@ -13,37 +13,17 @@
 
 .legend {
   display: flex;
+  flex-direction: row;
+  gap: 5px;
   padding: 0 0 8px;
 
   &__icon {
     display: flex;
     align-items: center;
+    font-size: 20px;
+    color: $base-dark;
   }
 }
-
 .copyright {
   text-align: center;
-}
-
-.FaArrowDown,
-.FaArrowUp,
-.FaCheck,
-.FaBan {
-  padding: 0.1em 0.3em 0 0;
-}
-
-.FaArrowDown {
-  color: $base-red;
-}
-
-.FaArrowUp {
-  color: $base-green-active;
-}
-
-.FaCheck {
-  color: $base-green-active;
-}
-
-.FaBan {
-  color: $base-red;
 }
