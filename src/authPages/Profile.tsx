@@ -69,10 +69,12 @@ export const Profile = () => {
   return (
     <div className="container auth animate-fade-in-up" ref={containerRef}>
       <div className="auth__data">
-        <div className="text-container bold">{profileHeaderMsg}</div>
-        <div className="text-container">{profileLangMsg}</div>
-        <LocaleSwitcher />
-        <div className="text-container">{profileNameMsg}</div>
+        <div className="auth__text">
+          <div className="bold auth__text-margin">{profileHeaderMsg}</div>
+          <div>{profileLangMsg}</div>
+          <LocaleSwitcher />
+          <div>{profileNameMsg}</div>
+        </div>
         <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
         <Button disabled={noChanges} onClick={handleSubmit}>
           {noChanges ? buttonChangesMsg : buttonSaveMsg}

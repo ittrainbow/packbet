@@ -19,6 +19,18 @@
     margin-top: 65px;
     min-width: 220px;
   }
+
+  &__text {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  &__text-margin {
+    margin: 10px 0;
+  }
 }
 
 .link-container {
@@ -33,11 +45,6 @@
     color: $base-darkblue;
     cursor: pointer;
   }
-}
-
-.text-container {
-  text-align: center;
-  padding: 10px 0 10px;
 }
 
 .locale-div {

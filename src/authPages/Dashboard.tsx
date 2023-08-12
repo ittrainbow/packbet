@@ -50,10 +50,12 @@ export const Dashboard = () => {
   return (
     <div className="container auth animate-fade-in-up" ref={containerRef}>
       <div className="auth__data">
-        <div className="text-container bold">{dashboardEnterMsg}</div>
-        <div>{name ? name : '...loading'}</div>
-        <div>{user ? user.email : '...loading'}</div>
-        {admin ? <div className="text-container">{dashboardAdminMsg}</div> : null}
+        <div className="auth__text">
+          <div className="bold auth__text-margin">{dashboardEnterMsg}</div>
+          <div>{name ? name : '...loading'}</div>
+          <div>{user ? user.email : '...loading'}</div>
+          {admin ? <div>{dashboardAdminMsg}</div> : null}
+        </div>
         <Button onClick={handleNavigate}>{buttonProfileMsg}</Button>
         <Button onClick={handleLogout}>{buttonLogoutMsg}</Button>
       </div>

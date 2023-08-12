@@ -69,7 +69,8 @@ export const About = () => {
           })}
           {legend.map(({ icon, text }, index) => (
             <div key={index} className="legend">
-              <div className="legend__icon">{icon}</div>- {text}
+              <div className="legend__icon">{icon}</div>
+              <div>{text}</div>
             </div>
           ))}
           <div className="about__paragraph">
