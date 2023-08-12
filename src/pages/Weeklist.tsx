@@ -39,9 +39,13 @@ export const WeekList = () => {
     setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), duration)
   }
 
+  // locale render and classes
+
+  const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
+
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
-      {!isItYou && !editor ? <OtherUser containerRef={containerRef} /> : null}
+      {showOtherUserBar && <OtherUser containerRef={containerRef} />}
       {Object.keys(weeks)
         .map((el) => Number(el))
         .filter((el) => weeks[el].active || editor || admin)

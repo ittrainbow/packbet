@@ -21,8 +21,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
     triggerFade()
     setTimeout(() => {
       dispatch(appActions.setIsItYou(true))
-      dispatch(appActions.setOtherUserName(''))
-      dispatch(appActions.setOtherUserUID(''))
+      dispatch(appActions.clearOtherUser())
     }, duration)
   }
 

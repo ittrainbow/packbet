@@ -66,6 +66,11 @@ export const appSlice = createSlice({
       state.otherUserUID = action.payload
     },
 
+    clearOtherUser(state) {
+      state.otherUserName = ''
+      state.otherUserUID = ''
+    },
+
     setSelectedWeek(state, action: PayloadAction<number>) {
       state.selectedWeek = action.payload
     },
