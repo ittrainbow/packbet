@@ -29,7 +29,7 @@ export const Header = () => {
     setTimeout(() => {
       id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
       id > 4 && !editor && dispatch(appActions.setEditor(true))
-      id < 5 && editor && dispatch(appActions.setEditor(false))
+      id < 5 && editor && dispatch(appActions.setEditor(false)) && dispatch(editorActions.clearEditor())
       id === 4 && tabActive !== 4 && dispatch(toolsActions.setShowTools(false))
       id === 5 && dispatch(editorActions.clearEditor())
       id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
