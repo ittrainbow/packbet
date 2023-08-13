@@ -69,6 +69,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const tableAllUsersMsg = locale === 'ru' ? 'Все игроки' : 'Всi гравцi'
   const tableOnlyWeekMsg = locale === 'ru' ? 'За неделю' : 'За тиждень'
   const tableAllSeasonMsg = locale === 'ru' ? 'За сезон' : 'За сезон'
+  const tableLimitMsg = locale === 'ru' ? 'Лимит' : 'Ліміт'
   const tablePSOne =
     locale === 'ru'
       ? 'Таблица будет обновлена после внесения результатов очередной недели. Ранжирование по 90% ответов будет применено ближе к завершению сезона.'
@@ -96,10 +97,15 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const aboutNoMsg = locale === 'ru' ? `- ответ "Нет"` : `- відповідь "Ні"`
   const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
   const aboutUnderMsg = locale === 'ru' ? `- ответ "Меньше"` : `- відповідь "Менше"`
+  const aboutLegendMsg = locale === 'ru' ? 'Принятые обозначения' : 'Прийняті визначення:'
+  const aboutLegendExplain =
+    locale === 'ru'
+      ? 'Под "лидером сезона" подразумевается а) лидер текущего сезона б) среди игроков Пэкерз и в) по итогам игры, о которой идет речь.'
+      : 'Під "лідером сезону" маємо на увазі: а) лідер поточного сезону б) серед гравців Пекерз та в) за підсумками гри, про яку йдеться.'
 
   switch (component) {
     case 'about':
-      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg }
+      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
@@ -128,7 +134,8 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
         tableAllSeasonMsg,
         tableHeaderhMsg,
         tableSearchMsg,
-        tableNoGamesMsg
+        tableNoGamesMsg,
+        tableLimitMsg
       }
 
     case 'ticks':

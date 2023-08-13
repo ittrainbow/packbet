@@ -14,8 +14,8 @@ export const useChanges = () => {
     const userChanges = !getObjectsEquality(answers[uid], compare.answers)
     const adminChanges = admin ? !getObjectsEquality(results, compare.results) : false
     const isAdmin = admin && !adminAsPlayer
-    const result = isAdmin ? adminChanges : userChanges
-    return result
+    const changes = isAdmin ? adminChanges : userChanges
+    return changes
   }
 
   return false

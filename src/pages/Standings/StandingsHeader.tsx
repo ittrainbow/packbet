@@ -5,15 +5,15 @@ import { i18n, LocaleType } from '../../locale'
 
 export const StandingsHeader = () => {
   const { locale } = useSelector(selectUser)
-  const { tableNameMsg, tableCorrectMsg } = i18n(locale, 'standings') as LocaleType
+  const { tableNameMsg, tableCorrectMsg, tableLimitMsg } = i18n(locale, 'standings') as LocaleType
   return (
     <div className="standings__header">
       <div className="col-zero">#</div>
       <div className="col-one"></div>
       <div className="col-two">{tableNameMsg}</div>
-      <div className="col-three">%</div>
-      <div className="col-four">{tableCorrectMsg}</div>
-      <div className="col-five">90%</div>
+      <div className="col-three col-dense">{tableCorrectMsg}</div>
+      <div className="col-four col-dense">%</div>
+      <div className="col-five col-dense">{tableLimitMsg}</div>
     </div>
   )
 }

@@ -1,11 +1,5 @@
 import { IFetchObject, IUserStandings, TableCreatorType } from '../types'
 
-export const getTableObject = (ansTotal: number, ansCorrect: number, resultsTotal: number) => {
-  const total = ((ansTotal / resultsTotal) * 100).toFixed(0) + '%'
-  const correct = ansTotal ? ansCorrect / ansTotal : 0
-  return { total, correct }
-}
-
 export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
   const userList = Object.keys(players)
   const object: IFetchObject<IUserStandings> = {}
@@ -34,14 +28,24 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
             })
       })
 
-    const { correct } = getTableObject(ansTotal, ansCorrect, resultsTotal)
-    object[el] = { name, uid, ansTotal, ansCorrect, resultsTotal, correct, position: '' }
+    const ansTotalWithFaults = Math.max(ansTotal, resultsTotal - 10)
+    const correct = ansTotal ? ansCorrect / ansTotalWithFaults : 0
+    const faults = ansTotal - resultsTotal + 10
+    object[el] = { name, uid, ansTotal, ansCorrect, resultsTotal, correct, position: '', faults }
   })
 
   const array: IUserStandings[] = Object.keys(object).map((el) => object[el])
 
   const table = array.sort((a: IUserStandings, b: IUserStandings) => {
-    return a.correct < b.correct ? 1 : a.correct > b.correct ? -1 : 0
+    return a.correct < b.correct
+      ? 1
+      : a.correct > b.correct
+      ? -1
+      : a.faults < b.faults
+      ? 1
+      : a.faults > b.faults
+      ? -1
+      : 0
   })
 
   table.forEach((_, index) => {
@@ -53,11 +57,9 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
 }
 
 export const getTableRowParams = (el: IUserStandings) => {
-  const { name, ansCorrect, ansTotal, position, resultsTotal, uid } = el
+  const { name, ansCorrect, ansTotal, position, uid, faults } = el
   const answers = ansCorrect + '/' + ansTotal
   const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
-  const isNinety = (ansTotal * 100) / resultsTotal
-  const ninety = !isNaN(isNinety) ? isNinety.toFixed(0) + '%' : '-'
 
-  return { name, answers, correct, ninety, position, uid }
+  return { name, answers, correct, position, uid, faults }
 }

@@ -1,21 +1,16 @@
 import { useRef, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { BsGearFill } from 'react-icons/bs'
-import { FaStar } from 'react-icons/fa'
 
+import { StandingsTools, StandingsHeader, StandingsArrows, StandingsRow } from '.'
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
-import { appActions, toolsActions, userActions } from '../../redux/slices'
-import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
-import { StandingsTools, StandingsHeader, StandingsArrows } from '.'
-import { getTableRowParams } from '../../helpers'
+import { toolsActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
 import { useFade } from '../../hooks'
 import { OtherUser } from '../../UI'
 import { IStore } from '../../types'
 
 export const Standings = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const results = useSelector((store: IStore) => store.results)
@@ -23,13 +18,11 @@ export const Standings = () => {
   const user = useSelector((store: IStore) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
   const { season, week } = useSelector(selectStandings)
-  const { locale, uid, buddies, admin } = user
+  const { locale, buddies } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
-
-  // container fade animations
 
   const containerFade = useFade({ ref: containerRef })
   const bodyFade = useFade({ ref: bodyRef })
@@ -38,14 +31,10 @@ export const Standings = () => {
     tabActive !== 4 && containerFade.triggerFade()
   }, [tabActive, containerFade])
 
-  // helpers
-
   useEffect(() => {
     showTools && dispatch(toolsActions.setShowTools(false))
     // eslint-disable-next-line
   }, [])
-
-  // action handlers
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
@@ -53,28 +42,7 @@ export const Standings = () => {
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
-  const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
-    if (uid && otherUserUID !== uid) {
-      containerFade.triggerFade()
-      setTimeout(() => {
-        const otherUser = { otherUserName, otherUserUID, tabActive: 3, isItYou: false }
-        dispatch(appActions.setOtherUserFromStandings(otherUser))
-        admin && dispatch(userActions.setAdminAsPlayer(true))
-        dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
-        navigate('/season')
-      }, duration)
-    }
-  }
-
-  const handleAddRemoveBuddy = (uid: string) => {
-    !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
-  }
-
-  // render styles and locales
-
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-
-  const getCellClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
 
   const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n(locale, 'standings') as LocaleType
 
@@ -98,35 +66,10 @@ export const Standings = () => {
             <StandingsHeader />
             {Object.values(showOneWeek ? week : season)
               .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
-              .filter((el) => {
-                return showBuddies ? buddies.includes(el.uid) : el
-              })
-              .map((el, index) => {
-                const { name, answers, correct, ninety, position, uid } = getTableRowParams(el)
-                const buddy = buddies?.includes(uid)
-                return (
-                  <div key={index} className="standings__header">
-                    <div className={getCellClass('col-zero', index)}>{position}</div>
-                    <div
-                      className={getCellClass('col-one', index)}
-                      onClick={() => handleAddRemoveBuddy(uid)}
-                      style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
-                    >
-                      <FaStar />
-                    </div>
-                    <div
-                      className={getCellClass('col-two', index)}
-                      onClick={() => handleClickOnUser(name, el.uid)}
-                      style={{ fontWeight: user.uid === uid ? 600 : '' }}
-                    >
-                      {user.uid === uid ? user.name : name}
-                    </div>
-                    <div className={getCellClass('col-three', index)}>{answers}</div>
-                    <div className={getCellClass('col-four', index)}>{correct}</div>
-                    <div className={getCellClass('col-five', index)}>{showOneWeek ? '-' : ninety}</div>
-                  </div>
-                )
-              })}
+              .filter((el) => (showBuddies ? buddies.includes(el.uid) : el))
+              .map((el, index) => (
+                <StandingsRow el={el} index={index} fade={containerFade.triggerFade} key={index} />
+              ))}
             <div className="tierline">{tablePSOne}</div>
             <div className="tierline">{tablePSTwo}</div>
           </div>

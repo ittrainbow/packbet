@@ -77,6 +77,7 @@ export interface IUserStandings {
   position: number | string
   correct: number
   uid: string
+  faults: number
 }
 
 export interface IStandings {

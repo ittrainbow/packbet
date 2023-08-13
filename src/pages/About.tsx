@@ -39,7 +39,10 @@ export const About = () => {
   // render styles and locales
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg } = i18n(locale, 'about') as LocaleType
+  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain } = i18n(
+    locale,
+    'about'
+  ) as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -59,14 +62,15 @@ export const About = () => {
       {open ? (
         <div ref={aboutRef} className="animate-fade-in-up">
           {description.map((el, index) => {
-            const classes = `about__paragraph` + (index === 8 ? ' bold' : '')
-
-            return index < 9 ? (
-              <div key={index} className={classes}>
+            return (
+              <div key={index} className="about__paragraph">
                 {!index ? null : el}
               </div>
-            ) : null
+            )
           })}
+          <div className="about__paragraph bold">
+            <div>{aboutLegendMsg}</div>
+          </div>
           {legend.map(({ icon, text }, index) => (
             <div key={index} className="legend">
               <div className="legend__icon">{icon}</div>
@@ -74,7 +78,7 @@ export const About = () => {
             </div>
           ))}
           <div className="about__paragraph">
-            <div>{description[9]}</div>
+            <div>{aboutLegendExplain}</div>
           </div>
           <hr />
           <div className="about__paragraph copyright">
