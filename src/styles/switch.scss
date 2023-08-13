@@ -1,11 +1,8 @@
 @import './vars';
 
 .switch-container {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
   align-items: center;
-  border-radius: 5px;
+  border-radius: $border-radius-base;
   max-height: 45px;
   width: fit-content;
 }

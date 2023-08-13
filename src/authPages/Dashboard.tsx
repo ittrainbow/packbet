@@ -48,9 +48,9 @@ export const Dashboard = () => {
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
 
   return (
-    <div className="container auth animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data">
-        <div className="auth__text">
+    <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data flexcol5">
+        <div className="auth__text flexcol5">
           <div className="bold auth__text-margin">{dashboardEnterMsg}</div>
           <div>{name ? name : '...loading'}</div>
           <div>{user ? user.email : '...loading'}</div>

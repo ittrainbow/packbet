@@ -32,7 +32,7 @@ export const EditorActivities = () => {
   const { weekActivityMsg } = i18n(locale, 'editor') as LocaleType
 
   return (
-    <div className="editor-activities-container">
+    <div className="editor-activities-container flexrow5">
       <div className="editor-datetime">
         <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={handleChangeDate} />
       </div>

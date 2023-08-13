@@ -101,8 +101,8 @@ export const Register = () => {
   }
 
   return (
-    <div className="container auth animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data">
+    <div className="container auth  flexcol5animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data flexcol5">
         <Input type="text" value={name} ref={inputRef} onChange={handleNameInput} placeholder={regNameMsg} />
         <Input type="email" value={email} onChange={handleEmailInput} placeholder={emailMsg} />
         <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
@@ -112,7 +112,7 @@ export const Register = () => {
         <Button className="google" onClick={handleGoogleClick}>
           {buttonRegisterGoogleMsg}
         </Button>
-        <div className="link-container" onClick={handleToLogin}>
+        <div className="link-container flexrow5" onClick={handleToLogin}>
           {loginIntro} <div className="link-container__inner">{loginMsg}</div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 @import './vars';
 
 .otheruser {
-  border-radius: 5px;
   border: 1px solid $base-border;
+  border-radius: $border-radius-base;
   background-color: $base-buttonbg;
   font-size: 14px;
   margin: 5px 0 5px 0;

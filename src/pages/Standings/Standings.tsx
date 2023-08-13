@@ -55,7 +55,7 @@ export const Standings = () => {
   return (
     <>
       <div className="container animate-fade-in-up" ref={containerRef}>
-        <div className="standings-top-container">
+        <div className="standings-top-container flexrow5">
           <div className="standings-top-container__title">{getLastWeekName()}</div>
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>

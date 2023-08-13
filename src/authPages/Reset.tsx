@@ -66,16 +66,16 @@ export const Reset = () => {
   const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
 
   return (
-    <div className="container auth animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data">
+    <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
+      <div className="auth__data flexcol5">
         <Input type="text" value={email} ref={inputRef} onChange={handleEmailInput} placeholder={'E-mail'} />
         <Button className="login" onClick={() => sendPasswordReset(email)}>
           {buttonRecoverMsg}
         </Button>
-        <div className="link-container" onClick={handleToRegister}>
+        <div className="link-container flexrow5" onClick={handleToRegister}>
           {regIntro} <div className="link-container__inner">{regMsg}</div>
         </div>
-        <div className="link-container" onClick={handleToLogin}>
+        <div className="link-container flexrow5" onClick={handleToLogin}>
           {loginIntro} <div className="link-container__inner">{loginMsg}</div>
         </div>
       </div>

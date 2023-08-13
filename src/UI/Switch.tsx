@@ -10,7 +10,7 @@ type SwitchPropsType = {
 
 export const Switch = ({ onChange, checked, messageOff, messageOn, fullWidth }: SwitchPropsType) => {
   return (
-    <div className="switch-container" style={{ width: fullWidth ? '100%' : '' }}>
+    <div className="switch-container flexrow5" style={{ width: fullWidth ? '100%' : '' }}>
       <div className="switch-inner-container inner-left">{messageOff}</div>
       <label className="switch">
         <Input type="checkbox" checked={checked} onChange={onChange} />

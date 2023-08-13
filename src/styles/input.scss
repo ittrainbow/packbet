@@ -9,9 +9,9 @@ input {
   flex-grow: 1;
   font-family: $fonts;
   font-size: 15px;
-  border-radius: 5px;
   padding: 10px;
   border: 1px solid $base-border;
+  border-radius: $border-radius-base;
   margin: auto;
 }
 

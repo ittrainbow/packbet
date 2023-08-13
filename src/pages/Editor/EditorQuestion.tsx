@@ -40,7 +40,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   }
 
   return (
-    <div className="editor-question">
+    <div className="editor-question flexrow5">
       <div className="editor-question__desc">
         {question}: {total}
       </div>

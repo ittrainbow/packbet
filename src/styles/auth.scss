@@ -1,30 +1,17 @@
 @import './vars';
 
 .auth {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   &__data {
-    display: flex;
-    flex-direction: column;
-    max-width: 220px;
+    width: 220px;
     text-align: center;
-    max-width: 220px;
-    gap: 5px;
-  }
-
-  &__data {
     margin-top: 65px;
-    min-width: 220px;
   }
 
   &__text {
     font-size: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
     margin-bottom: 10px;
   }
 
@@ -35,9 +22,6 @@
 
 .link-container {
   padding: 5px 0 5px;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
   justify-content: center;
 
   &__inner {

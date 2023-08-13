@@ -4,7 +4,7 @@
   position: relative;
   display: inline-block;
   border: 1px solid $base-itemborder;
-  margin: 15px 0 15px;
+  margin: 15px 0;
   border-radius: 34px;
   width: 60px;
   height: 34px;
@@ -20,14 +20,14 @@
 /* The locale */
 .locale {
   position: absolute;
-  cursor: pointer;
+  background-color: $base-itembg;
+  bottom: 0;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background-color: $base-itembg;
   -webkit-transition: 0.22 ease-in-out;
   transition: 0.22s;
+  cursor: pointer;
 }
 
 .locale:before {

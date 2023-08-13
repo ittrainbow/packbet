@@ -12,9 +12,6 @@
 }
 
 .legend {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
   padding: 0 0 8px;
 
   &__icon {
@@ -24,6 +21,7 @@
     color: $base-dark;
   }
 }
+
 .copyright {
   text-align: center;
 }

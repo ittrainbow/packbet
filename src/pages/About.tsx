@@ -72,7 +72,7 @@ export const About = () => {
             <div>{aboutLegendMsg}</div>
           </div>
           {legend.map(({ icon, text }, index) => (
-            <div key={index} className="legend">
+            <div key={index} className="legend flexrow5">
               <div className="legend__icon">{icon}</div>
               <div>{text}</div>
             </div>

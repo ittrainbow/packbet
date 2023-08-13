@@ -6,7 +6,7 @@
   cursor: pointer;
   border: 1px solid $base-itemborder;
   background-color: $base-itembg;
-  border-radius: 5px;
+  border-radius: $border-radius-base;
   margin-bottom: 5px;
   -webkit-tap-highlight-color: transparent;
 

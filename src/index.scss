@@ -203,3 +203,15 @@ fieldset {
 .Toastify__toast-body {
   height: 48px;
 }
+
+.flexrow5 {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.flexcol5 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

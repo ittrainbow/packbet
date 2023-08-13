@@ -54,7 +54,7 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
 
   return (
     <div className="standings__tools animate-fade-in-up">
-      <div className="standings__search">
+      <div className="standings__search flexrow5">
         <Input
           onChange={hancleChangeSearch}
           value={standingsSearch}
