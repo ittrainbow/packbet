@@ -53,7 +53,7 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
     i18n(locale, 'standings') as LocaleType
 
   return (
-    <div className="standings__tools animate-fade-in-up">
+    <div className="standings__tools flexcol5">
       <div className="standings__search flexrow5">
         <Input
           onChange={hancleChangeSearch}
