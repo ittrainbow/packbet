@@ -10,11 +10,11 @@ import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 
 type StandingsRowType = {
   el: IUserStandings
-  index: number
+  even: boolean
   fade: () => void
 }
 
-export const StandingsRow = ({ el, index, fade }: StandingsRowType) => {
+export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(selectUser)
@@ -39,30 +39,29 @@ export const StandingsRow = ({ el, index, fade }: StandingsRowType) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
   }
 
-  const getCellClass = (className: string, index: number) => `${className} ${index % 2 === 0 ? 'standings__dark' : ''}`
   const { name, answers, correct, position, uid, faults } = getTableRowParams(el)
   const buddy = buddies?.includes(uid)
 
   return (
     <div className="standings__row">
-      <div className={getCellClass('col-zero', index)}>{position}</div>
+      <div className={`col-zero ${even ? 'standings__dark' : ''}`}>{position}</div>
       <div
-        className={getCellClass('col-one', index)}
+        className={`col-one ${even ? 'standings__dark' : ''}`}
         onClick={() => handleAddRemoveBuddy(uid)}
         style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
       >
         <FaStar />
       </div>
       <div
-        className={getCellClass('col-two', index)}
+        className={`col-two ${even ? 'standings__dark' : ''}`}
         onClick={() => handleClickOnUser(name, uid)}
         style={{ fontWeight: user.uid === uid ? 600 : '' }}
       >
         {name}
       </div>
-      <div className={getCellClass('col-three', index)}>{answers}</div>
-      <div className={getCellClass('col-four', index)}>{correct}</div>
-      <div className={getCellClass('col-five', index)}>{faults}</div>
+      <div className={`col-three ${even ? 'standings__dark' : ''}`}>{answers}</div>
+      <div className={`col-four ${even ? 'standings__dark' : ''}`}>{correct}</div>
+      <div className={`col-five ${even ? 'standings__dark' : ''}`}>{faults}</div>
     </div>
   )
 }

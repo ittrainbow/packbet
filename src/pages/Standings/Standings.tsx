@@ -67,9 +67,10 @@ export const Standings = () => {
             {Object.values(showOneWeek ? week : season)
               .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
               .filter((el) => (showBuddies ? buddies.includes(el.uid) : el))
-              .map((el, index) => (
-                <StandingsRow el={el} index={index} fade={containerFade.triggerFade} key={index} />
-              ))}
+              .map((el, index) => {
+                const even = index % 2 === 0
+                return <StandingsRow el={el} even={even} key={index} fade={containerFade.triggerFade} />
+              })}
             <div className="tierline">{tablePSOne}</div>
             <div className="tierline">{tablePSTwo}</div>
           </div>
