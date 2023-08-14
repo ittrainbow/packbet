@@ -1,27 +1,21 @@
 @import './vars';
 
-.about {
-  &__container {
-    padding-left: 10px;
-  }
-
-  &__paragraph {
-    padding: 0 0 8px;
-    text-align: justify;
-  }
+.about-paragraph {
+  text-align: justify;
+  padding-bottom: 8px;
 }
 
-.legend {
-  padding: 0 0 8px;
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-    color: $base-dark;
-  }
-}
-
-.copyright {
+.about-copyright {
   text-align: center;
+}
+
+.about-legend {
+  padding-bottom: 8px;
+}
+
+.about-icon {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  color: $base-dark;
 }

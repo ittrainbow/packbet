@@ -57,31 +57,31 @@ export const About = () => {
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
-      <div className="about__paragraph">{description[0]}</div>
+      <div className="about-paragraph">{description[0]}</div>
       <Button onClick={handleOpen}>{buttonDetailsMsg}</Button>
       {open ? (
         <div ref={aboutRef} className="animate-fade-in-up">
           {description.map((el, index) => {
             return (
-              <div key={index} className="about__paragraph">
+              <div key={index} className="about-paragraph">
                 {!index ? null : el}
               </div>
             )
           })}
-          <div className="about__paragraph bold">
+          <div className="about-paragraph bold">
             <div>{aboutLegendMsg}</div>
           </div>
           {legend.map(({ icon, text }, index) => (
-            <div key={index} className="legend flexrow5">
-              <div className="legend__icon">{icon}</div>
+            <div key={index} className="about-legend flexrow5">
+              <div className="about-icon">{icon}</div>
               <div>{text}</div>
             </div>
           ))}
-          <div className="about__paragraph">
+          <div className="about-paragraph">
             <div>{aboutLegendExplain}</div>
           </div>
           <hr />
-          <div className="about__paragraph copyright">
+          <div className="about-copyright">
             <a href="https://t.me/packersnews">Green 19</a>
             {copyright}
           </div>
