@@ -30,6 +30,7 @@ export const WeekList = () => {
   // action handlers
 
   const handleClick = (selectedWeek: number) => {
+    console.log(100, selectedWeek)
     triggerFade()
     dispatch(appActions.setSelectedWeek(selectedWeek))
     const setEditor = () => {

@@ -49,7 +49,7 @@ export const useSwipe = () => {
         newTabActive === 2 &&
           selectedWeek !== currentWeek &&
           setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
-          
+
         dispatch(appActions.setTabActive(newTabActive))
         setTimeout(() => navigate(menu[newTabActive].path), duration)
       }
@@ -62,7 +62,7 @@ export const useSwipe = () => {
       document.removeEventListener('touchstart', listenerStart)
       document.removeEventListener('touchend', listenerEnd)
     } // eslint-disable-next-line
-  }, [tabActive, admin])
+  }, [tabActive, admin, selectedWeek])
 
   return
 }
