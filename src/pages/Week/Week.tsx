@@ -102,14 +102,16 @@ export const Week = () => {
               <WeekQuestion id={id} />
             </div>
           ))}
-      <div className="flexrow5">
-        <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
-          {buttonCancelMsg}
-        </Button>
-        <Button onClick={handleSubmit} disabled={!gotChanges || (outdated && !adm)} className="week-button">
-          {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
-        </Button>
-      </div>
+      {isItYou ? (
+        <div className="flexrow5">
+          <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
+            {buttonCancelMsg}
+          </Button>
+          <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
+            {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+          </Button>
+        </div>
+      ) : null}
     </div>
   ) : null
 }

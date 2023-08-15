@@ -25,7 +25,6 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
   const buttonData = adm ? results : answers[isItYou ? uid : otherUserUID]
-  const writeAllowed = user && (adm || (!adm && !outdated))
 
   const getActivity = (id: number) => {
     return ((!isItYou && outdated) || isItYou) && buttonData && buttonData[selectedWeek]
@@ -36,23 +35,38 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   // action handlers
 
   const handleClick = (props: YesNoHandlePropsType) => {
-    if (writeAllowed && isItYou) {
+    const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
+
+    if (isItYou && user && userOnTimeOrAdmin) {
       const { value, id, activity } = props
-      const data = structuredClone(adm ? results : answers[uid]) || {}
-      if (!data[selectedWeek]) data[selectedWeek] = {}
-      if (value === activity) {
-        if (Object.keys(data[selectedWeek]).length === 1) {
-          delete data[selectedWeek]
-        } else {
-          delete data[selectedWeek][id]
-        }
-      } else {
-        data[selectedWeek][id] = value
+      const newValue = value === activity ? 0 : value
+
+      if (!adm) {
+        !!newValue
+          ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
+          : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
       }
 
-      adm
-        ? dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
-        : dispatch(answersActions.updateAnswers({ answers: data, uid }))
+      if (adm) {
+        !!newValue
+          ? dispatch(resultsActions.updateSingleResult({ selectedWeek, uid, id, answer: newValue }))
+          : dispatch(resultsActions.deleteSingleResult({ selectedWeek, uid, id }))
+      }
+      // const data = structuredClone(adm ? results : answers[uid]) || {}
+      // if (!data[selectedWeek]) data[selectedWeek] = {}
+      // if (value === activity) {
+      //   if (Object.keys(data[selectedWeek]).length === 1) {
+      //     delete data[selectedWeek]
+      //   } else {
+      //     delete data[selectedWeek][id]
+      //   }
+      // } else {
+      //   data[selectedWeek][id] = value
+      // }
+
+      // adm
+      //   ? dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
+      //   : dispatch(answersActions.updateAnswers({ answers: data, uid }))
     }
   }
 

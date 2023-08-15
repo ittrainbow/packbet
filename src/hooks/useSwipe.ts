@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectUser } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
+import { selectApp, selectUser } from '../redux/selectors'
 import { swipeHelper } from '../helpers'
 import { useMenu } from './useMenu'
 
@@ -11,7 +11,7 @@ export const useSwipe = () => {
   const menu = useMenu()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { tabActive, duration, editor } = useSelector(selectApp)
+  const { tabActive, duration, editor, currentWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
 
   useEffect(() => {
@@ -44,6 +44,8 @@ export const useSwipe = () => {
           dispatch(appActions.setEditor(false)) &&
           dispatch(editorActions.clearEditor()) &&
           dispatch(toolsActions.setShowTools(false))
+
+        newTabActive === 2 && setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
         dispatch(appActions.setTabActive(newTabActive))
         setTimeout(() => navigate(menu[newTabActive].path), duration)
       }
