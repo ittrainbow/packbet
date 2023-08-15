@@ -62,16 +62,14 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   }
 
   const handleAddQuestion = () => {
-    const { question, total, id } = questionInWork
+    const { question, total } = questionInWork
     const { questions } = editor
     if (question && total) {
       triggerFade()
       setTimeout(() => {
-        const questionToWrite = { ...questionInWork }
-        delete questionToWrite.id
-        const setId = id === null ? getNewQuestionId(questions) : (id as number)
+        const setId = !id ? getNewQuestionId(questions) : (id as number)
         const obj: QuestionsType = structuredClone(questions)
-        obj[setId] = questionToWrite
+        obj[setId] = questionInWork
         dispatch(editorActions.clearQuestionInWork())
         dispatch(editorActions.updateEditorQuestions(obj))
       }, duration)

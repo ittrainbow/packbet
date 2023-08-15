@@ -108,7 +108,7 @@ export const Editor = () => {
     <div className="container animate-fade-in-up" ref={containerRef}>
       <EditorInputs questionsRef={questionsRef} />
 
-      <div className="animate-fade-in-up" ref={questionsRef}>
+      <div ref={questionsRef}>
         {Object.keys(questions).map((el) => (
           <EditorQuestion key={el} id={Number(el)} questionsRef={questionsRef} />
         ))}
