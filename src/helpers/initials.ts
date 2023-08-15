@@ -19,6 +19,5 @@ export const emptyWeek: WeekType = {
 
 export const emptyQuestion: QuestionType = {
   question: '',
-  total: '',
-  id: null
+  total: ''
 }

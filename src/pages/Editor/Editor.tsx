@@ -62,7 +62,8 @@ export const Editor = () => {
 
   const handleSubmit = async () => {
     const id = selectedWeek
-    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: editor } })
+    const { questions, name, active, deadline } = editor
+    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
     dispatch(appActions.setSelectedWeek(selectedWeek ? selectedWeek + 1 : 0))
