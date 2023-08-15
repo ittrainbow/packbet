@@ -11,7 +11,7 @@ export const useSwipe = () => {
   const menu = useMenu()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { tabActive, duration, editor, currentWeek } = useSelector(selectApp)
+  const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
 
   useEffect(() => {
@@ -39,13 +39,17 @@ export const useSwipe = () => {
         swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
 
         newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
+
         newTabActive === 4 &&
           editor &&
           dispatch(appActions.setEditor(false)) &&
           dispatch(editorActions.clearEditor()) &&
           dispatch(toolsActions.setShowTools(false))
 
-        newTabActive === 2 && setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
+        newTabActive === 2 &&
+          selectedWeek !== currentWeek &&
+          setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
+          
         dispatch(appActions.setTabActive(newTabActive))
         setTimeout(() => navigate(menu[newTabActive].path), duration)
       }
