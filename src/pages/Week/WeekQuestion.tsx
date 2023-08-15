@@ -4,10 +4,16 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { resultsActions, answersActions } from '../../redux/slices'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { IStore, YesNoHandlePropsType } from '../../types'
 import { getAnswersResults } from '../../helpers'
+import { IStore } from '../../types'
 import { Button } from '../../UI'
 import { auth } from '../../db'
+
+type YesNoHandlePropsType = {
+  value: number
+  id: number
+  activity: number
+}
 
 export const WeekQuestion = ({ id }: { id: number }) => {
   const dispatch = useDispatch()

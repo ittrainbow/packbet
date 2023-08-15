@@ -1,8 +1,19 @@
-import { IFetchObject, IUserStandings, TableCreatorType } from '../types'
+import { IUserStandings, IAnswers, IPlayers, AnswersType } from '../types'
+
+type TableCreatorType = {
+  answers: IAnswers
+  players: IPlayers
+  results: AnswersType
+  fullSeason: boolean
+}
+
+type FetchObjectType<T> = {
+  [key: number | string]: T
+}
 
 export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
   const userList = Object.keys(players)
-  const object: IFetchObject<IUserStandings> = {}
+  const object: FetchObjectType<IUserStandings> = {}
   userList.forEach((el) => {
     let ansTotal = 0
     let ansCorrect = 0

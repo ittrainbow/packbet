@@ -1,10 +1,15 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
 
-import { ActionType, IWeeks, WeekUpdateType } from '../../types'
+import { ActionType, IWeeks, WeekType } from '../../types'
 import { writeDBDocument, deleteDBDocument } from '../../db'
 import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
 import { appActions, editorActions } from '../slices'
 import { getWeeksIDs } from '../../helpers'
+
+type WeekUpdateType = {
+  id: number
+  week: WeekType
+}
 
 function* setNextAndCurrentWeeksSaga() {
   const weeks: IWeeks = yield select((store) => store.weeks)
