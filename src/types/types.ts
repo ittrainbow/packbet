@@ -1,16 +1,7 @@
-import { IAnswers, IPlayers } from '.'
-
 export type QuestionType = {
   question: string
   total: string
   id?: number | null
-}
-
-export type TableCreatorType = {
-  answers: IAnswers
-  players: IPlayers
-  results: AnswersType
-  fullSeason: boolean
 }
 
 export type AnswersType = {
