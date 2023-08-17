@@ -93,6 +93,17 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const otherUser3msg =
     locale === 'ru' ? ', прогнозы не начавшихся игр скрыты.' : ', прогнози ігор, що не почалися, приховані.'
 
+  const weekListMsg = locale === 'ru' ? 'Календарь' : 'Календар'
+  const weekListEditorMsg = locale === 'ru' ? 'Выберите неделю для редактирования' : 'Виберіть тиждень для редагування'
+
+  const aug = locale === 'ru' ? 'августа' : 'серпня'
+  const sep = locale === 'ru' ? 'сентября' : 'вересня'
+  const oct = locale === 'ru' ? 'октября' : 'жовтня'
+  const nov = locale === 'ru' ? 'ноября' : 'листопада'
+  const dec = locale === 'ru' ? 'декабря' : 'грудня'
+  const jan = locale === 'ru' ? 'января' : 'сiчня'
+  const feb = locale === 'ru' ? 'февраля' : 'лютого'
+
   const aboutYesMsg = locale === 'ru' ? `- ответ "Да"` : `- відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `- ответ "Нет"` : `- відповідь "Ні"`
   const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
@@ -106,6 +117,12 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   switch (component) {
     case 'about':
       return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain }
+
+    case 'weeklist':
+      return { weekListMsg, weekListEditorMsg }
+
+    case 'month':
+      return { aug, sep, oct, nov, dec, jan, feb }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }

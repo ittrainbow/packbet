@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router-dom'
 
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { useFade } from '../hooks'
+import { LocaleType, i18n } from '../locale'
+import { useFade, useDate } from '../hooks'
 import { OtherUser } from '../UI'
 
 export const WeekList = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
-  const { admin } = useSelector(selectUser)
+  const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -42,9 +43,12 @@ export const WeekList = () => {
   // locale render and classes
 
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
+  const { weekListMsg, weekListEditorMsg } = i18n(locale, 'weeklist') as LocaleType
+  const getDate = useDate()
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
+      <div className="weeklist__header">{editor ? weekListEditorMsg : weekListMsg}</div>
       {showOtherUserBar && <OtherUser containerRef={containerRef} />}
       {Object.keys(weeks)
         .map((el) => Number(el))
@@ -54,8 +58,9 @@ export const WeekList = () => {
           const { name } = weeks[el]
           const selectedWeek = Number(el)
           return (
-            <div key={selectedWeek} className="week" onClick={() => handleClick(selectedWeek)}>
-              <div className="week__desc">{name}</div>
+            <div key={selectedWeek} className="weeklist" onClick={() => handleClick(selectedWeek)}>
+              <div className="weeklist__desc">{name}</div>
+              <div className="weeklist__date">{getDate(weeks[el].deadline)}</div>
             </div>
           )
         })}

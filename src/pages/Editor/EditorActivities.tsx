@@ -23,18 +23,16 @@ export const EditorActivities = () => {
     dispatch(editorActions.updateEditorActive(checked))
   }
 
-  const getDeadline = () => {
-    return moment(deadline || new Date().getTime())
-      .format()
-      .substring(0, 16)
-  }
-
   const { weekActivityMsg } = i18n(locale, 'editor') as LocaleType
+
+  const getDeadline = (deadline?: number) => {
+    return moment(deadline).format().substring(0, 16)
+  }
 
   return (
     <div className="editor-activities-container flexrow5">
       <div className="editor-datetime">
-        <Input type="datetime-local" value={getDeadline()} className={'timer'} onChange={handleChangeDate} />
+        <Input type="datetime-local" value={getDeadline(deadline)} className={'timer'} onChange={handleChangeDate} />
       </div>
       <div className="editor-checkbox">
         <div className="editor-checkbox__pad">{weekActivityMsg}</div>
