@@ -1,19 +1,5 @@
 @import './vars';
 
-.week-header {
-  align-items: center;
-  display: flex;
-  border: none;
-  margin-bottom: 5px;
-  min-height: 30px;
-
-  &__name {
-    flex-grow: 1;
-    font-size: 16px;
-    font-weight: 600;
-  }
-}
-
 .week-button {
   margin: 0 0 5px 0;
 }

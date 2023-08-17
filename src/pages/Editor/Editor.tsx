@@ -98,7 +98,7 @@ export const Editor = () => {
 
   // render styles and locales
 
-  const { weekDeleteMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekDeleteMsg, editorTitleMsg } = i18n(locale, 'editor') as LocaleType
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg, buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(
     locale,
     'buttons'
@@ -106,6 +106,9 @@ export const Editor = () => {
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
+      <div className="title flexrow5">
+        <div className="title__name bold">{editorTitleMsg}</div>
+      </div>
       <EditorInputs questionsRef={questionsRef} />
 
       <div ref={questionsRef}>

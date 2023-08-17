@@ -48,7 +48,9 @@ export const WeekList = () => {
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
-      <div className="weeklist__header">{editor ? weekListEditorMsg : weekListMsg}</div>
+      <div className="title flexrow5">
+        <div className="title__name bold">{editor ? weekListEditorMsg : weekListMsg}</div>
+      </div>
       {showOtherUserBar && <OtherUser containerRef={containerRef} />}
       {Object.keys(weeks)
         .map((el) => Number(el))

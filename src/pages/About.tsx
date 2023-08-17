@@ -39,10 +39,8 @@ export const About = () => {
   // render styles and locales
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain } = i18n(
-    locale,
-    'about'
-  ) as LocaleType
+  const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain } =
+    i18n(locale, 'about') as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -57,6 +55,9 @@ export const About = () => {
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
+      <div className="title flexrow5">
+        <div className="title__name bold">{aboutTitleMsg}</div>
+      </div>
       <div className="about-paragraph">{description[0]}</div>
       <Button onClick={handleOpen}>{buttonDetailsMsg}</Button>
       {open ? (

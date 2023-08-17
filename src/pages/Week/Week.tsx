@@ -64,6 +64,7 @@ export const Week = () => {
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
     const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
+    console.log(100, results)
     const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
     dispatch({ type, payload })
@@ -85,10 +86,10 @@ export const Week = () => {
 
   return currentWeek > -1 ? (
     <div className="container animate-fade-in-up" ref={containerRef}>
-      <div className="week-header">
-        <div className="week-header__name bold">{name}</div>
+      <div className="title flexrow5">
+        <div className="title__name bold">{name.split('.')[1]}</div>
         {admin && isItYou ? (
-          <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOn={playerMsg} messageOff={adminMsg} />
+          <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOff={adminMsg} messageOn={playerMsg} />
         ) : null}
       </div>
       <OtherUser containerRef={containerRef} />

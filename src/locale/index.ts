@@ -86,6 +86,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
   const weekDeleteMsg = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
+  const editorTitleMsg = locale === 'ru' ? 'Редактор' : 'Редактор'
 
   const otherUser1msg =
     locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю.' : 'Натисніть, щоб повернутися до свого профілю.'
@@ -104,6 +105,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const jan = locale === 'ru' ? 'января' : 'сiчня'
   const feb = locale === 'ru' ? 'февраля' : 'лютого'
 
+  const aboutTitleMsg = locale === 'ru' ? 'Информация' : 'Інформація'
   const aboutYesMsg = locale === 'ru' ? `- ответ "Да"` : `- відповідь "Так"`
   const aboutNoMsg = locale === 'ru' ? `- ответ "Нет"` : `- відповідь "Ні"`
   const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
@@ -116,7 +118,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
 
   switch (component) {
     case 'about':
-      return { aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain }
+      return { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain }
 
     case 'weeklist':
       return { weekListMsg, weekListEditorMsg }
@@ -128,7 +130,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
     case 'editor': {
-      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg }
+      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg, editorTitleMsg }
     }
 
     case 'otheruser':

@@ -112,7 +112,7 @@ function* submitResultsSaga(action: ActionType<SubmitResultsType>) {
 
     const response: AnswersType = yield call(getDBDocument, 'results', selectedWeek)
     const saveSuccess: boolean = yield call(getObjectsEquality, response, results[selectedWeek])
-    yield put(compareActions.updateCompare({ data: response, id: 'results' }))
+    yield put(compareActions.updateCompare({ data: results, id: 'results' }))
     yield call(fetchStandingsSaga)
     yield call(toaster, saveSuccess)
   } catch (error) {
