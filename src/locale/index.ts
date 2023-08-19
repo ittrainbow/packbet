@@ -82,12 +82,13 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const tableNoGamesMsg = locale === 'ru' ? 'Таблица' : 'Таблиця'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
-  const weekQuestionRuMsg = locale === 'ru' ? 'Вопрос по-русски' : 'Запитання російською'
-  const weekQuestionUaMsg = locale === 'ru' ? 'Вопрос по-украински' : 'Запитання українською'
+  const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
   const weekDeleteMsg = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
   const editorTitleMsg = locale === 'ru' ? 'Редактор' : 'Редактор'
+  const weekQuestionRuMsg = locale === 'ru' ? 'Вопрос на русском' : 'Запитання росiйською'
+  const weekQuestionUaMsg = locale === 'ru' ? 'Вопрос на украинском' : 'Запитання українською'
 
   const otherUser1msg =
     locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю.' : 'Натисніть, щоб повернутися до свого профілю.'
@@ -112,14 +113,10 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
   const aboutUnderMsg = locale === 'ru' ? `- ответ "Меньше"` : `- відповідь "Менше"`
   const aboutLegendMsg = locale === 'ru' ? 'Принятые обозначения' : 'Прийняті визначення:'
-  const aboutLegendExplain =
-    locale === 'ru'
-      ? 'Под "лидером сезона" подразумевается а) лидер текущего сезона б) среди игроков Пэкерз и в) по итогам игры, о которой идет речь.'
-      : 'Під "лідером сезону" маємо на увазі: а) лідер поточного сезону б) серед гравців Пекерз та в) за підсумками гри, про яку йдеться.'
 
   switch (component) {
     case 'about':
-      return { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain }
+      return { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg }
 
     case 'weeklist':
       return { weekListMsg, weekListEditorMsg }
@@ -133,12 +130,13 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
     case 'editor': {
       return {
         weekNameMsg,
-        weekQuestionRuMsg,
-        weekQuestionUaMsg,
+        weekQuestionMsg,
         weekTotalMsg,
         weekActivityMsg,
         weekDeleteMsg,
-        editorTitleMsg
+        editorTitleMsg,
+        weekQuestionRuMsg,
+        weekQuestionUaMsg
       }
     }
 
