@@ -87,6 +87,8 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
   const weekDeleteMsg = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
   const editorTitleMsg = locale === 'ru' ? 'Редактор' : 'Редактор'
+  const weekQuestionRuMsg = locale === 'ru' ? 'Вопрос на русском' : 'Запитання росiйською'
+  const weekQuestionUaMsg = locale === 'ru' ? 'Вопрос на украинском' : 'Запитання українською'
 
   const otherUser1msg =
     locale === 'ru' ? 'Нажмите, чтобы вернуться к своему профилю.' : 'Натисніть, щоб повернутися до свого профілю.'
@@ -111,14 +113,10 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
   const aboutUnderMsg = locale === 'ru' ? `- ответ "Меньше"` : `- відповідь "Менше"`
   const aboutLegendMsg = locale === 'ru' ? 'Принятые обозначения' : 'Прийняті визначення:'
-  const aboutLegendExplain =
-    locale === 'ru'
-      ? 'Под "лидером сезона" подразумевается а) лидер текущего сезона б) среди игроков Пэкерз и в) по итогам игры, о которой идет речь.'
-      : 'Під "лідером сезону" маємо на увазі: а) лідер поточного сезону б) серед гравців Пекерз та в) за підсумками гри, про яку йдеться.'
 
   switch (component) {
     case 'about':
-      return { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain }
+      return { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg }
 
     case 'weeklist':
       return { weekListMsg, weekListEditorMsg }
@@ -130,7 +128,16 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
     case 'editor': {
-      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg, editorTitleMsg }
+      return {
+        weekNameMsg,
+        weekQuestionMsg,
+        weekTotalMsg,
+        weekActivityMsg,
+        weekDeleteMsg,
+        editorTitleMsg,
+        weekQuestionRuMsg,
+        weekQuestionUaMsg
+      }
     }
 
     case 'otheruser':

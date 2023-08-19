@@ -39,8 +39,10 @@ export const About = () => {
   // render styles and locales
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
-  const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg, aboutLegendExplain } =
-    i18n(locale, 'about') as LocaleType
+  const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg } = i18n(
+    locale,
+    'about'
+  ) as LocaleType
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
@@ -50,6 +52,7 @@ export const About = () => {
   ]
 
   const description = Object.values(about[locale])
+  const last = description.pop()
 
   const copyright = ` ${String.fromCodePoint(0x00a9)} ${new Date().getFullYear()}`
 
@@ -78,9 +81,7 @@ export const About = () => {
               <div>{text}</div>
             </div>
           ))}
-          <div className="about-paragraph">
-            <div>{aboutLegendExplain}</div>
-          </div>
+          <div className="about-paragraph">{last}</div>
           <hr />
           <div className="about-copyright">
             <a href="https://t.me/packersnews">Green 19</a>

@@ -13,13 +13,12 @@ import { useFade } from '../../hooks'
 export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) => {
   const dispatch = useDispatch()
   const nameRef = useRef<HTMLInputElement>()
-  const questionRef = useRef<HTMLInputElement>()
   const { duration, tabActive } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const editor = useSelector(selectEditor)
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
-  const { question, total, id } = questionInWork
+  const { ru, ua, total, id } = questionInWork
 
   // animate
 
@@ -32,12 +31,8 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     // eslint-disable-next-line
   }, [pathname])
 
-  useEffect(() => {
-    questionInWork.id !== null && questionRef.current?.focus()
-  }, [questionInWork])
-
   const questionButtonDisabled = getObjectsEquality(questionInWork, questionCompare)
-  const totalBtnDisabled = !question || !total || questionButtonDisabled
+  const totalBtnDisabled = !(!!ru.length && !!ua.length) || !total || questionButtonDisabled
 
   // action handlers
 
@@ -46,10 +41,18 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     dispatch(editorActions.updateEditorName(value))
   }
 
-  const handleSetQuestion = (e: ChangeInputType) => {
+  const handleSetRu = (e: ChangeInputType) => {
     const { value } = e.target
-    const question = value.substring(0, 120)
-    const data = { ...questionInWork, question }
+    const ru = value.substring(0, 120)
+    const data = { ...questionInWork, ru }
+
+    dispatch(editorActions.setQuestionInWork(data))
+  }
+
+  const handleSetUa = (e: ChangeInputType) => {
+    const { value } = e.target
+    const ua = value.substring(0, 120)
+    const data = { ...questionInWork, ua }
 
     dispatch(editorActions.setQuestionInWork(data))
   }
@@ -62,9 +65,9 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   }
 
   const handleAddQuestion = () => {
-    const { question, total } = questionInWork
+    const { ru, ua, total } = questionInWork
     const { questions } = editor
-    if (question && total) {
+    if (ru && ua && total) {
       triggerFade()
       setTimeout(() => {
         const setId = !id ? getNewQuestionId(questions) : (id as number)
@@ -78,17 +81,22 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // render styles and locales
 
-  const { weekNameMsg, weekTotalMsg, weekQuestionMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg } = i18n(locale, 'editor') as LocaleType
 
   return (
     <div className="editor-input">
       <Input onChange={handleChangeName} inputRef={nameRef} placeholder={weekNameMsg} value={name} />
       <div className="editor-form">
-        <Input inputRef={questionRef} onChange={handleSetQuestion} placeholder={weekQuestionMsg} value={question} />
-        <Input onChange={handleChangeTotal} value={total} type="number" placeholder={weekTotalMsg} />
-        <Button className="editor-small" onClick={handleAddQuestion} disabled={totalBtnDisabled}>
-          {id !== null ? <FaCheck /> : <FaPlus />}
-        </Button>
+        <div className="editor-form__inner flexrow5">
+          <Input onChange={handleSetRu} placeholder={weekQuestionRuMsg} value={ru} />
+          <Input onChange={handleChangeTotal} value={total} type="number" placeholder={weekTotalMsg} />
+        </div>
+        <div className="editor-form__inner flexrow5">
+          <Input onChange={handleSetUa} placeholder={weekQuestionUaMsg} value={ua} />
+          <Button className="editor-small" onClick={handleAddQuestion} disabled={totalBtnDisabled} minWidth={66}>
+            {id !== null ? <FaCheck /> : <FaPlus />}
+          </Button>
+        </div>
       </div>
     </div>
   )

@@ -8,7 +8,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
-import { getObjectsEquality, getWeeksIDs } from '../../helpers'
+import { getWeeksEquality, getWeeksIDs } from '../../helpers'
 import { i18n, LocaleType } from '../../locale'
 import * as TYPES from '../../redux/storetypes'
 import { useFade } from '../../hooks'
@@ -44,7 +44,7 @@ export const Editor = () => {
   // helpers
 
   useEffect(() => {
-    const changes = emptyEditor ? !!Object.keys(questions).length : !getObjectsEquality(editor, weeks[selectedWeek])
+    const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
     setAnyChanges(changes)
     // eslint-disable-next-line
   }, [questions, name, active, deadline])
@@ -63,11 +63,12 @@ export const Editor = () => {
   const handleSubmit = async () => {
     const id = selectedWeek
     const { questions, name, active, deadline } = editor
+    navigate('/calendar')
     dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
     dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
     dispatch(appActions.setSelectedWeek(selectedWeek ? selectedWeek + 1 : 0))
-    navigate('/calendar')
+    dispatch(appActions.setTabActive(5))
   }
 
   const handleDeleteWeek = () => {

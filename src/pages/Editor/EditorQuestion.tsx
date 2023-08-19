@@ -1,7 +1,7 @@
 import { FaEdit, FaTrashAlt, FaBan } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { selectApp, selectEditor } from '../../redux/selectors'
+import { selectApp, selectEditor, selectUser } from '../../redux/selectors'
 import { FadeRefType, QuestionsType } from '../../types'
 import { editorActions } from '../../redux/slices'
 import { useFade } from '../../hooks'
@@ -12,7 +12,8 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
   const { duration } = useSelector(selectApp)
-  const { question, total } = questions[id]
+  const { locale } = useSelector(selectUser)
+  const { ru, ua, total } = questions[id]
 
   // animate
 
@@ -21,9 +22,9 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   // action handlers
 
   const handleEditQuestion = (id: number) => {
-    const { question, total } = questions[id]
-    dispatch(editorActions.setQuestionInWork({ question, total, id }))
-    dispatch(editorActions.setQuestionCompare({ question, total, id }))
+    const { ru, ua, total } = questions[id]
+    dispatch(editorActions.setQuestionInWork({ ru, ua, total, id }))
+    dispatch(editorActions.setQuestionCompare({ ru, ua, total, id }))
   }
 
   const handleDeleteQuestion = (id: number) => {
@@ -39,10 +40,12 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
     dispatch(editorActions.clearQuestionInWork())
   }
 
+  const questionText = locale === 'ru' ? ru : ua
+
   return (
     <div className="editor-question flexrow5">
       <div className="editor-question__desc">
-        {question}: {total}
+        {questionText}: {total}
       </div>
       <div className="editor-question__buttons">
         {id === questionInWork.id ? (

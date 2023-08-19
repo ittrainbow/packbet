@@ -1,5 +1,6 @@
 export type QuestionType = {
-  question: string
+  ru: string
+  ua: string
   total: string
   id?: number | null
 }
