@@ -64,7 +64,6 @@ export const Week = () => {
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
 
     const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
-    console.log(100, results)
     const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
     dispatch({ type, payload })

@@ -82,7 +82,8 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const tableNoGamesMsg = locale === 'ru' ? 'Таблица' : 'Таблиця'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
-  const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
+  const weekQuestionRuMsg = locale === 'ru' ? 'Вопрос по-русски' : 'Запитання російською'
+  const weekQuestionUaMsg = locale === 'ru' ? 'Вопрос по-украински' : 'Запитання українською'
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
   const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
   const weekDeleteMsg = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
@@ -130,7 +131,15 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
 
     case 'editor': {
-      return { weekNameMsg, weekQuestionMsg, weekTotalMsg, weekActivityMsg, weekDeleteMsg, editorTitleMsg }
+      return {
+        weekNameMsg,
+        weekQuestionRuMsg,
+        weekQuestionUaMsg,
+        weekTotalMsg,
+        weekActivityMsg,
+        weekDeleteMsg,
+        editorTitleMsg
+      }
     }
 
     case 'otheruser':

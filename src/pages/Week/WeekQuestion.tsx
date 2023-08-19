@@ -21,10 +21,11 @@ export const WeekQuestion = ({ id }: { id: number }) => {
   const weeks = useSelector((store: IStore) => store.weeks)
   const answers = useSelector((store: IStore) => store.answers)
   const results = useSelector((store: IStore) => store.results)
+  const { locale } = useSelector(selectUser)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const { questions, deadline } = weeks[selectedWeek]
-  const { question, total } = questions[id]
+  const { ru, ua, total } = questions[id]
 
   // helpers
 
@@ -58,21 +59,6 @@ export const WeekQuestion = ({ id }: { id: number }) => {
           ? dispatch(resultsActions.updateSingleResult({ selectedWeek, uid, id, answer: newValue }))
           : dispatch(resultsActions.deleteSingleResult({ selectedWeek, uid, id }))
       }
-      // const data = structuredClone(adm ? results : answers[uid]) || {}
-      // if (!data[selectedWeek]) data[selectedWeek] = {}
-      // if (value === activity) {
-      //   if (Object.keys(data[selectedWeek]).length === 1) {
-      //     delete data[selectedWeek]
-      //   } else {
-      //     delete data[selectedWeek][id]
-      //   }
-      // } else {
-      //   data[selectedWeek][id] = value
-      // }
-
-      // adm
-      //   ? dispatch(resultsActions.updateResults({ results: data, selectedWeek }))
-      //   : dispatch(answersActions.updateAnswers({ answers: data, uid }))
     }
   }
 
@@ -111,10 +97,12 @@ export const WeekQuestion = ({ id }: { id: number }) => {
     return styles.join(' ')
   }
 
+  const questionText = locale === 'ru' ? ru : ua
+
   return (
     <div className={getQuestionClass(id)}>
       <div className="question__desc">
-        {question.trim()}
+        {questionText.trim()}
         {total !== '1' ? `: ${total}` : null}
       </div>
       <div className="question__actions">
