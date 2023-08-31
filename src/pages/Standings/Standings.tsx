@@ -44,7 +44,7 @@ export const Standings = () => {
 
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
 
-  const { tablePSOne, tablePSTwo, tableHeaderhMsg, tableNoGamesMsg } = i18n(locale, 'standings') as LocaleType
+  const { tableTierline, tableHeaderhMsg, tableNoGamesMsg } = i18n(locale, 'standings') as LocaleType
 
   const getLastWeekName = () => {
     const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
@@ -71,8 +71,7 @@ export const Standings = () => {
                 const even = index % 2 === 0
                 return <StandingsRow el={el} even={even} key={index} fade={containerFade.triggerFade} />
               })}
-            <div className="tierline">{tablePSOne}</div>
-            <div className="tierline">{tablePSTwo}</div>
+            <div className="tierline">{tableTierline}</div>
           </div>
         </div>
       </div>

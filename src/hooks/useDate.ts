@@ -8,9 +8,9 @@ export const useDate = () => {
 
   const { aug, sep, oct, nov, dec, jan, feb } = i18n(locale, 'month') as LocaleType
 
-  const getDate = (deadline: number) => {
-    const date = moment(deadline)
-      .format('D -MM- hh:mm')
+  const getDate = (deadline: number) =>
+    moment(deadline)
+      .format('D -MM- HH:mm')
       .replace('-08-', aug)
       .replace('-09-', sep)
       .replace('-10-', oct)
@@ -18,9 +18,6 @@ export const useDate = () => {
       .replace('-12-', dec)
       .replace('-01-', jan)
       .replace('-02-', feb)
-
-    return date
-  }
 
   return getDate
 }

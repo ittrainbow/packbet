@@ -70,12 +70,10 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const tableOnlyWeekMsg = locale === 'ru' ? 'За неделю' : 'За тиждень'
   const tableAllSeasonMsg = locale === 'ru' ? 'За сезон' : 'За сезон'
   const tableLimitMsg = locale === 'ru' ? 'Лимит' : 'Ліміт'
-  const tablePSOne =
+  const tableTierline =
     locale === 'ru'
-      ? 'Таблица будет обновлена после внесения результатов очередной недели. Ранжирование по 90% ответов будет применено ближе к завершению сезона.'
-      : 'Таблиця буде оновлена після внесення результатів чергового тижня. Ранжування по 90% відповідей буде застосовано ближче до завершення сезону.'
-  const tablePSTwo =
-    locale === 'ru' ? 'Выберите игрока, чтобы увидеть его ответы.' : 'Виберіть гравця, щоб побачити його відповіді.'
+      ? 'Таблица будет обновлена после внесения результатов очередной недели. Выберите игрока, чтобы увидеть его ответы.'
+      : 'Таблиця буде оновлена після внесення результатів чергового тижня. Виберіть гравця, щоб побачити його відповіді.'
   const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
   const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
   const tableHeaderhMsg = locale === 'ru' ? 'По итогам игры ' : 'За пiдсумками гри '
@@ -99,13 +97,18 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const weekListMsg = locale === 'ru' ? 'Календарь' : 'Календар'
   const weekListEditorMsg = locale === 'ru' ? 'Выберите неделю для редактирования' : 'Виберіть тиждень для редагування'
 
+  const jan = locale === 'ru' ? 'января' : 'сiчня'
+  const feb = locale === 'ru' ? 'февраля' : 'лютого'
+  const mar = locale === 'ru' ? 'марта' : 'березня'
+  const apr = locale === 'ru' ? 'апреля' : 'квiтня'
+  const may = locale === 'ru' ? 'мая' : 'травня'
+  const jun = locale === 'ru' ? 'июня' : 'червня'
+  const jul = locale === 'ru' ? 'июля' : 'липня'
   const aug = locale === 'ru' ? 'августа' : 'серпня'
   const sep = locale === 'ru' ? 'сентября' : 'вересня'
   const oct = locale === 'ru' ? 'октября' : 'жовтня'
   const nov = locale === 'ru' ? 'ноября' : 'листопада'
   const dec = locale === 'ru' ? 'декабря' : 'грудня'
-  const jan = locale === 'ru' ? 'января' : 'сiчня'
-  const feb = locale === 'ru' ? 'февраля' : 'лютого'
 
   const aboutTitleMsg = locale === 'ru' ? 'Информация' : 'Інформація'
   const aboutYesMsg = locale === 'ru' ? `- ответ "Да"` : `- відповідь "Так"`
@@ -122,7 +125,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
       return { weekListMsg, weekListEditorMsg }
 
     case 'month':
-      return { aug, sep, oct, nov, dec, jan, feb }
+      return { jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec }
 
     case 'header':
       return { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg }
@@ -151,8 +154,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
         tableNameMsg,
         tableAllMsg,
         tableCorrectMsg,
-        tablePSOne,
-        tablePSTwo,
+        tableTierline,
         tableClearBtn,
         tableBuddiesMsg,
         tableAllUsersMsg,

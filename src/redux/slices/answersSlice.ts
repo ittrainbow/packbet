@@ -36,6 +36,7 @@ export const answersSlice = createSlice({
 
     updateSingleAnswer(state, action: PayloadAction<SingleAnswerUpdateType>) {
       const { selectedWeek, uid, id, answer } = action.payload
+      if (!state[uid]) state[uid] = {}
       if (!state[uid][selectedWeek]) state[uid][selectedWeek] = {}
       state[uid][selectedWeek][id] = answer
     },
