@@ -104,11 +104,11 @@ export const Week = () => {
           ))}
       {isItYou ? (
         <div className="flexrow5">
-          <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
-            {buttonCancelMsg}
-          </Button>
           <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
             {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+          </Button>
+          <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
+            {buttonCancelMsg}
           </Button>
         </div>
       ) : null}

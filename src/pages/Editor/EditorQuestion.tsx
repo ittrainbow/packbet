@@ -47,7 +47,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
       <div className="editor-question__desc">
         {questionText}: {total}
       </div>
-      <div className="editor-question__buttons">
+      <div className="flexrow5">
         {id === questionInWork.id ? (
           <FaBan className="editor-question__edit editor-btn__green faBan" onClick={handleClearQuestion} />
         ) : (
