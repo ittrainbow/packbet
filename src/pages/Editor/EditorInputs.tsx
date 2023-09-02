@@ -22,7 +22,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // animate
 
-  const { triggerFade } = useFade({ ref: questionsRef })
+  const triggerFade = useFade(questionsRef)
 
   // helpers
 

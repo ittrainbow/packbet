@@ -17,7 +17,7 @@ export const About = () => {
 
   // container fade animations
 
-  const { triggerFade } = useFade({ ref: containerRef })
+  const triggerFade = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 0 && triggerFade()

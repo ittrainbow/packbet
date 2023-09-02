@@ -4,8 +4,13 @@ import { useNavigate } from 'react-router-dom'
 
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 import { selectApp, selectUser } from '../redux/selectors'
-import { swipeHelper } from '../helpers'
 import { useMenu } from './useMenu'
+
+type SwipeHelperProps = {
+  moveX: number
+  canSwipeLeft: boolean
+  canSwipeRight: boolean
+}
 
 export const useSwipe = () => {
   const menu = useMenu()
@@ -13,6 +18,20 @@ export const useSwipe = () => {
   const navigate = useNavigate()
   const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
+
+  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelperProps) => {
+    const container = document.querySelector('.container')
+
+    if (moveX > 0 && canSwipeLeft) {
+      const list = container?.classList
+      list?.add('animate-fade-out-right')
+    }
+
+    if (moveX < 0 && canSwipeRight) {
+      const list = container?.classList
+      list?.add('animate-fade-out-left')
+    }
+  }
 
   useEffect(() => {
     let startX: number

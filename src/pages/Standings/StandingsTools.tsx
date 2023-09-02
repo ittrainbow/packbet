@@ -20,7 +20,7 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
   const { locale } = useSelector(selectUser)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
 
-  const { triggerFade } = useFade({ ref: tableRef })
+  const triggerFade = useFade(tableRef)
 
   // action handlers
 

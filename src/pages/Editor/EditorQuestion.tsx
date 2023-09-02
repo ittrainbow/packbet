@@ -17,7 +17,7 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
 
   // animate
 
-  const { triggerFade } = useFade({ ref: questionsRef })
+  const triggerFade = useFade(questionsRef)
 
   // action handlers
 

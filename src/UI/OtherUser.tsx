@@ -15,7 +15,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
   const { otherUserName, isItYou, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
-  const { triggerFade } = useFade({ ref: containerRef })
+  const triggerFade = useFade(containerRef)
 
   const handleDiscard = () => {
     triggerFade()

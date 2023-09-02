@@ -26,7 +26,7 @@ export const Login = () => {
 
   // container fade animations
 
-  const { triggerFade } = useFade({ ref: containerRef })
+  const triggerFade = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 1 && triggerFade()

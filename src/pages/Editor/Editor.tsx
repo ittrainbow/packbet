@@ -30,7 +30,7 @@ export const Editor = () => {
 
   // container fade animations
 
-  const { triggerFade } = useFade({ ref: containerRef })
+  const triggerFade = useFade(containerRef)
 
   useEffect(() => {
     const fromUserTabsToEmpty = !pathname.includes('editor') && tabActive === 6

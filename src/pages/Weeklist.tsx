@@ -19,7 +19,7 @@ export const WeekList = () => {
 
   // container fade animations
 
-  const { triggerFade } = useFade({ ref: containerRef })
+  const triggerFade = useFade(containerRef)
 
   useEffect(() => {
     const fromSeasonList = pathname.includes('season') && tabActive !== 3

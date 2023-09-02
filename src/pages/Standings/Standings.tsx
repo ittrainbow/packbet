@@ -24,11 +24,11 @@ export const Standings = () => {
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
 
-  const containerFade = useFade({ ref: containerRef })
-  const bodyFade = useFade({ ref: bodyRef })
+  const containerFade = useFade(containerRef)
+  const bodyFade = useFade(bodyRef)
 
   useEffect(() => {
-    tabActive !== 4 && containerFade.triggerFade()
+    tabActive !== 4 && containerFade()
   }, [tabActive, containerFade])
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const Standings = () => {
 
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
-    bodyFade.triggerFade()
+    bodyFade()
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
@@ -69,7 +69,7 @@ export const Standings = () => {
               .filter((el) => (showBuddies ? buddies.includes(el.uid) : el))
               .map((el, index) => {
                 const even = index % 2 === 0
-                return <StandingsRow el={el} even={even} key={index} fade={containerFade.triggerFade} />
+                return <StandingsRow el={el} even={even} key={index} fade={containerFade} />
               })}
             <div className="tierline">{tableTierline}</div>
           </div>
