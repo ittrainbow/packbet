@@ -70,7 +70,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     if (ru && ua && total) {
       triggerFade()
       setTimeout(() => {
-        const setId = !id ? getNewQuestionId(questions) : (id as number)
+        const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
         const obj: QuestionsType = structuredClone(questions)
         obj[setId] = questionInWork
         dispatch(editorActions.clearQuestionInWork())
