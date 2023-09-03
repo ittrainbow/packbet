@@ -28,8 +28,6 @@ export const Week = () => {
 
   const gotChanges = useChanges()
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {
@@ -58,7 +56,8 @@ export const Week = () => {
   // action handlers
 
   const handleSubmit = async () => {
-    const firstData = !!Object.keys(answers[uid]).length
+    const data = adm ? results : answers[uid]
+    const firstData = !!Object.keys(data).length
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())

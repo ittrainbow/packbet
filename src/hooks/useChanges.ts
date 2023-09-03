@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectAnswers, selectCompare, selectResults, selectUser } from '../redux/selectors'
@@ -5,18 +6,19 @@ import { getObjectsEquality } from '../helpers'
 
 export const useChanges = () => {
   const { uid, admin, adminAsPlayer } = useSelector(selectUser)
+  const [gotChanges, setGotChanges] = useState(false)
   const results = useSelector(selectResults)
   const answers = useSelector(selectAnswers)
   const compare = useSelector(selectCompare)
-  const dataToCompare = admin && !adminAsPlayer ? results : answers
 
-  if (!!Object.keys(dataToCompare).length) {
+  useEffect(() => {
+    const isAdmin = admin && !adminAsPlayer
     const userChanges = !getObjectsEquality(answers[uid], compare.answers)
     const adminChanges = admin ? !getObjectsEquality(results, compare.results) : false
-    const isAdmin = admin && !adminAsPlayer
     const changes = isAdmin ? adminChanges : userChanges
-    return changes
-  }
+    setGotChanges(changes)
+    // eslint-disable-next-line
+  }, [answers, results])
 
-  return false
+  return gotChanges
 }

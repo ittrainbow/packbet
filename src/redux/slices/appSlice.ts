@@ -5,7 +5,6 @@ import { IApp } from '../../types'
 type SetStandingsType = {
   otherUserUID: string
   otherUserName: string
-  isItYou: boolean
   tabActive: number
 }
 
@@ -60,10 +59,6 @@ export const appSlice = createSlice({
       state.emptyEditor = action.payload
     },
 
-    setIsItYou(state, action: PayloadAction<boolean>) {
-      state.isItYou = action.payload
-    },
-
     setOtherUserName(state, action: PayloadAction<string>) {
       state.otherUserName = action.payload
     },
@@ -75,6 +70,7 @@ export const appSlice = createSlice({
     clearOtherUser(state) {
       state.otherUserName = ''
       state.otherUserUID = ''
+      state.isItYou = true
     },
 
     setSelectedWeek(state, action: PayloadAction<number>) {
@@ -105,10 +101,10 @@ export const appSlice = createSlice({
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {
-      const { otherUserName, otherUserUID, isItYou } = action.payload
+      const { otherUserName, otherUserUID } = action.payload
       state.otherUserName = otherUserName
       state.otherUserUID = otherUserUID
-      state.isItYou = isItYou
+      state.isItYou = false
       state.tabActive = 5
     }
   }

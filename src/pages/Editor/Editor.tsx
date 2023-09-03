@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { confirmAlert } from 'react-confirm-alert'
 import { useNavigate } from 'react-router-dom'
@@ -23,12 +23,9 @@ export const Editor = () => {
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
-  const { questions, name, active, deadline } = editor
+  const { questions, name } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [anyChanges, setAnyChanges] = useState<boolean>(false)
-
-  // container fade animations
 
   const triggerFade = useFade(containerRef)
 
@@ -41,42 +38,34 @@ export const Editor = () => {
     // eslint-disable-next-line
   }, [tabActive])
 
-  // helpers
-
-  useEffect(() => {
-    const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
-    setAnyChanges(changes)
-    // eslint-disable-next-line
-  }, [questions, name, active, deadline])
-
   useEffect(() => {
     if (tabActive === 6) {
       dispatch(editorActions.clearQuestionInWork())
       setTimeout(() => dispatch(editorActions.clearEditor()), duration)
-    } // eslint-disable-next-line
+    }
+    // eslint-disable-next-line
   }, [tabActive])
 
-  const saveBtnDisabled = !anyChanges || !name || !Object.keys(questions).length
+  const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
+  const saveBtnDisabled = !changes || !name || !Object.keys(questions).length
 
   // action handlers
 
   const handleSubmit = async () => {
     const id = selectedWeek
     const { questions, name, active, deadline } = editor
-    navigate('/calendar')
-    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
     const { nextWeek, currentWeek } = getWeeksIDs(weeks)
     const newSelectedWeek = selectedWeek ? selectedWeek + 1 : 0
+    navigate('/calendar')
+    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
     dispatch(appActions.submitWeek({ nextWeek, currentWeek, newSelectedWeek }))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
   }
 
   const handleDeleteWeek = () => {
     const deleter = async () => {
-      const newWeeks = structuredClone(weeks)
-      delete newWeeks[selectedWeek]
       dispatch({ type: TYPES.DELETE_WEEK, payload: selectedWeek })
-      dispatch(weeksActions.setWeeks(newWeeks))
+      dispatch(weeksActions.deleteWeek(selectedWeek))
       dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
       navigate('/calendar')
     }

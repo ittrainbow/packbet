@@ -21,8 +21,6 @@ export const Reset = () => {
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState('')
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {

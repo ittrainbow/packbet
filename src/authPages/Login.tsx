@@ -24,8 +24,6 @@ export const Login = () => {
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {

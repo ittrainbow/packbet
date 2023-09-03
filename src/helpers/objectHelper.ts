@@ -2,7 +2,7 @@ import { AnswersType, WeekType } from '../types'
 
 type CompareType = AnswersType | { [key: number]: number }
 
-export const getObjectsEquality = (obj1: CompareType = {}, obj2: CompareType = {}) => {
+export const getObjectsEquality = (obj1: CompareType = {}, obj2: CompareType = {}, admin?: boolean) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 

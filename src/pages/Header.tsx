@@ -11,8 +11,6 @@ export const Header = () => {
   const { mobile, tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
 
-  // container fade animations
-
   const animateBackToWeeklist = () => {
     const backToWeeklist = pathname.includes('week') || pathname.includes('editor')
     const container = document.querySelector('.container')

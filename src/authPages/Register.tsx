@@ -25,8 +25,6 @@ export const Register = () => {
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {

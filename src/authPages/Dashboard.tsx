@@ -19,8 +19,6 @@ export const Dashboard = () => {
   const { name, admin, locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {

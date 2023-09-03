@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, current } from '@reduxjs/toolkit'
 
 import { IWeeks, WeekType } from '../../types'
 
@@ -15,6 +15,12 @@ export const weeksSlice = createSlice({
   reducers: {
     setWeeks(_, action: PayloadAction<IWeeks>) {
       return action.payload
+    },
+
+    deleteWeek(state, action: PayloadAction<number>) {
+      const weeks = structuredClone(current(state))
+      delete weeks[action.payload]
+      return weeks
     },
 
     updateWeeks(state, action: PayloadAction<UpdateWeeksType>) {

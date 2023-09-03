@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
-import { IEditor, QuestionType, QuestionsType, WeekType } from '../../types'
+import { IEditor, QuestionType, WeekType } from '../../types'
 import { emptyQuestion } from '../../helpers'
 
 const initialState: IEditor = {
@@ -24,8 +24,15 @@ export const editorSlice = createSlice({
       state.deadline = deadline
     },
 
-    updateEditorQuestions(state, action: PayloadAction<QuestionsType>) {
-      state.questions = action.payload
+    updateEditorQuestions(state, action: PayloadAction<number>) {
+      state.questions[action.payload] = state.questionInWork
+      state.questionInWork = emptyQuestion
+    },
+
+    deleteEditorQuestion(state, action: PayloadAction<number>) {
+      const { questions } = structuredClone(current(state))
+      delete questions[action.payload]
+      state.questions = questions
     },
 
     updateEditorName(state, action: PayloadAction<string>) {
@@ -36,16 +43,18 @@ export const editorSlice = createSlice({
       state.deadline = action.payload
     },
 
-    updateEditorActive(state, action: PayloadAction<boolean>) {
+    updateEditorWeekActivity(state, action: PayloadAction<boolean>) {
       state.active = action.payload
+    },
+
+    initQuestionInWork(state, action: PayloadAction<QuestionType>) {
+      const { payload } = action
+      state.questionInWork = payload
+      state.questionCompare = payload
     },
 
     setQuestionInWork(state, action: PayloadAction<QuestionType>) {
       state.questionInWork = action.payload
-    },
-
-    setQuestionCompare(state, action: PayloadAction<QuestionType>) {
-      state.questionCompare = action.payload
     },
 
     clearQuestionInWork(state) {
