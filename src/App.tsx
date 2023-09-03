@@ -21,10 +21,8 @@ export const App = () => {
   useSwipe()
 
   useEffect(() => {
-    const lastTab = Number(localStorage.getItem('packContestLastTab') || 1)
-    dispatch({ type: INIT_APP })
     dispatch(appActions.setMobile(isMobile))
-    dispatch(appActions.setTabActive(lastTab))
+    dispatch({ type: INIT_APP })
     navigate('/login')
     // eslint-disable-next-line
   }, [])
@@ -32,12 +30,9 @@ export const App = () => {
   useEffect(() => {
     if (user) {
       dispatch(userActions.setUid(user.uid))
-      dispatch({
-        type: USER_LOGIN,
-        payload: { user, emailReg }
-      })
+      dispatch({ type: USER_LOGIN, payload: { user, emailReg } })
 
-      const lastTab = Number(localStorage.getItem('packContestLastTab'))
+      const lastTab = Number(localStorage.getItem('packContestLastTab') || 1)
       navigate(initialRedirects[lastTab])
       dispatch(appActions.setTabActive(lastTab))
       lastTab === 5 && dispatch(appActions.setEditor(true))

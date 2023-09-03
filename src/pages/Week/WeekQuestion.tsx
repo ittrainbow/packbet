@@ -46,18 +46,18 @@ export const WeekQuestion = ({ id }: { id: number }) => {
 
     if (isItYou && user && userOnTimeOrAdmin) {
       const { value, id, activity } = props
-      const newValue = value === activity ? 0 : value
+      const answer = value === activity ? 0 : value
+      const deleteValue = { selectedWeek, uid, id }
+      const updateValue = { ...deleteValue, answer }
 
       if (!adm) {
-        !!newValue
-          ? dispatch(answersActions.updateSingleAnswer({ selectedWeek, uid, id, answer: newValue }))
-          : dispatch(answersActions.deleteSingleAnswer({ selectedWeek, uid, id }))
-      }
-
-      if (adm) {
-        !!newValue
-          ? dispatch(resultsActions.updateSingleResult({ selectedWeek, uid, id, answer: newValue }))
-          : dispatch(resultsActions.deleteSingleResult({ selectedWeek, uid, id }))
+        !!answer
+          ? dispatch(answersActions.updateSingleAnswer(updateValue))
+          : dispatch(answersActions.deleteSingleAnswer(deleteValue))
+      } else {
+        !!answer
+          ? dispatch(resultsActions.updateSingleResult(updateValue))
+          : dispatch(resultsActions.deleteSingleResult(deleteValue))
       }
     }
   }

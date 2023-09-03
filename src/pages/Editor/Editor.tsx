@@ -65,10 +65,10 @@ export const Editor = () => {
     const { questions, name, active, deadline } = editor
     navigate('/calendar')
     dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
-    dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
+    const { nextWeek, currentWeek } = getWeeksIDs(weeks)
+    const newSelectedWeek = selectedWeek ? selectedWeek + 1 : 0
+    dispatch(appActions.submitWeek({ nextWeek, currentWeek, newSelectedWeek }))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
-    dispatch(appActions.setSelectedWeek(selectedWeek ? selectedWeek + 1 : 0))
-    dispatch(appActions.setTabActive(5))
   }
 
   const handleDeleteWeek = () => {
@@ -88,8 +88,7 @@ export const Editor = () => {
   }
 
   const handleCancelEditor = () => {
-    dispatch(appActions.setEmptyEditor(false))
-    dispatch(appActions.setTabActive(5))
+    dispatch(appActions.setEditorAndTab())
     triggerFade()
     setTimeout(() => {
       dispatch(editorActions.clearEditor())

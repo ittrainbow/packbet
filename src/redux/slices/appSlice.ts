@@ -9,6 +9,12 @@ type SetStandingsType = {
   tabActive: number
 }
 
+type SubmitWeekType = {
+  nextWeek: number
+  currentWeek: number
+  newSelectedWeek: number
+}
+
 const initialState: IApp = {
   mobile: false,
   loading: true,
@@ -80,6 +86,18 @@ export const appSlice = createSlice({
       state.currentWeek = action.payload.currentWeek
     },
 
+    submitWeek(state, action: PayloadAction<SubmitWeekType>) {
+      const { newSelectedWeek, nextWeek, currentWeek } = action.payload
+      state.selectedWeek = newSelectedWeek
+      state.nextWeek = nextWeek
+      state.currentWeek = currentWeek
+    },
+
+    setEditorAndTab(state) {
+      state.emptyEditor = false
+      state.tabActive = 5
+    },
+
     setTabActive(state, action: PayloadAction<number>) {
       const id = action.payload
       localStorage.setItem('packContestLastTab', id.toString())
@@ -87,11 +105,11 @@ export const appSlice = createSlice({
     },
 
     setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {
-      const { otherUserName, otherUserUID, isItYou, tabActive } = action.payload
+      const { otherUserName, otherUserUID, isItYou } = action.payload
       state.otherUserName = otherUserName
       state.otherUserUID = otherUserUID
       state.isItYou = isItYou
-      state.tabActive = tabActive
+      state.tabActive = 5
     }
   }
 })
