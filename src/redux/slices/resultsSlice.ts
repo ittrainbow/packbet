@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
 import { AnswersType } from '../../types'
 
@@ -47,11 +47,13 @@ export const resultsSlice = createSlice({
 
     deleteSingleResult(state, action: PayloadAction<SingleResultDeleteType>) {
       const { selectedWeek, id } = action.payload
+      const newState = structuredClone(current(state))
       if (Object.keys(state[selectedWeek]).length === 1) {
-        delete state[selectedWeek]
+        delete newState[selectedWeek]
       } else {
-        delete state[selectedWeek][id]
+        delete newState[selectedWeek][id]
       }
+      return newState
     }
   }
 })

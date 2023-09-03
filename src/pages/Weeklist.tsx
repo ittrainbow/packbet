@@ -17,8 +17,6 @@ export const WeekList = () => {
   const weeks = useSelector(selectWeeks)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {

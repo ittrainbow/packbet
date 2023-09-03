@@ -2,8 +2,8 @@ import { FaEdit, FaTrashAlt, FaBan } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { selectApp, selectEditor, selectUser } from '../../redux/selectors'
-import { FadeRefType, QuestionsType } from '../../types'
 import { editorActions } from '../../redux/slices'
+import { FadeRefType } from '../../types'
 import { useFade } from '../../hooks'
 
 type QuestionPropsType = { id: number; questionsRef: FadeRefType }
@@ -15,25 +15,18 @@ export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
   const { locale } = useSelector(selectUser)
   const { ru, ua, total } = questions[id]
 
-  // animate
-
   const triggerFade = useFade(questionsRef)
 
   // action handlers
 
   const handleEditQuestion = (id: number) => {
-    const { ru, ua, total } = questions[id]
-    dispatch(editorActions.setQuestionInWork({ ru, ua, total, id }))
-    dispatch(editorActions.setQuestionCompare({ ru, ua, total, id }))
+    const question = { ru, ua, total, id }
+    dispatch(editorActions.initQuestionInWork(question))
   }
 
   const handleDeleteQuestion = (id: number) => {
     triggerFade()
-    setTimeout(() => {
-      const obj: QuestionsType = structuredClone(questions)
-      delete obj[id]
-      dispatch(editorActions.updateEditorQuestions(obj))
-    }, duration)
+    setTimeout(() => dispatch(editorActions.deleteEditorQuestion(id)), duration)
   }
 
   const handleClearQuestion = () => {

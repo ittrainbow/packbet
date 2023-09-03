@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FaCheck, FaPlus } from 'react-icons/fa'
 
 import { selectApp, selectEditor, selectLocation, selectUser } from '../../redux/selectors'
-import { ChangeInputType, FadeRefType, QuestionsType } from '../../types'
 import { getNewQuestionId, getObjectsEquality } from '../../helpers'
+import { ChangeInputType, FadeRefType } from '../../types'
 import { editorActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
 import { Input, Button } from '../../UI'
@@ -19,8 +19,6 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
   const { ru, ua, total, id } = questionInWork
-
-  // animate
 
   const triggerFade = useFade(questionsRef)
 
@@ -65,17 +63,11 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
   }
 
   const handleAddQuestion = () => {
-    const { ru, ua, total } = questionInWork
     const { questions } = editor
     if (ru && ua && total) {
       triggerFade()
-      setTimeout(() => {
-        const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
-        const obj: QuestionsType = structuredClone(questions)
-        obj[setId] = questionInWork
-        dispatch(editorActions.clearQuestionInWork())
-        dispatch(editorActions.updateEditorQuestions(obj))
-      }, duration)
+      const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
+      setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), duration)
     }
   }
 

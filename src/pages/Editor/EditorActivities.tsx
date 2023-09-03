@@ -20,14 +20,12 @@ export const EditorActivities = () => {
 
   const handleChangeActivity = (e: ChangeInputType) => {
     const { checked } = e.target
-    dispatch(editorActions.updateEditorActive(checked))
+    dispatch(editorActions.updateEditorWeekActivity(checked))
   }
 
   const { weekActivityMsg } = i18n(locale, 'editor') as LocaleType
 
-  const getDeadline = (deadline?: number) => {
-    return moment(deadline).format().substring(0, 16)
-  }
+  const getDeadline = (deadline: number) => moment(deadline).format().substring(0, 16)
 
   return (
     <div className="editor-activities-container flexrow5">

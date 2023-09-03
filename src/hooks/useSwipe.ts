@@ -80,7 +80,8 @@ export const useSwipe = () => {
     return () => {
       document.removeEventListener('touchstart', listenerStart)
       document.removeEventListener('touchend', listenerEnd)
-    } // eslint-disable-next-line
+    } 
+    // eslint-disable-next-line
   }, [tabActive, admin, selectedWeek])
 
   return

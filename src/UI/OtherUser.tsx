@@ -19,10 +19,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
 
   const handleDiscard = () => {
     triggerFade()
-    setTimeout(() => {
-      dispatch(appActions.setIsItYou(true))
-      dispatch(appActions.clearOtherUser())
-    }, duration)
+    setTimeout(() => dispatch(appActions.clearOtherUser()), duration)
   }
 
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as LocaleType

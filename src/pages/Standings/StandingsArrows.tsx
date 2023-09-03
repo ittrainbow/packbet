@@ -12,8 +12,6 @@ export const StandingsArrows = () => {
   const arrowsRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState<boolean>(false)
 
-  // animate
-
   useEffect(() => {
     let listener = () => {
       const list = arrowsRef.current?.classList

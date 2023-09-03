@@ -15,8 +15,6 @@ export const About = () => {
   const aboutRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {

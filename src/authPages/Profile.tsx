@@ -24,8 +24,6 @@ export const Profile = () => {
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState('')
 
-  // container fade animations
-
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {
