@@ -42,6 +42,7 @@ export const WeekList = () => {
 
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
   const { weekListMsg, weekListEditorMsg } = i18n(locale, 'weeklist') as LocaleType
+  const { tab2msg } = i18n(locale, 'header') as LocaleType
   const getDate = useDate()
 
   return (
@@ -59,7 +60,7 @@ export const WeekList = () => {
           const selectedWeek = Number(el)
           return (
             <div key={selectedWeek} className="weeklist" onClick={() => handleClick(selectedWeek)}>
-              <div className="weeklist__desc">{name}</div>
+              <div className="weeklist__desc">{tab2msg} {name}</div>
               <div className="weeklist__date">{getDate(weeks[el].deadline)}</div>
             </div>
           )
