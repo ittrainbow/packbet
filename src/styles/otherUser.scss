@@ -2,6 +2,7 @@
 
 .otheruser {
   border: 1px solid $base-border;
+  -webkit-tap-highlight-color: transparent;
   border-radius: $border-radius-base;
   background-color: $base-buttonbg;
   font-size: 14px;
