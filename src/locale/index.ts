@@ -13,7 +13,7 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const dashboardAdminMsg = locale === 'ru' ? 'Вы - админ' : 'Ви - адмiн'
   const profileHeaderMsg = locale === 'ru' ? 'Настройка профиля' : 'Налаштування профiлю'
   const profileNameMsg = locale === 'ru' ? 'Введите username' : `Введіть username`
-  const profileLangMsg = locale === 'ru' ? 'Выберите язык интерфейса' : 'Виберіть мову інтерфейсу'
+  const profileLangMsg = locale === 'ru' ? 'Выберите язык' : 'Виберіть мову'
   const loginIntro = locale === 'ru' ? 'Зарегистрированы?' : 'Зареєстровані?'
   const loginMsg = locale === 'ru' ? 'Войти' : 'Увiйти'
   const regIntro = locale === 'ru' ? 'Нет профиля?' : 'Немає профілю?'
