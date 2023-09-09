@@ -23,12 +23,15 @@
   animation: arrows-fade-out-down 0.3s ease-in-out forwards;
 }
 
+.arrows-green,
+.arrows-grey {
+  transition: $base-duration ease-in-out;
+}
+
 .arrows-green {
   color: $base-green-active;
-  transition: $base-duration ease-in-out;
 }
 
 .arrows-grey {
   color: $base-grey;
-  transition: $base-duration ease-in-out;
 }

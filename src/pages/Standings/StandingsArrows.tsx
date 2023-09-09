@@ -54,11 +54,11 @@ export const StandingsArrows = () => {
   }
 
   return (
-    <div className="arrows-container" ref={arrowsRef} style={{ opacity: scrolled ? 1 : 0 }}>
-      <div ref={arrowTopRef}>
+    <div className="arrows-container" ref={arrowsRef}>
+      <div ref={arrowTopRef} className="arrows-grey">
         <FaArrowCircleUp onClick={() => handleScroll('top')} />
       </div>
-      <div ref={arrowBottomRef}>
+      <div ref={arrowBottomRef} className="arrows-grey">
         <FaArrowCircleDown onClick={() => handleScroll('bottom')} />
       </div>
     </div>
