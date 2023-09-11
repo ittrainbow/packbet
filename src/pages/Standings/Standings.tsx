@@ -12,13 +12,13 @@ import { IStore } from '../../types'
 
 export const Standings = () => {
   const dispatch = useDispatch()
-  const { showTools, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
+  const { showTools, standingsSearch } = useSelector(selectTools)
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
   const user = useSelector((store: IStore) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
-  const { season, week } = useSelector(selectStandings)
-  const { locale, buddies } = user
+  const { season } = useSelector(selectStandings)
+  const { locale } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
@@ -64,12 +64,10 @@ export const Standings = () => {
           <div className="standings" ref={tableRef}>
             <OtherUser containerRef={containerRef} />
             <StandingsHeader />
-            {Object.values(showOneWeek ? week : season)
+            {Object.values(season)
               .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
-              .filter((el) => (showBuddies ? buddies.includes(el.uid) : el))
-              .map((el, index) => {
-                const even = index % 2 === 0
-                return <StandingsRow el={el} even={even} key={index} fade={containerFade} />
+              .map((_, index) => {
+                return <StandingsRow key={index} fade={containerFade} index={index} />
               })}
             <div className="tierline">{tableTierline}</div>
           </div>

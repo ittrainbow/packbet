@@ -1,26 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
 import { FaStar } from 'react-icons/fa'
-import { IUserStandings } from '../../types'
-import { getTableRowParams } from '../../helpers'
-import { appActions, userActions } from '../../redux/slices'
-import { selectAnswers, selectApp, selectUser } from '../../redux/selectors'
+
+import { selectAnswers, selectApp, selectTools, selectUser } from '../../redux/selectors'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
+import { appActions, userActions } from '../../redux/slices'
+import { useTableRow } from '../../hooks'
 
 type StandingsRowType = {
-  el: IUserStandings
-  even: boolean
+  index: number
   fade: () => void
 }
 
-export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
+export const StandingsRow = ({ fade, index }: StandingsRowType) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
   const { admin, buddies } = user
   const { duration } = useSelector(selectApp)
+  const { showBuddies } = useSelector(selectTools)
+
+  const even = index % 2 === 0
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     const { uid } = user
@@ -40,10 +41,11 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
   }
 
-  const { name, userAnswers, correct, position, uid, faults } = getTableRowParams(el)
+  const { name, userAnswers, correct, position, uid, tableFaults } = useTableRow(index)
+
   const buddy = buddies?.includes(uid)
 
-  return (
+  const row = (
     <div className="standings__row">
       <div className={`col-zero ${even ? 'standings__dark' : ''}`}>{position}</div>
       <div
@@ -62,7 +64,9 @@ export const StandingsRow = ({ el, even, fade }: StandingsRowType) => {
       </div>
       <div className={`col-three ${even ? 'standings__dark' : ''}`}>{userAnswers}</div>
       <div className={`col-four ${even ? 'standings__dark' : ''}`}>{correct}</div>
-      <div className={`col-five ${even ? 'standings__dark' : ''}`}>{faults}</div>
+      <div className={`col-five ${even ? 'standings__dark' : ''}`}>{tableFaults}</div>
     </div>
   )
+
+  return showBuddies && !buddy ? null : row
 }

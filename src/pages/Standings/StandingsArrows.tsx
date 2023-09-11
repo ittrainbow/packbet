@@ -18,7 +18,8 @@ export const StandingsArrows = () => {
       if (window.scrollY > 250 && !scrolled) {
         setScrolled(true)
         list?.add('arrows-show')
-        list?.remove('arrows-hide')
+        list?.remove('arrows-none')
+        list?.contains('arrows-hide') && list?.remove('arrows-hide')
       }
       if (window.scrollY < 250 && scrolled) {
         list?.remove('arrows-show')
@@ -50,11 +51,11 @@ export const StandingsArrows = () => {
     setTimeout(() => {
       const height = document.body.scrollHeight
       window.scrollTo({ top: direction === 'top' ? 0 : height, behavior: 'smooth' })
-    }, 50)
+    })
   }
 
   return (
-    <div className="arrows-container" ref={arrowsRef}>
+    <div className="arrows-container arrows-none" ref={arrowsRef}>
       <div ref={arrowTopRef} className="arrows-grey">
         <FaArrowCircleUp onClick={() => handleScroll('top')} />
       </div>
