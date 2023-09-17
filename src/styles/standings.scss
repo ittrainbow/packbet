@@ -93,6 +93,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  letter-spacing: -0.03em;
 }
 
 .col-zero,
@@ -119,7 +120,10 @@
   }
 }
 
-.col-three,
+.col-three {
+  min-width: 55px;
+}
+
 .col-four,
 .col-five {
   width: 9%;
@@ -129,10 +133,6 @@
 .col-dense {
   letter-spacing: -1px;
   padding: 0 1px;
-}
-
-.col-four {
-  letter-spacing: -0.05em;
 }
 
 .tierline {

@@ -15,7 +15,7 @@ type StandingsRowType = {
 export const StandingsRow = ({ fade, index }: StandingsRowType) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { showBuddies, standingsSearch } = useSelector(selectTools)
+  const { showBuddies, standingsSearch, showOneWeek } = useSelector(selectTools)
   const { duration } = useSelector(selectApp)
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
@@ -65,7 +65,7 @@ export const StandingsRow = ({ fade, index }: StandingsRowType) => {
       </div>
       <div className={`col-three ${colorStyle}`}>{userAnswers}</div>
       <div className={`col-four ${colorStyle}`}>{correctAdjusted}</div>
-      <div className={`col-five ${colorStyle}`}>{tableFaults}</div>
+      <div className={`col-five ${colorStyle}`}>{showOneWeek ? '' : tableFaults}</div>
     </div>
   )
 
