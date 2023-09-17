@@ -24,9 +24,7 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
     const ans = answers && answers[el] ? answers[el] : {}
     Object.keys(results)
       .map((el) => Number(el))
-      .filter((el) => {
-        return fullSeason ? el >= 0 : el === lastWeek
-      })
+      .filter((el) => (fullSeason ? el >= 0 : el === lastWeek))
       .forEach((el) => {
         const subAns = ans ? ans[el] : null
         results[el] &&
@@ -39,10 +37,11 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
             })
       })
 
-    const ansTotalWithFaults = Math.max(ansTotal, resultsTotal - 10)
+    const lastWeekTotal = Object.keys(results[lastWeek]).length
+    const ansTotalWithFaults = fullSeason ? Math.max(ansTotal, resultsTotal - 10) : lastWeekTotal
     const correct = ansTotal ? ansCorrect / ansTotalWithFaults : 0
     const faults = ansTotal - resultsTotal + 10
-    object[el] = { name, uid, ansTotal, ansCorrect, resultsTotal, correct, position: '', faults }
+    object[el] = { name, uid, ansCorrect, ansTotal, resultsTotal, correct, position: '', faults }
   })
 
   const array: IUserStandings[] = Object.keys(object).map((el) => object[el])

@@ -15,7 +15,7 @@ export const useTableRow = (index: number) => {
     .map((el) => Object.keys(results[el]).length)
     .reduce((a, b) => a + b)
 
-  const answersAdjusted = Math.max(ansTotal, resultsTotal - 10)
+  const answersAdjusted = showOneWeek ? ansTotal : Math.max(ansTotal, resultsTotal - 10)
 
   const userAnswers = ansCorrect + '/' + answersAdjusted
   const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'

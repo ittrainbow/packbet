@@ -12,12 +12,12 @@ import { IStore } from '../../types'
 
 export const Standings = () => {
   const dispatch = useDispatch()
-  const { showTools, standingsSearch } = useSelector(selectTools)
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)
   const user = useSelector((store: IStore) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
   const { season } = useSelector(selectStandings)
+  const { showTools } = useSelector(selectTools)
   const { locale } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -64,11 +64,9 @@ export const Standings = () => {
           <div className="standings" ref={tableRef}>
             <OtherUser containerRef={containerRef} />
             <StandingsHeader />
-            {Object.values(season)
-              .filter((el) => el.name.toLowerCase().includes(standingsSearch.toLowerCase()))
-              .map((_, index) => {
-                return <StandingsRow key={index} fade={containerFade} index={index} />
-              })}
+            {Object.values(season).map((_, index) => (
+              <StandingsRow key={index} fade={containerFade} index={index} />
+            ))}
             <div className="tierline">{tableTierline}</div>
           </div>
         </div>

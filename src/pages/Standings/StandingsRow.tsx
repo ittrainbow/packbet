@@ -19,7 +19,7 @@ export const StandingsRow = ({ fade, index }: StandingsRowType) => {
   const user = useSelector(selectUser)
   const { admin, buddies } = user
   const { duration } = useSelector(selectApp)
-  const { showBuddies } = useSelector(selectTools)
+  const { showBuddies, standingsSearch } = useSelector(selectTools)
 
   const even = index % 2 === 0
 
@@ -68,5 +68,7 @@ export const StandingsRow = ({ fade, index }: StandingsRowType) => {
     </div>
   )
 
-  return showBuddies && !buddy ? null : row
+  const returnEmpty = !name.toLowerCase().includes(standingsSearch.toLowerCase()) || (showBuddies && !buddy)
+
+  return returnEmpty ? null : row
 }
