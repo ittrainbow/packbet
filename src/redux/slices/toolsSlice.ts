@@ -15,6 +15,7 @@ export const toolsSlice = createSlice({
   reducers: {
     switchShowTools(state) {
       const newTools = !state.showTools
+      if (newTools === false) state.standingsSearch = ''
       state.showTools = newTools
     },
 

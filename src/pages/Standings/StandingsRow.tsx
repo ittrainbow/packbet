@@ -15,11 +15,11 @@ type StandingsRowType = {
 export const StandingsRow = ({ fade, index }: StandingsRowType) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { showBuddies, standingsSearch } = useSelector(selectTools)
+  const { duration } = useSelector(selectApp)
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
   const { admin, buddies } = user
-  const { duration } = useSelector(selectApp)
-  const { showBuddies, standingsSearch } = useSelector(selectTools)
 
   const even = index % 2 === 0
 
@@ -41,30 +41,31 @@ export const StandingsRow = ({ fade, index }: StandingsRowType) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
   }
 
-  const { name, userAnswers, correct, position, uid, tableFaults } = useTableRow(index)
+  const { name, userAnswers, correctAdjusted, position, uid, tableFaults } = useTableRow(index)
 
   const buddy = buddies?.includes(uid)
+  const colorStyle = uid === user.uid ? 'standings__me' : even ? 'standings__dark' : ''
 
   const row = (
     <div className="standings__row">
-      <div className={`col-zero ${even ? 'standings__dark' : ''}`}>{position}</div>
+      <div className={`col-zero ${colorStyle}`}>{position}</div>
       <div
-        className={`col-one ${even ? 'standings__dark' : ''}`}
+        className={`col-one ${colorStyle}`}
         onClick={() => handleAddRemoveBuddy(uid)}
         style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
       >
         <FaStar />
       </div>
       <div
-        className={`col-two ${even ? 'standings__dark' : ''}`}
+        className={`col-two ${colorStyle}`}
         onClick={() => handleClickOnUser(name, uid)}
         style={{ fontWeight: user.uid === uid ? 600 : '' }}
       >
         {name}
       </div>
-      <div className={`col-three ${even ? 'standings__dark' : ''}`}>{userAnswers}</div>
-      <div className={`col-four ${even ? 'standings__dark' : ''}`}>{correct}</div>
-      <div className={`col-five ${even ? 'standings__dark' : ''}`}>{tableFaults}</div>
+      <div className={`col-three ${colorStyle}`}>{userAnswers}</div>
+      <div className={`col-four ${colorStyle}`}>{correctAdjusted}</div>
+      <div className={`col-five ${colorStyle}`}>{tableFaults}</div>
     </div>
   )
 

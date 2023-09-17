@@ -60,7 +60,7 @@ export const Standings = () => {
           <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
         </div>
         <div ref={bodyRef}>
-          {showTools ? <StandingsTools tableRef={tableRef} /> : null}
+          <StandingsTools />
           <div className="standings" ref={tableRef}>
             <OtherUser containerRef={containerRef} />
             <StandingsHeader />

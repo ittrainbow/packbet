@@ -8,7 +8,7 @@ export const useTableRow = (index: number) => {
   const results = useSelector(selectResults)
 
   const tableEl = showOneWeek ? week[index] : season[index]
-  const { name, ansCorrect, ansTotal, position, uid, faults } = tableEl
+  const { name, ansCorrect, ansTotal, position, uid, faults, correct } = tableEl
 
   const resultsTotal = Object.keys(results)
     .map((el) => Number(el))
@@ -18,8 +18,8 @@ export const useTableRow = (index: number) => {
   const answersAdjusted = showOneWeek ? ansTotal : Math.max(ansTotal, resultsTotal - 10)
 
   const userAnswers = ansCorrect + '/' + answersAdjusted
-  const correct = ansTotal !== 0 ? (ansCorrect / ansTotal).toFixed(3) : '0.000'
+  const correctAdjusted = ansTotal !== 0 ? correct.toFixed(3) : '0.000'
   const tableFaults = Math.max(0, faults)
 
-  return { name, userAnswers, correct, position, uid, tableFaults }
+  return { name, userAnswers, correctAdjusted, position, uid, tableFaults }
 }

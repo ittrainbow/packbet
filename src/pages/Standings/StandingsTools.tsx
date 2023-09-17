@@ -3,24 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Input } from '@mui/material'
 
 import { selectApp, selectTools, selectUser } from '../../redux/selectors'
-import { ChangeInputType, FadeRefType } from '../../types'
 import { toolsActions } from '../../redux/slices'
 import { i18n, LocaleType } from '../../locale'
+import { ChangeInputType } from '../../types'
 import { Button, Switch } from '../../UI'
-import { useFade } from '../../hooks'
 
-type ToolsPropsType = {
-  tableRef: FadeRefType
-}
-
-export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
+export const StandingsTools = () => {
   const dispatch = useDispatch()
   const { showOneWeek, showBuddies, standingsSearch, showTools } = useSelector(selectTools)
-  const { mobile, duration } = useSelector(selectApp)
-  const { locale } = useSelector(selectUser)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
-
-  const triggerFade = useFade(tableRef)
+  const { locale } = useSelector(selectUser)
+  const { mobile } = useSelector(selectApp)
 
   // action handlers
 
@@ -34,16 +27,15 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
     dispatch(toolsActions.clearSearch())
   }
 
-  const hancleChangeSearch = (e: ChangeInputType) => {
+  const handleChangeSearch = (e: ChangeInputType) => {
     const { value } = e.target
     dispatch(toolsActions.setSearch(value))
   }
 
   const handleSwitchBuddies = () => {
     const value = !showBuddies
-    showTools && triggerFade()
     setShowBuddiesLocal(value)
-    setTimeout(() => dispatch(toolsActions.switchShowBuddies()), duration)
+    dispatch(toolsActions.switchShowBuddies())
     localStorage.setItem('packContestFavList', value.toString())
   }
 
@@ -52,11 +44,11 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
   const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
     i18n(locale, 'standings') as LocaleType
 
-  return (
+  const tools = (
     <div className="standings__tools flexcol5">
       <div className="standings__search flexrow5">
         <Input
-          onChange={hancleChangeSearch}
+          onChange={handleChangeSearch}
           value={standingsSearch}
           type="text"
           placeholder={tableSearchMsg}
@@ -86,4 +78,6 @@ export const StandingsTools = ({ tableRef }: ToolsPropsType) => {
       </div>
     </div>
   )
+
+  return showTools ? tools : null
 }

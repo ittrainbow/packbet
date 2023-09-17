@@ -48,6 +48,10 @@
     background-color: $base-bg !important;
   }
 
+  &__me {
+    background-color: $base-standings-green !important;
+  }
+
   &__search {
     justify-content: center;
     align-items: center;
