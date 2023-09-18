@@ -81,8 +81,9 @@
   align-items: center;
   background-color: $base-itembg;
   border: 1px solid $base-itemborder;
-  padding: 5px 1px;
   border-radius: $border-radius-base;
+  letter-spacing: -0.02em;
+  padding: 5px 0;
 }
 
 .col-zero,
@@ -93,18 +94,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  letter-spacing: -0.03em;
 }
 
 .col-zero,
 .col-one {
-  min-width: 27px;
+  min-width: 26px;
 }
 
 .col-one {
-  background-color: $base-itembg;
-  border: 1px solid $base-itemborder;
-  border-radius: $border-radius-base;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -121,7 +118,7 @@
 }
 
 .col-three {
-  min-width: 55px;
+  min-width: 53px;
 }
 
 .col-four,
@@ -132,7 +129,6 @@
 
 .col-dense {
   letter-spacing: -1px;
-  padding: 0 1px;
 }
 
 .tierline {
