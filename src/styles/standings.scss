@@ -69,12 +69,7 @@
   }
 }
 
-.col-zero,
-.col-one,
-.col-two,
-.col-three,
-.col-four,
-.col-five {
+.col {
   display: flex;
   align-items: center;
   background-color: $base-itembg;
@@ -82,20 +77,16 @@
   border-radius: $border-radius-base;
   letter-spacing: -0.02em;
   padding: 5px 0;
+}
 
+.pt6mob {
   @media only screen and (max-width: $max-width) {
     padding-top: 6px;
   }
 }
 
-.col-zero,
-.col-one,
-.col-three,
-.col-four,
-.col-five {
-  display: flex;
+.jcc {
   justify-content: center;
-  align-items: center;
 }
 
 .col-zero,
@@ -106,6 +97,7 @@
 .col-one {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
 }
 
 .col-two {

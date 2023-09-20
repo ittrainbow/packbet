@@ -48,24 +48,24 @@ export const StandingsRow = ({ fade, index }: StandingsRowType) => {
 
   const row = (
     <div className="standings__row">
-      <div className={`col-zero ${colorStyle}`}>{position}</div>
+      <div className={`col col-zero pt6mob jcc ${colorStyle}`}>{position}</div>
       <div
-        className={`col-one ${colorStyle}`}
+        className={`col col-one jcc ${colorStyle}`}
         onClick={() => handleAddRemoveBuddy(uid)}
         style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
       >
         <FaStar />
       </div>
       <div
-        className={`col-two ${colorStyle}`}
+        className={`col col-two pt6mob ${colorStyle}`}
         onClick={() => handleClickOnUser(name, uid)}
         style={{ fontWeight: user.uid === uid ? 600 : '' }}
       >
         {name}
       </div>
-      <div className={`col-three ${colorStyle}`}>{userAnswers}</div>
-      <div className={`col-four ${colorStyle}`}>{correctAdjusted}</div>
-      <div className={`col-five ${colorStyle}`}>{showOneWeek ? '' : tableFaults}</div>
+      <div className={`col col-three jcc pt6mob ${colorStyle}`}>{userAnswers}</div>
+      <div className={`col col-four jcc pt6mob ${colorStyle}`}>{correctAdjusted}</div>
+      <div className={`col col-five jcc pt6mob ${colorStyle}`}>{showOneWeek ? '' : tableFaults}</div>
     </div>
   )
 
