@@ -57,6 +57,7 @@ export const Editor = () => {
     const { nextWeek, currentWeek } = getWeeksIDs(weeks)
     const newSelectedWeek = selectedWeek ? selectedWeek + 1 : 0
     navigate('/calendar')
+    dispatch(appActions.setTabActive(5))
     dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
     dispatch(appActions.submitWeek({ nextWeek, currentWeek, newSelectedWeek }))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))

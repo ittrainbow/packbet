@@ -1,6 +1,6 @@
 export * from './About'
-export * from './WeekList'
 export * from './Editor'
 export * from './Header'
 export * from './Standings'
 export * from './Week'
+export * from './WeekList'
