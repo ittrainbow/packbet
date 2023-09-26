@@ -9,8 +9,8 @@ import { useFade, useDate } from '../hooks'
 import { OtherUser } from '../UI'
 
 export const WeekList = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
