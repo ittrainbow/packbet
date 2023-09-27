@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { appActions, editorActions, toolsActions } from '../redux/slices'
-import { selectApp, selectUser } from '../redux/selectors'
+import { selectApp, selectEditor, selectUser } from '../redux/selectors'
 import { useMenu } from './useMenu'
 
 type SwipeHelperProps = {
   moveX: number
   canSwipeLeft: boolean
   canSwipeRight: boolean
+  canSwipe: boolean
 }
 
 export const useSwipe = () => {
@@ -18,16 +19,18 @@ export const useSwipe = () => {
   const navigate = useNavigate()
   const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
+  const { questionInWork } = useSelector(selectEditor)
+  const { ru, ua, total } = questionInWork
 
-  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelperProps) => {
+  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight, canSwipe }: SwipeHelperProps) => {
     const container = document.querySelector('.container')
 
-    if (moveX > 0 && canSwipeLeft) {
+    if (moveX > 0 && canSwipeLeft && canSwipe) {
       const list = container?.classList
       list?.add('animate-fade-out-right')
     }
 
-    if (moveX < 0 && canSwipeRight) {
+    if (moveX < 0 && canSwipeRight && canSwipe) {
       const list = container?.classList
       list?.add('animate-fade-out-left')
     }
@@ -52,25 +55,28 @@ export const useSwipe = () => {
         const limit = admin ? 6 : 4
         const canSwipeLeft = tabActive > 0
         const canSwipeRight = tabActive < limit
+        const canSwipe = !ru && !ua && !total
         const newTabActive =
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
-        swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
+        swipeHelper({ moveX, canSwipeLeft, canSwipeRight, canSwipe })
 
-        newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
+        if (canSwipe) {
+          newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
 
-        newTabActive === 4 &&
-          editor &&
-          dispatch(appActions.setEditor(false)) &&
-          dispatch(editorActions.clearEditor()) &&
-          dispatch(toolsActions.setShowTools(false))
+          newTabActive === 4 &&
+            editor &&
+            dispatch(appActions.setEditor(false)) &&
+            dispatch(editorActions.clearEditor()) &&
+            dispatch(toolsActions.setShowTools(false))
 
-        newTabActive === 2 &&
-          selectedWeek !== currentWeek &&
-          setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
+          newTabActive === 2 &&
+            selectedWeek !== currentWeek &&
+            setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
 
-        dispatch(appActions.setTabActive(newTabActive))
-        setTimeout(() => navigate(menu[newTabActive].path), duration)
+          dispatch(appActions.setTabActive(newTabActive))
+          setTimeout(() => navigate(menu[newTabActive].path), duration)
+        }
       }
     }
 
@@ -80,9 +86,9 @@ export const useSwipe = () => {
     return () => {
       document.removeEventListener('touchstart', listenerStart)
       document.removeEventListener('touchend', listenerEnd)
-    } 
+    }
     // eslint-disable-next-line
-  }, [tabActive, admin, selectedWeek])
+  }, [tabActive, admin, selectedWeek, questionInWork])
 
   return
 }
