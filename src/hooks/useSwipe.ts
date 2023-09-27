@@ -10,7 +10,6 @@ type SwipeHelperProps = {
   moveX: number
   canSwipeLeft: boolean
   canSwipeRight: boolean
-  canSwipe: boolean
 }
 
 export const useSwipe = () => {
@@ -22,15 +21,15 @@ export const useSwipe = () => {
   const { questionInWork } = useSelector(selectEditor)
   const { ru, ua, total } = questionInWork
 
-  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight, canSwipe }: SwipeHelperProps) => {
+  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelperProps) => {
     const container = document.querySelector('.container')
 
-    if (moveX > 0 && canSwipeLeft && canSwipe) {
+    if (moveX > 0 && canSwipeLeft) {
       const list = container?.classList
       list?.add('animate-fade-out-right')
     }
 
-    if (moveX < 0 && canSwipeRight && canSwipe) {
+    if (moveX < 0 && canSwipeRight) {
       const list = container?.classList
       list?.add('animate-fade-out-left')
     }
@@ -59,23 +58,23 @@ export const useSwipe = () => {
         const newTabActive =
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
-        swipeHelper({ moveX, canSwipeLeft, canSwipeRight, canSwipe })
-
         if (canSwipe) {
+          swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
           newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
-
-          newTabActive === 4 &&
-            editor &&
-            dispatch(appActions.setEditor(false)) &&
-            dispatch(editorActions.clearEditor()) &&
-            dispatch(toolsActions.setShowTools(false))
 
           newTabActive === 2 &&
             selectedWeek !== currentWeek &&
             setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
 
           dispatch(appActions.setTabActive(newTabActive))
-          setTimeout(() => navigate(menu[newTabActive].path), duration)
+          setTimeout(() => {
+            navigate(menu[newTabActive].path)
+            newTabActive === 4 &&
+              editor &&
+              dispatch(appActions.setEditor(false)) &&
+              dispatch(editorActions.clearEditor()) &&
+              dispatch(toolsActions.setShowTools(false))
+          }, duration)
         }
       }
     }

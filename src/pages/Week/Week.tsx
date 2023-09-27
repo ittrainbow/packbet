@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,7 +15,6 @@ import { IStore, WeekType } from '../../types'
 
 export const Week = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
