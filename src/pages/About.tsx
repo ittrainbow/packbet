@@ -52,7 +52,7 @@ export const About = () => {
   const description = Object.values(about[locale])
   const last = description.pop()
 
-  const copyright = ` ${String.fromCodePoint(0x00a9)} ${new Date().getFullYear()}`
+  const copyright = ` ${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>
