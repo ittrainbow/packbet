@@ -105,7 +105,7 @@ export const appSlice = createSlice({
       state.otherUserName = otherUserName
       state.otherUserUID = otherUserUID
       state.isItYou = false
-      state.tabActive = 3
+      state.tabActive = 2
     }
   }
 })

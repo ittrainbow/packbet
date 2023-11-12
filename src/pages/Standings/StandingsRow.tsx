@@ -32,7 +32,7 @@ export const StandingsRow = ({ fade, index }: StandingsRowType) => {
         dispatch(appActions.setOtherUserFromStandings(otherUser))
         admin && dispatch(userActions.setAdminAsPlayer(true))
         !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
-        navigate('/season')
+        navigate('/week')
       }, duration)
     }
   }
