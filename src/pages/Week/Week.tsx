@@ -4,12 +4,12 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { answersActions, resultsActions, userActions } from '../../redux/slices'
-import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
-import { OtherUser, Button, Switch } from '../../UI'
+import { MemoizedWeekQuestion, WeekCountdown } from '.'
+import { Button, OtherUser, Switch } from '../../UI'
 import { useChanges, useFade } from '../../hooks'
-import { i18n, LocaleType } from '../../locale'
-import { WeekQuestion, WeekCountdown } from '.'
+import { LocaleType, i18n } from '../../locale'
+import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
+import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { IStore, WeekType } from '../../types'
 
@@ -96,11 +96,14 @@ export const Week = () => {
       {questions &&
         Object.keys(questions)
           .map((el) => Number(el))
-          .map((id, index) => (
-            <div key={index}>
-              <WeekQuestion id={id} />
-            </div>
-          ))}
+          .map((id, index) => {
+            const result = results[selectedWeek] && results[selectedWeek][id]
+            return (
+              <div key={index}>
+                <MemoizedWeekQuestion id={id} result={result} />
+              </div>
+            )
+          })}
       {isItYou ? (
         <div className="flexrow5">
           <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
