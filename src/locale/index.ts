@@ -78,6 +78,9 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
   const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
   const tableHeaderhMsg = locale === 'ru' ? 'По итогам игры ' : 'За пiдсумками гри '
   const tableNoGamesMsg = locale === 'ru' ? 'Таблица' : 'Таблиця'
+  const tableUpdate = locale === 'ru' ? 'Обновить таблицу' : 'Оновити таблицю'
+  const tableUpdateSuccessMsg = locale === 'ru' ? 'Таблица обновлена' : 'Таблиця оновлена'
+  const tableUpdateFailureMsg = locale === 'ru' ? 'Не удалось обновить таблицу' : 'Не вдалося оновити таблицю'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -163,7 +166,10 @@ export const i18n = (locale: string, component: string): LocaleType | undefined 
         tableHeaderhMsg,
         tableSearchMsg,
         tableNoGamesMsg,
-        tableLimitMsg
+        tableLimitMsg,
+        tableUpdate,
+        tableUpdateSuccessMsg,
+        tableUpdateFailureMsg
       }
 
     case 'ticks':

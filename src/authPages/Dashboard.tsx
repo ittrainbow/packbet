@@ -1,15 +1,15 @@
-import { useRef, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { answersActions, compareActions, userActions } from '../redux/slices'
-import { selectApp, selectUser } from '../redux/selectors'
-import { i18n, LocaleType } from '../locale'
-import { logout } from '../db/auth'
-import { useFade } from '../hooks'
 import { Button } from '../UI'
 import { auth } from '../db'
+import { logout } from '../db/auth'
+import { useFade } from '../hooks'
+import { LocaleType, i18n } from '../locale'
+import { selectApp, selectUser } from '../redux/selectors'
+import { answersActions, compareActions, userActions } from '../redux/slices'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()

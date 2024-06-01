@@ -32,13 +32,11 @@ export const WeekQuestion = ({ id, result }: PropsType) => {
   const { questions, deadline } = weeks[selectedWeek]
   const { ru, ua, total } = questions[id]
 
-  console.log(2)
-
   // helpers
 
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
-  const buttonData = adm ? result : answers[isItYou ? uid : otherUserUID][selectedWeek][id]
+  const buttonData = adm ? result : answers[isItYou ? uid : otherUserUID]?.[selectedWeek]?.[id]
   const getActivity = () => ((!isItYou && outdated) || isItYou ? buttonData : 0)
 
   // action handlers

@@ -15,6 +15,7 @@ type SubmitWeekType = {
 }
 
 const initialState: IApp = {
+  season: new Date().getFullYear() - (new Date().getMonth() > 5 ? 0 : 1),
   mobile: false,
   loading: true,
   editor: false,

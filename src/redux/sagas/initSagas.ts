@@ -1,9 +1,9 @@
-import { take, all, call, put, select } from 'redux-saga/effects'
+import { all, call, put, select, take } from 'redux-saga/effects'
 
-import { appActions, aboutActions, weeksActions, resultsActions, standingsActions } from '../slices'
-import { IAbout, IWeeks, AnswersType, IPlayers, IAnswers, IStore, IUserStandings } from '../../types'
-import { getTable, getWeeksIDs } from '../../helpers'
 import { getDBCollection } from '../../db'
+import { getWeeksIDs } from '../../helpers'
+import { AnswersType, IAbout, IStandings, IStore, IWeeks } from '../../types'
+import { aboutActions, appActions, resultsActions, standingsActions, weeksActions } from '../slices'
 import { INIT_APP } from '../storetypes'
 
 function* fetchAboutSaga() {
@@ -44,8 +44,9 @@ function* fetchWeeksSaga() {
 
 export function* fetchStandingsSaga() {
   try {
-    const players: IPlayers = yield call(getDBCollection, 'users')
-    yield call(createStandingsSaga, players)
+    const { app } = yield select((store: IStore) => store)
+    const standings: IStandings = yield call(getDBCollection, `standings-${app.season}`)
+    yield call(setStandingsSaga, standings)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -53,24 +54,15 @@ export function* fetchStandingsSaga() {
   }
 }
 
-export function* createStandingsSaga(players: IPlayers) {
-  const results: AnswersType = yield select((store: IStore) => store.results)
-  const answers: IAnswers = yield call(getDBCollection, 'answers')
-
-  const seasonArray: IUserStandings[] = getTable({ answers, players, results, fullSeason: true })
-  const weekArray: IUserStandings[] = getTable({ answers, players, results, fullSeason: false })
-  const season = Object.assign({}, seasonArray)
-  const week = Object.assign({}, weekArray)
-
-  yield put(standingsActions.setStandings({ season, week }))
+export function* setStandingsSaga(standings: IStandings) {
+  yield put(standingsActions.setStandings(standings))
 }
 
 export function* initSaga() {
   while (true) {
     yield take(INIT_APP)
     yield put(appActions.setLoading(true))
-    yield all([fetchAboutSaga(), fetchWeeksSaga(), fetchResultsSaga()])
-    yield call(fetchStandingsSaga)
+    yield all([fetchAboutSaga(), fetchWeeksSaga(), fetchResultsSaga(), fetchStandingsSaga()])
     yield put(appActions.setLoading(false))
   }
 }

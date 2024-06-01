@@ -1,6 +1,7 @@
-import { WeekType, AnswersType, QuestionType } from './types'
+import { AnswersType, QuestionType, WeekType } from './types'
 
 export interface IApp {
+  season: number
   mobile: boolean
   loading: boolean
   editor: boolean
@@ -64,6 +65,12 @@ export interface IUserStandings {
   uid: string
   faults: number
 }
+
+export interface IStandings {
+  week: IUserStandings[]
+  season: IUserStandings[]
+}
+
 export interface IEditor extends WeekType {
   questionInWork: QuestionType
   questionCompare: QuestionType

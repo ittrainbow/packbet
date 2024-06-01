@@ -1,11 +1,10 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { writeDBDocument, getDBDocument, updateDBDocument, deleteDBDocument, getDBCollection } from '../../db'
-import { appActions, answersActions, resultsActions, userActions, compareActions } from '../slices'
-import { ActionType, IUser, IUserStore, AnswersType, IStore, IPlayers } from '../../types'
-import { fetchStandingsSaga, createStandingsSaga } from '.'
-import { getObjectsEquality } from '../../helpers'
-import { getLocale } from '../../helpers'
+import { fetchStandingsSaga, setStandingsSaga } from '.'
+import { deleteDBDocument, getDBCollection, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
+import { getLocale, getObjectsEquality, getTable } from '../../helpers'
+import { ActionType, AnswersType, IAnswers, IPlayers, IStore, IUser, IUserStandings, IUserStore } from '../../types'
+import { answersActions, appActions, compareActions, resultsActions, userActions } from '../slices'
 import * as TYPES from '../storetypes'
 
 type UserUpdateType = {
@@ -25,13 +24,16 @@ type SubmitResultsType = {
   selectedWeek: number
 }
 
+type ToasterType = {
+  toaster: (value: boolean) => void
+}
+
 type SubmitAnswersType = {
   selectedWeek: number
   answers: { [key: string]: AnswersType }
   uid: string
-  toaster: (value: boolean) => void
   firstData: boolean
-}
+} & ToasterType
 
 function* updateProfileSaga(action: ActionType<UserUpdateType>) {
   yield put(appActions.setLoading(true))
@@ -61,7 +63,10 @@ type UserLoginType = {
 }
 
 function* userLoginSaga(action: ActionType<UserLoginType>) {
-  const { user, emailReg } = action.payload
+  const {
+    user
+    // emailReg
+  } = action.payload
   const { uid, displayName } = user
   try {
     const responseUser: IUser | undefined = yield call(getDBDocument, 'users', uid)
@@ -75,11 +80,7 @@ function* userLoginSaga(action: ActionType<UserLoginType>) {
     const answers: AnswersType = yield call(getDBDocument, 'answers', uid)
     const results: AnswersType = yield select((store: IStore) => store.results)
 
-    if (!responseUser || emailReg) {
-      const players: IPlayers = yield call(getDBCollection, 'users')
-      players[uid] = user
-      yield call(createStandingsSaga, players)
-    }
+    // if (!responseUser || emailReg) yield call(fetchStandingsSaga)
 
     const gotOnRegister: string = yield select((store) => store.user.name)
 
@@ -162,6 +163,32 @@ function* fetchOtherUserSaga(action: ActionType<string>) {
   }
 }
 
+export function* updateStandingsSaga(action: ActionType<ToasterType>) {
+  const { toaster } = action.payload
+  const { app } = yield select((store: IStore) => store)
+  try {
+    const players: IPlayers = yield call(getDBCollection, 'users')
+    const results: AnswersType = yield select((store: IStore) => store.results)
+    const answers: IAnswers = yield call(getDBCollection, 'answers')
+
+    const seasonArray: IUserStandings[] = getTable({ answers, players, results, fullSeason: true })
+    const weekArray: IUserStandings[] = getTable({ answers, players, results, fullSeason: false })
+    const season = Object.assign({}, seasonArray)
+    const week = Object.assign({}, weekArray)
+
+    yield call(writeDBDocument, `standings-${app.season}`, 'season', season)
+    yield call(writeDBDocument, `standings-${app.season}`, 'week', week)
+    yield call(setStandingsSaga, { season, week })
+
+    yield call(toaster, true)
+  } catch (error) {
+    if (error instanceof Error) {
+      yield call(toaster, false)
+      yield put(appActions.setError(error.message))
+    }
+  }
+}
+
 function* setBuddiesSaga(action: ActionType<BuddiesPayloadType>) {
   const user: IUserStore = yield select((store) => store.user)
   const { buddyUid, buddies } = action.payload
@@ -186,4 +213,5 @@ export function* userSaga() {
   yield takeEvery(TYPES.SUBMIT_ANSWERS, submitAnswersSaga)
   yield takeEvery(TYPES.FETCH_OTHER_USER, fetchOtherUserSaga)
   yield takeEvery(TYPES.SET_BUDDIES, setBuddiesSaga)
+  yield takeEvery(TYPES.UPDATE_STANDINGS, updateStandingsSaga)
 }
