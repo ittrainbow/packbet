@@ -1,3 +1,2 @@
-export * from './Week'
-export * from './WeekQuestion'
-export * from './WeekCountdown'
+export * from './week'
+export * from './week-question'

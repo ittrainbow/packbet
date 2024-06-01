@@ -3,12 +3,12 @@ import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 
 import React from 'react'
-import { Button } from '../../UI'
 import { auth } from '../../db'
-import { getAnswersResults } from '../../helpers'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions } from '../../redux/slices'
 import { IStore } from '../../types'
+import { Button } from '../../ui'
+import { getAnswersResults } from '../../utils'
 
 type PropsType = {
   id: number

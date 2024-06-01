@@ -1,16 +1,18 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { useNavigate } from 'react-router-dom'
 import { isMobile } from 'react-device-detect'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-import { INIT_APP, USER_LOGIN } from './redux/storetypes'
-import { appActions, userActions } from './redux/slices'
-import { selectApp } from './redux/selectors'
-import { initialRedirects } from './helpers'
+import './styles/index.scss'
+
+import { initialRedirects } from './constants'
+import { auth } from './db'
 import { useSwipe } from './hooks'
 import { Header } from './pages'
-import { auth } from './db'
+import { selectApp } from './redux/selectors'
+import { appActions, userActions } from './redux/slices'
+import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 
 export const App = () => {
   const dispatch = useDispatch()

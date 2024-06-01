@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { ToastContainer, toast } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
-import { Button, OtherUser } from '../../UI'
 import { useFade } from '../../hooks'
 import { LocaleType, i18n } from '../../locale'
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { IStore } from '../../types'
+import { Button, OtherUser } from '../../ui'
 
 export const Standings = () => {
   const dispatch = useDispatch()
@@ -85,8 +85,8 @@ export const Standings = () => {
           {admin && <Button onClick={handleUpdateStandings} children={tableUpdate} />}
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
       <StandingsArrows />
+      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
     </>
   )
 }

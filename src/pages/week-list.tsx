@@ -1,12 +1,12 @@
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { useDate, useFade } from '../hooks'
+import { LocaleType, i18n } from '../locale'
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { LocaleType, i18n } from '../locale'
-import { useFade, useDate } from '../hooks'
-import { OtherUser } from '../UI'
+import { OtherUser } from '../ui'
 
 export const WeekList = () => {
   const dispatch = useDispatch()
@@ -60,7 +60,9 @@ export const WeekList = () => {
           const selectedWeek = Number(el)
           return (
             <div key={selectedWeek} className="weeklist" onClick={() => handleClick(selectedWeek)}>
-              <div className="weeklist__desc">{tab2msg} {name}</div>
+              <div className="weeklist__desc">
+                {tab2msg} {name}
+              </div>
               <div className="weeklist__date">{getDate(weeks[el].deadline)}</div>
             </div>
           )

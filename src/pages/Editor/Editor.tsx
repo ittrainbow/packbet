@@ -1,18 +1,18 @@
 import { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { confirmAlert } from 'react-confirm-alert'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
+import { EditorActivities, EditorInputs, EditorQuestion } from '.'
+import { useFade } from '../../hooks'
+import { LocaleType, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
-import { EditorActivities, EditorInputs, EditorQuestion } from '.'
-import { getWeeksEquality, getWeeksIDs } from '../../helpers'
-import { i18n, LocaleType } from '../../locale'
 import * as TYPES from '../../redux/storetypes'
-import { useFade } from '../../hooks'
-import { Button } from '../../UI'
+import { Button } from '../../ui'
+import { getWeeksEquality, getWeeksIDs } from '../../utils'
 
 export const Editor = () => {
   const dispatch = useDispatch()

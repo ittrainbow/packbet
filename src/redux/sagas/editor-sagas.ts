@@ -1,10 +1,10 @@
-import { call, put, takeEvery, select } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 
+import { deleteDBDocument, writeDBDocument } from '../../db'
 import { ActionType, IWeeks, WeekType } from '../../types'
-import { writeDBDocument, deleteDBDocument } from '../../db'
-import { SUBMIT_WEEK, DELETE_WEEK } from '../storetypes'
+import { getWeeksIDs } from '../../utils'
 import { appActions, editorActions } from '../slices'
-import { getWeeksIDs } from '../../helpers'
+import { DELETE_WEEK, SUBMIT_WEEK } from '../storetypes'
 
 type WeekUpdateType = {
   id: number

@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from 'react'
-import { FaCheck, FaBan, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { useEffect, useRef, useState } from 'react'
+import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
-import { selectAbout, selectApp, selectUser } from '../redux/selectors'
-import { i18n, LocaleType } from '../locale'
 import { useFade } from '../hooks'
-import { Button } from '../UI'
+import { LocaleType, i18n } from '../locale'
+import { selectAbout, selectApp, selectUser } from '../redux/selectors'
+import { Button } from '../ui'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)

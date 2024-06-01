@@ -1,4 +1,4 @@
-import { Input } from './Input'
+import { Input } from '.'
 
 type SwitchPropsType = {
   checked: boolean | undefined

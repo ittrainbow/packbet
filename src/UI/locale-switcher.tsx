@@ -1,9 +1,9 @@
-import { useSelector, useDispatch } from 'react-redux'
 import ReactCountryFlag from 'react-country-flag'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { Input } from '.'
 import { selectUser } from '../redux/selectors'
 import { userActions } from '../redux/slices'
-import { Input } from './Input'
 
 export const LocaleSwitcher = () => {
   const dispatch = useDispatch()

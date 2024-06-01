@@ -1,12 +1,12 @@
+import { Input } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Input } from '@mui/material'
 
+import { LocaleType, i18n } from '../../locale'
 import { selectApp, selectTools, selectUser } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
-import { i18n, LocaleType } from '../../locale'
 import { ChangeInputType } from '../../types'
-import { Button, Switch } from '../../UI'
+import { Button, Switch } from '../../ui'
 
 export const StandingsTools = () => {
   const dispatch = useDispatch()

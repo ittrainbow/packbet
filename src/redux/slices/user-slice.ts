@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { initialUser } from '../../constants'
 import { IUser } from '../../types'
-import { initialUser } from '../../helpers'
 
 const initialState = initialUser
 

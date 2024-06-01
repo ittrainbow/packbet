@@ -1,0 +1,6 @@
+export * from './get-answers-results'
+export * from './get-equality'
+export * from './get-locale'
+export * from './get-new-question-id'
+export * from './get-table'
+export * from './get-weeks-ids'

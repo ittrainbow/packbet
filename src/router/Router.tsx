@@ -1,13 +1,24 @@
-import { Routes, Route } from 'react-router-dom'
-import { HistoryRouter } from 'redux-first-history/rr6'
-import { useSelector } from 'react-redux'
 import { ReactNode } from 'react'
+import { useSelector } from 'react-redux'
+import { Route, Routes } from 'react-router-dom'
+import { HistoryRouter } from 'redux-first-history/rr6'
 
-import { Register, Login, Dashboard, UserPage, Profile, Reset } from '../authPages'
-import { About, Week, Editor, Standings, WeekList } from '../pages'
+import {
+  About,
+  Dashboard,
+  Editor,
+  Login,
+  Profile,
+  Register,
+  Reset,
+  Standings,
+  UserPage,
+  Week,
+  WeekList
+} from '../pages'
 import { selectApp } from '../redux/selectors'
 import { history } from '../redux/store'
-import { Loader } from '../UI'
+import { Loader } from '../ui'
 
 type RouterProps = {
   children?: ReactNode

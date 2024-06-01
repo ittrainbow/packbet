@@ -4,14 +4,15 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { MemoizedWeekQuestion, WeekCountdown } from '.'
-import { Button, OtherUser, Switch } from '../../UI'
 import { useChanges, useFade } from '../../hooks'
 import { LocaleType, i18n } from '../../locale'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { IStore, WeekType } from '../../types'
+import { Button, OtherUser, Switch } from '../../ui'
+import { WeekCountdown } from './week-countdown'
+import { MemoizedWeekQuestion } from './week-question'
 
 export const Week = () => {
   const dispatch = useDispatch()

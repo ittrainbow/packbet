@@ -1,17 +1,17 @@
-import { useEffect, useState, useRef } from 'react'
+import { Button, Input } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useNavigate } from 'react-router-dom'
-import { Input } from '@mui/material'
-
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../db'
-import { selectApp, selectUser } from '../redux/selectors'
-import { getLocale } from '../helpers'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, LocaleSwitcher } from '../UI'
-import { userActions } from '../redux/slices'
-import { i18n, LocaleType } from '../locale'
-import { ChangeInputType } from '../types'
-import { useFade } from '../hooks'
+import { useNavigate } from 'react-router-dom'
+
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../../db'
+import { useFade } from '../../hooks'
+import { LocaleType, i18n } from '../../locale'
+import { selectApp, selectUser } from '../../redux/selectors'
+import { userActions } from '../../redux/slices'
+import { ChangeInputType } from '../../types'
+import { LocaleSwitcher } from '../../ui'
+import { getLocale } from '../../utils'
 
 export const Login = () => {
   const navigate = useNavigate()

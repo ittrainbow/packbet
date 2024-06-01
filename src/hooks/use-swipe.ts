@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { appActions, editorActions, toolsActions } from '../redux/slices'
+import { useMenu } from '.'
 import { selectApp, selectEditor, selectUser } from '../redux/selectors'
-import { useMenu } from './useMenu'
+import { appActions, editorActions, toolsActions } from '../redux/slices'
 
 type SwipeHelperProps = {
   moveX: number

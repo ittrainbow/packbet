@@ -1,19 +1,19 @@
-import { getDoc, setDoc, doc } from 'firebase/firestore'
 import {
   GoogleAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
+  UserCredential,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  signOut,
-  UserCredential
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut
 } from 'firebase/auth'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
-import { db, auth } from './firebase'
-import { IUser } from '../types'
-import { i18n, LocaleType } from '../locale'
+import { LocaleType, i18n } from '../locale'
 import { appActions } from '../redux/slices'
-import { getLocale } from '../helpers'
+import { IUser } from '../types'
+import { getLocale } from '../utils'
+import { auth, db } from './firebase'
 
 const googleProvider = new GoogleAuthProvider()
 

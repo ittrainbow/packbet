@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { createReduxHistoryContext } from 'redux-first-history'
-import { createBrowserHistory } from 'history'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
+import { createBrowserHistory } from 'history'
+import { createReduxHistoryContext } from 'redux-first-history'
 import createSagaMiddleware from 'redux-saga'
 
-import { rootSaga } from './sagas/rootSaga'
+import { rootSaga } from './sagas'
 import * as slices from './slices'
 
 const {

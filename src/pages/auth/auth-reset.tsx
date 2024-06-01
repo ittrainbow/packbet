@@ -1,16 +1,15 @@
-import { useEffect, useState, useRef } from 'react'
+import { Button, Input } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Input } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
-import { selectApp, selectUser } from '../redux/selectors'
-import { Button, LocaleSwitcher } from '../UI'
-import { sendPasswordReset } from '../db/auth'
-import { i18n, LocaleType } from '../locale'
-import { ChangeInputType } from '../types'
-import { auth } from '../db/firebase'
-import { useFade } from '../hooks'
+import { auth, sendPasswordReset } from '../../db'
+import { useFade } from '../../hooks'
+import { LocaleType, i18n } from '../../locale'
+import { selectApp, selectUser } from '../../redux/selectors'
+import { ChangeInputType } from '../../types'
+import { LocaleSwitcher } from '../../ui'
 
 export const Reset = () => {
   const navigate = useNavigate()
