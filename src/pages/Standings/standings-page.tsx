@@ -12,7 +12,7 @@ import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { IStore } from '../../types'
 import { Button, OtherUser } from '../../ui'
 
-export const Standings = () => {
+export const StandingsPage = () => {
   const dispatch = useDispatch()
   const results = useSelector((store: IStore) => store.results)
   const weeks = useSelector((store: IStore) => store.weeks)

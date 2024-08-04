@@ -6,15 +6,15 @@ import { HistoryRouter } from 'redux-first-history/rr6'
 import {
   About,
   Dashboard,
-  Editor,
+  EditorPage,
   Login,
   Profile,
   Register,
   Reset,
-  Standings,
+  StandingsPage,
   UserPage,
-  Week,
-  WeekList
+  WeekList,
+  WeekPage
 } from '../pages'
 import { selectApp } from '../redux/selectors'
 import { history } from '../redux/store'
@@ -38,15 +38,15 @@ export const Router = ({ children }: RouterProps) => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/week" element={<Week />}>
-          <Route path=":id" element={<Week />} />
+        <Route path="/week" element={<WeekPage />}>
+          <Route path=":id" element={<WeekPage />} />
         </Route>
         <Route path="/reset" element={<Reset />} />
-        <Route path="/standings" element={<Standings />} />
-        <Route path="/editor" element={<Editor />}>
-          <Route path=":id" element={<Editor />} />
+        <Route path="/standings" element={<StandingsPage />} />
+        <Route path="/editor" element={<EditorPage />}>
+          <Route path=":id" element={<EditorPage />} />
         </Route>
-        <Route path="/creator" element={<Editor />} />
+        <Route path="/creator" element={<EditorPage />} />
       </Routes>
     )
   }

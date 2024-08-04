@@ -1,5 +1,5 @@
-export * from './standings'
 export * from './standings-arrows'
 export * from './standings-header'
+export * from './standings-page'
 export * from './standings-row'
 export * from './standings-tools'

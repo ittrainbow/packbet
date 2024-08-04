@@ -14,7 +14,7 @@ import { Button, OtherUser, Switch } from '../../ui'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
 
-export const Week = () => {
+export const WeekPage = () => {
   const dispatch = useDispatch()
   const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)

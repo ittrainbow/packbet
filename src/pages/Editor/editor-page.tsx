@@ -14,7 +14,7 @@ import * as TYPES from '../../redux/storetypes'
 import { Button } from '../../ui'
 import { getWeeksEquality, getWeeksIDs } from '../../utils'
 
-export const Editor = () => {
+export const EditorPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const weeks = useSelector(selectWeeks)
