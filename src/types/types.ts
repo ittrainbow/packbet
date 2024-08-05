@@ -1,36 +1,36 @@
-export type QuestionType = {
+export type Question = {
   ru: string
   ua: string
   total: string
   id?: number | null
 }
 
-export type AnswersType = {
+export type Questions = { [key: number]: Question }
+
+export type Answers = {
   [key: number]: {
     [key: number]: number
   }
 }
 
-export type WeekType = {
+export type Week = {
   active: boolean
   deadline: number
   name: string
-  questions: QuestionsType
+  questions: Questions
 }
 
-export type WeeksType = {
-  [key: number]: WeekType
+export type Weeks = {
+  [key: number]: Week
 }
 
-export type ActionType<T> = {
+export type Action<T> = {
   type: string
   payload: T
 }
 
-export type ChangeInputType = React.ChangeEvent<HTMLInputElement>
+export type ChangeInput = React.ChangeEvent<HTMLInputElement>
 
-export type InputRefType = HTMLInputElement
+export type InputRef = HTMLInputElement
 
-export type QuestionsType = { [key: number]: QuestionType }
-
-export type FadeRefType = React.RefObject<HTMLDivElement>
+export type FadeRef = React.RefObject<HTMLDivElement>

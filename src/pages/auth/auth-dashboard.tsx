@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { auth, logout } from '../../db'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, compareActions, userActions } from '../../redux/slices'
 import { Button } from '../../ui'
@@ -40,8 +40,8 @@ export const Dashboard = () => {
 
   // render styles and locales
 
-  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as LocaleType
-  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as LocaleType
+  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as Locale
+  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as Locale
 
   return (
     <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>

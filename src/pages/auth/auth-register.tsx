@@ -1,4 +1,4 @@
-import { Button, Input } from '@mui/material'
+import { Input } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom'
 
 import { auth, registerWithEmailAndPassword, signInWithGoogle } from '../../db'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { appActions, userActions } from '../../redux/slices'
-import { ChangeInputType, IUser } from '../../types'
-import { LocaleSwitcher } from '../../ui'
+import { ChangeInput, User } from '../../types'
+import { Button, LocaleSwitcher } from '../../ui'
 
 export const Register = () => {
   const navigate = useNavigate()
@@ -61,7 +61,7 @@ export const Register = () => {
     if (name && email && password.length > 5) {
       const response = await registerWithEmailAndPassword(name, email, password)
       if (response) {
-        const user: IUser = { admin: false, locale, name, buddies: [response.uid] }
+        const user: User = { admin: false, locale, name, buddies: [response.uid] }
         dispatch(userActions.setUser(user))
       }
     }
@@ -69,17 +69,17 @@ export const Register = () => {
 
   // action handlers
 
-  const handleNameInput = (e: ChangeInputType) => {
+  const handleNameInput = (e: ChangeInput) => {
     const { value } = e.target
     setName(value)
   }
 
-  const handleEmailInput = (e: ChangeInputType) => {
+  const handleEmailInput = (e: ChangeInput) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
-  const handlePasswordInput = (e: ChangeInputType) => {
+  const handlePasswordInput = (e: ChangeInput) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }
@@ -88,13 +88,18 @@ export const Register = () => {
 
   // render styles and locales
 
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as LocaleType
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as Locale
   const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
-    i18n(locale, 'auth') as LocaleType
+    i18n(locale, 'auth') as Locale
 
   const handleToLogin = () => {
     triggerFade()
     setTimeout(() => navigate('/reset'), duration)
+  }
+
+  const handleLocaleChange = () => {
+    const newLocale = locale === 'ru' ? 'ua' : 'ru'
+    dispatch(userActions.setLocale(newLocale))
   }
 
   return (
@@ -114,7 +119,7 @@ export const Register = () => {
         </div>
       </div>
       <div className="locale-div">
-        <LocaleSwitcher />
+        <LocaleSwitcher onChange={handleLocaleChange} />
       </div>
     </div>
   )

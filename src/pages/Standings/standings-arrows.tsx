@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState } from 'react'
-import { FaArrowCircleUp, FaArrowCircleDown } from 'react-icons/fa'
+import { useEffect, useRef, useState } from 'react'
+import { FaArrowCircleDown, FaArrowCircleUp } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 import { selectApp } from '../../redux/selectors'
-import { FadeRefType } from '../../types'
+import { FadeRef } from '../../types'
 
 export const StandingsArrows = () => {
   const { duration } = useSelector(selectApp)
@@ -36,7 +36,7 @@ export const StandingsArrows = () => {
   // action handlers
 
   const handleScroll = (direction: string) => {
-    const handleClass = (ref: FadeRefType) => {
+    const handleClass = (ref: FadeRef) => {
       const list = ref.current?.classList
       list?.add('arrows-green')
       list?.remove('arrows-grey')

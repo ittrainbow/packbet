@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { useDate, useFade } from '../hooks'
-import { LocaleType, i18n } from '../locale'
+import { Locale, i18n } from '../locale'
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
 import { OtherUser } from '../ui'
@@ -41,8 +41,8 @@ export const WeekList = () => {
   // locale render and classes
 
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
-  const { weekListMsg, weekListEditorMsg } = i18n(locale, 'weeklist') as LocaleType
-  const { tab2msg } = i18n(locale, 'header') as LocaleType
+  const { weekListMsg, weekListEditorMsg } = i18n(locale, 'weeklist') as Locale
+  const { tab2msg } = i18n(locale, 'header') as Locale
   const getDate = useDate()
 
   return (

@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IAbout } from '../../types'
+import { About } from '../../types'
 
-type AboutLocaleType = { [key: string]: string }
+type AboutLocale = { [key: string]: string }
 
-const initialState: IAbout = {
-  ru: {} as AboutLocaleType,
-  ua: {} as AboutLocaleType
+const initialState: About = {
+  ru: {} as AboutLocale,
+  ua: {} as AboutLocale
 }
 
 export const aboutSlice = createSlice({
   name: 'about',
   initialState,
   reducers: {
-    setAbout(state, action: PayloadAction<IAbout>) {
+    setAbout(state, action: PayloadAction<About>) {
       const { ru, ua } = action.payload
       state.ru = ru
       state.ua = ua

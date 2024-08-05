@@ -6,26 +6,26 @@ import React from 'react'
 import { auth } from '../../db'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions } from '../../redux/slices'
-import { IStore } from '../../types'
+import { Store } from '../../types'
 import { Button } from '../../ui'
 import { getAnswersResults } from '../../utils'
 
-type PropsType = {
+type Props = {
   id: number
   result: number
 }
 
-type YesNoHandlePropsType = {
+type YesNoHandleProps = {
   value: number
   id: number
   activity: number
 }
 
-export const WeekQuestion = ({ id, result }: PropsType) => {
+export const WeekQuestion = ({ id, result }: Props) => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const answers = useSelector((store: IStore) => store.answers)
+  const weeks = useSelector((store: Store) => store.weeks)
+  const answers = useSelector((store: Store) => store.answers)
   const { locale } = useSelector(selectUser)
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
@@ -41,7 +41,7 @@ export const WeekQuestion = ({ id, result }: PropsType) => {
 
   // action handlers
 
-  const handleClick = (props: YesNoHandlePropsType) => {
+  const handleClick = (props: YesNoHandleProps) => {
     const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
 
     if (isItYou && user && userOnTimeOrAdmin) {

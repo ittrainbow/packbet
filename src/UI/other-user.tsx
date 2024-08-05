@@ -1,13 +1,13 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { useFade } from '../hooks'
+import { i18n, Locale } from '../locale'
 import { selectApp, selectUser } from '../redux/selectors'
 import { appActions } from '../redux/slices'
-import { i18n, LocaleType } from '../locale'
-import { FadeRefType } from '../types'
-import { useFade } from '../hooks'
+import { FadeRef } from '../types'
 
 type OtherUserPropsType = {
-  containerRef: FadeRefType
+  containerRef: FadeRef
 }
 
 export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
@@ -22,7 +22,7 @@ export const OtherUser = ({ containerRef }: OtherUserPropsType) => {
     setTimeout(() => dispatch(appActions.clearOtherUser()), duration)
   }
 
-  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as LocaleType
+  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as Locale
 
   return isItYou ? null : (
     <div>

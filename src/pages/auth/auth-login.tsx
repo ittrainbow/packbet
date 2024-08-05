@@ -1,4 +1,4 @@
-import { Button, Input } from '@mui/material'
+import { Input } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../../db'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { i18n, Locale } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
-import { ChangeInputType } from '../../types'
-import { LocaleSwitcher } from '../../ui'
+import { ChangeInput } from '../../types'
+import { Button, LocaleSwitcher } from '../../ui'
 import { getLocale } from '../../utils'
 
 export const Login = () => {
@@ -56,12 +56,12 @@ export const Login = () => {
 
   // action handlers
 
-  const handleEmailInput = (e: ChangeInputType) => {
+  const handleEmailInput = (e: ChangeInput) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
-  const handlePasswordInput = (e: ChangeInputType) => {
+  const handlePasswordInput = (e: ChangeInput) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }
@@ -88,8 +88,13 @@ export const Login = () => {
 
   // render styles and locales
 
-  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as LocaleType
-  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as LocaleType
+  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as Locale
+  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as Locale
+
+  const handleLocaleChange = () => {
+    const newLocale = locale === 'ru' ? 'ua' : 'ru'
+    dispatch(userActions.setLocale(newLocale))
+  }
 
   return (
     <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
@@ -109,7 +114,7 @@ export const Login = () => {
           {regIntro} <div className="link-container__inner">{regMsg}</div>
         </div>
         <div className="locale-div">
-          <LocaleSwitcher />
+          <LocaleSwitcher onChange={handleLocaleChange} />
         </div>
       </div>
     </div>

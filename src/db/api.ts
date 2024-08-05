@@ -1,8 +1,17 @@
-import { doc, setDoc, getDoc, getDocs, deleteDoc, collection, updateDoc } from 'firebase/firestore'
-import { QuerySnapshot, DocumentData } from 'firebase/firestore'
+import {
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  QuerySnapshot,
+  setDoc,
+  updateDoc
+} from 'firebase/firestore'
 
+import { About, Answers, AnswersStore, Players } from '../types'
 import { db } from './firebase'
-import { AnswersType, IAbout, IAnswers, IPlayers } from '../types'
 
 export const getDBDocument = async (collection: string, document: string | number) => {
   try {
@@ -30,7 +39,7 @@ export const updateDBDocument = async (
 ) => {
   try {
     const emptyData = !Object.keys(data).length
-    const updateData = {} as AnswersType
+    const updateData = {} as Answers
     updateData[selectedWeek] = data[document][selectedWeek]
     if (emptyData) await updateDoc(doc(db, collection, document.toString()), updateData)
     else await deleteDoc(doc(db, collection, document.toString()))
@@ -51,7 +60,7 @@ export const deleteDBDocument = async (collection: string, document: string | nu
 export const getDBCollection = async (link: string) => {
   try {
     const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, link))
-    const obj: IAbout | IPlayers | IAnswers = {}
+    const obj: About | Players | AnswersStore = {}
     response.forEach((el) => {
       obj[el.id] = el.data()
     })

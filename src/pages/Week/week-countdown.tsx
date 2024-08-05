@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux'
 import Countdown from 'react-countdown'
+import { useSelector } from 'react-redux'
 
+import { i18n, Locale } from '../../locale'
 import { selectApp, selectUser, selectWeeks } from '../../redux/selectors'
-import { i18n, LocaleType } from '../../locale'
 
 export const WeekCountdown = () => {
   const { selectedWeek } = useSelector(selectApp)
@@ -21,18 +21,17 @@ export const WeekCountdown = () => {
     oneHourMsg,
     minutesMsg,
     secondsMsg
-  } = i18n(locale, 'ticks') as LocaleType
+  } = i18n(locale, 'ticks') as Locale
 
-  type ClockPropsType = {
+  type Props = {
     days: number
     hours: number
     minutes: number
     seconds: number
+    completed: boolean
   }
 
-  type RendererPropsType = ClockPropsType & { completed: boolean }
-
-  const renderer = ({ days, hours, minutes, seconds, completed }: RendererPropsType) => {
+  const renderer = ({ days, hours, minutes, seconds, completed }: Props) => {
     const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg
     const hoursText = hours % 20 > 4 || hours % 20 === 0 ? fiveHoursMsg : hours % 20 > 1 ? twoHoursMsg : oneHourMsg
 

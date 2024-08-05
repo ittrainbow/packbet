@@ -1,18 +1,20 @@
-import { Button, Input } from '@mui/material'
+import { Input } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { auth, sendPasswordReset } from '../../db'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { ChangeInputType } from '../../types'
-import { LocaleSwitcher } from '../../ui'
+import { userActions } from '../../redux/slices'
+import { ChangeInput } from '../../types'
+import { Button, LocaleSwitcher } from '../../ui'
 
 export const Reset = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
   const { tabActive, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
@@ -42,7 +44,7 @@ export const Reset = () => {
 
   // action handlers
 
-  const handleEmailInput = (e: ChangeInputType) => {
+  const handleEmailInput = (e: ChangeInput) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
@@ -59,8 +61,13 @@ export const Reset = () => {
 
   // render styles and locales
 
-  const { buttonRecoverMsg } = i18n(locale, 'buttons') as LocaleType
-  const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as LocaleType
+  const { buttonRecoverMsg } = i18n(locale, 'buttons') as Locale
+  const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as Locale
+
+  const handleLocaleChange = () => {
+    const newLocale = locale === 'ru' ? 'ua' : 'ru'
+    dispatch(userActions.setLocale(newLocale))
+  }
 
   return (
     <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
@@ -77,7 +84,7 @@ export const Reset = () => {
         </div>
       </div>
       <div className="locale-div">
-        <LocaleSwitcher />
+        <LocaleSwitcher onChange={handleLocaleChange} />
       </div>
     </div>
   )

@@ -1,8 +1,8 @@
-import { ChangeInputType } from '../types'
+import { ChangeInput } from '../types'
 
-type InputProps = {
+type Props = {
   type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
-  onChange: (e: ChangeInputType) => void
+  onChange: (e: ChangeInput) => void
   sx?: { [key: string]: string }
   value?: string | undefined
   placeholder?: string
@@ -12,8 +12,7 @@ type InputProps = {
   id?: string
 }
 
-export const Input = (props: InputProps) => {
-  const { type = 'text', value, onChange, placeholder, id, className, inputRef, checked } = props
+export const Input = ({ type = 'text', value, onChange, placeholder, id, className, inputRef, checked }: Props) => {
   const num = type === 'number'
 
   return (

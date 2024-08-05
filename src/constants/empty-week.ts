@@ -1,6 +1,6 @@
-import { WeekType } from '../types'
+import { Week } from '../types'
 
-export const emptyWeek: WeekType = {
+export const emptyWeek: Week = {
   questions: {},
   name: '',
   active: false,

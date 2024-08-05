@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-type ButtonProps = {
+type Props = {
   onClick: () => void
   disabled?: boolean
   className?: string
@@ -8,7 +8,7 @@ type ButtonProps = {
   children: ReactNode
 }
 
-export const Button = ({ onClick, disabled = false, className = '', children, minWidth = 40 }: ButtonProps) => {
+export const Button = ({ onClick, disabled = false, className = '', children, minWidth = 40 }: Props) => {
   const classes = ('button ' + className).trim()
 
   return (

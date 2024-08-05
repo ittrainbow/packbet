@@ -3,14 +3,14 @@ import { FaCheck, FaPlus } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { ChangeInputType, FadeRefType } from '../../types'
+import { ChangeInput, FadeRef } from '../../types'
 import { Button, Input } from '../../ui'
 import { getNewQuestionId, getObjectsEquality } from '../../utils'
 
-export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) => {
+export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
   const dispatch = useDispatch()
   const nameRef = useRef<HTMLInputElement>()
   const { duration, tabActive } = useSelector(selectApp)
@@ -34,12 +34,12 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // action handlers
 
-  const handleChangeName = (e: ChangeInputType) => {
+  const handleChangeName = (e: ChangeInput) => {
     const { value } = e.target
     dispatch(editorActions.updateEditorName(value))
   }
 
-  const handleSetRu = (e: ChangeInputType) => {
+  const handleSetRu = (e: ChangeInput) => {
     const { value } = e.target
     const ru = value.substring(0, 120)
     const data = { ...questionInWork, ru }
@@ -47,7 +47,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     dispatch(editorActions.setQuestionInWork(data))
   }
 
-  const handleSetUa = (e: ChangeInputType) => {
+  const handleSetUa = (e: ChangeInput) => {
     const { value } = e.target
     const ua = value.substring(0, 120)
     const data = { ...questionInWork, ua }
@@ -55,7 +55,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
     dispatch(editorActions.setQuestionInWork(data))
   }
 
-  const handleChangeTotal = (e: ChangeInputType) => {
+  const handleChangeTotal = (e: ChangeInput) => {
     const { value } = e.target
     const data = { ...questionInWork, total: value }
 
@@ -73,7 +73,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRefType }) =>
 
   // render styles and locales
 
-  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg } = i18n(locale, 'editor') as Locale
 
   return (
     <div className="editor-input">

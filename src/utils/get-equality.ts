@@ -1,12 +1,12 @@
-import { AnswersType, WeekType } from '../types'
+import { Answers, Week } from '../types'
 
-type CompareType = AnswersType | { [key: number]: number }
+type CompareType = Answers | { [key: number]: number }
 
 export const getObjectsEquality = (obj1: CompareType = {}, obj2: CompareType = {}) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 
-export const getWeeksEquality = (obj1 = {} as WeekType, obj2 = {} as WeekType) => {
+export const getWeeksEquality = (obj1 = {} as Week, obj2 = {} as Week) => {
   const active = obj1.active === obj2.active
   const deadline = obj1.deadline === obj2.deadline
   const name = obj1.name === obj2.name

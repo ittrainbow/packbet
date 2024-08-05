@@ -1,18 +1,18 @@
+import { FaStar } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { FaStar } from 'react-icons/fa'
 
-import { selectAnswers, selectApp, selectTools, selectUser } from '../../redux/selectors'
-import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
-import { appActions, userActions } from '../../redux/slices'
 import { useTableRow } from '../../hooks'
+import { selectAnswers, selectApp, selectTools, selectUser } from '../../redux/selectors'
+import { appActions, userActions } from '../../redux/slices'
+import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 
-type StandingsRowType = {
+type Props = {
   index: number
   fade: () => void
 }
 
-export const StandingsRow = ({ fade, index }: StandingsRowType) => {
+export const StandingsRow = ({ fade, index }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { showBuddies, standingsSearch, showOneWeek } = useSelector(selectTools)

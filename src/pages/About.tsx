@@ -3,7 +3,7 @@ import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 import { useFade } from '../hooks'
-import { LocaleType, i18n } from '../locale'
+import { Locale, i18n } from '../locale'
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../ui'
 
@@ -36,11 +36,11 @@ export const About = () => {
 
   // render styles and locales
 
-  const { buttonDetailsMsg } = i18n(locale, 'buttons') as LocaleType
+  const { buttonDetailsMsg } = i18n(locale, 'buttons') as Locale
   const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg } = i18n(
     locale,
     'about'
-  ) as LocaleType
+  ) as Locale
 
   const legend = [
     { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },

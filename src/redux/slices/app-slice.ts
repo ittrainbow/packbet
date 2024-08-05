@@ -1,20 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IApp } from '../../types'
+import { App } from '../../types'
 
-type SetStandingsType = {
-  otherUserUID: string
-  otherUserName: string
-  tabActive: number
-}
-
-type SubmitWeekType = {
-  nextWeek: number
-  currentWeek: number
-  newSelectedWeek: number
-}
-
-const initialState: IApp = {
+const initialState: App = {
   season: new Date().getFullYear() - (new Date().getMonth() > 5 ? 0 : 1),
   mobile: false,
   loading: true,
@@ -83,7 +71,14 @@ export const appSlice = createSlice({
       state.currentWeek = action.payload.currentWeek
     },
 
-    submitWeek(state, action: PayloadAction<SubmitWeekType>) {
+    submitWeek(
+      state,
+      action: PayloadAction<{
+        nextWeek: number
+        currentWeek: number
+        newSelectedWeek: number
+      }>
+    ) {
       const { newSelectedWeek, nextWeek, currentWeek } = action.payload
       state.selectedWeek = newSelectedWeek
       state.nextWeek = nextWeek
@@ -101,7 +96,14 @@ export const appSlice = createSlice({
       state.tabActive = id
     },
 
-    setOtherUserFromStandings(state, action: PayloadAction<SetStandingsType>) {
+    setOtherUserFromStandings(
+      state,
+      action: PayloadAction<{
+        otherUserUID: string
+        otherUserName: string
+        tabActive: number
+      }>
+    ) {
       const { otherUserName, otherUserUID } = action.payload
       state.otherUserName = otherUserName
       state.otherUserUID = otherUserUID

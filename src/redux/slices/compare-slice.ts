@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AnswersType } from '../../types'
+import { Answers } from '../../types'
 
 const initialState = {} as CompareType
 
 type CompareType = {
-  [key: string]: AnswersType
+  [key: string]: Answers
 }
 
 type UpdateCompareType = {
-  data: AnswersType
+  data: Answers
   id: string
 }
 

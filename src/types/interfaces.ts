@@ -1,6 +1,6 @@
-import { AnswersType, QuestionType, WeekType } from './types'
+import { Answers, Question, Week } from './types'
 
-export interface IApp {
+export interface App {
   season: number
   mobile: boolean
   loading: boolean
@@ -18,44 +18,44 @@ export interface IApp {
   duration: number
 }
 
-export interface ITools {
+export interface Tools {
   showTools: boolean
   showBuddies: boolean
   showOneWeek: boolean
   standingsSearch: string
 }
 
-export interface IUser {
+export interface User {
   admin: boolean
-  locale: string
+  locale: 'ru' | 'ua'
   name: string
   adminAsPlayer?: boolean
   buddies: string[]
 }
 
-export interface IUserStore extends IUser {
+export interface UserStore extends User {
   uid: string
 }
 
-export interface IAbout {
+export interface About {
   [key: string]: {
     [key: number]: string
   }
 }
 
-export interface IAnswers {
-  [key: string]: AnswersType
+export interface AnswersStore {
+  [key: string]: Answers
 }
 
-export interface IPlayers {
-  [key: string]: IUser
+export interface Players {
+  [key: string]: User
 }
 
-export interface IWeeks {
-  [key: number]: WeekType
-}
+// export interface Weeks {
+//   [key: number]: Week
+// }
 
-export interface IUserStandings {
+export interface UserStandings {
   ansCorrect: number
   ansTotal: number
   resultsTotal: number
@@ -66,12 +66,12 @@ export interface IUserStandings {
   faults: number
 }
 
-export interface IStandings {
-  week: IUserStandings[]
-  season: IUserStandings[]
+export interface Standings {
+  week: UserStandings[]
+  season: UserStandings[]
 }
 
-export interface IEditor extends WeekType {
-  questionInWork: QuestionType
-  questionCompare: QuestionType
+export interface Editor extends Week {
+  questionInWork: Question
+  questionCompare: Question
 }

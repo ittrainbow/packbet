@@ -1,10 +1,10 @@
 import moment from 'moment/moment'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectEditor, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { ChangeInputType } from '../../types'
+import { ChangeInput } from '../../types'
 import { Input } from '../../ui'
 
 export const EditorActivities = () => {
@@ -12,18 +12,18 @@ export const EditorActivities = () => {
   const { active, deadline } = useSelector(selectEditor)
   const { locale } = useSelector(selectUser)
 
-  const handleChangeDate = (e: ChangeInputType) => {
+  const handleChangeDate = (e: ChangeInput) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
     dispatch(editorActions.updateEditorDeadline(deadline))
   }
 
-  const handleChangeActivity = (e: ChangeInputType) => {
+  const handleChangeActivity = (e: ChangeInput) => {
     const { checked } = e.target
     dispatch(editorActions.updateEditorWeekActivity(checked))
   }
 
-  const { weekActivityMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekActivityMsg } = i18n(locale, 'editor') as Locale
 
   const getDeadline = (deadline: number) => moment(deadline).format().substring(0, 16)
 

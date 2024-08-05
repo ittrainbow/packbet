@@ -2,10 +2,10 @@ import { Input } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectTools, selectUser } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
-import { ChangeInputType } from '../../types'
+import { ChangeInput } from '../../types'
 import { Button, Switch } from '../../ui'
 
 export const StandingsTools = () => {
@@ -27,7 +27,7 @@ export const StandingsTools = () => {
     dispatch(toolsActions.clearSearch())
   }
 
-  const handleChangeSearch = (e: ChangeInputType) => {
+  const handleChangeSearch = (e: ChangeInput) => {
     const { value } = e.target
     dispatch(toolsActions.setSearch(value))
   }
@@ -42,7 +42,7 @@ export const StandingsTools = () => {
   // render styles and locales
 
   const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
-    i18n(locale, 'standings') as LocaleType
+    i18n(locale, 'standings') as Locale
 
   const tools = (
     <div className="standings__tools flexcol5">

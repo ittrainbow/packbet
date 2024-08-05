@@ -7,7 +7,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
@@ -88,11 +88,11 @@ export const EditorPage = () => {
 
   // render styles and locales
 
-  const { weekDeleteMsg, editorTitleMsg } = i18n(locale, 'editor') as LocaleType
+  const { weekDeleteMsg, editorTitleMsg } = i18n(locale, 'editor') as Locale
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg, buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(
     locale,
     'buttons'
-  ) as LocaleType
+  ) as Locale
 
   return (
     <div className="container animate-fade-in-up" ref={containerRef}>

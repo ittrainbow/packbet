@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction, current } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
-import { IWeeks, WeekType } from '../../types'
+import { Week, Weeks } from '../../types'
 
-const initialState = {} as IWeeks
+const initialState = {} as Weeks
 
 type UpdateWeeksType = {
-  week: WeekType
+  week: Week
   id: number
 }
 
@@ -13,7 +13,7 @@ export const weeksSlice = createSlice({
   name: 'weeks',
   initialState,
   reducers: {
-    setWeeks(_, action: PayloadAction<IWeeks>) {
+    setWeeks(_, action: PayloadAction<Weeks>) {
       return action.payload
     },
 

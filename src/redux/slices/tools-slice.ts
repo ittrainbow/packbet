@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { ITools } from '../../types'
+import { Tools } from '../../types'
 
-const initialState: ITools = {
+const initialState: Tools = {
   showTools: false,
   showBuddies: localStorage.getItem('packContestFavList') === 'true',
   showOneWeek: localStorage.getItem('packContestOneWeek') === 'true',

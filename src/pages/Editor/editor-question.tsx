@@ -1,14 +1,14 @@
-import { FaEdit, FaTrashAlt, FaBan } from 'react-icons/fa'
-import { useSelector, useDispatch } from 'react-redux'
+import { FaBan, FaEdit, FaTrashAlt } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { useFade } from '../../hooks'
 import { selectApp, selectEditor, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { FadeRefType } from '../../types'
-import { useFade } from '../../hooks'
+import { FadeRef } from '../../types'
 
-type QuestionPropsType = { id: number; questionsRef: FadeRefType }
+type Props = { id: number; questionsRef: FadeRef }
 
-export const EditorQuestion = ({ id, questionsRef }: QuestionPropsType) => {
+export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
   const { duration } = useSelector(selectApp)

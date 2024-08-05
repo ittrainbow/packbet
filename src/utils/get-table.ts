@@ -1,9 +1,9 @@
-import { IUserStandings, IAnswers, IPlayers, AnswersType } from '../types'
+import { Answers, AnswersStore, Players, UserStandings } from '../types'
 
 type TableCreatorType = {
-  answers: IAnswers
-  players: IPlayers
-  results: AnswersType
+  answers: AnswersStore
+  players: Players
+  results: Answers
   fullSeason: boolean
 }
 
@@ -13,7 +13,7 @@ type FetchObjectType<T> = {
 
 export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
   const userList = Object.keys(players)
-  const object: FetchObjectType<IUserStandings> = {}
+  const object: FetchObjectType<UserStandings> = {}
   userList.forEach((el) => {
     let ansTotal = 0
     let ansCorrect = 0
@@ -44,9 +44,9 @@ export const getTable = ({ answers, players, results, fullSeason }: TableCreator
     object[el] = { name, uid, ansCorrect, ansTotal, resultsTotal, correct, position: '', faults }
   })
 
-  const array: IUserStandings[] = Object.keys(object).map((el) => object[el])
+  const array: UserStandings[] = Object.keys(object).map((el) => object[el])
 
-  const table = array.sort((a: IUserStandings, b: IUserStandings) => {
+  const table = array.sort((a: UserStandings, b: UserStandings) => {
     return a.correct < b.correct
       ? 1
       : a.correct > b.correct

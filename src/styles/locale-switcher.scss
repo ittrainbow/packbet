@@ -66,6 +66,7 @@ input:checked + .locale:before {
 }
 
 .locale-flag {
+  display: flex;
   width: 20%;
   justify-content: center;
 }

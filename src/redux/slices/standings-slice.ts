@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IStandings } from '../../types'
+import { Standings } from '../../types'
 
-const initialState: IStandings = {
+const initialState: Standings = {
   season: [],
   week: []
 }
@@ -11,7 +11,7 @@ export const standingsSlice = createSlice({
   name: 'standings',
   initialState,
   reducers: {
-    setStandings(_, action: PayloadAction<IStandings>) {
+    setStandings(_, action: PayloadAction<Standings>) {
       return action.payload
     }
   }

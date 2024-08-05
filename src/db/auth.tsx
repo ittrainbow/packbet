@@ -9,9 +9,9 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 
-import { LocaleType, i18n } from '../locale'
+import { Locale, i18n } from '../locale'
 import { appActions } from '../redux/slices'
-import { IUser } from '../types'
+import { User } from '../types'
 import { getLocale } from '../utils'
 import { auth, db } from './firebase'
 
@@ -31,7 +31,7 @@ export const signInWithGoogle = async () => {
         await setDoc(doc(db, 'users', uid), user)
       }
       docs.data() === undefined && googleAuth()
-      const user = docs.data() as IUser
+      const user = docs.data() as User
       appActions.setLoading(false)
       return { user, uid }
     }
@@ -46,13 +46,13 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
     const responseLogin: UserCredential = await signInWithEmailAndPassword(auth, email, password)
     const { uid } = responseLogin.user
     const responseUser = await getDoc(doc(db, 'users', uid))
-    const user = responseUser.data() as IUser
+    const user = responseUser.data() as User
     appActions.setLoading(false)
     return { user, uid }
   } catch (error) {
     if (error instanceof Error) {
       const locale = getLocale()
-      const { emailWrongMsg, passwordWrongMsg } = i18n(locale, 'auth') as LocaleType
+      const { emailWrongMsg, passwordWrongMsg } = i18n(locale, 'auth') as Locale
       if (error.message.includes('user-not-found')) {
         alert(emailWrongMsg)
       } else if (error.message.includes('wrong-password')) {
@@ -69,13 +69,13 @@ export const registerWithEmailAndPassword = async (name: string, email: string, 
     appActions.setLoading(true)
     const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data: IUser = { name, locale, admin: false, buddies: [uid] }
+    const data: User = { name, locale, admin: false, buddies: [uid] }
     await setDoc(doc(db, 'users', uid), data)
     appActions.setLoading(false)
     return { uid, locale }
   } catch (error) {
     if (error instanceof Error) {
-      const { emailExistsMsg } = i18n(locale, 'auth') as LocaleType
+      const { emailExistsMsg } = i18n(locale, 'auth') as Locale
       if (error.message.includes('email-already-in-use')) alert(emailExistsMsg)
       console.error(error)
     }

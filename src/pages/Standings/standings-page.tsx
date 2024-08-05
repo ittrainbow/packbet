@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { UPDATE_STANDINGS } from '../../redux/storetypes'
-import { IStore } from '../../types'
+import { Store } from '../../types'
 import { Button, OtherUser } from '../../ui'
 
 export const StandingsPage = () => {
   const dispatch = useDispatch()
-  const results = useSelector((store: IStore) => store.results)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const user = useSelector((store: IStore) => store.user)
+  const results = useSelector((store: Store) => store.results)
+  const weeks = useSelector((store: Store) => store.weeks)
+  const user = useSelector((store: Store) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
   const { season } = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -47,7 +47,7 @@ export const StandingsPage = () => {
   const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
 
   const { tableTierline, tableHeaderhMsg, tableNoGamesMsg, tableUpdate, tableUpdateSuccessMsg, tableUpdateFailureMsg } =
-    i18n(locale, 'standings') as LocaleType
+    i18n(locale, 'standings') as Locale
 
   const getLastWeekName = () => {
     const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
@@ -77,9 +77,8 @@ export const StandingsPage = () => {
           <div className="standings" ref={tableRef}>
             <OtherUser containerRef={containerRef} />
             <StandingsHeader />
-            {Object.values(season).map((_, index) => (
-              <StandingsRow key={index} fade={containerFade} index={index} />
-            ))}
+            {season &&
+              Object.values(season).map((_, index) => <StandingsRow key={index} fade={containerFade} index={index} />)}
             <div className="tierline">{tableTierline}</div>
           </div>
           {admin && <Button onClick={handleUpdateStandings} children={tableUpdate} />}

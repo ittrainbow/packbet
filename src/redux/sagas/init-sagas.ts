@@ -1,14 +1,14 @@
 import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { getDBCollection } from '../../db'
-import { AnswersType, IAbout, IStandings, IStore, IWeeks } from '../../types'
+import { About, Answers, Standings, Store, Weeks } from '../../types'
 import { getWeeksIDs } from '../../utils'
 import { aboutActions, appActions, resultsActions, standingsActions, weeksActions } from '../slices'
 import { INIT_APP } from '../storetypes'
 
 function* fetchAboutSaga() {
   try {
-    const about: IAbout = yield call(getDBCollection, 'about')
+    const about: About = yield call(getDBCollection, 'about')
     yield put(aboutActions.setAbout(about))
   } catch (error) {
     if (error instanceof Error) {
@@ -19,7 +19,7 @@ function* fetchAboutSaga() {
 
 function* fetchResultsSaga() {
   try {
-    const results: AnswersType = yield call(getDBCollection, 'results')
+    const results: Answers = yield call(getDBCollection, 'results')
     yield put(resultsActions.setResults(results))
   } catch (error) {
     if (error instanceof Error) {
@@ -30,7 +30,7 @@ function* fetchResultsSaga() {
 
 function* fetchWeeksSaga() {
   try {
-    const weeks: IWeeks = yield call(getDBCollection, 'weeks')
+    const weeks: Weeks = yield call(getDBCollection, 'weeks')
     const lastWeek = Number(Object.keys(weeks).slice(-1))
     yield put(appActions.setSelectedWeek(lastWeek))
     yield put(weeksActions.setWeeks(weeks))
@@ -44,8 +44,8 @@ function* fetchWeeksSaga() {
 
 export function* fetchStandingsSaga() {
   try {
-    const { app } = yield select((store: IStore) => store)
-    const standings: IStandings = yield call(getDBCollection, `standings-${app.season}`)
+    const { app } = yield select((store: Store) => store)
+    const standings: Standings = yield call(getDBCollection, `standings-${app.season - 1}`)
     yield call(setStandingsSaga, standings)
   } catch (error) {
     if (error instanceof Error) {
@@ -54,7 +54,7 @@ export function* fetchStandingsSaga() {
   }
 }
 
-export function* setStandingsSaga(standings: IStandings) {
+export function* setStandingsSaga(standings: Standings) {
   yield put(standingsActions.setStandings(standings))
 }
 

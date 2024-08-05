@@ -1,6 +1,6 @@
-import { QuestionType } from '../types'
+import { Question } from '../types'
 
-export const emptyQuestion: QuestionType = {
+export const emptyQuestion: Question = {
   ru: '',
   ua: '',
   total: ''

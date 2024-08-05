@@ -1,22 +1,22 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
 import { emptyQuestion } from '../../constants'
-import { IEditor, QuestionType, WeekType } from '../../types'
+import { Editor, Question, Week } from '../../types'
 
-const initialState: IEditor = {
+const initialState: Editor = {
   questions: {},
   name: '',
   active: false,
   deadline: new Date().getTime(),
   questionInWork: emptyQuestion,
-  questionCompare: {} as QuestionType
+  questionCompare: {} as Question
 }
 
 export const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
-    setEditor(state, action: PayloadAction<WeekType>) {
+    setEditor(state, action: PayloadAction<Week>) {
       const { questions, name, active, deadline } = action.payload
       state.questions = questions
       state.name = name
@@ -47,13 +47,13 @@ export const editorSlice = createSlice({
       state.active = action.payload
     },
 
-    initQuestionInWork(state, action: PayloadAction<QuestionType>) {
+    initQuestionInWork(state, action: PayloadAction<Question>) {
       const { payload } = action
       state.questionInWork = payload
       state.questionCompare = payload
     },
 
-    setQuestionInWork(state, action: PayloadAction<QuestionType>) {
+    setQuestionInWork(state, action: PayloadAction<Question>) {
       state.questionInWork = action.payload
     },
 

@@ -6,7 +6,7 @@ import { useMenu } from '.'
 import { selectApp, selectEditor, selectUser } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 
-type SwipeHelperProps = {
+type SwipeHelper = {
   moveX: number
   canSwipeLeft: boolean
   canSwipeRight: boolean
@@ -21,7 +21,7 @@ export const useSwipe = () => {
   const { questionInWork } = useSelector(selectEditor)
   const { ru, ua, total } = questionInWork
 
-  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelperProps) => {
+  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelper) => {
     const container = document.querySelector('.container')
 
     if (moveX > 0 && canSwipeLeft) {

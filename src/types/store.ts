@@ -1,6 +1,6 @@
-import { IAbout, IApp, IUserStore, IAnswers, AnswersType, IWeeks, IUserStandings, ITools, IEditor } from '.'
+import { About, Answers, AnswersStore, App, Editor, Tools, UserStandings, UserStore, Weeks } from '.'
 
-interface IRouter {
+interface Router {
   location: {
     pathname: string
     search: string
@@ -11,20 +11,20 @@ interface IRouter {
   action: 'PUSH' | 'PULL'
 }
 
-interface IStandings {
-  [key: string]: IUserStandings[]
+interface Standings {
+  [key: string]: UserStandings[]
 }
 
-export interface IStore {
-  app: IApp
-  about: IAbout
-  standings: IStandings
-  user: IUserStore
-  answers: IAnswers
-  results: AnswersType
-  weeks: IWeeks
-  compare: IAnswers
-  editor: IEditor
-  router: IRouter
-  tools: ITools
+export interface Store {
+  app: App
+  about: About
+  standings: Standings
+  user: UserStore
+  answers: AnswersStore
+  results: Answers
+  weeks: Weeks
+  compare: AnswersStore
+  editor: Editor
+  router: Router
+  tools: Tools
 }

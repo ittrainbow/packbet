@@ -1,6 +1,6 @@
-import { WeeksType } from '../types'
+import { Weeks } from '../types'
 
-export const getWeeksIDs = (weeks: WeeksType) => {
+export const getWeeksIDs = (weeks: Weeks) => {
   const arr = Object.keys(weeks).map((el) => Number(el))
   const currentWeek = arr
     .filter((el) => weeks[el].active)

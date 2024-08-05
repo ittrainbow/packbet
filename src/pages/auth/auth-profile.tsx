@@ -1,17 +1,17 @@
-import { Button, Input } from '@mui/material'
 import { User } from 'firebase/auth'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { Input } from '@mui/material'
 import { auth } from '../../db'
 import { useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
 import { UPDATE_PROFILE } from '../../redux/storetypes'
-import { LocaleSwitcher } from '../../ui'
+import { Button, LocaleSwitcher } from '../../ui'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -22,7 +22,7 @@ export const Profile = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
-  const [tempLocale, setTempLocale] = useState('')
+  const [tempLocale, setTempLocale] = useState<'ua' | 'ru'>(locale)
 
   const triggerFade = useFade(containerRef)
 
@@ -44,7 +44,7 @@ export const Profile = () => {
 
   const handleSubmit = async () => {
     const { uid } = user as User
-    const payload = { uid, name: tempName, locale }
+    const payload = { uid, name: tempName, locale: tempLocale }
 
     dispatch({ type: UPDATE_PROFILE, payload })
     dispatch(userActions.updateUser(payload))
@@ -61,8 +61,8 @@ export const Profile = () => {
 
   // render styles and locales
 
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as LocaleType
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as LocaleType
+  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as Locale
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as Locale
 
   return (
     <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
@@ -70,7 +70,11 @@ export const Profile = () => {
         <div className="auth__text flexcol5">
           <div className="bold auth__text-margin">{profileHeaderMsg}</div>
           <div>{profileLangMsg}</div>
-          <LocaleSwitcher />
+          <LocaleSwitcher
+            profilePage
+            onChange={() => setTempLocale(tempLocale === 'ru' ? 'ua' : 'ru')}
+            checked={tempLocale === 'ua'}
+          />
           <div>{profileNameMsg}</div>
         </div>
         <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />

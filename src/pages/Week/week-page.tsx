@@ -5,11 +5,11 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { useChanges, useFade } from '../../hooks'
-import { LocaleType, i18n } from '../../locale'
+import { Locale, i18n } from '../../locale'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
-import { IStore, WeekType } from '../../types'
+import { Store, Week } from '../../types'
 import { Button, OtherUser, Switch } from '../../ui'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
@@ -19,12 +19,12 @@ export const WeekPage = () => {
   const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
-  const answers = useSelector((store: IStore) => store.answers)
-  const results = useSelector((store: IStore) => store.results)
-  const weeks = useSelector((store: IStore) => store.weeks)
-  const compare = useSelector((store: IStore) => store.compare)
+  const answers = useSelector((store: Store) => store.answers)
+  const results = useSelector((store: Store) => store.results)
+  const weeks = useSelector((store: Store) => store.weeks)
+  const compare = useSelector((store: Store) => store.compare)
   const containerRef = useRef<HTMLDivElement>(null)
-  const { name, questions, deadline } = weeks[selectedWeek] || ({} as WeekType)
+  const { name, questions, deadline } = weeks[selectedWeek] || ({} as Week)
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
   const gotChanges = useChanges()
@@ -80,8 +80,8 @@ export const WeekPage = () => {
 
   // render styles and locales
 
-  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as LocaleType
-  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as LocaleType
+  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as Locale
+  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as Locale
 
   return currentWeek > -1 ? (
     <div className="container animate-fade-in-up" ref={containerRef}>
@@ -98,7 +98,7 @@ export const WeekPage = () => {
         Object.keys(questions)
           .map((el) => Number(el))
           .map((id, index) => {
-            const result = results[selectedWeek] && results[selectedWeek][id]
+            const result = results[selectedWeek]?.[id]
             return (
               <div key={index}>
                 <MemoizedWeekQuestion id={id} result={result} />
