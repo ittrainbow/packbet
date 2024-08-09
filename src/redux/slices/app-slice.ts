@@ -3,7 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { App } from '../../types'
 
 const initialState: App = {
-  season: new Date().getFullYear() - (new Date().getMonth() > 5 ? 0 : 1),
+  // season: new Date().getFullYear() - (new Date().getMonth() > 5 ? 0 : 1),
+  season: 2023,
   mobile: false,
   loading: true,
   editor: false,

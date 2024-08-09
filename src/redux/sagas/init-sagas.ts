@@ -45,7 +45,7 @@ function* fetchWeeksSaga() {
 export function* fetchStandingsSaga() {
   try {
     const { app } = yield select((store: Store) => store)
-    const standings: Standings = yield call(getDBCollection, `standings-${app.season - 1}`)
+    const standings: Standings = yield call(getDBCollection, `standings-${app.season}`)
     yield call(setStandingsSaga, standings)
   } catch (error) {
     if (error instanceof Error) {
