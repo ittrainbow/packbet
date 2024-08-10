@@ -1,6 +1,6 @@
-import { UserStore } from '../types'
+import { ExtendedUser } from '../types'
 
-export const initialUser: UserStore = {
+export const initialUser: ExtendedUser = {
   name: '',
   locale: 'ru',
   admin: false,

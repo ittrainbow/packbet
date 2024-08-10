@@ -37,6 +37,7 @@ export const WeekQuestion = ({ id, result }: Props) => {
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
   const buttonData = adm ? result : answers[isItYou ? uid : otherUserUID]?.[selectedWeek]?.[id]
+
   const getActivity = () => ((!isItYou && outdated) || isItYou ? buttonData : 0)
 
   // action handlers
@@ -51,14 +52,14 @@ export const WeekQuestion = ({ id, result }: Props) => {
       const updateValue = { ...deleteValue, answer }
 
       if (!adm) {
-        !!answer
+        return Boolean(answer)
           ? dispatch(answersActions.updateSingleAnswer(updateValue))
           : dispatch(answersActions.deleteSingleAnswer(deleteValue))
-      } else {
-        !!answer
-          ? dispatch(resultsActions.updateSingleResult(updateValue))
-          : dispatch(resultsActions.deleteSingleResult(deleteValue))
       }
+
+      Boolean(answer)
+        ? dispatch(resultsActions.updateSingleResult(updateValue))
+        : dispatch(resultsActions.deleteSingleResult(deleteValue))
     }
   }
 

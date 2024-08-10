@@ -53,11 +53,8 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
     if (error instanceof Error) {
       const locale = getLocale()
       const { emailWrongMsg, passwordWrongMsg } = i18n(locale, 'auth') as Locale
-      if (error.message.includes('user-not-found')) {
-        alert(emailWrongMsg)
-      } else if (error.message.includes('wrong-password')) {
-        alert(passwordWrongMsg)
-      }
+      if (error.message.includes('user-not-found')) return alert(emailWrongMsg)
+      if (error.message.includes('wrong-password')) return alert(passwordWrongMsg)
       console.error(error.message)
     }
   }

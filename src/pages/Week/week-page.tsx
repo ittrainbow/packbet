@@ -62,10 +62,10 @@ export const WeekPage = () => {
     const toastSuccess = () => toast.success(successMsg)
     const toastFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
-
     const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
     const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
+    console.log(100, firstData, type, payload)
     dispatch({ type, payload })
   }
 
@@ -98,7 +98,8 @@ export const WeekPage = () => {
         Object.keys(questions)
           .map((el) => Number(el))
           .map((id, index) => {
-            const result = results[selectedWeek]?.[id]
+            const data = adm ? results : answers[uid] ?? {} // TODO: check
+            const result = data[selectedWeek]?.[id] ?? 0
             return (
               <div key={index}>
                 <MemoizedWeekQuestion id={id} result={result} />

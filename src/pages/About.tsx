@@ -27,11 +27,11 @@ export const About = () => {
     const list = aboutRef.current?.classList
     if (!open) {
       setOpen(!open)
-      setTimeout(() => list?.remove('animate-fade-out-down'), duration / 10)
-    } else {
-      list?.add('animate-fade-out-down')
-      setTimeout(() => setOpen(!open), duration)
+      return setTimeout(() => list?.remove('animate-fade-out-down'), duration / 10)
     }
+
+    list?.add('animate-fade-out-down')
+    setTimeout(() => setOpen(!open), duration)
   }
 
   // render styles and locales

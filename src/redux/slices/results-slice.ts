@@ -22,9 +22,9 @@ export const resultsSlice = createSlice({
       const { results, selectedWeek } = action.payload
       if (results) {
         state[selectedWeek] = results[selectedWeek]
-      } else {
-        return initialState
+        return
       }
+      return initialState
     },
 
     updateSingleResult(

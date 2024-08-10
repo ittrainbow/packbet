@@ -2,7 +2,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { fetchStandingsSaga, setStandingsSaga } from '.'
 import { deleteDBDocument, getDBCollection, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
-import { Action, Answers, AnswersStore, Players, Store, User, UserStandings, UserStore } from '../../types'
+import { Action, Answers, AnswersStore, ExtendedUser, Players, Store, User, UserStandings } from '../../types'
 import { getLocale, getObjectsEquality, getTable } from '../../utils'
 import { answersActions, appActions, compareActions, resultsActions, userActions } from '../slices'
 import * as TYPES from '../storetypes'
@@ -46,6 +46,7 @@ function* userLoginSaga(
     // emailReg
   } = action.payload
   const { uid, displayName } = user
+
   try {
     const responseUser: User | undefined = yield call(getDBDocument, 'users', uid)
     const user: User = responseUser || {
@@ -55,15 +56,16 @@ function* userLoginSaga(
       buddies: [uid]
     }
 
-    const answers: Answers = yield call(getDBDocument, 'answers', uid)
+    const fetchedAnswers: Answers = yield call(getDBDocument, 'answers', uid)
+    const answers = fetchedAnswers ?? {}
     const results: Answers = yield select((store: Store) => store.results)
-
-    // if (!responseUser || emailReg) yield call(fetchStandingsSaga)
 
     const gotOnRegister: string = yield select((store) => store.user.name)
 
+    const writeUserToStore = user.admin ? { ...user, adminAsPlayer: true } : user
+
     if (!gotOnRegister) {
-      yield put(userActions.setUser(user.admin ? { ...user, adminAsPlayer: true } : user))
+      yield put(userActions.setUser(writeUserToStore))
     }
 
     yield put(compareActions.setCompare({ answers, results }))
@@ -90,7 +92,7 @@ function* submitResultsSaga(
     if (data) {
       yield call(writeDBDocument, 'results', selectedWeek, results[selectedWeek])
     } else {
-      yield call(deleteDBDocument, 'results', selectedWeek)
+      yield call(deleteDBDocument, 'results', selectedWeek.toString())
     }
 
     yield put(resultsActions.setResults(results))
@@ -121,7 +123,7 @@ function* submitAnswersSaga(
   }>
 ) {
   const { answers, uid, toaster, selectedWeek, firstData } = action.payload
-
+  console.log(101, firstData)
   yield put(appActions.setLoading(true))
   try {
     if (firstData) {
@@ -192,7 +194,7 @@ function* setBuddiesSaga(
     buddyUid: string
   }>
 ) {
-  const user: UserStore = yield select((store) => store.user)
+  const user: ExtendedUser = yield select((store) => store.user)
   const { buddyUid, buddies } = action.payload
   const { uid, adminAsPlayer, ...newUser } = user
   const newBuddies = buddies.includes(buddyUid) ? buddies.filter((el) => el !== buddyUid) : [...buddies, buddyUid]
