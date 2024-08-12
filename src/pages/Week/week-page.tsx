@@ -98,8 +98,7 @@ export const WeekPage = () => {
         Object.keys(questions)
           .map((el) => Number(el))
           .map((id, index) => {
-            const data = adm ? results : answers[uid] ?? {} // TODO: check
-            const result = data[selectedWeek]?.[id] ?? 0
+            const result = results[selectedWeek] && results[selectedWeek][id]
             return (
               <div key={index}>
                 <MemoizedWeekQuestion id={id} result={result} />

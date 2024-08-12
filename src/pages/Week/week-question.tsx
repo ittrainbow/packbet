@@ -65,10 +65,10 @@ export const WeekQuestion = ({ id, result }: Props) => {
 
   // render styles and locales
 
-  const getButtonClass = (id: number, buttonNumber: number) => {
+  const getButtonClass = (buttonNumber: number) => {
     const activity = getActivity()
 
-    const thisButton = result === buttonNumber
+    const thisButton = activity === buttonNumber
     const correct = result && activity === result
 
     if (thisButton) {
@@ -106,16 +106,10 @@ export const WeekQuestion = ({ id, result }: Props) => {
       </div>
       <div className="question__actions">
         <div className="yn__container">
-          <Button
-            className={getButtonClass(id, 1)}
-            onClick={() => handleClick({ value: 1, id, activity: getActivity() })}
-          >
+          <Button className={getButtonClass(1)} onClick={() => handleClick({ value: 1, id, activity: getActivity() })}>
             {total === '1' ? <FaCheck /> : <FaArrowUp />}
           </Button>
-          <Button
-            className={getButtonClass(id, 2)}
-            onClick={() => handleClick({ value: 2, id, activity: getActivity() })}
-          >
+          <Button className={getButtonClass(2)} onClick={() => handleClick({ value: 2, id, activity: getActivity() })}>
             {total === '1' ? <FaBan /> : <FaArrowDown />}
           </Button>
         </div>

@@ -77,7 +77,8 @@ export const ToolsSchema = z.object({
   showTools: z.boolean(),
   showBuddies: z.boolean(),
   showOneWeek: z.boolean(),
-  standingsSearch: z.string()
+  standingsSearch: z.string(),
+  seasonSelected: z.number()
 })
 export type Tools = z.infer<typeof ToolsSchema>
 

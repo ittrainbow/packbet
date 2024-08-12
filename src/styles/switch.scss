@@ -2,9 +2,9 @@
 
 .switch-container {
   align-items: center;
+  justify-content: center;
   border-radius: $border-radius-base;
   max-height: 45px;
-  width: fit-content;
 }
 
 .switch-inner-container {
@@ -21,6 +21,11 @@
 
 .inner-right {
   justify-content: flex-start;
+}
+
+.inner-left,
+.inner-right {
+  color: $base-grey-color;
 }
 
 .switch {

@@ -17,7 +17,7 @@ export const Switch = ({ onChange, checked, messageOff, messageOn, fullWidth }: 
         <span className="slider round"></span>
       </label>
       {!!messageOn.length && (
-        <div className="switch-inner-container" style={{ textAlign: 'left' }}>
+        <div className="switch-inner-container inner-right" style={{ textAlign: 'left' }}>
           {messageOn}
         </div>
       )}

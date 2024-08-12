@@ -29,10 +29,11 @@
 
 .standings {
   &__tools {
+    display: grid;
     border: 1px solid $base-itemborder;
     border-radius: 5px;
     padding: 3px 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   &__switchers {
@@ -128,4 +129,18 @@
 .tierline {
   text-align: justify;
   padding: 15px;
+}
+
+.select-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+}
+
+.select-season {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 15px !important;
 }

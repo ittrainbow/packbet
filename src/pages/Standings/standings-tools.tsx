@@ -1,19 +1,18 @@
-import { Input } from '@mui/material'
+import { Input, SelectChangeEvent } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Locale, i18n } from '../../locale'
-import { selectApp, selectTools, selectUser } from '../../redux/selectors'
+import { selectTools, selectUser } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { ChangeInput } from '../../types'
-import { Button, Switch } from '../../ui'
+import { Button, SelectInput, Switch } from '../../ui'
 
 export const StandingsTools = () => {
   const dispatch = useDispatch()
-  const { showOneWeek, showBuddies, standingsSearch, showTools } = useSelector(selectTools)
+  const { showOneWeek, showBuddies, standingsSearch, showTools, seasonSelected } = useSelector(selectTools)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
   const { locale } = useSelector(selectUser)
-  const { mobile } = useSelector(selectApp)
 
   // action handlers
 
@@ -39,6 +38,11 @@ export const StandingsTools = () => {
     localStorage.setItem('packContestFavList', value.toString())
   }
 
+  const handleChangeSeason = (e: SelectChangeEvent<number | string>) => {
+    const { value } = e.target
+    dispatch(toolsActions.setChangeSeason(typeof value === 'string' ? Number(value) : value))
+  }
+
   // render styles and locales
 
   const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
@@ -60,22 +64,21 @@ export const StandingsTools = () => {
           </Button>
         </div>
       </div>
-      <div className="standings__switchers" style={{ flexDirection: mobile ? 'column' : 'row' }}>
-        <Switch
-          onChange={handleSwitchShowOneWeek}
-          checked={showOneWeek}
-          messageOn={tableOnlyWeekMsg}
-          messageOff={tableAllSeasonMsg}
-          fullWidth={true}
-        />
-        <Switch
-          onChange={handleSwitchBuddies}
-          checked={showBuddiesLocal}
-          messageOn={tableBuddiesMsg}
-          messageOff={tableAllUsersMsg}
-          fullWidth={true}
-        />
-      </div>
+      <Switch
+        onChange={handleSwitchShowOneWeek}
+        checked={showOneWeek}
+        messageOn={tableOnlyWeekMsg}
+        messageOff={tableAllSeasonMsg}
+        fullWidth={true}
+      />
+      <Switch
+        onChange={handleSwitchBuddies}
+        checked={showBuddiesLocal}
+        messageOn={tableBuddiesMsg}
+        messageOff={tableAllUsersMsg}
+        fullWidth={true}
+      />
+      <SelectInput options={[2022, 2023, 2024]} onChange={handleChangeSeason} value={seasonSelected} />
     </div>
   )
 

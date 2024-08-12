@@ -6,7 +6,8 @@ const initialState: Tools = {
   showTools: false,
   showBuddies: localStorage.getItem('packContestFavList') === 'true',
   showOneWeek: localStorage.getItem('packContestOneWeek') === 'true',
-  standingsSearch: ''
+  standingsSearch: '',
+  seasonSelected: 2023
 }
 
 export const toolsSlice = createSlice({
@@ -21,6 +22,10 @@ export const toolsSlice = createSlice({
 
     setShowTools(state, action: PayloadAction<boolean>) {
       state.showTools = action.payload
+    },
+
+    setChangeSeason(state, action: PayloadAction<number>) {
+      state.seasonSelected = action.payload
     },
 
     switchShowBuddies(state) {
