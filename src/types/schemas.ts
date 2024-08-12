@@ -6,13 +6,16 @@ export const AboutSchema = z.object({
 })
 export type About = z.infer<typeof AboutSchema>
 
-export const ResultsSchema = z.record(z.string(), z.number())
+// export const ResultsSchema = z.record(z.string(), z.number())
+// export type Results = z.infer<typeof ResultsSchema>
+
+export const ResultsSchema = z.record(z.string(), z.record(z.string(), z.number()))
 export type Results = z.infer<typeof ResultsSchema>
 
-export const AnswersSchema = z.record(z.string(), z.record(z.string(), z.number()))
+export const AnswersSchema = ResultsSchema
 export type Answers = z.infer<typeof AnswersSchema>
 
-export const AnswersStoreSchema = z.record(z.string(), AnswersSchema)
+export const AnswersStoreSchema = z.record(z.string(), ResultsSchema)
 export type AnswersStore = z.infer<typeof AnswersStoreSchema>
 
 export const AppSchema = z.object({
@@ -96,8 +99,8 @@ export const ExtendedUserSchema = UserSchema.extend({
 })
 export type ExtendedUser = z.infer<typeof ExtendedUserSchema>
 
-export const PlayersSchema = z.record(z.string(), UserSchema)
-export type Players = z.infer<typeof PlayersSchema>
+export const UsersSchema = z.record(z.string(), UserSchema)
+export type Users = z.infer<typeof UsersSchema>
 
 export const QuestionSchema = z.object({
   ru: z.string(),

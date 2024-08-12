@@ -2,7 +2,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { fetchStandingsSaga, setStandingsSaga } from '.'
 import { deleteDBDocument, getDBCollection, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
-import { Action, Answers, AnswersStore, ExtendedUser, Players, Store, User, UserStandings } from '../../types'
+import { Action, Answers, AnswersStore, ExtendedUser, Store, User, Users, UserStandings } from '../../types'
 import { getLocale, getObjectsEquality, getTable } from '../../utils'
 import { answersActions, appActions, compareActions, resultsActions, userActions } from '../slices'
 import * as TYPES from '../storetypes'
@@ -166,17 +166,19 @@ export function* updateStandingsSaga(
   const { toaster } = action.payload
   const { app } = yield select((store: Store) => store)
   try {
-    const players: Players = yield call(getDBCollection, 'users')
-    const results: Answers = yield select((store: Store) => store.results)
+    const users: Users = yield call(getDBCollection, 'users')
+
     const answers: AnswersStore = yield call(getDBCollection, 'answers')
 
-    const seasonArray: UserStandings[] = getTable({ answers, players, results, fullSeason: true })
-    const weekArray: UserStandings[] = getTable({ answers, players, results, fullSeason: false })
+    const results: Answers = yield select((store: Store) => store.results)
+
+    const seasonArray: UserStandings[] = getTable({ answers, users, results, fullSeason: true })
+    const weekArray: UserStandings[] = getTable({ answers, users, results, fullSeason: false })
     const season = Object.assign({}, seasonArray)
     const week = Object.assign({}, weekArray)
 
-    yield call(writeDBDocument, `standings-${app.season}`, 'season', season)
-    yield call(writeDBDocument, `standings-${app.season}`, 'week', week)
+    yield call(writeDBDocument, 'standings', `season-${app.season}`, season)
+    yield call(writeDBDocument, 'standings', `week-${app.season}`, week)
     yield call(setStandingsSaga, { season, week })
 
     yield call(toaster, true)

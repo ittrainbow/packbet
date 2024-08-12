@@ -1,8 +1,8 @@
-import { Answers, AnswersStore, Players, UserStandings } from '../types'
+import { Answers, AnswersStore, Users, UserStandings } from '../types'
 
 type TableCreatorType = {
   answers: AnswersStore
-  players: Players
+  users: Users
   results: Answers
   fullSeason: boolean
 }
@@ -11,15 +11,15 @@ type FetchObjectType<T> = {
   [key: number | string]: T
 }
 
-export const getTable = ({ answers, players, results, fullSeason }: TableCreatorType) => {
-  const userList = Object.keys(players)
+export const getTable = ({ answers, users, results, fullSeason }: TableCreatorType) => {
+  const userList = Object.keys(users)
   const object: FetchObjectType<UserStandings> = {}
   userList.forEach((el) => {
     let ansTotal = 0
     let ansCorrect = 0
     let resultsTotal = 0
     const uid = el
-    const { name } = players[el]
+    const { name } = users[el]
     const lastWeek = Number(Object.keys(results).splice(-1))
     const ans = answers && answers[el] ? answers[el] : {}
     Object.keys(results)

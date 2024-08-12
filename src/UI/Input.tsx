@@ -10,9 +10,20 @@ type Props = {
   checked?: boolean
   inputRef?: any
   id?: string
+  disabled?: boolean
 }
 
-export const Input = ({ type = 'text', value, onChange, placeholder, id, className, inputRef, checked }: Props) => {
+export const Input = ({
+  type = 'text',
+  value,
+  onChange,
+  placeholder,
+  id,
+  className,
+  inputRef,
+  checked,
+  disabled
+}: Props) => {
   const num = type === 'number'
 
   return (
@@ -26,6 +37,7 @@ export const Input = ({ type = 'text', value, onChange, placeholder, id, classNa
       placeholder={placeholder}
       autoComplete="off"
       id={id}
+      disabled={disabled}
       className={className}
     />
   )

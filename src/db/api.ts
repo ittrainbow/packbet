@@ -16,11 +16,13 @@ import {
   Answers,
   AnswersSchema,
   AnswersStore,
+  AnswersStoreSchema,
   FetchedStandingsSchema,
-  Players,
   ResultsSchema,
   UpdateStandingsSchema,
+  Users,
   UserSchema,
+  UsersSchema,
   WeekSchema,
   WeeksSchema
 } from '../types'
@@ -31,7 +33,7 @@ export const getDBDocument = async (collection: string, document: string | numbe
   const schema = collection.includes('users')
     ? UserSchema
     : collection.includes('answers')
-    ? AnswersSchema.optional()
+    ? AnswersSchema
     : collection.includes('results')
     ? ResultsSchema
     : undefined
@@ -83,20 +85,26 @@ export const deleteDBDocument = async (collection: string, document: string) => 
 
 export const getDBCollection = async (link: string) => {
   const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, link))
-  const obj: About | Players | AnswersStore = {}
+
+  const obj: About | Users | AnswersStore = {}
   response.forEach((el) => {
     obj[el.id] = el.data()
   })
+
   const schema = link.includes('about')
     ? AboutSchema
     : link.includes('weeks')
     ? WeeksSchema
     : link.includes('results')
-    ? AnswersSchema
+    ? ResultsSchema
+    : link.includes('answers')
+    ? AnswersStoreSchema
     : link.includes('standings')
     ? FetchedStandingsSchema
+    : link.includes('users')
+    ? UsersSchema
     : undefined
-
   const parsed = schema?.parse(obj)
+
   return parsed
 }
