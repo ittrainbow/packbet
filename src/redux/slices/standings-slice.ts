@@ -3,8 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Standings } from '../../types'
 
 const initialState: Standings = {
-  season: [],
-  week: []
+  season2022: [],
+  week2022: [],
+  week2023: [],
+  season2023: [],
+  week2024: [],
+  season2024: []
 }
 
 export const standingsSlice = createSlice({

@@ -52,11 +52,11 @@ export type Router = z.infer<typeof RouterSchema>
 export const UserStandingsSchema = z.object({
   ansCorrect: z.number(),
   ansTotal: z.number(),
-  resultsTotal: z.number(),
+  resultsTotal: z.number().optional(),
   name: z.string(),
   position: z.number().or(z.string()),
   correct: z.number(),
-  uid: z.string(),
+  uid: z.string().optional(),
   faults: z.number()
 })
 export type UserStandings = z.infer<typeof UserStandingsSchema>
@@ -65,14 +65,22 @@ export const UpdateStandingsSchema = z.record(z.string(), UserStandingsSchema)
 export type UpdateStandings = z.infer<typeof UpdateStandingsSchema>
 
 export const FetchedStandingsSchema = z.object({
-  season: z.record(z.string(), UserStandingsSchema),
-  week: z.record(z.string(), UserStandingsSchema)
+  season2022: z.record(z.string(), UserStandingsSchema).optional(),
+  week2022: z.record(z.string(), UserStandingsSchema).optional(),
+  season2023: z.record(z.string(), UserStandingsSchema),
+  week2023: z.record(z.string(), UserStandingsSchema),
+  season2024: z.record(z.string(), UserStandingsSchema).optional(),
+  week2024: z.record(z.string(), UserStandingsSchema).optional()
 })
 export type FetchedStandings = z.infer<typeof FetchedStandingsSchema>
 
 export const StandingsSchema = z.object({
-  week: z.array(UserStandingsSchema),
-  season: z.array(UserStandingsSchema)
+  season2022: z.array(UserStandingsSchema),
+  week2022: z.array(UserStandingsSchema),
+  week2023: z.array(UserStandingsSchema),
+  season2023: z.array(UserStandingsSchema),
+  week2024: z.array(UserStandingsSchema),
+  season2024: z.array(UserStandingsSchema)
 })
 export type Standings = z.infer<typeof StandingsSchema>
 

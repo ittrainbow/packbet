@@ -27,6 +27,14 @@
   }
 }
 
+.buddy {
+  color: $darkgoldenrod;
+}
+
+.buddy-not {
+  color: $base-itembg-active;
+}
+
 .standings {
   &__tools {
     display: grid;
@@ -103,7 +111,6 @@
 
 .col-two {
   width: 61%;
-  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   padding-left: 5px;
 

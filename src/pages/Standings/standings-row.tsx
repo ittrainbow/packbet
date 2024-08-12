@@ -15,7 +15,7 @@ type Props = {
 export const StandingsRow = ({ fade, index }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { showBuddies, standingsSearch, showOneWeek } = useSelector(selectTools)
+  const { showBuddies, standingsSearch, showOneWeek, seasonSelected } = useSelector(selectTools)
   const { duration } = useSelector(selectApp)
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
@@ -43,22 +43,24 @@ export const StandingsRow = ({ fade, index }: Props) => {
 
   const { name, userAnswers, correctAdjusted, position, uid, tableFaults } = useTableRow(index)
 
-  const buddy = buddies?.includes(uid)
+  const buddy = buddies?.includes(uid ?? '')
   const colorStyle = uid === user.uid ? 'standings__me' : even ? 'standings__dark' : ''
 
   const row = (
     <div className="standings__row">
       <div className={`col col-zero pt6mob jcc ${colorStyle}`}>{position}</div>
       <div
-        className={`col col-one jcc ${colorStyle}`}
-        onClick={() => handleAddRemoveBuddy(uid)}
-        style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
+        className={`col col-one jcc ${colorStyle} ${seasonSelected !== 2022 ? 'pointer' : ''} ${
+          buddy ? 'buddy' : 'buddy-not'
+        }`}
+        onClick={() => seasonSelected !== 2022 && uid && handleAddRemoveBuddy(uid)}
+        // style={{ color: buddy ? 'darkgoldenrod' : '#c7c7c7' }}
       >
         <FaStar />
       </div>
       <div
-        className={`col col-two pt6mob ${colorStyle}`}
-        onClick={() => handleClickOnUser(name, uid)}
+        className={`col col-two pt6mob ${colorStyle} ${seasonSelected !== 2022 ? 'pointer' : ''}`}
+        onClick={() => uid && handleClickOnUser(name, uid)}
         style={{ fontWeight: user.uid === uid ? 600 : '' }}
       >
         {name}

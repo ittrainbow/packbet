@@ -18,13 +18,21 @@ export const StandingsPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
-  const { season } = useSelector(selectStandings)
+  const { seasonSelected } = useSelector(selectTools)
+  const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
   const { locale, admin } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
+
+  const season =
+    seasonSelected === 2022
+      ? standings.season2022
+      : seasonSelected === 2023
+      ? standings.season2023
+      : standings.season2024
 
   const containerFade = useFade(containerRef)
   const bodyFade = useFade(bodyRef)

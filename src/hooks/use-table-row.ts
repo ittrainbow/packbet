@@ -4,8 +4,19 @@ import { selectResults, selectStandings, selectTools } from '../redux/selectors'
 
 export const useTableRow = (index: number) => {
   const { showOneWeek } = useSelector(selectTools)
-  const { season, week } = useSelector(selectStandings)
+  const { seasonSelected } = useSelector(selectTools)
+  const standings = useSelector(selectStandings)
   const results = useSelector(selectResults)
+
+  const season =
+    seasonSelected === 2022
+      ? standings.season2022
+      : seasonSelected === 2023
+      ? standings.season2023
+      : standings.season2024
+
+  const week =
+    seasonSelected === 2022 ? standings.week2022 : seasonSelected === 2023 ? standings.week2023 : standings.week2024
 
   const tableEl = showOneWeek ? week[index] : season[index]
   const { name, ansCorrect, ansTotal, position, uid, faults, correct } = tableEl

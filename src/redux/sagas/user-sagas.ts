@@ -123,7 +123,6 @@ function* submitAnswersSaga(
   }>
 ) {
   const { answers, uid, toaster, selectedWeek, firstData } = action.payload
-  console.log(101, firstData)
   yield put(appActions.setLoading(true))
   try {
     if (firstData) {
@@ -165,21 +164,21 @@ export function* updateStandingsSaga(
 ) {
   const { toaster } = action.payload
   const { app } = yield select((store: Store) => store)
+  const { standings } = yield select((store: Store) => store)
   try {
     const users: Users = yield call(getDBCollection, 'users')
-
     const answers: AnswersStore = yield call(getDBCollection, 'answers')
-
     const results: Answers = yield select((store: Store) => store.results)
 
     const seasonArray: UserStandings[] = getTable({ answers, users, results, fullSeason: true })
     const weekArray: UserStandings[] = getTable({ answers, users, results, fullSeason: false })
-    const season = Object.assign({}, seasonArray)
-    const week = Object.assign({}, weekArray)
+    // TODO - switch seasons
+    const season2023 = Object.assign({}, seasonArray)
+    const week2023 = Object.assign({}, weekArray)
 
-    yield call(writeDBDocument, 'standings', `season-${app.season}`, season)
-    yield call(writeDBDocument, 'standings', `week-${app.season}`, week)
-    yield call(setStandingsSaga, { season, week })
+    yield call(writeDBDocument, 'standings', `season${app.season}`, season2023)
+    yield call(writeDBDocument, 'standings', `week${app.season}`, week2023)
+    yield call(setStandingsSaga, { ...standings, season2023, week2023 })
 
     yield call(toaster, true)
   } catch (error) {

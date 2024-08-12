@@ -65,7 +65,6 @@ export const WeekPage = () => {
     const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
     const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
 
-    console.log(100, firstData, type, payload)
     dispatch({ type, payload })
   }
 

@@ -1,7 +1,7 @@
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, take } from 'redux-saga/effects'
 
 import { getDBCollection } from '../../db'
-import { About, Answers, Standings, Store, Weeks } from '../../types'
+import { About, Answers, Standings, Weeks } from '../../types'
 import { getWeeksIDs } from '../../utils'
 import { aboutActions, appActions, resultsActions, standingsActions, weeksActions } from '../slices'
 import { INIT_APP } from '../storetypes'
@@ -44,8 +44,8 @@ function* fetchWeeksSaga() {
 
 export function* fetchStandingsSaga() {
   try {
-    const { app } = yield select((store: Store) => store)
-    const standings: Standings = yield call(getDBCollection, `standings-${app.season}`)
+    const standings: Standings = yield call(getDBCollection, 'standings')
+
     yield call(setStandingsSaga, standings)
   } catch (error) {
     if (error instanceof Error) {
