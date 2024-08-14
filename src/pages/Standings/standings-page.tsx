@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BsGearFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 
+import clsx from 'clsx'
 import { ToastContainer, toast } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
 import { useFade } from '../../hooks'
@@ -52,8 +53,6 @@ export const StandingsPage = () => {
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
-  const getGearClass = `standings-top-container__${showTools ? 'gear-on' : 'gear-off'}`
-
   const { tableTierline, tableHeaderhMsg, tableNoGamesMsg, tableUpdate, tableUpdateSuccessMsg, tableUpdateFailureMsg } =
     i18n(locale, 'standings') as Locale
 
@@ -75,19 +74,22 @@ export const StandingsPage = () => {
 
   return (
     <>
-      <div className="container animate-fade-in-up" ref={containerRef}>
-        <div className="standings-top-container flexrow5">
-          <div className="standings-top-container__title">{getLastWeekName()}</div>
-          <BsGearFill onClick={handleSwitchTools} className={getGearClass} />
+      <div className="p-3 animate-fade-in-up" ref={containerRef}>
+        <div className="mb-3 flex flex-row gap-1 py-2">
+          <div className="flex font-bold grow items-center">{getLastWeekName()}</div>
+          <BsGearFill
+            onClick={handleSwitchTools}
+            className={clsx('text-xl transition', showTools ? 'text-green-600' : 'text-gray-800')}
+          />
         </div>
         <div ref={bodyRef}>
           <StandingsTools />
-          <div className="standings" ref={tableRef}>
+          <div className="grid gap-0.5" ref={tableRef}>
             <OtherUser containerRef={containerRef} />
             <StandingsHeader />
             {season &&
               Object.values(season).map((_, index) => <StandingsRow key={index} fade={containerFade} index={index} />)}
-            <div className="tierline">{tableTierline}</div>
+            <div className="p-3 text-sm leading-4">{tableTierline}</div>
           </div>
           {admin && <Button onClick={handleUpdateStandings} children={tableUpdate} />}
         </div>

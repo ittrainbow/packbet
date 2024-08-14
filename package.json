@@ -38,6 +38,7 @@
     "redux-saga": "^1.2.3",
     "sass": "^1.64.2",
     "sass-loader": "^13.3.2",
+    "tailwind": "^4.0.0",
     "typescript": "^5.1.6",
     "zod": "^3.23.8"
   },

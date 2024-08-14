@@ -1,67 +1,39 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaArrowCircleDown, FaArrowCircleUp } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
 
-import { selectApp } from '../../redux/selectors'
-import { FadeRef } from '../../types'
+import clsx from 'clsx'
 
 export const StandingsArrows = () => {
-  const { duration } = useSelector(selectApp)
-  const arrowBottomRef = useRef<HTMLDivElement>(null)
-  const arrowTopRef = useRef<HTMLDivElement>(null)
-  const arrowsRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState<boolean>(false)
 
   useEffect(() => {
     let listener = () => {
-      const list = arrowsRef.current?.classList
-      if (window.scrollY > 250 && !scrolled) {
-        setScrolled(true)
-        list?.add('arrows-show')
-        list?.remove('arrows-none')
-        list?.contains('arrows-hide') && list?.remove('arrows-hide')
-      }
-      if (window.scrollY < 250 && scrolled) {
-        list?.remove('arrows-show')
-        list?.add('arrows-hide')
-        setTimeout(() => setScrolled(false), duration)
-      }
+      if (window.scrollY > 250 && !scrolled) setScrolled(true)
+      if (window.scrollY < 250 && scrolled) setScrolled(false)
     }
 
     window.addEventListener('scroll', listener)
     return () => window.removeEventListener('scroll', listener)
-    // eslint-disable-next-line
   }, [scrolled])
 
-  // action handlers
-
-  const handleScroll = (direction: string) => {
-    const handleClass = (ref: FadeRef) => {
-      const list = ref.current?.classList
-      list?.add('arrows-green')
-      list?.remove('arrows-grey')
-      setTimeout(() => {
-        list?.remove('arrows-green')
-        list?.add('arrows-grey')
-      }, duration)
-    }
-
-    direction === 'top' ? handleClass(arrowTopRef) : handleClass(arrowBottomRef)
-
-    setTimeout(() => {
-      const height = document.body.scrollHeight
-      window.scrollTo({ top: direction === 'top' ? 0 : height, behavior: 'smooth' })
-    })
-  }
+  const handleScroll = (direction: 'top' | 'bottom') =>
+    setTimeout(() => window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' }))
 
   return (
-    <div className="arrows-container arrows-none" ref={arrowsRef}>
-      <div ref={arrowTopRef} className="arrows-grey">
-        <FaArrowCircleUp onClick={() => handleScroll('top')} />
-      </div>
-      <div ref={arrowBottomRef} className="arrows-grey">
-        <FaArrowCircleDown onClick={() => handleScroll('bottom')} />
-      </div>
+    <div
+      className={clsx(
+        'grid h-24 w-12 gap-2 bottom-16 start-72 sm:start-[32rem] z-10 fixed transition-all duration-500',
+        !scrolled ? 'opacity-0' : 'opacity-100'
+      )}
+    >
+      <FaArrowCircleUp
+        onClick={() => handleScroll('top')}
+        className="transition text-gray-400 active:text-green-600 text-[50px] pointer"
+      />
+      <FaArrowCircleDown
+        onClick={() => handleScroll('bottom')}
+        className="transition text-gray-400 active:text-green-600 text-[50px] pointer"
+      />
     </div>
   )
 }

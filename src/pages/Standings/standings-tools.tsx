@@ -49,8 +49,8 @@ export const StandingsTools = () => {
     i18n(locale, 'standings') as Locale
 
   const tools = (
-    <div className="standings__tools flexcol5">
-      <div className="standings__search flexrow5">
+    <div className="grid border rounded-md p-1 mb-1 border-gray-400 gap-1">
+      <div className="justify-center items-center flex flex-row gap-1">
         <Input
           onChange={handleChangeSearch}
           value={standingsSearch}
@@ -59,7 +59,7 @@ export const StandingsTools = () => {
           sx={{ width: '100%', height: '36px' }}
         />
         <div>
-          <Button onClick={handleClearSearch} disabled={!standingsSearch} className={'standings__button'}>
+          <Button onClick={handleClearSearch} disabled={!standingsSearch} className="h-[36px] px-1">
             {tableClearBtn}
           </Button>
         </div>
