@@ -42,14 +42,14 @@ export const StandingsRow = ({ fade, index }: Props) => {
 
   const { name, userAnswers, correctAdjusted, position, uid, tableFaults } = useTableRow(index)
 
-  // const buddy = buddies?.includes(uid ?? '')
-  // const colorStyle = uid === user.uid ? 'standings__me' : even ? 'standings__dark' : ''
-
   const row = (
     <div
       className={clsx(
-        'gap-0.5 grid grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3rem,3rem] min-h-[1.875rem]',
-        uid === user.uid ? 'bg-green-400 bg-opacity-60' : index % 2 === 1 && 'bg-gray-200'
+        'gap-0.5 grid  min-h-[1.875rem]',
+        showOneWeek
+          ? 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3rem]'
+          : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3rem,3rem]',
+        uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
       )}
     >
       {/* position */}
@@ -97,14 +97,16 @@ export const StandingsRow = ({ fade, index }: Props) => {
         {correctAdjusted}
       </div>
       {/* limit */}
-      <div
-        className={clsx(
-          'flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400',
-          seasonSelected !== 2022 && 'pointer'
-        )}
-      >
-        {showOneWeek ? '' : tableFaults}
-      </div>
+      {showOneWeek ? null : (
+        <div
+          className={clsx(
+            'flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400',
+            seasonSelected !== 2022 && 'pointer'
+          )}
+        >
+          {tableFaults}
+        </div>
+      )}
     </div>
   )
 

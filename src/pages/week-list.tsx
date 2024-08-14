@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import clsx from 'clsx'
 import { useDate, useFade } from '../hooks'
 import { Locale, i18n } from '../locale'
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
@@ -46,27 +47,49 @@ export const WeekList = () => {
   const getDate = useDate()
 
   return (
-    <div className="container animate-fade-in-up" ref={containerRef}>
-      <div className="title flexrow5">
-        <div className="title__name bold">{pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}</div>
-      </div>
+    <div className="p-3 grid gap-2 animate-fade-in-up" ref={containerRef}>
+      <span className="flex flex-row gap-1 font-bold">
+        {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
+      </span>
+
       {showOtherUserBar && <OtherUser containerRef={containerRef} />}
-      {Object.keys(weeks)
-        .map((el) => Number(el))
-        .filter((el) => weeks[el].active || editor || admin)
-        .sort((a, b) => b - a)
-        .map((el) => {
-          const { name } = weeks[el]
-          const selectedWeek = Number(el)
-          return (
-            <div key={selectedWeek} className="weeklist" onClick={() => handleClick(selectedWeek)}>
-              <div className="weeklist__desc">
-                {tab2msg} {name}
-              </div>
-              <div className="weeklist__date">{getDate(weeks[el].deadline)}</div>
-            </div>
-          )
-        })}
+      <div className="grid gap-0.5">
+        {Object.keys(weeks)
+          .map((el) => Number(el))
+          .filter((el) => weeks[el].active || editor || admin)
+          .sort((a, b) => b - a)
+          .map((el) => {
+            const { name, deadline } = weeks[el]
+            const selectedWeek = Number(el)
+            const isRegular = !isNaN(Number(name.split('.')[0]))
+            const adjustedTab2msg = isRegular ? tab2msg : ''
+            const text = (adjustedTab2msg + ' ' + name).split('.')
+            const date = getDate(deadline).split(' ')
+            return (
+              <>
+                <div
+                  key={selectedWeek}
+                  className={clsx(
+                    'px-3 py-1 grid grid-cols-[2.5fr,1fr] gap-1 border border-gray-400 rounded-md',
+                    new Date().getTime() < deadline ? 'animate-bg-pulse' : 'bg-gray-200'
+                  )}
+                  onClick={() => handleClick(selectedWeek)}
+                >
+                  <div className="grid grid-cols-1 gap-0 relative">
+                    <span className="text-xs text-gray-600 leading-4">{text[0]}</span>
+                    <span className="text-md">{text[1]}</span>
+                  </div>
+                  <div className="text-xs relative grid grid-cols-1 gap-0 text-gray-600 leading-4">
+                    <span>
+                      {date[0]} {date[1]}
+                    </span>
+                    <span>{date[2]}</span>
+                  </div>
+                </div>
+              </>
+            )
+          })}
+      </div>
     </div>
   )
 }

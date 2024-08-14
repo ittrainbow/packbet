@@ -83,9 +83,9 @@ export const WeekPage = () => {
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as Locale
 
   return currentWeek > -1 ? (
-    <div className="container animate-fade-in-up" ref={containerRef}>
+    <div className="p-4 text-sm animate-fade-in-up" ref={containerRef}>
       <div className="title flexrow5">
-        <div className="title__name bold">{name.split('.')[1]}</div>
+        <div className="text-lg font-bold">{name.split('.')[1]}</div>
         {admin && isItYou ? (
           <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOff={adminMsg} messageOn={playerMsg} />
         ) : null}

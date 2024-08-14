@@ -15,15 +15,18 @@ module.exports = {
         fadeIn: {
           '0%': { opacity: 0.1 },
           '100%': { opacity: 1 }
+        },
+        bgPulse: {
+          '0%': { backgroundColor: '#e5e5e5', backgroundOpacity: 1 },
+          '50%': { backgroundColor: '#ffffff', backgroundOpacity: 0.75 },
+          '100%': { backgroundColor: '#e5e5e5', backgroundOpacity: 1 }
         }
       },
       animation: {
         'fade-up': 'fadeUp .7s ease-in-out',
         'fade-down': 'fadeDown .4s ease-in-out',
-        'fade-in': 'fadeIn .7s ease-in-out'
-      },
-      backgroundImage: {
-        carbon: "url('./assets/carbon.jpg')"
+        'fade-in': 'fadeIn .7s ease-in-out',
+        'bg-pulse': 'bgPulse 3s ease-in-out infinite'
       }
     }
   },

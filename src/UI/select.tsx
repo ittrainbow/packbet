@@ -10,35 +10,10 @@ type Props = {
 }
 
 const StyledInput = styled(InputBase)(() => ({
-  'label + &': {
-    // paddingHorizontal: 12
-  },
   '& .MuiInputBase-input': {
-    // borderRadius: 4,
-    // position: 'relative',
-    // backgroundColor: theme.palette.background.paper,
-    // border: '1px solid #ced4da',
-    fontSize: 15,
-    padding: '2px 8px 2px 8px',
-    // backgroundColor: 'white',
-    // transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // fontFamily: [
-    //   '-apple-system',
-    //   'BlinkMacSystemFont',
-    //   '"Segoe UI"',
-    //   'Roboto',
-    //   '"Helvetica Neue"',
-    //   'Arial',
-    //   'sans-serif',
-    //   '"Apple Color Emoji"',
-    //   '"Segoe UI Emoji"',
-    //   '"Segoe UI Symbol"'
-    // ].join(','),
-    '&:focus': {
-      // borderRadius: 4,
-      // borderColor: '#80bdff',
-      // boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-    }
+    fontSize: 16,
+    padding: '2px 6px',
+    '&:focus': {}
   }
 }))
 
@@ -51,8 +26,8 @@ export const SelectInput = ({ options, onChange, value }: Props) => {
   })
 
   return (
-    <div className="select-input">
-      <InputLabel className="select-season">Выберите сезон</InputLabel>
+    <div className="flex flex-wrap gap-1 h-9 items-center justify-center">
+      <InputLabel>Выберите сезон</InputLabel>
       <NativeSelect
         defaultValue={value}
         value={value}

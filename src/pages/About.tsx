@@ -55,8 +55,8 @@ export const About = () => {
   const copyright = ` ${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`
 
   return (
-    <span className="p-3 text-md leading-5 flex flex-col gap-2 animate-fade-in-up" ref={containerRef}>
-      <span className="font-bold">{aboutTitleMsg}</span>
+    <span className="p-4 text-md leading-5 flex flex-col gap-2 animate-fade-in-up" ref={containerRef}>
+      <span className="font-bold !text-lg">{aboutTitleMsg}</span>
 
       <span>{description[0]}</span>
       <Button onClick={handleOpen}>{buttonDetailsMsg}</Button>
@@ -72,7 +72,7 @@ export const About = () => {
               <span>{text}</span>
             </div>
           ))}
-          <div className="about-paragraph">{last}</div>
+          <span>{last}</span>
           <hr className="h-px bg-gray-200 border-0 dark:bg-gray-400" />
           <div className="about-copyright text-gray-600">
             <a href="https://t.me/packersnews">Green 19</a>

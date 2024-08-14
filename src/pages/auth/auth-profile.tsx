@@ -11,7 +11,7 @@ import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
 import { UPDATE_PROFILE } from '../../redux/storetypes'
-import { Button, LocaleSwitcher } from '../../ui'
+import { Button, Switch } from '../../ui'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -65,24 +65,24 @@ export const Profile = () => {
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as Locale
 
   return (
-    <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data flexcol5">
-        <div className="auth__text flexcol5">
-          <div className="bold auth__text-margin">{profileHeaderMsg}</div>
-          <div>{profileLangMsg}</div>
-          <LocaleSwitcher
-            profilePage
-            onChange={() => setTempLocale(tempLocale === 'ru' ? 'ua' : 'ru')}
-            checked={tempLocale === 'ua'}
-          />
-          <div>{profileNameMsg}</div>
-        </div>
-        <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
-        <Button disabled={noChanges} onClick={handleSubmit}>
-          {noChanges ? buttonChangesMsg : buttonSaveMsg}
-        </Button>
-        <Button onClick={handleDiscard}>{buttonCancelMsg}</Button>
-      </div>
+    <div className="p-4 justify-center items-center flex flex-col gap-4 animate-fade-in-up" ref={containerRef}>
+      <span className="font-bold text-lg pb-8">{profileHeaderMsg}</span>
+      <span>{profileLangMsg}</span>
+
+      <Switch
+        checked={tempLocale === 'ua'}
+        onChange={() => setTempLocale((prev) => (prev === 'ru' ? 'ua' : 'ru'))}
+        locale
+      />
+
+      <span>{profileNameMsg}</span>
+      <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
+      <Button className="max-w-40" disabled={noChanges} onClick={handleSubmit}>
+        {noChanges ? buttonChangesMsg : buttonSaveMsg}
+      </Button>
+      <Button className="max-w-40" onClick={handleDiscard}>
+        {buttonCancelMsg}
+      </Button>
     </div>
   )
 }
