@@ -4,4 +4,4 @@
 
 Current version https://pack-contest.web.app/
 
-React, Typescript, Redux Toolkit, Redux Saga, Zod, Firebase
+React, Typescript, Redux Toolkit, Redux Saga, Zod, Tailwind, Firebase

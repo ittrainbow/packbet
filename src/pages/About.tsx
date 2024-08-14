@@ -55,38 +55,31 @@ export const About = () => {
   const copyright = ` ${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`
 
   return (
-    <div className="container animate-fade-in-up" ref={containerRef}>
-      <div className="title flexrow5">
-        <div className="title__name bold">{aboutTitleMsg}</div>
-      </div>
-      <div className="about-paragraph">{description[0]}</div>
+    <span className="p-3 text-md leading-5 flex flex-col gap-2 animate-fade-in-up" ref={containerRef}>
+      <span className="font-bold">{aboutTitleMsg}</span>
+
+      <span>{description[0]}</span>
       <Button onClick={handleOpen}>{buttonDetailsMsg}</Button>
       {open ? (
-        <div ref={aboutRef} className="animate-fade-in-up">
+        <>
           {description.map((el, index) => {
-            return (
-              <div key={index} className="about-paragraph">
-                {!index ? null : el}
-              </div>
-            )
+            return <span key={index}>{!index ? null : el}</span>
           })}
-          <div className="about-paragraph bold">
-            <div>{aboutLegendMsg}</div>
-          </div>
+          <span className="font-bold">{aboutLegendMsg}</span>
           {legend.map(({ icon, text }, index) => (
-            <div key={index} className="about-legend flexrow5">
-              <div className="about-icon">{icon}</div>
-              <div>{text}</div>
+            <div key={index} className="flex flex-wrap gap-1">
+              <span className="flex items-center">{icon}</span>
+              <span>{text}</span>
             </div>
           ))}
           <div className="about-paragraph">{last}</div>
-          <hr />
-          <div className="about-copyright">
+          <hr className="h-px bg-gray-200 border-0 dark:bg-gray-400" />
+          <div className="about-copyright text-gray-600">
             <a href="https://t.me/packersnews">Green 19</a>
             {copyright}
           </div>
-        </div>
+        </>
       ) : null}
-    </div>
+    </span>
   )
 }
