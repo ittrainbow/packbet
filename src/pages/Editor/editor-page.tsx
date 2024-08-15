@@ -1,5 +1,4 @@
-import { useEffect, useRef } from 'react'
-import { confirmAlert } from 'react-confirm-alert'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +10,7 @@ import { Locale, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
-import { Button } from '../../ui'
+import { Button, DeleteModal } from '../../ui'
 import { getWeeksEquality, getWeeksIDs } from '../../utils'
 
 export const EditorPage = () => {
@@ -22,17 +21,17 @@ export const EditorPage = () => {
   const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive, durationShort } = useSelector(selectApp)
   const { questions, name } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const triggerFade = useFade(containerRef)
 
   useEffect(() => {
-    const fromUserTabsToEmpty = !pathname.includes('editor') && tabActive === 6
-    const fromListToEmpty = pathname.includes('editor/') && tabActive !== 5
-    const conditions = tabActive < 5 || fromUserTabsToEmpty || fromListToEmpty
+    const conditions =
+      tabActive < 5 || (pathname === '/editor' && tabActive === 5) || (pathname.includes('/editor/') && tabActive === 6)
 
     conditions && triggerFade()
     // eslint-disable-next-line
@@ -41,15 +40,13 @@ export const EditorPage = () => {
   useEffect(() => {
     if (tabActive === 6) {
       dispatch(editorActions.clearQuestionInWork())
-      setTimeout(() => dispatch(editorActions.clearEditor()), duration)
+      setTimeout(() => dispatch(editorActions.clearEditor()), durationShort)
     }
     // eslint-disable-next-line
   }, [tabActive])
 
   const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
   const saveBtnDisabled = !changes || !name || !Object.keys(questions).length
-
-  // action handlers
 
   const handleSubmit = async () => {
     const id = selectedWeek
@@ -70,11 +67,7 @@ export const EditorPage = () => {
       dispatch(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
       navigate('/calendar')
     }
-
-    confirmAlert({
-      message: weekDeleteMsg,
-      buttons: [{ label: buttonDeleteYesMsg, onClick: async () => deleter() }, { label: buttonDeleteNoMsg }]
-    })
+    deleter()
   }
 
   const handleCancelEditor = () => {
@@ -83,38 +76,30 @@ export const EditorPage = () => {
     setTimeout(() => {
       dispatch(editorActions.clearEditor())
       navigate('/calendar')
-    }, duration)
+    }, durationShort)
   }
 
-  // render styles and locales
-
-  const { weekDeleteMsg, editorTitleMsg } = i18n(locale, 'editor') as Locale
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg, buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(
-    locale,
-    'buttons'
-  ) as Locale
+  const { editorTitleMsg } = i18n(locale, 'editor') as Locale
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons') as Locale
 
   return (
-    <div className="container animate-fade-in-up" ref={containerRef}>
-      <div className="title flexrow5">
-        <div className="title__name bold">{editorTitleMsg}</div>
-      </div>
+    <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
+      <span className="mb-2 flex font-bold grow items-center gap-1 ">{editorTitleMsg}</span>
       <EditorInputs questionsRef={questionsRef} />
 
-      <div ref={questionsRef}>
+      <div ref={questionsRef} className="flex flex-col gap-2">
         {Object.keys(questions).map((el) => (
           <EditorQuestion key={el} id={Number(el)} questionsRef={questionsRef} />
         ))}
-        <hr />
+        <hr className="h-px bg-gray-400 border-0" />
         <EditorActivities />
-        <div className="editor-form">
-          <Button disabled={saveBtnDisabled} onClick={handleSubmit}>
-            {buttonSaveMsg}
-          </Button>
-          <Button onClick={handleCancelEditor}>{buttonCancelMsg}</Button>
-          {pathname.includes('editor/') && <Button onClick={handleDeleteWeek}>{buttonDeleteWeekMsg}</Button>}
+        <div className="flex flex-col items-center gap-2">
+          <Button disabled={saveBtnDisabled} onClick={handleSubmit} text={buttonSaveMsg} />
+          <Button onClick={handleCancelEditor} text={buttonCancelMsg} />
+          {pathname.includes('editor/') && <Button onClick={() => setModalOpen(true)} text={buttonDeleteWeekMsg} />}
         </div>
       </div>
+      <DeleteModal modalOpen={modalOpen} setModalOpen={setModalOpen} onConfirm={handleDeleteWeek} />
     </div>
   )
 }

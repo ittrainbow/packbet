@@ -5,7 +5,6 @@ import { App } from '../../types'
 const initialState: App = {
   // season: new Date().getFullYear() - (new Date().getMonth() > 5 ? 0 : 1),
   season: 2023,
-  mobile: false,
   loading: true,
   editor: false,
   error: '',
@@ -18,7 +17,9 @@ const initialState: App = {
   selectedWeek: 0,
   tabActive: 1,
   emailReg: false,
-  duration: 150
+  duration: 200,
+  durationShort: 167,
+  fading: false
 }
 
 export const appSlice = createSlice({
@@ -29,8 +30,8 @@ export const appSlice = createSlice({
       state.loading = action.payload
     },
 
-    setMobile(state, action: PayloadAction<boolean>) {
-      state.mobile = action.payload
+    setFading(state, action: PayloadAction<boolean>) {
+      state.fading = action.payload
     },
 
     setEditor(state, action: PayloadAction<boolean>) {

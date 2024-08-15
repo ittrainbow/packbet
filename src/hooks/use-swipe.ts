@@ -6,22 +6,22 @@ import { useMenu } from '.'
 import { selectApp, selectEditor, selectUser } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 
-type SwipeHelper = {
+type Params = {
   moveX: number
   canSwipeLeft: boolean
   canSwipeRight: boolean
 }
 
-export const useSwipe = () => {
+export function useSwipe() {
   const menu = useMenu()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
+  const { tabActive, duration, durationShort, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const { questionInWork } = useSelector(selectEditor)
   const { ru, ua, total } = questionInWork
 
-  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: SwipeHelper) => {
+  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: Params) => {
     const container = document.querySelector('.container')
 
     if (moveX > 0 && canSwipeLeft) {
@@ -59,6 +59,7 @@ export const useSwipe = () => {
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
         if (canSwipe) {
+          dispatch(appActions.setTabActive(newTabActive))
           swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
           newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
 
@@ -66,7 +67,6 @@ export const useSwipe = () => {
             selectedWeek !== currentWeek &&
             setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
 
-          dispatch(appActions.setTabActive(newTabActive))
           setTimeout(() => {
             navigate(menu[newTabActive].path)
             newTabActive === 4 &&
@@ -74,7 +74,7 @@ export const useSwipe = () => {
               dispatch(appActions.setEditor(false)) &&
               dispatch(editorActions.clearEditor()) &&
               dispatch(toolsActions.setShowTools(false))
-          }, duration)
+          }, durationShort)
         }
       }
     }

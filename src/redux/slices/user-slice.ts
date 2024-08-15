@@ -43,7 +43,7 @@ export const userSlice = createSlice({
     },
 
     clearUser() {
-      return initialState
+      return { ...initialState, locale: localStorage.getItem('packContestLocale') === 'ru' ? 'ru' : 'ua' }
     }
   }
 })

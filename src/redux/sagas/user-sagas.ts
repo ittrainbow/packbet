@@ -41,27 +41,23 @@ function* userLoginSaga(
     emailReg: boolean
   }>
 ) {
-  const {
-    user
-    // emailReg
-  } = action.payload
-  const { uid, displayName } = user
+  const { uid, displayName } = action.payload.user
 
   try {
     const responseUser: User | undefined = yield call(getDBDocument, 'users', uid)
-    const user: User = responseUser || {
+    const user: User = responseUser ?? {
       name: displayName,
       admin: false,
-      locale: getLocale(),
+      locale: getLocale() ?? 'ru',
       buddies: [uid]
     }
+
+    localStorage.setItem('packContestLocale', user.locale)
 
     const fetchedAnswers: Answers = yield call(getDBDocument, 'answers', uid)
     const answers = fetchedAnswers ?? {}
     const results: Answers = yield select((store: Store) => store.results)
-
     const gotOnRegister: string = yield select((store) => store.user.name)
-
     const writeUserToStore = user.admin ? { ...user, adminAsPlayer: true } : user
 
     if (!gotOnRegister) {
@@ -86,6 +82,7 @@ function* submitResultsSaga(
 ) {
   const { results, selectedWeek, toaster } = action.payload
   const data = results[selectedWeek]
+
   yield put(appActions.setLoading(true))
 
   try {
@@ -95,10 +92,10 @@ function* submitResultsSaga(
       yield call(deleteDBDocument, 'results', selectedWeek.toString())
     }
 
-    yield put(resultsActions.setResults(results))
-
     const response: Answers = yield call(getDBDocument, 'results', selectedWeek)
     const saveSuccess: boolean = yield call(getObjectsEquality, response, results[selectedWeek])
+
+    yield put(resultsActions.setResults(results))
     yield put(compareActions.updateCompare({ data: results, id: 'results' }))
     yield call(fetchStandingsSaga)
     yield call(toaster, saveSuccess)

@@ -1,6 +1,6 @@
 {
   "name": "pack-contest",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -25,7 +25,6 @@
     "react-confirm-alert": "^3.0.6",
     "react-countdown": "^2.3.5",
     "react-country-flag": "^3.1.0",
-    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-icons": "^4.10.1",
@@ -36,8 +35,6 @@
     "redux": "^4.2.1",
     "redux-first-history": "^5.1.1",
     "redux-saga": "^1.2.3",
-    "sass": "^1.64.2",
-    "sass-loader": "^13.3.2",
     "tailwind": "^4.0.0",
     "typescript": "^5.1.6",
     "zod": "^3.23.8"

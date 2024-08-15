@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Locale, i18n } from '../../locale'
 import { selectEditor, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { ChangeInput } from '../../types'
 import { Input } from '../../ui'
 
 export const EditorActivities = () => {
@@ -12,13 +11,13 @@ export const EditorActivities = () => {
   const { active, deadline } = useSelector(selectEditor)
   const { locale } = useSelector(selectUser)
 
-  const handleChangeDate = (e: ChangeInput) => {
+  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const deadline = new Date(value).getTime()
     dispatch(editorActions.updateEditorDeadline(deadline))
   }
 
-  const handleChangeActivity = (e: ChangeInput) => {
+  const handleChangeActivity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target
     dispatch(editorActions.updateEditorWeekActivity(checked))
   }
@@ -28,13 +27,12 @@ export const EditorActivities = () => {
   const getDeadline = (deadline: number) => moment(deadline).format().substring(0, 16)
 
   return (
-    <div className="editor-activities-container flexrow5">
-      <div className="editor-datetime">
-        <Input type="datetime-local" value={getDeadline(deadline)} className={'timer'} onChange={handleChangeDate} />
-      </div>
-      <div className="editor-checkbox">
-        <div className="editor-checkbox__pad">{weekActivityMsg}</div>
-        <Input type="checkbox" checked={active} className={'editor-checkbox__box'} onChange={handleChangeActivity} />
+    <div className="flex flex-row gap-1">
+      <Input type="datetime-local" value={getDeadline(deadline)} className="pointer" onChange={handleChangeDate} />
+
+      <div className="flex gap-2 items-center min-w-28 px-2 border border-gray-400 rounded-md h-10">
+        <span className="flex items-center">{weekActivityMsg}</span>
+        <Input type="checkbox" checked={active} className="pointer h-[18px]" onChange={handleChangeActivity} />
       </div>
     </div>
   )

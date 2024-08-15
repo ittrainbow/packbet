@@ -1,16 +1,17 @@
-import { ChangeInput } from '../types'
+import clsx from 'clsx'
+import { LegacyRef } from 'react'
 
 type Props = {
   type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
-  onChange: (e: ChangeInput) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   sx?: { [key: string]: string }
   value?: string | undefined
   placeholder?: string
-  className?: string
   checked?: boolean
-  inputRef?: any
+  inputRef?: LegacyRef<HTMLInputElement>
   id?: string
   disabled?: boolean
+  className?: string
 }
 
 export const Input = ({
@@ -38,7 +39,7 @@ export const Input = ({
       autoComplete="off"
       id={id}
       disabled={disabled}
-      className={className}
+      className={clsx('flex items-center w-full h-10 font-sm p-2 border rounded-md border-gray-400', className)}
     />
   )
 }

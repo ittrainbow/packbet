@@ -6,13 +6,12 @@ import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { ChangeInput, FadeRef } from '../../types'
 import { Button, Input } from '../../ui'
 import { getNewQuestionId, getObjectsEquality } from '../../utils'
 
-export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
+export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) => {
   const dispatch = useDispatch()
-  const nameRef = useRef<HTMLInputElement>()
+  const nameRef = useRef<HTMLInputElement>(null)
   const { duration, tabActive } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const editor = useSelector(selectEditor)
@@ -22,8 +21,6 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
 
   const triggerFade = useFade(questionsRef)
 
-  // helpers
-
   useEffect(() => {
     pathname.includes('/editor/') && tabActive === 5 && nameRef.current?.focus()
     // eslint-disable-next-line
@@ -32,14 +29,12 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
   const questionButtonDisabled = getObjectsEquality(questionInWork, questionCompare)
   const totalBtnDisabled = !(!!ru.length && !!ua.length) || !total || questionButtonDisabled
 
-  // action handlers
-
-  const handleChangeName = (e: ChangeInput) => {
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     dispatch(editorActions.updateEditorName(value))
   }
 
-  const handleSetRu = (e: ChangeInput) => {
+  const handleSetRu = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const ru = value.substring(0, 120)
     const data = { ...questionInWork, ru }
@@ -47,7 +42,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
     dispatch(editorActions.setQuestionInWork(data))
   }
 
-  const handleSetUa = (e: ChangeInput) => {
+  const handleSetUa = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const ua = value.substring(0, 120)
     const data = { ...questionInWork, ua }
@@ -55,7 +50,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
     dispatch(editorActions.setQuestionInWork(data))
   }
 
-  const handleChangeTotal = (e: ChangeInput) => {
+  const handleChangeTotal = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     const data = { ...questionInWork, total: value }
 
@@ -71,24 +66,22 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: FadeRef }) => {
     }
   }
 
-  // render styles and locales
-
   const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg } = i18n(locale, 'editor') as Locale
 
   return (
     <div className="editor-input">
       <Input onChange={handleChangeName} inputRef={nameRef} placeholder={weekNameMsg} value={name} />
-      <div className="editor-form">
-        <div className="editor-form__inner flexrow5">
-          <Input onChange={handleSetRu} placeholder={weekQuestionRuMsg} value={ru} />
-          <Input onChange={handleChangeTotal} value={total} type="number" placeholder={weekTotalMsg} />
-        </div>
-        <div className="editor-form__inner flexrow5">
-          <Input onChange={handleSetUa} placeholder={weekQuestionUaMsg} value={ua} />
-          <Button className="editor-small" onClick={handleAddQuestion} disabled={totalBtnDisabled} minWidth={66}>
-            {id !== null ? <FaCheck /> : <FaPlus />}
-          </Button>
-        </div>
+      <div className="grid grid-cols-[1fr,5rem] gap-2 py-2">
+        <Input onChange={handleSetRu} placeholder={weekQuestionRuMsg} value={ru} />
+        <Input onChange={handleChangeTotal} value={total} type="number" placeholder={weekTotalMsg} className="!w-20" />
+        <Input onChange={handleSetUa} placeholder={weekQuestionUaMsg} value={ua} className="grow" />
+        <Button
+          className="w-20 flex items-center justify-center"
+          onClick={handleAddQuestion}
+          disabled={totalBtnDisabled}
+          minWidth={66}
+          icon={id !== null ? <FaCheck /> : <FaPlus />}
+        />
       </div>
     </div>
   )

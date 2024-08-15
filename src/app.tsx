@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { isMobile } from 'react-device-detect'
+
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import './styles/index.scss'
+import './index.css'
 
 import { initialRedirects } from './constants'
 import { auth } from './db'
@@ -23,7 +23,6 @@ export const App = () => {
   useSwipe()
 
   useEffect(() => {
-    dispatch(appActions.setMobile(isMobile))
     dispatch({ type: INIT_APP })
     navigate('/login')
     // eslint-disable-next-line

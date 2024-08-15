@@ -1,7 +1,9 @@
-import { InputBase, styled } from '@mui/material'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
+import { InputBase, InputLabel, MenuItem, styled } from '@mui/material'
+
 import NativeSelect, { SelectChangeEvent } from '@mui/material/Select'
+import { useSelector } from 'react-redux'
+import { i18n, Locale } from '../locale'
+import { selectUser } from '../redux/selectors'
 
 type Props = {
   options: string[] | number[]
@@ -11,13 +13,15 @@ type Props = {
 
 const StyledInput = styled(InputBase)(() => ({
   '& .MuiInputBase-input': {
-    fontSize: 16,
+    fontSize: 15,
     padding: '2px 6px',
-    '&:focus': {}
+    color: '#394150'
   }
 }))
 
 export const SelectInput = ({ options, onChange, value }: Props) => {
+  const { locale } = useSelector(selectUser)
+  const { tableChooseSeason } = i18n(locale, 'standings') as Locale
   const selectors = options.map((option: any) => {
     return {
       label: option.toString(),
@@ -27,7 +31,7 @@ export const SelectInput = ({ options, onChange, value }: Props) => {
 
   return (
     <div className="flex flex-wrap gap-1 h-9 items-center justify-center">
-      <InputLabel>Выберите сезон</InputLabel>
+      <InputLabel style={{ fontSize: 15, color: '#394150' }}>{tableChooseSeason}:</InputLabel>
       <NativeSelect
         defaultValue={value}
         value={value}

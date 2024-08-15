@@ -19,6 +19,7 @@ import {
   AnswersStoreSchema,
   FetchedStandingsSchema,
   ResultsSchema,
+  ResultsStoreSchema,
   UpdateStandingsSchema,
   Users,
   UserSchema,
@@ -56,6 +57,7 @@ export const writeDBDocument = async (collection: string, document: string | num
     : undefined
 
   schema?.parse(data)
+
   await setDoc(doc(db, collection, document.toString()), data)
 }
 
@@ -96,7 +98,7 @@ export const getDBCollection = async (link: string) => {
     : link.includes('weeks')
     ? WeeksSchema
     : link.includes('results')
-    ? ResultsSchema
+    ? ResultsStoreSchema
     : link.includes('answers')
     ? AnswersStoreSchema
     : link.includes('standings')

@@ -34,11 +34,9 @@ export const WeekPage = () => {
   useEffect(() => {
     const fromSeasonList = pathname.includes('week/') && tabActive !== 3
     const fromCurrentWeek = !pathname.includes('week/') && tabActive !== 2
-    if (fromSeasonList || fromCurrentWeek) triggerFade()
+    if (fromSeasonList || fromCurrentWeek) return triggerFade()
     // eslint-disable-next-line
   }, [tabActive, triggerFade])
-
-  // helpers
 
   const adm = admin && !adminAsPlayer
 
@@ -52,9 +50,7 @@ export const WeekPage = () => {
     }, 1000)
     return () => clearInterval(interval)
     // eslint-disable-next-line
-  }, [])
-
-  // action handlers
+  }, [outdated, deadline])
 
   const handleSubmit = async () => {
     const data = adm ? results : answers[uid]
@@ -77,21 +73,25 @@ export const WeekPage = () => {
     dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
   }
 
-  // render styles and locales
-
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as Locale
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as Locale
 
   return currentWeek > -1 ? (
-    <div className="p-4 text-sm animate-fade-in-up" ref={containerRef}>
-      <div className="title flexrow5">
-        <div className="text-lg font-bold">{name.split('.')[1]}</div>
+    <div className="p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
+      <div className="flex flex-row gap-1 items-center">
+        <span className="text-base font-bold grow">{name.split('.')[1]}</span>
         {admin && isItYou ? (
-          <Switch onChange={handleAdminAsPlayer} checked={adminAsPlayer} messageOff={adminMsg} messageOn={playerMsg} />
+          <Switch
+            onChange={handleAdminAsPlayer}
+            narrow
+            checked={adminAsPlayer}
+            messageOff={adminMsg}
+            messageOn={playerMsg}
+          />
         ) : null}
       </div>
       <OtherUser containerRef={containerRef} />
-      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
+
       <WeekCountdown />
       {questions &&
         Object.keys(questions)
@@ -105,15 +105,17 @@ export const WeekPage = () => {
             )
           })}
       {isItYou ? (
-        <div className="flexrow5">
-          <Button onClick={handleSubmit} disabled={!gotChanges} className="week-button">
-            {!gotChanges ? buttonChangesMsg : buttonSaveMsg}
-          </Button>
-          <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button">
-            {buttonCancelMsg}
-          </Button>
+        <div className="flex">
+          <Button
+            onClick={handleSubmit}
+            disabled={!gotChanges}
+            className="me-1"
+            text={!gotChanges ? buttonChangesMsg : buttonSaveMsg}
+          />
+          <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button" text={buttonCancelMsg} />
         </div>
       ) : null}
+      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
     </div>
   ) : null
 }

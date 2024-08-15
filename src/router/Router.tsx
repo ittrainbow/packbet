@@ -20,11 +20,11 @@ import { selectApp } from '../redux/selectors'
 import { history } from '../redux/store'
 import { Loader } from '../ui'
 
-type RouterProps = {
+type Props = {
   children?: ReactNode
 }
 
-export const Router = ({ children }: RouterProps) => {
+export const Router = ({ children }: Props) => {
   const { loading } = useSelector(selectApp)
 
   const routes = () => {

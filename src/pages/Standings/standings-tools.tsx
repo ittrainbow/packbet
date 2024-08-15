@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Locale, i18n } from '../../locale'
 import { selectTools, selectUser } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
-import { ChangeInput } from '../../types'
 import { Button, SelectInput, Switch } from '../../ui'
 
 export const StandingsTools = () => {
@@ -13,8 +12,6 @@ export const StandingsTools = () => {
   const { showOneWeek, showBuddies, standingsSearch, showTools, seasonSelected } = useSelector(selectTools)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
   const { locale } = useSelector(selectUser)
-
-  // action handlers
 
   const handleSwitchShowOneWeek = () => {
     const value = !showOneWeek
@@ -26,7 +23,7 @@ export const StandingsTools = () => {
     dispatch(toolsActions.clearSearch())
   }
 
-  const handleChangeSearch = (e: ChangeInput) => {
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     dispatch(toolsActions.setSearch(value))
   }
@@ -43,25 +40,26 @@ export const StandingsTools = () => {
     dispatch(toolsActions.setChangeSeason(typeof value === 'string' ? Number(value) : value))
   }
 
-  // render styles and locales
-
   const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
     i18n(locale, 'standings') as Locale
 
   const tools = (
-    <div className="grid border rounded-md p-1 mb-1 border-gray-400 gap-1">
-      <div className="justify-center items-center flex flex-row gap-1">
+    <div className="grid border rounded-md px-2 py-1 mb-1 border-gray-400 gap-1">
+      <div className="justify-center items-center flex flex-row gap-2">
         <Input
           onChange={handleChangeSearch}
           value={standingsSearch}
           type="text"
           placeholder={tableSearchMsg}
-          sx={{ width: '100%', height: '36px' }}
+          sx={{ width: '100%', height: '36px', fontSize: 15 }}
         />
         <div>
-          <Button onClick={handleClearSearch} disabled={!standingsSearch} className="h-[36px] px-1">
-            {tableClearBtn}
-          </Button>
+          <Button
+            onClick={handleClearSearch}
+            disabled={!standingsSearch}
+            className="h-[36px] px-1"
+            text={tableClearBtn}
+          />
         </div>
       </div>
       <Switch

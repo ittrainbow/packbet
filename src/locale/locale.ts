@@ -76,17 +76,22 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
       : 'Таблиця буде оновлена після внесення результатів чергового тижня. Виберіть гравця, щоб побачити його відповіді.'
   const tableClearBtn = locale === 'ru' ? 'Очистить' : 'Очистити'
   const tableSearchMsg = locale === 'ru' ? 'Найти игрока' : 'Знайти гравця'
-  const tableHeaderhMsg = locale === 'ru' ? 'По итогам игры ' : 'За пiдсумками гри '
+  const tableHeaderhMsg = locale === 'ru' ? 'По итогам игры' : 'За пiдсумками гри'
   const tableNoGamesMsg = locale === 'ru' ? 'Таблица' : 'Таблиця'
   const tableUpdate = locale === 'ru' ? 'Обновить таблицу' : 'Оновити таблицю'
   const tableUpdateSuccessMsg = locale === 'ru' ? 'Таблица обновлена' : 'Таблиця оновлена'
   const tableUpdateFailureMsg = locale === 'ru' ? 'Не удалось обновить таблицу' : 'Не вдалося оновити таблицю'
+  const tableChooseSeason = locale === 'ru' ? 'Выберите сезон' : 'Виберіть сезон'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
   const weekTotalMsg = locale === 'ru' ? 'Тотал' : 'Тотал'
-  const weekActivityMsg = locale === 'ru' ? 'Активность' : 'Активність'
-  const weekDeleteMsg = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
+  const weekActivityMsg = locale === 'ru' ? 'Активна' : 'Активна'
+  const weekDeleteTitle = locale === 'ru' ? 'Удалить неделю?' : 'Вдалити тиждень?'
+  const weekDeleteMsg =
+    locale === 'ru'
+      ? 'Текущая неделя будет удалена, вы хотите продолжить?'
+      : 'Поточний тиждень буде видалено, чи ви хочете продовжити?'
   const editorTitleMsg = locale === 'ru' ? 'Редактор' : 'Редактор'
   const weekQuestionRuMsg = locale === 'ru' ? 'Вопрос на русском' : 'Запитання росiйською'
   const weekQuestionUaMsg = locale === 'ru' ? 'Вопрос на украинском' : 'Запитання українською'
@@ -139,6 +144,7 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         weekQuestionMsg,
         weekTotalMsg,
         weekActivityMsg,
+        weekDeleteTitle,
         weekDeleteMsg,
         editorTitleMsg,
         weekQuestionRuMsg,
@@ -169,7 +175,8 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         tableLimitMsg,
         tableUpdate,
         tableUpdateSuccessMsg,
-        tableUpdateFailureMsg
+        tableUpdateFailureMsg,
+        tableChooseSeason
       }
 
     case 'ticks':

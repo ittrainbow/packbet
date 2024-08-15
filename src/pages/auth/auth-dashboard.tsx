@@ -13,7 +13,7 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive, durationShort } = useSelector(selectApp)
   const { name, admin, locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -22,8 +22,6 @@ export const Dashboard = () => {
   useEffect(() => {
     tabActive !== 1 && triggerFade()
   }, [tabActive, triggerFade])
-
-  // action handlers
 
   const handleLogout = () => {
     dispatch(userActions.clearUser())
@@ -35,25 +33,26 @@ export const Dashboard = () => {
 
   const handleNavigate = () => {
     triggerFade()
-    setTimeout(() => navigate('/profile'), duration)
+    setTimeout(() => navigate('/profile'), durationShort)
   }
-
-  // render styles and locales
 
   const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as Locale
   const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as Locale
 
   return (
-    <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data flexcol5">
-        <div className="auth__text flexcol5">
-          <div className="bold auth__text-margin">{dashboardEnterMsg}</div>
-          <div>{name ? name : '...loading'}</div>
-          <div>{user ? user.email : '...loading'}</div>
-          {admin ? <div>{dashboardAdminMsg}</div> : null}
+    <div
+      className="p-4 max-w-[32rem] flex flex-col gap-1 justify-center items-center animate-fade-in-up"
+      ref={containerRef}
+    >
+      <div className="w-56 pt-20 flex flex-col justify-center items-center gap-3">
+        <span className="font-bold">{dashboardEnterMsg}</span>
+        <span>{name ? name : '...loading'}</span>
+        <span>{user ? user.email : '...loading'}</span>
+        {admin ? <span>{dashboardAdminMsg}</span> : null}
+        <div className="flex w-full flex-col items-center gap-1">
+          <Button className="w-44" onClick={handleNavigate} text={buttonProfileMsg} />
+          <Button className="w-44" onClick={handleLogout} text={buttonLogoutMsg} />
         </div>
-        <Button onClick={handleNavigate}>{buttonProfileMsg}</Button>
-        <Button onClick={handleLogout}>{buttonLogoutMsg}</Button>
       </div>
     </div>
   )

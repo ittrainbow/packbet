@@ -6,21 +6,20 @@ export const AboutSchema = z.object({
 })
 export type About = z.infer<typeof AboutSchema>
 
-// export const ResultsSchema = z.record(z.string(), z.number())
-// export type Results = z.infer<typeof ResultsSchema>
+export const ResultsSchema = z.record(z.string(), z.number())
+export type ResultsUpload = z.infer<typeof ResultsSchema>
 
-export const ResultsSchema = z.record(z.string(), z.record(z.string(), z.number()))
-export type Results = z.infer<typeof ResultsSchema>
+export const ResultsStoreSchema = z.record(z.string(), ResultsSchema)
+export type ResultsStore = z.infer<typeof ResultsStoreSchema>
 
-export const AnswersSchema = ResultsSchema
+export const AnswersSchema = ResultsStoreSchema
 export type Answers = z.infer<typeof AnswersSchema>
 
-export const AnswersStoreSchema = z.record(z.string(), ResultsSchema)
+export const AnswersStoreSchema = z.record(z.string(), ResultsStoreSchema)
 export type AnswersStore = z.infer<typeof AnswersStoreSchema>
 
 export const AppSchema = z.object({
   season: z.number(),
-  mobile: z.boolean(),
   loading: z.boolean(),
   editor: z.boolean(),
   error: z.string(),
@@ -33,7 +32,9 @@ export const AppSchema = z.object({
   selectedWeek: z.number(),
   tabActive: z.number(),
   emailReg: z.boolean(),
-  duration: z.number()
+  duration: z.number(),
+  durationShort: z.number(),
+  fading: z.boolean()
 })
 export type App = z.infer<typeof AppSchema>
 
@@ -152,3 +153,8 @@ export const StoreSchema = z.object({
   tools: ToolsSchema
 })
 export type Store = z.infer<typeof StoreSchema>
+
+export type Action<T> = {
+  type: string
+  payload: T
+}

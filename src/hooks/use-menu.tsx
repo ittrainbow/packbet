@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { i18n, Locale } from '../locale'
 import { selectUser } from '../redux/selectors'
 
-export const useMenu = () => {
+export function useMenu() {
   const { locale, admin } = useSelector(selectUser)
   const { tab0msg, tab1msg, tab2msg, tab3msg, tab4msg, tab5msg, tab6msg } = i18n(locale, 'header') as Locale
 

@@ -15,7 +15,6 @@ import { Button, OtherUser } from '../../ui'
 
 export const StandingsPage = () => {
   const dispatch = useDispatch()
-  const results = useSelector((store: Store) => store.results)
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const { tabActive, duration } = useSelector(selectApp)
@@ -56,11 +55,11 @@ export const StandingsPage = () => {
   const { tableTierline, tableHeaderhMsg, tableNoGamesMsg, tableUpdate, tableUpdateSuccessMsg, tableUpdateFailureMsg } =
     i18n(locale, 'standings') as Locale
 
-  const getLastWeekName = () => {
-    const lastWeekNumber = Number(Object.keys(results).slice(-1)[0])
-    const lastWeekName = !isNaN(lastWeekNumber) && weeks[lastWeekNumber].name.split('.')[1]
-    return lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
-  }
+  const lastWeekName =
+    !isNaN(Number(Object.keys(weeks).slice(-1)[0])) &&
+    weeks[Number(Object.keys(weeks).slice(-1)[0])].name?.split('.')[1]
+
+  const lastWeekNameAdjusted = lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
 
   function handleUpdateStandings() {
     const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
@@ -74,9 +73,9 @@ export const StandingsPage = () => {
 
   return (
     <>
-      <div className="p-3 animate-fade-in-up" ref={containerRef}>
-        <div className="mb-3 flex flex-row gap-1 py-2">
-          <div className="flex font-bold grow items-center">{getLastWeekName()}</div>
+      <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
+        <div className="flex flex-row gap-1 pb-3 items-center">
+          <span className="flex font-bold grow items-center">{lastWeekNameAdjusted}</span>
           <BsGearFill
             onClick={handleSwitchTools}
             className={clsx('text-xl transition', showTools ? 'text-green-600' : 'text-gray-800')}
@@ -89,9 +88,9 @@ export const StandingsPage = () => {
             <StandingsHeader />
             {season &&
               Object.values(season).map((_, index) => <StandingsRow key={index} fade={containerFade} index={index} />)}
-            <div className="p-3 text-sm leading-4">{tableTierline}</div>
+            <span className="p-3 text-sm leading-4">{tableTierline}</span>
           </div>
-          {admin && <Button onClick={handleUpdateStandings} children={tableUpdate} />}
+          {admin && <Button onClick={handleUpdateStandings} text={tableUpdate} />}
         </div>
       </div>
       <StandingsArrows />

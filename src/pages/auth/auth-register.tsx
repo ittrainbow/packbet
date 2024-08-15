@@ -9,14 +9,14 @@ import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { appActions, userActions } from '../../redux/slices'
-import { ChangeInput, User } from '../../types'
-import { Button, LocaleSwitcher } from '../../ui'
+import { User } from '../../types'
+import { Button, Switch } from '../../ui'
 
 export const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive, durationShort } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
@@ -29,8 +29,6 @@ export const Register = () => {
   useEffect(() => {
     tabActive !== 1 && triggerFade()
   }, [tabActive, triggerFade])
-
-  // helpers
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -67,26 +65,22 @@ export const Register = () => {
     }
   }
 
-  // action handlers
-
-  const handleNameInput = (e: ChangeInput) => {
+  const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setName(value)
   }
 
-  const handleEmailInput = (e: ChangeInput) => {
+  const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
-  const handlePasswordInput = (e: ChangeInput) => {
+  const handlePasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setPassword(trimSpaces(value))
   }
 
   const handleGoogleClick = async () => await signInWithGoogle()
-
-  // render styles and locales
 
   const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as Locale
   const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
@@ -94,33 +88,28 @@ export const Register = () => {
 
   const handleToLogin = () => {
     triggerFade()
-    setTimeout(() => navigate('/reset'), duration)
+    setTimeout(() => navigate('/login'), durationShort)
   }
 
-  const handleLocaleChange = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    dispatch(userActions.setLocale(newLocale))
-  }
+  const handleLocaleChange = () => dispatch(userActions.setLocale(locale === 'ru' ? 'ua' : 'ru'))
 
   return (
-    <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data flexcol5">
+    <div
+      className="flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center animate-fade-in-up"
+      ref={containerRef}
+    >
+      <div className="w-56 pt-20 flex flex-col justify-center gap-3">
         <Input type="text" value={name} ref={inputRef} onChange={handleNameInput} placeholder={regNameMsg} />
         <Input type="email" value={email} onChange={handleEmailInput} placeholder={emailMsg} />
         <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
-        <Button className="login" onClick={register}>
-          {buttonRegisterMsg}
-        </Button>
-        <Button className="google" onClick={handleGoogleClick}>
-          {buttonRegisterGoogleMsg}
-        </Button>
-        <div className="link-container flexrow5" onClick={handleToLogin}>
-          {loginIntro} <div className="link-container__inner">{loginMsg}</div>
+        <Button className="bg-black bg-opacity-80 text-white" onClick={register} text={buttonRegisterMsg} />
+        <Button className="bg-blue-500 text-white" onClick={handleGoogleClick} text={buttonRegisterGoogleMsg} />
+        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
+          {loginIntro} <span className="pointer underline text-blue-600">{loginMsg}</span>
         </div>
       </div>
-      <div className="locale-div">
-        <LocaleSwitcher onChange={handleLocaleChange} />
-      </div>
+
+      <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />
     </div>
   )
 }

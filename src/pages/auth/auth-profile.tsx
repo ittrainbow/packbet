@@ -18,7 +18,7 @@ export const Profile = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { name, locale } = useSelector(selectUser)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive, durationShort } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
@@ -30,8 +30,6 @@ export const Profile = () => {
     tabActive !== 1 && triggerFade()
   }, [tabActive, triggerFade])
 
-  // helpers
-
   useEffect(() => {
     inputRef.current?.focus()
     setTempLocale(locale)
@@ -40,11 +38,10 @@ export const Profile = () => {
 
   const noChanges = name === tempName && locale === tempLocale
 
-  // action handlers
-
   const handleSubmit = async () => {
     const { uid } = user as User
     const payload = { uid, name: tempName, locale: tempLocale }
+    localStorage.setItem('packContestLocale', tempLocale)
 
     dispatch({ type: UPDATE_PROFILE, payload })
     dispatch(userActions.updateUser(payload))
@@ -56,33 +53,39 @@ export const Profile = () => {
     setTimeout(() => {
       locale !== tempLocale && dispatch(userActions.setLocale(tempLocale))
       navigate(-1)
-    }, duration)
+    }, durationShort)
   }
 
-  // render styles and locales
+  const handleChange = () => setTempLocale((prev) => (prev === 'ru' ? 'ua' : 'ru'))
 
   const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as Locale
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as Locale
 
   return (
-    <div className="p-4 justify-center items-center flex flex-col gap-4 animate-fade-in-up" ref={containerRef}>
-      <span className="font-bold text-lg pb-8">{profileHeaderMsg}</span>
-      <span>{profileLangMsg}</span>
-
-      <Switch
-        checked={tempLocale === 'ua'}
-        onChange={() => setTempLocale((prev) => (prev === 'ru' ? 'ua' : 'ru'))}
-        locale
-      />
-
-      <span>{profileNameMsg}</span>
-      <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
-      <Button className="max-w-40" disabled={noChanges} onClick={handleSubmit}>
-        {noChanges ? buttonChangesMsg : buttonSaveMsg}
-      </Button>
-      <Button className="max-w-40" onClick={handleDiscard}>
-        {buttonCancelMsg}
-      </Button>
+    <div
+      className="flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center animate-fade-in-up"
+      ref={containerRef}
+    >
+      <div className="w-56 pt-20 flex flex-col justify-center items-center gap-6">
+        <span className="font-bold text-md">{profileHeaderMsg}</span>
+        <div className="flex flex-col items-center gap-2">
+          <span>{profileLangMsg}</span>
+          <Switch locale checked={tempLocale === 'ua'} onChange={handleChange} />
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <span>{profileNameMsg}</span>
+          <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
+        </div>
+        <div className="flex w-full flex-col items-center gap-1">
+          <Button
+            className="w-44"
+            disabled={noChanges}
+            onClick={handleSubmit}
+            text={noChanges ? buttonChangesMsg : buttonSaveMsg}
+          />
+          <Button className="w-44" onClick={handleDiscard} text={buttonCancelMsg} />
+        </div>
+      </div>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Locale, i18n } from '../locale'
 import { selectUser } from '../redux/selectors'
 
-export const useDate = () => {
+export function useDate() {
   const { locale } = useSelector(selectUser)
 
   const { aug, sep, oct, nov, dec, jan, feb } = i18n(locale, 'month') as Locale

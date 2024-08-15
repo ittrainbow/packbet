@@ -9,14 +9,13 @@ import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
-import { ChangeInput } from '../../types'
-import { Button, LocaleSwitcher } from '../../ui'
+import { Button, Switch } from '../../ui'
 
 export const Reset = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive, durationShort } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
@@ -27,8 +26,6 @@ export const Reset = () => {
   useEffect(() => {
     tabActive !== 1 && triggerFade()
   }, [tabActive, triggerFade])
-
-  // helpers
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -42,50 +39,47 @@ export const Reset = () => {
     // eslint-disable-next-line
   }, [user, loading])
 
-  // action handlers
-
-  const handleEmailInput = (e: ChangeInput) => {
+  const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(trimSpaces(value))
   }
 
   const handleToRegister = () => {
     triggerFade()
-    setTimeout(() => navigate('/register'), duration)
+    setTimeout(() => navigate('/register'), durationShort)
   }
 
   const handleToLogin = () => {
     triggerFade()
-    setTimeout(() => navigate('/login'), duration)
+    setTimeout(() => navigate('/login'), durationShort)
   }
-
-  // render styles and locales
 
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as Locale
   const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as Locale
 
-  const handleLocaleChange = () => {
-    const newLocale = locale === 'ru' ? 'ua' : 'ru'
-    dispatch(userActions.setLocale(newLocale))
-  }
+  const handleLocaleChange = () => dispatch(userActions.setLocale(locale === 'ru' ? 'ua' : 'ru'))
 
   return (
-    <div className="container auth flexcol5 animate-fade-in-up" ref={containerRef}>
-      <div className="auth__data flexcol5">
+    <div
+      className="flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center animate-fade-in-up"
+      ref={containerRef}
+    >
+      <div className="w-56 pt-20 flex flex-col justify-center gap-1">
         <Input type="text" value={email} ref={inputRef} onChange={handleEmailInput} placeholder={'E-mail'} />
-        <Button className="login" onClick={() => sendPasswordReset(email)}>
-          {buttonRecoverMsg}
-        </Button>
-        <div className="link-container flexrow5" onClick={handleToRegister}>
-          {regIntro} <div className="link-container__inner">{regMsg}</div>
+        <Button
+          className="bg-black bg-opacity-80 text-white my-2"
+          onClick={() => sendPasswordReset(email)}
+          text={buttonRecoverMsg}
+        />
+        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
+          {regIntro} <span className="pointer underline text-blue-600">{regMsg}</span>
         </div>
-        <div className="link-container flexrow5" onClick={handleToLogin}>
-          {loginIntro} <div className="link-container__inner">{loginMsg}</div>
+        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
+          {loginIntro} <span className="pointer underline text-blue-600">{loginMsg}</span>
         </div>
       </div>
-      <div className="locale-div">
-        <LocaleSwitcher onChange={handleLocaleChange} />
-      </div>
+
+      <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />
     </div>
   )
 }

@@ -12,7 +12,7 @@ import { OtherUser } from '../ui'
 export const WeekList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { editor, isItYou, tabActive, duration } = useSelector(selectApp)
+  const { editor, isItYou, tabActive, durationShort } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
@@ -23,11 +23,9 @@ export const WeekList = () => {
   useEffect(() => {
     const fromSeasonList = pathname.includes('season') && tabActive !== 3
     const fromEditorList = pathname.includes('calendar') && tabActive !== 5
-    if (fromSeasonList || fromEditorList) triggerFade()
+    if (fromSeasonList || fromEditorList) return triggerFade()
     // eslint-disable-next-line
   }, [tabActive])
-
-  // action handlers
 
   const handleClick = (selectedWeek: number) => {
     triggerFade()
@@ -36,10 +34,8 @@ export const WeekList = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
       navigate(`/editor/${selectedWeek}`)
     }
-    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), duration)
+    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), durationShort)
   }
-
-  // locale render and classes
 
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
   const { weekListMsg, weekListEditorMsg } = i18n(locale, 'weeklist') as Locale
@@ -47,13 +43,13 @@ export const WeekList = () => {
   const getDate = useDate()
 
   return (
-    <div className="p-3 grid gap-2 animate-fade-in-up" ref={containerRef}>
+    <div className="p-4 max-w-[32rem] grid gap-2 animate-fade-in-up" ref={containerRef}>
       <span className="flex flex-row gap-1 font-bold">
         {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
       </span>
 
       {showOtherUserBar && <OtherUser containerRef={containerRef} />}
-      <div className="grid gap-0.5">
+      <div className="grid gap-1">
         {Object.keys(weeks)
           .map((el) => Number(el))
           .filter((el) => weeks[el].active || editor || admin)
@@ -66,27 +62,25 @@ export const WeekList = () => {
             const text = (adjustedTab2msg + ' ' + name).split('.')
             const date = getDate(deadline).split(' ')
             return (
-              <>
-                <div
-                  key={selectedWeek}
-                  className={clsx(
-                    'px-3 py-1 grid grid-cols-[2.5fr,1fr] gap-1 border border-gray-400 rounded-md',
-                    new Date().getTime() < deadline ? 'animate-bg-pulse' : 'bg-gray-200'
-                  )}
-                  onClick={() => handleClick(selectedWeek)}
-                >
-                  <div className="grid grid-cols-1 gap-0 relative">
-                    <span className="text-xs text-gray-600 leading-4">{text[0]}</span>
-                    <span className="text-md">{text[1]}</span>
-                  </div>
-                  <div className="text-xs relative grid grid-cols-1 gap-0 text-gray-600 leading-4">
-                    <span>
-                      {date[0]} {date[1]}
-                    </span>
-                    <span>{date[2]}</span>
-                  </div>
+              <div
+                key={selectedWeek}
+                className={clsx(
+                  'px-3 py-1 grid grid-cols-[2.5fr,1fr] bg-gray-200 gap-1 border border-gray-400 rounded-md',
+                  new Date().getTime() < deadline && 'animate-bg-pulse'
+                )}
+                onClick={() => handleClick(selectedWeek)}
+              >
+                <div className="grid grid-cols-1 gap-0 relative">
+                  <span className="text-xs text-gray-600 leading-4">{text[0]}</span>
+                  <span className="text-md">{text[1]}</span>
                 </div>
-              </>
+                <div className="text-xs relative grid grid-cols-1 gap-0 text-gray-600 leading-4">
+                  <span className="ms-auto">
+                    {date[0]} {date[1]}
+                  </span>
+                  <span className="ms-auto">{date[2]}</span>
+                </div>
+              </div>
             )
           })}
       </div>

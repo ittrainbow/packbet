@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 
 import { selectResults, selectStandings, selectTools } from '../redux/selectors'
 
-export const useTableRow = (index: number) => {
+export function useTableRow(index: number) {
   const { showOneWeek } = useSelector(selectTools)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)

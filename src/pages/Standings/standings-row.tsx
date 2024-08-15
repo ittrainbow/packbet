@@ -48,18 +48,18 @@ export const StandingsRow = ({ fade, index }: Props) => {
         'gap-0.5 grid  min-h-[1.875rem]',
         showOneWeek
           ? 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3rem]'
-          : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3rem,3rem]',
+          : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]',
         uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
       )}
     >
       {/* position */}
-      <div className="flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400">
+      <div className="flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400">
         {position}
       </div>
       {/* buddy */}
       <div
         className={clsx(
-          'flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400',
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
           buddies?.includes(uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
           seasonSelected !== 2022 && 'pointer'
         )}
@@ -70,7 +70,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       {/* name */}
       <div
         className={clsx(
-          'flex items-center text-sm justify-start leading-4 rounded-md py-0 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
+          'flex items-center text-sm sm:text-base justify-start leading-4 rounded-md py-0 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
           seasonSelected !== 2022 && 'pointer'
         )}
         onClick={() => uid && handleClickOnUser(name, uid)}
@@ -81,7 +81,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       {/* answers */}
       <div
         className={clsx(
-          'flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
           seasonSelected !== 2022 && 'pointer'
         )}
       >
@@ -90,7 +90,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       {/* percentage */}
       <div
         className={clsx(
-          'flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
           seasonSelected !== 2022 && 'pointer'
         )}
       >
@@ -100,7 +100,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       {showOneWeek ? null : (
         <div
           className={clsx(
-            'flex items-center text-sm justify-center rounded-md px-1 py-0 border border-gray-400',
+            'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
             seasonSelected !== 2022 && 'pointer'
           )}
         >

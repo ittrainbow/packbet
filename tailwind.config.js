@@ -4,29 +4,61 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        fadeUp: {
-          '0%': { opacity: 0.1, transform: 'translate(0px, 25px)' },
-          '100%': { opacity: 1, transform: 'translate(0px, 0px)' }
+        fadeInUp: {
+          '0%': { opacity: 0, transform: 'translateY(3px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' }
         },
-        fadeDown: {
-          '0%': { opacity: 1 },
-          '100%': { opacity: 0.1 }
+        fadeOutDown: {
+          '0%': { opacity: 1, transform: 'translateY(0)' },
+          '100%': { opacity: 0, transform: 'translateY(3px)' }
         },
-        fadeIn: {
-          '0%': { opacity: 0.1 },
-          '100%': { opacity: 1 }
+        fadeOutRight: {
+          '0%': { opacity: 1, transform: 'translateX(0)' },
+          '100%': { opacity: 0, transform: 'translateX(30px)' }
+        },
+        fadeOutLeft: {
+          '0%': { opacity: 1, transform: 'translateX(0)' },
+          '100%': { opacity: 0, transform: 'translateX(-30px)' }
         },
         bgPulse: {
           '0%': { backgroundColor: '#e5e5e5', backgroundOpacity: 1 },
           '50%': { backgroundColor: '#ffffff', backgroundOpacity: 0.75 },
           '100%': { backgroundColor: '#e5e5e5', backgroundOpacity: 1 }
+        },
+        rotateOne: {
+          '0%': {
+            transform: 'rotateX(35deg) rotateY(-45deg) rotateZ(0deg)'
+          },
+          '100%': {
+            transform: 'rotateX(35deg) rotateY(-45deg) rotateZ(360deg)'
+          }
+        },
+        rotateTwo: {
+          '0%': {
+            transform: 'rotateX(50deg) rotateY(10deg) rotateZ(0deg)'
+          },
+          '100%': {
+            transform: 'rotateX(50deg) rotateY(10deg) rotateZ(360deg)'
+          }
+        },
+        rotateThree: {
+          '0%': {
+            transform: 'rotateX(35deg) rotateY(55deg) rotateZ(0deg)'
+          },
+          '100%': {
+            transform: 'rotateX(35deg) rotateY(55deg) rotateZ(360deg)'
+          }
         }
       },
       animation: {
-        'fade-up': 'fadeUp .7s ease-in-out',
-        'fade-down': 'fadeDown .4s ease-in-out',
-        'fade-in': 'fadeIn .7s ease-in-out',
-        'bg-pulse': 'bgPulse 3s ease-in-out infinite'
+        'fade-in-up': 'fadeInUp .2s ease-in-out',
+        'fade-out-down': 'fadeOutDown .2s ease-in-out',
+        'fade-out-right': 'fadeOutRight .2s ease-in-out',
+        'fade-out-left': 'fadeOutLeft .2s ease-in-out',
+        'bg-pulse': 'bgPulse 3s ease-in-out infinite',
+        'rotate-one': 'rotateOne 1s linear infinite',
+        'rotate-two': 'rotateTwo 1s linear infinite',
+        'rotate-three': 'rotateThree 1s linear infinite'
       }
     }
   },

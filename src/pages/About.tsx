@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
+import clsx from 'clsx'
 import { useFade } from '../hooks'
 import { Locale, i18n } from '../locale'
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
@@ -21,8 +22,6 @@ export const About = () => {
     tabActive !== 0 && triggerFade()
   }, [tabActive, triggerFade])
 
-  // action handlers
-
   const handleOpen = () => {
     const list = aboutRef.current?.classList
     if (!open) {
@@ -33,8 +32,6 @@ export const About = () => {
     list?.add('animate-fade-out-down')
     setTimeout(() => setOpen(!open), duration)
   }
-
-  // render styles and locales
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as Locale
   const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg } = i18n(
@@ -52,14 +49,14 @@ export const About = () => {
   const description = Object.values(about[locale])
   const last = description.pop()
 
-  const copyright = ` ${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`
-
   return (
-    <span className="p-4 text-md leading-5 flex flex-col gap-2 animate-fade-in-up" ref={containerRef}>
-      <span className="font-bold !text-lg">{aboutTitleMsg}</span>
-
+    <div
+      className="p-4 leading-5 h-[calc(100vh-4.5rem)] sm:h-[calc(100vh-6rem)] grid grid-rows-[auto,auto,auto,1fr] gap-2 animate-fade-in-up max-w-[32rem]"
+      ref={containerRef}
+    >
+      <span className="font-bold text-base">{aboutTitleMsg}</span>
       <span>{description[0]}</span>
-      <Button onClick={handleOpen}>{buttonDetailsMsg}</Button>
+      <Button onClick={handleOpen} text={buttonDetailsMsg} className="min-h-10" />
       {open ? (
         <>
           {description.map((el, index) => {
@@ -73,13 +70,14 @@ export const About = () => {
             </div>
           ))}
           <span>{last}</span>
-          <hr className="h-px bg-gray-200 border-0 dark:bg-gray-400" />
-          <div className="about-copyright text-gray-600">
-            <a href="https://t.me/packersnews">Green 19</a>
-            {copyright}
-          </div>
+          <hr className="h-px border-0 bg-gray-400" />
         </>
       ) : null}
-    </span>
+      <div className={clsx('flex justify-center items-end pt-2 text-gray-600', open ? 'pb-4' : 'pb-0')}>
+        <a href="https://t.me/packersnews">
+          Green 19 {`${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`}
+        </a>
+      </div>
+    </div>
   )
 }

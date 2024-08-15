@@ -9,7 +9,7 @@ import { appActions, editorActions, toolsActions } from '../redux/slices'
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
+  const { tabActive, nextWeek, currentWeek, editor, durationShort } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
 
   const animateBackToWeeklist = () => {
@@ -18,10 +18,10 @@ export const Header = () => {
     backToWeeklist && container?.classList.add('animate-fade-out-down')
   }
 
-  // action handlers
-
   const handleClick = (id: number, path: string) => {
-    id !== tabActive && dispatch(appActions.setTabActive(id))
+    if (id === tabActive) return
+
+    dispatch(appActions.setTabActive(id))
 
     if (id === 3 || id === 5) animateBackToWeeklist()
 
@@ -34,31 +34,29 @@ export const Header = () => {
       id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
 
       navigate(path)
-    }, duration)
+    }, durationShort)
   }
-
-  // render styles and locales
 
   const menu = useMenu()
 
   return (
-    <div className="bg-black h-[4.5rem] sm:h-[5.75rem] px-4 py-1 justify-between">
-      <div className="flex flex-wrap max-w-[30rem]">
+    <div className="bg-black h-[4.5rem] sm:h-[6rem] p-2 justify-between">
+      <div className="flex flex-wrap max-w-[31rem]">
         {menu.map((el) => {
           const { id, path, icon, name } = el
           return (
             <div
               key={id}
               className={clsx(
-                'grow flex flex-col justify-center items-center transition-all w-8 sm:w-16',
-                id === tabActive ? 'text-green-600' : 'text-white'
+                'grow flex flex-col justify-center cursor-pointer items-center transition-all gap-1 w-8 sm:w-16',
+                id === tabActive ? 'text-green-600' : 'text-gray-200'
               )}
               onClick={() => handleClick(id, path)}
             >
-              <div className={clsx('pt-3 text-[2.5rem] sm:text-[3rem]')}>{icon}</div>
+              <div className={clsx('pt-[5px] sm:pt-1.5 text-[2.75rem] sm:text-[3rem]')}>{icon}</div>
               <div
                 className={clsx(
-                  'invisible sm:visible text-sm transition-all',
+                  'hidden sm:flex text-sm transition-all',
                   id === tabActive ? 'text-green-600' : 'text-white'
                 )}
               >

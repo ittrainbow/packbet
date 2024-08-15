@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFade } from '../../hooks'
 import { selectApp, selectEditor, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { FadeRef } from '../../types'
 
-type Props = { id: number; questionsRef: FadeRef }
+type Props = { id: number; questionsRef: React.RefObject<HTMLDivElement> }
 
 export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const dispatch = useDispatch()
@@ -16,8 +15,6 @@ export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const { ru, ua, total } = questions[id]
 
   const triggerFade = useFade(questionsRef)
-
-  // action handlers
 
   const handleEditQuestion = (id: number) => {
     const question = { ru, ua, total, id }
@@ -36,17 +33,26 @@ export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const questionText = locale === 'ru' ? ru : ua
 
   return (
-    <div className="editor-question flexrow5">
-      <div className="editor-question__desc">
+    <div className="flex flex-row gap-1 items-center p-1.5 rounded-md border border-gray-400">
+      <div className="flex items-center grow text-sm leading-4">
         {questionText}: {total}
       </div>
-      <div className="flexrow5">
+      <div className="flex flex-row gap-1 ">
         {id === questionInWork.id ? (
-          <FaBan className="editor-question__edit editor-btn__green faBan" onClick={handleClearQuestion} />
+          <FaBan
+            className="p-1 pointer text-gray-700 border rounded-md border-gray-300 hover:text-green-700 active:text-green-800"
+            onClick={handleClearQuestion}
+          />
         ) : (
-          <FaEdit className="editor-question__edit editor-btn__green" onClick={() => handleEditQuestion(id)} />
+          <FaEdit
+            className="p-0.5 text-[24px] text-gray-700 pointer hover:text-green-700 active:text-green-800"
+            onClick={() => handleEditQuestion(id)}
+          />
         )}
-        <FaTrashAlt className="editor-question__trash editor-btn__red" onClick={() => handleDeleteQuestion(id)} />
+        <FaTrashAlt
+          className="p-0.5 text-[24px] text-gray-700 pointer hover:text-red-700 active:text-red-800"
+          onClick={() => handleDeleteQuestion(id)}
+        />
       </div>
     </div>
   )

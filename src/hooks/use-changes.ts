@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { selectAnswers, selectCompare, selectResults, selectUser } from '../redux/selectors'
 import { getObjectsEquality } from '../utils'
 
-export const useChanges = () => {
+export function useChanges() {
   const { uid, admin, adminAsPlayer } = useSelector(selectUser)
   const [gotChanges, setGotChanges] = useState(false)
   const results = useSelector(selectResults)
