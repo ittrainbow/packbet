@@ -11,21 +11,21 @@ type Props = {
 
 export const OtherUser = ({ containerRef }: Props) => {
   const dispatch = useDispatch()
-  const { otherUserName, isItYou, duration } = useSelector(selectApp)
+  const { otherUserName, isItYou, durationShort } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
   const triggerFade = useFade(containerRef)
 
   const handleDiscard = () => {
     triggerFade()
-    setTimeout(() => dispatch(appActions.clearOtherUser()), duration)
+    setTimeout(() => dispatch(appActions.clearOtherUser()), durationShort)
   }
 
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as Locale
 
   return isItYou ? null : (
     <button
-      className="border leading-4 mb-1.5 border-gray-400 rounded-md bg-gray-200 p-1 flex flex-col gap-1 items-center"
+      className="border leading-4 mb-1.5 border-gray-400 rounded-md bg-gray-200 p-2 flex flex-col gap-1 items-center"
       onClick={handleDiscard}
     >
       <span className="px-0.5 leading-4 text-sm">{otherUser1msg}</span>

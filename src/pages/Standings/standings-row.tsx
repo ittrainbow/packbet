@@ -17,7 +17,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { showBuddies, standingsSearch, showOneWeek, seasonSelected } = useSelector(selectTools)
-  const { duration } = useSelector(selectApp)
+  const { durationShort } = useSelector(selectApp)
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
   const { admin, buddies } = user
@@ -32,7 +32,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
         admin && dispatch(userActions.setAdminAsPlayer(true))
         !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
         navigate('/week')
-      }, duration)
+      }, durationShort)
     }
   }
 
@@ -40,78 +40,78 @@ export const StandingsRow = ({ fade, index }: Props) => {
     !!user.name.length && dispatch({ type: SET_BUDDIES, payload: { buddyUid: uid, buddies } })
   }
 
-  const { name, userAnswers, correctAdjusted, position, uid, tableFaults } = useTableRow(index)
+  const getRow = useTableRow(index)
 
   const row = (
     <div
       className={clsx(
         'gap-0.5 grid  min-h-[1.875rem]',
-        showOneWeek
-          ? 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3rem]'
+        seasonSelected === 2022
+          ? 'grid-cols-[1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,1fr,4rem,3.5rem,3.5rem]'
           : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]',
-        uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
+        getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
       )}
     >
-      {/* position */}
       <div className="flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400">
-        {position}
+        {getRow?.position}
       </div>
-      {/* buddy */}
-      <div
-        className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
-          buddies?.includes(uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
-          seasonSelected !== 2022 && 'pointer'
-        )}
-        onClick={() => seasonSelected !== 2022 && uid && handleAddRemoveBuddy(uid)}
-      >
-        <FaStar />
-      </div>
-      {/* name */}
-      <div
-        className={clsx(
-          'flex items-center text-sm sm:text-base justify-start leading-4 rounded-md py-0 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
-          seasonSelected !== 2022 && 'pointer'
-        )}
-        onClick={() => uid && handleClickOnUser(name, uid)}
-        style={{ fontWeight: user.uid === uid ? 600 : '' }}
-      >
-        {name}
-      </div>
-      {/* answers */}
-      <div
-        className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
-          seasonSelected !== 2022 && 'pointer'
-        )}
-      >
-        {userAnswers}
-      </div>
-      {/* percentage */}
-      <div
-        className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
-          seasonSelected !== 2022 && 'pointer'
-        )}
-      >
-        {correctAdjusted}
-      </div>
-      {/* limit */}
-      {showOneWeek ? null : (
+
+      {seasonSelected !== 2022 && (
         <div
           className={clsx(
             'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+            buddies?.includes(getRow?.uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
             seasonSelected !== 2022 && 'pointer'
           )}
+          onClick={() => seasonSelected !== 2022 && getRow?.uid && handleAddRemoveBuddy(getRow?.uid)}
         >
-          {tableFaults}
+          <FaStar />
         </div>
       )}
+
+      <div
+        className={clsx(
+          'flex items-center text-sm sm:text-base justify-start leading-4 rounded-md py-0 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
+          seasonSelected !== 2022 && 'cursor-pointer'
+        )}
+        onClick={() => seasonSelected !== 2022 && getRow?.uid && handleClickOnUser(getRow?.name, getRow?.uid)}
+        style={{ fontWeight: user.uid === getRow?.uid ? 600 : '' }}
+      >
+        {getRow?.name}
+      </div>
+
+      <div
+        className={clsx(
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          seasonSelected !== 2022 && 'pointer'
+        )}
+      >
+        {getRow?.userAnswers}
+      </div>
+
+      <div
+        className={clsx(
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          seasonSelected !== 2022 && 'pointer'
+        )}
+      >
+        {getRow?.correctAdjusted}
+      </div>
+
+      <div
+        className={clsx(
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+          seasonSelected !== 2022 && 'pointer'
+        )}
+      >
+        {seasonSelected === 2022 ? getRow.adjustedPercentage : showOneWeek ? '-' : getRow?.tableFaults}
+      </div>
     </div>
   )
 
   const returnEmpty =
-    !name.toLowerCase().includes(standingsSearch.toLowerCase()) || (showBuddies && !buddies?.includes(uid ?? ''))
+    !getRow?.name.toLowerCase().includes(standingsSearch.toLowerCase()) ||
+    (showBuddies && !buddies?.includes(getRow?.uid ?? ''))
 
   return returnEmpty ? null : row
 }

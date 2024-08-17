@@ -11,7 +11,7 @@ import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { Store } from '../../types'
-import { Button, OtherUser } from '../../ui'
+import { Button, OldStandings, OtherUser } from '../../ui'
 
 export const StandingsPage = () => {
   const dispatch = useDispatch()
@@ -52,8 +52,15 @@ export const StandingsPage = () => {
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
-  const { tableTierline, tableHeaderhMsg, tableNoGamesMsg, tableUpdate, tableUpdateSuccessMsg, tableUpdateFailureMsg } =
-    i18n(locale, 'standings') as Locale
+  const {
+    tableTierline,
+    tableHeaderhMsg,
+    tableNoGamesMsg,
+    tableUpdate,
+    tableUpdateSuccessMsg,
+    tableUpdateFailureMsg,
+    tableSeason
+  } = i18n(locale, 'standings') as Locale
 
   const lastWeekName =
     !isNaN(Number(Object.keys(weeks).slice(-1)[0])) &&
@@ -75,7 +82,9 @@ export const StandingsPage = () => {
     <>
       <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
         <div className="flex flex-row gap-1 pb-3 items-center">
-          <span className="flex font-bold grow items-center">{lastWeekNameAdjusted}</span>
+          <span className="flex font-bold grow items-center">
+            {seasonSelected !== 2024 ? `${tableSeason} ${seasonSelected}` : lastWeekNameAdjusted}
+          </span>
           <BsGearFill
             onClick={handleSwitchTools}
             className={clsx('text-xl transition', showTools ? 'text-green-600' : 'text-gray-800')}
@@ -84,7 +93,7 @@ export const StandingsPage = () => {
         <div ref={bodyRef}>
           <StandingsTools />
           <div className="grid gap-0.5" ref={tableRef}>
-            <OtherUser containerRef={containerRef} />
+            {seasonSelected === 2022 ? <OldStandings /> : <OtherUser containerRef={containerRef} />}
             <StandingsHeader />
             {season &&
               Object.values(season).map((_, index) => <StandingsRow key={index} fade={containerFade} index={index} />)}

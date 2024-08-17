@@ -89,8 +89,12 @@ export const WeekQuestion = ({ id, result }: Props) => {
       outdated &&
       res &&
       ans &&
-      styles.push(res === ans ? '!border-green-600 !border-l-[5px]' : '!border-red-600 !border-l-[5px]')
-    allowedStyles && !adm && week && week[id] > 0 && styles.push('!border-l-[5px]')
+      styles.push(
+        res === ans
+          ? '!border-green-600 !border-l-4 transition-transform duration-1000'
+          : '!border-red-600 !border-l-4 transition-transform duration-1000'
+      )
+    allowedStyles && !adm && week && week[id] > 0 && styles.push('!border-l-4 transition-transform duration-1000')
 
     return styles.join(' ')
   }
@@ -100,7 +104,7 @@ export const WeekQuestion = ({ id, result }: Props) => {
   return (
     <div
       className={clsx(
-        'items-center ps-2 pe-1.5 border border-gray-400 rounded-md bg-gray-200 mb-1 transition h-11 flex flex-row gap-1',
+        'items-center ps-2 pe-1.5 border border-gray-400 rounded-md bg-gray-200 mb-1 transition duration-500 h-11 flex flex-row gap-1',
         getQuestionClass(id)
       )}
     >

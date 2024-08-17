@@ -173,6 +173,9 @@ export function* updateStandingsSaga(
     const season2023 = Object.assign({}, seasonArray)
     const week2023 = Object.assign({}, weekArray)
 
+    // const oldData = Object.fromEntries(oldStandings.map((el, index) => [index, el]))
+    // yield call(writeDBDocument, 'standings', `season2022`, oldData)
+
     yield call(writeDBDocument, 'standings', `season${app.season}`, season2023)
     yield call(writeDBDocument, 'standings', `week${app.season}`, week2023)
     yield call(setStandingsSaga, { ...standings, season2023, week2023 })

@@ -82,6 +82,21 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const tableUpdateSuccessMsg = locale === 'ru' ? 'Таблица обновлена' : 'Таблиця оновлена'
   const tableUpdateFailureMsg = locale === 'ru' ? 'Не удалось обновить таблицу' : 'Не вдалося оновити таблицю'
   const tableChooseSeason = locale === 'ru' ? 'Выберите сезон' : 'Виберіть сезон'
+  const tableSeason = locale === 'ru' ? 'По итогам сезона' : 'За пiдсумками сезону'
+  const tableOldStandings1 =
+    locale === 'ru'
+      ? 'В сезоне 2022 правила были иными, требовалось ответить как минимум на 90% вопросов'
+      : 'У сезоні 2022 року правила були іншими, потрібно було відповісти як мінімум на 90% питань'
+  const tableOldStandings2 =
+    locale === 'ru'
+      ? 'Игроки, ответившие на меньшее количество вопросов, выбывали из конкурса и отправлялись в нижнюю часть таблицы, там они отсортированы по количеству точных овтетов без учета их количества'
+      : 'Гравці, які відповіли на меншу кількість питань, вибували з конкурсу та вирушали до нижньої частини таблиці, там вони відсортовані за кількістю точних відповідей без урахування їх кількості'
+  const tableOldStandings3 =
+    locale === 'ru' ? 'Они не принимали участия в борьбе за победу' : 'Вони не брали участі у боротьбі за перемогу'
+  const tableOldStandings4 =
+    locale === 'ru'
+      ? 'Последняя графа таблицы показывает процент данных игроком ответов'
+      : 'Остання графа таблиці показує відсоток даних гравцем відповідей'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -176,7 +191,12 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         tableUpdate,
         tableUpdateSuccessMsg,
         tableUpdateFailureMsg,
-        tableChooseSeason
+        tableChooseSeason,
+        tableOldStandings1,
+        tableOldStandings2,
+        tableOldStandings3,
+        tableOldStandings4,
+        tableSeason
       }
 
     case 'ticks':
