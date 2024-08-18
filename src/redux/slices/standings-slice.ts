@@ -4,7 +4,7 @@ import { Standings } from '../../types'
 
 const initialState: Standings = {
   season2022: [],
-  week2022: [],
+  // week2022: [],
   week2023: [],
   season2023: [],
   week2024: [],

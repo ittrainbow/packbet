@@ -54,7 +54,7 @@ export const Switch = ({
         />
         <span
           className={clsx(
-            'cursor-pointer before:w-[26px] before:-translate-x-0.5 before:border before:bg-gray-400 before:bg-opacity-90 before:border-gray-400 before:transition before:left-1 before:bottom-[2px] before:h-[26px] before:absolute absolute pointer transition-all top-0 bottom-0 rounded-full before:rounded-full',
+            'cursor-pointer before:w-[26px] before:-translate-x-0.5 before:border before:bg-gray-400 before:bg-opacity-90 before:border-gray-400 before:transition before:left-1 before:bottom-[2px] before:h-[26px] before:absolute absolute transition-all top-0 bottom-0 rounded-full before:rounded-full',
             checked && 'translate-x-6'
           )}
         />

@@ -12,7 +12,7 @@ import { OtherUser } from '../ui'
 export const WeekList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { editor, isItYou, tabActive, durationShort } = useSelector(selectApp)
+  const { editor, isItYou, tabActive, durationShort, seasonStartTime } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
@@ -52,10 +52,12 @@ export const WeekList = () => {
       <div className="grid gap-1">
         {Object.keys(weeks)
           .map((el) => Number(el))
+          .filter((el) => weeks[el].deadline > seasonStartTime)
           .filter((el) => weeks[el].active || editor || admin)
           .sort((a, b) => b - a)
           .map((el) => {
             const { name, deadline } = weeks[el]
+            // if (deadline < seasonStartTime) return null
             const selectedWeek = Number(el)
             const isRegular = !isNaN(Number(name.split('.')[0]))
             const adjustedTab2msg = isRegular ? tab2msg : ''
@@ -65,8 +67,8 @@ export const WeekList = () => {
               <div
                 key={selectedWeek}
                 className={clsx(
-                  'px-3 py-1 grid grid-cols-[2.5fr,1fr] bg-gray-200 gap-1 border border-gray-400 rounded-md',
-                  new Date().getTime() < deadline && 'animate-bg-pulse'
+                  'px-3 py-1 cursor-pointer grid grid-cols-[2.5fr,1fr] bg-white bg-opacity-60 gap-1 border border-gray-400 rounded-md',
+                  new Date().getTime() < deadline && 'bg-white bg-opacity-100'
                 )}
                 onClick={() => handleClick(selectedWeek)}
               >

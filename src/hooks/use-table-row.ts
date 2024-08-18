@@ -28,10 +28,15 @@ export function useTableRow(index: number) {
   const tableEl = showOneWeek ? week[index] : season[index]
   const { name, ansCorrect, ansTotal, position, correct, faults, uid } = tableEl as Standings['season2023'][number]
 
-  const resultsTotal = Object.keys(results)
+  const filteredResults = Object.keys(results)
     .map((el) => Number(el))
-    .map((el) => Object.keys(results[el]).length)
-    .reduce((a, b) => a + b)
+    // filter 2024 season
+    .filter((el) => el > 18)
+
+  const resultsTotal =
+    filteredResults.length > 0
+      ? filteredResults.map((el) => Object.keys(results[el]).length).reduce((a, b) => a + b)
+      : 0
 
   const answersAdjusted = showOneWeek ? ansTotal : Math.max(ansTotal, resultsTotal - 10)
 

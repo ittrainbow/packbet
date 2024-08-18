@@ -28,11 +28,11 @@ export const StandingsArrows = () => {
     >
       <FaArrowCircleUp
         onClick={() => handleScroll('top')}
-        className="transition text-gray-400 active:text-green-600 text-[50px] pointer"
+        className="transition text-gray-400 active:text-green-600 text-[50px] cursor-pointer"
       />
       <FaArrowCircleDown
         onClick={() => handleScroll('bottom')}
-        className="transition text-gray-400 active:text-green-600 text-[50px] pointer"
+        className="transition text-gray-400 active:text-green-600 text-[50px] cursor-pointer"
       />
     </div>
   )
