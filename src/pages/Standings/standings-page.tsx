@@ -18,7 +18,7 @@ export const StandingsPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive, duration, durationShort } = useSelector(selectApp)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -50,7 +50,7 @@ export const StandingsPage = () => {
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
     bodyFade()
-    setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
+    setTimeout(() => dispatch(toolsActions.switchShowTools()), durationShort)
   }
 
   const {
