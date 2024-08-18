@@ -48,11 +48,15 @@ export const StandingsRow = ({ fade, index }: Props) => {
         'gap-0.5 grid  min-h-[1.875rem]',
         seasonSelected === 2022
           ? 'grid-cols-[1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,1fr,4rem,3.5rem,3.5rem]'
-          : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]',
-        getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
+          : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]'
       )}
     >
-      <div className="flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400">
+      <div
+        className={clsx(
+          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+          getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
+        )}
+      >
         {getRow?.position}
       </div>
 
@@ -61,6 +65,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
           className={clsx(
             'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
             buddies?.includes(getRow?.uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
+            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
             seasonSelected !== 2022 && 'pointer'
           )}
           onClick={() => seasonSelected !== 2022 && getRow?.uid && handleAddRemoveBuddy(getRow?.uid)}
@@ -72,6 +77,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       <div
         className={clsx(
           'flex items-center text-sm sm:text-base justify-start leading-4 rounded-md py-0 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
+          getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'cursor-pointer'
         )}
         onClick={() => seasonSelected !== 2022 && getRow?.uid && handleClickOnUser(getRow?.name, getRow?.uid)}
@@ -83,6 +89,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       <div
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'pointer'
         )}
       >
@@ -92,6 +99,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       <div
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'pointer'
         )}
       >
@@ -101,6 +109,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       <div
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+          getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'pointer'
         )}
       >

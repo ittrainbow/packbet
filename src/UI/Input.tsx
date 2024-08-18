@@ -2,8 +2,9 @@ import clsx from 'clsx'
 import { LegacyRef } from 'react'
 
 type Props = {
-  type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+
+  type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
   sx?: { [key: string]: string }
   value?: string | undefined
   placeholder?: string
@@ -15,9 +16,10 @@ type Props = {
 }
 
 export const Input = ({
+  onChange,
+
   type = 'text',
   value,
-  onChange,
   placeholder,
   id,
   className,
@@ -25,11 +27,8 @@ export const Input = ({
   checked,
   disabled
 }: Props) => {
-  const num = type === 'number'
-
   return (
     <input
-      style={{ width: num ? 66 : '', textAlign: num ? 'center' : 'left' }}
       ref={inputRef}
       type={type}
       value={value}

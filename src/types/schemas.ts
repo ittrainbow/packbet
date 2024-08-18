@@ -20,6 +20,7 @@ export type AnswersStore = z.infer<typeof AnswersStoreSchema>
 
 export const AppSchema = z.object({
   season: z.number(),
+  seasonStartTime: z.number(),
   loading: z.boolean(),
   editor: z.boolean(),
   error: z.string(),
@@ -77,21 +78,17 @@ export type UpdateStandings = z.infer<typeof UpdateStandingsSchema>
 
 export const FetchedStandingsSchema = z.object({
   season2022: z.record(z.string(), OldStandingsSchema).optional(),
-  week2022: z.record(z.string(), OldStandingsSchema).optional(),
   season2023: z.record(z.string(), UserStandingsSchema),
-  week2023: z.record(z.string(), UserStandingsSchema),
-  season2024: z.record(z.string(), UserStandingsSchema).optional(),
-  week2024: z.record(z.string(), UserStandingsSchema).optional()
+  week2023: z.record(z.string(), UserStandingsSchema)
 })
 export type FetchedStandings = z.infer<typeof FetchedStandingsSchema>
 
 export const StandingsSchema = z.object({
   season2022: z.array(OldStandingsSchema),
-  week2022: z.array(OldStandingsSchema),
-  week2023: z.array(UserStandingsSchema),
   season2023: z.array(UserStandingsSchema),
-  week2024: z.array(UserStandingsSchema),
-  season2024: z.array(UserStandingsSchema)
+  week2023: z.array(UserStandingsSchema),
+  season2024: z.array(UserStandingsSchema),
+  week2024: z.array(UserStandingsSchema)
 })
 export type Standings = z.infer<typeof StandingsSchema>
 

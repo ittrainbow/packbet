@@ -7,7 +7,7 @@ const initialState: Tools = {
   showBuddies: localStorage.getItem('packContestFavList') === 'true',
   showOneWeek: localStorage.getItem('packContestOneWeek') === 'true',
   standingsSearch: '',
-  seasonSelected: 2023
+  seasonSelected: 2024
 }
 
 export const toolsSlice = createSlice({
