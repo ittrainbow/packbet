@@ -17,6 +17,7 @@ export const StandingsPage = () => {
   const dispatch = useDispatch()
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
+  const results = useSelector((store: Store) => store.results)
   const { tabActive, duration } = useSelector(selectApp)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
@@ -62,11 +63,21 @@ export const StandingsPage = () => {
     tableSeason
   } = i18n(locale, 'standings') as Locale
 
+  const lastWeekThatGotResults =
+    Object.keys(results)
+      .map((el) => Number(el))
+      .at(-1) ?? 0
+
   const lastWeekName =
     !isNaN(Number(Object.keys(weeks).slice(-1)[0])) &&
     weeks[Number(Object.keys(weeks).slice(-1)[0])].name?.split('.')[1]
 
-  const lastWeekNameAdjusted = lastWeekName ? tableHeaderhMsg + lastWeekName : tableNoGamesMsg
+  const lastWeekNameAdjusted =
+    seasonSelected !== 2024
+      ? `${tableSeason} ${seasonSelected}`
+      : lastWeekThatGotResults > 18
+      ? `${tableHeaderhMsg} ${lastWeekName}`
+      : tableNoGamesMsg
 
   function handleUpdateStandings() {
     const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
@@ -82,9 +93,7 @@ export const StandingsPage = () => {
     <>
       <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
         <div className="flex flex-row gap-1 pb-3 items-center">
-          <span className="flex font-bold grow items-center">
-            {seasonSelected !== 2024 ? `${tableSeason} ${seasonSelected}` : lastWeekNameAdjusted}
-          </span>
+          <span className="flex font-bold grow items-center">{lastWeekNameAdjusted}</span>
           <BsGearFill
             onClick={handleSwitchTools}
             className={clsx('text-xl transition', showTools ? 'text-green-600' : 'text-gray-800')}
