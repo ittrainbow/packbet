@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Dashboard, Login } from '.'
 import { auth } from '../../db'
 import { selectApp } from '../../redux/selectors'
-import { Loader } from '../../ui'
+import { Loader } from '../../ui-elements'
 
 export const UserPage = () => {
   const [user] = useAuthState(auth)

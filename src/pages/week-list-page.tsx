@@ -7,7 +7,7 @@ import { useDate, useFade } from '../hooks'
 import { Locale, i18n } from '../locale'
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { OtherUser } from '../ui'
+import { OtherUserMessage } from '../ui-elements'
 
 export const WeekList = () => {
   const dispatch = useDispatch()
@@ -48,7 +48,7 @@ export const WeekList = () => {
         {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
       </span>
 
-      {showOtherUserBar && <OtherUser containerRef={containerRef} />}
+      {showOtherUserBar && <OtherUserMessage containerRef={containerRef} />}
       <div className="grid gap-1">
         {Object.keys(weeks)
           .map((el) => Number(el))

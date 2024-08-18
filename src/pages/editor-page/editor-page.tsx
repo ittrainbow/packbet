@@ -10,7 +10,7 @@ import { Locale, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
-import { Button, DeleteModal } from '../../ui'
+import { Button, DeleteModal } from '../../ui-elements'
 import { getWeeksEquality, getWeeksIDs } from '../../utils'
 
 export const EditorPage = () => {

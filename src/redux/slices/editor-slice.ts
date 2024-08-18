@@ -1,7 +1,12 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
-import { emptyQuestion } from '../../constants'
 import { Editor, Question, Week } from '../../types'
+
+const emptyQuestion: Question = {
+  ru: '',
+  ua: '',
+  total: ''
+}
 
 const initialState: Editor = {
   questions: {},

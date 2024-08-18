@@ -9,7 +9,7 @@ type Props = {
   containerRef: React.RefObject<HTMLDivElement>
 }
 
-export const OtherUser = ({ containerRef }: Props) => {
+export const OtherUserMessage = ({ containerRef }: Props) => {
   const dispatch = useDispatch()
   const { otherUserName, isItYou, durationShort } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)

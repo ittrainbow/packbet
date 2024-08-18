@@ -7,7 +7,7 @@ import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, compareActions, userActions } from '../../redux/slices'
-import { Button } from '../../ui'
+import { Button } from '../../ui-elements'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()

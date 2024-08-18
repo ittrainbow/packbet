@@ -8,7 +8,7 @@ import { auth } from '../../db'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions } from '../../redux/slices'
 import { Store } from '../../types'
-import { Button } from '../../ui'
+import { Button } from '../../ui-elements'
 import { getAnswersResults } from '../../utils'
 
 type Props = {

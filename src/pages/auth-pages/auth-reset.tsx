@@ -9,7 +9,7 @@ import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
-import { Button, Switch } from '../../ui'
+import { Button, Switch } from '../../ui-elements'
 
 export const Reset = () => {
   const navigate = useNavigate()

@@ -10,7 +10,7 @@ import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { Store, Week } from '../../types'
-import { Button, OtherUser, Switch } from '../../ui'
+import { Button, OtherUserMessage, Switch } from '../../ui-elements'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
 
@@ -90,7 +90,7 @@ export const WeekPage = () => {
           />
         ) : null}
       </div>
-      <OtherUser containerRef={containerRef} />
+      <OtherUserMessage containerRef={containerRef} />
 
       <WeekCountdown />
       {questions &&

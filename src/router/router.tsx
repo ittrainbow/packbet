@@ -18,7 +18,7 @@ import {
 } from '../pages'
 import { selectApp } from '../redux/selectors'
 import { history } from '../redux/store'
-import { Loader } from '../ui'
+import { Loader } from '../ui-elements'
 
 type Props = {
   children?: ReactNode

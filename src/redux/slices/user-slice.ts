@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { initialUser } from '../../constants'
-import { User } from '../../types'
+import { ExtendedUser, User } from '../../types'
 
-const initialState = initialUser
+const initialState: ExtendedUser = {
+  name: '',
+  locale: 'ru',
+  admin: false,
+  buddies: [],
+  uid: ''
+}
 
 export const userSlice = createSlice({
   name: 'user',

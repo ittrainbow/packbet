@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { useFade } from '../hooks'
 import { Locale, i18n } from '../locale'
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
-import { Button } from '../ui'
+import { Button } from '../ui-elements'
 
 export const About = () => {
   const { tabActive, duration } = useSelector(selectApp)

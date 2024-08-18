@@ -11,7 +11,7 @@ import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
 import { UPDATE_PROFILE } from '../../redux/storetypes'
-import { Button, Switch } from '../../ui'
+import { Button, Switch } from '../../ui-elements'
 
 export const Profile = () => {
   const navigate = useNavigate()

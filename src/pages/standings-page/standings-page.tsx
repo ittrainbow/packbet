@@ -11,7 +11,7 @@ import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { Store } from '../../types'
-import { Button, OldStandings, OtherUser } from '../../ui'
+import { Button, OldStandingsMessage, OtherUserMessage } from '../../ui-elements'
 
 export const StandingsPage = () => {
   const dispatch = useDispatch()
@@ -102,7 +102,7 @@ export const StandingsPage = () => {
         <div ref={bodyRef}>
           <StandingsTools />
           <div className="grid gap-0.5" ref={tableRef}>
-            {seasonSelected === 2022 ? <OldStandings /> : <OtherUser containerRef={containerRef} />}
+            {seasonSelected === 2022 ? <OldStandingsMessage /> : <OtherUserMessage containerRef={containerRef} />}
             <StandingsHeader />
             {standingsSeason &&
               Object.values(standingsSeason).map((_, index) => (

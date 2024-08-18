@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 
 import './index.css'
 
-import { initialRedirects } from './constants'
 import { auth } from './db'
 import { useSwipe } from './hooks'
 import { Header } from './pages'
@@ -15,6 +14,7 @@ import { appActions, userActions } from './redux/slices'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 
 export const App = () => {
+  const initialRedirects = ['/', '/userpage', '/week', 'season', '/standings', '/calendar', '/editor']
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { emailReg } = useSelector(selectApp)
