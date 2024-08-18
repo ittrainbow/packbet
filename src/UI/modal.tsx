@@ -1,8 +1,8 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material/'
 import { useSelector } from 'react-redux'
+import { Button } from '.'
 import { i18n, Locale } from '../locale'
 import { selectUser } from '../redux/selectors'
-import { Button } from './button'
 
 type Props = {
   modalOpen: boolean

@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import ReactCountryFlag from 'react-country-flag'
-import { Input } from './input'
+import { Input } from '.'
 
 type Props = {
   checked: boolean | undefined
