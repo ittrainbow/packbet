@@ -20,7 +20,7 @@ export type AnswersStore = z.infer<typeof AnswersStoreSchema>
 
 export const AppSchema = z.object({
   season: z.number(),
-  seasonStartTime: z.number(),
+  lastSeasonLastWeek: z.number(),
   loading: z.boolean(),
   editor: z.boolean(),
   error: z.string(),

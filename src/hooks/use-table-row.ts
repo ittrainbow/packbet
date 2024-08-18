@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux'
 
-import { selectResults, selectStandings, selectTools } from '../redux/selectors'
+import { selectApp, selectResults, selectStandings, selectTools } from '../redux/selectors'
 import { Standings } from '../types'
 
 export function useTableRow(index: number) {
   const { showOneWeek } = useSelector(selectTools)
   const { seasonSelected } = useSelector(selectTools)
+  const { lastSeasonLastWeek } = useSelector(selectApp)
   const standings = useSelector(selectStandings)
   const results = useSelector(selectResults)
 
@@ -31,7 +32,7 @@ export function useTableRow(index: number) {
   const filteredResults = Object.keys(results)
     .map((el) => Number(el))
     // filter 2024 season
-    .filter((el) => el > 18)
+    .filter((el) => el > lastSeasonLastWeek)
 
   const resultsTotal =
     filteredResults.length > 0

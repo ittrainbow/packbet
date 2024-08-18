@@ -18,7 +18,7 @@ export const StandingsPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
-  const { tabActive, duration, durationShort } = useSelector(selectApp)
+  const { lastSeasonLastWeek, tabActive, duration, durationShort } = useSelector(selectApp)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -28,7 +28,7 @@ export const StandingsPage = () => {
   const tableRef = useRef<HTMLDivElement>(null)
   const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
 
-  const season =
+  const standingsSeason =
     seasonSelected === 2022
       ? standings.season2022
       : seasonSelected === 2023
@@ -73,9 +73,9 @@ export const StandingsPage = () => {
     weeks[Number(Object.keys(weeks).slice(-1)[0])].name?.split('.')[1]
 
   const lastWeekNameAdjusted =
-    seasonSelected !== 2024
+    seasonSelected < 2024
       ? `${tableSeason} ${seasonSelected}`
-      : lastWeekThatGotResults > 18
+      : lastWeekThatGotResults > lastSeasonLastWeek
       ? `${tableHeaderhMsg} ${lastWeekName}`
       : tableNoGamesMsg
 
@@ -104,8 +104,10 @@ export const StandingsPage = () => {
           <div className="grid gap-0.5" ref={tableRef}>
             {seasonSelected === 2022 ? <OldStandings /> : <OtherUser containerRef={containerRef} />}
             <StandingsHeader />
-            {season &&
-              Object.values(season).map((_, index) => <StandingsRow key={index} fade={containerFade} index={index} />)}
+            {standingsSeason &&
+              Object.values(standingsSeason).map((_, index) => (
+                <StandingsRow key={index} fade={containerFade} index={index} />
+              ))}
             <span className="p-3 text-sm leading-4">{tableTierline}</span>
           </div>
           {admin && <Button onClick={handleUpdateStandings} text={tableUpdate} />}

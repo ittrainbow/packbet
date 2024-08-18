@@ -12,7 +12,7 @@ import { OtherUser } from '../ui'
 export const WeekList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { editor, isItYou, tabActive, durationShort, seasonStartTime } = useSelector(selectApp)
+  const { editor, isItYou, tabActive, durationShort, lastSeasonLastWeek } = useSelector(selectApp)
   const { admin, locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
@@ -52,12 +52,11 @@ export const WeekList = () => {
       <div className="grid gap-1">
         {Object.keys(weeks)
           .map((el) => Number(el))
-          .filter((el) => weeks[el].deadline > seasonStartTime)
+          .filter((el) => el > lastSeasonLastWeek)
           .filter((el) => weeks[el].active || editor || admin)
           .sort((a, b) => b - a)
           .map((el) => {
             const { name, deadline } = weeks[el]
-            // if (deadline < seasonStartTime) return null
             const selectedWeek = Number(el)
             const isRegular = !isNaN(Number(name.split('.')[0]))
             const adjustedTab2msg = isRegular ? tab2msg : ''

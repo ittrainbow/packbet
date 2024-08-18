@@ -1,19 +1,18 @@
-import { Answers, AnswersStore, Users, UserStandings, Weeks } from '../types'
+import { Answers, AnswersStore, Users, UserStandings } from '../types'
 
 type TableOnInitType = {
   answers: AnswersStore
   users: Users
   results: Answers
   fullSeason: boolean
-  weeks?: Weeks
-  seasonStartTime?: number
+  lastSeasonLastWeek: number
 }
 
 type FetchObjectType<T> = {
   [key: number | string]: T
 }
 
-export const getTableOnInit = ({ answers, users, results, fullSeason, weeks, seasonStartTime }: TableOnInitType) => {
+export const getTableOnInit = ({ answers, users, results, fullSeason, lastSeasonLastWeek }: TableOnInitType) => {
   const userList = Object.keys(users)
 
   // filter 2024 season
@@ -22,7 +21,7 @@ export const getTableOnInit = ({ answers, users, results, fullSeason, weeks, sea
   const currentSeasonResults = Object.fromEntries(
     Object.keys(results)
       // filter 2024 season
-      .filter((el) => Number(el) > 18)
+      .filter((el) => Number(el) > lastSeasonLastWeek)
       .map((el) => [el, results[el]])
   )
 

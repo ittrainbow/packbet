@@ -54,7 +54,7 @@ function* fetchResultsSaga() {
 
 export function* fetchStandingsOnInitSaga() {
   try {
-    const { app } = yield select((store: Store) => store)
+    const { lastSeasonLastWeek } = yield select((store: Store) => store.app)
     const users: Users = yield call(getDBCollection, 'users')
     const answers: AnswersStore = yield call(getDBCollection, 'answers')
     const results: Answers = yield select((store: Store) => store.results)
@@ -71,16 +71,14 @@ export function* fetchStandingsOnInitSaga() {
       answers,
       users,
       results,
-      weeks,
-      seasonStartTime: app.seasonStartTime,
+      lastSeasonLastWeek,
       fullSeason: true
     })
     const weekArray: UserStandings[] = getTableOnInit({
       answers,
       users,
       results,
-      weeks,
-      seasonStartTime: app.seasonStartTime,
+      lastSeasonLastWeek,
       fullSeason: false
     })
 
