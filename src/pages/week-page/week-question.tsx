@@ -62,39 +62,28 @@ export const WeekQuestion = ({ id, result }: Props) => {
 
   const getButtonClass = (buttonNumber: number) => {
     const activity = getActivity()
-
     const thisButton = activity === buttonNumber
-    const correct = result && activity === result
+    const correct = activity === result
 
-    if (thisButton) {
-      if (adm) return 'text-black bg-gray-200'
-      if (!outdated && isItYou) return 'text-black bg-gray-200'
-      if (outdated && !adm && correct) return 'text-green-600 bg-gray-200'
-      if (outdated && !adm && !correct) return 'text-red-600 bg-gray-200'
-      if (outdated) return 'text-black bg-gray-200'
-    }
-    return 'text-gray-400'
+    if (!thisButton) return 'text-gray-400'
+    if (adm) return 'text-black bg-gray-200'
+    if (!outdated && isItYou) return 'text-black bg-gray-200'
+    if (outdated && !adm && result && correct) return 'text-green-600 bg-gray-200'
+    if (outdated && !adm && result && !correct) return 'text-red-600 bg-gray-200'
+    if (adm || outdated) return 'text-black bg-gray-200'
   }
 
   const getQuestionClass = (id: number) => {
     const getUid = isItYou ? uid : otherUserUID
     const week = answers[getUid] && answers[getUid][selectedWeek]
-    const styles = []
+    const styles = ['transition-all', 'duration-200']
     const { ans, res } = getAnswersResults(answers, result, selectedWeek, getUid, id)
 
     const drawPlayerStyles = adminAsPlayer || !admin
     const allowedStyles = (!isItYou && outdated) || isItYou
 
-    drawPlayerStyles &&
-      outdated &&
-      res &&
-      ans &&
-      styles.push(
-        res === ans
-          ? '!border-green-600 !border-l-4 transition-transform duration-1000'
-          : '!border-red-600 !border-l-4 transition-transform duration-1000'
-      )
-    allowedStyles && !adm && week && week[id] > 0 && styles.push('!border-l-4 transition-transform duration-1000')
+    drawPlayerStyles && outdated && res && ans && styles.push(res === ans ? '!border-green-600' : '!border-red-600 ')
+    allowedStyles && !adm && week && week[id] > 0 && styles.push('!border-l-4')
 
     return styles.join(' ')
   }
