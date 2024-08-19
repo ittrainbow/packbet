@@ -28,7 +28,13 @@ export const Switch = ({
       className={clsx('items-center justify-center rounded-md max-h-12 flex flex-row', narrow ? 'gap-0' : 'gap-1')}
       style={{ width: fullWidth ? '100%' : '' }}
     >
-      <div className={clsx('flex justify-end px-1 text-gray-700', narrow ? 'w-fit' : 'w-1/3')}>
+      <div
+        className={clsx(
+          'flex justify-end px-1',
+          narrow ? 'w-fit' : 'w-1/3',
+          disabled ? 'text-gray-400' : 'text-gray-700'
+        )}
+      >
         {locale ? (
           <ReactCountryFlag
             countryCode={'ru'}
@@ -59,7 +65,9 @@ export const Switch = ({
           )}
         />
       </label>
-      <div className={clsx('w-1/3 flex px-1 text-gray-700', narrow ? 'w-fit' : 'w-1/3')}>
+      <div
+        className={clsx('w-1/3 flex px-1', narrow ? 'w-fit' : 'w-1/3', disabled ? 'text-gray-400' : 'text-gray-700')}
+      >
         {locale ? (
           <ReactCountryFlag
             countryCode={'ua'}

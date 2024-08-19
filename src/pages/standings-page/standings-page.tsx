@@ -94,10 +94,12 @@ export const StandingsPage = () => {
       <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
         <div className="flex flex-row gap-1 pb-3 items-center">
           <span className="flex font-bold grow items-center">{lastWeekNameAdjusted}</span>
-          <BsGearFill
+          <Button
             onClick={handleSwitchTools}
-            className={clsx('text-xl transition', showTools ? 'text-green-600' : 'text-gray-800')}
+            icon={<BsGearFill />}
+            className={clsx('text-xl transition border-none !w-10', showTools ? 'text-green-600' : 'text-gray-800')}
           />
+          {/* <BsGearFill onClick={handleSwitchTools} /> */}
         </div>
         <div ref={bodyRef}>
           <StandingsTools />

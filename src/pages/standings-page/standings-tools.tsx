@@ -63,11 +63,12 @@ export const StandingsTools = () => {
         </div>
       </div>
       <Switch
-        onChange={handleSwitchShowOneWeek}
-        checked={showOneWeek}
+        onChange={() => seasonSelected !== 2022 && handleSwitchShowOneWeek()}
+        checked={showOneWeek && seasonSelected !== 2022}
         messageOn={tableOnlyWeekMsg}
         messageOff={tableAllSeasonMsg}
         fullWidth={true}
+        disabled={seasonSelected === 2022}
       />
       <Switch
         onChange={handleSwitchBuddies}
