@@ -82,7 +82,6 @@ function* submitResultsSaga(
 ) {
   const { results, selectedWeek, toaster } = action.payload
   const data = results[selectedWeek]
-
   yield put(appActions.setLoading(true))
 
   try {

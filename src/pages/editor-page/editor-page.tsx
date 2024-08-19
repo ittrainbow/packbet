@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
+import { toast, ToastContainer } from 'react-toastify'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { useFade } from '../../hooks'
-import { Locale, i18n } from '../../locale'
+import { i18n, Locale } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
@@ -16,9 +17,10 @@ import { getWeeksEquality, getWeeksIDs } from '../../utils'
 export const EditorPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
-  const { selectedWeek, emptyEditor } = useSelector(selectApp)
+  const { selectedWeek, emptyEditor, duration } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
   const { tabActive, durationShort } = useSelector(selectApp)
@@ -48,14 +50,31 @@ export const EditorPage = () => {
   const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
   const saveBtnDisabled = !changes || !name || !Object.keys(questions).length
 
+  const { successMsg, failureMsg } = i18n(locale, 'week') as Locale
+
   const handleSubmit = async () => {
+    const isNewWeek = isNaN(Number(location.pathname.split('/').at(-1)))
+
     const id = selectedWeek
+
     const { questions, name, active, deadline } = editor
     const { nextWeek, currentWeek } = getWeeksIDs(weeks)
-    const newSelectedWeek = selectedWeek ? selectedWeek + 1 : 0
-    navigate('/calendar')
+    const newSelectedWeek = isNewWeek ? nextWeek : selectedWeek
+    const saveSuccess = () => {
+      triggerFade()
+      if (isNewWeek) {
+        navigate(`/editor/${nextWeek}`)
+        toast.success(successMsg)
+      }
+    }
+    const saveFailure = () => toast.error(failureMsg)
+    const toaster = (success: boolean) => (success ? saveSuccess() : saveFailure())
+
     dispatch(appActions.setTabActive(5))
-    dispatch({ type: TYPES.SUBMIT_WEEK, payload: { id, week: { questions, name, active, deadline } } })
+    dispatch({
+      type: TYPES.SUBMIT_WEEK,
+      payload: { id, toaster, isNewWeek, week: { questions, name, active, deadline } }
+    })
     dispatch(appActions.submitWeek({ nextWeek, currentWeek, newSelectedWeek }))
     dispatch(weeksActions.updateWeeks({ week: editor, id }))
   }
@@ -99,6 +118,7 @@ export const EditorPage = () => {
           {pathname.includes('editor/') && <Button onClick={() => setModalOpen(true)} text={buttonDeleteWeekMsg} />}
         </div>
       </div>
+      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
       <DeleteModal modalOpen={modalOpen} setModalOpen={setModalOpen} onConfirm={handleDeleteWeek} />
     </div>
   )

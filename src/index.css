@@ -20,3 +20,7 @@ body {
   background-color: #d7d7d7;
   --toastify-color-success: #3d9f40;
 }
+
+/* .Toastify__toast-container {
+  left: calc(min(50%, 32rem) - 72px);
+} */

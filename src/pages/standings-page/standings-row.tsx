@@ -66,7 +66,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
             'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
             buddies?.includes(getRow?.uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
             getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-            seasonSelected !== 2022 && 'pointer'
+            seasonSelected !== 2022 && 'cursor-pointer'
           )}
           onClick={() => seasonSelected !== 2022 && getRow?.uid && handleAddRemoveBuddy(getRow?.uid)}
         >

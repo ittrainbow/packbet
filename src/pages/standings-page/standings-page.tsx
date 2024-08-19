@@ -3,13 +3,13 @@ import { BsGearFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 
 import clsx from 'clsx'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
 import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
-import { UPDATE_STANDINGS } from '../../redux/storetypes'
+// import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { Store } from '../../types'
 import { Button, OldStandingsMessage, OtherUserMessage } from '../../ui-elements'
 
@@ -22,7 +22,7 @@ export const StandingsPage = () => {
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
-  const { locale, admin } = user
+  const { locale } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
@@ -53,15 +53,7 @@ export const StandingsPage = () => {
     setTimeout(() => dispatch(toolsActions.switchShowTools()), durationShort)
   }
 
-  const {
-    tableTierline,
-    tableHeaderhMsg,
-    tableNoGamesMsg,
-    tableUpdate,
-    tableUpdateSuccessMsg,
-    tableUpdateFailureMsg,
-    tableSeason
-  } = i18n(locale, 'standings') as Locale
+  const { tableTierline, tableHeaderhMsg, tableNoGamesMsg, tableSeason } = i18n(locale, 'standings') as Locale
 
   const lastWeekThatGotResults =
     Object.keys(results)
@@ -79,27 +71,26 @@ export const StandingsPage = () => {
       ? `${tableHeaderhMsg} ${lastWeekName}`
       : tableNoGamesMsg
 
-  function handleUpdateStandings() {
-    const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
-    const toastFailure = () => toast.error(tableUpdateFailureMsg)
-    const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
-    const type = UPDATE_STANDINGS
-    const payload = { toaster }
+  // function handleUpdateStandings() {
+  //   const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
+  //   const toastFailure = () => toast.error(tableUpdateFailureMsg)
+  //   const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+  //   const type = UPDATE_STANDINGS
+  //   const payload = { toaster }
 
-    dispatch({ type, payload })
-  }
+  //   dispatch({ type, payload })
+  // }
 
   return (
     <>
       <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
-        <div className="flex flex-row gap-1 pb-3 items-center">
+        <div className="flex flex-row gap-1 items-center">
           <span className="flex font-bold grow items-center">{lastWeekNameAdjusted}</span>
           <Button
             onClick={handleSwitchTools}
             icon={<BsGearFill />}
             className={clsx('text-xl transition border-none !w-10', showTools ? 'text-green-600' : 'text-gray-800')}
           />
-          {/* <BsGearFill onClick={handleSwitchTools} /> */}
         </div>
         <div ref={bodyRef}>
           <StandingsTools />
@@ -112,7 +103,7 @@ export const StandingsPage = () => {
               ))}
             <span className="p-3 text-sm leading-4">{tableTierline}</span>
           </div>
-          {admin && <Button onClick={handleUpdateStandings} text={tableUpdate} />}
+          {/* {admin && <Button onClick={handleUpdateStandings} text={tableUpdate} />} */}
         </div>
       </div>
       <StandingsArrows />

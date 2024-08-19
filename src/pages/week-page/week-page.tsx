@@ -52,18 +52,6 @@ export const WeekPage = () => {
     // eslint-disable-next-line
   }, [outdated, deadline])
 
-  const handleSubmit = async () => {
-    const data = adm ? results : answers[uid]
-    const firstData = !!Object.keys(data).length
-    const toastSuccess = () => toast.success(successMsg)
-    const toastFailure = () => toast.error(failureMsg)
-    const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
-    const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
-    const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
-
-    dispatch({ type, payload })
-  }
-
   const handleDiscard = () => {
     dispatch(answersActions.updateAnswers({ answers: compare.answers, uid }))
     admin && dispatch(resultsActions.updateResults({ results: compare.results, selectedWeek }))
@@ -75,6 +63,18 @@ export const WeekPage = () => {
 
   const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as Locale
   const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as Locale
+
+  const handleSubmit = async () => {
+    const data = adm ? results : answers[uid]
+    const firstData = !!Object.keys(data).length
+    const toastSuccess = () => toast.success(successMsg)
+    const toastFailure = () => toast.error(failureMsg)
+    const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
+    const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
+    const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
+
+    dispatch({ type, payload })
+  }
 
   return currentWeek > -1 ? (
     <div className="p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
