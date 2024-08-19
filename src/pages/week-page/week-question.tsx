@@ -76,14 +76,14 @@ export const WeekQuestion = ({ id, result }: Props) => {
   const getQuestionClass = (id: number) => {
     const getUid = isItYou ? uid : otherUserUID
     const week = answers[getUid] && answers[getUid][selectedWeek]
-    const styles = ['transition-all', 'duration-200']
+    const styles = ['transition-all duration-100']
     const { ans, res } = getAnswersResults(answers, result, selectedWeek, getUid, id)
 
     const drawPlayerStyles = adminAsPlayer || !admin
     const allowedStyles = (!isItYou && outdated) || isItYou
 
     drawPlayerStyles && outdated && res && ans && styles.push(res === ans ? '!border-green-600' : '!border-red-600 ')
-    allowedStyles && !adm && week && week[id] > 0 && styles.push('!border-l-4')
+    if ((allowedStyles && !adm && week && week[id] > 0) || (adm && res)) styles.push('!border-l-4')
 
     return styles.join(' ')
   }
