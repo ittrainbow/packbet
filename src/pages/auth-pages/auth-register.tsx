@@ -10,7 +10,7 @@ import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { appActions, userActions } from '../../redux/slices'
 import { User } from '../../types'
-import { Button, Switch } from '../../ui-elements'
+import { Button, Switch } from '../../ui'
 
 export const Register = () => {
   const navigate = useNavigate()

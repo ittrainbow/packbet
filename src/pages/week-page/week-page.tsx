@@ -10,7 +10,7 @@ import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { Store, Week } from '../../types'
-import { Button, OtherUserMessage, Switch } from '../../ui-elements'
+import { Button, OtherUserMessage, Switch } from '../../ui'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
 
@@ -77,7 +77,7 @@ export const WeekPage = () => {
   }
 
   return currentWeek > -1 ? (
-    <div className="p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
+    <div className="grid gap-1 p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
       <div className="flex flex-row gap-1 items-center">
         <span className="text-base font-bold grow">{name.split('.')[1]}</span>
         {admin && isItYou ? (
@@ -93,17 +93,14 @@ export const WeekPage = () => {
       <OtherUserMessage containerRef={containerRef} />
 
       <WeekCountdown />
-      {questions &&
-        Object.keys(questions)
-          .map((el) => Number(el))
-          .map((id, index) => {
-            const result = results[selectedWeek] && results[selectedWeek][id]
-            return (
-              <div key={index}>
-                <MemoizedWeekQuestion id={id} result={result} />
-              </div>
-            )
-          })}
+      <div className="grid gap-1">
+        {questions &&
+          Object.keys(questions)
+            .map((el) => Number(el))
+            .map((id, index) => (
+              <MemoizedWeekQuestion id={id} key={index} result={results[selectedWeek] && results[selectedWeek][id]} />
+            ))}
+      </div>
       {isItYou ? (
         <div className="flex">
           <Button

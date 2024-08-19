@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Locale, i18n } from '../../locale'
 import { selectTools, selectUser } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
-import { Button, SelectInput, Switch } from '../../ui-elements'
+import { Button, SelectInput, Switch } from '../../ui'
 
 export const StandingsTools = () => {
   const dispatch = useDispatch()

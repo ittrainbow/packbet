@@ -9,7 +9,7 @@ import { useFade } from '../../hooks'
 import { i18n, Locale } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
-import { Button, Switch } from '../../ui-elements'
+import { Button, Switch } from '../../ui'
 import { getLocale } from '../../utils'
 
 export const Login = () => {

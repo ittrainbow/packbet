@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Locale, i18n } from '../../locale'
 import { selectEditor, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { Input } from '../../ui-elements'
+import { Input } from '../../ui'
 
 export const EditorActivities = () => {
   const dispatch = useDispatch()

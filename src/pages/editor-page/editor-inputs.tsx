@@ -6,7 +6,7 @@ import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser } from '../../redux/selectors'
 import { editorActions } from '../../redux/slices'
-import { Button, Input } from '../../ui-elements'
+import { Button, Input } from '../../ui'
 import { getNewQuestionId, getObjectsEquality } from '../../utils'
 
 export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) => {

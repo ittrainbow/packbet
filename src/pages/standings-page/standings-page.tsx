@@ -11,7 +11,7 @@ import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 // import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { Store } from '../../types'
-import { Button, OldStandingsMessage, OtherUserMessage } from '../../ui-elements'
+import { Button, OldStandingsMessage, OtherUserMessage } from '../../ui'
 
 export const StandingsPage = () => {
   const dispatch = useDispatch()

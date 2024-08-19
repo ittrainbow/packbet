@@ -36,7 +36,7 @@ export const WeekCountdown = () => {
     const hoursText = hours % 20 > 4 || hours % 20 === 0 ? fiveHoursMsg : hours % 20 > 1 ? twoHoursMsg : oneHourMsg
 
     return (
-      <div className="text-sm pb-2">
+      <div className="text-sm">
         {completed
           ? gameStartedMsg
           : `${countdownMsg} ${days > 0 ? days + ' ' + daysText : ''} ${hours} ${hoursText} ${minutes}

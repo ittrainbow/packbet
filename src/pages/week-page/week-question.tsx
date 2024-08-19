@@ -8,7 +8,7 @@ import { auth } from '../../db'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions } from '../../redux/slices'
 import { Store } from '../../types'
-import { Button } from '../../ui-elements'
+import { Button } from '../../ui'
 import { getAnswersResults } from '../../utils'
 
 type Props = {
@@ -22,7 +22,7 @@ type YesNoHandleProps = {
   activity: number
 }
 
-export const WeekQuestion = ({ id, result }: Props) => {
+export const WeekQuestion = ({ id, result, ...props }: Props) => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const weeks = useSelector((store: Store) => store.weeks)
@@ -76,14 +76,14 @@ export const WeekQuestion = ({ id, result }: Props) => {
   const getQuestionClass = (id: number) => {
     const getUid = isItYou ? uid : otherUserUID
     const week = answers[getUid] && answers[getUid][selectedWeek]
-    const styles = ['transition-all duration-100']
+    const styles = ['transition-all transform duration-150']
     const { ans, res } = getAnswersResults(answers, result, selectedWeek, getUid, id)
 
     const drawPlayerStyles = adminAsPlayer || !admin
     const allowedStyles = (!isItYou && outdated) || isItYou
 
-    drawPlayerStyles && outdated && res && ans && styles.push(res === ans ? '!border-green-600' : '!border-red-600 ')
-    if ((allowedStyles && !adm && week && week[id] > 0) || (adm && res)) styles.push('!border-l-4')
+    drawPlayerStyles && outdated && res && ans && styles.push(res === ans ? '!border-green-600' : '!border-red-600')
+    if ((allowedStyles && !adm && week && week[id] > 0) || (adm && res)) styles.push('!border-l-[4.5px]')
 
     return styles.join(' ')
   }
@@ -93,7 +93,7 @@ export const WeekQuestion = ({ id, result }: Props) => {
   return (
     <div
       className={clsx(
-        'items-center ps-2 pe-1.5 border border-gray-400 rounded-md bg-white bg-opacity-60  mb-1 transition duration-500 h-11 flex flex-row gap-1',
+        'items-center ps-2 pe-1.5 border border-gray-400 rounded-md bg-white bg-opacity-60 gap-2 transition duration-500 h-11 flex flex-row',
         getQuestionClass(id)
       )}
     >

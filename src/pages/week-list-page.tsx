@@ -7,7 +7,7 @@ import { useDate, useFade } from '../hooks'
 import { Locale, i18n } from '../locale'
 import { selectApp, selectLocation, selectUser, selectWeeks } from '../redux/selectors'
 import { appActions, editorActions } from '../redux/slices'
-import { OtherUserMessage } from '../ui-elements'
+import { OtherUserMessage } from '../ui'
 
 export const WeekList = () => {
   const dispatch = useDispatch()
