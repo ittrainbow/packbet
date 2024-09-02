@@ -9,11 +9,11 @@ import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../ui'
 
 export const About = () => {
-  const { tabActive, duration } = useSelector(selectApp)
+  const { tabActive } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const about = useSelector(selectAbout)
   const containerRef = useRef<HTMLDivElement>(null)
-  const aboutRef = useRef<HTMLDivElement>(null)
+
   const [open, setOpen] = useState(false)
 
   const triggerFade = useFade(containerRef)
@@ -22,17 +22,6 @@ export const About = () => {
     tabActive !== 0 && triggerFade()
   }, [tabActive, triggerFade])
 
-  const handleOpen = () => {
-    const list = aboutRef.current?.classList
-    if (!open) {
-      setOpen(!open)
-      return setTimeout(() => list?.remove('animate-fade-out-down'), duration / 10)
-    }
-
-    list?.add('animate-fade-out-down')
-    setTimeout(() => setOpen(!open), duration)
-  }
-
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as Locale
   const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg } = i18n(
     locale,
@@ -40,10 +29,10 @@ export const About = () => {
   ) as Locale
 
   const legend = [
-    { icon: <FaCheck className="FaCheck" />, text: aboutYesMsg },
-    { icon: <FaBan className="FaBan" />, text: aboutNoMsg },
-    { icon: <FaArrowUp className="FaArrowUp" />, text: aboutOverMsg },
-    { icon: <FaArrowDown className="FaArrowDown" />, text: aboutUnderMsg }
+    { icon: <FaCheck />, text: aboutYesMsg },
+    { icon: <FaBan />, text: aboutNoMsg },
+    { icon: <FaArrowUp />, text: aboutOverMsg },
+    { icon: <FaArrowDown />, text: aboutUnderMsg }
   ]
 
   const description = Object.values(about[locale])
@@ -56,20 +45,27 @@ export const About = () => {
     >
       <span className="font-bold text-base">{aboutTitleMsg}</span>
       <span>{description[0]}</span>
-      <Button onClick={handleOpen} text={buttonDetailsMsg} className="min-h-10" />
+      <Button onClick={() => setOpen((prev) => !prev)} text={buttonDetailsMsg} className="min-h-10" />
       {open ? (
         <>
-          {description.map((el, index) => {
-            return <span key={index}>{!index ? null : el}</span>
-          })}
+          {description.slice(1, -1).map((el, index) => (
+            <span key={index}>{el}</span>
+          ))}
+          <hr className="h-px border-0 bg-gray-400" />
           <span className="font-bold">{aboutLegendMsg}</span>
           {legend.map(({ icon, text }, index) => (
             <div key={index} className="flex flex-wrap gap-1">
-              <span className="flex items-center">{icon}</span>
+              <span className="flex items-center text-lg">{icon}</span>
+              <span>-</span>
               <span>{text}</span>
             </div>
           ))}
-          <span>{last}</span>
+          {last?.split('. ').map((el, index) => (
+            <span key={index}>
+              {el}
+              {index === last.split('. ').length - 1 ? null : '.'}
+            </span>
+          ))}
           <hr className="h-px border-0 bg-gray-400" />
         </>
       ) : null}

@@ -75,7 +75,7 @@ export const WeekList = () => {
                   <span className="text-xs text-gray-600 leading-4">{text[0]}</span>
                   <span className="text-md">{text[1]}</span>
                 </div>
-                <div className="text-xs relative grid grid-cols-1 gap-0 text-gray-600 leading-4">
+                <div className="text-xs relative grid gap-0 text-gray-600 leading-4">
                   <span className="ms-auto">
                     {date[0]} {date[1]}
                   </span>

@@ -91,7 +91,8 @@ function* submitResultsSaga(
       yield call(deleteDBDocument, 'results', selectedWeek.toString())
     }
 
-    const response: Answers = yield call(getDBDocument, 'results', selectedWeek)
+    const response: Answers = data ? yield call(getDBDocument, 'results', selectedWeek) : ({} as const)
+
     const saveSuccess: boolean = yield call(getObjectsEquality, response, results[selectedWeek])
 
     yield put(resultsActions.setResults(results))
@@ -119,6 +120,7 @@ function* submitAnswersSaga(
   }>
 ) {
   const { answers, uid, toaster, selectedWeek, firstData } = action.payload
+
   yield put(appActions.setLoading(true))
   try {
     if (firstData) {
@@ -128,6 +130,7 @@ function* submitAnswersSaga(
     }
 
     const response: Answers = yield call(getDBDocument, 'answers', uid)
+
     yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
 
     const saveSuccess: boolean = yield call(getObjectsEquality, response, answers[uid])

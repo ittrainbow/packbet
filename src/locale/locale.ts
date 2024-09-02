@@ -134,10 +134,10 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const dec = locale === 'ru' ? 'декабря' : 'грудня'
 
   const aboutTitleMsg = locale === 'ru' ? 'Информация' : 'Інформація'
-  const aboutYesMsg = locale === 'ru' ? `- ответ "Да"` : `- відповідь "Так"`
-  const aboutNoMsg = locale === 'ru' ? `- ответ "Нет"` : `- відповідь "Ні"`
-  const aboutOverMsg = locale === 'ru' ? `- ответ "Больше"` : `- відповідь "Більше"`
-  const aboutUnderMsg = locale === 'ru' ? `- ответ "Меньше"` : `- відповідь "Менше"`
+  const aboutYesMsg = locale === 'ru' ? `ответ "Да"` : `відповідь "Так"`
+  const aboutNoMsg = locale === 'ru' ? `ответ "Нет"` : `відповідь "Ні"`
+  const aboutOverMsg = locale === 'ru' ? `ответ "Больше"` : `відповідь "Більше"`
+  const aboutUnderMsg = locale === 'ru' ? `ответ "Меньше"` : `відповідь "Менше"`
   const aboutLegendMsg = locale === 'ru' ? 'Принятые обозначения' : 'Прийняті визначення:'
 
   switch (component) {

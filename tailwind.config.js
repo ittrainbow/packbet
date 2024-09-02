@@ -5,12 +5,12 @@ module.exports = {
     extend: {
       keyframes: {
         fadeInUp: {
-          '0%': { opacity: 0, transform: 'translateY(3px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' }
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
         },
         fadeOutDown: {
-          '0%': { opacity: 1, transform: 'translateY(0)' },
-          '100%': { opacity: 0, transform: 'translateY(3px)' }
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 }
         },
         fadeOutRight: {
           '0%': { opacity: 1, transform: 'translateX(0)' },

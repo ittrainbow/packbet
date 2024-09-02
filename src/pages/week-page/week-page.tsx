@@ -72,7 +72,6 @@ export const WeekPage = () => {
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
     const type = adm ? TYPES.SUBMIT_RESULTS : TYPES.SUBMIT_ANSWERS
     const payload = adm ? { selectedWeek, results, toaster } : { selectedWeek, answers, uid, toaster, firstData }
-
     dispatch({ type, payload })
   }
 
