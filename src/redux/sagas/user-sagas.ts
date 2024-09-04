@@ -1,11 +1,11 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { fetchStandingsSaga, setStandingsSaga } from '.'
-import { deleteDBDocument, getDBCollection, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
-import { Action, Answers, AnswersStore, ExtendedUser, Store, User, Users, UserStandings } from '../../types'
-import { getLocale, getObjectsEquality, getTable } from '../../utils'
+import { deleteDBDocument, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
+import { Action, Answers, ExtendedUser, Store, User } from '../../types'
+import { getLocale, getObjectsEquality } from '../../utils'
 import { answersActions, appActions, compareActions, resultsActions, userActions } from '../slices'
 import * as TYPES from '../storetypes'
+import { createStandingsSaga } from './init-sagas'
 
 function* updateProfileSaga(
   action: Action<{
@@ -14,6 +14,7 @@ function* updateProfileSaga(
     uid: string
   }>
 ) {
+  const oldName: string = yield select((store) => store.user.name)
   yield put(appActions.setLoading(true))
 
   const { payload } = action
@@ -23,12 +24,13 @@ function* updateProfileSaga(
     const response: User = yield call(getDBDocument, 'users', uid)
     const data = { ...response, name, locale }
     yield call(writeDBDocument, 'users', uid, data)
+    if (oldName === name) return
+    yield call(createStandingsSaga)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
     }
   }
-
   yield put(appActions.setLoading(false))
 }
 
@@ -97,7 +99,7 @@ function* submitResultsSaga(
 
     yield put(resultsActions.setResults(results))
     yield put(compareActions.updateCompare({ data: results, id: 'results' }))
-    yield call(fetchStandingsSaga)
+    yield call(createStandingsSaga)
     yield call(toaster, saveSuccess)
   } catch (error) {
     yield toaster(false)
@@ -156,41 +158,6 @@ function* fetchOtherUserSaga(action: Action<string>) {
   }
 }
 
-export function* updateStandingsSaga(
-  action: Action<{
-    toaster: (value: boolean) => void
-  }>
-) {
-  const { toaster } = action.payload
-  const { app } = yield select((store: Store) => store)
-  const { standings } = yield select((store: Store) => store)
-  try {
-    const users: Users = yield call(getDBCollection, 'users')
-    const answers: AnswersStore = yield call(getDBCollection, 'answers')
-    const results: Answers = yield select((store: Store) => store.results)
-
-    const seasonArray: UserStandings[] = getTable({ answers, users, results, fullSeason: true })
-    const weekArray: UserStandings[] = getTable({ answers, users, results, fullSeason: false })
-    // TODO - switch seasons
-    const season2023 = Object.assign({}, seasonArray)
-    const week2023 = Object.assign({}, weekArray)
-
-    // const oldData = Object.fromEntries(oldStandings.map((el, index) => [index, el]))
-    // yield call(writeDBDocument, 'standings', `season2022`, oldData)
-
-    yield call(writeDBDocument, 'standings', `season${app.season}`, season2023)
-    yield call(writeDBDocument, 'standings', `week${app.season}`, week2023)
-    yield call(setStandingsSaga, { ...standings, season2023, week2023 })
-
-    yield call(toaster, true)
-  } catch (error) {
-    if (error instanceof Error) {
-      yield call(toaster, false)
-      yield put(appActions.setError(error.message))
-    }
-  }
-}
-
 function* setBuddiesSaga(
   action: Action<{
     buddies: string[]
@@ -220,5 +187,4 @@ export function* userSaga() {
   yield takeEvery(TYPES.SUBMIT_ANSWERS, submitAnswersSaga)
   yield takeEvery(TYPES.FETCH_OTHER_USER, fetchOtherUserSaga)
   yield takeEvery(TYPES.SET_BUDDIES, setBuddiesSaga)
-  yield takeEvery(TYPES.UPDATE_STANDINGS, updateStandingsSaga)
 }

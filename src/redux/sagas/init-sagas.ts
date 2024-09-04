@@ -1,4 +1,4 @@
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects'
 
 import { getDBCollection } from '../../db'
 import {
@@ -6,7 +6,7 @@ import {
   Answers,
   AnswersStore,
   FetchedStandings,
-  Standings,
+  OldStandings,
   Store,
   Users,
   UserStandings,
@@ -14,7 +14,7 @@ import {
 } from '../../types'
 import { getTableOnInit, getWeeksIDs } from '../../utils'
 import { aboutActions, appActions, resultsActions, standingsActions, weeksActions } from '../slices'
-import { INIT_APP } from '../storetypes'
+import { INIT_APP, UPDATE_STANDINGS } from '../storetypes'
 
 function* fetchAboutSaga() {
   try {
@@ -38,27 +38,13 @@ function* fetchResultsSaga() {
   }
 }
 
-// function* fetchWeeksSaga() {
-//   try {
-//     const weeks: Weeks = yield call(getDBCollection, 'weeks')
-//     const lastWeek = Number(Object.keys(weeks).slice(-1))
-//     yield put(appActions.setSelectedWeek(lastWeek))
-//     yield put(weeksActions.setWeeks(weeks))
-//     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       yield put(appActions.setError(error.message))
-//     }
-//   }
-// }
-
-export function* fetchStandingsOnInitSaga() {
+export function* createStandingsSaga() {
   try {
     const { lastSeasonLastWeek } = yield select((store: Store) => store.app)
     const users: Users = yield call(getDBCollection, 'users')
     const answers: AnswersStore = yield call(getDBCollection, 'answers')
     const results: Answers = yield select((store: Store) => store.results)
-    const standings: FetchedStandings = yield call(getDBCollection, 'standings')
+    const fetchedStandings: FetchedStandings = yield call(getDBCollection, 'standings')
 
     const weeks: Weeks = yield call(getDBCollection, 'weeks')
     const lastWeek = Number(Object.keys(weeks).slice(-1))
@@ -67,14 +53,21 @@ export function* fetchStandingsOnInitSaga() {
     yield put(weeksActions.setWeeks(weeks))
     yield put(appActions.setNextAndCurrentWeeks(getWeeksIDs(weeks)))
 
-    const seasonArray: UserStandings[] = getTableOnInit({
+    const season2022: OldStandings[] = Object.values(fetchedStandings.season2022)
+
+    const season2023: UserStandings[] = Object.values(fetchedStandings.season2023)
+
+    const week2023: UserStandings[] = Object.values(fetchedStandings.week2023)
+
+    const season2024: UserStandings[] = getTableOnInit({
       answers,
       users,
       results,
       lastSeasonLastWeek,
       fullSeason: true
     })
-    const weekArray: UserStandings[] = getTableOnInit({
+
+    const week2024: UserStandings[] = getTableOnInit({
       answers,
       users,
       results,
@@ -82,21 +75,9 @@ export function* fetchStandingsOnInitSaga() {
       fullSeason: false
     })
 
-    const markedStandings = { ...standings, season2024: seasonArray, week2024: weekArray }
+    const markedStandings = { season2022, season2023, week2023, season2024, week2024 }
 
     yield call(setStandingsSaga, markedStandings)
-  } catch (error) {
-    if (error instanceof Error) {
-      yield put(appActions.setError(error.message))
-    }
-  }
-}
-
-export function* fetchStandingsSaga() {
-  try {
-    const standings: Standings = yield call(getDBCollection, 'standings')
-
-    yield call(setStandingsSaga, standings)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -112,7 +93,8 @@ export function* initSaga() {
   while (true) {
     yield take(INIT_APP)
     yield put(appActions.setLoading(true))
-    yield all([fetchAboutSaga(), fetchResultsSaga(), fetchStandingsOnInitSaga()])
+    yield all([fetchAboutSaga(), fetchResultsSaga(), createStandingsSaga()])
     yield put(appActions.setLoading(false))
+    yield takeEvery(UPDATE_STANDINGS, createStandingsSaga)
   }
 }

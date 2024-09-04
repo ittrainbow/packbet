@@ -77,7 +77,7 @@ export const UpdateStandingsSchema = z.record(z.string(), UserStandingsSchema)
 export type UpdateStandings = z.infer<typeof UpdateStandingsSchema>
 
 export const FetchedStandingsSchema = z.object({
-  season2022: z.record(z.string(), OldStandingsSchema).optional(),
+  season2022: z.record(z.string(), OldStandingsSchema),
   season2023: z.record(z.string(), UserStandingsSchema),
   week2023: z.record(z.string(), UserStandingsSchema)
 })
