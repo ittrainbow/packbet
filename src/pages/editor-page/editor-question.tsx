@@ -10,7 +10,7 @@ type Props = { id: number; questionsRef: React.RefObject<HTMLDivElement> }
 export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
-  const { durationShort } = useSelector(selectApp)
+  const { duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const { ru, ua, total } = questions[id]
 
@@ -23,7 +23,7 @@ export const EditorQuestion = ({ id, questionsRef }: Props) => {
 
   const handleDeleteQuestion = (id: number) => {
     triggerFade()
-    setTimeout(() => dispatch(editorActions.deleteEditorQuestion(id)), durationShort)
+    setTimeout(() => dispatch(editorActions.deleteEditorQuestion(id)), duration)
   }
 
   const handleClearQuestion = () => {

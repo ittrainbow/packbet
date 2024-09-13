@@ -111,7 +111,7 @@ export const WeekPage = () => {
           <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button" text={buttonCancelMsg} />
         </div>
       ) : null}
-      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
+      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </div>
   ) : null
 }

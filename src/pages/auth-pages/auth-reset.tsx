@@ -15,7 +15,7 @@ export const Reset = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
-  const { tabActive, durationShort } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
@@ -46,12 +46,12 @@ export const Reset = () => {
 
   const handleToRegister = () => {
     triggerFade()
-    setTimeout(() => navigate('/register'), durationShort)
+    setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToLogin = () => {
     triggerFade()
-    setTimeout(() => navigate('/login'), durationShort)
+    setTimeout(() => navigate('/login'), duration)
   }
 
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as Locale

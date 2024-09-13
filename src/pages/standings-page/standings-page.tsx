@@ -18,7 +18,7 @@ export const StandingsPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
-  const { lastSeasonLastWeek, tabActive, duration, durationShort } = useSelector(selectApp)
+  const { lastSeasonLastWeek, tabActive, duration } = useSelector(selectApp)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -50,7 +50,7 @@ export const StandingsPage = () => {
   const handleSwitchTools = () => {
     setFadeOutTools(!fadeOutTools)
     bodyFade()
-    setTimeout(() => dispatch(toolsActions.switchShowTools()), durationShort)
+    setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
   }
 
   const { tableTierline, tableHeaderhMsg, tableNoGamesMsg, tableSeason } = i18n(locale, 'standings') as Locale
@@ -107,7 +107,7 @@ export const StandingsPage = () => {
         </div>
       </div>
       <StandingsArrows />
-      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
+      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </>
   )
 }

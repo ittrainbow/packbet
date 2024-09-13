@@ -11,14 +11,14 @@ type Props = {
 
 export const OtherUserMessage = ({ containerRef }: Props) => {
   const dispatch = useDispatch()
-  const { otherUserName, isItYou, durationShort } = useSelector(selectApp)
+  const { otherUserName, isItYou, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
   const triggerFade = useFade(containerRef)
 
   const handleDiscard = () => {
     triggerFade()
-    setTimeout(() => dispatch(appActions.clearOtherUser()), durationShort)
+    setTimeout(() => dispatch(appActions.clearOtherUser()), duration)
   }
 
   const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as Locale

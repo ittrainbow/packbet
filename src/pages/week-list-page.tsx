@@ -12,8 +12,8 @@ import { OtherUserMessage } from '../ui'
 export const WeekList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { editor, isItYou, tabActive, durationShort, lastSeasonLastWeek } = useSelector(selectApp)
-  const { admin, locale } = useSelector(selectUser)
+  const { editor, isItYou, tabActive, duration, lastSeasonLastWeek } = useSelector(selectApp)
+  const { locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -34,7 +34,7 @@ export const WeekList = () => {
       dispatch(editorActions.setEditor(weeks[selectedWeek]))
       navigate(`/editor/${selectedWeek}`)
     }
-    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), durationShort)
+    setTimeout(() => (editor ? setEditor() : navigate(`/week/${selectedWeek}`)), duration + 33)
   }
 
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
@@ -52,8 +52,7 @@ export const WeekList = () => {
       <div className="grid gap-1">
         {Object.keys(weeks)
           .map((el) => Number(el))
-          .filter((el) => el > lastSeasonLastWeek)
-          .filter((el) => weeks[el].active || editor || admin)
+          .filter((el) => el > lastSeasonLastWeek && (weeks[el].active || editor))
           .sort((a, b) => b - a)
           .map((el) => {
             const { name, deadline } = weeks[el]

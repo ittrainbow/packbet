@@ -16,7 +16,7 @@ export function useSwipe() {
   const menu = useMenu()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { tabActive, duration, durationShort, editor, currentWeek, selectedWeek } = useSelector(selectApp)
+  const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const { questionInWork } = useSelector(selectEditor)
   const { ru, ua, total } = questionInWork
@@ -65,7 +65,7 @@ export function useSwipe() {
 
           newTabActive === 2 &&
             selectedWeek !== currentWeek &&
-            setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration)
+            setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration + 33)
 
           setTimeout(() => {
             navigate(menu[newTabActive].path)
@@ -74,7 +74,7 @@ export function useSwipe() {
               dispatch(appActions.setEditor(false)) &&
               dispatch(editorActions.clearEditor()) &&
               dispatch(toolsActions.setShowTools(false))
-          }, durationShort)
+          }, duration)
         }
       }
     }

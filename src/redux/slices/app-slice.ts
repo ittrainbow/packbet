@@ -17,8 +17,7 @@ const initialState: App = {
   selectedWeek: 0,
   tabActive: 1,
   emailReg: false,
-  duration: 200,
-  durationShort: 167,
+  duration: 167,
   fading: false
 }
 

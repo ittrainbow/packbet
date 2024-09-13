@@ -20,10 +20,10 @@ export const EditorPage = () => {
   const location = useLocation()
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
-  const { selectedWeek, emptyEditor, duration } = useSelector(selectApp)
+  const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
-  const { tabActive, durationShort } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const { questions, name } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -42,7 +42,7 @@ export const EditorPage = () => {
   useEffect(() => {
     if (tabActive === 6) {
       dispatch(editorActions.clearQuestionInWork())
-      setTimeout(() => dispatch(editorActions.clearEditor()), durationShort)
+      setTimeout(() => dispatch(editorActions.clearEditor()), duration)
     }
     // eslint-disable-next-line
   }, [tabActive])
@@ -95,7 +95,7 @@ export const EditorPage = () => {
     setTimeout(() => {
       dispatch(editorActions.clearEditor())
       navigate('/calendar')
-    }, durationShort)
+    }, duration)
   }
 
   const { editorTitleMsg } = i18n(locale, 'editor') as Locale
@@ -118,7 +118,7 @@ export const EditorPage = () => {
           {pathname.includes('editor/') && <Button onClick={() => setModalOpen(true)} text={buttonDeleteWeekMsg} />}
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={duration * 10} theme="colored" pauseOnHover={false} />
+      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
       <DeleteModal modalOpen={modalOpen} setModalOpen={setModalOpen} onConfirm={handleDeleteWeek} />
     </div>
   )

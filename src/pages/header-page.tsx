@@ -9,7 +9,7 @@ import { appActions, editorActions, toolsActions } from '../redux/slices'
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { tabActive, nextWeek, currentWeek, editor, durationShort } = useSelector(selectApp)
+  const { tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
 
   const animateBackToWeeklist = () => {
@@ -34,7 +34,7 @@ export const Header = () => {
       id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
 
       navigate(path)
-    }, durationShort)
+    }, duration)
   }
 
   const menu = useMenu()

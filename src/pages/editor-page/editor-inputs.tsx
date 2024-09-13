@@ -12,7 +12,7 @@ import { getNewQuestionId, getObjectsEquality } from '../../utils'
 export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) => {
   const dispatch = useDispatch()
   const nameRef = useRef<HTMLInputElement>(null)
-  const { durationShort, tabActive } = useSelector(selectApp)
+  const { duration, tabActive } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const editor = useSelector(selectEditor)
   const { pathname } = useSelector(selectLocation)
@@ -62,7 +62,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
     if (ru && ua && total) {
       triggerFade()
       const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
-      setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), durationShort)
+      setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), duration)
     }
   }
 

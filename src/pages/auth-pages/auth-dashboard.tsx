@@ -13,7 +13,7 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { tabActive, durationShort } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const { name, admin, locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -33,7 +33,7 @@ export const Dashboard = () => {
 
   const handleNavigate = () => {
     triggerFade()
-    setTimeout(() => navigate('/profile'), durationShort)
+    setTimeout(() => navigate('/profile'), duration)
   }
 
   const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as Locale

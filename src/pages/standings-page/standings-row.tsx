@@ -17,7 +17,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { showBuddies, standingsSearch, showOneWeek, seasonSelected } = useSelector(selectTools)
-  const { durationShort } = useSelector(selectApp)
+  const { duration } = useSelector(selectApp)
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
   const { admin, buddies } = user
@@ -32,7 +32,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
         admin && dispatch(userActions.setAdminAsPlayer(true))
         !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
         navigate('/week')
-      }, durationShort)
+      }, duration)
     }
   }
 

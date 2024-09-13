@@ -18,7 +18,7 @@ export const Profile = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { name, locale } = useSelector(selectUser)
-  const { tabActive, durationShort } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
@@ -53,7 +53,7 @@ export const Profile = () => {
     setTimeout(() => {
       locale !== tempLocale && dispatch(userActions.setLocale(tempLocale))
       navigate(-1)
-    }, durationShort)
+    }, duration)
   }
 
   const handleChange = () => setTempLocale((prev) => (prev === 'ru' ? 'ua' : 'ru'))

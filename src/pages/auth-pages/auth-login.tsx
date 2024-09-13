@@ -16,7 +16,7 @@ export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading, error] = useAuthState(auth)
-  const { tabActive, durationShort } = useSelector(selectApp)
+  const { tabActive, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
   const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
@@ -73,12 +73,12 @@ export const Login = () => {
 
   const handleToRegister = () => {
     triggerFade()
-    setTimeout(() => navigate('/register'), durationShort)
+    setTimeout(() => navigate('/register'), duration)
   }
 
   const handleToReset = () => {
     triggerFade()
-    setTimeout(() => navigate('/reset'), durationShort)
+    setTimeout(() => navigate('/reset'), duration)
   }
 
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as Locale

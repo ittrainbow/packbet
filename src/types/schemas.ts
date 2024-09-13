@@ -33,8 +33,8 @@ export const AppSchema = z.object({
   selectedWeek: z.number(),
   tabActive: z.number(),
   emailReg: z.boolean(),
+
   duration: z.number(),
-  durationShort: z.number(),
   fading: z.boolean()
 })
 export type App = z.infer<typeof AppSchema>
