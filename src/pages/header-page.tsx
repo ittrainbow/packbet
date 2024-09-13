@@ -40,29 +40,29 @@ export const Header = () => {
   const menu = useMenu()
 
   return (
-    <div className="bg-black h-[4.5rem] sm:h-[6rem] p-2 justify-between">
+    <div className="bg-black h-[4.5rem] sm:h-24 p-2 justify-between">
       <div className="flex flex-wrap max-w-[31rem]">
         {menu.map((el) => {
           const { id, path, icon, name } = el
           return (
-            <div
+            <button
               key={id}
               className={clsx(
-                'grow flex flex-col justify-center cursor-pointer items-center transition-all gap-1 w-8 sm:w-16',
+                'grow flex flex-col justify-center items-center transition-all gap-1 w-8 sm:w-16',
                 id === tabActive ? 'text-green-600' : 'text-gray-200'
               )}
               onClick={() => handleClick(id, path)}
             >
-              <div className={clsx('pt-[5px] sm:pt-1.5 text-[2.75rem] sm:text-[3rem]')}>{icon}</div>
-              <div
+              <div className={clsx('pt-1.5 text-[44px] sm:text-[48px]')}>{icon}</div>
+              <span
                 className={clsx(
                   'hidden sm:flex text-sm transition-all',
                   id === tabActive ? 'text-green-600' : 'text-white'
                 )}
               >
                 {name}
-              </div>
-            </div>
+              </span>
+            </button>
           )
         })}
       </div>

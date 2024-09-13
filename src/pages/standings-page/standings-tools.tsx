@@ -51,15 +51,10 @@ export const StandingsTools = () => {
           value={standingsSearch}
           type="text"
           placeholder={tableSearchMsg}
-          sx={{ width: '100%', height: '36px', fontSize: 15 }}
+          sx={{ width: '100%', height: '2.25rem', fontSize: 15 }}
         />
         <div>
-          <Button
-            onClick={handleClearSearch}
-            disabled={!standingsSearch}
-            className="h-[36px] px-1"
-            text={tableClearBtn}
-          />
+          <Button onClick={handleClearSearch} disabled={!standingsSearch} className="h-8 px-1" text={tableClearBtn} />
         </div>
       </div>
       <Switch

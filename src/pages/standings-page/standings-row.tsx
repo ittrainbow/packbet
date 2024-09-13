@@ -51,42 +51,44 @@ export const StandingsRow = ({ fade, index }: Props) => {
           : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]'
       )}
     >
-      <div
+      <span
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
         )}
       >
         {getRow?.position}
-      </div>
+      </span>
 
       {seasonSelected !== 2022 && (
-        <div
+        <button
           className={clsx(
             'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
             buddies?.includes(getRow?.uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
-            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-            seasonSelected !== 2022 && 'cursor-pointer'
+            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
           )}
           onClick={() => seasonSelected !== 2022 && getRow?.uid && handleAddRemoveBuddy(getRow?.uid)}
         >
           <FaStar />
-        </div>
+        </button>
       )}
 
-      <div
+      <button
         className={clsx(
-          'flex items-center text-sm sm:text-base justify-start leading-4 rounded-md py-0 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
+          'flex items-center text-sm sm:text-base text-start leading-4 rounded-md py-0.5 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-          seasonSelected !== 2022 && 'cursor-pointer'
+          seasonSelected === 2022 && 'cursor-auto'
         )}
-        onClick={() => seasonSelected !== 2022 && getRow?.uid && handleClickOnUser(getRow?.name, getRow?.uid)}
+        onClick={() => getRow.uid && handleClickOnUser(getRow?.name, getRow.uid)}
         style={{ fontWeight: user.uid === getRow?.uid ? 600 : '' }}
+        disabled={seasonSelected === 2022}
       >
-        {getRow?.name}
-      </div>
+        {getRow?.name.length > 20
+          ? getRow?.name?.replace(/#/g, '# ').replace(/_/g, '_ ').replace(/-/g, '- ')
+          : getRow?.name}
+      </button>
 
-      <div
+      <span
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
@@ -94,9 +96,9 @@ export const StandingsRow = ({ fade, index }: Props) => {
         )}
       >
         {getRow?.userAnswers}
-      </div>
+      </span>
 
-      <div
+      <span
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
@@ -104,9 +106,9 @@ export const StandingsRow = ({ fade, index }: Props) => {
         )}
       >
         {getRow?.correctAdjusted}
-      </div>
+      </span>
 
-      <div
+      <span
         className={clsx(
           'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
@@ -114,7 +116,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
         )}
       >
         {seasonSelected === 2022 ? getRow.adjustedPercentage : showOneWeek ? '-' : getRow?.tableFaults}
-      </div>
+      </span>
     </div>
   )
 

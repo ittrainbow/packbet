@@ -26,14 +26,18 @@ export const StandingsArrows = () => {
         !scrolled ? 'opacity-0' : 'opacity-100'
       )}
     >
-      <FaArrowCircleUp
+      <button
         onClick={() => handleScroll('top')}
-        className="transition text-gray-400 active:text-green-600 text-[50px] cursor-pointer"
-      />
-      <FaArrowCircleDown
+        className="transition text-gray-400 active:text-green-600 text-[48px]"
+      >
+        <FaArrowCircleUp />
+      </button>
+      <button
         onClick={() => handleScroll('bottom')}
-        className="transition text-gray-400 active:text-green-600 text-[50px] cursor-pointer"
-      />
+        className="transition text-gray-400 active:text-green-600 text-[48px]"
+      >
+        <FaArrowCircleDown />
+      </button>
     </div>
   )
 }

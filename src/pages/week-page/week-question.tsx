@@ -93,27 +93,26 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
   return (
     <div
       className={clsx(
-        'items-center ps-2 pe-1.5 border border-gray-400 rounded-md bg-white bg-opacity-60 gap-2 transition duration-500 h-11 flex flex-row',
+        'items-center px-1.5 border border-gray-400 rounded-md bg-white bg-opacity-60 gap-1 transition duration-500 h-11 flex flex-row',
         getQuestionClass(id)
       )}
     >
-      <div className="flex grow items-center leading-4">
+      <span className="flex grow items-center leading-4">
         {questionText.trim()}
         {total !== '1' ? `: ${total}` : null}
-      </div>
-      <div className="flex">
-        <div className="grid grid-cols-[1fr,1fr] gap-1">
-          <Button
-            className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(1))}
-            onClick={() => handleClick({ value: 1, id, activity: getActivity() })}
-            icon={total === '1' ? <FaCheck /> : <FaArrowUp />}
-          />
-          <Button
-            className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(2))}
-            onClick={() => handleClick({ value: 2, id, activity: getActivity() })}
-            icon={total === '1' ? <FaBan /> : <FaArrowDown />}
-          />
-        </div>
+      </span>
+
+      <div className="grid grid-cols-[1fr,1fr] gap-1">
+        <Button
+          className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(1))}
+          onClick={() => handleClick({ value: 1, id, activity: getActivity() })}
+          icon={total === '1' ? <FaCheck /> : <FaArrowUp />}
+        />
+        <Button
+          className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(2))}
+          onClick={() => handleClick({ value: 2, id, activity: getActivity() })}
+          icon={total === '1' ? <FaBan /> : <FaArrowDown />}
+        />
       </div>
     </div>
   )

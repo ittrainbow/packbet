@@ -54,7 +54,7 @@ export const About = () => {
           <hr className="h-px border-0 bg-gray-400" />
           <span className="font-bold">{aboutLegendMsg}</span>
           {legend.map(({ icon, text }, index) => (
-            <div key={index} className="flex flex-wrap gap-1">
+            <div key={index} className="grid grid-cols-[auto,auto,1fr] gap-2">
               <span className="flex items-center text-lg">{icon}</span>
               <span>-</span>
               <span>{text}</span>

@@ -17,25 +17,25 @@ export const StandingsHeader = () => {
           : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]'
       )}
     >
-      <div className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400">
+      <span className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400">
         #
-      </div>
+      </span>
       {seasonSelected !== 2022 && (
-        <div className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400"></div>
+        <span className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400"></span>
       )}
-      <div className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
+      <span className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
         {tableNameMsg}
-      </div>
-      <div className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
+      </span>
+      <span className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
         {seasonSelected === 2022 ? tableAllMsg : tableCorrectMsg}
-      </div>
-      <div className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
+      </span>
+      <span className="flex items-center bg-gray-200 text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
         {seasonSelected === 2022 ? tableCorrectMsg : '%'}
-      </div>
+      </span>
 
-      <div className="flex items-center bg-gray-200 text-sm  sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
+      <span className="flex items-center bg-gray-200 text-sm  sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter">
         {seasonSelected === 2022 ? '%' : tableLimitMsg}
-      </div>
+      </span>
     </div>
   )
 }

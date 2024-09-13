@@ -34,25 +34,31 @@ export const EditorQuestion = ({ id, questionsRef }: Props) => {
 
   return (
     <div className="flex flex-row gap-1 items-center p-2 rounded-md border border-gray-400 bg-white bg-opacity-50 min-h-10">
-      <div className="flex items-center grow text-sm leading-4">
+      <span className="flex items-center grow text-sm leading-4">
         {questionText}: {total}
-      </div>
+      </span>
       <div className="flex flex-row gap-2 justify-center items-center">
         {id === questionInWork.id ? (
-          <FiSlash
-            className="text-[20px] cursor-pointer text-gray-700 border-gray-300 hover:text-red-700 active:text-green-800"
+          <button
+            className="text-xl text-gray-700 border-gray-300 hover:text-red-700 active:text-green-800"
             onClick={handleClearQuestion}
-          />
+          >
+            <FiSlash />
+          </button>
         ) : (
-          <FiEdit
-            className="text-[20px] text-gray-700 cursor-pointer hover:text-green-700 active:text-green-800"
+          <button
+            className="text-xl text-gray-700 hover:text-green-700 active:text-green-800"
             onClick={() => handleEditQuestion(id)}
-          />
+          >
+            <FiEdit />
+          </button>
         )}
-        <FiTrash
-          className="text-[20px] items-center align-middle text-gray-700 cursor-pointer hover:text-red-700 active:text-red-800"
+        <button
+          className="text-xl items-center align-middle text-gray-700 hover:text-red-700 active:text-red-800"
           onClick={() => handleDeleteQuestion(id)}
-        />
+        >
+          <FiTrash />
+        </button>
       </div>
     </div>
   )

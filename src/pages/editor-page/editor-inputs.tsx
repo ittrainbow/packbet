@@ -73,13 +73,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
       <Input onChange={handleChangeName} inputRef={nameRef} placeholder={weekNameMsg} value={name} />
       <div className="grid grid-cols-[1fr,4rem] gap-2 py-2">
         <Input onChange={handleSetRu} placeholder={weekQuestionRuMsg} value={ru} />
-        <Input
-          onChange={handleChangeTotal}
-          value={total}
-          // type="number"
-          placeholder={weekTotalMsg}
-          className="text-center p-2"
-        />
+        <Input onChange={handleChangeTotal} value={total} placeholder={weekTotalMsg} className="text-center p-2" />
         <Input onChange={handleSetUa} placeholder={weekQuestionUaMsg} value={ua} className="grow" />
         <Button
           className="w-16 flex items-center justify-center"

@@ -101,12 +101,12 @@ export const Login = () => {
           text={buttonLoginMsg}
         />
         <Button className="bg-blue-500 text-white" onClick={handleGoogleClick} text={buttonLoginGoogleMsg} />
-        <div className="flex justify-center py-2 flex-row" onClick={handleToReset}>
-          <span className="pointer underline text-blue-600">{forgotMsg}</span>
-        </div>
-        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
+        <button className="flex justify-center py-2 flex-row pointer underline text-blue-600" onClick={handleToReset}>
+          {forgotMsg}
+        </button>
+        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
           {regIntro} <span className="pointer underline text-blue-600">{regMsg}</span>
-        </div>
+        </button>
         <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />
       </div>
     </div>

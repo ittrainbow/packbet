@@ -104,9 +104,9 @@ export const Register = () => {
         <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
         <Button className="bg-black bg-opacity-80 text-white" onClick={register} text={buttonRegisterMsg} />
         <Button className="bg-blue-500 text-white" onClick={handleGoogleClick} text={buttonRegisterGoogleMsg} />
-        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
+        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
           {loginIntro} <span className="pointer underline text-blue-600">{loginMsg}</span>
-        </div>
+        </button>
       </div>
 
       <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />

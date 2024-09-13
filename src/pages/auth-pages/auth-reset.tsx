@@ -71,12 +71,12 @@ export const Reset = () => {
           onClick={() => sendPasswordReset(email)}
           text={buttonRecoverMsg}
         />
-        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
+        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
           {regIntro} <span className="pointer underline text-blue-600">{regMsg}</span>
-        </div>
-        <div className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
+        </button>
+        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
           {loginIntro} <span className="pointer underline text-blue-600">{loginMsg}</span>
-        </div>
+        </button>
       </div>
 
       <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />

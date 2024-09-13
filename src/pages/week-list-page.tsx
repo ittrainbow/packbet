@@ -62,17 +62,17 @@ export const WeekList = () => {
             const text = (adjustedTab2msg + ' ' + name).split('.')
             const date = getDate(deadline).split(' ')
             return (
-              <div
+              <button
                 key={selectedWeek}
                 className={clsx(
-                  'px-3 py-1 cursor-pointer grid grid-cols-[2.5fr,1fr] bg-white bg-opacity-60 gap-1 border border-gray-400 rounded-md',
+                  'px-3 py-1 grid grid-cols-[2.5fr,1fr] bg-white bg-opacity-60 gap-1 border border-gray-400 rounded-md',
                   new Date().getTime() < deadline && 'bg-white bg-opacity-100'
                 )}
                 onClick={() => handleClick(selectedWeek)}
               >
                 <div className="grid grid-cols-1 gap-0 relative">
-                  <span className="text-xs text-gray-600 leading-4">{text[0]}</span>
-                  <span className="text-md">{text[1]}</span>
+                  <span className="text-xs text-gray-600 leading-4 me-auto">{text[0]}</span>
+                  <span className="text-md me-auto">{text[1]}</span>
                 </div>
                 <div className="text-xs relative grid gap-0 text-gray-600 leading-4">
                   <span className="ms-auto">
@@ -80,7 +80,7 @@ export const WeekList = () => {
                   </span>
                   <span className="ms-auto">{date[2]}</span>
                 </div>
-              </div>
+              </button>
             )
           })}
       </div>
