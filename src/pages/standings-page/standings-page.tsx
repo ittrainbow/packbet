@@ -68,9 +68,7 @@ export const StandingsPage = () => {
       .map((el) => Number(el))
       .at(-1) ?? 0
 
-  const lastWeekName =
-    !isNaN(Number(Object.keys(weeks).slice(-1)[0])) &&
-    weeks[Number(Object.keys(weeks).slice(-1)[0])].name?.split('.')[1]
+  const lastWeekName = weeks[Number(Object.keys(weeks).slice(-1)[0])].name.split(' ').slice(1, -1).join(' ')
 
   const lastWeekNameAdjusted =
     seasonSelected < 2024

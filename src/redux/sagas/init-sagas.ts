@@ -77,8 +77,6 @@ export function* createStandingsFromDataSaga(weeksFromProps?: Weeks) {
 
     const week2023: UserStandings[] = Object.values(fetchedStandings.week2023)
 
-    console.log(90, season2023)
-
     const season2024: UserStandings[] = createTable({
       answers,
       users,
