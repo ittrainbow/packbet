@@ -1,10 +1,10 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { deleteDBDocument, writeDBDocument } from '../../db'
-import { Action, Week, Weeks } from '../../types'
-import { getWeeksIDs } from '../../utils'
+import { deleteDBDocument, getDBCollection, writeDBDocument } from '../../db'
+import { Action, Answers, AnswersStore, Store, Users, Week, Weeks } from '../../types'
+import { createTable, getWeeksIDs } from '../../utils'
 import { appActions, editorActions, weeksActions } from '../slices'
-import { DELETE_WEEK, SUBMIT_WEEK } from '../storetypes'
+import { DELETE_WEEK, SUBMIT_WEEK, UPDATE_STANDINGS } from '../storetypes'
 
 type WeekUpdate = {
   id: number
@@ -27,7 +27,6 @@ function* submitWeekSaga(action: Action<WeekUpdate>) {
     if (isNewWeek) yield call(setNextAndCurrentWeeksSaga)
     yield put(weeksActions.updateWeeks({ id, week }))
     yield call(toaster, true)
-    // yield put(editorActions.clearEditor())
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -52,7 +51,24 @@ function* deleteWeekSaga(action: Action<number>) {
   yield put(appActions.setLoading(false))
 }
 
+export function* updateStandingsSaga() {
+  const users: Users = yield call(getDBCollection, 'users')
+  const answers: AnswersStore = yield call(getDBCollection, 'answers')
+  const results: Answers = yield select((store: Store) => store.results)
+  const { lastSeasonLastWeek } = yield select((state) => state.app)
+  const weekTable = createTable({ answers, users, results, fullSeason: false, lastSeasonLastWeek })
+  const seasonTable = createTable({ answers, users, results, fullSeason: true, lastSeasonLastWeek })
+  yield call(writeDBDocument, 'standings', 'week2024', Object.fromEntries(weekTable.map((el, index) => [index, el])))
+  yield call(
+    writeDBDocument,
+    'standings',
+    'season2024',
+    Object.fromEntries(seasonTable.map((el, index) => [index, el]))
+  )
+}
+
 export function* editorSagas() {
   yield takeEvery(SUBMIT_WEEK, submitWeekSaga)
   yield takeEvery(DELETE_WEEK, deleteWeekSaga)
+  yield takeEvery(UPDATE_STANDINGS, updateStandingsSaga)
 }

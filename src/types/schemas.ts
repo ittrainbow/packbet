@@ -33,7 +33,7 @@ export const AppSchema = z.object({
   selectedWeek: z.number(),
   tabActive: z.number(),
   emailReg: z.boolean(),
-
+  week2passed: z.boolean(),
   duration: z.number(),
   fading: z.boolean()
 })
@@ -79,7 +79,9 @@ export type UpdateStandings = z.infer<typeof UpdateStandingsSchema>
 export const FetchedStandingsSchema = z.object({
   season2022: z.record(z.string(), OldStandingsSchema),
   season2023: z.record(z.string(), UserStandingsSchema),
-  week2023: z.record(z.string(), UserStandingsSchema)
+  week2023: z.record(z.string(), UserStandingsSchema),
+  season2024: z.record(z.string(), UserStandingsSchema).optional(),
+  week2024: z.record(z.string(), UserStandingsSchema).optional()
 })
 export type FetchedStandings = z.infer<typeof FetchedStandingsSchema>
 

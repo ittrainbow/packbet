@@ -75,10 +75,12 @@ export const WeekPage = () => {
     dispatch({ type, payload })
   }
 
-  return currentWeek > -1 ? (
+  if (currentWeek < 0) return null
+
+  return (
     <div className="grid gap-1 p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
       <div className="flex flex-row gap-1 items-center">
-        <span className="text-base font-bold grow">{name.split('.')[1]}</span>
+        <span className="text-base font-bold grow">{name?.split('.')[1]}</span>
         {admin && isItYou ? (
           <Switch
             onChange={handleAdminAsPlayer}
@@ -113,5 +115,5 @@ export const WeekPage = () => {
       ) : null}
       <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </div>
-  ) : null
+  )
 }

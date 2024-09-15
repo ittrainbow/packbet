@@ -18,7 +18,8 @@ const initialState: App = {
   tabActive: 1,
   emailReg: false,
   duration: 167,
-  fading: false
+  fading: false,
+  week2passed: true
 }
 
 export const appSlice = createSlice({

@@ -1,6 +1,6 @@
 import { Answers, AnswersStore, Users, UserStandings } from '../types'
 
-type TableOnInitType = {
+type CreateTableType = {
   answers: AnswersStore
   users: Users
   results: Answers
@@ -12,7 +12,7 @@ type FetchObjectType<T> = {
   [key: number | string]: T
 }
 
-export const getTableOnInit = ({ answers, users, results, fullSeason, lastSeasonLastWeek }: TableOnInitType) => {
+export function createTable({ answers, users, results, fullSeason, lastSeasonLastWeek }: CreateTableType) {
   const userList = Object.keys(users)
 
   // filter 2024 season

@@ -83,7 +83,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
         style={{ fontWeight: user.uid === getRow?.uid ? 600 : '' }}
         disabled={seasonSelected === 2022}
       >
-        {getRow?.name.length > 20
+        {window.innerWidth < 480 && getRow?.name.length > 20
           ? getRow?.name?.replace(/#/g, '# ').replace(/_/g, '_ ').replace(/-/g, '- ')
           : getRow?.name}
       </button>

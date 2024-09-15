@@ -5,7 +5,7 @@ import { Action, Answers, ExtendedUser, Store, User } from '../../types'
 import { getLocale, getObjectsEquality } from '../../utils'
 import { answersActions, appActions, compareActions, resultsActions, userActions } from '../slices'
 import * as TYPES from '../storetypes'
-import { createStandingsSaga } from './init-sagas'
+import { createStandingsFromDataSaga } from './init-sagas'
 
 function* updateProfileSaga(
   action: Action<{
@@ -15,17 +15,19 @@ function* updateProfileSaga(
   }>
 ) {
   const oldName: string = yield select((store) => store.user.name)
-  yield put(appActions.setLoading(true))
+  const { week2passed } = yield select((store: Store) => store.app)
 
   const { payload } = action
   const { uid, name, locale } = payload
 
+  yield put(appActions.setLoading(true))
   try {
     const response: User = yield call(getDBDocument, 'users', uid)
     const data = { ...response, name, locale }
     yield call(writeDBDocument, 'users', uid, data)
     if (oldName === name) return
-    yield call(createStandingsSaga)
+
+    if (!week2passed) yield call(createStandingsFromDataSaga)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
@@ -83,9 +85,10 @@ function* submitResultsSaga(
   }>
 ) {
   const { results, selectedWeek, toaster } = action.payload
+  const { week2passed } = yield select((store: Store) => store.app)
   const data = results[selectedWeek]
-  yield put(appActions.setLoading(true))
 
+  yield put(appActions.setLoading(true))
   try {
     if (data) {
       yield call(writeDBDocument, 'results', selectedWeek, results[selectedWeek])
@@ -99,7 +102,9 @@ function* submitResultsSaga(
 
     yield put(resultsActions.setResults(results))
     yield put(compareActions.updateCompare({ data: results, id: 'results' }))
-    yield call(createStandingsSaga)
+
+    if (!week2passed) yield call(createStandingsFromDataSaga)
+
     yield call(toaster, saveSuccess)
   } catch (error) {
     yield toaster(false)
