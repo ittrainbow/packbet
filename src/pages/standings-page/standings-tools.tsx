@@ -44,7 +44,7 @@ export const StandingsTools = () => {
     i18n(locale, 'standings') as Locale
 
   const tools = (
-    <div className="grid border rounded-md px-2 py-1 mb-1 border-gray-400 gap-1">
+    <div className="grid border rounded-lg px-2 py-1 mb-1 border-gray-400 gap-1">
       <div className="justify-center items-center flex flex-row gap-2">
         <Input
           onChange={handleChangeSearch}

@@ -33,7 +33,7 @@ export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const questionText = locale === 'ru' ? ru : ua
 
   return (
-    <div className="flex flex-row gap-1 items-center p-2 rounded-md border border-gray-400 bg-white bg-opacity-50 min-h-10">
+    <div className="flex flex-row gap-1 items-center p-2 rounded-lg border border-gray-400 bg-white bg-opacity-50 min-h-10">
       <span className="flex items-center grow text-sm leading-4">
         {questionText}: {total}
       </span>

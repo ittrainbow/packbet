@@ -53,7 +53,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
     >
       <span
         className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+          'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
         )}
       >
@@ -63,7 +63,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
       {seasonSelected !== 2022 && (
         <button
           className={clsx(
-            'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+            'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400',
             buddies?.includes(getRow?.uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
             getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
           )}
@@ -75,7 +75,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
 
       <button
         className={clsx(
-          'flex items-center text-sm sm:text-base text-start leading-4 rounded-md py-0.5 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
+          'flex items-center text-sm sm:text-base text-start leading-4 rounded-lg py-0.5 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected === 2022 && 'cursor-auto'
         )}
@@ -90,7 +90,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
 
       <span
         className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400 tracking-tighter',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'pointer'
         )}
@@ -100,7 +100,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
 
       <span
         className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400 tracking-tighter',
+          'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400 tracking-tighter',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'pointer'
         )}
@@ -110,7 +110,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
 
       <span
         className={clsx(
-          'flex items-center text-sm sm:text-base justify-center rounded-md px-1 py-0 border border-gray-400',
+          'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400',
           getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
           seasonSelected !== 2022 && 'pointer'
         )}

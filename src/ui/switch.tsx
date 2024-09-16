@@ -25,7 +25,7 @@ export const Switch = ({
 }: Props) => {
   return (
     <div
-      className={clsx('items-center justify-center rounded-md max-h-12 flex flex-row', narrow ? 'gap-0' : 'gap-1')}
+      className={clsx('items-center justify-center rounded-lg max-h-12 flex flex-row', narrow ? 'gap-0' : 'gap-1')}
       style={{ width: fullWidth ? '100%' : '' }}
     >
       <div
@@ -60,8 +60,11 @@ export const Switch = ({
         />
         <span
           className={clsx(
-            'cursor-pointer before:w-[26px] before:-translate-x-0.5 before:border before:bg-gray-400 before:bg-opacity-90 before:border-gray-400 before:transition before:left-1 before:bottom-[2px] before:h-[26px] before:absolute absolute transition-all top-0 bottom-0 rounded-full before:rounded-full',
-            checked && 'translate-x-6'
+            'cursor-pointer before:w-6 before:-translate-x-0.5 before:border before:bg-opacity-90 before:border-gray-400 before:transition before:left-1.5 before:bottom-0.5 before:h-6 before:absolute absolute transition-all top-0 bottom-[1px] rounded-full before:rounded-full',
+            checked && 'translate-x-[22px]',
+            checked && !locale
+              ? 'before:bg-green-600 before:border-green-600'
+              : 'before:bg-gray-400 before:border-gray-400'
           )}
         />
       </label>

@@ -68,8 +68,8 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
     if (!thisButton) return 'text-gray-400'
     if (adm) return 'text-black bg-gray-200'
     if (!outdated && isItYou) return 'text-black bg-gray-200'
-    if (outdated && !adm && result && correct) return 'text-green-600 bg-gray-200'
-    if (outdated && !adm && result && !correct) return 'text-red-600 bg-gray-200'
+    if (outdated && !adm && result && correct) return 'text-green-600 border-opacity-10 bg-gray-200'
+    if (outdated && !adm && result && !correct) return 'text-red-600 border-opacity-10 bg-gray-200'
     if (adm || outdated) return 'text-black bg-gray-200'
   }
 
@@ -93,7 +93,7 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
   return (
     <div
       className={clsx(
-        'items-center px-1.5 border border-gray-400 rounded-md bg-white bg-opacity-60 gap-1 transition duration-500 h-11 flex flex-row',
+        'items-center px-1.5 border border-gray-400 rounded-lg bg-white gap-0.5 sm:gap-1.5 bg-opacity-60 transition duration-500 h-11 flex flex-row',
         getQuestionClass(id)
       )}
     >
@@ -102,7 +102,7 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
         {total !== '1' ? `: ${total}` : null}
       </span>
 
-      <div className="grid grid-cols-[1fr,1fr] gap-1">
+      <div className="grid grid-cols-[1fr,1fr] gap-0.5">
         <Button
           className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(1))}
           onClick={() => handleClick({ value: 1, id, activity: getActivity() })}

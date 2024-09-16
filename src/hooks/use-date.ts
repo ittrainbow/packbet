@@ -8,9 +8,10 @@ export function useDate() {
   const { locale } = useSelector(selectUser)
 
   const { aug, sep, oct, nov, dec, jan, feb } = i18n(locale, 'month') as Locale
+  const { atTimeMsg } = i18n(locale, 'ticks') as Locale
 
-  const getDate = (deadline: number) =>
-    moment(deadline)
+  return function (deadline: number) {
+    const date = moment(deadline)
       .format('D -MM- HH:mm')
       .replace('-08-', aug)
       .replace('-09-', sep)
@@ -19,6 +20,8 @@ export function useDate() {
       .replace('-12-', dec)
       .replace('-01-', jan)
       .replace('-02-', feb)
+      .split(' ')
 
-  return getDate
+    return [date[0], date[1], atTimeMsg, date[2]].join(' ')
+  }
 }

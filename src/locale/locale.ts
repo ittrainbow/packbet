@@ -56,6 +56,7 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const oneHourMsg = locale === 'ru' ? 'час' : 'година'
   const minutesMsg = locale === 'ru' ? 'мин' : 'хв'
   const secondsMsg = locale === 'ru' ? 'сек' : 'сек'
+  const atTimeMsg = locale === 'ru' ? 'в' : 'о'
 
   const playerMsg = locale === 'ru' ? 'Игрок' : 'Гравець'
   const adminMsg = locale === 'ru' ? 'Админ' : 'Адмiн'
@@ -210,7 +211,8 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         twoHoursMsg,
         oneHourMsg,
         minutesMsg,
-        secondsMsg
+        secondsMsg,
+        atTimeMsg
       }
 
     case 'auth':

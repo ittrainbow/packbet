@@ -1,6 +1,7 @@
 import Countdown from 'react-countdown'
 import { useSelector } from 'react-redux'
 
+import { useDate } from '../../hooks'
 import { i18n, Locale } from '../../locale'
 import { selectApp, selectUser, selectWeeks } from '../../redux/selectors'
 
@@ -9,6 +10,9 @@ export const WeekCountdown = () => {
   const { locale } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
   const { deadline } = weeks[selectedWeek] || new Date().getTime()
+  const getDate = useDate()
+
+  // console.log(120, gameStarted)
 
   const {
     countdownMsg,
@@ -38,7 +42,7 @@ export const WeekCountdown = () => {
     return (
       <span className="text-sm">
         {completed
-          ? gameStartedMsg
+          ? `${gameStartedMsg} ${getDate(deadline)}`
           : `${countdownMsg} ${days > 0 ? days + ' ' + daysText : ''} ${hours} ${hoursText} ${minutes}
         ${minutesMsg} ${seconds} ${secondsMsg}`}
       </span>

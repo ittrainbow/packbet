@@ -38,7 +38,7 @@ export const Input = ({
       autoComplete="off"
       id={id}
       disabled={disabled}
-      className={clsx('flex items-center w-full h-10 font-sm p-2 border rounded-md border-gray-400', className)}
+      className={clsx('flex items-center w-full h-10 font-sm p-2 border rounded-lg border-gray-400', className)}
     />
   )
 }

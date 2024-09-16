@@ -49,7 +49,7 @@ export const WeekList = () => {
       </span>
 
       {showOtherUserBar && <OtherUserMessage containerRef={containerRef} />}
-      <div className="grid gap-1">
+      <div className="grid gap-1.5">
         {Object.keys(weeks)
           .map((el) => Number(el))
           .filter((el) => el > lastSeasonLastWeek && (weeks[el].active || editor))
@@ -65,7 +65,7 @@ export const WeekList = () => {
               <button
                 key={selectedWeek}
                 className={clsx(
-                  'px-3 py-1 grid grid-cols-[2.5fr,1fr] bg-white bg-opacity-60 gap-1 border border-gray-400 rounded-md',
+                  'px-3 py-1 grid grid-cols-[2.5fr,1fr] bg-white bg-opacity-60 gap-1 border border-gray-400 rounded-lg',
                   new Date().getTime() < deadline && 'bg-white bg-opacity-100'
                 )}
                 onClick={() => handleClick(selectedWeek)}
@@ -78,7 +78,7 @@ export const WeekList = () => {
                   <span className="ms-auto">
                     {date[0]} {date[1]}
                   </span>
-                  <span className="ms-auto">{date[2]}</span>
+                  <span className="ms-auto">{date[3]}</span>
                 </div>
               </button>
             )

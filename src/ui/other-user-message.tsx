@@ -25,7 +25,7 @@ export const OtherUserMessage = ({ containerRef }: Props) => {
 
   return isItYou ? null : (
     <button
-      className="border leading-4 mb-1.5 border-gray-400 rounded-md bg-gray-200 p-2 flex flex-col gap-1 items-center"
+      className="border leading-4 mb-1.5 border-gray-400 rounded-lg bg-gray-200 p-2 flex flex-col gap-1 items-center"
       onClick={handleDiscard}
     >
       <span className="px-0.5 leading-4 text-sm">{otherUser1msg}</span>

@@ -11,7 +11,7 @@ export const OldStandingsMessage = () => {
   ) as Locale
 
   return (
-    <div className="border leading-4 mb-1.5 mt-1 border-gray-400 rounded-md bg-gray-200 p-2 flex flex-col gap-2 items-start">
+    <div className="border leading-4 mb-1.5 mt-1 border-gray-400 rounded-lg bg-gray-200 p-2 flex flex-col gap-2 items-start">
       <span className="px-0.5 leading-4 text-sm">{tableOldStandings1}</span>
       <span className="px-0.5 leading-4 text-sm">{tableOldStandings2}</span>
       <span className="px-0.5 leading-4 text-sm">{tableOldStandings3}</span>

@@ -44,7 +44,6 @@ export const getDBDocument = async (collection: string, document: string | numbe
 }
 
 export const writeDBDocument = async (collection: string, document: string | number, data: any) => {
-  console.log(100, data)
   const schema = collection.includes('users')
     ? UserSchema
     : collection.includes('answers')
@@ -58,7 +57,6 @@ export const writeDBDocument = async (collection: string, document: string | num
     : undefined
 
   schema?.parse(data)
-  console.log(101)
 
   await setDoc(doc(db, collection, document.toString()), data)
 }

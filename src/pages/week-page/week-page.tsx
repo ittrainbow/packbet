@@ -78,7 +78,7 @@ export const WeekPage = () => {
   if (currentWeek < 0) return null
 
   return (
-    <div className="grid gap-1 p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
+    <div className="grid gap-1.5 p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
       <div className="flex flex-row gap-1 items-center">
         <span className="text-base font-bold grow">{name?.split('.')[1]}</span>
         {admin && isItYou ? (
@@ -94,7 +94,7 @@ export const WeekPage = () => {
       <OtherUserMessage containerRef={containerRef} />
 
       <WeekCountdown />
-      <div className="grid gap-1">
+      <div className="grid gap-1.5">
         {questions &&
           Object.keys(questions)
             .map((el) => Number(el))
