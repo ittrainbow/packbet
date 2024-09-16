@@ -32,7 +32,7 @@ export const StandingsRow = ({ fade, index }: Props) => {
         admin && dispatch(userActions.setAdminAsPlayer(true))
         !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
         navigate('/week')
-      }, duration)
+      }, duration - 33)
     }
   }
 
