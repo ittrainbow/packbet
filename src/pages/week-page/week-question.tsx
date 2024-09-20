@@ -97,7 +97,7 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
         getQuestionClass(id)
       )}
     >
-      <span className="flex grow items-center leading-4">
+      <span className="flex grow items-center text-sm leading-4">
         {questionText.trim()}
         {total !== '1' ? `: ${total}` : null}
       </span>

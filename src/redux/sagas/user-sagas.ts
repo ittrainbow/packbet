@@ -14,7 +14,7 @@ function* updateProfileSaga(
     uid: string
   }>
 ) {
-  const oldName: string = yield select((store) => store.user.name)
+  // const oldName: string = yield select((store) => store.user.name)
   const { week2passed } = yield select((store: Store) => store.app)
 
   const { payload } = action
@@ -23,9 +23,11 @@ function* updateProfileSaga(
   yield put(appActions.setLoading(true))
   try {
     const response: User = yield call(getDBDocument, 'users', uid)
+
     const data = { ...response, name, locale }
+
     yield call(writeDBDocument, 'users', uid, data)
-    if (oldName === name) return
+    // if (oldName === name) return
 
     if (!week2passed) yield call(createStandingsFromDataSaga)
   } catch (error) {
