@@ -93,7 +93,7 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
   return (
     <div
       className={clsx(
-        'items-center px-1.5 border border-gray-400 rounded-lg bg-white gap-0.5 sm:gap-1.5 bg-opacity-60 transition duration-500 h-11 flex flex-row',
+        'items-center px-1.5 border border-gray-400 rounded-lg bg-white gap-1.5 bg-opacity-60 transition duration-500 h-11 flex flex-row',
         getQuestionClass(id)
       )}
     >
