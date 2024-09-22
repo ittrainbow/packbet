@@ -52,6 +52,8 @@ function* deleteWeekSaga(action: Action<number>) {
 }
 
 export function* updateStandingsSaga() {
+  yield put(appActions.setLoading(true))
+
   const users: Users = yield call(getDBCollection, 'users')
   const answers: AnswersStore = yield call(getDBCollection, 'answers')
   const results: Answers = yield select((store: Store) => store.results)
@@ -65,6 +67,8 @@ export function* updateStandingsSaga() {
     'season2024',
     Object.fromEntries(seasonTable.map((el, index) => [index, el]))
   )
+
+  yield put(appActions.setLoading(false))
 }
 
 export function* editorSagas() {
