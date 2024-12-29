@@ -5,6 +5,7 @@ import { Action, Answers, AnswersStore, Store, Users, Week, Weeks } from '../../
 import { createTable, getWeeksIDs } from '../../utils'
 import { appActions, editorActions, weeksActions } from '../slices'
 import { DELETE_WEEK, SUBMIT_WEEK, UPDATE_STANDINGS } from '../storetypes'
+import { createStandingsFromDBSaga } from './init-sagas'
 
 type WeekUpdate = {
   id: number
@@ -60,6 +61,7 @@ export function* updateStandingsSaga() {
   const { lastSeasonLastWeek } = yield select((state) => state.app)
   const weekTable = createTable({ answers, users, results, fullSeason: false, lastSeasonLastWeek })
   const seasonTable = createTable({ answers, users, results, fullSeason: true, lastSeasonLastWeek })
+
   yield call(writeDBDocument, 'standings', 'week2024', Object.fromEntries(weekTable.map((el, index) => [index, el])))
   yield call(
     writeDBDocument,
@@ -67,6 +69,8 @@ export function* updateStandingsSaga() {
     'season2024',
     Object.fromEntries(seasonTable.map((el, index) => [index, el]))
   )
+  const { week2passed } = yield select((store: Store) => store.app)
+  yield week2passed && call(createStandingsFromDBSaga)
 
   yield put(appActions.setLoading(false))
 }

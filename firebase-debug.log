@@ -1,0 +1,262 @@
+[debug] [2024-12-29T22:19:09.197Z] ----------------------------------------------------------------------
+[debug] [2024-12-29T22:19:09.200Z] Command:       /opt/homebrew/Cellar/node/23.1.0_1/bin/node /opt/homebrew/bin/firebase deploy
+[debug] [2024-12-29T22:19:09.200Z] CLI Version:   13.15.2
+[debug] [2024-12-29T22:19:09.200Z] Platform:      darwin
+[debug] [2024-12-29T22:19:09.200Z] Node Version:  v23.1.0
+[debug] [2024-12-29T22:19:09.201Z] Time:          Mon Dec 30 2024 01:19:09 GMT+0300 (Moscow Standard Time)
+[debug] [2024-12-29T22:19:09.201Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-12-29T22:19:09.203Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-12-29T22:19:09.266Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-12-29T22:19:09.266Z] > authorizing via signed-in user (deadbead@gmail.com)
+[debug] [2024-12-29T22:19:09.266Z] [iam] checking project pack-contest for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-12-29T22:19:09.267Z] > refreshing access token with scopes: []
+[debug] [2024-12-29T22:19:09.267Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-12-29T22:19:09.267Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-12-29T22:19:09.622Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-12-29T22:19:09.622Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-12-29T22:19:09.881Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-12-29T22:19:09.881Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-12-29T22:19:09.898Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions [none]
+[debug] [2024-12-29T22:19:09.898Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions x-goog-quota-user=projects/pack-contest
+[debug] [2024-12-29T22:19:09.898Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-12-29T22:19:10.551Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions 200
+[debug] [2024-12-29T22:19:10.552Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-12-29T22:19:10.552Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pack-contest [none]
+[debug] [2024-12-29T22:19:11.244Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pack-contest 200
+[debug] [2024-12-29T22:19:11.244Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pack-contest {"projectId":"pack-contest","projectNumber":"355018102897","displayName":"pack-contest","name":"projects/pack-contest","resources":{"hostingSite":"pack-contest"},"state":"ACTIVE","etag":"1_601d3d31-3add-461a-83e2-1d27d797818d"}
+[info] 
+[info] === Deploying to 'pack-contest'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2024-12-29T22:19:11.251Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions [none]
+[debug] [2024-12-29T22:19:11.252Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-12-29T22:19:13.523Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions 200
+[debug] [2024-12-29T22:19:13.523Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions {"name":"projects/355018102897/sites/pack-contest/versions/f213d59ca799611c","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[pack-contest]: beginning deploy... 
+[info] i  hosting[pack-contest]: found 9 files in build 
+[debug] [2024-12-29T22:19:13.570Z] [hosting] uploading with 200 concurrency
+[debug] [2024-12-29T22:19:14.247Z] [hosting] hash cache [YnVpbGQ] stored for 9 files
+[debug] [2024-12-29T22:19:14.247Z] [hosting][hash queue][FINAL] {"max":669,"min":4,"avg":84,"active":0,"complete":9,"success":9,"errored":0,"retried":0,"total":9,"elapsed":672}
+[debug] [2024-12-29T22:19:14.247Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/f213d59ca799611c:populateFiles [none]
+[debug] [2024-12-29T22:19:14.247Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/f213d59ca799611c:populateFiles {"files":{"/index.html":"3193792ffa1c9de70b429f467cee17feffef42dd12c77cf50068857474a891e8","/asset-manifest.json":"db3d1d0da2a7cbf6dbd5832a7cc72317f3259519d8972b2bfef8d9216c96dc4a","/static/js/main.d3c0c161.js.LICENSE.txt":"8075147fedca9c1d45726ef3dba7f6f02e61f05d584244a1d6a02ad3efeec718","/static/css/main.bec4a444.css":"cf1d336517cfbb38f931be0b74b4c55f968b120ec18514e6297dad032b3050a1","/manifest.json":"8c87a7ba5722f36dd268902570755790bd33d2db356ea7a899164b2145268c27","/packers.ico":"57f46b41347491ab9558eb7cb6fd288b346dc5c4440a2a8ddbb1071e0f9698ef","/static/css/main.bec4a444.css.map":"3d0041591900d3aa9726047183ce38133e03a4ac8685370380ff27e56715aa22","/static/js/main.d3c0c161.js":"b1b6d675e5b4f3e4487f2d8f18252bcc0d0320101dd65a529672b0d3360707b9","/static/js/main.d3c0c161.js.map":"e800388d7b7940378948498e78a1c25913e9ca2e98bc16fe8c56a6fd3c79f2d9"}}
+[debug] [2024-12-29T22:19:14.785Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/f213d59ca799611c:populateFiles 200
+[debug] [2024-12-29T22:19:14.786Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/f213d59ca799611c:populateFiles {"uploadRequiredHashes":["db3d1d0da2a7cbf6dbd5832a7cc72317f3259519d8972b2bfef8d9216c96dc4a","3193792ffa1c9de70b429f467cee17feffef42dd12c77cf50068857474a891e8","e800388d7b7940378948498e78a1c25913e9ca2e98bc16fe8c56a6fd3c79f2d9","b1b6d675e5b4f3e4487f2d8f18252bcc0d0320101dd65a529672b0d3360707b9"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files"}
+[debug] [2024-12-29T22:19:14.788Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/db3d1d0da2a7cbf6dbd5832a7cc72317f3259519d8972b2bfef8d9216c96dc4a [none]
+[debug] [2024-12-29T22:19:14.788Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/db3d1d0da2a7cbf6dbd5832a7cc72317f3259519d8972b2bfef8d9216c96dc4a [stream]
+[debug] [2024-12-29T22:19:14.790Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/3193792ffa1c9de70b429f467cee17feffef42dd12c77cf50068857474a891e8 [none]
+[debug] [2024-12-29T22:19:14.790Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/3193792ffa1c9de70b429f467cee17feffef42dd12c77cf50068857474a891e8 [stream]
+[debug] [2024-12-29T22:19:14.792Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/e800388d7b7940378948498e78a1c25913e9ca2e98bc16fe8c56a6fd3c79f2d9 [none]
+[debug] [2024-12-29T22:19:14.792Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/e800388d7b7940378948498e78a1c25913e9ca2e98bc16fe8c56a6fd3c79f2d9 [stream]
+[debug] [2024-12-29T22:19:14.795Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/b1b6d675e5b4f3e4487f2d8f18252bcc0d0320101dd65a529672b0d3360707b9 [none]
+[debug] [2024-12-29T22:19:14.796Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/b1b6d675e5b4f3e4487f2d8f18252bcc0d0320101dd65a529672b0d3360707b9 [stream]
+[debug] [2024-12-29T22:19:14.798Z] [hosting][populate queue][FINAL] {"max":543,"min":543,"avg":543,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":553}
+[debug] [2024-12-29T22:19:14.798Z] [hosting] uploads queued: 4
+[debug] [2024-12-29T22:19:16.684Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/db3d1d0da2a7cbf6dbd5832a7cc72317f3259519d8972b2bfef8d9216c96dc4a 200
+[debug] [2024-12-29T22:19:16.684Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/db3d1d0da2a7cbf6dbd5832a7cc72317f3259519d8972b2bfef8d9216c96dc4a [stream]
+[debug] [2024-12-29T22:19:16.721Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/3193792ffa1c9de70b429f467cee17feffef42dd12c77cf50068857474a891e8 200
+[debug] [2024-12-29T22:19:16.721Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/3193792ffa1c9de70b429f467cee17feffef42dd12c77cf50068857474a891e8 [stream]
+[debug] [2024-12-29T22:19:17.186Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/b1b6d675e5b4f3e4487f2d8f18252bcc0d0320101dd65a529672b0d3360707b9 200
+[debug] [2024-12-29T22:19:17.186Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/b1b6d675e5b4f3e4487f2d8f18252bcc0d0320101dd65a529672b0d3360707b9 [stream]
+[debug] [2024-12-29T22:19:17.493Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/e800388d7b7940378948498e78a1c25913e9ca2e98bc16fe8c56a6fd3c79f2d9 200
+[debug] [2024-12-29T22:19:17.494Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/f213d59ca799611c/files/e800388d7b7940378948498e78a1c25913e9ca2e98bc16fe8c56a6fd3c79f2d9 [stream]
+[debug] [2024-12-29T22:19:17.494Z] [hosting][upload queue][FINAL] {"max":2707,"min":1898,"avg":2234.5,"active":0,"complete":4,"success":4,"errored":0,"retried":0,"total":4,"elapsed":2708}
+[info] ✔  hosting[pack-contest]: file upload complete 
+[debug] [2024-12-29T22:19:17.496Z] [hosting] deploy completed after 3969ms
+[debug] [2024-12-29T22:19:17.496Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "pack-contest"
+    },
+    "version": "projects/355018102897/sites/pack-contest/versions/f213d59ca799611c"
+  }
+]
+[info] i  hosting[pack-contest]: finalizing version... 
+[debug] [2024-12-29T22:19:17.498Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/f213d59ca799611c updateMask=status%2Cconfig
+[debug] [2024-12-29T22:19:17.498Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/f213d59ca799611c {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2024-12-29T22:19:18.203Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/f213d59ca799611c 200
+[debug] [2024-12-29T22:19:18.203Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/f213d59ca799611c {"name":"projects/355018102897/sites/pack-contest/versions/f213d59ca799611c","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-12-29T22:19:12.347060Z","createUser":{"email":"deadbead@gmail.com"},"finalizeTime":"2024-12-29T22:19:18.139522Z","finalizeUser":{"email":"deadbead@gmail.com"}}
+[debug] [2024-12-29T22:19:18.203Z] [hosting] finalized version for pack-contest:[object Object]
+[info] ✔  hosting[pack-contest]: version finalized 
+[info] i  hosting[pack-contest]: releasing new version... 
+[debug] [2024-12-29T22:19:18.204Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases versionName=projects%2F355018102897%2Fsites%2Fpack-contest%2Fversions%2Ff213d59ca799611c
+[debug] [2024-12-29T22:19:18.204Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases {}
+[debug] [2024-12-29T22:19:19.005Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases 200
+[debug] [2024-12-29T22:19:19.005Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases {"name":"projects/355018102897/sites/pack-contest/channels/live/releases/1735510758262000","version":{"name":"projects/355018102897/sites/pack-contest/versions/f213d59ca799611c","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-12-29T22:19:12.347060Z","createUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"},"finalizeTime":"2024-12-29T22:19:18.139522Z","finalizeUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}},"type":"DEPLOY","releaseTime":"2024-12-29T22:19:18.262Z","releaseUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}}
+[debug] [2024-12-29T22:19:19.005Z] [hosting] release: {"name":"projects/355018102897/sites/pack-contest/channels/live/releases/1735510758262000","version":{"name":"projects/355018102897/sites/pack-contest/versions/f213d59ca799611c","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-12-29T22:19:12.347060Z","createUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"},"finalizeTime":"2024-12-29T22:19:18.139522Z","finalizeUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}},"type":"DEPLOY","releaseTime":"2024-12-29T22:19:18.262Z","releaseUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}}
+[info] ✔  hosting[pack-contest]: release complete 
+[info] 
+[info] ✔  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/pack-contest/overview
+[info] Hosting URL: https://pack-contest.web.app
+[debug] [2024-12-29T22:19:25.140Z] Error: Timed out.
+    at Timeout._onTimeout (/opt/homebrew/lib/node_modules/firebase-tools/lib/utils.js:268:49)
+    at listOnTimeout (node:internal/timers:614:17)
+    at process.processTimers (node:internal/timers:549:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-12-29T22:50:07.796Z] ----------------------------------------------------------------------
+[debug] [2024-12-29T22:50:07.798Z] Command:       /Users/andrewgordienko/.nvm/versions/node/v20.18.1/bin/node /opt/homebrew/bin/firebase deploy
+[debug] [2024-12-29T22:50:07.798Z] CLI Version:   13.29.1
+[debug] [2024-12-29T22:50:07.798Z] Platform:      darwin
+[debug] [2024-12-29T22:50:07.798Z] Node Version:  v20.18.1
+[debug] [2024-12-29T22:50:07.798Z] Time:          Mon Dec 30 2024 01:50:07 GMT+0300 (Москва, стандартное время)
+[debug] [2024-12-29T22:50:07.799Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-12-29T22:50:07.846Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-12-29T22:50:07.846Z] > authorizing via signed-in user (deadbead@gmail.com)
+[debug] [2024-12-29T22:50:07.846Z] [iam] checking project pack-contest for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-12-29T22:50:07.847Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:07.847Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:07.848Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions [none]
+[debug] [2024-12-29T22:50:07.848Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions x-goog-quota-user=projects/pack-contest
+[debug] [2024-12-29T22:50:07.848Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-12-29T22:50:08.561Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions 200
+[debug] [2024-12-29T22:50:08.561Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pack-contest:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-12-29T22:50:08.562Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:08.562Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:08.562Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pack-contest [none]
+[debug] [2024-12-29T22:50:09.247Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pack-contest 200
+[debug] [2024-12-29T22:50:09.247Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pack-contest {"projectId":"pack-contest","projectNumber":"355018102897","displayName":"pack-contest","name":"projects/pack-contest","resources":{"hostingSite":"pack-contest"},"state":"ACTIVE","etag":"1_601d3d31-3add-461a-83e2-1d27d797818d"}
+[info] 
+[info] === Deploying to 'pack-contest'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2024-12-29T22:50:09.256Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:09.256Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:09.256Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions [none]
+[debug] [2024-12-29T22:50:09.256Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-12-29T22:50:11.060Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions 200
+[debug] [2024-12-29T22:50:11.061Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions {"name":"projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[pack-contest]: beginning deploy... 
+[info] i  hosting[pack-contest]: found 9 files in build 
+[debug] [2024-12-29T22:50:11.078Z] [hosting] uploading with 200 concurrency
+[debug] [2024-12-29T22:50:11.474Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.474Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.475Z] [hosting] hash cache [YnVpbGQ] stored for 9 files
+[debug] [2024-12-29T22:50:11.475Z] [hosting][hash queue][FINAL] {"max":392,"min":4,"avg":51.77777777777778,"active":0,"complete":9,"success":9,"errored":0,"retried":0,"total":9,"elapsed":395}
+[debug] [2024-12-29T22:50:11.475Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898:populateFiles [none]
+[debug] [2024-12-29T22:50:11.475Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898:populateFiles {"files":{"/manifest.json":"e4b29c6322cb446b51487954de1f7ee1d397304756880d0d1fc589f68db127e5","/index.html":"1d12dcac18902071cf631e7e62262c4903119fa37f838d4a8c18ea8c71ba42a6","/asset-manifest.json":"7f993623bcfe32630ec93e7ba8d903f72b93a1c7f65a4c8ea90bdc07def7d937","/static/js/main.d3c0c161.js.LICENSE.txt":"cbc825a0fcd7b1308716205b653779691fb4d856a64d440349d5c00f1e71509a","/static/css/main.bec4a444.css":"26e4700adc24804df75a3af62e1d2590f1c4426f488fb595ed4f34664ef157b9","/packers.ico":"21c8786626603977d48ebcffed630deec6dabf7b2ec8dd587a8c49e7b6e1408a","/static/css/main.bec4a444.css.map":"97a45d1fef104ca2a9fc935fff85746890a7849fcb6b3a0f22ae026e15a46545","/static/js/main.d3c0c161.js":"61d7fb464d069efb1a1ff49f07b769d3c165899cb3fc3c12b0b4bd23d888b139","/static/js/main.d3c0c161.js.map":"aba66558cdc016224564809403de0e6b16c346fb7c548ddd68a1be28b49b9a9b"}}
+[debug] [2024-12-29T22:50:11.975Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898:populateFiles 200
+[debug] [2024-12-29T22:50:11.976Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898:populateFiles {"uploadRequiredHashes":["97a45d1fef104ca2a9fc935fff85746890a7849fcb6b3a0f22ae026e15a46545","1d12dcac18902071cf631e7e62262c4903119fa37f838d4a8c18ea8c71ba42a6","7f993623bcfe32630ec93e7ba8d903f72b93a1c7f65a4c8ea90bdc07def7d937","cbc825a0fcd7b1308716205b653779691fb4d856a64d440349d5c00f1e71509a","e4b29c6322cb446b51487954de1f7ee1d397304756880d0d1fc589f68db127e5","26e4700adc24804df75a3af62e1d2590f1c4426f488fb595ed4f34664ef157b9","61d7fb464d069efb1a1ff49f07b769d3c165899cb3fc3c12b0b4bd23d888b139","aba66558cdc016224564809403de0e6b16c346fb7c548ddd68a1be28b49b9a9b","21c8786626603977d48ebcffed630deec6dabf7b2ec8dd587a8c49e7b6e1408a"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files"}
+[debug] [2024-12-29T22:50:11.977Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.978Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.978Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.978Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.978Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.978Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:11.979Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/97a45d1fef104ca2a9fc935fff85746890a7849fcb6b3a0f22ae026e15a46545 [none]
+[debug] [2024-12-29T22:50:11.979Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/97a45d1fef104ca2a9fc935fff85746890a7849fcb6b3a0f22ae026e15a46545 [stream]
+[debug] [2024-12-29T22:50:11.980Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/1d12dcac18902071cf631e7e62262c4903119fa37f838d4a8c18ea8c71ba42a6 [none]
+[debug] [2024-12-29T22:50:11.980Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/1d12dcac18902071cf631e7e62262c4903119fa37f838d4a8c18ea8c71ba42a6 [stream]
+[debug] [2024-12-29T22:50:11.981Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/7f993623bcfe32630ec93e7ba8d903f72b93a1c7f65a4c8ea90bdc07def7d937 [none]
+[debug] [2024-12-29T22:50:11.981Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/7f993623bcfe32630ec93e7ba8d903f72b93a1c7f65a4c8ea90bdc07def7d937 [stream]
+[debug] [2024-12-29T22:50:11.982Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/cbc825a0fcd7b1308716205b653779691fb4d856a64d440349d5c00f1e71509a [none]
+[debug] [2024-12-29T22:50:11.982Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/cbc825a0fcd7b1308716205b653779691fb4d856a64d440349d5c00f1e71509a [stream]
+[debug] [2024-12-29T22:50:11.982Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/e4b29c6322cb446b51487954de1f7ee1d397304756880d0d1fc589f68db127e5 [none]
+[debug] [2024-12-29T22:50:11.982Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/e4b29c6322cb446b51487954de1f7ee1d397304756880d0d1fc589f68db127e5 [stream]
+[debug] [2024-12-29T22:50:11.983Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/26e4700adc24804df75a3af62e1d2590f1c4426f488fb595ed4f34664ef157b9 [none]
+[debug] [2024-12-29T22:50:11.983Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/26e4700adc24804df75a3af62e1d2590f1c4426f488fb595ed4f34664ef157b9 [stream]
+[debug] [2024-12-29T22:50:11.983Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/61d7fb464d069efb1a1ff49f07b769d3c165899cb3fc3c12b0b4bd23d888b139 [none]
+[debug] [2024-12-29T22:50:11.983Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/61d7fb464d069efb1a1ff49f07b769d3c165899cb3fc3c12b0b4bd23d888b139 [stream]
+[debug] [2024-12-29T22:50:11.984Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/aba66558cdc016224564809403de0e6b16c346fb7c548ddd68a1be28b49b9a9b [none]
+[debug] [2024-12-29T22:50:11.984Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/aba66558cdc016224564809403de0e6b16c346fb7c548ddd68a1be28b49b9a9b [stream]
+[debug] [2024-12-29T22:50:11.985Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/21c8786626603977d48ebcffed630deec6dabf7b2ec8dd587a8c49e7b6e1408a [none]
+[debug] [2024-12-29T22:50:11.985Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/21c8786626603977d48ebcffed630deec6dabf7b2ec8dd587a8c49e7b6e1408a [stream]
+[debug] [2024-12-29T22:50:11.986Z] [hosting][populate queue][FINAL] {"max":505,"min":505,"avg":505,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":512}
+[debug] [2024-12-29T22:50:11.986Z] [hosting] uploads queued: 9
+[debug] [2024-12-29T22:50:13.594Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/97a45d1fef104ca2a9fc935fff85746890a7849fcb6b3a0f22ae026e15a46545 200
+[debug] [2024-12-29T22:50:13.594Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/97a45d1fef104ca2a9fc935fff85746890a7849fcb6b3a0f22ae026e15a46545 [stream]
+[debug] [2024-12-29T22:50:13.743Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/7f993623bcfe32630ec93e7ba8d903f72b93a1c7f65a4c8ea90bdc07def7d937 200
+[debug] [2024-12-29T22:50:13.743Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/7f993623bcfe32630ec93e7ba8d903f72b93a1c7f65a4c8ea90bdc07def7d937 [stream]
+[debug] [2024-12-29T22:50:13.748Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/cbc825a0fcd7b1308716205b653779691fb4d856a64d440349d5c00f1e71509a 200
+[debug] [2024-12-29T22:50:13.748Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/cbc825a0fcd7b1308716205b653779691fb4d856a64d440349d5c00f1e71509a [stream]
+[debug] [2024-12-29T22:50:13.887Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/21c8786626603977d48ebcffed630deec6dabf7b2ec8dd587a8c49e7b6e1408a 200
+[debug] [2024-12-29T22:50:13.888Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/21c8786626603977d48ebcffed630deec6dabf7b2ec8dd587a8c49e7b6e1408a [stream]
+[debug] [2024-12-29T22:50:14.034Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/26e4700adc24804df75a3af62e1d2590f1c4426f488fb595ed4f34664ef157b9 200
+[debug] [2024-12-29T22:50:14.034Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/26e4700adc24804df75a3af62e1d2590f1c4426f488fb595ed4f34664ef157b9 [stream]
+[debug] [2024-12-29T22:50:14.165Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/61d7fb464d069efb1a1ff49f07b769d3c165899cb3fc3c12b0b4bd23d888b139 200
+[debug] [2024-12-29T22:50:14.165Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/61d7fb464d069efb1a1ff49f07b769d3c165899cb3fc3c12b0b4bd23d888b139 [stream]
+[debug] [2024-12-29T22:50:14.184Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/1d12dcac18902071cf631e7e62262c4903119fa37f838d4a8c18ea8c71ba42a6 200
+[debug] [2024-12-29T22:50:14.184Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/1d12dcac18902071cf631e7e62262c4903119fa37f838d4a8c18ea8c71ba42a6 [stream]
+[debug] [2024-12-29T22:50:14.879Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/e4b29c6322cb446b51487954de1f7ee1d397304756880d0d1fc589f68db127e5 200
+[debug] [2024-12-29T22:50:14.880Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/e4b29c6322cb446b51487954de1f7ee1d397304756880d0d1fc589f68db127e5 [stream]
+[debug] [2024-12-29T22:50:15.441Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/aba66558cdc016224564809403de0e6b16c346fb7c548ddd68a1be28b49b9a9b 200
+[debug] [2024-12-29T22:50:15.441Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/pack-contest/versions/7453b885ed4c7898/files/aba66558cdc016224564809403de0e6b16c346fb7c548ddd68a1be28b49b9a9b [stream]
+[debug] [2024-12-29T22:50:15.442Z] [hosting][upload queue][FINAL] {"max":3462,"min":1618,"avg":2208,"active":0,"complete":9,"success":9,"errored":0,"retried":0,"total":9,"elapsed":3466}
+[info] ✔  hosting[pack-contest]: file upload complete 
+[debug] [2024-12-29T22:50:15.443Z] [hosting] deploy completed after 4379ms
+[debug] [2024-12-29T22:50:15.443Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "pack-contest"
+    },
+    "version": "projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898"
+  }
+]
+[info] i  hosting[pack-contest]: finalizing version... 
+[debug] [2024-12-29T22:50:15.445Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:15.445Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:15.445Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/7453b885ed4c7898 updateMask=status%2Cconfig
+[debug] [2024-12-29T22:50:15.445Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/7453b885ed4c7898 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2024-12-29T22:50:16.162Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/7453b885ed4c7898 200
+[debug] [2024-12-29T22:50:16.162Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/versions/7453b885ed4c7898 {"name":"projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-12-29T22:50:10.353677Z","createUser":{"email":"deadbead@gmail.com"},"finalizeTime":"2024-12-29T22:50:16.087656Z","finalizeUser":{"email":"deadbead@gmail.com"}}
+[debug] [2024-12-29T22:50:16.162Z] [hosting] finalized version for pack-contest:[object Object]
+[info] ✔  hosting[pack-contest]: version finalized 
+[info] i  hosting[pack-contest]: releasing new version... 
+[debug] [2024-12-29T22:50:16.163Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:16.163Z] Checked if tokens are valid: true, expires at: 1735514348882
+[debug] [2024-12-29T22:50:16.164Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases versionName=projects%2F355018102897%2Fsites%2Fpack-contest%2Fversions%2F7453b885ed4c7898
+[debug] [2024-12-29T22:50:16.164Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases {}
+[debug] [2024-12-29T22:50:16.895Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases 200
+[debug] [2024-12-29T22:50:16.896Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pack-contest/channels/live/releases {"name":"projects/355018102897/sites/pack-contest/channels/live/releases/1735512616137000","version":{"name":"projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-12-29T22:50:10.353677Z","createUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"},"finalizeTime":"2024-12-29T22:50:16.087656Z","finalizeUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}},"type":"DEPLOY","releaseTime":"2024-12-29T22:50:16.137Z","releaseUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}}
+[debug] [2024-12-29T22:50:16.896Z] [hosting] release: {"name":"projects/355018102897/sites/pack-contest/channels/live/releases/1735512616137000","version":{"name":"projects/355018102897/sites/pack-contest/versions/7453b885ed4c7898","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2024-12-29T22:50:10.353677Z","createUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"},"finalizeTime":"2024-12-29T22:50:16.087656Z","finalizeUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}},"type":"DEPLOY","releaseTime":"2024-12-29T22:50:16.137Z","releaseUser":{"email":"deadbead@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocL4iV1lFnPWL3_2QWk-S0A0_1Zbw3AXGE66gPK2idCvA7ZmaA4dXA"}}
+[info] ✔  hosting[pack-contest]: release complete 
+[info] 
+[info] ✔  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/pack-contest/overview
+[info] Hosting URL: https://pack-contest.web.app
+[debug] [2024-12-29T22:50:23.057Z] Error: Timed out.
+    at Timeout._onTimeout (/opt/homebrew/lib/node_modules/firebase-tools/lib/utils.js:269:49)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+[error] 
+[error] Error: An unexpected error has occurred.
