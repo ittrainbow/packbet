@@ -81,7 +81,9 @@ export const FetchedStandingsSchema = z.object({
   season2023: z.record(z.string(), UserStandingsSchema),
   week2023: z.record(z.string(), UserStandingsSchema),
   season2024: z.record(z.string(), UserStandingsSchema).optional(),
-  week2024: z.record(z.string(), UserStandingsSchema).optional()
+  week2024: z.record(z.string(), UserStandingsSchema).optional(),
+  season2025: z.record(z.string(), UserStandingsSchema).optional(),
+  week2025: z.record(z.string(), UserStandingsSchema).optional()
 })
 export type FetchedStandings = z.infer<typeof FetchedStandingsSchema>
 
@@ -90,7 +92,9 @@ export const StandingsSchema = z.object({
   season2023: z.array(UserStandingsSchema),
   week2023: z.array(UserStandingsSchema),
   season2024: z.array(UserStandingsSchema),
-  week2024: z.array(UserStandingsSchema)
+  week2024: z.array(UserStandingsSchema),
+  season2025: z.array(UserStandingsSchema),
+  week2025: z.array(UserStandingsSchema)
 })
 export type Standings = z.infer<typeof StandingsSchema>
 

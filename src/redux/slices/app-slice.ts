@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { App } from '../../types'
 
 const initialState: App = {
-  season: 2024,
-  lastSeasonLastWeek: 18,
+  season: 2025,
+  lastSeasonLastWeek: 36,
   loading: true,
   editor: false,
   error: '',

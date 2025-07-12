@@ -33,7 +33,9 @@ export const StandingsPage = () => {
       ? standings.season2022
       : seasonSelected === 2023
       ? standings.season2023
-      : standings.season2024
+      : seasonSelected === 2024
+      ? standings.season2024
+      : standings.season2025
 
   const containerFade = useFade(containerRef)
   const bodyFade = useFade(bodyRef)

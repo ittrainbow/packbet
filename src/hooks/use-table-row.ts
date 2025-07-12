@@ -10,10 +10,21 @@ export function useTableRow(index: number) {
   const standings = useSelector(selectStandings)
   const results = useSelector(selectResults)
 
-  const season = seasonSelected === 2023 ? standings.season2023 : standings.season2024
+  const season =
+    seasonSelected === 2023
+      ? standings.season2023
+      : seasonSelected === 2024
+      ? standings.season2024
+      : standings.season2025
 
   const week =
-    seasonSelected === 2022 ? standings.season2022 : seasonSelected === 2023 ? standings.week2023 : standings.week2024
+    seasonSelected === 2022
+      ? standings.season2022
+      : seasonSelected === 2023
+      ? standings.week2023
+      : seasonSelected === 2024
+      ? standings.week2024
+      : standings.week2025
 
   if (seasonSelected === 2022) {
     const tableEl = standings.season2022[index]

@@ -12,8 +12,6 @@ export const WeekCountdown = () => {
   const { deadline } = weeks[selectedWeek] || new Date().getTime()
   const getDate = useDate()
 
-  // console.log(120, gameStarted)
-
   const {
     countdownMsg,
     gameStartedMsg,

@@ -62,11 +62,11 @@ export function* updateStandingsSaga() {
   const weekTable = createTable({ answers, users, results, fullSeason: false, lastSeasonLastWeek })
   const seasonTable = createTable({ answers, users, results, fullSeason: true, lastSeasonLastWeek })
 
-  yield call(writeDBDocument, 'standings', 'week2024', Object.fromEntries(weekTable.map((el, index) => [index, el])))
+  yield call(writeDBDocument, 'standings', 'week2025', Object.fromEntries(weekTable.map((el, index) => [index, el])))
   yield call(
     writeDBDocument,
     'standings',
-    'season2024',
+    'season2025',
     Object.fromEntries(seasonTable.map((el, index) => [index, el]))
   )
   const { week2passed } = yield select((store: Store) => store.app)
