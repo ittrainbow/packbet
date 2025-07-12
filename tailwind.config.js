@@ -20,6 +20,14 @@ module.exports = {
           '0%': { opacity: 1, transform: 'translateX(0)' },
           '100%': { opacity: 0, transform: 'translateX(-30px)' }
         },
+        slideDown: {
+          '0%': { opacity: 0, transform: 'translateY(-10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' }
+        },
+        slideUp: {
+          '0%': { opacity: 1, transform: 'translateY(0)' },
+          '100%': { opacity: 0, transform: 'translateY(-10px)' }
+        },
         bgPulse: {
           '0%': { backgroundColor: '#e5e5e5', backgroundOpacity: 1 },
           '50%': { backgroundColor: '#ffffff', backgroundOpacity: 0.75 },

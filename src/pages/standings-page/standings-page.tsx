@@ -51,6 +51,7 @@ export const StandingsPage = () => {
     setFadeOutTools(!fadeOutTools)
     bodyFade()
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
+    setTimeout(() => setSelectedRow(null), duration)
   }
 
   const {
@@ -82,6 +83,8 @@ export const StandingsPage = () => {
       ? `${tableHeaderhMsg} ${lastWeekName}`
       : tableNoGamesMsg
 
+  const [selectedRow, setSelectedRow] = useState<number | null>(null)
+
   function handleUpdateStandings() {
     const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
     const toastFailure = () => toast.error(tableUpdateFailureMsg)
@@ -103,12 +106,18 @@ export const StandingsPage = () => {
         </div>
         <div ref={bodyRef}>
           <StandingsTools />
-          <div className="grid gap-0.5" ref={tableRef}>
+          <div className="grid gap-1" ref={tableRef}>
             {seasonSelected === 2022 ? <OldStandingsMessage /> : <OtherUserMessage containerRef={containerRef} />}
             <StandingsHeader />
             {standingsSeason &&
               Object.values(standingsSeason).map((_, index) => (
-                <StandingsRow key={index} fade={containerFade} index={index} />
+                <StandingsRow
+                  key={index}
+                  fade={containerFade}
+                  index={index}
+                  selectedRow={selectedRow}
+                  setSelectedRow={setSelectedRow}
+                />
               ))}
             <span className="p-3 text-sm leading-4">{tableTierline}</span>
           </div>

@@ -27,6 +27,7 @@ export function useTableRow(index: number) {
   }
 
   const tableEl = showOneWeek ? week[index] : season[index]
+
   const { name, ansCorrect, ansTotal, position, correct, faults, uid } = tableEl as Standings['season2023'][number]
 
   const filteredResults = Object.keys(results)
@@ -45,5 +46,16 @@ export function useTableRow(index: number) {
   const correctAdjusted = ansTotal !== 0 ? correct.toFixed(3) : '0.000'
   const tableFaults = Math.max(0, faults)
 
-  return { name, userAnswers, correctAdjusted, position, uid, tableFaults }
+  return {
+    name,
+    userAnswers,
+    correctAdjusted,
+    ansCorrect,
+    answersAdjusted,
+    ansTotal,
+    resultsTotal,
+    position,
+    uid,
+    tableFaults
+  }
 }
