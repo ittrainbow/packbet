@@ -98,6 +98,14 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
     locale === 'ru'
       ? 'Последняя графа таблицы показывает процент данных игроком ответов'
       : 'Остання графа таблиці показує відсоток даних гравцем відповідей'
+  const tableDetailsResults = locale === 'ru' ? 'Результаты' : 'Результати'
+  const tableDetailsCorrect = locale === 'ru' ? 'Верные ответы' : 'Вірні відповіді'
+  const tableDetailsAnswers = locale === 'ru' ? 'Данные ответы' : 'Дані відповіді'
+  const tableDetailsSkipped = locale === 'ru' ? 'Пропущено ответов' : 'Пропущені відповіді'
+  const tableDetailsLimit = locale === 'ru' ? 'Лимит пропусков' : 'Ліміт пропусків'
+  const tableDetailsAdjusted = locale === 'ru' ? 'Ответы с учетом лимита' : 'Відповіді з ученням ліміту'
+  const tableDetailsAnswersButton = locale === 'ru' ? 'Ответы' : 'Відповіді'
+  const tableDetailsCollapse = locale === 'ru' ? 'Свернуть' : 'Згорнути'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'
   const weekQuestionMsg = locale === 'ru' ? 'Вопрос' : 'Запитання'
@@ -197,7 +205,15 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         tableOldStandings2,
         tableOldStandings3,
         tableOldStandings4,
-        tableSeason
+        tableSeason,
+        tableDetailsResults,
+        tableDetailsCorrect,
+        tableDetailsAnswers,
+        tableDetailsSkipped,
+        tableDetailsLimit,
+        tableDetailsAdjusted,
+        tableDetailsAnswersButton,
+        tableDetailsCollapse
       }
 
     case 'ticks':

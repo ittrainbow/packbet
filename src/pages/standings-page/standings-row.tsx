@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
 import { useTableRow } from '../../hooks'
+import { i18n, Locale } from '../../locale'
 import { selectAnswers, selectApp, selectTools, selectUser } from '../../redux/selectors'
 import { appActions, userActions } from '../../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
@@ -17,13 +18,25 @@ type Props = {
 }
 
 export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props) => {
+  const { locale } = useSelector(selectUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { showBuddies, standingsSearch, showOneWeek, seasonSelected } = useSelector(selectTools)
-  const { duration } = useSelector(selectApp)
+  const { duration, season } = useSelector(selectApp)
   const answers = useSelector(selectAnswers)
   const user = useSelector(selectUser)
   const { admin, buddies } = user
+
+  const {
+    tableDetailsAnswersButton,
+    tableDetailsCollapse,
+    tableDetailsResults,
+    tableDetailsCorrect,
+    tableDetailsAnswers,
+    tableDetailsSkipped,
+    tableDetailsLimit,
+    tableDetailsAdjusted
+  } = i18n(locale, 'standings') as Locale
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     const { uid } = user
@@ -92,7 +105,7 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
             setSelectedRow(selectedRow === index ? null : index)
           }}
           style={{ fontWeight: user.uid === getRow?.uid ? 600 : '' }}
-          disabled={seasonSelected === 2022}
+          disabled={seasonSelected !== season}
         >
           {window.innerWidth < 480 && getRow?.name.length > 20
             ? getRow?.name?.replace(/#/g, '# ').replace(/_/g, '_ ').replace(/-/g, '- ')
@@ -130,27 +143,32 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
         </span>
       </div>
       {selectedRow === index && (
-        <div
-          className={clsx(
-            'min-h-12 grid grid-cols-[1fr,auto] rounded-lg bg-gray-200 px-1 py-0 border border-gray-400 p-1 overflow-hidden'
-          )}
-        >
-          <div className="grid p-1">
-            <span className="text-sm font-bold pb-2">Результат: {getRow.userAnswers}</span>
-            <span className="text-sm">Верные ответы: {getRow.ansCorrect}</span>
-            <span className="text-sm">Данные ответы: {getRow.ansTotal}</span>
-            <span className="text-sm">Пропущено ответов: {(getRow.resultsTotal ?? 0) - (getRow.ansTotal ?? 0)}</span>
-            <span className="text-sm">Ответы с учетом лимита: {getRow.answersAdjusted}</span>
-            <span className="text-sm">Лимит пропусков: {getRow.tableFaults}</span>
-          </div>
-          <div className="flex flex-col p-1 gap-1">
+        <div className={clsx('min-h-12 grid p-2 bg-gray-200 rounded-lg border border-gray-400 overflow-hidden')}>
+          <span className="text-sm font-bold pb-2">
+            {tableDetailsResults}: {getRow.userAnswers}
+          </span>
+          <span className="text-sm">
+            {tableDetailsCorrect}: {getRow.ansCorrect}
+          </span>
+          <span className="text-sm">
+            {tableDetailsAnswers}: {getRow.ansTotal}
+          </span>
+          <span className="text-sm">
+            {tableDetailsSkipped}: {(getRow.resultsTotal ?? 0) - (getRow.ansTotal ?? 0)}
+          </span>
+          <span className="text-sm">
+            {tableDetailsAdjusted}: {getRow.answersAdjusted}
+          </span>
+          <span className="text-sm">
+            {tableDetailsLimit}: {getRow.tableFaults}
+          </span>
+          <div className="grid grid-cols-2 gap-2 pt-2">
             <Button
               onClick={() => getRow.uid && handleClickOnUser(getRow?.name, getRow.uid)}
-              text="Посмотреть ответы"
-              disabled={seasonSelected === 2022 || getRow.uid === user.uid}
-              className="px-2"
+              text={tableDetailsAnswersButton}
+              disabled={getRow.uid === user.uid}
             />
-            <Button onClick={() => setSelectedRow(null)} text="Свернуть" className="px-2" />
+            <Button onClick={() => setSelectedRow(null)} text={tableDetailsCollapse} className="px-2" />
           </div>
         </div>
       )}

@@ -15,12 +15,10 @@ type FetchObjectType<T> = {
 export function createTable({ answers, users, results, fullSeason, lastSeasonLastWeek }: CreateTableType) {
   const userList = Object.keys(users)
 
-  // filter 2024 season
-  const currentSeasonUsers = userList.filter((el) => Number(Object.keys(answers[el] ?? {}).at(-1)) > 18)
+  const currentSeasonUsers = userList.filter((el) => Number(Object.keys(answers[el] ?? {}).at(-1)) > lastSeasonLastWeek)
 
   const currentSeasonResults = Object.fromEntries(
     Object.keys(results)
-      // filter 2024 season
       .filter((el) => Number(el) > lastSeasonLastWeek)
       .map((el) => [el, results[el]])
   )
