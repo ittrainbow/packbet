@@ -69,7 +69,7 @@ module.exports = {
         'rotate-three': 'rotateThree 1s linear infinite'
       },
       colors: {
-        'gray-250': '#d9d9d9' // Example hex code for a shade between 200 and 300
+        'gray-250': '#d7d9db' // Example hex code for a shade between 200 and 300
       }
     }
   },
