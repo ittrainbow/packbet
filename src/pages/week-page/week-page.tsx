@@ -77,8 +77,6 @@ export const WeekPage = () => {
 
   if (currentWeek < 0) return null
 
-  console.log(100, answers)
-
   return (
     <div className="grid gap-1.5 p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
       <div className="flex flex-row gap-1 items-center">

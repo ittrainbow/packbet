@@ -66,16 +66,16 @@ export const WeekQuestion = ({ id, result }: Props) => {
     const correct = activity === result
 
     if (!thisButton) return 'text-gray-400'
-    if (adm) return 'text-black bg-gray-200'
-    if (!outdated && isItYou) return 'text-black bg-gray-200'
-    if (outdated && !adm && result && correct) return 'text-green-600 border-opacity-10 bg-gray-200'
-    if (outdated && !adm && result && !correct) return 'text-red-600 border-opacity-10 bg-gray-200'
-    if (adm || outdated) return 'text-black bg-gray-200'
+    if (adm) return 'text-black bg-gray-250'
+    if (!outdated && isItYou) return 'text-black bg-gray-250'
+    if (outdated && !adm && result && correct) return 'text-green-600 border-opacity-10 bg-gray-250'
+    if (outdated && !adm && result && !correct) return 'text-red-600 border-opacity-10 bg-gray-250'
+    if (adm || outdated) return 'text-black bg-gray-250'
   }
 
   const getQuestionClass = (id: number) => {
     const getUid = isItYou ? uid : otherUserUID
-    console.log(101, answers[getUid][selectedWeek][id])
+
     const week = answers[getUid] && answers[getUid][selectedWeek]
     const styles = ['transition-all transform duration-150']
     const { ans, res } = getAnswersResults(answers, result, selectedWeek, getUid, id)
