@@ -48,6 +48,7 @@ function* userLoginSaga(
   }>
 ) {
   const { uid, displayName } = action.payload.user
+  const { lastSeasonLastWeek } = yield select((store: Store) => store.app)
 
   try {
     const responseUser: User | undefined = yield call(getDBDocument, 'users', uid)
@@ -61,8 +62,13 @@ function* userLoginSaga(
     localStorage.setItem('packContestLocale', user.locale)
 
     const fetchedAnswers: Answers = yield call(getDBDocument, 'answers', uid)
-    const answers = fetchedAnswers ?? {}
-    const results: Answers = yield select((store: Store) => store.results)
+    const answers = Object.fromEntries(
+      Object.entries(fetchedAnswers).filter(([key]) => parseInt(key) > lastSeasonLastWeek - 1)
+    )
+    const fetchedResults: Answers = yield select((store: Store) => store.results)
+    const results =
+      Object.fromEntries(Object.entries(fetchedResults).filter(([key]) => parseInt(key) > lastSeasonLastWeek - 1)) ?? {}
+
     const gotOnRegister: string = yield select((store) => store.user.name)
     const writeUserToStore = user.admin ? { ...user, adminAsPlayer: true } : user
 

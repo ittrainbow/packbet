@@ -22,7 +22,7 @@ type YesNoHandleProps = {
   activity: number
 }
 
-export const WeekQuestion = ({ id, result, ...props }: Props) => {
+export const WeekQuestion = ({ id, result }: Props) => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const weeks = useSelector((store: Store) => store.weeks)
@@ -75,6 +75,7 @@ export const WeekQuestion = ({ id, result, ...props }: Props) => {
 
   const getQuestionClass = (id: number) => {
     const getUid = isItYou ? uid : otherUserUID
+    console.log(101, answers[getUid][selectedWeek][id])
     const week = answers[getUid] && answers[getUid][selectedWeek]
     const styles = ['transition-all transform duration-150']
     const { ans, res } = getAnswersResults(answers, result, selectedWeek, getUid, id)

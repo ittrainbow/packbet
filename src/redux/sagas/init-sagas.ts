@@ -60,8 +60,16 @@ export function* createStandingsFromDataSaga(weeksFromProps?: Weeks) {
   try {
     const { lastSeasonLastWeek } = yield select((store: Store) => store.app)
     const users: Users = yield call(getDBCollection, 'users')
-    const answers: AnswersStore = yield call(getDBCollection, 'answers')
-    const results: Answers = yield select((store: Store) => store.results)
+
+    const fetchedAnswers: AnswersStore = yield call(getDBCollection, 'answers')
+    const answers = Object.fromEntries(
+      Object.entries(fetchedAnswers).filter(([key]) => parseInt(key) > lastSeasonLastWeek)
+    )
+    const fetchedResults: Answers = yield call(getDBCollection, 'results')
+    const results = Object.fromEntries(
+      Object.entries(fetchedResults).filter(([key]) => parseInt(key) > lastSeasonLastWeek)
+    )
+
     const fetchedStandings: FetchedStandings = yield call(getDBCollection, 'standings')
 
     const weeks: Weeks = yield weeksFromProps ?? call(getDBCollection, 'weeks')
