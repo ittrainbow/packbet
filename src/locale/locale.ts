@@ -104,7 +104,7 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const tableDetailsSkipped = locale === 'ru' ? 'Пропущено ответов' : 'Пропущені відповіді'
   const tableDetailsLimit = locale === 'ru' ? 'Лимит пропусков' : 'Ліміт пропусків'
   const tableDetailsAdjusted = locale === 'ru' ? 'Ответы с учетом лимита' : 'Відповіді з ученням ліміту'
-  const tableDetailsAnswersButton = locale === 'ru' ? 'Ответы' : 'Відповіді'
+  const tableDetailsAnswersButton = locale === 'ru' ? 'Подробнее' : 'Докладніше'
   const tableDetailsCollapse = locale === 'ru' ? 'Свернуть' : 'Згорнути'
 
   const weekNameMsg = locale === 'ru' ? 'Название недели' : 'Назва тижня'

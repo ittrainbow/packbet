@@ -39,9 +39,9 @@ export const WeekQuestion = ({ id, result }: Props) => {
 
   const getActivity = () => ((!isItYou && outdated) || isItYou ? buttonData : 0)
 
-  const handleClick = (props: YesNoHandleProps) => {
-    const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
+  const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
 
+  const handleClick = (props: YesNoHandleProps) => {
     if (isItYou && user && userOnTimeOrAdmin) {
       const { value, id, activity } = props
       const answer = value === activity ? 0 : value

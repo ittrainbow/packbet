@@ -1,24 +1,18 @@
-import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { selectAnswers, selectCompare, selectResults, selectUser } from '../redux/selectors'
+import { selectAnswers, selectApp, selectCompare, selectResults, selectUser } from '../redux/selectors'
 import { getObjectsEquality } from '../utils'
 
 export function useChanges() {
   const { uid, admin, adminAsPlayer } = useSelector(selectUser)
-  const [gotChanges, setGotChanges] = useState(false)
+  const { currentWeek } = useSelector(selectApp)
+
   const results = useSelector(selectResults)
   const answers = useSelector(selectAnswers)
-  const compare = useSelector(selectCompare)
+  const { answers: compareAnswers, results: compareResults } = useSelector(selectCompare)
 
-  useEffect(() => {
-    const isAdmin = admin && !adminAsPlayer
-    const userChanges = !getObjectsEquality(answers[uid], compare.answers)
-    const adminChanges = admin ? !getObjectsEquality(results, compare.results) : false
-    const changes = isAdmin ? adminChanges : userChanges
-    setGotChanges(changes)
-    // eslint-disable-next-line
-  }, [answers, results])
+  const userChanges = !getObjectsEquality(answers[uid][currentWeek], compareAnswers[currentWeek])
+  const adminChanges = admin ? !getObjectsEquality(results[currentWeek], compareResults[currentWeek]) : false
 
-  return gotChanges
+  return admin && !adminAsPlayer ? adminChanges : userChanges
 }

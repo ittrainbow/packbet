@@ -96,14 +96,7 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
             getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
             seasonSelected === 2022 && 'cursor-auto'
           )}
-          onClick={() => {
-            // if (selectedRow !== null) {
-            //   setSelectedRow(null)
-            //   setTimeout(() => setSelectedRow(selectedRow === index ? null : index), duration * 2)
-            //   return
-            // }
-            setSelectedRow(selectedRow === index ? null : index)
-          }}
+          onClick={() => setSelectedRow(selectedRow === index ? null : index)}
           style={{ fontWeight: user.uid === getRow?.uid ? 600 : '' }}
           disabled={seasonSelected !== season}
         >
@@ -143,7 +136,11 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
         </span>
       </div>
       {selectedRow === index && (
-        <div className={clsx('min-h-12 grid p-2 bg-gray-200 rounded-lg border border-gray-400 overflow-hidden')}>
+        <div
+          className={clsx(
+            'min-h-12 grid p-2 bg-gray-200 bg-opacity-50 rounded-lg border border-gray-400 overflow-hidden'
+          )}
+        >
           <span className="text-sm font-bold pb-2">
             {tableDetailsResults}: {getRow.userAnswers}
           </span>
@@ -167,8 +164,9 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
               onClick={() => getRow.uid && handleClickOnUser(getRow?.name, getRow.uid)}
               text={tableDetailsAnswersButton}
               disabled={getRow.uid === user.uid}
+              size="sm"
             />
-            <Button onClick={() => setSelectedRow(null)} text={tableDetailsCollapse} className="px-2" />
+            <Button onClick={() => setSelectedRow(null)} text={tableDetailsCollapse} className="px-2" size="sm" />
           </div>
         </div>
       )}
