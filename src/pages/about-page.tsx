@@ -70,7 +70,7 @@ export const About = () => {
         </>
       ) : null}
       <div className={clsx('flex justify-center items-end pt-2 text-gray-600', open ? 'pb-4' : 'pb-0')}>
-        <a href="https://t.me/packersnews">
+        <a href="https://t.me/packers_news">
           Green 19 {`${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`}
         </a>
       </div>
