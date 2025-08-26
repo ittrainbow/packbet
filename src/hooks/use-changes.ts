@@ -9,10 +9,17 @@ export function useChanges() {
 
   const results = useSelector(selectResults)
   const answers = useSelector(selectAnswers)
-  const { answers: compareAnswers, results: compareResults } = useSelector(selectCompare)
+  const compare = useSelector(selectCompare)
 
-  const userChanges = !getObjectsEquality(answers[uid][currentWeek], compareAnswers[currentWeek])
-  const adminChanges = admin ? !getObjectsEquality(results[currentWeek], compareResults[currentWeek]) : false
+  const userChanges = !getObjectsEquality(
+    answers && answers[uid] ? answers[uid][currentWeek] : {},
+    compare.answers ? compare.answers[currentWeek] : {}
+  )
+
+  const adminChanges = !getObjectsEquality(
+    results ? results[currentWeek] : {},
+    compare.results ? compare.results[currentWeek] : {}
+  )
 
   return admin && !adminAsPlayer ? adminChanges : userChanges
 }
