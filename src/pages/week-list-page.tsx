@@ -43,8 +43,14 @@ export const WeekList = () => {
   const getDate = useDate()
 
   return (
-    <div className="p-4 max-w-[32rem] grid gap-2 animate-fade-in-up" ref={containerRef}>
-      <span className="flex flex-row gap-1 font-bold">
+    <div
+      className={clsx(
+        'p-4 max-w-[32rem] grid gap-2'
+        // appNaviEvent && 'animate-fade-in-up'
+      )}
+      ref={containerRef}
+    >
+      <span className="flex flex-row gap-1 font-bold text-base">
         {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
       </span>
 

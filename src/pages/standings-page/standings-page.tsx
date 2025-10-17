@@ -97,13 +97,19 @@ export const StandingsPage = () => {
 
   return (
     <>
-      <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
+      <div
+        className={clsx(
+          'p-4 max-w-[32rem] grid gap-2'
+          // appNaviEvent && 'animate-fade-in-up'
+        )}
+        ref={containerRef}
+      >
         <div className="flex flex-row gap-1 items-center">
-          <span className="flex font-bold grow items-center">{lastWeekNameAdjusted}</span>
+          <span className="flex font-bold grow text-base items-center">{lastWeekNameAdjusted}</span>
           <Button
             onClick={handleSwitchTools}
             icon={<BsGearFill />}
-            className={clsx('text-xl transition border-none !w-10', showTools ? 'text-green-600' : 'text-gray-800')}
+            className={clsx('transition border-none !w-10 !max-h-6', showTools ? 'text-green-600' : 'text-gray-800')}
           />
         </div>
         <div ref={bodyRef}>

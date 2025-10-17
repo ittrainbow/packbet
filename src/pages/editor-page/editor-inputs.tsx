@@ -61,6 +61,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
     const { questions } = editor
     if (ru && ua && total) {
       triggerFade()
+      // забыл почему такая проверка но впадлу трогать
       const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
       setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), duration)
     }

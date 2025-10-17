@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import clsx from 'clsx'
 import { useChanges, useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
@@ -78,9 +79,15 @@ export const WeekPage = () => {
   if (currentWeek < 0) return null
 
   return (
-    <div className="grid gap-1.5 p-4 max-w-[32rem] text-sm animate-fade-in-up" ref={containerRef}>
+    <div
+      className={clsx(
+        'grid gap-1.5 p-4 max-w-[32rem] text-sm'
+        // appNaviEvent && 'animate-fade-in-up'
+      )}
+      ref={containerRef}
+    >
       <div className="flex flex-row gap-1 items-center">
-        <span className="text-base font-bold grow">{name?.split('.')[1]}</span>
+        <span className="font-bold text-base">{name?.split('.')[1]}</span>
         {admin && isItYou ? (
           <Switch
             onChange={handleAdminAsPlayer}

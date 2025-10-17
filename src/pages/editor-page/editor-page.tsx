@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
+import clsx from 'clsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { useFade } from '../../hooks'
@@ -102,8 +103,14 @@ export const EditorPage = () => {
   const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons') as Locale
 
   return (
-    <div className="p-4 max-w-[32rem] animate-fade-in-up" ref={containerRef}>
-      <span className="mb-2 flex font-bold grow items-center gap-1 ">{editorTitleMsg}</span>
+    <div
+      className={clsx(
+        'p-4 max-w-[32rem] grid gap-2'
+        // appNaviEvent && 'animate-fade-in-up'
+      )}
+      ref={containerRef}
+    >
+      <span className="flex font-bold text-base grow items-center gap-1 ">{editorTitleMsg}</span>
       <EditorInputs questionsRef={questionsRef} />
 
       <div ref={questionsRef} className="flex flex-col gap-2">

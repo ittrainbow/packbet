@@ -4,6 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import clsx from 'clsx'
 import { auth, registerWithEmailAndPassword, signInWithGoogle } from '../../db'
 import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
@@ -95,7 +96,10 @@ export const Register = () => {
 
   return (
     <div
-      className="flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center animate-fade-in-up"
+      className={clsx(
+        'flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center '
+        // appNaviEvent && 'animate-fade-in-up'
+      )}
       ref={containerRef}
     >
       <div className="w-56 pt-20 flex flex-col justify-center gap-3">

@@ -40,7 +40,10 @@ export const About = () => {
 
   return (
     <div
-      className="p-4 leading-5 h-[calc(100vh-4.5rem)] sm:h-[calc(100vh-6rem)] grid grid-rows-[auto,auto,auto,1fr] gap-2 animate-fade-in-up max-w-[32rem]"
+      className={clsx(
+        'p-4 leading-5 h-[calc(100vh-4.5rem)] sm:h-[calc(100vh-6rem)] grid grid-rows-[auto,auto,auto,1fr] gap-2 max-w-[32rem]'
+        // appNaviEvent && 'animate-fade-in-up'
+      )}
       ref={containerRef}
     >
       <span className="font-bold text-base">{aboutTitleMsg}</span>

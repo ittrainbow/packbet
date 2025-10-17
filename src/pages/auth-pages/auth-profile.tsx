@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { Input } from '@mui/material'
+import clsx from 'clsx'
 import { auth } from '../../db'
 import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
@@ -63,7 +64,10 @@ export const Profile = () => {
 
   return (
     <div
-      className="flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center animate-fade-in-up"
+      className={clsx(
+        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center'
+        // appNaviEvent && ' animate-fade-in-up'
+      )}
       ref={containerRef}
     >
       <div className="w-56 pt-20 flex flex-col justify-center items-center gap-6">

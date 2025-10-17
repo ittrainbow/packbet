@@ -13,8 +13,6 @@ export function useFade(ref: React.RefObject<HTMLDivElement>) {
 
     setTimeout(() => {
       list?.remove('animate-fade-out-down')
-      list?.remove('animate-fade-out-right')
-      list?.remove('animate-fade-out-left')
       list?.add('animate-fade-in-up')
     }, duration)
   }
