@@ -86,7 +86,7 @@ export const WeekPage = () => {
       )}
       ref={containerRef}
     >
-      <div className="flex flex-row gap-1 items-center">
+      <div className="grid grid-cols-[1fr,auto] gap-2 items-start">
         <span className="font-bold text-base">{name?.split('.')[1]}</span>
         {admin && isItYou ? (
           <Switch
