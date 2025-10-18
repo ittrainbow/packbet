@@ -1,26 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 import clsx from 'clsx'
-import { useFade } from '../hooks'
 import { Locale, i18n } from '../locale'
 import { selectAbout, selectApp, selectUser } from '../redux/selectors'
 import { Button } from '../ui'
 
 export const About = () => {
-  const { tabActive } = useSelector(selectApp)
+  const { appNaviEvent } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const about = useSelector(selectAbout)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const [open, setOpen] = useState(false)
-
-  const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    tabActive !== 0 && triggerFade()
-  }, [tabActive, triggerFade])
 
   const { buttonDetailsMsg } = i18n(locale, 'buttons') as Locale
   const { aboutTitleMsg, aboutYesMsg, aboutNoMsg, aboutOverMsg, aboutUnderMsg, aboutLegendMsg } = i18n(
@@ -41,10 +34,11 @@ export const About = () => {
   return (
     <div
       className={clsx(
-        'p-4 leading-5 h-[calc(100vh-4.5rem)] sm:h-[calc(100vh-6rem)] grid grid-rows-[auto,auto,auto,1fr] gap-2 max-w-[32rem]'
-        // appNaviEvent && 'animate-fade-in-up'
+        'p-4 leading-5 h-[calc(100vh-4.5rem)] sm:h-[calc(100vh-6rem)] grid grid-rows-[auto,auto,auto,1fr] gap-2 max-w-[32rem]',
+        appNaviEvent && 'animate-fade-in-up'
       )}
       ref={containerRef}
+      id="container"
     >
       <span className="font-bold text-base">{aboutTitleMsg}</span>
       <span>{description[0]}</span>

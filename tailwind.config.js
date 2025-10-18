@@ -61,9 +61,6 @@ module.exports = {
       animation: {
         'fade-in-up': 'fadeInUp .2s ease-in-out',
         'fade-out-down': 'fadeOutDown .2s ease-in-out',
-        'fade-out-right': 'fadeOutRight .2s ease-in-out',
-        'fade-out-left': 'fadeOutLeft .2s ease-in-out',
-        'bg-pulse': 'bgPulse 3s ease-in-out infinite',
         'rotate-one': 'rotateOne 1s linear infinite',
         'rotate-two': 'rotateTwo 1s linear infinite',
         'rotate-three': 'rotateThree 1s linear infinite'

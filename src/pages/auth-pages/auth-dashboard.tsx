@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -14,15 +14,11 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { duration, appNaviEvent } = useSelector(selectApp)
   const { name, admin, locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    tabActive !== 1 && triggerFade()
-  }, [tabActive, triggerFade])
 
   const handleLogout = () => {
     dispatch(userActions.clearUser())
@@ -43,10 +39,11 @@ export const Dashboard = () => {
   return (
     <div
       className={clsx(
-        'p-4 max-w-[32rem] flex flex-col gap-1 justify-center items-center'
-        // appNaviEvent && 'animate-fade-in-up'
+        'p-4 max-w-[32rem] flex flex-col gap-1 justify-center items-center',
+        appNaviEvent && 'animate-fade-in-up'
       )}
       ref={containerRef}
+      id="container"
     >
       <div className="w-56 pt-20 flex flex-col justify-center items-center gap-3">
         <span className="font-bold">{dashboardEnterMsg}</span>

@@ -18,7 +18,7 @@ export const StandingsPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
-  const { lastSeasonLastWeek, tabActive, duration } = useSelector(selectApp)
+  const { lastSeasonLastWeek, tabActive, duration, appNaviEvent } = useSelector(selectApp)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -41,7 +41,7 @@ export const StandingsPage = () => {
   const { triggerFade: bodyFade } = useFade(bodyRef)
 
   useEffect(() => {
-    tabActive !== 4 && containerFade()
+    // tabActive !== 4 && containerFade()
   }, [tabActive, containerFade])
 
   useEffect(() => {
@@ -98,11 +98,9 @@ export const StandingsPage = () => {
   return (
     <>
       <div
-        className={clsx(
-          'p-4 max-w-[32rem] grid gap-2'
-          // appNaviEvent && 'animate-fade-in-up'
-        )}
+        className={clsx('p-4 max-w-[32rem] grid gap-2', appNaviEvent && 'animate-fade-in-up')}
         ref={containerRef}
+        id="container"
       >
         <div className="flex flex-row gap-1 items-center">
           <span className="flex font-bold grow text-base items-center">{lastWeekNameAdjusted}</span>

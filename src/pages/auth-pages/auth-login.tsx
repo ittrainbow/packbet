@@ -17,7 +17,7 @@ export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading, error] = useAuthState(auth)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { duration, appNaviEvent } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
   const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
@@ -25,10 +25,6 @@ export const Login = () => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    tabActive !== 1 && triggerFade()
-  }, [tabActive, triggerFade])
 
   const loginButtonActive = emailValid && password.length > 2
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
@@ -90,10 +86,11 @@ export const Login = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center'
-        // appNaviEvent && 'animate-fade-in-up'
+        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center',
+        appNaviEvent && 'animate-fade-in-up'
       )}
       ref={containerRef}
+      id="container"
     >
       <div className="w-56 pt-20 flex flex-col justify-center gap-3">
         <Input type="text" value={email} onChange={handleEmailInput} placeholder={emailMsg} />

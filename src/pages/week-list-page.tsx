@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,20 +12,13 @@ import { OtherUserMessage } from '../ui'
 export const WeekList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { editor, isItYou, tabActive, duration, lastSeasonLastWeek } = useSelector(selectApp)
+  const { editor, isItYou, duration, lastSeasonLastWeek, appNaviEvent } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const { pathname } = useSelector(selectLocation)
   const weeks = useSelector(selectWeeks)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    const fromSeasonList = pathname.includes('season') && tabActive !== 3
-    const fromEditorList = pathname.includes('calendar') && tabActive !== 5
-    if (fromSeasonList || fromEditorList) return triggerFade()
-    // eslint-disable-next-line
-  }, [tabActive])
 
   const handleClick = (selectedWeek: number) => {
     triggerFade()
@@ -44,11 +37,9 @@ export const WeekList = () => {
 
   return (
     <div
-      className={clsx(
-        'p-4 max-w-[32rem] grid gap-2'
-        // appNaviEvent && 'animate-fade-in-up'
-      )}
+      className={clsx('p-4 max-w-[32rem] grid gap-2', appNaviEvent && 'animate-fade-in-up')}
       ref={containerRef}
+      id="container"
     >
       <span className="flex flex-row gap-1 font-bold text-base">
         {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}

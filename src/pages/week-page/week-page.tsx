@@ -5,9 +5,9 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import clsx from 'clsx'
-import { useChanges, useFade } from '../../hooks'
+import { useChanges } from '../../hooks'
 import { Locale, i18n } from '../../locale'
-import { selectApp, selectLocation, selectUser } from '../../redux/selectors'
+import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { Store, Week } from '../../types'
@@ -17,9 +17,8 @@ import { MemoizedWeekQuestion } from './week-question'
 
 export const WeekPage = () => {
   const dispatch = useDispatch()
-  const { selectedWeek, currentWeek, isItYou, duration, tabActive } = useSelector(selectApp)
+  const { selectedWeek, currentWeek, isItYou, duration, appNaviEvent } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
-  const { pathname } = useSelector(selectLocation)
   const answers = useSelector((store: Store) => store.answers)
   const results = useSelector((store: Store) => store.results)
   const weeks = useSelector((store: Store) => store.weeks)
@@ -29,15 +28,6 @@ export const WeekPage = () => {
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
   const gotChanges = useChanges()
-
-  const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    const fromSeasonList = pathname.includes('week/') && tabActive !== 3
-    const fromCurrentWeek = !pathname.includes('week/') && tabActive !== 2
-    if (fromSeasonList || fromCurrentWeek) return triggerFade()
-    // eslint-disable-next-line
-  }, [tabActive, triggerFade])
 
   const adm = admin && !adminAsPlayer
 
@@ -80,11 +70,9 @@ export const WeekPage = () => {
 
   return (
     <div
-      className={clsx(
-        'grid gap-1.5 p-4 max-w-[32rem] text-sm'
-        // appNaviEvent && 'animate-fade-in-up'
-      )}
+      className={clsx('grid gap-1.5 p-4 max-w-[32rem] text-sm', appNaviEvent && 'animate-fade-in-up')}
       ref={containerRef}
+      id="container"
     >
       <div className="grid grid-cols-[1fr,auto] gap-2 items-start">
         <span className="font-bold text-base">{name?.split('.')[1]}</span>

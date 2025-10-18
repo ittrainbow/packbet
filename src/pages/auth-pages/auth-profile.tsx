@@ -19,17 +19,13 @@ export const Profile = () => {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { name, locale } = useSelector(selectUser)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { duration, appNaviEvent } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState<'ua' | 'ru'>(locale)
 
   const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    tabActive !== 1 && triggerFade()
-  }, [tabActive, triggerFade])
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -65,10 +61,11 @@ export const Profile = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center'
-        // appNaviEvent && ' animate-fade-in-up'
+        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center',
+        appNaviEvent && ' animate-fade-in-up'
       )}
       ref={containerRef}
+      id="container"
     >
       <div className="w-56 pt-20 flex flex-col justify-center items-center gap-6">
         <span className="font-bold text-md">{profileHeaderMsg}</span>

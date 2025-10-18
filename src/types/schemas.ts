@@ -19,6 +19,7 @@ export const AnswersStoreSchema = z.record(z.string(), ResultsStoreSchema)
 export type AnswersStore = z.infer<typeof AnswersStoreSchema>
 
 export const AppSchema = z.object({
+  appNaviEvent: z.boolean(),
   season: z.number(),
   lastSeasonLastWeek: z.number(),
   loading: z.boolean(),

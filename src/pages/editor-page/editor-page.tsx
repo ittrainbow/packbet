@@ -21,7 +21,7 @@ export const EditorPage = () => {
   const location = useLocation()
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
-  const { selectedWeek, emptyEditor } = useSelector(selectApp)
+  const { selectedWeek, emptyEditor, appNaviEvent } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
   const { tabActive, duration } = useSelector(selectApp)
@@ -31,14 +31,6 @@ export const EditorPage = () => {
   const [modalOpen, setModalOpen] = useState(false)
 
   const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    const conditions =
-      tabActive < 5 || (pathname === '/editor' && tabActive === 5) || (pathname.includes('/editor/') && tabActive === 6)
-
-    conditions && triggerFade()
-    // eslint-disable-next-line
-  }, [tabActive])
 
   useEffect(() => {
     if (tabActive === 6) {
@@ -104,11 +96,9 @@ export const EditorPage = () => {
 
   return (
     <div
-      className={clsx(
-        'p-4 max-w-[32rem] grid gap-2'
-        // appNaviEvent && 'animate-fade-in-up'
-      )}
+      className={clsx('p-4 max-w-[32rem] grid gap-2', appNaviEvent && 'animate-fade-in-up')}
       ref={containerRef}
+      id="container"
     >
       <span className="flex font-bold text-base grow items-center gap-1 ">{editorTitleMsg}</span>
       <EditorInputs questionsRef={questionsRef} />

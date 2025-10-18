@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { App } from '../../types'
 
 const initialState: App = {
+  appNaviEvent: true,
   season: 2025,
   lastSeasonLastWeek: 36,
   loading: true,
@@ -26,6 +27,10 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    setAppNaviEvent(state, action: PayloadAction<boolean>) {
+      state.appNaviEvent = action.payload
+    },
+
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload
     },

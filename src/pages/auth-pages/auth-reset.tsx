@@ -16,17 +16,13 @@ export const Reset = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
-  const { tabActive, duration } = useSelector(selectApp)
+  const { duration, appNaviEvent } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState('')
 
   const { triggerFade } = useFade(containerRef)
-
-  useEffect(() => {
-    tabActive !== 1 && triggerFade()
-  }, [tabActive, triggerFade])
 
   const trimSpaces = (value: string) => value.replace(/\s/g, '')
 
@@ -63,10 +59,11 @@ export const Reset = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center'
-        // appNaviEvent && 'animate-fade-in-up'
+        'flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center',
+        appNaviEvent && 'animate-fade-in-up'
       )}
       ref={containerRef}
+      id="container"
     >
       <div className="w-56 pt-20 flex flex-col justify-center gap-1">
         <Input type="text" value={email} ref={inputRef} onChange={handleEmailInput} placeholder={'E-mail'} />
