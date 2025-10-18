@@ -20,5 +20,5 @@ export function useFade(ref: React.RefObject<HTMLDivElement>) {
     }, duration * 2)
   }
 
-  return triggerFade
+  return { triggerFade }
 }

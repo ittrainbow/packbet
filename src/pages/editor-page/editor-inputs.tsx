@@ -19,7 +19,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
   const { name, questionInWork, questionCompare } = editor
   const { ru, ua, total, id } = questionInWork
 
-  const triggerFade = useFade(questionsRef)
+  const { triggerFade } = useFade(questionsRef)
 
   useEffect(() => {
     pathname.includes('/editor/') && tabActive === 5 && nameRef.current?.focus()
@@ -61,8 +61,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
     const { questions } = editor
     if (ru && ua && total) {
       triggerFade()
-      // забыл почему такая проверка но впадлу трогать
-      const setId = id === (null || undefined) ? getNewQuestionId(questions) : (id as number)
+      const setId = typeof id !== 'number' ? getNewQuestionId(questions) : (id as number)
       setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), duration)
     }
   }

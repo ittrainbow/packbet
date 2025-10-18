@@ -14,7 +14,7 @@ export const EditorQuestion = ({ id, questionsRef }: Props) => {
   const { locale } = useSelector(selectUser)
   const { ru, ua, total } = questions[id]
 
-  const triggerFade = useFade(questionsRef)
+  const { triggerFade } = useFade(questionsRef)
 
   const handleEditQuestion = (id: number) => {
     const question = { ru, ua, total, id }

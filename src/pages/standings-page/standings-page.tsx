@@ -37,8 +37,8 @@ export const StandingsPage = () => {
       ? standings.season2024
       : standings.season2025
 
-  const containerFade = useFade(containerRef)
-  const bodyFade = useFade(bodyRef)
+  const { triggerFade: containerFade } = useFade(containerRef)
+  const { triggerFade: bodyFade } = useFade(bodyRef)
 
   useEffect(() => {
     tabActive !== 4 && containerFade()

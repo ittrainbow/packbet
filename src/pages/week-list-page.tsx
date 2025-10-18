@@ -18,7 +18,7 @@ export const WeekList = () => {
   const weeks = useSelector(selectWeeks)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     const fromSeasonList = pathname.includes('season') && tabActive !== 3

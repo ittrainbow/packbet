@@ -30,7 +30,7 @@ export const EditorPage = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [modalOpen, setModalOpen] = useState(false)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     const conditions =

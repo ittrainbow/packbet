@@ -14,7 +14,7 @@ export const OtherUserMessage = ({ containerRef }: Props) => {
   const { otherUserName, isItYou, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   const handleDiscard = () => {
     triggerFade()

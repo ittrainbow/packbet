@@ -30,7 +30,7 @@ export const WeekPage = () => {
 
   const gotChanges = useChanges()
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     const fromSeasonList = pathname.includes('week/') && tabActive !== 3

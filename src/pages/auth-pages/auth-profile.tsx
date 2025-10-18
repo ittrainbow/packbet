@@ -25,7 +25,7 @@ export const Profile = () => {
   const [tempName, setTempName] = useState(name)
   const [tempLocale, setTempLocale] = useState<'ua' | 'ru'>(locale)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 1 && triggerFade()

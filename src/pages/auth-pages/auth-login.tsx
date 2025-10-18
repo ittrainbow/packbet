@@ -24,7 +24,7 @@ export const Login = () => {
   const [emailValid, setEmailValid] = useState<boolean>(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 1 && triggerFade()

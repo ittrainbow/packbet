@@ -18,7 +18,7 @@ export const Dashboard = () => {
   const { name, admin, locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 1 && triggerFade()

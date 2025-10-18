@@ -22,7 +22,7 @@ export const Reset = () => {
   const inputRef = useRef<HTMLInputElement>()
   const [email, setEmail] = useState('')
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 1 && triggerFade()

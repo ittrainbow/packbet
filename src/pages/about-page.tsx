@@ -16,7 +16,7 @@ export const About = () => {
 
   const [open, setOpen] = useState(false)
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 0 && triggerFade()

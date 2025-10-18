@@ -25,7 +25,7 @@ export const Register = () => {
   const [password, setPassword] = useState<string>('')
   const [name, setName] = useState<string>('')
 
-  const triggerFade = useFade(containerRef)
+  const { triggerFade } = useFade(containerRef)
 
   useEffect(() => {
     tabActive !== 1 && triggerFade()
