@@ -59,6 +59,9 @@ export function useSwipe() {
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
         if (canSwipe) {
+          const container = document.querySelector('#container')
+          container?.classList.add('animate-fade-out-down')
+
           dispatch(appActions.setTabActive(newTabActive))
           swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
           newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
@@ -68,6 +71,7 @@ export function useSwipe() {
             setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration + 33)
 
           setTimeout(() => {
+            container?.classList.remove('animate-fade-out-down')
             navigate(menu[newTabActive].path)
             newTabActive === 4 &&
               editor &&
