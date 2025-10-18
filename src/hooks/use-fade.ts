@@ -20,5 +20,25 @@ export function useFade(ref: React.RefObject<HTMLDivElement>) {
     }, duration * 2)
   }
 
-  return { triggerFade }
+  const triggerFadeIn = () => {
+    const list = ref.current?.classList
+
+    list?.add('animate-fade-in-up')
+
+    setTimeout(() => {
+      list?.remove('animate-fade-in-up')
+    }, duration)
+  }
+
+  const triggerFadeOut = () => {
+    const list = ref.current?.classList
+
+    list?.add('animate-fade-out-down')
+
+    setTimeout(() => {
+      list?.remove('animate-fade-out-down')
+    }, duration)
+  }
+
+  return { triggerFade, triggerFadeIn, triggerFadeOut }
 }

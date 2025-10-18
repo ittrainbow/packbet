@@ -26,12 +26,12 @@ export const Header = () => {
     if (id === 3 || id === 5) animateBackToWeeklist()
 
     setTimeout(() => {
-      id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
-      id > 4 && !editor && dispatch(appActions.setEditor(true)) && dispatch(editorActions.clearEditor())
-      id < 5 && editor && dispatch(appActions.setEditor(false))
-      id === 4 && tabActive !== 4 && dispatch(toolsActions.setShowTools(false))
-      id === 5 && dispatch(editorActions.clearEditor())
-      id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
+      id === 2 && appActions.setSelectedWeek(currentWeek)
+      id > 4 && !editor && appActions.setEditor(true) && editorActions.clearEditor()
+      id < 5 && editor && appActions.setEditor(false)
+      id === 4 && tabActive !== 4 && toolsActions.setShowTools(false)
+      id === 5 && editorActions.clearEditor()
+      id === 6 && appActions.setSelectedWeek(nextWeek)
 
       navigate(path)
     }, duration)
