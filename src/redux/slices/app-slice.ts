@@ -4,8 +4,8 @@ import { App } from '../../types'
 
 const initialState: App = {
   appNaviEvent: true,
-  season: 2025,
-  lastSeasonLastWeek: 36,
+  season: 2026,
+  lastSeasonLastWeek: 54,
   loading: true,
   editor: false,
   error: '',

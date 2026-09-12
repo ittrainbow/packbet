@@ -9,7 +9,9 @@ const initialState: Standings = {
   week2024: [],
   season2024: [],
   week2025: [],
-  season2025: []
+  season2025: [],
+  week2026: [],
+  season2026: []
 }
 
 export const standingsSlice = createSlice({

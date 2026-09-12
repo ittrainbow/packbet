@@ -32,10 +32,12 @@ export const StandingsPage = () => {
     seasonSelected === 2022
       ? standings.season2022
       : seasonSelected === 2023
-      ? standings.season2023
-      : seasonSelected === 2024
-      ? standings.season2024
-      : standings.season2025
+        ? standings.season2023
+        : seasonSelected === 2024
+          ? standings.season2024
+          : seasonSelected === 2025
+            ? standings.season2025
+            : standings.season2026
 
   const { triggerFade: containerFade } = useFade(containerRef)
   const { triggerFade: bodyFade } = useFade(bodyRef)
@@ -82,8 +84,8 @@ export const StandingsPage = () => {
     seasonSelected < 2024
       ? `${tableSeason} ${seasonSelected}`
       : lastWeekThatGotResults > lastSeasonLastWeek
-      ? `${tableHeaderhMsg} ${lastWeekName}`
-      : tableNoGamesMsg
+        ? `${tableHeaderhMsg} ${lastWeekName}`
+        : tableNoGamesMsg
 
   const [selectedRow, setSelectedRow] = useState<number | null>(null)
 

@@ -14,17 +14,19 @@ export function useTableRow(index: number) {
     seasonSelected === 2023
       ? standings.season2023
       : seasonSelected === 2024
-      ? standings.season2024
-      : standings.season2025
+        ? standings.season2024
+        : standings.season2025
 
   const week =
     seasonSelected === 2022
       ? standings.season2022
       : seasonSelected === 2023
-      ? standings.week2023
-      : seasonSelected === 2024
-      ? standings.week2024
-      : standings.week2025
+        ? standings.week2023
+        : seasonSelected === 2024
+          ? standings.week2024
+          : seasonSelected === 2025
+            ? standings.week2025
+            : standings.week2026
 
   if (seasonSelected === 2022) {
     const tableEl = standings.season2022[index]

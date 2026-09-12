@@ -72,7 +72,7 @@ export const StandingsTools = () => {
         messageOff={tableAllUsersMsg}
         fullWidth={true}
       />
-      <SelectInput options={[2022, 2023, 2024, 2025]} onChange={handleChangeSeason} value={seasonSelected} />
+      <SelectInput options={[2022, 2023, 2024, 2025, 2026]} onChange={handleChangeSeason} value={seasonSelected} />
     </div>
   )
 
