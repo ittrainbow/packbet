@@ -15,7 +15,9 @@ export function useTableRow(index: number) {
       ? standings.season2023
       : seasonSelected === 2024
         ? standings.season2024
-        : standings.season2025
+        : seasonSelected === 2025
+          ? standings.season2025
+          : standings.season2026
 
   const week =
     seasonSelected === 2022
