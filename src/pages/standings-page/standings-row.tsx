@@ -48,8 +48,9 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
         dispatch(appActions.setOtherUserFromStandings(otherUser))
         admin && dispatch(userActions.setAdminAsPlayer(true))
         !answers[otherUserUID] && dispatch({ type: FETCH_OTHER_USER, payload: otherUserUID })
+        dispatch(appActions.setFading(false))
         navigate('/week')
-      }, duration - 33)
+      }, duration)
     }
   }
 

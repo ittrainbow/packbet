@@ -47,7 +47,7 @@ export function useTableRow(index: number) {
 
   const filteredResults = Object.keys(results)
     .map((el) => Number(el))
-    // filter 2024 season
+    // только недели текущего сезона
     .filter((el) => el > lastSeasonLastWeek)
 
   const resultsTotal =

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { GearIcon } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -10,8 +10,8 @@ import { i18n, Locale } from '@/locale'
 import { selectApp, selectStandings, selectTools } from '@/redux/selectors'
 import { toolsActions } from '@/redux/slices'
 import { UPDATE_STANDINGS } from '@/redux/storetypes'
-import { Store } from '@/types'
-import { parseWeekName } from '@/utils'
+import { Store, UserStandings } from '@/types'
+import { getSortedStandingsIndices, parseWeekName, StandingsSortMode } from '@/utils'
 import { Button, OldStandingsMessage, OtherUserMessage } from '@/ui'
 
 export const StandingsPage = () => {
@@ -20,7 +20,7 @@ export const StandingsPage = () => {
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
   const fadeClass = usePageFadeClass()
-  const { lastSeasonLastWeek, tabActive, duration } = useSelector(selectApp)
+  const { lastSeasonLastWeek, duration } = useSelector(selectApp)
   const { seasonSelected, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -28,7 +28,8 @@ export const StandingsPage = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
-  const [fadeOutTools, setFadeOutTools] = useState<boolean>(false)
+  const [sortMode, setSortMode] = useState<StandingsSortMode>('default')
+  const [selectedRow, setSelectedRow] = useState<number | null>(null)
 
   const standingsSeason =
     seasonSelected === 2022
@@ -53,7 +54,14 @@ export const StandingsPage = () => {
             : standings.week2026
 
   const tableSource = showOneWeek && seasonSelected !== 2022 ? standingsWeek : standingsSeason
-  const tableRows = tableSource ? Object.values(tableSource) : []
+  const tableRows = useMemo(() => (tableSource ? Object.values(tableSource) : []), [tableSource])
+  const limitSortEnabled = seasonSelected !== 2022 && !showOneWeek
+
+  const sortedIndices = useMemo(() => {
+    if (seasonSelected === 2022) return tableRows.map((_, i) => i)
+    return getSortedStandingsIndices(tableRows as UserStandings[], sortMode)
+  }, [tableRows, sortMode, seasonSelected])
+
   const hasVisibleBuddyRows =
     !showBuddies ||
     tableRows.some(
@@ -66,19 +74,37 @@ export const StandingsPage = () => {
   const { triggerFade: bodyFade } = useFade(bodyRef)
 
   useEffect(() => {
-    // tabActive !== 4 && containerFade()
-  }, [tabActive, containerFade])
-
-  useEffect(() => {
     showTools && dispatch(toolsActions.setShowTools(false))
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    setSortMode('default')
+  }, [seasonSelected])
+
+  useEffect(() => {
+    if (!limitSortEnabled && (sortMode === 'limit-desc' || sortMode === 'limit-asc')) {
+      setSortMode('default')
+    }
+  }, [limitSortEnabled, sortMode])
+
   const handleSwitchTools = () => {
-    setFadeOutTools(!fadeOutTools)
     bodyFade()
     setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
     setTimeout(() => setSelectedRow(null), duration)
+  }
+
+  const handleSortPercent = () => {
+    setSortMode((mode) => (mode === 'percent-asc' ? 'default' : 'percent-asc'))
+  }
+
+  const handleSortLimit = () => {
+    if (!limitSortEnabled) return
+    setSortMode((mode) => {
+      if (mode === 'limit-desc') return 'limit-asc'
+      if (mode === 'limit-asc') return 'default'
+      return 'limit-desc'
+    })
   }
 
   const {
@@ -106,8 +132,6 @@ export const StandingsPage = () => {
       : showWeekResult
         ? `${tableHeaderhMsg} ${lastWeekMatch}`
         : tableNoGamesMsg
-
-  const [selectedRow, setSelectedRow] = useState<number | null>(null)
 
   function handleUpdateStandings() {
     const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
@@ -145,17 +169,20 @@ export const StandingsPage = () => {
               <span className="py-3 text-sm leading-4 text-ink-muted">{tableNoBuddiesMsg}</span>
             ) : (
               <>
-                <StandingsHeader />
-                {standingsSeason &&
-                  Object.values(standingsSeason).map((_, index) => (
-                    <StandingsRow
-                      key={index}
-                      fade={containerFade}
-                      index={index}
-                      selectedRow={selectedRow}
-                      setSelectedRow={setSelectedRow}
-                    />
-                  ))}
+                <StandingsHeader
+                  onSortPercent={handleSortPercent}
+                  onSortLimit={handleSortLimit}
+                  limitSortEnabled={limitSortEnabled}
+                />
+                {sortedIndices.map((index) => (
+                  <StandingsRow
+                    key={'uid' in (tableRows[index] ?? {}) ? (tableRows[index] as UserStandings).uid ?? index : index}
+                    fade={containerFade}
+                    index={index}
+                    selectedRow={selectedRow}
+                    setSelectedRow={setSelectedRow}
+                  />
+                ))}
                 <span className="p-3 text-sm leading-4 text-ink-muted">{tableTierline}</span>
               </>
             )}

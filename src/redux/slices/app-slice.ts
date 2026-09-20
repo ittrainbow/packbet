@@ -27,10 +27,6 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setAppNaviEvent(state, action: PayloadAction<boolean>) {
-      state.appNaviEvent = action.payload
-    },
-
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload
     },
@@ -49,18 +45,6 @@ export const appSlice = createSlice({
 
     setEmailReg(state, action: PayloadAction<boolean>) {
       state.emailReg = action.payload
-    },
-
-    setEmptyEditor(state, action: PayloadAction<boolean>) {
-      state.emptyEditor = action.payload
-    },
-
-    setOtherUserName(state, action: PayloadAction<string>) {
-      state.otherUserName = action.payload
-    },
-
-    setOtherUserUID(state, action: PayloadAction<string>) {
-      state.otherUserUID = action.payload
     },
 
     clearOtherUser(state) {

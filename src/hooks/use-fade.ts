@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectApp } from '@/redux/selectors'
 import { appActions } from '@/redux/slices'
 
-export type FadeOut = 'down' | 'left' | 'right'
+type FadeOut = 'down' | 'left' | 'right'
 
-export function pageFadeClass(fading: false | FadeOut, appNaviEvent: boolean) {
+function pageFadeClass(fading: false | FadeOut, appNaviEvent: boolean) {
   if (fading === 'left') return 'animate-fade-out-left'
   if (fading === 'right') return 'animate-fade-out-right'
   if (fading === 'down') return 'animate-fade-out-down'

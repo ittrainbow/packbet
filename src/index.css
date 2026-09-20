@@ -75,7 +75,7 @@ a:focus-visible {
   margin-right: auto;
 }
 
-/* Fill #root content box (tabbar/safe already in #root padding) — avoid 100svh mismatch on Android */
+/* заполняет content box #root (tabbar/safe уже в padding) */
 .page-min-h {
   min-height: 100%;
 }
@@ -86,7 +86,3 @@ a:focus-visible {
     var(--tabbar-height) + env(safe-area-inset-bottom, 0px) + (100vw - min(32rem, 100vw)) / 2 + 0.75rem
   );
 }
-
-/* .Toastify__toast-container {
-  left: calc(min(50%, 32rem) - 72px);
-} */
