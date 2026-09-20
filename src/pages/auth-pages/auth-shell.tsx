@@ -47,7 +47,7 @@ export const AuthShell = ({ children, containerRef }: Props) => {
   return (
     <div
       className={clsx(
-        'flex flex-col px-4 py-5 max-w-[32rem] box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
+        'page-min-h flex flex-col px-4 py-5 max-w-[32rem] box-border',
         fadeClass
       )}
       ref={containerRef}
@@ -64,7 +64,7 @@ export const AuthShell = ({ children, containerRef }: Props) => {
         <span className="text-sm text-ink-muted">{packContestLead}</span>
       </div>
       <div className="w-full flex flex-col gap-3">{children}</div>
-      <div className="mt-auto pt-8 flex justify-center">
+      <div className="mt-auto pt-6 flex justify-center">
         <LocaleSwitch value={locale} onChange={(next) => dispatch(userActions.setLocale(next))} />
       </div>
     </div>

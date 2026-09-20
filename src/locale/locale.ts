@@ -17,7 +17,7 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const dashboardAdminMsg = t(locale, 'Вы - админ', 'Ви - адмiн', 'Вы — адмін')
   const profileHeaderMsg = t(locale, 'Настройка профиля', 'Налаштування профiлю', 'Налады профілю')
   const profileNameMsg = t(locale, 'Введите username', 'Введіть username', 'Увядзіце username')
-  const profileLangMsg = t(locale, 'Выберите язык', 'Виберіть мову', 'Выберыце мову')
+  const profileLangMsg = t(locale, 'Язык', 'Мова', 'Мова')
   const loginIntro = t(locale, 'Зарегистрированы?', 'Зареєстровані?', 'Зарэгістраваны?')
   const loginMsg = t(locale, 'Войти', 'Увiйти', 'Увайсці')
   const regIntro = t(locale, 'Нет профиля?', 'Немає профілю?', 'Няма профілю?')

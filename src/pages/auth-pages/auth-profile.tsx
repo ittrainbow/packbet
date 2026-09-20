@@ -69,7 +69,7 @@ export const Profile = () => {
         <span className="font-bold text-base leading-6">{profileHeaderMsg}</span>
       </div>
       <div className="flex flex-col items-center gap-6 w-full">
-        <div className="flex flex-col items-center w-full max-w-[16rem]">
+        <div className="flex flex-col items-center w-full max-w-[16rem] pt-4">
           <LocaleSwitch value={tempLocale} onChange={setTempLocale} />
         </div>
         <div className="flex flex-col items-center gap-2 w-48">

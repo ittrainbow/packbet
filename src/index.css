@@ -4,6 +4,17 @@
 
 :root {
   --tabbar-height: 64px;
+  --page-min-height: calc(
+    100vh - var(--tabbar-height) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --page-min-height: calc(
+      100dvh - var(--tabbar-height) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
+  }
 }
 
 @media (min-width: 640px) {
@@ -13,8 +24,7 @@
 }
 
 html,
-body,
-#root {
+body {
   min-height: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -50,6 +60,11 @@ body {
 }
 
 #root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
 }
 
@@ -57,6 +72,10 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.page-min-h {
+  min-height: var(--page-min-height);
 }
 
 .standings-arrows {

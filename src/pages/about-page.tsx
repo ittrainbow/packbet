@@ -91,7 +91,7 @@ export const About = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
+        'page-min-h flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border',
         fadeClass
       )}
       ref={containerRef}
