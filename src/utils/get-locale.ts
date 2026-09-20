@@ -1,4 +1,4 @@
-import { LocaleCode } from '../locale'
+import { LocaleCode } from '@/locale'
 
 const LOCALES: LocaleCode[] = ['ru', 'ua', 'by']
 

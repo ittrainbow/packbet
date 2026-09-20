@@ -1,6 +1,6 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
-import { Editor, Question, Week } from '../../types'
+import { Editor, Question, Week } from '@/types'
 
 const emptyQuestion: Question = {
   ru: '',

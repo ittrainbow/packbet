@@ -3,11 +3,11 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { auth, sendPasswordReset } from '../../db'
-import { useFade } from '../../hooks'
-import { Locale, i18n } from '../../locale'
-import { selectApp, selectUser } from '../../redux/selectors'
-import { Button, Input } from '../../ui'
+import { auth, sendPasswordReset } from '@/db'
+import { useFade } from '@/hooks'
+import { Locale, i18n } from '@/locale'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { Button, Input } from '@/ui'
 import { AuthShell } from './auth-shell'
 
 export const Reset = () => {

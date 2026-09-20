@@ -1,4 +1,4 @@
-import { AnswersStore } from '../types'
+import { AnswersStore } from '@/types'
 
 export const getAnswersResults = (
   answers: AnswersStore,

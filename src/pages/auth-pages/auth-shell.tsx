@@ -2,11 +2,11 @@ import { ReactNode, RefObject } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import clsx from 'clsx'
-import { usePageFadeClass } from '../../hooks'
-import { i18n, Locale } from '../../locale'
-import { selectUser } from '../../redux/selectors'
-import { userActions } from '../../redux/slices'
-import { LocaleSwitch } from '../../ui'
+import { usePageFadeClass } from '@/hooks'
+import { i18n, Locale } from '@/locale'
+import { selectUser } from '@/redux/selectors'
+import { userActions } from '@/redux/slices'
+import { LocaleSwitch } from '@/ui'
 
 type Props = {
   children: ReactNode

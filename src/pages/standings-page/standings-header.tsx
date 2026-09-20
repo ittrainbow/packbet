@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
-import { i18n, Locale } from '../../locale'
-import { selectTools, selectUser } from '../../redux/selectors'
+import { i18n, Locale } from '@/locale'
+import { selectTools, selectUser } from '@/redux/selectors'
 import { standingsGridClass } from './standings-grid'
 
 export const StandingsHeader = () => {

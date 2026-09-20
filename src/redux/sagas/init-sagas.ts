@@ -1,6 +1,6 @@
 import { all, call, put, select, take } from 'redux-saga/effects'
 
-import { getDBCollection } from '../../db'
+import { getDBCollection } from '@/db'
 import {
   About,
   Answers,
@@ -11,10 +11,10 @@ import {
   Users,
   UserStandings,
   Weeks
-} from '../../types'
-import { createTable, getWeeksIDs } from '../../utils'
-import { aboutActions, appActions, resultsActions, standingsActions, weeksActions } from '../slices'
-import { INIT_APP } from '../storetypes'
+} from '@/types'
+import { createTable, getWeeksIDs } from '@/utils'
+import { aboutActions, appActions, resultsActions, standingsActions, weeksActions } from '@/redux/slices'
+import { INIT_APP } from '@/redux/storetypes'
 
 function* fetchAboutSaga() {
   try {

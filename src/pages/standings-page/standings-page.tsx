@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import { GearIcon } from '../../icons'
+import { GearIcon } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import clsx from 'clsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
-import { useFade, usePageFadeClass } from '../../hooks'
-import { i18n, Locale } from '../../locale'
-import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
-import { toolsActions } from '../../redux/slices'
-import { UPDATE_STANDINGS } from '../../redux/storetypes'
-import { Store } from '../../types'
-import { parseWeekName } from '../../utils'
-import { Button, OldStandingsMessage, OtherUserMessage } from '../../ui'
+import { useFade, usePageFadeClass } from '@/hooks'
+import { i18n, Locale } from '@/locale'
+import { selectApp, selectStandings, selectTools } from '@/redux/selectors'
+import { toolsActions } from '@/redux/slices'
+import { UPDATE_STANDINGS } from '@/redux/storetypes'
+import { Store } from '@/types'
+import { parseWeekName } from '@/utils'
+import { Button, OldStandingsMessage, OtherUserMessage } from '@/ui'
 
 export const StandingsPage = () => {
   const dispatch = useDispatch()
@@ -98,18 +98,18 @@ export const StandingsPage = () => {
   return (
     <>
       <div
-        className={clsx('p-4 max-w-[32rem] grid gap-2', fadeClass)}
+        className={clsx('p-4 max-w-[32rem] grid gap-3', fadeClass)}
         ref={containerRef}
         id="container"
       >
-        <div className="flex flex-row gap-1 items-center">
-          <span className="flex font-bold grow text-base items-center gap-1.5 min-w-0">
-            <span className="min-w-0 leading-none">{lastWeekNameAdjusted}</span>
+        <div className="flex flex-row gap-1 items-center min-h-6">
+          <span className="flex font-bold grow text-base leading-none items-center min-w-0">
+            <span className="min-w-0 truncate">{lastWeekNameAdjusted}</span>
           </span>
           <Button
             onClick={handleSwitchTools}
-            icon={<GearIcon className="text-[1.75rem]" />}
-            className={clsx('transition border-none !w-10 !h-10', showTools ? 'text-accent' : 'text-ink')}
+            icon={<GearIcon className="text-[1.375rem]" />}
+            className={clsx('transition border-none !w-8 !h-8', showTools ? 'text-accent' : 'text-ink')}
           />
         </div>
         <div ref={bodyRef}>

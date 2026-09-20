@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { ExtendedUser, User } from '../../types'
-import { getLocale } from '../../utils'
+import { ExtendedUser, User } from '@/types'
+import { getLocale } from '@/utils'
 
 const initialState: ExtendedUser = {
   name: '',

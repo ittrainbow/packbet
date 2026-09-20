@@ -1,4 +1,4 @@
-import { Answers, Week } from '../types'
+import { Answers, Week } from '@/types'
 
 type CompareType = Answers | { [key: number]: number }
 

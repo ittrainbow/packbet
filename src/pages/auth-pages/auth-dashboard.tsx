@@ -3,12 +3,12 @@ import { useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { auth, logout } from '../../db'
-import { useFade, usePageFadeClass } from '../../hooks'
-import { Locale, i18n } from '../../locale'
-import { selectApp, selectUser } from '../../redux/selectors'
-import { answersActions, compareActions, userActions } from '../../redux/slices'
-import { Button } from '../../ui'
+import { auth, logout } from '@/db'
+import { useFade, usePageFadeClass } from '@/hooks'
+import { Locale, i18n } from '@/locale'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { answersActions, compareActions, userActions } from '@/redux/slices'
+import { Button } from '@/ui'
 
 export const Dashboard = () => {
   const dispatch = useDispatch()
@@ -40,13 +40,13 @@ export const Dashboard = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-6 box-border',
+        'flex flex-col p-4 max-w-[32rem] gap-3 box-border',
         fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base">{dashboardEnterMsg}</span>
+      <span className="font-bold text-base leading-none">{dashboardEnterMsg}</span>
       <div className="flex flex-col items-center gap-6 w-full">
         <div className="flex flex-col items-center gap-1 w-full max-w-[16rem]">
           <span className="text-center">{name ? name : '...loading'}</span>

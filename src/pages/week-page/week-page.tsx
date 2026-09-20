@@ -5,14 +5,14 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import clsx from 'clsx'
-import { useChanges, usePageFadeClass } from '../../hooks'
-import { Locale, i18n } from '../../locale'
-import { selectApp, selectUser } from '../../redux/selectors'
-import { answersActions, resultsActions, userActions } from '../../redux/slices'
-import * as TYPES from '../../redux/storetypes'
-import { Store, Week } from '../../types'
-import { parseWeekName } from '../../utils'
-import { Button, OtherUserMessage, Switch } from '../../ui'
+import { useChanges, usePageFadeClass } from '@/hooks'
+import { Locale, i18n } from '@/locale'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { answersActions, resultsActions, userActions } from '@/redux/slices'
+import * as TYPES from '@/redux/storetypes'
+import { Store, Week } from '@/types'
+import { parseWeekName } from '@/utils'
+import { Button, OtherUserMessage, Switch } from '@/ui'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
 
@@ -73,7 +73,7 @@ export const WeekPage = () => {
 
   return (
     <div
-      className={clsx('grid gap-1.5 p-4 max-w-[32rem] text-sm', fadeClass)}
+      className={clsx('grid gap-3 p-4 max-w-[32rem] text-sm', fadeClass)}
       ref={containerRef}
       id="container"
     >

@@ -15,10 +15,10 @@ import {
   UserPage,
   WeekList,
   WeekPage
-} from '../pages'
-import { selectApp } from '../redux/selectors'
-import { history } from '../redux/store'
-import { Loader } from '../ui'
+} from '@/pages'
+import { selectApp } from '@/redux/selectors'
+import { history } from '@/redux/store'
+import { Loader } from '@/ui'
 
 type Props = {
   children?: ReactNode

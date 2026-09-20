@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { useFade } from '../hooks'
-import { i18n, Locale } from '../locale'
-import { selectApp, selectUser } from '../redux/selectors'
-import { appActions } from '../redux/slices'
+import { useFade } from '@/hooks'
+import { i18n, Locale } from '@/locale'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { appActions } from '@/redux/slices'
 
 type Props = {
   containerRef: React.RefObject<HTMLDivElement>

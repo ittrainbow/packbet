@@ -1,4 +1,4 @@
-import { Weeks } from '../types'
+import { Weeks } from '@/types'
 
 export const getWeeksIDs = (weeks: Weeks) => {
   const arr = Object.keys(weeks).map((el) => Number(el))

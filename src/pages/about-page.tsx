@@ -1,12 +1,12 @@
 import { ReactNode, useRef, useState } from 'react'
-import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '../icons'
+import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '@/icons'
 import { useSelector } from 'react-redux'
 
 import clsx from 'clsx'
-import { usePageFadeClass } from '../hooks'
-import { Locale, i18n } from '../locale'
-import { selectAbout, selectUser } from '../redux/selectors'
-import { Button } from '../ui'
+import { usePageFadeClass } from '@/hooks'
+import { Locale, i18n } from '@/locale'
+import { selectAbout, selectUser } from '@/redux/selectors'
+import { Button } from '@/ui'
 
 const WEEK_BTN = 'shrink-0 text-lg text-ink !bg-ink/15 !border-ink/20'
 
@@ -91,84 +91,86 @@ export const About = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-6 box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
+        'flex flex-col p-4 max-w-[32rem] gap-3 box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
         fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base">{aboutTitleMsg}</span>
-      <p className="text-sm leading-5">{intro}</p>
-      <Button onClick={() => setOpen((prev) => !prev)} text={open ? buttonCollapseMsg : buttonDetailsMsg} />
+      <span className="font-bold text-base leading-none">{aboutTitleMsg}</span>
+      <div className="flex flex-col gap-6 grow">
+        <p className="text-sm leading-5">{intro}</p>
+        <Button onClick={() => setOpen((prev) => !prev)} text={open ? buttonCollapseMsg : buttonDetailsMsg} />
 
-      {open ? (
-        <>
-          <Section title={gistHeading}>
-            {pack['2'] ? <Body>{pack['2']}</Body> : null}
-            {pack['3'] ? <Body>{pack['3']}</Body> : null}
-          </Section>
+        {open ? (
+          <>
+            <Section title={gistHeading}>
+              {pack['2'] ? <Body>{pack['2']}</Body> : null}
+              {pack['3'] ? <Body>{pack['3']}</Body> : null}
+            </Section>
 
-          <Section title={aboutRulesMsg}>
-            {pack['4'] ? <Body>{pack['4']}</Body> : null}
-            {pack['5'] ? <Body>{pack['5']}</Body> : null}
-            {pack['12'] ? <Body>{pack['12']}</Body> : null}
-          </Section>
+            <Section title={aboutRulesMsg}>
+              {pack['4'] ? <Body>{pack['4']}</Body> : null}
+              {pack['5'] ? <Body>{pack['5']}</Body> : null}
+              {pack['12'] ? <Body>{pack['12']}</Body> : null}
+            </Section>
 
-          <Section title={exampleHeading}>
-            {exampleLead ? <Body>{exampleLead}</Body> : null}
-            <div className="rounded-xl border border-ink/30 bg-white overflow-hidden">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-ink-muted text-xs">
-                    <th className="px-3 py-2 font-bold text-left">{aboutColPlayer}</th>
-                    <th className="px-3 py-2 font-bold text-right">{aboutColCorrect}</th>
-                    <th className="px-3 py-2 font-bold text-right">{aboutColSkipped}</th>
-                    <th className="px-3 py-2 font-bold text-right">{aboutColAccuracy}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {examples.map((row) => (
-                    <tr key={row.name} className="border-t border-ink/15">
-                      <td className="px-3 py-2">{row.name}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">
-                        {row.correct}/{row.total}
-                      </td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.skipped}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">
-                        {((row.correct / row.total) * 100).toFixed(1)}
-                      </td>
+            <Section title={exampleHeading}>
+              {exampleLead ? <Body>{exampleLead}</Body> : null}
+              <div className="rounded-xl border border-ink/30 bg-white overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-ink-muted text-xs">
+                      <th className="px-3 py-2 font-bold text-left">{aboutColPlayer}</th>
+                      <th className="px-3 py-2 font-bold text-right">{aboutColCorrect}</th>
+                      <th className="px-3 py-2 font-bold text-right">{aboutColSkipped}</th>
+                      <th className="px-3 py-2 font-bold text-right">{aboutColAccuracy}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {pack['10'] ? <Body>{pack['10']}</Body> : null}
-            {pack['11'] ? <Body>{pack['11']}</Body> : null}
-          </Section>
+                  </thead>
+                  <tbody>
+                    {examples.map((row) => (
+                      <tr key={row.name} className="border-t border-ink/15">
+                        <td className="px-3 py-2">{row.name}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">
+                          {row.correct}/{row.total}
+                        </td>
+                        <td className="px-3 py-2 text-right tabular-nums">{row.skipped}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">
+                          {((row.correct / row.total) * 100).toFixed(1)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {pack['10'] ? <Body>{pack['10']}</Body> : null}
+              {pack['11'] ? <Body>{pack['11']}</Body> : null}
+            </Section>
 
-          <Section title={aboutLegendMsg}>
-            <div className="grid grid-cols-2 gap-2 rounded-xl border border-ink/30 bg-white p-3">
-              {legend.map(({ icon, text }) => (
-                <div key={text} className="flex items-center gap-2 pointer-events-none">
-                  <Button size="sm" className={WEEK_BTN} onClick={() => undefined} icon={icon} />
-                  <span className="text-sm">{text}</span>
-                </div>
+            <Section title={aboutLegendMsg}>
+              <div className="grid grid-cols-2 gap-2 rounded-xl border border-ink/30 bg-white p-3">
+                {legend.map(({ icon, text }) => (
+                  <div key={text} className="flex items-center gap-2 pointer-events-none">
+                    <Button size="sm" className={WEEK_BTN} onClick={() => undefined} icon={icon} />
+                    <span className="text-sm">{text}</span>
+                  </div>
+                ))}
+              </div>
+            </Section>
+
+            <Section title={aboutTermsMsg}>
+              {terms.map((item) => (
+                <Body key={item}>{item}</Body>
               ))}
-            </div>
-          </Section>
+            </Section>
+          </>
+        ) : null}
 
-          <Section title={aboutTermsMsg}>
-            {terms.map((item) => (
-              <Body key={item}>{item}</Body>
-            ))}
-          </Section>
-        </>
-      ) : null}
-
-      <div className={clsx('flex justify-center items-end mt-auto text-ink-muted', open ? 'pt-2 pb-4' : 'pt-2')}>
-        <a href="https://t.me/packersnews">
-          Green 19 {`${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`}
-        </a>
+        <div className={clsx('flex justify-center items-end mt-auto text-ink-muted', open ? 'pt-2 pb-4' : 'pt-2')}>
+          <a href="https://t.me/packersnews">
+            Green 19 {`${String.fromCodePoint(0x00a9)} 2022-${new Date().getFullYear()}`}
+          </a>
+        </div>
       </div>
     </div>
   )

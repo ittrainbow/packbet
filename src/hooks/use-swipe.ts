@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { useMenu } from '.'
-import { selectApp, selectEditor, selectUser } from '../redux/selectors'
-import { appActions, editorActions, toolsActions } from '../redux/slices'
+import { selectApp, selectEditor, selectUser } from '@/redux/selectors'
+import { appActions, editorActions, toolsActions } from '@/redux/slices'
 
 export function useSwipe() {
   const menu = useMenu()

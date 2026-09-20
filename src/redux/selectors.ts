@@ -1,4 +1,4 @@
-import { Store } from '../types'
+import { Store } from '@/types'
 
 export const selectAbout = (store: Store) => store.about
 export const selectStandings = (store: Store) => store.standings

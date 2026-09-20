@@ -26,7 +26,7 @@ import {
   UsersSchema,
   WeekSchema,
   WeeksSchema
-} from '../types'
+} from '@/types'
 import { db } from './firebase'
 
 export const getDBDocument = async (collection: string, document: string | number) => {

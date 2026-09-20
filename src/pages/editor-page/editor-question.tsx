@@ -1,10 +1,10 @@
-import { FiEdit, FiSlash, FiTrash } from '../../icons'
+import { FiEdit, FiSlash, FiTrash } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { useFade } from '../../hooks'
-import { selectApp, selectEditor, selectUser } from '../../redux/selectors'
-import { editorActions } from '../../redux/slices'
-import { getQuestionText } from '../../utils'
+import { useFade } from '@/hooks'
+import { selectApp, selectEditor, selectUser } from '@/redux/selectors'
+import { editorActions } from '@/redux/slices'
+import { getQuestionText } from '@/utils'
 
 type Props = { id: number; questionsRef: React.RefObject<HTMLDivElement> }
 

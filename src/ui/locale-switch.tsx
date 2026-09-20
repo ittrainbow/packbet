@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { FlagBe, FlagRu, FlagUa } from '../icons'
-import { Locale, LocaleCode, i18n } from '../locale'
+import { FlagBe, FlagRu, FlagUa } from '@/icons'
+import { Locale, LocaleCode, i18n } from '@/locale'
 
 const FLAGS: { code: LocaleCode; Flag: typeof FlagRu }[] = [
   { code: 'ru', Flag: FlagRu },

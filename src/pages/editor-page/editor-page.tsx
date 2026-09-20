@@ -5,13 +5,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
-import { useFade, usePageFadeClass } from '../../hooks'
-import { i18n, Locale } from '../../locale'
-import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
-import { appActions, editorActions, weeksActions } from '../../redux/slices'
-import * as TYPES from '../../redux/storetypes'
-import { Button, DeleteModal } from '../../ui'
-import { getWeeksEquality, getWeeksIDs } from '../../utils'
+import { useFade, usePageFadeClass } from '@/hooks'
+import { i18n, Locale } from '@/locale'
+import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '@/redux/selectors'
+import { appActions, editorActions, weeksActions } from '@/redux/slices'
+import * as TYPES from '@/redux/storetypes'
+import { Button, DeleteModal } from '@/ui'
+import { getWeeksEquality, getWeeksIDs } from '@/utils'
 
 export const EditorPage = () => {
   const dispatch = useDispatch()
@@ -95,11 +95,11 @@ export const EditorPage = () => {
 
   return (
     <div
-      className={clsx('p-4 max-w-[32rem] grid gap-2', fadeClass)}
+      className={clsx('p-4 max-w-[32rem] grid gap-3', fadeClass)}
       ref={containerRef}
       id="container"
     >
-      <span className="flex font-bold text-base grow items-center gap-1 ">{editorTitleMsg}</span>
+      <span className="font-bold text-base leading-none">{editorTitleMsg}</span>
       <EditorInputs questionsRef={questionsRef} />
 
       <div ref={questionsRef} className="flex flex-col gap-2">

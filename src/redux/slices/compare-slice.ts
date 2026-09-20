@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Answers } from '../../types'
+import { Answers } from '@/types'
 
 const initialState = {} as CompareType
 

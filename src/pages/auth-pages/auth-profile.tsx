@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
-import { auth } from '../../db'
-import { useFade, usePageFadeClass } from '../../hooks'
-import { Locale, LocaleCode, i18n } from '../../locale'
-import { selectApp, selectUser } from '../../redux/selectors'
-import { userActions } from '../../redux/slices'
-import { UPDATE_PROFILE } from '../../redux/storetypes'
-import { Button, Input, LocaleSwitch } from '../../ui'
+import { auth } from '@/db'
+import { useFade, usePageFadeClass } from '@/hooks'
+import { Locale, LocaleCode, i18n } from '@/locale'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { userActions } from '@/redux/slices'
+import { UPDATE_PROFILE } from '@/redux/storetypes'
+import { Button, Input, LocaleSwitch } from '@/ui'
 
 export const Profile = () => {
   const navigate = useNavigate()
@@ -59,13 +59,13 @@ export const Profile = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-6 box-border',
+        'flex flex-col p-4 max-w-[32rem] gap-3 box-border',
         fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base">{profileHeaderMsg}</span>
+      <span className="font-bold text-base leading-none">{profileHeaderMsg}</span>
       <div className="flex flex-col items-center gap-6 w-full">
         <div className="flex flex-col items-center w-full max-w-[16rem]">
           <LocaleSwitch value={tempLocale} onChange={setTempLocale} />

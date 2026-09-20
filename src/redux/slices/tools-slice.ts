@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Tools } from '../../types'
+import { Tools } from '@/types'
 
 const initialState: Tools = {
   showTools: false,

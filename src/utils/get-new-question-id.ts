@@ -1,4 +1,4 @@
-import { Questions } from '../types'
+import { Questions } from '@/types'
 
 export const getNewQuestionId = (questions: Questions): number => {
   const questionsIds = Object.keys(questions).map((el) => Number(el))

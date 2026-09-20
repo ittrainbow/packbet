@@ -1,10 +1,10 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { deleteDBDocument, getDBDocument, updateDBDocument, writeDBDocument } from '../../db'
-import { Action, Answers, ExtendedUser, Store, User } from '../../types'
-import { getLocale, getObjectsEquality } from '../../utils'
-import { answersActions, appActions, compareActions, resultsActions, userActions } from '../slices'
-import * as TYPES from '../storetypes'
+import { deleteDBDocument, getDBDocument, updateDBDocument, writeDBDocument } from '@/db'
+import { Action, Answers, ExtendedUser, Store, User } from '@/types'
+import { getLocale, getObjectsEquality } from '@/utils'
+import { answersActions, appActions, compareActions, resultsActions, userActions } from '@/redux/slices'
+import * as TYPES from '@/redux/storetypes'
 import { createStandingsFromDataSaga } from './init-sagas'
 
 function* updateProfileSaga(

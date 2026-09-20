@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
-import { selectAnswers, selectApp, selectCompare, selectResults, selectUser } from '../redux/selectors'
-import { getObjectsEquality } from '../utils'
+import { selectAnswers, selectApp, selectCompare, selectResults, selectUser } from '@/redux/selectors'
+import { getObjectsEquality } from '@/utils'
 
 export function useChanges() {
   const { uid, admin, adminAsPlayer } = useSelector(selectUser)

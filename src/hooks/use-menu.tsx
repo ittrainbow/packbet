@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
 
-import { BallIcon, CalendarIcon, ChevronIcon, InfoIcon, ListIcon, PenIcon, UserIcon } from '../icons'
-import { i18n, Locale } from '../locale'
-import { selectUser } from '../redux/selectors'
+import { BallIcon, CalendarIcon, ChevronIcon, InfoIcon, ListIcon, PenIcon, UserIcon } from '@/icons'
+import { i18n, Locale } from '@/locale'
+import { selectUser } from '@/redux/selectors'
 
 export function useMenu() {
   const { locale, admin } = useSelector(selectUser)

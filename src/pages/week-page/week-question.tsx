@@ -1,15 +1,15 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '../../icons'
+import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import clsx from 'clsx'
 import React from 'react'
-import { auth } from '../../db'
-import { selectApp, selectUser } from '../../redux/selectors'
-import { answersActions, resultsActions } from '../../redux/slices'
-import { Store } from '../../types'
-import { Button } from '../../ui'
-import { getQuestionText } from '../../utils'
+import { auth } from '@/db'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { answersActions, resultsActions } from '@/redux/slices'
+import { Store } from '@/types'
+import { Button } from '@/ui'
+import { getQuestionText } from '@/utils'
 
 type Props = {
   id: number

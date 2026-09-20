@@ -1,14 +1,14 @@
-import { FaStar } from '../../icons'
+import { FaStar } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
-import { useTableRow } from '../../hooks'
-import { i18n, Locale } from '../../locale'
-import { selectAnswers, selectApp, selectTools, selectUser } from '../../redux/selectors'
-import { appActions, userActions } from '../../redux/slices'
-import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
-import { Button } from '../../ui'
+import { useTableRow } from '@/hooks'
+import { i18n, Locale } from '@/locale'
+import { selectAnswers, selectApp, selectTools, selectUser } from '@/redux/selectors'
+import { appActions, userActions } from '@/redux/slices'
+import { FETCH_OTHER_USER, SET_BUDDIES } from '@/redux/storetypes'
+import { Button } from '@/ui'
 import { standingsGridClass } from './standings-grid'
 
 type Props = {

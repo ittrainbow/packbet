@@ -1,6 +1,6 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
-import { Answers, AnswersStore } from '../../types'
+import { Answers, AnswersStore } from '@/types'
 
 type AnswersUpdate = {
   answers: Answers

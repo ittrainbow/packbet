@@ -1,8 +1,8 @@
 import moment from 'moment/moment'
 import { useSelector } from 'react-redux'
 
-import { Locale, i18n } from '../locale'
-import { selectUser } from '../redux/selectors'
+import { Locale, i18n } from '@/locale'
+import { selectUser } from '@/redux/selectors'
 
 export function useDate() {
   const { locale } = useSelector(selectUser)

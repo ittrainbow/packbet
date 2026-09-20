@@ -1,10 +1,10 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { deleteDBDocument, getDBCollection, writeDBDocument } from '../../db'
-import { Action, Answers, AnswersStore, Store, Users, Week, Weeks } from '../../types'
-import { createTable, getWeeksIDs } from '../../utils'
-import { appActions, editorActions, weeksActions } from '../slices'
-import { DELETE_WEEK, SUBMIT_WEEK, UPDATE_STANDINGS } from '../storetypes'
+import { deleteDBDocument, getDBCollection, writeDBDocument } from '@/db'
+import { Action, Answers, AnswersStore, Store, Users, Week, Weeks } from '@/types'
+import { createTable, getWeeksIDs } from '@/utils'
+import { appActions, editorActions, weeksActions } from '@/redux/slices'
+import { DELETE_WEEK, SUBMIT_WEEK, UPDATE_STANDINGS } from '@/redux/storetypes'
 import { createStandingsFromDBSaga } from './init-sagas'
 
 type WeekUpdate = {

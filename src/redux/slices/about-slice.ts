@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { About } from '../../types'
+import { About } from '@/types'
 
 type AboutLocale = { [key: string]: string }
 

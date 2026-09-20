@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
-import { useMenu } from '../hooks'
-import { selectApp } from '../redux/selectors'
-import { appActions, editorActions, toolsActions } from '../redux/slices'
+import { useMenu } from '@/hooks'
+import { selectApp } from '@/redux/selectors'
+import { appActions, editorActions, toolsActions } from '@/redux/slices'
 
 export const Footer = () => {
   const navigate = useNavigate()

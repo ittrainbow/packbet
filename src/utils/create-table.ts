@@ -1,4 +1,4 @@
-import { Answers, AnswersStore, Users, UserStandings } from '../types'
+import { Answers, AnswersStore, Users, UserStandings } from '@/types'
 
 type CreateTableType = {
   answers: AnswersStore

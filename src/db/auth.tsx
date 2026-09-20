@@ -9,10 +9,10 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 
-import { Locale, i18n } from '../locale'
-import { appActions } from '../redux/slices'
-import { User } from '../types'
-import { getLocale } from '../utils'
+import { Locale, i18n } from '@/locale'
+import { appActions } from '@/redux/slices'
+import { User } from '@/types'
+import { getLocale } from '@/utils'
 import { auth, db } from './firebase'
 
 const googleProvider = new GoogleAuthProvider()

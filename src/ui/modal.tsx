@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '.'
-import { i18n, Locale } from '../locale'
-import { selectUser } from '../redux/selectors'
+import { i18n, Locale } from '@/locale'
+import { selectUser } from '@/redux/selectors'
 
 type Props = {
   modalOpen: boolean

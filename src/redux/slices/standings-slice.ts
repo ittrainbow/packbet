@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Standings } from '../../types'
+import { Standings } from '@/types'
 
 const initialState: Standings = {
   season2022: [],

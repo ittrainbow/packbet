@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
-import { i18n, Locale } from '../locale'
-import { selectUser } from '../redux/selectors'
+import { i18n, Locale } from '@/locale'
+import { selectUser } from '@/redux/selectors'
 
 export const OldStandingsMessage = () => {
   const { locale } = useSelector(selectUser)

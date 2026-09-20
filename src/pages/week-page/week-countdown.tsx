@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { useDate } from '../../hooks'
-import { i18n, Locale } from '../../locale'
-import { selectApp, selectUser, selectWeeks } from '../../redux/selectors'
+import { useDate } from '@/hooks'
+import { i18n, Locale } from '@/locale'
+import { selectApp, selectUser, selectWeeks } from '@/redux/selectors'
 
 const getRemaining = (deadline: number) => {
   const totalSeconds = Math.max(0, Math.floor((deadline - Date.now()) / 1000))

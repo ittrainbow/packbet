@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { App } from '../../types'
+import { App } from '@/types'
 
 const initialState: App = {
   appNaviEvent: true,

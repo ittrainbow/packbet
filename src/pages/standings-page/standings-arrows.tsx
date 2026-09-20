@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FaArrowCircleDown, FaArrowCircleUp } from '../../icons'
+import { FaArrowCircleDown, FaArrowCircleUp } from '@/icons'
 
 import clsx from 'clsx'
 

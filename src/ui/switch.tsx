@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { FlagRu, FlagUa } from '../icons'
+import { FlagRu, FlagUa } from '@/icons'
 
 type Props = {
   checked: boolean | undefined

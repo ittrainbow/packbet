@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
-import { FaCheck, FaPlus } from '../../icons'
+import { FaCheck, FaPlus } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { useFade } from '../../hooks'
-import { Locale, i18n } from '../../locale'
-import { selectApp, selectEditor, selectLocation, selectUser } from '../../redux/selectors'
-import { editorActions } from '../../redux/slices'
-import { Button, Input } from '../../ui'
-import { getNewQuestionId, getObjectsEquality } from '../../utils'
+import { useFade } from '@/hooks'
+import { Locale, i18n } from '@/locale'
+import { selectApp, selectEditor, selectLocation, selectUser } from '@/redux/selectors'
+import { editorActions } from '@/redux/slices'
+import { Button, Input } from '@/ui'
+import { getNewQuestionId, getObjectsEquality } from '@/utils'
 
 export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) => {
   const dispatch = useDispatch()

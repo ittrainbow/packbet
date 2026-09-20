@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { selectApp } from '../redux/selectors'
-import { appActions } from '../redux/slices'
+import { selectApp } from '@/redux/selectors'
+import { appActions } from '@/redux/slices'
 
 export type FadeOut = 'down' | 'left' | 'right'
 

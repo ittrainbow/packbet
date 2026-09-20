@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
-import { useDate, useFade, usePageFadeClass } from '../hooks'
-import { Locale, i18n } from '../locale'
-import { selectApp, selectLocation, selectResults, selectUser, selectWeeks } from '../redux/selectors'
-import { appActions, editorActions } from '../redux/slices'
-import { OtherUserMessage, ScoreChip } from '../ui'
-import { parseWeekName } from '../utils'
+import { useDate, useFade, usePageFadeClass } from '@/hooks'
+import { Locale, i18n } from '@/locale'
+import { selectApp, selectLocation, selectResults, selectUser, selectWeeks } from '@/redux/selectors'
+import { appActions, editorActions } from '@/redux/slices'
+import { OtherUserMessage, ScoreChip } from '@/ui'
+import { parseWeekName } from '@/utils'
 
 type WeekStatus = 'open' | 'started' | 'final'
 
@@ -62,11 +62,11 @@ export const WeekList = () => {
 
   return (
     <div
-      className={clsx('p-4 max-w-[32rem] grid gap-2', fadeClass)}
+      className={clsx('p-4 max-w-[32rem] grid gap-3', fadeClass)}
       ref={containerRef}
       id="container"
     >
-      <span className="flex flex-row gap-1 font-bold text-base">
+      <span className="font-bold text-base leading-none">
         {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
       </span>
 
