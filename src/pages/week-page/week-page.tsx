@@ -73,12 +73,12 @@ export const WeekPage = () => {
 
   return (
     <div
-      className={clsx('grid gap-3 p-4 max-w-[32rem] text-sm', fadeClass)}
+      className={clsx('grid gap-3 px-4 py-5 max-w-[32rem] text-sm', fadeClass)}
       ref={containerRef}
       id="container"
     >
-      <div className="flex items-center gap-2">
-        <span className="font-bold text-base leading-none grow min-w-0">{match}</span>
+      <div className="flex items-center gap-2 min-h-6">
+        <span className="font-bold text-base leading-6 grow min-w-0 truncate">{match}</span>
         {admin && isItYou ? (
           <Switch
             onChange={handleAdminAsPlayer}

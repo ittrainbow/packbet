@@ -95,11 +95,13 @@ export const EditorPage = () => {
 
   return (
     <div
-      className={clsx('p-4 max-w-[32rem] grid gap-3', fadeClass)}
+      className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base leading-none">{editorTitleMsg}</span>
+      <div className="flex items-center h-6">
+        <span className="font-bold text-base leading-6">{editorTitleMsg}</span>
+      </div>
       <EditorInputs questionsRef={questionsRef} />
 
       <div ref={questionsRef} className="flex flex-col gap-2">

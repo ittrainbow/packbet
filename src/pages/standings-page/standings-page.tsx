@@ -98,18 +98,18 @@ export const StandingsPage = () => {
   return (
     <>
       <div
-        className={clsx('p-4 max-w-[32rem] grid gap-3', fadeClass)}
+        className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)}
         ref={containerRef}
         id="container"
       >
-        <div className="flex flex-row gap-1 items-center min-h-6">
-          <span className="flex font-bold grow text-base leading-none items-center min-w-0">
-            <span className="min-w-0 truncate">{lastWeekNameAdjusted}</span>
+        <div className="flex flex-row items-center h-6 gap-1">
+          <span className="font-bold text-base leading-6 grow min-w-0 truncate">
+            {lastWeekNameAdjusted}
           </span>
           <Button
             onClick={handleSwitchTools}
-            icon={<GearIcon className="text-[1.375rem]" />}
-            className={clsx('transition border-none !w-8 !h-8', showTools ? 'text-accent' : 'text-ink')}
+            icon={<GearIcon className="text-[24px]" />}
+            className={clsx('transition border-none !w-6 !h-6', showTools ? 'text-accent' : 'text-ink')}
           />
         </div>
         <div ref={bodyRef}>

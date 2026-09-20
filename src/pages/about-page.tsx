@@ -91,13 +91,15 @@ export const About = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-3 box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
+        'flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
         fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base leading-none">{aboutTitleMsg}</span>
+      <div className="flex items-center h-6">
+        <span className="font-bold text-base leading-6">{aboutTitleMsg}</span>
+      </div>
       <div className="flex flex-col gap-6 grow">
         <p className="text-sm leading-5">{intro}</p>
         <Button onClick={() => setOpen((prev) => !prev)} text={open ? buttonCollapseMsg : buttonDetailsMsg} />

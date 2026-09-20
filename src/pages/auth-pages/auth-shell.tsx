@@ -47,7 +47,7 @@ export const AuthShell = ({ children, containerRef }: Props) => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
+        'flex flex-col px-4 py-5 max-w-[32rem] box-border min-h-[calc(100vh-var(--tabbar-height)-env(safe-area-inset-bottom,0px))]',
         fadeClass
       )}
       ref={containerRef}

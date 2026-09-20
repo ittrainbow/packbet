@@ -59,13 +59,15 @@ export const Profile = () => {
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-3 box-border',
+        'flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border',
         fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base leading-none">{profileHeaderMsg}</span>
+      <div className="flex items-center h-6">
+        <span className="font-bold text-base leading-6">{profileHeaderMsg}</span>
+      </div>
       <div className="flex flex-col items-center gap-6 w-full">
         <div className="flex flex-col items-center w-full max-w-[16rem]">
           <LocaleSwitch value={tempLocale} onChange={setTempLocale} />

@@ -62,13 +62,15 @@ export const WeekList = () => {
 
   return (
     <div
-      className={clsx('p-4 max-w-[32rem] grid gap-3', fadeClass)}
+      className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)}
       ref={containerRef}
       id="container"
     >
-      <span className="font-bold text-base leading-none">
-        {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
-      </span>
+      <div className="flex items-center h-6">
+        <span className="font-bold text-base leading-6">
+          {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
+        </span>
+      </div>
 
       {showOtherUserBar && <OtherUserMessage containerRef={containerRef} />}
       {listedWeeks.length === 0 ? (
