@@ -1,15 +1,15 @@
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '@/icons'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 
-import clsx from 'clsx'
-import React from 'react'
 import { auth } from '@/db'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { answersActions, resultsActions } from '@/redux/slices'
 import { Store } from '@/types'
 import { Button } from '@/ui'
 import { getQuestionText } from '@/utils'
+import clsx from 'clsx'
+import React from 'react'
 
 type Props = {
   id: number
@@ -75,7 +75,7 @@ export const WeekQuestion = ({ id, result }: Props) => {
       return 'text-white !bg-ink-muted !border-ink-muted'
     }
     if (thisButton) {
-      return 'text-ink !bg-ink/15 !border-ink/20'
+      return 'text-ink !bg-ink/25 !border-ink/20'
     }
     return 'text-ink/70 !border-ink/40'
   }
