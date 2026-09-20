@@ -53,14 +53,13 @@ export const StandingsPage = () => {
             : standings.week2026
 
   const tableSource = showOneWeek && seasonSelected !== 2022 ? standingsWeek : standingsSeason
+  const tableRows = tableSource ? Object.values(tableSource) : []
   const hasVisibleBuddyRows =
     !showBuddies ||
-    Boolean(
-      tableSource?.some(
-        (row) =>
-          row.name.toLowerCase().includes(standingsSearch.toLowerCase()) &&
-          buddies?.includes(('uid' in row ? row.uid : undefined) ?? '')
-      )
+    tableRows.some(
+      (row) =>
+        row.name.toLowerCase().includes(standingsSearch.toLowerCase()) &&
+        buddies?.includes(('uid' in row ? row.uid : undefined) ?? '')
     )
 
   const { triggerFade: containerFade } = useFade(containerRef)
@@ -140,7 +139,7 @@ export const StandingsPage = () => {
           <div className="grid gap-1" ref={tableRef}>
             {seasonSelected === 2022 ? <OldStandingsMessage /> : <OtherUserMessage containerRef={containerRef} />}
             {showBuddies && !hasVisibleBuddyRows ? (
-              <span className="p-3 text-sm leading-4 text-ink-muted">{tableNoBuddiesMsg}</span>
+              <span className="py-3 text-sm leading-4 text-ink-muted">{tableNoBuddiesMsg}</span>
             ) : (
               <>
                 <StandingsHeader />
