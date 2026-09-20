@@ -9,7 +9,7 @@ import { createStandingsFromDataSaga } from './init-sagas'
 
 function* updateProfileSaga(
   action: Action<{
-    locale: 'ua' | 'ru'
+    locale: User['locale']
     name: string
     uid: string
   }>

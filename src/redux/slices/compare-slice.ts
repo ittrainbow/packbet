@@ -28,7 +28,7 @@ export const compareSlice = createSlice({
       state[id] = data
     },
 
-    clearCompare() {
+    clearCompare(_state) {
       return initialState
     }
   }

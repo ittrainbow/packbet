@@ -6,12 +6,6 @@ import { useMenu } from '.'
 import { selectApp, selectEditor, selectUser } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 
-type Params = {
-  moveX: number
-  canSwipeLeft: boolean
-  canSwipeRight: boolean
-}
-
 export function useSwipe() {
   const menu = useMenu()
   const dispatch = useDispatch()
@@ -19,21 +13,7 @@ export function useSwipe() {
   const { tabActive, duration, editor, currentWeek, selectedWeek } = useSelector(selectApp)
   const { admin } = useSelector(selectUser)
   const { questionInWork } = useSelector(selectEditor)
-  const { ru, ua, total } = questionInWork
-
-  const swipeHelper = ({ moveX, canSwipeLeft, canSwipeRight }: Params) => {
-    const container = document.querySelector('.container')
-
-    if (moveX > 0 && canSwipeLeft) {
-      const list = container?.classList
-      list?.add('animate-fade-out-right')
-    }
-
-    if (moveX < 0 && canSwipeRight) {
-      const list = container?.classList
-      list?.add('animate-fade-out-left')
-    }
-  }
+  const { ru, ua, by, total } = questionInWork
 
   useEffect(() => {
     let startX: number
@@ -54,16 +34,13 @@ export function useSwipe() {
         const limit = admin ? 6 : 4
         const canSwipeLeft = tabActive > 0
         const canSwipeRight = tabActive < limit
-        const canSwipe = !ru && !ua && !total
+        const canSwipe = !ru && !ua && !by && !total
         const newTabActive =
           moveX < 0 ? (canSwipeRight ? tabActive + 1 : tabActive) : canSwipeLeft ? tabActive - 1 : tabActive
 
-        if (canSwipe) {
-          const container = document.querySelector('#container')
-          container?.classList.add('animate-fade-out-down')
-
+        if (canSwipe && newTabActive !== tabActive) {
+          dispatch(appActions.setFading(moveX > 0 ? 'right' : 'left'))
           dispatch(appActions.setTabActive(newTabActive))
-          swipeHelper({ moveX, canSwipeLeft, canSwipeRight })
           newTabActive === 5 && !editor && dispatch(appActions.setEditor(true))
 
           newTabActive === 2 &&
@@ -71,7 +48,7 @@ export function useSwipe() {
             setTimeout(() => dispatch(appActions.setSelectedWeek(currentWeek)), duration + 33)
 
           setTimeout(() => {
-            container?.classList.remove('animate-fade-out-down')
+            dispatch(appActions.setFading(false))
             navigate(menu[newTabActive].path)
             newTabActive === 4 &&
               editor &&

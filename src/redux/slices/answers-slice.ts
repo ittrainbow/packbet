@@ -52,7 +52,7 @@ export const answersSlice = createSlice({
       state[uid] = userAnswers
     },
 
-    clearAnswers() {
+    clearAnswers(_state) {
       return initialState
     }
   }

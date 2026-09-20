@@ -4,26 +4,26 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { Input } from '@mui/material'
 import clsx from 'clsx'
 import { auth } from '../../db'
-import { useFade } from '../../hooks'
-import { Locale, i18n } from '../../locale'
+import { useFade, usePageFadeClass } from '../../hooks'
+import { Locale, LocaleCode, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
 import { UPDATE_PROFILE } from '../../redux/storetypes'
-import { Button, Switch } from '../../ui'
+import { Button, Input, LocaleSwitch } from '../../ui'
 
 export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const { name, locale } = useSelector(selectUser)
-  const { duration, appNaviEvent } = useSelector(selectApp)
+  const fadeClass = usePageFadeClass()
+  const { duration } = useSelector(selectApp)
   const containerRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>()
+  const inputRef = useRef<HTMLInputElement>(null)
   const [tempName, setTempName] = useState(name)
-  const [tempLocale, setTempLocale] = useState<'ua' | 'ru'>(locale)
+  const [tempLocale, setTempLocale] = useState<LocaleCode>(locale)
 
   const { triggerFade } = useFade(containerRef)
 
@@ -53,38 +53,40 @@ export const Profile = () => {
     }, duration)
   }
 
-  const handleChange = () => setTempLocale((prev) => (prev === 'ru' ? 'ua' : 'ru'))
-
-  const { profileHeaderMsg, profileNameMsg, profileLangMsg } = i18n(locale, 'auth') as Locale
+  const { profileHeaderMsg, profileNameMsg } = i18n(locale, 'auth') as Locale
   const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as Locale
 
   return (
     <div
       className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center',
-        appNaviEvent && ' animate-fade-in-up'
+        'flex flex-col p-4 max-w-[32rem] gap-6 box-border',
+        fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <div className="w-56 pt-20 flex flex-col justify-center items-center gap-6">
-        <span className="font-bold text-md">{profileHeaderMsg}</span>
-        <div className="flex flex-col items-center gap-2">
-          <span>{profileLangMsg}</span>
-          <Switch locale checked={tempLocale === 'ua'} onChange={handleChange} />
+      <span className="font-bold text-base">{profileHeaderMsg}</span>
+      <div className="flex flex-col items-center gap-6 w-full">
+        <div className="flex flex-col items-center w-full max-w-[16rem]">
+          <LocaleSwitch value={tempLocale} onChange={setTempLocale} />
         </div>
-        <div className="flex flex-col items-center gap-2">
-          <span>{profileNameMsg}</span>
-          <Input type="text" inputRef={inputRef} onChange={(e) => setTempName(e.target.value)} value={tempName} />
+        <div className="flex flex-col items-center gap-2 w-48">
+          <span className="text-center">{profileNameMsg}</span>
+          <Input
+            type="text"
+            inputRef={inputRef}
+            onChange={(e) => setTempName(e.target.value)}
+            value={tempName}
+            autoComplete="username"
+          />
         </div>
-        <div className="flex w-full flex-col items-center gap-1">
+        <div className="flex w-48 flex-col gap-1">
           <Button
-            className="w-44"
             disabled={noChanges}
             onClick={handleSubmit}
             text={noChanges ? buttonChangesMsg : buttonSaveMsg}
           />
-          <Button className="w-44" onClick={handleDiscard} text={buttonCancelMsg} />
+          <Button onClick={handleDiscard} text={buttonCancelMsg} />
         </div>
       </div>
     </div>

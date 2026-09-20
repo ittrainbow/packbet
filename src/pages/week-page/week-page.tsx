@@ -5,19 +5,21 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import clsx from 'clsx'
-import { useChanges } from '../../hooks'
+import { useChanges, usePageFadeClass } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions, userActions } from '../../redux/slices'
 import * as TYPES from '../../redux/storetypes'
 import { Store, Week } from '../../types'
+import { parseWeekName } from '../../utils'
 import { Button, OtherUserMessage, Switch } from '../../ui'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
 
 export const WeekPage = () => {
   const dispatch = useDispatch()
-  const { selectedWeek, currentWeek, isItYou, duration, appNaviEvent } = useSelector(selectApp)
+  const fadeClass = usePageFadeClass()
+  const { selectedWeek, currentWeek, isItYou, duration } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
   const answers = useSelector((store: Store) => store.answers)
   const results = useSelector((store: Store) => store.results)
@@ -25,6 +27,7 @@ export const WeekPage = () => {
   const compare = useSelector((store: Store) => store.compare)
   const containerRef = useRef<HTMLDivElement>(null)
   const { name, questions, deadline } = weeks[selectedWeek] || ({} as Week)
+  const { match } = parseWeekName(name)
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
   const gotChanges = useChanges()
@@ -70,12 +73,12 @@ export const WeekPage = () => {
 
   return (
     <div
-      className={clsx('grid gap-1.5 p-4 max-w-[32rem] text-sm', appNaviEvent && 'animate-fade-in-up')}
+      className={clsx('grid gap-1.5 p-4 max-w-[32rem] text-sm', fadeClass)}
       ref={containerRef}
       id="container"
     >
-      <div className="grid grid-cols-[1fr,auto] gap-2 items-start">
-        <span className="font-bold text-base">{name?.split('.')[1]}</span>
+      <div className="flex items-center gap-2">
+        <span className="font-bold text-base leading-none grow min-w-0">{match}</span>
         {admin && isItYou ? (
           <Switch
             onChange={handleAdminAsPlayer}
@@ -102,7 +105,7 @@ export const WeekPage = () => {
           <Button
             onClick={handleSubmit}
             disabled={!gotChanges}
-            className="me-1"
+            className="mr-1"
             text={!gotChanges ? buttonChangesMsg : buttonSaveMsg}
           />
           <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button" text={buttonCancelMsg} />

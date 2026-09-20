@@ -1,25 +1,22 @@
-import { Input } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import clsx from 'clsx'
 import { auth, sendPasswordReset } from '../../db'
 import { useFade } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
-import { userActions } from '../../redux/slices'
-import { Button, Switch } from '../../ui'
+import { Button, Input } from '../../ui'
+import { AuthShell } from './auth-shell'
 
 export const Reset = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
-  const { duration, appNaviEvent } = useSelector(selectApp)
+  const { duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>()
+  const inputRef = useRef<HTMLInputElement>(null)
   const [email, setEmail] = useState('')
 
   const { triggerFade } = useFade(containerRef)
@@ -52,35 +49,29 @@ export const Reset = () => {
   }
 
   const { buttonRecoverMsg } = i18n(locale, 'buttons') as Locale
-  const { loginMsg, loginIntro, regMsg, regIntro } = i18n(locale, 'auth') as Locale
-
-  const handleLocaleChange = () => dispatch(userActions.setLocale(locale === 'ru' ? 'ua' : 'ru'))
+  const { loginMsg, loginIntro, regMsg, regIntro, emailMsg } = i18n(locale, 'auth') as Locale
 
   return (
-    <div
-      className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-4 box-border h-full items-center',
-        appNaviEvent && 'animate-fade-in-up'
-      )}
-      ref={containerRef}
-      id="container"
-    >
-      <div className="w-56 pt-20 flex flex-col justify-center gap-1">
-        <Input type="text" value={email} ref={inputRef} onChange={handleEmailInput} placeholder={'E-mail'} />
-        <Button
-          className="bg-black bg-opacity-80 text-white my-2"
-          onClick={() => sendPasswordReset(email)}
-          text={buttonRecoverMsg}
-        />
-        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
-          {regIntro} <span className="pointer underline text-blue-600">{regMsg}</span>
-        </button>
-        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
-          {loginIntro} <span className="pointer underline text-blue-600">{loginMsg}</span>
-        </button>
-      </div>
-
-      <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />
-    </div>
+    <AuthShell containerRef={containerRef}>
+      <Input
+        type="email"
+        value={email}
+        inputRef={inputRef}
+        onChange={handleEmailInput}
+        placeholder={emailMsg}
+        autoComplete="email"
+      />
+      <Button
+        className="bg-chrome text-white border-chrome hover:bg-chrome disabled:text-white/50"
+        onClick={() => sendPasswordReset(email)}
+        text={buttonRecoverMsg}
+      />
+      <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
+        {regIntro} <span className="pointer underline text-accent">{regMsg}</span>
+      </button>
+      <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToLogin}>
+        {loginIntro} <span className="pointer underline text-accent">{loginMsg}</span>
+      </button>
+    </AuthShell>
   )
 }

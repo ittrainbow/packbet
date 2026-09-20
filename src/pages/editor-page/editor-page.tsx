@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import 'react-confirm-alert/src/react-confirm-alert.css'
-
 import clsx from 'clsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
-import { useFade } from '../../hooks'
+import { useFade, usePageFadeClass } from '../../hooks'
 import { i18n, Locale } from '../../locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '../../redux/selectors'
 import { appActions, editorActions, weeksActions } from '../../redux/slices'
@@ -21,9 +19,10 @@ export const EditorPage = () => {
   const location = useLocation()
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
-  const { selectedWeek, emptyEditor, appNaviEvent } = useSelector(selectApp)
+  const { selectedWeek, emptyEditor } = useSelector(selectApp)
   const { pathname } = useSelector(selectLocation)
   const { locale } = useSelector(selectUser)
+  const fadeClass = usePageFadeClass()
   const { tabActive, duration } = useSelector(selectApp)
   const { questions, name } = editor
   const questionsRef = useRef<HTMLDivElement>(null)
@@ -96,7 +95,7 @@ export const EditorPage = () => {
 
   return (
     <div
-      className={clsx('p-4 max-w-[32rem] grid gap-2', appNaviEvent && 'animate-fade-in-up')}
+      className={clsx('p-4 max-w-[32rem] grid gap-2', fadeClass)}
       ref={containerRef}
       id="container"
     >
@@ -107,7 +106,7 @@ export const EditorPage = () => {
         {Object.keys(questions).map((el) => (
           <EditorQuestion key={el} id={Number(el)} questionsRef={questionsRef} />
         ))}
-        <hr className="h-px bg-gray-400 border-0" />
+        <hr className="h-px bg-ink/20 border-0" />
         <EditorActivities />
         <div className="flex flex-col items-center gap-2">
           <Button disabled={saveBtnDisabled} onClick={handleSubmit} text={buttonSaveMsg} />

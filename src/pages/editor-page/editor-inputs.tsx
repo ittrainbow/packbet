@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { FaCheck, FaPlus } from 'react-icons/fa'
+import { FaCheck, FaPlus } from '../../icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useFade } from '../../hooks'
@@ -17,7 +17,7 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
   const editor = useSelector(selectEditor)
   const { pathname } = useSelector(selectLocation)
   const { name, questionInWork, questionCompare } = editor
-  const { ru, ua, total, id } = questionInWork
+  const { ru, ua, by = '', total, id } = questionInWork
 
   const { triggerFade } = useFade(questionsRef)
 
@@ -27,27 +27,16 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
   }, [pathname])
 
   const questionButtonDisabled = getObjectsEquality(questionInWork, questionCompare)
-  const totalBtnDisabled = !(!!ru.length && !!ua.length) || !total || questionButtonDisabled
+  const totalBtnDisabled = !(!!ru.length && !!ua.length && !!by.length) || !total || questionButtonDisabled
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     dispatch(editorActions.updateEditorName(value))
   }
 
-  const handleSetRu = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    const ru = value.substring(0, 120)
-    const data = { ...questionInWork, ru }
-
-    dispatch(editorActions.setQuestionInWork(data))
-  }
-
-  const handleSetUa = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    const ua = value.substring(0, 120)
-    const data = { ...questionInWork, ua }
-
-    dispatch(editorActions.setQuestionInWork(data))
+  const handleSetLang = (key: 'ru' | 'ua' | 'by') => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.substring(0, 120)
+    dispatch(editorActions.setQuestionInWork({ ...questionInWork, [key]: value }))
   }
 
   const handleChangeTotal = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,22 +48,27 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
 
   const handleAddQuestion = () => {
     const { questions } = editor
-    if (ru && ua && total) {
+    if (ru && ua && by && total) {
       triggerFade()
       const setId = typeof id !== 'number' ? getNewQuestionId(questions) : (id as number)
       setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), duration)
     }
   }
 
-  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg } = i18n(locale, 'editor') as Locale
+  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg, weekQuestionByMsg } = i18n(
+    locale,
+    'editor'
+  ) as Locale
 
   return (
     <div className="editor-input">
       <Input onChange={handleChangeName} inputRef={nameRef} placeholder={weekNameMsg} value={name} />
       <div className="grid grid-cols-[1fr,4rem] gap-2 py-2">
-        <Input onChange={handleSetRu} placeholder={weekQuestionRuMsg} value={ru} />
+        <Input onChange={handleSetLang('ru')} placeholder={weekQuestionRuMsg} value={ru} />
         <Input onChange={handleChangeTotal} value={total} placeholder={weekTotalMsg} className="text-center p-2" />
-        <Input onChange={handleSetUa} placeholder={weekQuestionUaMsg} value={ua} className="grow" />
+        <Input onChange={handleSetLang('ua')} placeholder={weekQuestionUaMsg} value={ua} />
+        <div className="w-16" />
+        <Input onChange={handleSetLang('by')} placeholder={weekQuestionByMsg} value={by} className="grow" />
         <Button
           className="w-16 flex items-center justify-center"
           onClick={handleAddQuestion}

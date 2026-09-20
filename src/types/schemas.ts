@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 export const AboutSchema = z.object({
   ru: z.record(z.string(), z.string()),
-  ua: z.record(z.string(), z.string())
+  ua: z.record(z.string(), z.string()),
+  by: z.record(z.string(), z.string()).optional()
 })
 export type About = z.infer<typeof AboutSchema>
 
@@ -36,7 +37,7 @@ export const AppSchema = z.object({
   emailReg: z.boolean(),
   week2passed: z.boolean(),
   duration: z.number(),
-  fading: z.boolean()
+  fading: z.union([z.literal(false), z.enum(['down', 'left', 'right'])])
 })
 export type App = z.infer<typeof AppSchema>
 
@@ -114,7 +115,7 @@ export type Tools = z.infer<typeof ToolsSchema>
 
 export const UserSchema = z.object({
   admin: z.boolean(),
-  locale: z.enum(['ru', 'ua']),
+  locale: z.preprocess((value) => (value === 'be' ? 'by' : value), z.enum(['ru', 'ua', 'by'])),
   name: z.string(),
   adminAsPlayer: z.boolean().optional(),
   buddies: z.array(z.string())
@@ -132,6 +133,8 @@ export type Users = z.infer<typeof UsersSchema>
 export const QuestionSchema = z.object({
   ru: z.string(),
   ua: z.string(),
+  by: z.string().optional(),
+  be: z.string().optional(),
   total: z.string(),
   id: z.number().optional().nullable()
 })

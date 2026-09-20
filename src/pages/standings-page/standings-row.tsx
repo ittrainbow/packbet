@@ -1,4 +1,4 @@
-import { FaStar } from 'react-icons/fa'
+import { FaStar } from '../../icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,6 +9,7 @@ import { selectAnswers, selectApp, selectTools, selectUser } from '../../redux/s
 import { appActions, userActions } from '../../redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '../../redux/storetypes'
 import { Button } from '../../ui'
+import { standingsGridClass } from './standings-grid'
 
 type Props = {
   index: number
@@ -57,90 +58,52 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
   }
 
   const getRow = useTableRow(index)
+  const isMe = getRow?.uid === user.uid
+  const canExpand = seasonSelected === season
+  const cell = 'flex items-center text-sm sm:text-base min-w-0'
 
   const row = (
     <div className="grid gap-1">
       <div
         className={clsx(
-          'gap-0.5 grid  min-h-[1.875rem]',
-          seasonSelected === 2022
-            ? 'grid-cols-[1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,1fr,4rem,3.5rem,3.5rem]'
-            : 'grid-cols-[1.75rem,1.75rem,1fr,3.25rem,2.75rem,2.75rem] sm:grid-cols-[2rem,2rem,1fr,4rem,3.5rem,3.5rem]'
+          standingsGridClass(seasonSelected),
+          'rounded-lg ring-1 ring-ink/20',
+          isMe ? 'bg-gold font-semibold' : index % 2 === 1 && 'bg-white',
+          canExpand && 'cursor-pointer'
         )}
+        onClick={() => canExpand && setSelectedRow(selectedRow === index ? null : index)}
       >
-        <span
-          className={clsx(
-            'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400',
-            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
-          )}
-        >
-          {getRow?.position}
-        </span>
+        <span className={clsx(cell, 'justify-center')}>{getRow?.position}</span>
 
         {seasonSelected !== 2022 && (
           <button
+            type="button"
             className={clsx(
-              'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400',
-              buddies?.includes(getRow?.uid ?? '') ? 'text-yellow-600' : 'text-gray-500 text-opacity-50',
-              getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200'
+              cell,
+              'justify-center',
+              buddies?.includes(getRow?.uid ?? '') ? 'text-gold' : 'text-ink-muted'
             )}
-            onClick={() => seasonSelected !== 2022 && getRow?.uid && handleAddRemoveBuddy(getRow?.uid)}
+            onClick={(e) => {
+              e.stopPropagation()
+              seasonSelected !== 2022 && getRow?.uid && handleAddRemoveBuddy(getRow.uid)
+            }}
           >
             <FaStar />
           </button>
         )}
 
-        <button
-          className={clsx(
-            'flex items-center text-sm sm:text-base text-start leading-4 rounded-lg py-0.5 grow border border-gray-400 tracking-tighter px-1 sm:px-2',
-            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-            seasonSelected === 2022 && 'cursor-auto'
-          )}
-          onClick={() => setSelectedRow(selectedRow === index ? null : index)}
-          style={{ fontWeight: user.uid === getRow?.uid ? 600 : '' }}
-          disabled={seasonSelected !== season}
-        >
-          {window.innerWidth < 480 && getRow?.name.length > 20
-            ? getRow?.name?.replace(/#/g, '# ').replace(/_/g, '_ ').replace(/-/g, '- ')
-            : getRow?.name}
-        </button>
-
-        <span
-          className={clsx(
-            'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400 tracking-tighter',
-            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-            seasonSelected !== 2022 && 'pointer'
-          )}
-        >
-          {getRow?.userAnswers}
+        <span className={clsx(cell, 'text-start leading-4 tracking-tighter px-1')}>
+          <span className="truncate">{getRow?.name}</span>
         </span>
 
-        <span
-          className={clsx(
-            'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400 tracking-tighter',
-            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-            seasonSelected !== 2022 && 'pointer'
-          )}
-        >
-          {getRow?.correctAdjusted}
-        </span>
-
-        <span
-          className={clsx(
-            'flex items-center text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-gray-400',
-            getRow?.uid === user.uid ? 'bg-amber-400' : index % 2 === 1 && 'bg-gray-200',
-            seasonSelected !== 2022 && 'pointer'
-          )}
-        >
+        <span className={clsx(cell, 'justify-center tracking-tighter')}>{getRow?.userAnswers}</span>
+        <span className={clsx(cell, 'justify-center tracking-tighter')}>{getRow?.correctAdjusted}</span>
+        <span className={clsx(cell, 'justify-center')}>
           {seasonSelected === 2022 ? getRow.adjustedPercentage : showOneWeek ? '-' : getRow?.tableFaults}
         </span>
       </div>
       {selectedRow === index && (
-        <div
-          className={clsx(
-            'min-h-12 grid p-2 bg-gray-200 bg-opacity-50 rounded-lg border border-gray-400 overflow-hidden'
-          )}
-        >
+        <div className="min-h-12 grid p-2 bg-white rounded-xl border border-ink/20 overflow-hidden">
           <span className="text-sm font-bold pb-2">
             {tableDetailsResults}: {getRow.userAnswers}
           </span>

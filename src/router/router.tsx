@@ -53,8 +53,8 @@ export const Router = ({ children }: Props) => {
 
   return (
     <HistoryRouter history={history}>
-      {children}
       {loading ? <Loader /> : routes()}
+      {children}
     </HistoryRouter>
   )
 }

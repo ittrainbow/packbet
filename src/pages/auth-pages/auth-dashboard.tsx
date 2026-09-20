@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { auth, logout } from '../../db'
-import { useFade } from '../../hooks'
+import { useFade, usePageFadeClass } from '../../hooks'
 import { Locale, i18n } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, compareActions, userActions } from '../../redux/slices'
@@ -14,7 +14,8 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { duration, appNaviEvent } = useSelector(selectApp)
+  const fadeClass = usePageFadeClass()
+  const { duration } = useSelector(selectApp)
   const { name, admin, locale } = useSelector(selectUser)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -39,20 +40,22 @@ export const Dashboard = () => {
   return (
     <div
       className={clsx(
-        'p-4 max-w-[32rem] flex flex-col gap-1 justify-center items-center',
-        appNaviEvent && 'animate-fade-in-up'
+        'flex flex-col p-4 max-w-[32rem] gap-6 box-border',
+        fadeClass
       )}
       ref={containerRef}
       id="container"
     >
-      <div className="w-56 pt-20 flex flex-col justify-center items-center gap-3">
-        <span className="font-bold">{dashboardEnterMsg}</span>
-        <span>{name ? name : '...loading'}</span>
-        <span>{user ? user.email : '...loading'}</span>
-        {admin ? <span>{dashboardAdminMsg}</span> : null}
-        <div className="flex w-full flex-col items-center gap-1">
-          <Button className="w-44" onClick={handleNavigate} text={buttonProfileMsg} />
-          <Button className="w-44" onClick={handleLogout} text={buttonLogoutMsg} />
+      <span className="font-bold text-base">{dashboardEnterMsg}</span>
+      <div className="flex flex-col items-center gap-6 w-full">
+        <div className="flex flex-col items-center gap-1 w-full max-w-[16rem]">
+          <span className="text-center">{name ? name : '...loading'}</span>
+          <span className="text-center">{user ? user.email : '...loading'}</span>
+          {admin ? <span className="text-center">{dashboardAdminMsg}</span> : null}
+        </div>
+        <div className="flex w-48 flex-col gap-1">
+          <Button onClick={handleNavigate} text={buttonProfileMsg} />
+          <Button onClick={handleLogout} text={buttonLogoutMsg} />
         </div>
       </div>
     </div>

@@ -1,23 +1,22 @@
-import { Input } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import clsx from 'clsx'
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../../db'
 import { useFade } from '../../hooks'
 import { i18n, Locale } from '../../locale'
 import { selectApp, selectUser } from '../../redux/selectors'
 import { userActions } from '../../redux/slices'
-import { Button, Switch } from '../../ui'
+import { Button, Input } from '../../ui'
 import { getLocale } from '../../utils'
+import { AuthGoogleMark, AuthShell } from './auth-shell'
 
 export const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading, error] = useAuthState(auth)
-  const { duration, appNaviEvent } = useSelector(selectApp)
+  const { duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const [password, setPassword] = useState<string>(localStorage.getItem('packContestPassword') || '')
   const [email, setEmail] = useState<string>(localStorage.getItem('packContestEmail') || '')
@@ -81,35 +80,40 @@ export const Login = () => {
   const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as Locale
   const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as Locale
 
-  const handleLocaleChange = () => dispatch(userActions.setLocale(locale === 'ru' ? 'ua' : 'ru'))
-
   return (
-    <div
-      className={clsx(
-        'flex flex-col p-4 max-w-[32rem] gap-1 box-border h-full items-center',
-        appNaviEvent && 'animate-fade-in-up'
-      )}
-      ref={containerRef}
-      id="container"
-    >
-      <div className="w-56 pt-20 flex flex-col justify-center gap-3">
-        <Input type="text" value={email} onChange={handleEmailInput} placeholder={emailMsg} />
-        <Input type="password" value={password} onChange={handlePasswordInput} placeholder={passwordMsg} />
-        <Button
-          className="bg-black bg-opacity-80 text-white"
-          disabled={!loginButtonActive}
-          onClick={handleEmailLogin}
-          text={buttonLoginMsg}
-        />
-        <Button className="bg-blue-500 text-white" onClick={handleGoogleClick} text={buttonLoginGoogleMsg} />
-        <button className="flex justify-center py-2 flex-row pointer underline text-blue-600" onClick={handleToReset}>
-          {forgotMsg}
-        </button>
-        <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
-          {regIntro} <span className="pointer underline text-blue-600">{regMsg}</span>
-        </button>
-        <Switch locale onChange={handleLocaleChange} checked={locale === 'ua'} />
-      </div>
-    </div>
+    <AuthShell containerRef={containerRef}>
+      <Input
+        type="email"
+        value={email}
+        onChange={handleEmailInput}
+        placeholder={emailMsg}
+        autoComplete="email"
+      />
+      <Input
+        type="password"
+        value={password}
+        onChange={handlePasswordInput}
+        placeholder={passwordMsg}
+        autoComplete="current-password"
+      />
+      <Button
+        className="bg-chrome text-white border-chrome hover:bg-chrome disabled:text-white/50"
+        disabled={!loginButtonActive}
+        onClick={handleEmailLogin}
+        text={buttonLoginMsg}
+      />
+      <Button
+        className="bg-white text-ink border-ink/20 hover:bg-white"
+        onClick={handleGoogleClick}
+        text={buttonLoginGoogleMsg}
+        icon={<AuthGoogleMark />}
+      />
+      <button className="flex justify-center py-2 flex-row pointer underline text-accent" onClick={handleToReset}>
+        {forgotMsg}
+      </button>
+      <button className="flex justify-center py-2 flex-row gap-1" onClick={handleToRegister}>
+        {regIntro} <span className="pointer underline text-accent">{regMsg}</span>
+      </button>
+    </AuthShell>
   )
 }

@@ -30,7 +30,7 @@ export const EditorActivities = () => {
     <div className="flex flex-row gap-1">
       <Input type="datetime-local" value={getDeadline(deadline)} className="pointer" onChange={handleChangeDate} />
 
-      <div className="flex gap-2 items-center min-w-28 px-2 border border-gray-400 rounded-lg h-10">
+      <div className="flex gap-2 items-center min-w-28 px-2 border border-ink/20 rounded-lg h-10 bg-white">
         <span className="flex items-center">{weekActivityMsg}</span>
         <Input type="checkbox" checked={active} className="pointer h-5" onChange={handleChangeActivity} />
       </div>

@@ -3,30 +3,19 @@ import { useNavigate } from 'react-router-dom'
 
 import clsx from 'clsx'
 import { useMenu } from '../hooks'
-import { selectApp, selectLocation } from '../redux/selectors'
+import { selectApp } from '../redux/selectors'
 import { appActions, editorActions, toolsActions } from '../redux/slices'
 
-export const Header = () => {
+export const Footer = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)
-  const { pathname } = useSelector(selectLocation)
-
-  const animateBackToWeeklist = () => {
-    const backToWeeklist = pathname.includes('week') || pathname.includes('editor')
-    const container = document.querySelector('.container')
-    backToWeeklist && container?.classList.add('animate-fade-out-down')
-  }
 
   const handleClick = (id: number, path: string) => {
     if (id === tabActive) return
 
+    dispatch(appActions.setFading('down'))
     dispatch(appActions.setTabActive(id))
-
-    const container = document.querySelector('#container')
-    container?.classList.add('animate-fade-out-down')
-
-    if (id === 3 || id === 5) animateBackToWeeklist()
 
     setTimeout(() => {
       id === 2 && dispatch(appActions.setSelectedWeek(currentWeek))
@@ -36,40 +25,36 @@ export const Header = () => {
       id === 5 && dispatch(editorActions.clearEditor())
       id === 6 && dispatch(appActions.setSelectedWeek(nextWeek))
 
+      dispatch(appActions.setFading(false))
       navigate(path)
-      container?.classList.remove('animate-fade-out-down')
     }, duration)
   }
 
   const menu = useMenu()
 
   return (
-    <div className="bg-black h-[4.5rem] sm:h-24 p-2 justify-between">
-      <div className="flex flex-wrap max-w-[31rem]">
+    <nav
+      className="fixed bottom-0 inset-x-0 z-30 bg-white rounded-t-[16px] border border-b-0 border-ink/15 px-2 flex items-center h-[calc(var(--tabbar-height)+env(safe-area-inset-bottom,0px))] pb-[env(safe-area-inset-bottom,0px)]"
+      aria-label="Main"
+    >
+      <div className="flex flex-wrap w-full max-w-[32rem] h-full mx-auto">
         {menu.map((el) => {
           const { id, path, icon, name } = el
           return (
             <button
               key={id}
               className={clsx(
-                'grow flex flex-col justify-center items-center transition-all gap-1 w-8 sm:w-16',
-                id === tabActive ? 'text-green-600' : 'text-gray-200'
+                'grow h-full flex flex-col justify-center items-center gap-1 w-8 sm:w-16',
+                id === tabActive ? 'text-accent' : 'text-ink-muted'
               )}
               onClick={() => handleClick(id, path)}
             >
-              <div className={clsx('pt-1.5 text-[44px] sm:text-[48px]')}>{icon}</div>
-              <span
-                className={clsx(
-                  'hidden sm:flex text-sm transition-all',
-                  id === tabActive ? 'text-green-600' : 'text-white'
-                )}
-              >
-                {name}
-              </span>
+              <div className="text-[40px] leading-none">{icon}</div>
+              <span className="hidden sm:flex text-sm leading-none">{name}</span>
             </button>
           )
         })}
       </div>
-    </div>
+    </nav>
   )
 }

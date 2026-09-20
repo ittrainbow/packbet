@@ -35,7 +35,7 @@ export const appSlice = createSlice({
       state.loading = action.payload
     },
 
-    setFading(state, action: PayloadAction<boolean>) {
+    setFading(state, action: PayloadAction<false | 'down' | 'left' | 'right'>) {
       state.fading = action.payload
     },
 

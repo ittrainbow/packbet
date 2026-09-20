@@ -4,7 +4,7 @@ import { LegacyRef } from 'react'
 type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 
-  type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number'
+  type?: 'text' | 'checkbox' | 'datetime-local' | 'search' | 'number' | 'password' | 'email'
   sx?: { [key: string]: string }
   value?: string | undefined
   placeholder?: string
@@ -13,6 +13,7 @@ type Props = {
   id?: string
   disabled?: boolean
   className?: string
+  autoComplete?: string
 }
 
 export const Input = ({
@@ -25,7 +26,8 @@ export const Input = ({
   className,
   inputRef,
   checked,
-  disabled
+  disabled,
+  autoComplete = 'off'
 }: Props) => {
   return (
     <input
@@ -35,10 +37,13 @@ export const Input = ({
       checked={checked}
       onChange={onChange}
       placeholder={placeholder}
-      autoComplete="off"
+      autoComplete={autoComplete}
       id={id}
       disabled={disabled}
-      className={clsx('flex items-center w-full h-10 font-sm p-2 border rounded-lg border-gray-400', className)}
+      className={clsx(
+        'flex items-center w-full h-10 text-sm p-2 border rounded-lg border-ink/20 bg-white text-ink',
+        className
+      )}
     />
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FaArrowCircleDown, FaArrowCircleUp } from 'react-icons/fa'
+import { FaArrowCircleDown, FaArrowCircleUp } from '../../icons'
 
 import clsx from 'clsx'
 
@@ -22,19 +22,19 @@ export const StandingsArrows = () => {
   return (
     <div
       className={clsx(
-        'grid h-24 w-12 gap-2 bottom-16 start-72 sm:start-[32rem] z-10 fixed transition-all duration-500',
+        'standings-arrows grid w-12 gap-2 z-10 fixed transition-all duration-500',
         !scrolled ? 'opacity-0' : 'opacity-100'
       )}
     >
       <button
         onClick={() => handleScroll('top')}
-        className="transition text-gray-400 active:text-green-600 text-[48px]"
+        className="transition text-ink-muted active:text-accent text-[48px]"
       >
         <FaArrowCircleUp />
       </button>
       <button
         onClick={() => handleScroll('bottom')}
-        className="transition text-gray-400 active:text-green-600 text-[48px]"
+        className="transition text-ink-muted active:text-accent text-[48px]"
       >
         <FaArrowCircleDown />
       </button>

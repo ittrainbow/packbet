@@ -1,5 +1,5 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from 'react-icons/fa'
+import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '../../icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import clsx from 'clsx'
@@ -9,7 +9,7 @@ import { selectApp, selectUser } from '../../redux/selectors'
 import { answersActions, resultsActions } from '../../redux/slices'
 import { Store } from '../../types'
 import { Button } from '../../ui'
-import { getAnswersResults } from '../../utils'
+import { getQuestionText } from '../../utils'
 
 type Props = {
   id: number
@@ -31,7 +31,8 @@ export const WeekQuestion = ({ id, result }: Props) => {
   const { selectedWeek, isItYou, otherUserUID } = useSelector(selectApp)
   const { admin, adminAsPlayer, uid } = useSelector(selectUser)
   const { questions, deadline } = weeks[selectedWeek]
-  const { ru, ua, total } = questions[id]
+  const question = questions[id]
+  const { total } = question
 
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
@@ -64,53 +65,40 @@ export const WeekQuestion = ({ id, result }: Props) => {
     const activity = getActivity()
     const thisButton = activity === buttonNumber
     const correct = activity === result
+    const thisIsCorrect = result === buttonNumber
+    const showVerdict = outdated && !adm && result
 
-    if (!thisButton) return 'text-gray-400'
-    if (adm) return 'text-black bg-gray-250'
-    if (!outdated && isItYou) return 'text-black bg-gray-250'
-    if (outdated && !adm && result && correct) return 'text-green-600 border-opacity-10 bg-gray-250'
-    if (outdated && !adm && result && !correct) return 'text-red-600 border-opacity-10 bg-gray-250'
-    if (adm || outdated) return 'text-black bg-gray-250'
+    if (showVerdict && thisButton) {
+      return correct ? 'text-white !bg-accent !border-accent' : 'text-white !bg-red-600 !border-red-600'
+    }
+    if (showVerdict && thisIsCorrect && !activity) {
+      return 'text-white !bg-ink-muted !border-ink-muted'
+    }
+    if (thisButton) {
+      return 'text-ink !bg-ink/15 !border-ink/20'
+    }
+    return 'text-ink/70 !border-ink/40'
   }
 
-  const getQuestionClass = (id: number) => {
-    const getUid = isItYou ? uid : otherUserUID
-
-    const week = answers[getUid] && answers[getUid][selectedWeek]
-    const styles = ['transition-all transform duration-150']
-    const { ans, res } = getAnswersResults(answers, result, selectedWeek, getUid, id)
-
-    const drawPlayerStyles = adminAsPlayer || !admin
-    const allowedStyles = (!isItYou && outdated) || isItYou
-
-    drawPlayerStyles && outdated && res && ans && styles.push(res === ans ? '!border-green-600' : '!border-red-600')
-    if ((allowedStyles && !adm && week && week[id] > 0) || (adm && res)) styles.push('!border-l-[4.5px]')
-
-    return styles.join(' ')
-  }
-
-  const questionText = locale === 'ru' ? ru : ua
+  const questionText = getQuestionText(question, locale)
 
   return (
-    <div
-      className={clsx(
-        'items-center px-1.5 border border-gray-400 rounded-lg bg-white gap-1.5 bg-opacity-60 transition duration-500 h-11 flex flex-row',
-        getQuestionClass(id)
-      )}
-    >
-      <span className="flex grow items-center text-sm leading-4">
+    <div className="items-center px-1.5 py-2 border border-ink/30 rounded-xl bg-white gap-1.5 min-h-11 flex flex-row">
+      <span className="flex grow min-w-0 items-center text-sm leading-4">
         {questionText.trim()}
         {total !== '1' ? `: ${total}` : null}
       </span>
 
-      <div className="grid grid-cols-[1fr,1fr] gap-0.5">
+      <div className="grid grid-cols-2 gap-1 shrink-0">
         <Button
-          className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(1))}
+          size="sm"
+          className={clsx('shrink-0 text-lg', getButtonClass(1))}
           onClick={() => handleClick({ value: 1, id, activity: getActivity() })}
           icon={total === '1' ? <FaCheck /> : <FaArrowUp />}
         />
         <Button
-          className={clsx('h-8 font-lg w-10 p-0.5 transition bg-gray-150 border-none', getButtonClass(2))}
+          size="sm"
+          className={clsx('shrink-0 text-lg', getButtonClass(2))}
           onClick={() => handleClick({ value: 2, id, activity: getActivity() })}
           icon={total === '1' ? <FaBan /> : <FaArrowDown />}
         />

@@ -8,7 +8,7 @@ import './index.css'
 
 import { auth } from './db'
 import { useSwipe } from './hooks'
-import { Header } from './pages'
+import { Footer } from './pages'
 import { selectApp } from './redux/selectors'
 import { appActions, userActions } from './redux/slices'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
@@ -41,5 +41,5 @@ export const App = () => {
     // eslint-disable-next-line
   }, [user])
 
-  return <Header />
+  return <Footer />
 }

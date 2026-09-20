@@ -2,10 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --tabbar-height: 64px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --tabbar-height: 5rem;
+  }
+}
+
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #1b8a3e;
+  outline-offset: 2px;
 }
 
 body {
@@ -17,8 +44,26 @@ body {
   line-height: normal;
   font-size: 15px;
   box-sizing: border-box;
-  background-color: #d7d7d7;
-  --toastify-color-success: #3d9f40;
+  background-color: #f2f2f0;
+  color: #1a1a1a;
+  --toastify-color-success: #1b8a3e;
+}
+
+#root {
+  padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
+}
+
+#container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.standings-arrows {
+  right: calc((100vw - min(32rem, 100vw)) / 2 + 0.75rem);
+  bottom: calc(
+    var(--tabbar-height) + env(safe-area-inset-bottom, 0px) + (100vw - min(32rem, 100vw)) / 2 + 0.75rem
+  );
 }
 
 /* .Toastify__toast-container {

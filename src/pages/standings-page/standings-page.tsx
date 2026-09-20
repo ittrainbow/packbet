@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { BsGearFill } from 'react-icons/bs'
+import { GearIcon } from '../../icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import clsx from 'clsx'
 import { toast, ToastContainer } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
-import { useFade } from '../../hooks'
+import { useFade, usePageFadeClass } from '../../hooks'
 import { i18n, Locale } from '../../locale'
 import { selectApp, selectStandings, selectTools } from '../../redux/selectors'
 import { toolsActions } from '../../redux/slices'
 import { UPDATE_STANDINGS } from '../../redux/storetypes'
 import { Store } from '../../types'
+import { parseWeekName } from '../../utils'
 import { Button, OldStandingsMessage, OtherUserMessage } from '../../ui'
 
 export const StandingsPage = () => {
@@ -18,7 +19,8 @@ export const StandingsPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
-  const { lastSeasonLastWeek, tabActive, duration, appNaviEvent } = useSelector(selectApp)
+  const fadeClass = usePageFadeClass()
+  const { lastSeasonLastWeek, tabActive, duration } = useSelector(selectApp)
   const { seasonSelected } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -73,18 +75,14 @@ export const StandingsPage = () => {
       .map((el) => Number(el))
       .at(-1) ?? 0
 
-  const gotFinalScore = !isNaN(parseInt(weeks[lastWeekThatGotResults]?.name.at(-1) ?? ''))
-
-  const lastWeekName = weeks[lastWeekThatGotResults]?.name
-    .split(' ')
-    .slice(1, gotFinalScore ? -1 : undefined)
-    .join(' ')
+  const { match: lastWeekMatch } = parseWeekName(weeks[lastWeekThatGotResults]?.name ?? '')
+  const showWeekResult = seasonSelected >= 2024 && lastWeekThatGotResults > lastSeasonLastWeek
 
   const lastWeekNameAdjusted =
     seasonSelected < 2024
       ? `${tableSeason} ${seasonSelected}`
-      : lastWeekThatGotResults > lastSeasonLastWeek
-        ? `${tableHeaderhMsg} ${lastWeekName}`
+      : showWeekResult
+        ? `${tableHeaderhMsg} ${lastWeekMatch}`
         : tableNoGamesMsg
 
   const [selectedRow, setSelectedRow] = useState<number | null>(null)
@@ -100,16 +98,18 @@ export const StandingsPage = () => {
   return (
     <>
       <div
-        className={clsx('p-4 max-w-[32rem] grid gap-2', appNaviEvent && 'animate-fade-in-up')}
+        className={clsx('p-4 max-w-[32rem] grid gap-2', fadeClass)}
         ref={containerRef}
         id="container"
       >
         <div className="flex flex-row gap-1 items-center">
-          <span className="flex font-bold grow text-base items-center">{lastWeekNameAdjusted}</span>
+          <span className="flex font-bold grow text-base items-center gap-1.5 min-w-0">
+            <span className="min-w-0 leading-none">{lastWeekNameAdjusted}</span>
+          </span>
           <Button
             onClick={handleSwitchTools}
-            icon={<BsGearFill />}
-            className={clsx('transition border-none !w-10 !max-h-6', showTools ? 'text-green-600' : 'text-gray-800')}
+            icon={<GearIcon className="text-[1.75rem]" />}
+            className={clsx('transition border-none !w-10 !h-10', showTools ? 'text-accent' : 'text-ink')}
           />
         </div>
         <div ref={bodyRef}>
@@ -127,7 +127,7 @@ export const StandingsPage = () => {
                   setSelectedRow={setSelectedRow}
                 />
               ))}
-            <span className="p-3 text-sm leading-4">{tableTierline}</span>
+            <span className="p-3 text-sm leading-4 text-ink-muted">{tableTierline}</span>
           </div>
 
           {admin && <Button onClick={handleUpdateStandings} text={tableUpdate} />}

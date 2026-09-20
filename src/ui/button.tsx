@@ -12,22 +12,25 @@ type Props = {
 }
 
 export const Button = ({ onClick, disabled = false, className = '', text, icon, size }: Props) => {
+  const iconOnly = Boolean(icon) && !text
+  const height = size === 'xs' ? 'h-6' : size === 'sm' ? 'h-8' : size === 'lg' ? 'h-12' : 'h-10'
+
   return (
     <button
       onClick={!disabled ? () => onClick() : undefined}
       disabled={disabled}
       className={clsx(
-        'button active:shadow min-w-10 disabled:not-allowed disabled:text-gray-500 active:bg-gray-300 flex transition items-center justify-center box-border w-full h-10 rounded-lg border border-gray-400',
-        icon && 'text-[1.25rem]',
-        size === 'xs' && 'text-sm h-6',
-        size === 'sm' && 'text-sm h-8',
-        size === 'md' && 'text-md h-10',
-        size === 'lg' && 'text-lg h-12',
-        !disabled && 'hover:shadow hover:bg-gray-200 ',
+        'disabled:cursor-not-allowed disabled:text-ink-muted flex items-center justify-center box-border rounded-lg border border-ink/20 bg-white',
+        height,
+        iconOnly ? 'w-10 text-[1.25rem]' : 'w-full min-w-10',
+        icon && text && 'gap-2 text-sm',
+        (size === 'xs' || size === 'sm') && 'text-sm',
+        size === 'lg' && 'text-lg',
         className
       )}
     >
-      {icon ?? text}
+      {icon}
+      {text}
     </button>
   )
 }

@@ -1,6 +1,6 @@
 {
   "short_name": "Contest",
-  "name": "Pack Contest",
+  "name": "Packers News Contest",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +10,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#FFFFFF",
+  "background_color": "#F2F2F0"
 }

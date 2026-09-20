@@ -5,6 +5,7 @@ import { Editor, Question, Week } from '../../types'
 const emptyQuestion: Question = {
   ru: '',
   ua: '',
+  by: '',
   total: ''
 }
 
@@ -53,7 +54,7 @@ export const editorSlice = createSlice({
     },
 
     initQuestionInWork(state, action: PayloadAction<Question>) {
-      const { payload } = action
+      const payload = { ...action.payload, by: action.payload.by ?? action.payload.be ?? '' }
       state.questionInWork = payload
       state.questionCompare = payload
     },

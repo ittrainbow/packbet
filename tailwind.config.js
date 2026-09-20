@@ -60,13 +60,26 @@ module.exports = {
       },
       animation: {
         'fade-in-up': 'fadeInUp .2s ease-in-out',
-        'fade-out-down': 'fadeOutDown .2s ease-in-out',
+        'fade-out-down': 'fadeOutDown .2s ease-in-out forwards',
+        'fade-out-left': 'fadeOutLeft .2s ease-in-out forwards',
+        'fade-out-right': 'fadeOutRight .2s ease-in-out forwards',
         'rotate-one': 'rotateOne 1s linear infinite',
         'rotate-two': 'rotateTwo 1s linear infinite',
         'rotate-three': 'rotateThree 1s linear infinite'
       },
+      opacity: {
+        15: '0.15'
+      },
       colors: {
-        'gray-250': '#d7d9db' // Example hex code for a shade between 200 and 300
+        packers: '#203731',
+        accent: '#1B8A3E',
+        gold: '#FFB612',
+        canvas: '#F2F2F0',
+        chrome: '#1E2320',
+        ink: {
+          DEFAULT: '#1A1A1A',
+          muted: '#5C5C5C'
+        }
       }
     }
   },
