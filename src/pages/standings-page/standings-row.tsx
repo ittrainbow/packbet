@@ -67,7 +67,7 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
       <div
         className={clsx(
           standingsGridClass(seasonSelected),
-          'rounded-lg ring-1 ring-ink/20',
+          'rounded-lg border border-ink/20',
           isMe ? 'bg-gold font-semibold' : index % 2 === 1 && 'bg-white',
           canExpand && 'cursor-pointer'
         )}

@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -32,12 +33,12 @@ export const Footer = () => {
 
   const menu = useMenu()
 
-  return (
+  return createPortal(
     <nav
-      className="fixed bottom-0 inset-x-0 z-30 bg-white rounded-t-[16px] border border-b-0 border-ink/15 px-2 flex items-center h-[calc(var(--tabbar-height)+env(safe-area-inset-bottom,0px))] pb-[env(safe-area-inset-bottom,0px)]"
+      className="fixed bottom-0 left-0 right-0 z-30 bg-white rounded-t-[16px] border border-b-0 border-ink/15 px-2 pb-[env(safe-area-inset-bottom,0px)]"
       aria-label="Main"
     >
-      <div className="flex flex-wrap w-full max-w-[32rem] h-full mx-auto">
+      <div className="flex w-full max-w-[32rem] h-[var(--tabbar-height)] mx-auto">
         {menu.map((el) => {
           const { id, path, icon, name } = el
           return (
@@ -55,6 +56,7 @@ export const Footer = () => {
           )
         })}
       </div>
-    </nav>
+    </nav>,
+    document.body
   )
 }

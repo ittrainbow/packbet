@@ -131,7 +131,10 @@ export const StandingsPage = () => {
           <Button
             onClick={handleSwitchTools}
             icon={<GearIcon className="text-[24px]" />}
-            className={clsx('transition border-none !w-6 !h-6', showTools ? 'text-accent' : 'text-ink')}
+            className={clsx(
+              'transition border-none !bg-transparent !w-6 !h-6',
+              showTools ? 'text-accent' : 'text-ink'
+            )}
           />
         </div>
         <div ref={bodyRef}>

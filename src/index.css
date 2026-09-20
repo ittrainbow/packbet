@@ -4,18 +4,6 @@
 
 :root {
   --tabbar-height: 64px;
-  /* svh = visible viewport with browser chrome (avoids phantom scroll on Android) */
-  --page-min-height: calc(
-    100vh - var(--tabbar-height) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
-  );
-}
-
-@supports (height: 100svh) {
-  :root {
-    --page-min-height: calc(
-      100svh - var(--tabbar-height) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
-    );
-  }
 }
 
 @media (min-width: 640px) {
@@ -27,12 +15,19 @@
 html {
   height: 100%;
   height: 100svh;
+  overflow: hidden;
+  overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
-  min-height: 100%;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -64,7 +59,11 @@ a:focus-visible {
 
 #root {
   box-sizing: border-box;
-  min-height: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
@@ -76,8 +75,9 @@ a:focus-visible {
   margin-right: auto;
 }
 
+/* Fill #root content box (tabbar/safe already in #root padding) — avoid 100svh mismatch on Android */
 .page-min-h {
-  min-height: var(--page-min-height);
+  min-height: 100%;
 }
 
 .standings-arrows {
