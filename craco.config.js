@@ -1,4 +1,5 @@
 const path = require('path')
+const { removePlugins, pluginByName } = require('@craco/craco')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 module.exports = {
@@ -15,6 +16,10 @@ module.exports = {
           configFile: path.resolve(__dirname, 'tsconfig.json')
         })
       )
+
+      // CRA's fork-ts-checker breaks on TypeScript 5.9+ (performance.mark is read-only).
+      // Typechecking stays in `npm run lint` via tsc --noEmit.
+      removePlugins(config, pluginByName('ForkTsCheckerWebpackPlugin'))
 
       return config
     }
