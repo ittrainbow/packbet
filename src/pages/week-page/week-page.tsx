@@ -15,6 +15,7 @@ import { parseWeekName } from '@/utils'
 import { Button, OtherUserMessage, Switch } from '@/ui'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
+import { WeekQuestionStats } from './week-question-stats'
 
 export const WeekPage = () => {
   const dispatch = useDispatch()
@@ -100,6 +101,7 @@ export const WeekPage = () => {
               <MemoizedWeekQuestion id={id} key={index} result={results[selectedWeek] && results[selectedWeek][id]} />
             ))}
       </div>
+      <WeekQuestionStats outdated={outdated} />
       {isItYou ? (
         <div className="flex">
           <Button

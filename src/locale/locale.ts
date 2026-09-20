@@ -76,6 +76,9 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const adminMsg = t(locale, 'Админ', 'Адмiн', 'Адмін')
   const successMsg = t(locale, 'Успешно сохранено', 'Успішно збережено', 'Паспяхова захавана')
   const failureMsg = t(locale, 'Не удалось сохранить', 'Не вдалося зберегти', 'Не ўдалося захаваць')
+  const weekStatsTitle = t(locale, 'Статистика по вопросам', 'Статистика за питаннями', 'Статыстыка па пытаннях')
+  const weekStatsCorrect = t(locale, 'верных', 'вірних', 'верных')
+  const weekStatsLoading = t(locale, 'Загрузка…', 'Завантаження…', 'Загрузка…')
 
   const tableNameMsg = t(locale, 'Игрок', 'Гравець', 'Гулец')
   const tableAllMsg = t(locale, 'Всего', 'Всього', 'Усяго')
@@ -260,7 +263,15 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
       return { otherUser1msg, otherUser2msg, otherUser3msg }
 
     case 'week':
-      return { playerMsg, adminMsg, successMsg, failureMsg }
+      return {
+        playerMsg,
+        adminMsg,
+        successMsg,
+        failureMsg,
+        weekStatsTitle,
+        weekStatsCorrect,
+        weekStatsLoading
+      }
 
     case 'standings':
       return {
