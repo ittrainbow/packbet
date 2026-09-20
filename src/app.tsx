@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import './index.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { auth } from './db'
 import { useSwipe } from './hooks'

@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
-import 'react-toastify/dist/ReactToastify.css'
-
 import clsx from 'clsx'
 import { useChanges, usePageFadeClass } from '@/hooks'
 import { Locale, i18n } from '@/locale'
@@ -34,6 +32,7 @@ export const WeekPage = () => {
   const gotChanges = useChanges()
 
   const adm = admin && !adminAsPlayer
+  const showActionButtons = isItYou && (adm || !outdated)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -102,7 +101,7 @@ export const WeekPage = () => {
             ))}
       </div>
       <WeekQuestionStats outdated={outdated} />
-      {isItYou ? (
+      {showActionButtons ? (
         <div className="flex">
           <Button
             onClick={handleSubmit}
