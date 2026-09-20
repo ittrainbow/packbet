@@ -2,6 +2,7 @@
   "name": "pack-contest",
   "version": "2.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@reduxjs/toolkit": "^1.9.5",
