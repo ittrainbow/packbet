@@ -55,12 +55,12 @@ export const WeekQuestionStats = ({ outdated }: Props) => {
   const stats = answers ? getQuestionStats(selectedWeek, weekResults, answers) : []
 
   return (
-    <div className="grid gap-1.5">
+    <div className="grid gap-1.5 w-full min-w-0">
       <span className="font-bold text-base leading-6">{weekStatsTitle}</span>
       {loading || !answers ? (
         <span className="text-sm text-ink-muted">{weekStatsLoading}</span>
       ) : (
-        <div className="grid gap-1">
+        <div className="grid gap-1 w-full min-w-0">
           {stats.map((row, index) => {
             const question = questions?.[row.id]
             const text = question ? getQuestionText(question, locale) : `#${row.id}`
@@ -69,7 +69,7 @@ export const WeekQuestionStats = ({ outdated }: Props) => {
             return (
               <div
                 key={row.id}
-                className="flex items-baseline gap-2 px-1.5 py-1.5 border border-ink/20 rounded-xl bg-white"
+                className="flex items-baseline gap-2 px-1.5 py-1.5 border border-ink/20 rounded-xl bg-white w-full min-w-0 overflow-hidden box-border"
               >
                 <span className="grow min-w-0 text-sm leading-4 truncate">{text.trim()}</span>
                 <span

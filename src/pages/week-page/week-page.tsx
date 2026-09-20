@@ -74,7 +74,7 @@ export const WeekPage = () => {
 
   return (
     <div
-      className={clsx('grid gap-3 px-4 py-5 max-w-[32rem] text-sm', fadeClass)}
+      className={clsx('grid gap-3 px-4 py-5 max-w-[32rem] w-full min-w-0 text-sm', fadeClass)}
       ref={containerRef}
       id="container"
     >
