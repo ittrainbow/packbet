@@ -21,10 +21,10 @@ export const StandingsPage = () => {
   const results = useSelector((store: Store) => store.results)
   const fadeClass = usePageFadeClass()
   const { lastSeasonLastWeek, tabActive, duration } = useSelector(selectApp)
-  const { seasonSelected } = useSelector(selectTools)
+  const { seasonSelected, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
-  const { locale, admin } = user
+  const { locale, admin, buddies } = user
   const containerRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
@@ -40,6 +40,28 @@ export const StandingsPage = () => {
           : seasonSelected === 2025
             ? standings.season2025
             : standings.season2026
+
+  const standingsWeek =
+    seasonSelected === 2022
+      ? standings.season2022
+      : seasonSelected === 2023
+        ? standings.week2023
+        : seasonSelected === 2024
+          ? standings.week2024
+          : seasonSelected === 2025
+            ? standings.week2025
+            : standings.week2026
+
+  const tableSource = showOneWeek && seasonSelected !== 2022 ? standingsWeek : standingsSeason
+  const hasVisibleBuddyRows =
+    !showBuddies ||
+    Boolean(
+      tableSource?.some(
+        (row) =>
+          row.name.toLowerCase().includes(standingsSearch.toLowerCase()) &&
+          buddies?.includes(('uid' in row ? row.uid : undefined) ?? '')
+      )
+    )
 
   const { triggerFade: containerFade } = useFade(containerRef)
   const { triggerFade: bodyFade } = useFade(bodyRef)
@@ -67,7 +89,8 @@ export const StandingsPage = () => {
     tableSeason,
     tableUpdateSuccessMsg,
     tableUpdateFailureMsg,
-    tableUpdate
+    tableUpdate,
+    tableNoBuddiesMsg
   } = i18n(locale, 'standings') as Locale
 
   const lastWeekThatGotResults =
@@ -116,18 +139,24 @@ export const StandingsPage = () => {
           <StandingsTools />
           <div className="grid gap-1" ref={tableRef}>
             {seasonSelected === 2022 ? <OldStandingsMessage /> : <OtherUserMessage containerRef={containerRef} />}
-            <StandingsHeader />
-            {standingsSeason &&
-              Object.values(standingsSeason).map((_, index) => (
-                <StandingsRow
-                  key={index}
-                  fade={containerFade}
-                  index={index}
-                  selectedRow={selectedRow}
-                  setSelectedRow={setSelectedRow}
-                />
-              ))}
-            <span className="p-3 text-sm leading-4 text-ink-muted">{tableTierline}</span>
+            {showBuddies && !hasVisibleBuddyRows ? (
+              <span className="p-3 text-sm leading-4 text-ink-muted">{tableNoBuddiesMsg}</span>
+            ) : (
+              <>
+                <StandingsHeader />
+                {standingsSeason &&
+                  Object.values(standingsSeason).map((_, index) => (
+                    <StandingsRow
+                      key={index}
+                      fade={containerFade}
+                      index={index}
+                      selectedRow={selectedRow}
+                      setSelectedRow={setSelectedRow}
+                    />
+                  ))}
+                <span className="p-3 text-sm leading-4 text-ink-muted">{tableTierline}</span>
+              </>
+            )}
           </div>
 
           {admin && <Button onClick={handleUpdateStandings} text={tableUpdate} />}

@@ -81,6 +81,7 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const tableAllMsg = t(locale, 'Всего', 'Всього', 'Усяго')
   const tableCorrectMsg = t(locale, 'Верно', 'Вiрно', 'Верна')
   const tableBuddiesMsg = t(locale, 'Избранное', 'Вибранi', 'Абранае')
+  const tableNoBuddiesMsg = t(locale, 'Нет избранных игроков', 'Немає обраних гравців', 'Няма абраных гульцоў')
   const tableAllUsersMsg = t(locale, 'Все игроки', 'Всi гравцi', 'Усе гульцы')
   const tableOnlyWeekMsg = t(locale, 'За неделю', 'За тиждень', 'За тыдзень')
   const tableAllSeasonMsg = t(locale, 'За сезон', 'За сезон', 'За сезон')
@@ -264,6 +265,7 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         tableTierline,
         tableClearBtn,
         tableBuddiesMsg,
+        tableNoBuddiesMsg,
         tableAllUsersMsg,
         tableOnlyWeekMsg,
         tableAllSeasonMsg,
