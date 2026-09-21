@@ -100,7 +100,6 @@ export const WeekPage = () => {
               <MemoizedWeekQuestion id={id} key={index} result={results[selectedWeek] && results[selectedWeek][id]} />
             ))}
       </div>
-      <WeekQuestionStats outdated={outdated} />
       {showActionButtons ? (
         <div className="flex">
           <Button
@@ -112,6 +111,7 @@ export const WeekPage = () => {
           <Button onClick={handleDiscard} disabled={!gotChanges} className="week-button" text={buttonCancelMsg} />
         </div>
       ) : null}
+      <WeekQuestionStats outdated={outdated} />
       <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </div>
   )
