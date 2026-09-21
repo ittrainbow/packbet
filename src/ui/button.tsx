@@ -21,7 +21,7 @@ export const Button = ({ onClick, disabled = false, className = '', text, icon, 
       disabled={disabled}
       className={clsx(
         'disabled:cursor-not-allowed disabled:text-ink-muted flex items-center justify-center box-border rounded-lg border border-ink/20 bg-white',
-        'transition-transform duration-100 ease-out active:scale-95 disabled:active:scale-100',
+        'transition-[transform,color,background-color,border-color] duration-150 ease-out active:scale-95 disabled:active:scale-100',
         height,
         iconOnly ? 'w-10 text-[1.25rem]' : 'w-full min-w-10',
         icon && text && 'gap-2 text-sm',

@@ -36,9 +36,19 @@ export const WeekQuestion = ({ id, result }: Props) => {
 
   const adm = admin && !adminAsPlayer
   const outdated = new Date().getTime() > deadline
-  const buttonData = adm ? result : answers[isItYou ? uid : otherUserUID]?.[selectedWeek]?.[id]
+  const viewingUid = isItYou ? uid : otherUserUID
+  // пока answers выбранного игрока не в сторе — пустые кнопки без подсветки
+  const answersReady = adm || isItYou || Boolean(viewingUid && viewingUid in answers)
+  const buttonData = !answersReady
+    ? 0
+    : adm
+      ? result
+      : answers[viewingUid]?.[selectedWeek]?.[id] ?? 0
 
-  const getActivity = () => ((!isItYou && outdated) || isItYou ? buttonData : 0)
+  const getActivity = () => {
+    if (!answersReady) return 0
+    return (!isItYou && outdated) || isItYou ? buttonData : 0
+  }
 
   const userOnTimeOrAdmin = new Date().getTime() < deadline || adm
 
@@ -66,7 +76,7 @@ export const WeekQuestion = ({ id, result }: Props) => {
     const thisButton = activity === buttonNumber
     const correct = activity === result
     const thisIsCorrect = result === buttonNumber
-    const showVerdict = outdated && !adm && result
+    const showVerdict = answersReady && outdated && !adm && Boolean(result)
 
     if (showVerdict && thisButton) {
       return correct ? 'text-white !bg-accent !border-accent' : 'text-white !bg-red-600 !border-red-600'
