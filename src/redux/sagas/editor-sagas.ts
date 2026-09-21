@@ -2,7 +2,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { deleteDBDocument, getDBCollection, writeDBDocument } from '@/db'
 import { Action, Answers, AnswersStore, Store, Users, Week, Weeks } from '@/types'
-import { createTable, getWeeksIDs } from '@/utils'
+import { createTable, getWeeksIDs, buildQuestionStatsRecord } from '@/utils'
 import { appActions, editorActions, weeksActions } from '@/redux/slices'
 import { DELETE_WEEK, SUBMIT_WEEK, UPDATE_STANDINGS } from '@/redux/storetypes'
 import { createStandingsFromDBSaga } from './init-sagas'
@@ -24,11 +24,30 @@ function* submitWeekSaga(action: Action<WeekUpdate>) {
   const { id, week, isNewWeek, toaster } = payload
   yield put(appActions.setLoading(true))
   try {
-    yield call(writeDBDocument, 'weeks', id, week)
+    const results: Answers = yield select((store: Store) => store.results)
+    const weekResults = results[id]
+    const gameStarted = Date.now() > week.deadline
+    const hasResults = Boolean(weekResults && Object.keys(weekResults).length)
+
+    let weekToSave: Week = week
+    if ('questionStats' in weekToSave) {
+      const { questionStats: _drop, ...rest } = weekToSave
+      weekToSave = rest
+    }
+
+    // только после старта игры и при наличии результатов
+    if (gameStarted && hasResults) {
+      const answers: AnswersStore = yield call(getDBCollection, 'answers')
+      const questionStats = buildQuestionStatsRecord(id, weekResults, answers)
+      if (questionStats) weekToSave = { ...weekToSave, questionStats }
+    }
+
+    yield call(writeDBDocument, 'weeks', id, weekToSave)
     if (isNewWeek) yield call(setNextAndCurrentWeeksSaga)
-    yield put(weeksActions.updateWeeks({ id, week }))
+    yield put(weeksActions.updateWeeks({ id, week: weekToSave }))
     yield call(toaster, true)
   } catch (error) {
+    yield call(toaster, false)
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
     }

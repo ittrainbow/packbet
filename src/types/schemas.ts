@@ -143,11 +143,21 @@ export type Question = z.infer<typeof QuestionSchema>
 export const QuestionsSchema = z.record(z.string(), QuestionSchema)
 export type Questions = z.infer<typeof QuestionsSchema>
 
+export const QuestionStatSchema = z.object({
+  correct: z.number(),
+  answered: z.number()
+})
+export type QuestionStatEntry = z.infer<typeof QuestionStatSchema>
+
+export const QuestionStatsSchema = z.record(z.string(), QuestionStatSchema)
+export type QuestionStats = z.infer<typeof QuestionStatsSchema>
+
 export const WeekSchema = z.object({
   active: z.boolean(),
   deadline: z.number(),
   name: z.string(),
-  questions: QuestionsSchema
+  questions: QuestionsSchema,
+  questionStats: QuestionStatsSchema.optional()
 })
 export type Week = z.infer<typeof WeekSchema>
 

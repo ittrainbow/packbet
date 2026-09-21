@@ -77,8 +77,8 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const successMsg = t(locale, 'Успешно сохранено', 'Успішно збережено', 'Паспяхова захавана')
   const failureMsg = t(locale, 'Не удалось сохранить', 'Не вдалося зберегти', 'Не ўдалося захаваць')
   const weekStatsTitle = t(locale, 'Статистика по вопросам', 'Статистика за питаннями', 'Статыстыка па пытаннях')
-  const weekStatsCorrect = t(locale, 'верных', 'вірних', 'верных')
-  const weekStatsLoading = t(locale, 'Загрузка…', 'Завантаження…', 'Загрузка…')
+  const weekStatsQuestionCol = t(locale, 'Вопрос', 'Питання', 'Пытанне')
+  const weekStatsAnswersCol = t(locale, 'Точные ответы', 'Точні відповіді', 'Дакладныя адказы')
 
   const tableNameMsg = t(locale, 'Игрок', 'Гравець', 'Гулец')
   const tableAllMsg = t(locale, 'Всего', 'Всього', 'Усяго')
@@ -269,8 +269,8 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         successMsg,
         failureMsg,
         weekStatsTitle,
-        weekStatsCorrect,
-        weekStatsLoading
+        weekStatsQuestionCol,
+        weekStatsAnswersCol
       }
 
     case 'standings':

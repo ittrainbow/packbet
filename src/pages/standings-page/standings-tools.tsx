@@ -41,7 +41,9 @@ export const StandingsTools = () => {
   const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
     i18n(locale, 'standings') as Locale
 
-  const tools = (
+  if (!showTools) return null
+
+  return (
     <div className="grid border rounded-xl px-2 py-1 mb-1 border-ink/20 bg-white gap-1">
       <div className="justify-center items-center flex flex-row gap-2">
         <Input onChange={handleChangeSearch} value={standingsSearch} type="text" placeholder={tableSearchMsg} />
@@ -67,6 +69,4 @@ export const StandingsTools = () => {
       <SelectInput options={[2022, 2023, 2024, 2025, 2026]} onChange={handleChangeSeason} value={seasonSelected} />
     </div>
   )
-
-  return showTools ? tools : null
 }

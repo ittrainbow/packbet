@@ -53,11 +53,8 @@ export const EditorPage = () => {
     const { nextWeek, currentWeek } = getWeeksIDs(weeks)
     const newSelectedWeek = isNewWeek ? nextWeek : selectedWeek
     const saveSuccess = () => {
-      triggerFade()
-      if (isNewWeek) {
-        navigate(`/editor/${nextWeek}`)
-        toast.success(successMsg)
-      }
+      toast.success(successMsg)
+      if (isNewWeek) navigate(`/editor/${nextWeek}`)
     }
     const saveFailure = () => toast.error(failureMsg)
     const toaster = (success: boolean) => (success ? saveSuccess() : saveFailure())

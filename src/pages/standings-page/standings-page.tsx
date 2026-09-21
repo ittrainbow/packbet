@@ -26,7 +26,6 @@ export const StandingsPage = () => {
   const { showTools } = useSelector(selectTools)
   const { locale, admin, buddies } = user
   const containerRef = useRef<HTMLDivElement>(null)
-  const bodyRef = useRef<HTMLDivElement>(null)
   const tableRef = useRef<HTMLDivElement>(null)
   const [sortMode, setSortMode] = useState<StandingsSortMode>('default')
   const [selectedRow, setSelectedRow] = useState<number | null>(null)
@@ -71,7 +70,6 @@ export const StandingsPage = () => {
     )
 
   const { triggerFade: containerFade } = useFade(containerRef)
-  const { triggerFade: bodyFade } = useFade(bodyRef)
 
   useEffect(() => {
     showTools && dispatch(toolsActions.setShowTools(false))
@@ -89,9 +87,8 @@ export const StandingsPage = () => {
   }, [limitSortEnabled, sortMode])
 
   const handleSwitchTools = () => {
-    bodyFade()
-    setTimeout(() => dispatch(toolsActions.switchShowTools()), duration)
-    setTimeout(() => setSelectedRow(null), duration)
+    dispatch(toolsActions.switchShowTools())
+    setSelectedRow(null)
   }
 
   const handleSortPercent = () => {
@@ -161,7 +158,7 @@ export const StandingsPage = () => {
             )}
           />
         </div>
-        <div ref={bodyRef}>
+        <div>
           <StandingsTools />
           <div className="grid gap-1" ref={tableRef}>
             {seasonSelected === 2022 ? <OldStandingsMessage /> : <OtherUserMessage containerRef={containerRef} />}

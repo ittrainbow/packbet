@@ -1,4 +1,4 @@
-import { AnswersStore } from '@/types'
+import { AnswersStore, QuestionStatEntry, QuestionStats } from '@/types'
 
 export type QuestionStat = {
   id: number
@@ -6,7 +6,7 @@ export type QuestionStat = {
   answered: number
 }
 
-// сколько верных ответов по каждому вопросу недели
+// сколько верных ответов по каждому вопросу недели (answers игроков; results — эталон)
 export const getQuestionStats = (
   weekId: number,
   weekResults: Record<string, number> | undefined,
@@ -31,4 +31,27 @@ export const getQuestionStats = (
       return { id, correct, answered }
     })
     .sort((a, b) => b.correct - a.correct || b.answered - a.answered || a.id - b.id)
+}
+
+export const toQuestionStatsRecord = (stats: QuestionStat[]): QuestionStats =>
+  Object.fromEntries(stats.map(({ id, correct, answered }) => [String(id), { correct, answered }]))
+
+export const fromQuestionStatsRecord = (record: QuestionStats | undefined): QuestionStat[] => {
+  if (!record) return []
+  return Object.entries(record)
+    .map(([id, entry]: [string, QuestionStatEntry]) => ({
+      id: Number(id),
+      correct: entry.correct,
+      answered: entry.answered
+    }))
+    .sort((a, b) => b.correct - a.correct || b.answered - a.answered || a.id - b.id)
+}
+
+export const buildQuestionStatsRecord = (
+  weekId: number,
+  weekResults: Record<string, number> | undefined,
+  answers: AnswersStore
+): QuestionStats | undefined => {
+  if (!weekResults || !Object.keys(weekResults).length) return undefined
+  return toQuestionStatsRecord(getQuestionStats(weekId, weekResults, answers))
 }
