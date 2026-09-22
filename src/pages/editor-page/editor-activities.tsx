@@ -1,12 +1,12 @@
 import moment from 'moment/moment'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectEditor, selectUser } from '@/redux/selectors'
 import { editorActions } from '@/redux/slices'
 import { Input } from '@/ui'
 
-export const EditorActivities = () => {
+export function EditorActivities() {
   const dispatch = useDispatch()
   const { active, deadline } = useSelector(selectEditor)
   const { locale } = useSelector(selectUser)
@@ -22,7 +22,7 @@ export const EditorActivities = () => {
     dispatch(editorActions.updateEditorWeekActivity(checked))
   }
 
-  const { weekActivityMsg } = i18n(locale, 'editor') as Locale
+  const { weekActivityMsg } = i18n(locale, 'editor')
 
   const getDeadline = (deadline: number) => moment(deadline).format().substring(0, 16)
 

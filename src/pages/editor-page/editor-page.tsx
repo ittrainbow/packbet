@@ -2,18 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import clsx from 'clsx'
-import { toast, ToastContainer } from 'react-toastify'
-import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 import { useFade, usePageFadeClass } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '@/redux/selectors'
 import { appActions, editorActions, weeksActions } from '@/redux/slices'
 import * as TYPES from '@/redux/storetypes'
 import { Button, DeleteModal } from '@/ui'
 import { getWeeksEquality, getWeeksIDs } from '@/utils'
+import clsx from 'clsx'
+import { toast, ToastContainer } from 'react-toastify'
+import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 
-export const EditorPage = () => {
+export function EditorPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -42,7 +42,7 @@ export const EditorPage = () => {
   const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
   const saveBtnDisabled = !changes || !name || !Object.keys(questions).length
 
-  const { successMsg, failureMsg } = i18n(locale, 'week') as Locale
+  const { successMsg, failureMsg } = i18n(locale, 'week')
 
   const handleSubmit = async () => {
     const isNewWeek = isNaN(Number(location.pathname.split('/').at(-1)))
@@ -87,15 +87,11 @@ export const EditorPage = () => {
     }, duration)
   }
 
-  const { editorTitleMsg } = i18n(locale, 'editor') as Locale
-  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons') as Locale
+  const { editorTitleMsg } = i18n(locale, 'editor')
+  const { buttonSaveMsg, buttonCancelMsg, buttonDeleteWeekMsg } = i18n(locale, 'buttons')
 
   return (
-    <div
-      className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)}
-      ref={containerRef}
-      id="container"
-    >
+    <div className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)} ref={containerRef} id="container">
       <div className="flex items-center h-6">
         <span className="font-bold text-base leading-6">{editorTitleMsg}</span>
       </div>

@@ -1,10 +1,24 @@
 export type Locale = { [key: string]: string }
 export type LocaleCode = 'ru' | 'ua' | 'by'
 
-const t = (locale: string, ru: string, ua: string, by: string) =>
-  locale === 'ua' ? ua : locale === 'by' ? by : ru
+export type I18nComponent =
+  | 'about'
+  | 'weeklist'
+  | 'month'
+  | 'header'
+  | 'editor'
+  | 'otheruser'
+  | 'week'
+  | 'standings'
+  | 'ticks'
+  | 'auth'
+  | 'buttons'
 
-export const i18n = (locale: string, component: string): Locale | undefined => {
+function t(locale: string, ru: string, ua: string, by: string) {
+  return locale === 'ua' ? ua : locale === 'by' ? by : ru
+}
+
+export function i18n(locale: string, component: I18nComponent): Locale {
   const tab0msg = t(locale, 'Инфо', 'Iнфо', 'Інфа')
   const tab1msg = t(locale, 'Профиль', 'Профiль', 'Профіль')
   const tab2msg = t(locale, 'Неделя', 'Тиждень', 'Тыдзень')
@@ -35,7 +49,12 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
   const emailMsg = t(locale, 'E-mail', 'E-mail', 'E-mail')
   const passwordMsg = t(locale, 'Пароль', 'Пароль', 'Пароль')
   const packContestLead = t(locale, 'Прогнозы на игры Пэкерз', 'Прогнози на ігри Пекерз', 'Прагнозы на гульні Пэкерз')
-  const emailExistsMsg = t(locale, 'E-mail уже используется', 'E-mail вже використовується', 'E-mail ужо выкарыстоўваецца')
+  const emailExistsMsg = t(
+    locale,
+    'E-mail уже используется',
+    'E-mail вже використовується',
+    'E-mail ужо выкарыстоўваецца'
+  )
   const emailWrongMsg = t(locale, 'Проверьте e-mail', 'Перевірте e-mail', 'Праверце e-mail')
   const passwordWrongMsg = t(
     locale,
@@ -174,7 +193,12 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
     'Натисніть, щоб повернутися до свого профілю.',
     'Націсніце, каб вярнуцца да свайго профілю.'
   )
-  const otherUser2msg = t(locale, 'Сейчас вы просматриваете профиль ', 'Зараз ви переглядаєте профіль ', 'Зараз вы праглядаеце профіль ')
+  const otherUser2msg = t(
+    locale,
+    'Сейчас вы просматриваете профиль ',
+    'Зараз ви переглядаєте профіль ',
+    'Зараз вы праглядаеце профіль '
+  )
   const otherUser3msg = t(
     locale,
     ', прогнозы не начавшихся игр скрыты.',
@@ -366,7 +390,9 @@ export const i18n = (locale: string, component: string): Locale | undefined => {
         buttonDeleteNoMsg
       }
 
-    default:
-      return
+    default: {
+      const _exhaustive: never = component
+      return _exhaustive
+    }
   }
 }

@@ -2,12 +2,12 @@ const SCORE = /^(\d+)[-–](\d+)$/
 const SCORE_GLUED_OT = /^(\d+)[-–](\d+)(ОТ|OT)$/i
 const OT = /^(ОТ|OT)$/i
 
-const normalizeScore = (left: string, right: string, ot?: string) => {
+function normalizeScore(left: string, right: string, ot?: string) {
   const base = `${left}-${right}`
   return ot ? `${base} ${ot}` : base
 }
 
-export const parseWeekName = (name = '') => {
+export function parseWeekName(name = '') {
   const [, ...rest] = name.split('.')
   const matchPart = rest.join('.').trim() || name.trim()
   const tokens = matchPart.split(/\s+/).filter(Boolean)

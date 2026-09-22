@@ -1,8 +1,8 @@
+import { i18n } from '@/locale'
+import { selectUser } from '@/redux/selectors'
 import { Dispatch, SetStateAction } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '.'
-import { i18n, Locale } from '@/locale'
-import { selectUser } from '@/redux/selectors'
 
 type Props = {
   modalOpen: boolean
@@ -10,10 +10,10 @@ type Props = {
   onConfirm: () => void
 }
 
-export const DeleteModal = ({ modalOpen, setModalOpen, onConfirm }: Props) => {
+export function DeleteModal({ modalOpen, setModalOpen, onConfirm }: Props) {
   const { locale } = useSelector(selectUser)
-  const { buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(locale, 'buttons') as Locale
-  const { weekDeleteTitle, weekDeleteMsg } = i18n(locale, 'editor') as Locale
+  const { buttonDeleteYesMsg, buttonDeleteNoMsg } = i18n(locale, 'buttons')
+  const { weekDeleteTitle, weekDeleteMsg } = i18n(locale, 'editor')
 
   if (!modalOpen) return null
 

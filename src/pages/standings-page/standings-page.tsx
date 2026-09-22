@@ -1,20 +1,26 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
 import { GearIcon } from '@/icons'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import clsx from 'clsx'
-import { toast, ToastContainer } from 'react-toastify'
-import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
 import { useFade, usePageFadeClass } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectStandings, selectTools } from '@/redux/selectors'
 import { toolsActions } from '@/redux/slices'
 import { UPDATE_STANDINGS } from '@/redux/storetypes'
-import { Store, UserStandings } from '@/types'
-import { getSortedStandingsIndices, parseWeekName, StandingsSortMode } from '@/utils'
+import { Store } from '@/types'
 import { Button, OldStandingsMessage, OtherUserMessage } from '@/ui'
+import {
+  getSeasonStandings,
+  getSortedStandingsIndices,
+  getWeekStandings,
+  parseWeekName,
+  StandingsSortMode
+} from '@/utils'
+import clsx from 'clsx'
+import { toast, ToastContainer } from 'react-toastify'
+import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
 
-export const StandingsPage = () => {
+export function StandingsPage() {
   const dispatch = useDispatch()
   const weeks = useSelector((store: Store) => store.weeks)
   const user = useSelector((store: Store) => store.user)
@@ -30,27 +36,8 @@ export const StandingsPage = () => {
   const [sortMode, setSortMode] = useState<StandingsSortMode>('default')
   const [selectedRow, setSelectedRow] = useState<number | null>(null)
 
-  const standingsSeason =
-    seasonSelected === 2022
-      ? standings.season2022
-      : seasonSelected === 2023
-        ? standings.season2023
-        : seasonSelected === 2024
-          ? standings.season2024
-          : seasonSelected === 2025
-            ? standings.season2025
-            : standings.season2026
-
-  const standingsWeek =
-    seasonSelected === 2022
-      ? standings.season2022
-      : seasonSelected === 2023
-        ? standings.week2023
-        : seasonSelected === 2024
-          ? standings.week2024
-          : seasonSelected === 2025
-            ? standings.week2025
-            : standings.week2026
+  const standingsSeason = getSeasonStandings(standings, seasonSelected)
+  const standingsWeek = getWeekStandings(standings, seasonSelected)
 
   const tableSource = showOneWeek && seasonSelected !== 2022 ? standingsWeek : standingsSeason
   const tableRows = useMemo(() => (tableSource ? Object.values(tableSource) : []), [tableSource])
@@ -58,7 +45,7 @@ export const StandingsPage = () => {
 
   const sortedIndices = useMemo(() => {
     if (seasonSelected === 2022) return tableRows.map((_, i) => i)
-    return getSortedStandingsIndices(tableRows as UserStandings[], sortMode)
+    return getSortedStandingsIndices(tableRows, sortMode)
   }, [tableRows, sortMode, seasonSelected])
 
   const hasVisibleBuddyRows =
@@ -113,7 +100,7 @@ export const StandingsPage = () => {
     tableUpdateFailureMsg,
     tableUpdate,
     tableNoBuddiesMsg
-  } = i18n(locale, 'standings') as Locale
+  } = i18n(locale, 'standings')
 
   const lastWeekThatGotResults =
     Object.keys(results)
@@ -140,22 +127,13 @@ export const StandingsPage = () => {
 
   return (
     <>
-      <div
-        className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)}
-        ref={containerRef}
-        id="container"
-      >
+      <div className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)} ref={containerRef} id="container">
         <div className="flex flex-row items-center h-6 gap-1">
-          <span className="font-bold text-base leading-6 grow min-w-0 truncate">
-            {lastWeekNameAdjusted}
-          </span>
+          <span className="font-bold text-base leading-6 grow min-w-0 truncate">{lastWeekNameAdjusted}</span>
           <Button
             onClick={handleSwitchTools}
             icon={<GearIcon className="text-[24px]" />}
-            className={clsx(
-              'transition border-none !bg-transparent !w-6 !h-6',
-              showTools ? 'text-accent' : 'text-ink'
-            )}
+            className={clsx('transition border-none !bg-transparent !w-6 !h-6', showTools ? 'text-accent' : 'text-ink')}
           />
         </div>
         <div>
@@ -173,7 +151,7 @@ export const StandingsPage = () => {
                 />
                 {sortedIndices.map((index) => (
                   <StandingsRow
-                    key={'uid' in (tableRows[index] ?? {}) ? (tableRows[index] as UserStandings).uid ?? index : index}
+                    key={'uid' in (tableRows[index] ?? {}) ? (tableRows[index].uid ?? index) : index}
                     fade={containerFade}
                     index={index}
                     selectedRow={selectedRow}

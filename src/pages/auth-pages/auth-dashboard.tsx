@@ -1,16 +1,16 @@
+import { auth, logout } from '@/db'
+import { useFade, usePageFadeClass } from '@/hooks'
+import { i18n } from '@/locale'
+import { selectApp, selectUser } from '@/redux/selectors'
+import { answersActions, compareActions, userActions } from '@/redux/slices'
+import { Button } from '@/ui'
 import clsx from 'clsx'
 import { useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { auth, logout } from '@/db'
-import { useFade, usePageFadeClass } from '@/hooks'
-import { Locale, i18n } from '@/locale'
-import { selectApp, selectUser } from '@/redux/selectors'
-import { answersActions, compareActions, userActions } from '@/redux/slices'
-import { Button } from '@/ui'
 
-export const Dashboard = () => {
+export function Dashboard() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
@@ -34,15 +34,12 @@ export const Dashboard = () => {
     setTimeout(() => navigate('/profile'), duration)
   }
 
-  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth') as Locale
-  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons') as Locale
+  const { dashboardEnterMsg, dashboardAdminMsg } = i18n(locale, 'auth')
+  const { buttonProfileMsg, buttonLogoutMsg } = i18n(locale, 'buttons')
 
   return (
     <div
-      className={clsx(
-        'flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border',
-        fadeClass
-      )}
+      className={clsx('flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border', fadeClass)}
       ref={containerRef}
       id="container"
     >

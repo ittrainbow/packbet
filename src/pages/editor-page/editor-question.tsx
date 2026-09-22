@@ -8,7 +8,7 @@ import { getQuestionText } from '@/utils'
 
 type Props = { id: number; questionsRef: React.RefObject<HTMLDivElement> }
 
-export const EditorQuestion = ({ id, questionsRef }: Props) => {
+export function EditorQuestion({ id, questionsRef }: Props) {
   const dispatch = useDispatch()
   const { questions, questionInWork } = useSelector(selectEditor)
   const { duration } = useSelector(selectApp)

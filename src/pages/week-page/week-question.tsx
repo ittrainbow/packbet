@@ -22,7 +22,7 @@ type YesNoHandleProps = {
   activity: number
 }
 
-export const WeekQuestion = ({ id, result }: Props) => {
+export function WeekQuestion({ id, result }: Props) {
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
   const weeks = useSelector((store: Store) => store.weeks)

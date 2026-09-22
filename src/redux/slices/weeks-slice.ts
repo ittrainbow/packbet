@@ -2,7 +2,7 @@ import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
 import { Week, Weeks } from '@/types'
 
-const initialState = {} as Weeks
+const initialState: Weeks = {}
 
 type UpdateWeeksType = {
   week: Week

@@ -1,9 +1,10 @@
 import { LocaleCode } from '@/locale'
 
-const LOCALES: LocaleCode[] = ['ru', 'ua', 'by']
+function isLocaleCode(value: string | null): value is LocaleCode {
+  return value === 'ru' || value === 'ua' || value === 'by'
+}
 
-export const getLocale = (): LocaleCode => {
+export function getLocale(): LocaleCode {
   const stored = localStorage.getItem('packContestLocale')
-  if (stored === 'be') return 'by'
-  return LOCALES.includes(stored as LocaleCode) ? (stored as LocaleCode) : 'ru'
+  return isLocaleCode(stored) ? stored : 'ru'
 }

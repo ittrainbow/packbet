@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectTools, selectUser } from '@/redux/selectors'
 import { standingsGridClass } from './standings-grid'
 
@@ -13,10 +13,10 @@ type Props = {
 const cellClass =
   'flex items-center bg-white text-sm sm:text-base justify-center rounded-lg px-1 py-0 border border-ink/20 tracking-tighter'
 
-export const StandingsHeader = ({ onSortPercent, onSortLimit, limitSortEnabled }: Props) => {
+export function StandingsHeader({ onSortPercent, onSortLimit, limitSortEnabled }: Props) {
   const { locale } = useSelector(selectUser)
   const { seasonSelected } = useSelector(selectTools)
-  const { tableNameMsg, tableCorrectMsg, tableLimitMsg, tableAllMsg } = i18n(locale, 'standings') as Locale
+  const { tableNameMsg, tableCorrectMsg, tableLimitMsg, tableAllMsg } = i18n(locale, 'standings')
   const canSort = seasonSelected !== 2022
 
   return (

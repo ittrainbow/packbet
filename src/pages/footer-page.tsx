@@ -7,7 +7,7 @@ import { useMenu } from '@/hooks'
 import { selectApp } from '@/redux/selectors'
 import { appActions, editorActions, toolsActions } from '@/redux/slices'
 
-export const Footer = () => {
+export function Footer() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { tabActive, nextWeek, currentWeek, editor, duration } = useSelector(selectApp)

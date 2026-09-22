@@ -14,7 +14,7 @@ import { selectApp } from './redux/selectors'
 import { appActions, userActions } from './redux/slices'
 import { INIT_APP, USER_LOGIN } from './redux/storetypes'
 
-export const App = () => {
+export function App() {
   const initialRedirects = ['/', '/userpage', '/week', 'season', '/standings', '/calendar', '/editor']
   const dispatch = useDispatch()
   const navigate = useNavigate()

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useFade } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { appActions } from '@/redux/slices'
 
@@ -9,7 +9,7 @@ type Props = {
   containerRef: React.RefObject<HTMLDivElement>
 }
 
-export const OtherUserMessage = ({ containerRef }: Props) => {
+export function OtherUserMessage({ containerRef }: Props) {
   const dispatch = useDispatch()
   const { otherUserName, isItYou, duration } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
@@ -21,7 +21,7 @@ export const OtherUserMessage = ({ containerRef }: Props) => {
     setTimeout(() => dispatch(appActions.clearOtherUser()), duration)
   }
 
-  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser') as Locale
+  const { otherUser1msg, otherUser2msg, otherUser3msg } = i18n(locale, 'otheruser')
 
   return isItYou ? null : (
     <button

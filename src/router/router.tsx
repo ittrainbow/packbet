@@ -24,7 +24,7 @@ type Props = {
   children?: ReactNode
 }
 
-export const Router = ({ children }: Props) => {
+export function Router({ children }: Props) {
   const { loading } = useSelector(selectApp)
 
   const routes = () => {

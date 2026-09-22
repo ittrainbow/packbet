@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { CURRENT_SEASON, LAST_SEASON_LAST_WEEK } from '@/config'
 import { App } from '@/types'
 
 const initialState: App = {
   appNaviEvent: true,
-  season: 2026,
-  lastSeasonLastWeek: 54,
+  season: CURRENT_SEASON,
+  lastSeasonLastWeek: LAST_SEASON_LAST_WEEK,
   loading: true,
   editor: false,
   error: '',

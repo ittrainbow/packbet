@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Locale, i18n } from '@/locale'
+import { CURRENT_SEASON } from '@/config'
+import { i18n } from '@/locale'
 import { selectTools, selectUser } from '@/redux/selectors'
 import { toolsActions } from '@/redux/slices'
 import { Button, Input, SelectInput, Switch } from '@/ui'
 
-export const StandingsTools = () => {
+export function StandingsTools() {
   const dispatch = useDispatch()
   const { showOneWeek, showBuddies, standingsSearch, showTools, seasonSelected } = useSelector(selectTools)
   const [showBuddiesLocal, setShowBuddiesLocal] = useState<boolean>(showBuddies)
@@ -39,16 +40,24 @@ export const StandingsTools = () => {
   }
 
   const { tableSearchMsg, tableClearBtn, tableOnlyWeekMsg, tableAllSeasonMsg, tableBuddiesMsg, tableAllUsersMsg } =
-    i18n(locale, 'standings') as Locale
+    i18n(locale, 'standings')
 
   if (!showTools) return null
+
+  const options = Array.from({ length: CURRENT_SEASON - 2021 }, (_, i) => 2022 + i)
 
   return (
     <div className="grid border rounded-xl px-2 py-1 mb-1 border-ink/20 bg-white gap-1">
       <div className="justify-center items-center flex flex-row gap-2">
         <Input onChange={handleChangeSearch} value={standingsSearch} type="text" placeholder={tableSearchMsg} />
         <div>
-          <Button onClick={handleClearSearch} disabled={!standingsSearch} size="sm" className="px-1" text={tableClearBtn} />
+          <Button
+            onClick={handleClearSearch}
+            disabled={!standingsSearch}
+            size="sm"
+            className="px-1"
+            text={tableClearBtn}
+          />
         </div>
       </div>
       <Switch
@@ -66,7 +75,7 @@ export const StandingsTools = () => {
         messageOff={tableAllUsersMsg}
         fullWidth={true}
       />
-      <SelectInput options={[2022, 2023, 2024, 2025, 2026]} onChange={handleChangeSeason} value={seasonSelected} />
+      <SelectInput options={options} onChange={handleChangeSeason} value={seasonSelected} />
     </div>
   )
 }

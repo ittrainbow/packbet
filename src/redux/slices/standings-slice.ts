@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { CURRENT_SEASON } from '@/config'
 import { Standings } from '@/types'
 
-const initialState: Standings = {
-  season2022: [],
-  week2023: [],
-  season2023: [],
-  week2024: [],
-  season2024: [],
-  week2025: [],
-  season2025: [],
-  week2026: [],
-  season2026: []
+function buildInitialStandings(): Standings {
+  const state: Standings = { season2022: [] }
+  for (let year = 2023; year <= CURRENT_SEASON; year++) {
+    state[`season${year}`] = []
+    state[`week${year}`] = []
+  }
+  return state
 }
+
+const initialState: Standings = buildInitialStandings()
 
 export const standingsSlice = createSlice({
   name: 'standings',

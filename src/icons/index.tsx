@@ -26,7 +26,7 @@ export * from './user-icon'
 
 type SvgIcon = FC<SVGProps<SVGSVGElement>>
 
-const icon = (Svg: SvgIcon): SvgIcon => {
+function icon(Svg: SvgIcon): SvgIcon {
   const Icon = (props: SVGProps<SVGSVGElement>) => (
     <Svg width="1em" height="1em" aria-hidden focusable="false" {...props} />
   )
@@ -45,14 +45,20 @@ export const FiEdit = icon(FiEditSvg)
 export const FiSlash = icon(FiSlashSvg)
 export const FiTrash = icon(FiTrashSvg)
 
-export const FlagRu = (props: SVGProps<SVGSVGElement>) => (
+export function FlagRu(props: SVGProps<SVGSVGElement>) {
+  return (
   <FlagRuSvg width={24} height={18} aria-hidden focusable="false" {...props} />
 )
+}
 
-export const FlagUa = (props: SVGProps<SVGSVGElement>) => (
+export function FlagUa(props: SVGProps<SVGSVGElement>) {
+  return (
   <FlagUaSvg width={24} height={18} aria-hidden focusable="false" {...props} />
 )
+}
 
-export const FlagBe = (props: SVGProps<SVGSVGElement>) => (
+export function FlagBe(props: SVGProps<SVGSVGElement>) {
+  return (
   <FlagBeSvg width={24} height={18} aria-hidden focusable="false" {...props} />
 )
+}

@@ -2,13 +2,13 @@ import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import clsx from 'clsx'
 import { useDate, useFade, usePageFadeClass } from '@/hooks'
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectLocation, selectResults, selectUser, selectWeeks } from '@/redux/selectors'
 import { appActions, editorActions } from '@/redux/slices'
 import { OtherUserMessage, ScoreChip } from '@/ui'
 import { parseWeekName } from '@/utils'
+import clsx from 'clsx'
 
 type WeekStatus = 'open' | 'started' | 'final'
 
@@ -18,7 +18,7 @@ const statusDot: Record<WeekStatus, string> = {
   final: 'bg-ink/25'
 }
 
-export const WeekList = () => {
+export function WeekList() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const fadeClass = usePageFadeClass()
@@ -43,8 +43,8 @@ export const WeekList = () => {
   }
 
   const showOtherUserBar = !isItYou && !editor && !pathname.includes('calendar')
-  const { weekListMsg, weekListEditorMsg, weekStatusStarted, weekListEmptyMsg } = i18n(locale, 'weeklist') as Locale
-  const { tab2msg } = i18n(locale, 'header') as Locale
+  const { weekListMsg, weekListEditorMsg, weekStatusStarted, weekListEmptyMsg } = i18n(locale, 'weeklist')
+  const { tab2msg } = i18n(locale, 'header')
   const getDate = useDate()
 
   const listedWeeks = Object.keys(weeks)
@@ -61,11 +61,7 @@ export const WeekList = () => {
   }
 
   return (
-    <div
-      className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)}
-      ref={containerRef}
-      id="container"
-    >
+    <div className={clsx('px-4 py-5 max-w-[32rem] grid gap-3', fadeClass)} ref={containerRef} id="container">
       <div className="flex items-center h-6">
         <span className="font-bold text-base leading-6">
           {pathname.includes('calendar') ? weekListEditorMsg : weekListMsg}
@@ -93,14 +89,14 @@ export const WeekList = () => {
                 className={clsx(
                   'px-3 py-1.5 grid grid-cols-[2.5fr,1fr] gap-1 border rounded-xl text-left',
                   Date.now() < deadline ? 'bg-white' : 'bg-white/70',
-                  isCurrent ? 'border-ink/40' : 'border-ink/20'
+                  isCurrent && status === 'open' ? 'border-ink/40' : 'border-ink/20'
                 )}
                 onClick={() => handleClick(selectedWeek)}
               >
                 <div className="grid grid-cols-1 gap-0 relative min-w-0">
                   <div className="flex items-center gap-1.5 min-w-0 mr-auto">
                     <span className="text-xs text-ink-muted leading-4 shrink-0">{text[0]}</span>
-                    <span className={clsx('w-1.5 h-1.5 rounded-full shrink-0', statusDot[status])} />
+                    <span className={clsx('w-2 h-2 rounded-full shrink-0', statusDot[status])} />
                     {status === 'started' ? (
                       <span className="text-xs text-ink-muted leading-4 truncate">{weekStatusStarted}</span>
                     ) : null}

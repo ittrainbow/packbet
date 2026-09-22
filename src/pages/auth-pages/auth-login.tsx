@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom'
 
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from '@/db'
 import { useFade } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { userActions } from '@/redux/slices'
 import { Button, Input } from '@/ui'
 import { getLocale } from '@/utils'
 import { AuthGoogleMark, AuthShell } from './auth-shell'
 
-export const Login = () => {
+export function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading, error] = useAuthState(auth)
@@ -77,18 +77,12 @@ export const Login = () => {
     setTimeout(() => navigate('/reset'), duration)
   }
 
-  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons') as Locale
-  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth') as Locale
+  const { buttonLoginMsg, buttonLoginGoogleMsg } = i18n(locale, 'buttons')
+  const { regMsg, regIntro, forgotMsg, emailMsg, passwordMsg } = i18n(locale, 'auth')
 
   return (
     <AuthShell containerRef={containerRef}>
-      <Input
-        type="email"
-        value={email}
-        onChange={handleEmailInput}
-        placeholder={emailMsg}
-        autoComplete="email"
-      />
+      <Input type="email" value={email} onChange={handleEmailInput} placeholder={emailMsg} autoComplete="email" />
       <Input
         type="password"
         value={password}

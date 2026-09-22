@@ -1,4 +1,4 @@
-export const Loader = () => {
+export function Loader() {
   return (
     <div className="loader flex pt-8 max-w-24 items-center justify-center absolute top-[calc((100vh-var(--tabbar-height))/2-3rem)] left-[calc(50%-3rem)] h-24 w-24">
       <div className="inner absolute box-border w-full h-full rounded-[3rem] l-0 top-0 one border-b-8 animate-rotate-one border-accent"></div>

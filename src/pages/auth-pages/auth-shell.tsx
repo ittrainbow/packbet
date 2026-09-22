@@ -1,12 +1,12 @@
 import { ReactNode, RefObject } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import clsx from 'clsx'
 import { usePageFadeClass } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectUser } from '@/redux/selectors'
 import { userActions } from '@/redux/slices'
 import { LocaleSwitch } from '@/ui'
+import clsx from 'clsx'
 
 type Props = {
   children: ReactNode
@@ -38,18 +38,15 @@ function GoogleMark() {
 
 export const AuthGoogleMark = GoogleMark
 
-export const AuthShell = ({ children, containerRef }: Props) => {
+export function AuthShell({ children, containerRef }: Props) {
   const dispatch = useDispatch()
   const fadeClass = usePageFadeClass()
   const { locale } = useSelector(selectUser)
-  const { packContestLead } = i18n(locale, 'auth') as Locale
+  const { packContestLead } = i18n(locale, 'auth')
 
   return (
     <div
-      className={clsx(
-        'page-min-h flex flex-col px-4 py-5 max-w-[32rem] box-border',
-        fadeClass
-      )}
+      className={clsx('page-min-h flex flex-col px-4 py-5 max-w-[32rem] box-border', fadeClass)}
       ref={containerRef}
       id="container"
     >

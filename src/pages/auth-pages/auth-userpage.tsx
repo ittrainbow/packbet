@@ -6,7 +6,7 @@ import { auth } from '@/db'
 import { selectApp } from '@/redux/selectors'
 import { Loader } from '@/ui'
 
-export const UserPage = () => {
+export function UserPage() {
   const [user] = useAuthState(auth)
   const { loading } = useSelector(selectApp)
 

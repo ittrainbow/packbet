@@ -29,7 +29,7 @@ import {
 } from '@/types'
 import { db } from './firebase'
 
-export const getDBDocument = async (collection: string, document: string | number) => {
+export async function getDBDocument(collection: string, document: string | number) {
   const response = await getDoc(doc(db, collection, document.toString()))
   const schema = collection.includes('users')
     ? UserSchema
@@ -43,7 +43,7 @@ export const getDBDocument = async (collection: string, document: string | numbe
   return parsed
 }
 
-export const writeDBDocument = async (collection: string, document: string | number, data: any) => {
+export async function writeDBDocument(collection: string, document: string | number, data: any) {
   const schema = collection.includes('users')
     ? UserSchema
     : collection.includes('answers')
@@ -61,18 +61,14 @@ export const writeDBDocument = async (collection: string, document: string | num
   await setDoc(doc(db, collection, document.toString()), data)
 }
 
-export const updateDBDocument = async (
-  collection: string,
-  document: string | number,
-  selectedWeek: number,
-  data: any
-) => {
+export async function updateDBDocument(collection: string, document: string | number, selectedWeek: number, data: any) {
   const schema = collection.includes('answers') ? AnswersSchema : undefined
   schema?.parse(data)
 
   const emptyData = !Object.keys(data).length
-  const updateData = {} as Answers
-  updateData[selectedWeek] = data[document][selectedWeek]
+  const updateData: Answers = {
+    [selectedWeek]: data[document][selectedWeek]
+  }
 
   if (emptyData) {
     await updateDoc(doc(db, collection, document.toString()), updateData)
@@ -81,11 +77,11 @@ export const updateDBDocument = async (
   await deleteDoc(doc(db, collection, document.toString()))
 }
 
-export const deleteDBDocument = async (collection: string, document: string) => {
+export async function deleteDBDocument(collection: string, document: string) {
   await deleteDoc(doc(db, collection, document))
 }
 
-export const getDBCollection = async (link: string) => {
+export async function getDBCollection(link: string) {
   const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, link))
 
   const obj: About | Users | AnswersStore = {}

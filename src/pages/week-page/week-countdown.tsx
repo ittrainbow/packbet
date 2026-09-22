@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { useDate } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser, selectWeeks } from '@/redux/selectors'
 
-const getRemaining = (deadline: number) => {
+function getRemaining(deadline: number) {
   const totalSeconds = Math.max(0, Math.floor((deadline - Date.now()) / 1000))
   return {
     days: Math.floor(totalSeconds / 86400),
@@ -16,7 +16,7 @@ const getRemaining = (deadline: number) => {
   }
 }
 
-export const WeekCountdown = () => {
+export function WeekCountdown() {
   const { selectedWeek } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const weeks = useSelector(selectWeeks)
@@ -48,7 +48,7 @@ export const WeekCountdown = () => {
     oneHourMsg,
     minutesMsg,
     secondsMsg
-  } = i18n(locale, 'ticks') as Locale
+  } = i18n(locale, 'ticks')
 
   const { days, hours, minutes, seconds, completed } = remaining
   const daysText = days > 4 || days === 0 ? fiveDaysMsg : days > 1 ? twoDaysMsg : oneDayMsg

@@ -19,7 +19,7 @@ type SingleAnswerDelete = {
   id: number
   uid: string
 }
-const initialState = {} as AnswersStore
+const initialState: AnswersStore = {}
 
 export const answersSlice = createSlice({
   name: 'answers',

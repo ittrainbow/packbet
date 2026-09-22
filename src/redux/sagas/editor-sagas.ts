@@ -1,6 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { deleteDBDocument, getDBCollection, writeDBDocument } from '@/db'
+import { CURRENT_SEASON } from '@/config'
 import { Action, Answers, AnswersStore, Store, Users, Week, Weeks } from '@/types'
 import { createTable, getWeeksIDs, buildQuestionStatsRecord } from '@/utils'
 import { appActions, editorActions, weeksActions } from '@/redux/slices'
@@ -81,11 +82,16 @@ export function* updateStandingsSaga() {
   const weekTable = createTable({ answers, users, results, fullSeason: false, lastSeasonLastWeek })
   const seasonTable = createTable({ answers, users, results, fullSeason: true, lastSeasonLastWeek })
 
-  yield call(writeDBDocument, 'standings', 'week2026', Object.fromEntries(weekTable.map((el, index) => [index, el])))
   yield call(
     writeDBDocument,
     'standings',
-    'season2026',
+    `week${CURRENT_SEASON}`,
+    Object.fromEntries(weekTable.map((el, index) => [index, el]))
+  )
+  yield call(
+    writeDBDocument,
+    'standings',
+    `season${CURRENT_SEASON}`,
     Object.fromEntries(seasonTable.map((el, index) => [index, el]))
   )
   const { week2passed } = yield select((store: Store) => store.app)

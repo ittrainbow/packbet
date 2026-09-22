@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectUser } from '@/redux/selectors'
+import { useSelector } from 'react-redux'
 
 type Props = {
   options: string[] | number[]
@@ -8,9 +8,9 @@ type Props = {
   value: string | number
 }
 
-export const SelectInput = ({ options, onChange, value }: Props) => {
+export function SelectInput({ options, onChange, value }: Props) {
   const { locale } = useSelector(selectUser)
-  const { tableChooseSeason } = i18n(locale, 'standings') as Locale
+  const { tableChooseSeason } = i18n(locale, 'standings')
 
   return (
     <div className="flex flex-wrap gap-1 h-9 items-center justify-center">

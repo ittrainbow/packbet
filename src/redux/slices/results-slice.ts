@@ -2,7 +2,7 @@ import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 
 import { Answers } from '@/types'
 
-const initialState = {} as Answers
+const initialState: Answers = {}
 
 export const resultsSlice = createSlice({
   name: 'results',

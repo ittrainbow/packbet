@@ -2,13 +2,13 @@ import { FaStar } from '@/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import clsx from 'clsx'
 import { useTableRow } from '@/hooks'
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectAnswers, selectApp, selectTools, selectUser } from '@/redux/selectors'
 import { appActions, userActions } from '@/redux/slices'
 import { FETCH_OTHER_USER, SET_BUDDIES } from '@/redux/storetypes'
 import { Button } from '@/ui'
+import clsx from 'clsx'
 import { standingsGridClass } from './standings-grid'
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
   setSelectedRow: (selectedRow: number | null) => void
 }
 
-export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props) => {
+export function StandingsRow({ fade, index, selectedRow, setSelectedRow }: Props) {
   const { locale } = useSelector(selectUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -37,7 +37,7 @@ export const StandingsRow = ({ fade, index, selectedRow, setSelectedRow }: Props
     tableDetailsSkipped,
     tableDetailsLimit,
     tableDetailsAdjusted
-  } = i18n(locale, 'standings') as Locale
+  } = i18n(locale, 'standings')
 
   const handleClickOnUser = (otherUserName: string, otherUserUID: string) => {
     const { uid } = user

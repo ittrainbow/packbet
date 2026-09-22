@@ -11,7 +11,7 @@ type Props = {
   size?: 'xs' | 'sm' | 'md' | 'lg'
 }
 
-export const Button = ({ onClick, disabled = false, className = '', text, icon, size }: Props) => {
+export function Button({ onClick, disabled = false, className = '', text, icon, size }: Props) {
   const iconOnly = Boolean(icon) && !text
   const height = size === 'xs' ? 'h-6' : size === 'sm' ? 'h-8' : size === 'lg' ? 'h-12' : 'h-10'
 

@@ -78,30 +78,18 @@ export type UserStandings = z.infer<typeof UserStandingsSchema>
 export const UpdateStandingsSchema = z.record(z.string(), UserStandingsSchema)
 export type UpdateStandings = z.infer<typeof UpdateStandingsSchema>
 
-export const FetchedStandingsSchema = z.object({
-  season2022: z.record(z.string(), OldStandingsSchema),
-  season2023: z.record(z.string(), UserStandingsSchema),
-  week2023: z.record(z.string(), UserStandingsSchema),
-  season2024: z.record(z.string(), UserStandingsSchema).optional(),
-  week2024: z.record(z.string(), UserStandingsSchema).optional(),
-  season2025: z.record(z.string(), UserStandingsSchema).optional(),
-  week2025: z.record(z.string(), UserStandingsSchema).optional(),
-  season2026: z.record(z.string(), UserStandingsSchema).optional(),
-  week2026: z.record(z.string(), UserStandingsSchema).optional()
-})
+export const FetchedStandingsSchema = z
+  .object({
+    season2022: z.record(z.string(), OldStandingsSchema)
+  })
+  .catchall(z.record(z.string(), UserStandingsSchema))
 export type FetchedStandings = z.infer<typeof FetchedStandingsSchema>
 
-export const StandingsSchema = z.object({
-  season2022: z.array(OldStandingsSchema),
-  season2023: z.array(UserStandingsSchema),
-  week2023: z.array(UserStandingsSchema),
-  season2024: z.array(UserStandingsSchema),
-  week2024: z.array(UserStandingsSchema),
-  season2025: z.array(UserStandingsSchema),
-  week2025: z.array(UserStandingsSchema),
-  season2026: z.array(UserStandingsSchema),
-  week2026: z.array(UserStandingsSchema)
-})
+export const StandingsSchema = z
+  .object({
+    season2022: z.array(OldStandingsSchema)
+  })
+  .catchall(z.array(UserStandingsSchema))
 export type Standings = z.infer<typeof StandingsSchema>
 
 export const ToolsSchema = z.object({
@@ -115,7 +103,7 @@ export type Tools = z.infer<typeof ToolsSchema>
 
 export const UserSchema = z.object({
   admin: z.boolean(),
-  locale: z.preprocess((value) => (value === 'be' ? 'by' : value), z.enum(['ru', 'ua', 'by'])),
+  locale: z.enum(['ru', 'ua', 'by']),
   name: z.string(),
   adminAsPlayer: z.boolean().optional(),
   buddies: z.array(z.string())

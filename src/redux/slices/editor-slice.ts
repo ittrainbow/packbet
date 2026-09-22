@@ -15,7 +15,7 @@ const initialState: Editor = {
   active: false,
   deadline: new Date().getTime(),
   questionInWork: emptyQuestion,
-  questionCompare: {} as Question
+  questionCompare: emptyQuestion
 }
 
 export const editorSlice = createSlice({

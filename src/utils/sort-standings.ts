@@ -6,10 +6,14 @@ type SortableRow = {
   uid?: string
 }
 
-const byDesc = (a: number, b: number) => (a < b ? 1 : a > b ? -1 : 0)
-const byAsc = (a: number, b: number) => (a < b ? -1 : a > b ? 1 : 0)
+function byDesc(a: number, b: number) {
+  return (a < b ? 1 : a > b ? -1 : 0)
+}
+function byAsc(a: number, b: number) {
+  return (a < b ? -1 : a > b ? 1 : 0)
+}
 
-export const getSortedStandingsIndices = (rows: SortableRow[], mode: StandingsSortMode): number[] => {
+export function getSortedStandingsIndices(rows: SortableRow[], mode: StandingsSortMode): number[] {
   const indices = rows.map((_, i) => i)
   if (mode === 'default') return indices
 

@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom'
 
 import { auth, registerWithEmailAndPassword, signInWithGoogle } from '@/db'
 import { useFade } from '@/hooks'
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { appActions, userActions } from '@/redux/slices'
 import { User } from '@/types'
 import { Button, Input } from '@/ui'
 import { AuthGoogleMark, AuthShell } from './auth-shell'
 
-export const Register = () => {
+export function Register() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user, loading] = useAuthState(auth)
@@ -78,9 +78,9 @@ export const Register = () => {
 
   const handleGoogleClick = async () => await signInWithGoogle()
 
-  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons') as Locale
+  const { buttonRegisterMsg, buttonRegisterGoogleMsg } = i18n(locale, 'buttons')
   const { loginIntro, loginMsg, regNameMsg, regNameAlert, regEmailAlert, regPasswordAlert, emailMsg, passwordMsg } =
-    i18n(locale, 'auth') as Locale
+    i18n(locale, 'auth')
 
   const handleToLogin = () => {
     triggerFade()

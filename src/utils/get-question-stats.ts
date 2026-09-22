@@ -7,11 +7,7 @@ export type QuestionStat = {
 }
 
 // сколько верных ответов по каждому вопросу недели (answers игроков; results — эталон)
-export const getQuestionStats = (
-  weekId: number,
-  weekResults: Record<string, number> | undefined,
-  answers: AnswersStore
-): QuestionStat[] => {
+export function getQuestionStats(weekId: number, weekResults: Record<string, number> | undefined, answers: AnswersStore): QuestionStat[] {
   if (!weekResults) return []
 
   return Object.keys(weekResults)
@@ -33,10 +29,11 @@ export const getQuestionStats = (
     .sort((a, b) => b.correct - a.correct || b.answered - a.answered || a.id - b.id)
 }
 
-export const toQuestionStatsRecord = (stats: QuestionStat[]): QuestionStats =>
-  Object.fromEntries(stats.map(({ id, correct, answered }) => [String(id), { correct, answered }]))
+export function toQuestionStatsRecord(stats: QuestionStat[]): QuestionStats {
+  return Object.fromEntries(stats.map(({ id, correct, answered }) => [String(id), { correct, answered }]))
+}
 
-export const fromQuestionStatsRecord = (record: QuestionStats | undefined): QuestionStat[] => {
+export function fromQuestionStatsRecord(record: QuestionStats | undefined): QuestionStat[] {
   if (!record) return []
   return Object.entries(record)
     .map(([id, entry]: [string, QuestionStatEntry]) => ({
@@ -47,11 +44,7 @@ export const fromQuestionStatsRecord = (record: QuestionStats | undefined): Ques
     .sort((a, b) => b.correct - a.correct || b.answered - a.answered || a.id - b.id)
 }
 
-export const buildQuestionStatsRecord = (
-  weekId: number,
-  weekResults: Record<string, number> | undefined,
-  answers: AnswersStore
-): QuestionStats | undefined => {
+export function buildQuestionStatsRecord(weekId: number, weekResults: Record<string, number> | undefined, answers: AnswersStore): QuestionStats | undefined {
   if (!weekResults || !Object.keys(weekResults).length) return undefined
   return toQuestionStatsRecord(getQuestionStats(weekId, weekResults, answers))
 }

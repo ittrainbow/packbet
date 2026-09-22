@@ -102,7 +102,7 @@ function* submitResultsSaga(
       yield call(deleteDBDocument, 'results', selectedWeek.toString())
     }
 
-    const response: Answers = data ? yield call(getDBDocument, 'results', selectedWeek) : ({} as const)
+    const response: Answers = data ? yield call(getDBDocument, 'results', selectedWeek) : {}
 
     const saveSuccess: boolean = yield call(getObjectsEquality, response, results[selectedWeek])
 

@@ -1,13 +1,35 @@
 import { Store } from '@/types'
 
-export const selectAbout = (store: Store) => store.about
-export const selectStandings = (store: Store) => store.standings
-export const selectApp = (store: Store) => store.app
-export const selectUser = (store: Store) => store.user
-export const selectAnswers = (store: Store) => store.answers
-export const selectResults = (store: Store) => store.results
-export const selectWeeks = (store: Store) => store.weeks
-export const selectCompare = (store: Store) => store.compare
-export const selectEditor = (store: Store) => store.editor
-export const selectLocation = (store: Store) => store.router.location
-export const selectTools = (store: Store) => store.tools
+export function selectAbout(store: Store) {
+  return store.about
+}
+export function selectStandings(store: Store) {
+  return store.standings
+}
+export function selectApp(store: Store) {
+  return store.app
+}
+export function selectUser(store: Store) {
+  return store.user
+}
+export function selectAnswers(store: Store) {
+  return store.answers
+}
+export function selectResults(store: Store) {
+  return store.results
+}
+export function selectWeeks(store: Store) {
+  return store.weeks
+}
+export function selectCompare(store: Store) {
+  return store.compare
+}
+export function selectEditor(store: Store) {
+  return store.editor
+}
+export function selectLocation(store: Store) {
+  return store.router.location
+}
+export function selectTools(store: Store) {
+  return store.tools
+}

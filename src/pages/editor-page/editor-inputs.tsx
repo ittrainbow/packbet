@@ -1,15 +1,15 @@
-import { useEffect, useRef } from 'react'
 import { FaCheck, FaPlus } from '@/icons'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useFade } from '@/hooks'
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectEditor, selectLocation, selectUser } from '@/redux/selectors'
 import { editorActions } from '@/redux/slices'
 import { Button, Input } from '@/ui'
 import { getNewQuestionId, getObjectsEquality } from '@/utils'
 
-export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) => {
+export function EditorInputs({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) {
   const dispatch = useDispatch()
   const nameRef = useRef<HTMLInputElement>(null)
   const { duration, tabActive } = useSelector(selectApp)
@@ -50,15 +50,12 @@ export const EditorInputs = ({ questionsRef }: { questionsRef: React.RefObject<H
     const { questions } = editor
     if (ru && ua && by && total) {
       triggerFade()
-      const setId = typeof id !== 'number' ? getNewQuestionId(questions) : (id as number)
+      const setId = typeof id !== 'number' ? getNewQuestionId(questions) : id
       setTimeout(() => dispatch(editorActions.updateEditorQuestions(setId)), duration)
     }
   }
 
-  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg, weekQuestionByMsg } = i18n(
-    locale,
-    'editor'
-  ) as Locale
+  const { weekNameMsg, weekTotalMsg, weekQuestionRuMsg, weekQuestionUaMsg, weekQuestionByMsg } = i18n(locale, 'editor')
 
   return (
     <div className="editor-input">

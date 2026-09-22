@@ -1,14 +1,11 @@
 import { useSelector } from 'react-redux'
 
-import { i18n, Locale } from '@/locale'
+import { i18n } from '@/locale'
 import { selectUser } from '@/redux/selectors'
 
-export const OldStandingsMessage = () => {
+export function OldStandingsMessage() {
   const { locale } = useSelector(selectUser)
-  const { tableOldStandings1, tableOldStandings2, tableOldStandings3, tableOldStandings4 } = i18n(
-    locale,
-    'standings'
-  ) as Locale
+  const { tableOldStandings1, tableOldStandings2, tableOldStandings3, tableOldStandings4 } = i18n(locale, 'standings')
 
   return (
     <div className="border leading-4 mb-1.5 mt-1 border-ink/20 rounded-xl bg-white p-2 flex flex-col gap-2 items-start">

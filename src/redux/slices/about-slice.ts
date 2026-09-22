@@ -2,11 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { About } from '@/types'
 
-type AboutLocale = { [key: string]: string }
-
 const initialState: About = {
-  ru: {} as AboutLocale,
-  ua: {} as AboutLocale
+  ru: {},
+  ua: {},
+  by: {}
 }
 
 export const aboutSlice = createSlice({

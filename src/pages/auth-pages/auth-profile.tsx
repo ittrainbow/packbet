@@ -1,19 +1,18 @@
-import { User } from 'firebase/auth'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import clsx from 'clsx'
 import { auth } from '@/db'
 import { useFade, usePageFadeClass } from '@/hooks'
-import { Locale, LocaleCode, i18n } from '@/locale'
+import { LocaleCode, i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { userActions } from '@/redux/slices'
 import { UPDATE_PROFILE } from '@/redux/storetypes'
 import { Button, Input, LocaleSwitch } from '@/ui'
+import clsx from 'clsx'
 
-export const Profile = () => {
+export function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [user] = useAuthState(auth)
@@ -36,7 +35,8 @@ export const Profile = () => {
   const noChanges = name === tempName && locale === tempLocale
 
   const handleSubmit = async () => {
-    const { uid } = user as User
+    if (!user) return
+    const { uid } = user
     const payload = { uid, name: tempName, locale: tempLocale }
     localStorage.setItem('packContestLocale', tempLocale)
 
@@ -53,15 +53,12 @@ export const Profile = () => {
     }, duration)
   }
 
-  const { profileHeaderMsg, profileNameMsg } = i18n(locale, 'auth') as Locale
-  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons') as Locale
+  const { profileHeaderMsg, profileNameMsg } = i18n(locale, 'auth')
+  const { buttonChangesMsg, buttonCancelMsg, buttonSaveMsg } = i18n(locale, 'buttons')
 
   return (
     <div
-      className={clsx(
-        'flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border',
-        fadeClass
-      )}
+      className={clsx('flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border', fadeClass)}
       ref={containerRef}
       id="container"
     >
@@ -83,11 +80,7 @@ export const Profile = () => {
           />
         </div>
         <div className="flex w-48 flex-col gap-1">
-          <Button
-            disabled={noChanges}
-            onClick={handleSubmit}
-            text={noChanges ? buttonChangesMsg : buttonSaveMsg}
-          />
+          <Button disabled={noChanges} onClick={handleSubmit} text={noChanges ? buttonChangesMsg : buttonSaveMsg} />
           <Button onClick={handleDiscard} text={buttonCancelMsg} />
         </div>
       </div>

@@ -1,14 +1,14 @@
 import moment from 'moment/moment'
 import { useSelector } from 'react-redux'
 
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectUser } from '@/redux/selectors'
 
 export function useDate() {
   const { locale } = useSelector(selectUser)
 
-  const { aug, sep, oct, nov, dec, jan, feb } = i18n(locale, 'month') as Locale
-  const { atTimeMsg } = i18n(locale, 'ticks') as Locale
+  const { aug, sep, oct, nov, dec, jan, feb } = i18n(locale, 'month')
+  const { atTimeMsg } = i18n(locale, 'ticks')
 
   return function (deadline: number) {
     const date = moment(deadline)

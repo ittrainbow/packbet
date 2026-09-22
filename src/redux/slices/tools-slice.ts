@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { CURRENT_SEASON } from '@/config'
 import { Tools } from '@/types'
 
 const initialState: Tools = {
@@ -7,7 +8,7 @@ const initialState: Tools = {
   showBuddies: localStorage.getItem('packContestFavList') === 'true',
   showOneWeek: localStorage.getItem('packContestOneWeek') === 'true',
   standingsSearch: '',
-  seasonSelected: 2026
+  seasonSelected: CURRENT_SEASON
 }
 
 export const toolsSlice = createSlice({

@@ -1,12 +1,12 @@
-import { ReactNode, useRef, useState } from 'react'
 import { FaArrowDown, FaArrowUp, FaBan, FaCheck } from '@/icons'
+import { ReactNode, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import clsx from 'clsx'
 import { usePageFadeClass } from '@/hooks'
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectAbout, selectUser } from '@/redux/selectors'
 import { Button } from '@/ui'
+import clsx from 'clsx'
 
 const WEEK_BTN = 'shrink-0 text-lg text-ink !bg-ink/15 !border-ink/20'
 
@@ -28,38 +28,41 @@ const EXAMPLES = {
   ]
 }
 
-const splitHeading = (text = '') => {
+function splitHeading(text = '') {
   const i = text.indexOf('?')
   if (i === -1) return { heading: text, body: '' }
   return { heading: text.slice(0, i + 1), body: text.slice(i + 1).trim() }
 }
 
-const glossaryItems = (text = '') =>
-  text
+function glossaryItems(text = '') {
+  return text
     .replace(/\. (Под |Під |Пад )/g, '.\n$1')
     .split('\n')
     .map((item) => item.trim())
     .filter(Boolean)
+}
 
-const Section = ({ title, children }: { title: string; children: ReactNode }) => (
+function Section({ title, children }: { title: string; children: ReactNode }) {
+  return (
   <section className="flex flex-col gap-2">
     <h2 className="font-bold text-base">{title}</h2>
     {children}
   </section>
 )
+}
 
-const Body = ({ children }: { children: ReactNode }) => (
-  <p className="text-sm leading-5">{children}</p>
-)
+function Body({ children }: { children: ReactNode }) {
+  return <p className="text-sm leading-5">{children}</p>
+}
 
-export const About = () => {
+export function About() {
   const fadeClass = usePageFadeClass()
   const { locale } = useSelector(selectUser)
   const about = useSelector(selectAbout)
   const containerRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
 
-  const { buttonDetailsMsg, buttonCollapseMsg } = i18n(locale, 'buttons') as Locale
+  const { buttonDetailsMsg, buttonCollapseMsg } = i18n(locale, 'buttons')
   const {
     aboutTitleMsg,
     aboutYesMsg,
@@ -73,7 +76,7 @@ export const About = () => {
     aboutColCorrect,
     aboutColSkipped,
     aboutColAccuracy
-  } = i18n(locale, 'about') as Locale
+  } = i18n(locale, 'about')
 
   const pack = about[locale] || about.ru || {}
   const intro = pack['0'] ?? ''
@@ -90,10 +93,7 @@ export const About = () => {
 
   return (
     <div
-      className={clsx(
-        'page-min-h flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border',
-        fadeClass
-      )}
+      className={clsx('page-min-h flex flex-col px-4 py-5 max-w-[32rem] gap-3 box-border', fadeClass)}
       ref={containerRef}
       id="container"
     >

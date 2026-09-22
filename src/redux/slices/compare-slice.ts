@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Answers } from '@/types'
 
-const initialState = {} as CompareType
+const initialState: CompareType = {}
 
 type CompareType = {
   [key: string]: Answers

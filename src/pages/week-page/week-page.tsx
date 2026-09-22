@@ -2,20 +2,20 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
-import clsx from 'clsx'
 import { useChanges, usePageFadeClass } from '@/hooks'
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { answersActions, resultsActions, userActions } from '@/redux/slices'
 import * as TYPES from '@/redux/storetypes'
-import { Store, Week } from '@/types'
-import { parseWeekName } from '@/utils'
+import { Store } from '@/types'
 import { Button, OtherUserMessage, Switch } from '@/ui'
+import { parseWeekName } from '@/utils'
+import clsx from 'clsx'
 import { WeekCountdown } from './week-countdown'
 import { MemoizedWeekQuestion } from './week-question'
 import { WeekQuestionStats } from './week-question-stats'
 
-export const WeekPage = () => {
+export function WeekPage() {
   const dispatch = useDispatch()
   const fadeClass = usePageFadeClass()
   const { selectedWeek, currentWeek, isItYou, duration } = useSelector(selectApp)
@@ -25,7 +25,7 @@ export const WeekPage = () => {
   const weeks = useSelector((store: Store) => store.weeks)
   const compare = useSelector((store: Store) => store.compare)
   const containerRef = useRef<HTMLDivElement>(null)
-  const { name, questions, deadline } = weeks[selectedWeek] || ({} as Week)
+  const { name, questions, deadline } = weeks[selectedWeek]
   const { match } = parseWeekName(name)
   const [outdated, setOutdated] = useState<boolean>(new Date().getTime() > deadline)
 
@@ -55,8 +55,8 @@ export const WeekPage = () => {
     dispatch(userActions.setAdminAsPlayer(!adminAsPlayer))
   }
 
-  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons') as Locale
-  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week') as Locale
+  const { buttonChangesMsg, buttonSaveMsg, buttonCancelMsg } = i18n(locale, 'buttons')
+  const { successMsg, failureMsg, playerMsg, adminMsg } = i18n(locale, 'week')
 
   const handleSubmit = async () => {
     const data = adm ? results : answers[uid]

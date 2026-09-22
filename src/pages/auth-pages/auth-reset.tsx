@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { auth, sendPasswordReset } from '@/db'
 import { useFade } from '@/hooks'
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { Button, Input } from '@/ui'
 import { AuthShell } from './auth-shell'
 
-export const Reset = () => {
+export function Reset() {
   const navigate = useNavigate()
   const [user, loading] = useAuthState(auth)
   const { duration } = useSelector(selectApp)
@@ -48,8 +48,8 @@ export const Reset = () => {
     setTimeout(() => navigate('/login'), duration)
   }
 
-  const { buttonRecoverMsg } = i18n(locale, 'buttons') as Locale
-  const { loginMsg, loginIntro, regMsg, regIntro, emailMsg } = i18n(locale, 'auth') as Locale
+  const { buttonRecoverMsg } = i18n(locale, 'buttons')
+  const { loginMsg, loginIntro, regMsg, regIntro, emailMsg } = i18n(locale, 'auth')
 
   return (
     <AuthShell containerRef={containerRef}>

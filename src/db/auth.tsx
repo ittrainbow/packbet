@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { appActions } from '@/redux/slices'
 import { User } from '@/types'
 import { getLocale } from '@/utils'
@@ -17,7 +17,7 @@ import { auth, db } from './firebase'
 
 const googleProvider = new GoogleAuthProvider()
 
-export const signInWithGoogle = async () => {
+export async function signInWithGoogle() {
   try {
     appActions.setLoading(true)
     const response: UserCredential = await signInWithPopup(auth, googleProvider)
@@ -40,7 +40,7 @@ export const signInWithGoogle = async () => {
   }
 }
 
-export const logInWithEmailAndPassword = async (email: string, password: string) => {
+export async function logInWithEmailAndPassword(email: string, password: string) {
   try {
     appActions.setLoading(true)
     const responseLogin: UserCredential = await signInWithEmailAndPassword(auth, email, password)
@@ -52,7 +52,7 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
   } catch (error) {
     if (error instanceof Error) {
       const locale = getLocale()
-      const { emailWrongMsg, passwordWrongMsg } = i18n(locale, 'auth') as Locale
+      const { emailWrongMsg, passwordWrongMsg } = i18n(locale, 'auth')
       if (error.message.includes('user-not-found')) return alert(emailWrongMsg)
       if (error.message.includes('wrong-password')) return alert(passwordWrongMsg)
       console.error(error.message)
@@ -60,7 +60,7 @@ export const logInWithEmailAndPassword = async (email: string, password: string)
   }
 }
 
-export const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
+export async function registerWithEmailAndPassword(name: string, email: string, password: string) {
   const locale = getLocale()
   try {
     appActions.setLoading(true)
@@ -72,14 +72,14 @@ export const registerWithEmailAndPassword = async (name: string, email: string, 
     return { uid, locale }
   } catch (error) {
     if (error instanceof Error) {
-      const { emailExistsMsg } = i18n(locale, 'auth') as Locale
+      const { emailExistsMsg } = i18n(locale, 'auth')
       if (error.message.includes('email-already-in-use')) alert(emailExistsMsg)
       console.error(error)
     }
   }
 }
 
-export const sendPasswordReset = async (email: string) => {
+export async function sendPasswordReset(email: string) {
   try {
     await sendPasswordResetEmail(auth, email)
     return alert('Password reset link sent!')
@@ -88,7 +88,7 @@ export const sendPasswordReset = async (email: string) => {
   }
 }
 
-export const logout = () => {
+export function logout() {
   appActions.setLoading(true)
   signOut(auth)
 

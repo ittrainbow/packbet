@@ -1,6 +1,6 @@
-import clsx from 'clsx'
 import { FlagBe, FlagRu, FlagUa } from '@/icons'
-import { Locale, LocaleCode, i18n } from '@/locale'
+import { LocaleCode, i18n } from '@/locale'
+import clsx from 'clsx'
 
 const FLAGS: { code: LocaleCode; Flag: typeof FlagRu }[] = [
   { code: 'ru', Flag: FlagRu },
@@ -13,8 +13,8 @@ type Props = {
   onChange: (locale: LocaleCode) => void
 }
 
-export const LocaleSwitch = ({ value, onChange }: Props) => {
-  const { profileLangMsg } = i18n(value, 'auth') as Locale
+export function LocaleSwitch({ value, onChange }: Props) {
+  const { profileLangMsg } = i18n(value, 'auth')
 
   return (
     <div className="flex flex-col items-center gap-2">

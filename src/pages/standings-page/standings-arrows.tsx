@@ -3,7 +3,7 @@ import { FaArrowCircleDown, FaArrowCircleUp } from '@/icons'
 
 import clsx from 'clsx'
 
-export const StandingsArrows = () => {
+export function StandingsArrows() {
   const [scrolled, setScrolled] = useState<boolean>(false)
 
   useEffect(() => {

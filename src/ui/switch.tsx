@@ -12,7 +12,7 @@ type Props = {
   narrow?: boolean
 }
 
-export const Switch = ({
+export function Switch({
   onChange,
   checked,
   messageOff,
@@ -21,7 +21,7 @@ export const Switch = ({
   disabled = false,
   locale,
   narrow
-}: Props) => {
+}: Props) {
   return (
     <div
       className={clsx('items-center justify-center rounded-lg max-h-12 flex flex-row', narrow ? 'gap-0' : 'gap-1')}

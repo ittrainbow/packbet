@@ -16,7 +16,7 @@ type Props = {
   autoComplete?: string
 }
 
-export const Input = ({
+export function Input({
   onChange,
 
   type = 'text',
@@ -28,7 +28,7 @@ export const Input = ({
   checked,
   disabled,
   autoComplete = 'off'
-}: Props) => {
+}: Props) {
   return (
     <input
       ref={inputRef}

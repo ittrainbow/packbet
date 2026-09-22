@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import { Locale, i18n } from '@/locale'
+import { i18n } from '@/locale'
 import { selectApp, selectUser } from '@/redux/selectors'
 import { Store } from '@/types'
 import { fromQuestionStatsRecord, getQuestionText } from '@/utils'
@@ -9,7 +9,7 @@ type Props = {
   outdated: boolean
 }
 
-export const WeekQuestionStats = ({ outdated }: Props) => {
+export function WeekQuestionStats({ outdated }: Props) {
   const { locale } = useSelector(selectUser)
   const { selectedWeek } = useSelector(selectApp)
   const weeks = useSelector((store: Store) => store.weeks)
@@ -19,7 +19,7 @@ export const WeekQuestionStats = ({ outdated }: Props) => {
   const hasResults = Boolean(weekResults && Object.keys(weekResults).length)
   const stats = fromQuestionStatsRecord(weeks[selectedWeek]?.questionStats)
 
-  const { weekStatsTitle, weekStatsQuestionCol, weekStatsAnswersCol } = i18n(locale, 'week') as Locale
+  const { weekStatsTitle, weekStatsQuestionCol, weekStatsAnswersCol } = i18n(locale, 'week')
 
   if (!outdated || !hasResults || !stats.length) return null
 
