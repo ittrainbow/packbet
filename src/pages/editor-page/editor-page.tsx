@@ -39,7 +39,8 @@ export function EditorPage() {
     // eslint-disable-next-line
   }, [tabActive])
 
-  const changes = emptyEditor ? !!Object.keys(questions).length : !getWeeksEquality(editor, weeks[selectedWeek])
+  const week = weeks[selectedWeek]
+  const changes = emptyEditor || !week ? !!Object.keys(questions).length : !getWeeksEquality(editor, week)
   const saveBtnDisabled = !changes || !name || !Object.keys(questions).length
 
   const { successMsg, failureMsg } = i18n(locale, 'week')
