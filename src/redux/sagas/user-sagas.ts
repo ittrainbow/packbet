@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import { deleteDBDocument, getDBDocument, updateDBDocument, writeDBDocument } from '@/db'
+import { deleteDBDocument, existsDBDocument, getDBDocument, writeDBDocument } from '@/db'
 import { Action, Answers, ExtendedUser, Store, User } from '@/types'
 import { getLocale, getObjectsEquality } from '@/utils'
 import { answersActions, appActions, compareActions, resultsActions, userActions } from '@/redux/slices'
@@ -124,30 +124,31 @@ function* submitResultsSaga(
 
 function* submitAnswersSaga(
   action: Action<{
-    selectedWeek: number
     answers: { [key: string]: Answers }
     uid: string
     firstData: boolean
-
     toaster: (value: boolean) => void
   }>
 ) {
-  const { answers, uid, toaster, selectedWeek, firstData } = action.payload
+  const { answers, uid, toaster, firstData } = action.payload
 
   yield put(appActions.setLoading(true))
   try {
     if (firstData) {
       yield call(writeDBDocument, 'answers', uid, answers[uid])
+
+      const response: Answers = yield call(getDBDocument, 'answers', uid)
+      yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
+
+      const saveSuccess: boolean = yield call(getObjectsEquality, response, answers[uid])
+      yield call(toaster, saveSuccess)
     } else {
-      yield call(updateDBDocument, 'answers', uid, selectedWeek, answers)
+      yield call(deleteDBDocument, 'answers', uid)
+
+      const stillExists: boolean = yield call(existsDBDocument, 'answers', uid)
+      yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
+      yield call(toaster, !stillExists)
     }
-
-    const response: Answers = yield call(getDBDocument, 'answers', uid)
-
-    yield put(compareActions.updateCompare({ data: answers[uid], id: 'answers' }))
-
-    const saveSuccess: boolean = yield call(getObjectsEquality, response, answers[uid])
-    yield call(toaster, saveSuccess)
   } catch (error) {
     yield toaster(false)
     if (error instanceof Error) {

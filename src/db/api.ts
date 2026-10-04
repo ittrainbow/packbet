@@ -6,14 +6,12 @@ import {
   getDoc,
   getDocs,
   QuerySnapshot,
-  setDoc,
-  updateDoc
+  setDoc
 } from 'firebase/firestore'
 
 import {
   About,
   AboutSchema,
-  Answers,
   AnswersSchema,
   AnswersStore,
   AnswersStoreSchema,
@@ -61,24 +59,13 @@ export async function writeDBDocument(collection: string, document: string | num
   await setDoc(doc(db, collection, document.toString()), data)
 }
 
-export async function updateDBDocument(collection: string, document: string | number, selectedWeek: number, data: any) {
-  const schema = collection.includes('answers') ? AnswersSchema : undefined
-  schema?.parse(data)
-
-  const emptyData = !Object.keys(data).length
-  const updateData: Answers = {
-    [selectedWeek]: data[document][selectedWeek]
-  }
-
-  if (emptyData) {
-    await updateDoc(doc(db, collection, document.toString()), updateData)
-    return
-  }
-  await deleteDoc(doc(db, collection, document.toString()))
-}
-
 export async function deleteDBDocument(collection: string, document: string) {
   await deleteDoc(doc(db, collection, document))
+}
+
+export async function existsDBDocument(collection: string, document: string | number) {
+  const response = await getDoc(doc(db, collection, document.toString()))
+  return response.exists()
 }
 
 export async function getDBCollection(link: string) {
