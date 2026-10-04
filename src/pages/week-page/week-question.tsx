@@ -102,13 +102,13 @@ export function WeekQuestion({ id, result }: Props) {
       <div className="grid grid-cols-2 gap-1 shrink-0">
         <Button
           size="sm"
-          className={clsx('shrink-0 text-lg', getButtonClass(1))}
+          className={clsx('shrink-0', getButtonClass(1))}
           onClick={() => handleClick({ value: 1, id, activity: getActivity() })}
           icon={total === '1' ? <FaCheck /> : <FaArrowUp />}
         />
         <Button
           size="sm"
-          className={clsx('shrink-0 text-lg', getButtonClass(2))}
+          className={clsx('shrink-0', getButtonClass(2))}
           onClick={() => handleClick({ value: 2, id, activity: getActivity() })}
           icon={total === '1' ? <FaBan /> : <FaArrowDown />}
         />

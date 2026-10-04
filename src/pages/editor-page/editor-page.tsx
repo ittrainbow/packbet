@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useFade, usePageFadeClass } from '@/hooks'
 import { i18n } from '@/locale'
-import { selectApp, selectEditor, selectLocation, selectUser, selectWeeks } from '@/redux/selectors'
+import { selectApp, selectEditor, selectUser, selectWeeks } from '@/redux/selectors'
 import { appActions, editorActions, weeksActions } from '@/redux/slices'
 import * as TYPES from '@/redux/storetypes'
 import { Button, DeleteModal } from '@/ui'
@@ -20,7 +20,7 @@ export function EditorPage() {
   const weeks = useSelector(selectWeeks)
   const editor = useSelector(selectEditor)
   const { selectedWeek, emptyEditor } = useSelector(selectApp)
-  const { pathname } = useSelector(selectLocation)
+  const { pathname } = useLocation()
   const { locale } = useSelector(selectUser)
   const fadeClass = usePageFadeClass()
   const { tabActive, duration } = useSelector(selectApp)

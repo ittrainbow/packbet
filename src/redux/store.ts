@@ -1,25 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
-import { createBrowserHistory } from 'history'
-import { createReduxHistoryContext } from 'redux-first-history'
 import createSagaMiddleware from 'redux-saga'
 
 import { rootSaga } from './sagas'
 import * as slices from './slices'
 
-const {
-  createReduxHistory,
-  routerMiddleware,
-  routerReducer: router
-} = createReduxHistoryContext({
-  history: createBrowserHistory()
-})
-
 const sagaMiddleware = createSagaMiddleware()
 
-export const store: ToolkitStore = configureStore({
+export const store = configureStore({
   reducer: combineReducers({
-    router,
     app: slices.appSlice.reducer,
     about: slices.aboutSlice.reducer,
     standings: slices.standingsSlice.reducer,
@@ -31,10 +19,14 @@ export const store: ToolkitStore = configureStore({
     editor: slices.editorSlice.reducer,
     tools: slices.toolsSlice.reducer
   }),
-  middleware: [routerMiddleware, sagaMiddleware],
-  devTools: process.env.NODE_ENV === 'development'
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: false,
+      serializableCheck: false
+    }).concat(sagaMiddleware),
+  devTools: import.meta.env.DEV
 })
 
-export const history = createReduxHistory(store)
+export type AppDispatch = typeof store.dispatch
 
 sagaMiddleware.run(rootSaga)

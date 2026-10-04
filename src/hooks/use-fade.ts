@@ -17,7 +17,7 @@ export function usePageFadeClass() {
   return pageFadeClass(fading, appNaviEvent)
 }
 
-export function useFade(_ref?: React.RefObject<HTMLDivElement>) {
+export function useFade(_ref?: React.RefObject<HTMLDivElement | null>) {
   const dispatch = useDispatch()
   const { duration } = useSelector(selectApp)
 

@@ -10,7 +10,7 @@ import clsx from 'clsx'
 
 type Props = {
   children: ReactNode
-  containerRef: RefObject<HTMLDivElement>
+  containerRef: RefObject<HTMLDivElement | null>
 }
 
 function GoogleMark() {

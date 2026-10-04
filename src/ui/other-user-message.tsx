@@ -6,7 +6,7 @@ import { selectApp, selectUser } from '@/redux/selectors'
 import { appActions } from '@/redux/slices'
 
 type Props = {
-  containerRef: React.RefObject<HTMLDivElement>
+  containerRef: React.RefObject<HTMLDivElement | null>
 }
 
 export function OtherUserMessage({ containerRef }: Props) {

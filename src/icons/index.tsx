@@ -1,19 +1,19 @@
 import { FC, SVGProps } from 'react'
 
-import { ReactComponent as FaArrowCircleDownSvg } from './fa-arrow-circle-down.svg'
-import { ReactComponent as FaArrowCircleUpSvg } from './fa-arrow-circle-up.svg'
-import { ReactComponent as FaArrowDownSvg } from './fa-arrow-down.svg'
-import { ReactComponent as FaArrowUpSvg } from './fa-arrow-up.svg'
-import { ReactComponent as FaBanSvg } from './fa-ban.svg'
-import { ReactComponent as FaCheckSvg } from './fa-check.svg'
-import { ReactComponent as FaPlusSvg } from './fa-plus.svg'
-import { ReactComponent as FaStarSvg } from './fa-star.svg'
-import { ReactComponent as FiEditSvg } from './fi-edit.svg'
-import { ReactComponent as FiSlashSvg } from './fi-slash.svg'
-import { ReactComponent as FiTrashSvg } from './fi-trash.svg'
-import { ReactComponent as FlagBeSvg } from './flag-be.svg'
-import { ReactComponent as FlagRuSvg } from './flag-ru.svg'
-import { ReactComponent as FlagUaSvg } from './flag-ua.svg'
+import FaArrowCircleDownSvg from './fa-arrow-circle-down.svg?react'
+import FaArrowCircleUpSvg from './fa-arrow-circle-up.svg?react'
+import FaArrowDownSvg from './fa-arrow-down.svg?react'
+import FaArrowUpSvg from './fa-arrow-up.svg?react'
+import FaBanSvg from './fa-ban.svg?react'
+import FaCheckSvg from './fa-check.svg?react'
+import FaPlusSvg from './fa-plus.svg?react'
+import FaStarSvg from './fa-star.svg?react'
+import FiEditSvg from './fi-edit.svg?react'
+import FiSlashSvg from './fi-slash.svg?react'
+import FiTrashSvg from './fi-trash.svg?react'
+import FlagBeSvg from './flag-be.svg?react'
+import FlagRuSvg from './flag-ru.svg?react'
+import FlagUaSvg from './flag-ua.svg?react'
 
 export * from './ball-icon'
 export * from './calendar-icon'
@@ -46,19 +46,13 @@ export const FiSlash = icon(FiSlashSvg)
 export const FiTrash = icon(FiTrashSvg)
 
 export function FlagRu(props: SVGProps<SVGSVGElement>) {
-  return (
-  <FlagRuSvg width={24} height={18} aria-hidden focusable="false" {...props} />
-)
+  return <FlagRuSvg width={24} height={18} aria-hidden focusable="false" {...props} />
 }
 
 export function FlagUa(props: SVGProps<SVGSVGElement>) {
-  return (
-  <FlagUaSvg width={24} height={18} aria-hidden focusable="false" {...props} />
-)
+  return <FlagUaSvg width={24} height={18} aria-hidden focusable="false" {...props} />
 }
 
 export function FlagBe(props: SVGProps<SVGSVGElement>) {
-  return (
-  <FlagBeSvg width={24} height={18} aria-hidden focusable="false" {...props} />
-)
+  return <FlagBeSvg width={24} height={18} aria-hidden focusable="false" {...props} />
 }

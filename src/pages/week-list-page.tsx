@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useDate, useFade, usePageFadeClass } from '@/hooks'
 import { i18n } from '@/locale'
-import { selectApp, selectLocation, selectResults, selectUser, selectWeeks } from '@/redux/selectors'
+import { selectApp, selectResults, selectUser, selectWeeks } from '@/redux/selectors'
 import { appActions, editorActions } from '@/redux/slices'
 import { OtherUserMessage, ScoreChip } from '@/ui'
 import { parseWeekName } from '@/utils'
@@ -24,7 +24,7 @@ export function WeekList() {
   const fadeClass = usePageFadeClass()
   const { editor, isItYou, duration, lastSeasonLastWeek, currentWeek } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
-  const { pathname } = useSelector(selectLocation)
+  const { pathname } = useLocation()
   const weeks = useSelector(selectWeeks)
   const results = useSelector(selectResults)
   const containerRef = useRef<HTMLDivElement>(null)

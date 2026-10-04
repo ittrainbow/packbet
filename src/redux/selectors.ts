@@ -27,9 +27,6 @@ export function selectCompare(store: Store) {
 export function selectEditor(store: Store) {
   return store.editor
 }
-export function selectLocation(store: Store) {
-  return store.router.location
-}
 export function selectTools(store: Store) {
   return store.tools
 }

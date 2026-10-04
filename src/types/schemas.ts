@@ -159,7 +159,6 @@ export const EditorSchema = WeekSchema.extend({
 export type Editor = z.infer<typeof EditorSchema>
 
 export const StoreSchema = z.object({
-  router: RouterSchema,
   app: AppSchema,
   about: AboutSchema,
   standings: StandingsSchema,

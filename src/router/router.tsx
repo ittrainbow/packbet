@@ -1,8 +1,7 @@
 import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { HistoryRouter } from 'redux-first-history/rr6'
 
 import {
   About,
@@ -18,7 +17,6 @@ import {
   WeekPage
 } from '@/pages'
 import { selectApp } from '@/redux/selectors'
-import { history } from '@/redux/store'
 import { Loader } from '@/ui'
 
 type Props = {
@@ -53,10 +51,10 @@ export function Router({ children }: Props) {
   }
 
   return (
-    <HistoryRouter history={history}>
+    <BrowserRouter>
       {loading ? <Loader /> : routes()}
       {children}
       <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
-    </HistoryRouter>
+    </BrowserRouter>
   )
 }

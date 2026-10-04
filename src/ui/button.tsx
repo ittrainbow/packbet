@@ -25,8 +25,8 @@ export function Button({ onClick, disabled = false, className = '', text, icon, 
         height,
         iconOnly ? 'w-10 text-[1.25rem]' : 'w-full min-w-10',
         icon && text && 'gap-2 text-sm',
-        (size === 'xs' || size === 'sm') && 'text-sm',
-        size === 'lg' && 'text-lg',
+        !iconOnly && (size === 'xs' || size === 'sm') && 'text-sm',
+        !iconOnly && size === 'lg' && 'text-lg',
         className
       )}
     >

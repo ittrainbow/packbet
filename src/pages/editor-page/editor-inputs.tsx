@@ -2,20 +2,22 @@ import { FaCheck, FaPlus } from '@/icons'
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { useLocation } from 'react-router-dom'
+
 import { useFade } from '@/hooks'
 import { i18n } from '@/locale'
-import { selectApp, selectEditor, selectLocation, selectUser } from '@/redux/selectors'
+import { selectApp, selectEditor, selectUser } from '@/redux/selectors'
 import { editorActions } from '@/redux/slices'
 import { Button, Input } from '@/ui'
 import { getNewQuestionId, getObjectsEquality } from '@/utils'
 
-export function EditorInputs({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement> }) {
+export function EditorInputs({ questionsRef }: { questionsRef: React.RefObject<HTMLDivElement | null> }) {
   const dispatch = useDispatch()
   const nameRef = useRef<HTMLInputElement>(null)
   const { duration, tabActive } = useSelector(selectApp)
   const { locale } = useSelector(selectUser)
   const editor = useSelector(selectEditor)
-  const { pathname } = useSelector(selectLocation)
+  const { pathname } = useLocation()
   const { name, questionInWork, questionCompare } = editor
   const { ru, ua, by = '', total, id } = questionInWork
 

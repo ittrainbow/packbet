@@ -6,7 +6,7 @@ import { selectApp, selectEditor, selectUser } from '@/redux/selectors'
 import { editorActions } from '@/redux/slices'
 import { getQuestionText } from '@/utils'
 
-type Props = { id: number; questionsRef: React.RefObject<HTMLDivElement> }
+type Props = { id: number; questionsRef: React.RefObject<HTMLDivElement | null> }
 
 export function EditorQuestion({ id, questionsRef }: Props) {
   const dispatch = useDispatch()
