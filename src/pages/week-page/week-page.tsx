@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 import { useChanges, usePageFadeClass } from '@/hooks'
 import { i18n } from '@/locale'
@@ -18,7 +18,7 @@ import { WeekQuestionStats } from './week-question-stats'
 export function WeekPage() {
   const dispatch = useDispatch()
   const fadeClass = usePageFadeClass()
-  const { selectedWeek, currentWeek, isItYou, duration } = useSelector(selectApp)
+  const { selectedWeek, currentWeek, isItYou } = useSelector(selectApp)
   const { admin, adminAsPlayer, locale, uid } = useSelector(selectUser)
   const answers = useSelector((store: Store) => store.answers)
   const results = useSelector((store: Store) => store.results)
@@ -112,7 +112,6 @@ export function WeekPage() {
         </div>
       ) : null}
       <WeekQuestionStats outdated={outdated} />
-      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { HistoryRouter } from 'redux-first-history/rr6'
 
 import {
@@ -25,7 +26,7 @@ type Props = {
 }
 
 export function Router({ children }: Props) {
-  const { loading } = useSelector(selectApp)
+  const { loading, duration } = useSelector(selectApp)
 
   const routes = () => {
     return (
@@ -55,6 +56,7 @@ export function Router({ children }: Props) {
     <HistoryRouter history={history}>
       {loading ? <Loader /> : routes()}
       {children}
+      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </HistoryRouter>
   )
 }

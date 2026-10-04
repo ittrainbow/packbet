@@ -72,30 +72,40 @@ function* deleteWeekSaga(action: Action<number>) {
   yield put(appActions.setLoading(false))
 }
 
-export function* updateStandingsSaga() {
+export function* updateStandingsSaga(action: Action<{ toaster: (value: boolean) => void }>) {
+  const { toaster } = action.payload
   yield put(appActions.setLoading(true))
 
-  const users: Users = yield call(getDBCollection, 'users')
-  const answers: AnswersStore = yield call(getDBCollection, 'answers')
-  const results: Answers = yield select((store: Store) => store.results)
-  const { lastSeasonLastWeek } = yield select((state) => state.app)
-  const weekTable = createTable({ answers, users, results, fullSeason: false, lastSeasonLastWeek })
-  const seasonTable = createTable({ answers, users, results, fullSeason: true, lastSeasonLastWeek })
+  try {
+    const users: Users = yield call(getDBCollection, 'users')
+    const answers: AnswersStore = yield call(getDBCollection, 'answers')
+    const results: Answers = yield select((store: Store) => store.results)
+    const { lastSeasonLastWeek } = yield select((state) => state.app)
+    const weekTable = createTable({ answers, users, results, fullSeason: false, lastSeasonLastWeek })
+    const seasonTable = createTable({ answers, users, results, fullSeason: true, lastSeasonLastWeek })
 
-  yield call(
-    writeDBDocument,
-    'standings',
-    `week${CURRENT_SEASON}`,
-    Object.fromEntries(weekTable.map((el, index) => [index, el]))
-  )
-  yield call(
-    writeDBDocument,
-    'standings',
-    `season${CURRENT_SEASON}`,
-    Object.fromEntries(seasonTable.map((el, index) => [index, el]))
-  )
-  const { week2passed } = yield select((store: Store) => store.app)
-  yield week2passed && call(createStandingsFromDBSaga)
+    yield call(
+      writeDBDocument,
+      'standings',
+      `week${CURRENT_SEASON}`,
+      Object.fromEntries(weekTable.map((el, index) => [index, el]))
+    )
+    yield call(
+      writeDBDocument,
+      'standings',
+      `season${CURRENT_SEASON}`,
+      Object.fromEntries(seasonTable.map((el, index) => [index, el]))
+    )
+    const { week2passed } = yield select((store: Store) => store.app)
+    yield week2passed && call(createStandingsFromDBSaga)
+
+    yield call(toaster, true)
+  } catch (error) {
+    yield call(toaster, false)
+    if (error instanceof Error) {
+      yield put(appActions.setError(error.message))
+    }
+  }
 
   yield put(appActions.setLoading(false))
 }

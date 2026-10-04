@@ -17,7 +17,7 @@ import {
   StandingsSortMode
 } from '@/utils'
 import clsx from 'clsx'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { StandingsArrows, StandingsHeader, StandingsRow, StandingsTools } from '.'
 
 export function StandingsPage() {
@@ -26,7 +26,7 @@ export function StandingsPage() {
   const user = useSelector((store: Store) => store.user)
   const results = useSelector((store: Store) => store.results)
   const fadeClass = usePageFadeClass()
-  const { lastSeasonLastWeek, duration } = useSelector(selectApp)
+  const { lastSeasonLastWeek } = useSelector(selectApp)
   const { seasonSelected, showBuddies, showOneWeek, standingsSearch } = useSelector(selectTools)
   const standings = useSelector(selectStandings)
   const { showTools } = useSelector(selectTools)
@@ -117,7 +117,7 @@ export function StandingsPage() {
         ? `${tableHeaderhMsg} ${lastWeekMatch}`
         : tableNoGamesMsg
 
-  function handleUpdateStandings() {
+  const handleUpdateStandings = () => {
     const toastSuccess = () => toast.success(tableUpdateSuccessMsg)
     const toastFailure = () => toast.error(tableUpdateFailureMsg)
     const toaster = (success: boolean) => (success ? toastSuccess() : toastFailure())
@@ -167,7 +167,6 @@ export function StandingsPage() {
         </div>
       </div>
       <StandingsArrows />
-      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
     </>
   )
 }

@@ -10,7 +10,7 @@ import * as TYPES from '@/redux/storetypes'
 import { Button, DeleteModal } from '@/ui'
 import { getWeeksEquality, getWeeksIDs } from '@/utils'
 import clsx from 'clsx'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { EditorActivities, EditorInputs, EditorQuestion } from '.'
 
 export function EditorPage() {
@@ -110,7 +110,6 @@ export function EditorPage() {
           {pathname.includes('editor/') && <Button onClick={() => setModalOpen(true)} text={buttonDeleteWeekMsg} />}
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={duration * 12} theme="colored" pauseOnHover={false} />
       <DeleteModal modalOpen={modalOpen} setModalOpen={setModalOpen} onConfirm={handleDeleteWeek} />
     </div>
   )
