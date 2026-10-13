@@ -1,10 +1,10 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { deleteDBDocument, existsDBDocument, getDBDocument, writeDBDocument } from '@/db'
-import { Action, Answers, ExtendedUser, Store, User } from '@/types'
-import { getLocale, getObjectsEquality } from '@/utils'
 import { answersActions, appActions, compareActions, resultsActions, userActions } from '@/redux/slices'
 import * as TYPES from '@/redux/storetypes'
+import { Action, Answers, ExtendedUser, Store, User } from '@/types'
+import { getLocale, getObjectsEquality } from '@/utils'
 import { createStandingsFromDataSaga } from './init-sagas'
 
 function* updateProfileSaga(
@@ -23,7 +23,13 @@ function* updateProfileSaga(
   try {
     const response: User = yield call(getDBDocument, 'users', uid)
 
-    const data = { ...response, name, locale }
+    // Preserve `admin` from Firestore — never trust client/Redux for privilege fields
+    const data: User = {
+      name,
+      locale,
+      admin: response.admin,
+      buddies: response.buddies
+    }
 
     yield call(writeDBDocument, 'users', uid, data)
 
@@ -178,13 +184,19 @@ function* setBuddiesSaga(
 ) {
   const user: ExtendedUser = yield select((store) => store.user)
   const { buddyUid, buddies } = action.payload
-  const { uid, adminAsPlayer, ...newUser } = user
   const newBuddies = buddies.includes(buddyUid) ? buddies.filter((el) => el !== buddyUid) : [...buddies, buddyUid]
-  newUser.buddies = newBuddies
 
   try {
+    const response: User = yield call(getDBDocument, 'users', user.uid)
+    const data: User = {
+      name: response.name,
+      locale: response.locale,
+      admin: response.admin,
+      buddies: newBuddies
+    }
+
     yield put(userActions.setBuddies(newBuddies))
-    yield call(writeDBDocument, 'users', user.uid, newUser)
+    yield call(writeDBDocument, 'users', user.uid, data)
   } catch (error) {
     if (error instanceof Error) {
       yield put(appActions.setError(error.message))
