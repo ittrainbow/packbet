@@ -102,7 +102,7 @@ export function WeekList() {
                     ) : null}
                   </div>
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="text-md mr-auto leading-4 min-w-0 truncate">{match}</span>
+                    <span className="text-md mr-auto leading-5 min-w-0 truncate">{match}</span>
                     {score ? <ScoreChip score={score.replace('-', '–')} /> : null}
                   </div>
                 </div>

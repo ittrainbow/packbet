@@ -28,8 +28,9 @@ body {
   height: 100%;
   overflow: hidden;
   overscroll-behavior: none;
+  /* System UI first; Noto Sans only for glyphs missing from the device (e.g. Belarusian ў) */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+    'Droid Sans', 'Helvetica Neue', 'Noto Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
