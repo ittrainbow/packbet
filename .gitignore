@@ -30,5 +30,6 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 .vscode/settings.json
+.cursor/rules/repo-index.mdc
 .firebase/
 .firebase/hosting.YnVpbGQ.cache
