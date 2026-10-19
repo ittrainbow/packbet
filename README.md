@@ -22,3 +22,18 @@ firebase deploy --only firestore:rules
 ```
 
 Grant admin only in Firebase Console → Firestore → `users/{uid}` → set `admin: true` (or via Admin SDK). Do this before deploying rules if you need to keep writing as admin.
+
+## Admin scripts (service account)
+
+One-time setup for scripts that bypass Security Rules via IAM:
+
+1. Firebase Console → project `pack-contest` → Project settings → Service accounts → **Generate new private key**
+2. Save the JSON as `serviceAccount.json` in the repo root (gitignored; never commit)
+
+```bash
+yarn localize-week                              # last active week + untranslated questions
+yarn localize-week -- --week 60                 # specific week (e.g. inactive draft)
+yarn localize-week -- --week 60 --apply patch.json
+```
+
+Optional: `GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json` instead of `./serviceAccount.json`.

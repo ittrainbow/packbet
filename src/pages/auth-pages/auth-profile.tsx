@@ -48,7 +48,7 @@ export function Profile() {
   const handleDiscard = () => {
     triggerFade()
     setTimeout(() => {
-      locale !== tempLocale && dispatch(userActions.setLocale(tempLocale))
+      userActions.setLocale(tempLocale)
       navigate(-1)
     }, duration)
   }
