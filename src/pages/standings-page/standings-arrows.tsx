@@ -3,36 +3,51 @@ import { FaArrowCircleDown, FaArrowCircleUp } from '@/icons'
 
 import clsx from 'clsx'
 
+function getScrollRoot() {
+  return document.getElementById('root')
+}
+
 export function StandingsArrows() {
-  const [scrolled, setScrolled] = useState<boolean>(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    let listener = () => {
-      if (window.scrollY > 250 && !scrolled) setScrolled(true)
-      if (window.scrollY < 250 && scrolled) setScrolled(false)
+    const root = getScrollRoot()
+    if (!root) return
+
+    const onScroll = () => {
+      setScrolled(root.scrollTop > 250)
     }
 
-    window.addEventListener('scroll', listener)
-    return () => window.removeEventListener('scroll', listener)
-  }, [scrolled])
+    onScroll()
+    root.addEventListener('scroll', onScroll, { passive: true })
+    return () => root.removeEventListener('scroll', onScroll)
+  }, [])
 
-  const handleScroll = (direction: 'top' | 'bottom') =>
-    setTimeout(() => window.scrollTo({ top: direction === 'top' ? 0 : document.body.scrollHeight, behavior: 'smooth' }))
+  const handleScroll = (direction: 'top' | 'bottom') => {
+    const root = getScrollRoot()
+    if (!root) return
+    root.scrollTo({
+      top: direction === 'top' ? 0 : root.scrollHeight,
+      behavior: 'smooth'
+    })
+  }
 
   return (
     <div
       className={clsx(
         'standings-arrows grid w-12 gap-2 z-10 fixed transition-all duration-500',
-        !scrolled ? 'opacity-0' : 'opacity-100'
+        scrolled ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       )}
     >
       <button
+        type="button"
         onClick={() => handleScroll('top')}
         className="transition text-ink-muted active:text-accent text-[48px]"
       >
         <FaArrowCircleUp />
       </button>
       <button
+        type="button"
         onClick={() => handleScroll('bottom')}
         className="transition text-ink-muted active:text-accent text-[48px]"
       >
