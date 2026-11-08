@@ -29,6 +29,9 @@
 serviceAccount.json
 *-firebase-adminsdk-*.json
 
+# Firestore dumps (contain user data)
+/backups/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

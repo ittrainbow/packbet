@@ -34,6 +34,14 @@ One-time setup for scripts that bypass Security Rules via IAM:
 yarn localize-week                              # last active week + untranslated questions
 yarn localize-week -- --week 60                 # specific week (e.g. inactive draft)
 yarn localize-week -- --week 60 --apply patch.json
+
+yarn db-backup                                  # dump all collections → backups/firestore-*.json
+yarn db-backup -- --out backups/manual.json
+yarn db-restore -- backups/manual.json --dry-run
+yarn db-restore -- backups/manual.json --yes    # overwrite docs from dump
+yarn db-diff-answers                            # live answers vs latest backup
+yarn db-diff-answers -- backups/dump.json --week 63
 ```
 
 Optional: `GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json` instead of `./serviceAccount.json`.
+Dumps are gitignored (`backups/`). Restore does not delete docs missing from the dump.

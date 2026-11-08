@@ -25,7 +25,10 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit",
-    "localize-week": "node scripts/localize-week.mjs"
+    "localize-week": "node scripts/localize-week.mjs",
+    "db-backup": "node scripts/firestore-backup.mjs backup",
+    "db-restore": "node scripts/firestore-backup.mjs restore",
+    "db-diff-answers": "node scripts/diff-answers.mjs"
   },
   "browserslist": {
     "production": [
