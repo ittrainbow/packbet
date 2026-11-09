@@ -8,10 +8,12 @@
  *   yarn db-diff-answers                              # latest backups/firestore-*.json
  *   yarn db-diff-answers -- backups/dump.json
  *   yarn db-diff-answers -- backups/dump.json --week 63
+ *   yarn db-diff-answers -- backups/dump.json --except-week 63
  *   yarn db-diff-answers -- backups/dump.json --uid <uid>
  *   yarn db-diff-answers -- backups/dump.json --out backups/answers-diff.json
  *
  * Answers shape: { [weekId]: { [qid]: number } } keyed by uid.
+ * --week and --except-week are mutually exclusive.
  */
 
 import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
@@ -54,12 +56,21 @@ function latestBackupPath() {
 
 function parseArgs(argv) {
   const weekIdx = argv.indexOf('--week')
+  const exceptIdx = argv.indexOf('--except-week')
   const uidIdx = argv.indexOf('--uid')
   const outIdx = argv.indexOf('--out')
-  const fileArg = argv.find((a, i) => !a.startsWith('--') && argv[i - 1] !== '--week' && argv[i - 1] !== '--uid' && argv[i - 1] !== '--out')
+  const skipPrev = new Set(['--week', '--except-week', '--uid', '--out'])
+  const fileArg = argv.find((a, i) => !a.startsWith('--') && !skipPrev.has(argv[i - 1]))
+  const weekId = weekIdx >= 0 ? String(argv[weekIdx + 1] ?? '') : null
+  const exceptWeekId = exceptIdx >= 0 ? String(argv[exceptIdx + 1] ?? '') : null
+  if (weekId && exceptWeekId) {
+    console.error('Use either --week or --except-week, not both')
+    process.exit(1)
+  }
   return {
     backupPath: fileArg ? resolve(fileArg) : latestBackupPath(),
-    weekId: weekIdx >= 0 ? String(argv[weekIdx + 1] ?? '') : null,
+    weekId,
+    exceptWeekId,
     uid: uidIdx >= 0 ? String(argv[uidIdx + 1] ?? '') : null,
     outPath: outIdx >= 0 ? resolve(argv[outIdx + 1]) : null
   }
@@ -70,11 +81,19 @@ function asAnswerMap(data) {
   return data
 }
 
-function filterAnswers(doc, weekId) {
-  if (!weekId) return asAnswerMap(doc)
-  const week = asAnswerMap(doc)[weekId]
-  if (week == null) return {}
-  return { [weekId]: week }
+function filterAnswers(doc, { weekId = null, exceptWeekId = null } = {}) {
+  const map = asAnswerMap(doc)
+  if (weekId) {
+    const week = map[weekId]
+    if (week == null) return {}
+    return { [weekId]: week }
+  }
+  if (exceptWeekId) {
+    const out = { ...map }
+    delete out[exceptWeekId]
+    return out
+  }
+  return map
 }
 
 function flattenAnswers(doc) {
@@ -89,9 +108,9 @@ function flattenAnswers(doc) {
   return rows
 }
 
-function compareUser(uid, liveDoc, backupDoc, weekId) {
-  const live = filterAnswers(liveDoc, weekId)
-  const backup = filterAnswers(backupDoc, weekId)
+function compareUser(uid, liveDoc, backupDoc, filter) {
+  const live = filterAnswers(liveDoc, filter)
+  const backup = filterAnswers(backupDoc, filter)
   const liveFlat = flattenAnswers(live)
   const backupFlat = flattenAnswers(backup)
   const liveKey = new Map(liveFlat.map((r) => [`${r.weekId}/${r.qid}`, r.value]))
@@ -184,6 +203,8 @@ async function main() {
     uids = new Set([args.uid])
   }
 
+  const weekFilter = { weekId: args.weekId, exceptWeekId: args.exceptWeekId }
+  const filteredMode = Boolean(args.weekId || args.exceptWeekId)
   const onlyLiveUsers = []
   const onlyBackupUsers = []
   const diffs = []
@@ -194,21 +215,21 @@ async function main() {
     const name = names[uid] ?? null
 
     if (inLive && !inBackup) {
-      const cells = flattenAnswers(filterAnswers(liveAnswers[uid], args.weekId))
-      if (!args.weekId || cells.length) {
+      const cells = flattenAnswers(filterAnswers(liveAnswers[uid], weekFilter))
+      if (!filteredMode || cells.length) {
         onlyLiveUsers.push({ uid, name, answers: cells.length })
       }
       continue
     }
     if (!inLive && inBackup) {
-      const cells = flattenAnswers(filterAnswers(backupAnswers[uid], args.weekId))
-      if (!args.weekId || cells.length) {
+      const cells = flattenAnswers(filterAnswers(backupAnswers[uid], weekFilter))
+      if (!filteredMode || cells.length) {
         onlyBackupUsers.push({ uid, name, answers: cells.length })
       }
       continue
     }
 
-    const cmp = compareUser(uid, liveAnswers[uid], backupAnswers[uid], args.weekId)
+    const cmp = compareUser(uid, liveAnswers[uid], backupAnswers[uid], weekFilter)
     if (cmp.hasDiff) {
       diffs.push({
         uid,
@@ -229,6 +250,7 @@ async function main() {
     backup: args.backupPath,
     backupMeta: payload.meta ?? null,
     weekId: args.weekId,
+    exceptWeekId: args.exceptWeekId,
     uid: args.uid,
     summary: {
       usersCompared: uids.size,

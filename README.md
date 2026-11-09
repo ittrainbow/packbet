@@ -41,6 +41,7 @@ yarn db-restore -- backups/manual.json --dry-run
 yarn db-restore -- backups/manual.json --yes    # overwrite docs from dump
 yarn db-diff-answers                            # live answers vs latest backup
 yarn db-diff-answers -- backups/dump.json --week 63
+yarn db-diff-answers -- backups/dump.json --except-week 63
 ```
 
 Optional: `GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json` instead of `./serviceAccount.json`.
